@@ -2,12 +2,15 @@ package jenkem.shared.color;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import jenkem.shared.AsciiScheme;
 import jenkem.shared.SchemeUnknownException;
+
+import com.google.gwt.user.client.Random;
 
 
 /**
@@ -17,8 +20,6 @@ import jenkem.shared.SchemeUnknownException;
  * http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_farbwuerfel.jpg
  */
 public class Cube {
-	public Cube() {
-	}
 
 	/**
 	 * Translates the RGB values of the pixel to a colored IRC character
@@ -29,14 +30,12 @@ public class Cube {
 	 * @throws SchemeUnknownException 
 	 */
 	public String getColorChar(Map<String, Integer> colorMap, int red, int blue, int green, boolean enforceBlackFg) {
-		
 		final double CONTRAST = 0.95d;
 		int fixedRed = (int) (red * CONTRAST);
 		int fixedBlue = (int) (blue * CONTRAST);
 		int fixedGreen = (int) (green * CONTRAST);
 		
 		int[] col = { fixedRed, fixedBlue, fixedGreen };
-		
 		Color c = getTwoNearestColors(colorMap, col);
 
 		StringBuilder result = new StringBuilder();
@@ -49,7 +48,6 @@ public class Cube {
 		result.append(",");
 		result.append(c.getBg()); //append the background color
 
-		
 		AsciiScheme asciiScheme = new AsciiScheme();
 		String character = asciiScheme.getChar(c.getBgStrength(), false);
 		result.append(character); //append the selected ASCII character
@@ -91,18 +89,22 @@ public class Cube {
 			list.add(createWc(colorMap,col,ic.name()));
 		}
 
-		//FIXME if randomization is turned off:
+		
+		//if the list isn't shuffled the following occurs:
 		//the color that happens to be the 1st in the collection is used in favor of the others,
 		//when more possible values would apply with the same strength.
 		//this is not good, because it often favors one random color of (RGB) and of (CYM) over the others.
 		//instead, all possibilities of R, G or B should use Black and C, Y or M should use White instead of the color that
 		//is selected by doing nothing.
-		//fixing this could potentially have a good effect on the output of colorless images with alot of pixels
+		//doing this could potentially have a good effect on the output of colorless images with alot of pixels
 		//on the black-white scale
 		//(=represented by the black to white diagonal in the cube, which has the same distance to all the 3 RGB and the 3 CMY edges).
 
-//		Collections.shuffle(list, new Random()); //shuffle to randomize colors with the same weight
-
+		//WARNING: this shuffling method takes alot! of CPU for a small effect on the output.
+		//TODO make an option to turn it on or off
+//		shuffle(list); //shuffle to randomize colors with the same weight
+		
+		
 		SortedMap<Double, WeightedColor> map = new TreeMap<Double, WeightedColor>();
 		Iterator<WeightedColor> it = list.iterator();
 		while (it.hasNext()) {
@@ -199,7 +201,7 @@ public class Cube {
 	 */
 	public boolean isFirstCloserTo(int[] first, int[] second, int[] compare) {
 		//TODO this is awkward. replace this method with a method 
-		//that returns an int that is negative, 0 or positive
+		//returning an int that is negative, 0 or positive
 		double firstDist = calcDistance(first, compare);
 		double secondDist = calcDistance(second, compare);
 		if (firstDist < secondDist) {
@@ -209,4 +211,23 @@ public class Cube {
 		}
 	}
 
+	/**
+	 * Shuffles the weighted color List
+	 * @param List<WeightedColor> colors
+	 */
+	@SuppressWarnings("unused")
+	private void shuffle(List<WeightedColor> colors) {
+        for(int i = colors.size(); i > 1; i--) {
+            swap(colors, i - 1, Random.nextInt(i)); 
+        }
+	}
+
+	/**
+	 * Swap method for shuffling
+	 */
+	private void swap(List<WeightedColor> list, int i, int ii) {
+		WeightedColor s = list.get(i);
+        list.set(i, list.get(ii));
+        list.set(ii, s); 
+	}
 }

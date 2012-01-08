@@ -16,6 +16,7 @@ When finished it will have about the same functionality as: http://github.com/To
 But instead of running an IRC-Bot, this Version will focus on the HTML part.
 
 This application is implemented using GWT to run on Googles App-Engine at: http://jenkem9000.appspot.com
-It is currently using the libraries gwt-g2d, which should be raplaced because of depracation and appengine-utils-client to store long Text.
+It is currently using the libraries gwt-g2d, which should be raplaced because of depracation
+and appengine-utils-client to store long Text.
 
 WARNING: Jenkem-9000 is currently in an infinished state and may therefore yield crappy results compared to the original.
