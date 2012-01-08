@@ -1,0 +1,21 @@
+  _---_
+ (  J  )
+  \   /
+   | |
+  =|_|=
+  /   \        _           _                         _____  _____  _____  _____
+ /_____\      | |___ _ ___| | _ ___ _ __ __         / ___ \/  _  \/  _  \/  _  \
+ |     |   _  | | _ \ '_  \ |/ / _ \ '  '  \  ____  \____  | | | || | | || | | |
+ |_____|  / \_| | __/ | | |   (  __/ || || | (____)  ____/ | |_| || |_| || |_| |
+ | | | |  \____/\___)_| |_|_|\_\___)_||_||_|        (_____/\_____/\_____/\_____/
+ (_|_|_)
+
+Jenkem-9000 is a Web-Application to convert Images into IRC-style HTML&CSS.
+
+When finished it will have about the same functionality as: http://github.com/Tok/jenkem
+But instead of running an IRC-Bot, this Version will focus on the HTML part.
+
+This application is implemented using GWT to run on Googles App-Engine at: http://jenkem9000.appspot.com
+It is currently using the libraries gwt-g2d, which should be raplaced because of depracation and appengine-utils-client to store long Text.
+
+WARNING: Jenkem-9000 is currently in an infinished state and may therefore yield crappy results compared to the original.

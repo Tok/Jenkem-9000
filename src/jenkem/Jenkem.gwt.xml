@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='jenkem'>
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.google.gwt.http.HTTP' />
+	<inherits name='com.google.gwt.user.theme.clean.Clean' />
+	
+	<inherits name='gwt.g2d.g2d'/>
+	<inherits name="com.resmarksystems.AppEngineDataTypes"/>
+	
+  	<entry-point class='jenkem.client.Jenkem'/>
+  	
+  	<source path='client'/>
+  	<source path='shared'/>
+</module>
