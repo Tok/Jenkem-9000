@@ -22,12 +22,9 @@ public class Engine {
 	 * @return Strings for IRC.
 	 */
 	public String[] generateHighDef(ImageDataAdapter ida) {
-		Map<String, Integer> colorMap = new HashMap<String, Integer>();
-		for (IrcColor ic : IrcColor.values()) {
-			colorMap.put(ic.name(), ic.getDefaultScheme());
-		}
-
-		String[] ret = new String[ida.getHeight()];
+		final Map<String, Integer> colorMap = prepareColorMap();
+		final String[] ret = new String[ida.getHeight()];
+		
 		for (int y = 0; y < ida.getHeight(); y++) {
 			ret[y] = "";
 			StringBuilder row = new StringBuilder();
@@ -69,14 +66,10 @@ public class Engine {
 	 * @return Strings for IRC.
 	 */
 	public String[] generateSuperHybrid(ImageDataAdapter ida) {
-		Map<String, Integer> colorMap = new HashMap<String, Integer>();
-		for (IrcColor ic : IrcColor.values()) {
-			colorMap.put(ic.name(), ic.getDefaultScheme());
-		}
-		
-		int height = Math.round(ida.getHeight() / 2);
-		int width = ida.getWidth();
-		String[] ret = new String[height];
+		final int height = Math.round(ida.getHeight() / 2);
+		final int width = ida.getWidth();
+		final Map<String, Integer> colorMap = prepareColorMap();
+		final String[] ret = new String[height];
 
 		//TODO reimplement
 		int startX = 0;
@@ -196,6 +189,269 @@ public class Engine {
 			}
 		}
 		return ret;
+	}
+	
+	/**
+	 * pwntari mode
+	 * @param ImageDataAdapter ida
+	 * @return Strings for IRC.
+	 */
+	public String[] generateHybrid(ImageDataAdapter ida) {
+		final int height = Math.round(ida.getHeight() / 2);
+		final int width = ida.getWidth();
+		final Map<String, Integer> colorMap = prepareColorMap();
+		final String[] ret = new String[height];
+
+		//FIXME remove redundancies @see generateSuperHybrid
+		int startX = 0; //TODO not here
+		int startY = 0;
+		
+		//TODO reimplement
+//		if (ctx.getKick().equalsIgnoreCase("x") || ctx.getKick().equalsIgnoreCase("xy")) {
+//			startX++;
+//		}
+//		if (ctx.getKick().equalsIgnoreCase("y") || ctx.getKick().equalsIgnoreCase("xy")) {
+//			startY++;
+//		}
+
+		for (int y = startY; y < height * 2; y = y + 2) {
+			try {
+				ret[y / 2] = "";
+				StringBuilder row = new StringBuilder();
+				String oldLeft;
+				String newLeft = null;
+				String newRight = null;
+				for (int x = startX; x < width; x = x + 2) {
+					try {
+						final double CONTRAST = 0.70;
+						
+						//FIXME really y/2 ?
+						Sample sample = new Sample(ida, x, y, CONTRAST);
+						
+						oldLeft = newLeft;
+						//TODO reimplement foreground enforcement
+						final boolean isEnforceBlackFg = false;
+						newLeft = cube.getColorChar(
+							colorMap, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft(), isEnforceBlackFg
+						);
+						newRight = cube.getColorChar(
+							colorMap, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight(), isEnforceBlackFg
+						);
+
+						if (asciiScheme.isCharacterBright(newLeft) && asciiScheme.isCharacterDark(newRight)) {
+							newLeft = asciiScheme.replace(newLeft, asciiScheme.selectVline());
+						}
+						if (asciiScheme.isCharacterDark(newLeft) && asciiScheme.isCharacterBright(newRight)) {
+							newRight = asciiScheme.replace(newRight, asciiScheme.selectVline());
+						}
+
+						//TODO this is all ugly
+						//XXX tune this
+						int downOffset = 21;
+						int upOffset = 13;
+
+						int genUpDownOffset = 3;
+						int downUpOffset = 1;
+						int upDownOffset = 2;
+
+						if (isUp(sample.getRedTopLeft(), sample.getGreenTopLeft(), sample.getBlueTopLeft(), sample.getRedBottomLeft(), sample.getGreenBottomLeft(), sample.getBlueBottomLeft(), upOffset)) {
+							if (asciiScheme.isCharacterDark(newRight)) {
+								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectRightUp(); // y7
+							} else {
+								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectUp(); // "
+							}
+						} else if (isDown(sample.getRedTopLeft(), sample.getGreenTopLeft(), sample.getBlueTopLeft(), sample.getRedBottomLeft(), sample.getGreenBottomLeft(), sample.getBlueBottomLeft(), downOffset)) {
+							if (asciiScheme.isCharacterDark(newRight)) {
+								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectRightDown(); // j
+							} else {
+								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
+							}
+						}
+						if (isUp(sample.getRedTopRight(), sample.getGreenTopRight(), sample.getBlueTopRight(), sample.getRedBottomRight(), sample.getGreenBottomRight(), sample.getBlueBottomRight(), upOffset)) {
+							if (asciiScheme.isCharacterDark(newLeft)) {
+								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectLeftUp(); // F
+							} else {
+								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectUp(); // "
+							}
+						} else if (isDown(sample.getRedTopRight(), sample.getGreenTopRight(), sample.getBlueTopRight(), sample.getRedBottomRight(), sample.getGreenBottomRight(), sample.getBlueBottomRight(), downOffset)) {
+							if (asciiScheme.isCharacterDark(newLeft)) {
+								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectLeftDown(); // L
+							} else {
+								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
+							}
+						}
+
+						if (isUp(sample.getRedTopLeft(), sample.getGreenTopLeft(), sample.getBlueTopLeft(), sample.getRedBottomLeft(), sample.getGreenBottomLeft(), sample.getBlueBottomLeft(), genUpDownOffset)
+								&& isDown(sample.getRedTopRight(), sample.getGreenTopRight(), sample.getBlueTopRight(), sample.getRedBottomRight(), sample.getGreenBottomRight(), sample.getBlueBottomRight(), genUpDownOffset)
+								&& isDown(sample.getRedTopLeft(), sample.getGreenTopLeft(), sample.getBlueTopLeft(), sample.getRedBottomLeft(), sample.getGreenBottomLeft(), sample.getBlueBottomLeft(), genUpDownOffset)
+								&& isUp(sample.getRedTopRight(), sample.getGreenTopRight(), sample.getBlueTopRight(), sample.getRedBottomRight(), sample.getGreenBottomRight(), sample.getBlueBottomRight(), genUpDownOffset)) {
+							newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectLeft(); // <[(
+							newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectRight(); // >])
+						} else {
+							if (isUp(sample.getRedTopLeft(), sample.getGreenTopLeft(), sample.getBlueTopLeft(), sample.getRedBottomLeft(), sample.getGreenBottomLeft(), sample.getBlueBottomLeft(), upDownOffset)
+									&& isDown(sample.getRedTopRight(), sample.getGreenTopRight(), sample.getBlueTopRight(), sample.getRedBottomRight(), sample.getGreenBottomRight(), sample.getBlueBottomRight(), upDownOffset)) {
+								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectUpDown().substring(0, 1); // \\"_',
+								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectUpDown().substring(1, 2); // \\"_',
+							}
+							if (isDown(sample.getRedTopLeft(), sample.getGreenTopLeft(), sample.getBlueTopLeft(), sample.getRedBottomLeft(), sample.getGreenBottomLeft(), sample.getBlueBottomLeft(), downUpOffset)
+									&& isUp(sample.getRedTopRight(), sample.getGreenTopRight(), sample.getBlueTopRight(), sample.getRedBottomRight(), sample.getGreenBottomRight(), sample.getBlueBottomRight(), downUpOffset)) {
+								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDownUp().substring(0, 1); // //_".'
+								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDownUp().substring(1, 2); // //_".'
+							}
+						}
+
+						if (newLeft.equals(oldLeft)) {
+							String charOnly = newLeft.substring(newLeft.length() - 1, newLeft.length());
+							row.append(charOnly);
+						} else {
+							if (row.length() > 0) {
+								row.append(ColorUtil.CC);
+							}
+							row.append(ColorUtil.CC);
+							row.append(newLeft);
+						}
+
+						if (newRight.equals(newLeft)) {
+							String charOnly = newRight.substring(newRight.length() - 1, newRight.length());
+							row.append(charOnly);
+						} else {
+							row.append(ColorUtil.CC);
+							row.append(newRight);
+						}
+
+					} catch (ArrayIndexOutOfBoundsException aioobe) {
+						//depending on the kick settings and the width settings,
+						//this happens if the last column of pixels in the resized image is not even.
+						//just ignore it and do nothing.
+					}
+				}
+				row.append(ColorUtil.CC);
+				ret[y / 2] = postProcessColoredRow(row.toString());
+			} catch (StringIndexOutOfBoundsException sioobe) {
+				//depending on the kick settings and the width settings,
+				//this happens if the last column of pixels in the resized image is not even.
+				//just ignore it and do nothing.
+			}
+		}
+		return removeEmptyLines(ret);
+	}
+	
+	/**
+	 * Removes empty lines from hybrid output.
+	 */
+	private String[] removeEmptyLines(String[] input) {
+		int emptyCounter = 0;
+		for (String line : input) {
+			if ("".equals(line)) {
+				emptyCounter++;
+			}
+		}
+		String[] result = new String[input.length - emptyCounter];
+		int index = 0;
+		for (String line : input) {
+			if (!line.equals("")) {
+				result[index] = line;
+				index++;
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * pwntari mode
+	 * @param ImageDataAdapter ida
+	 * @return Strings for IRC.
+	 */
+	public String[] generatePwntari(ImageDataAdapter ida) {
+		final int height = Math.round(ida.getHeight() / 2);
+		final int width = ida.getWidth();
+		final Map<String, Integer> colorMap = prepareColorMap();
+		final String[] ret = new String[height];
+		
+		int startX = 0; //TODO not here
+		int startY = 0;
+		
+		//TODO reimplement
+//		if (ctx.getKick().equalsIgnoreCase("x") || ctx.getKick().equalsIgnoreCase("xy")) {
+//			startX++;
+//		}
+//		if (ctx.getKick().equalsIgnoreCase("y") || ctx.getKick().equalsIgnoreCase("xy")) {
+//			startY++;
+//		}
+		for (int y = startY; y < height * 2; y = y + 2) {
+			try {
+				ret[y / 2] = "";
+				StringBuilder row = new StringBuilder();
+				String oldLeft;
+				String newLeft = null;
+				String newRight = null;
+				for (int x = startX; x < width; x = x + 2) {
+					try {
+						final double CONTRAST = 0.70;
+						Sample sample = new Sample(ida, x, y, CONTRAST);
+
+						oldLeft = newLeft;
+						newLeft = cube.getColorChar(
+							colorMap, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft()
+						);
+						newRight = cube.getColorChar(
+							colorMap, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight()
+						);
+
+						newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
+						newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
+
+						if (newLeft.equals(oldLeft)) {
+							String charOnly = newLeft.substring(newLeft.length() - 1, newLeft.length());
+							row.append(charOnly);
+						} else {
+							if (row.length() > 0) {
+								row.append(ColorUtil.CC);
+							}
+							row.append(ColorUtil.CC);
+							row.append(newLeft);
+						}
+
+						if (newRight.equals(newLeft)) {
+							String charOnly = newRight.substring(newRight.length() - 1, newRight.length());
+							row.append(charOnly);
+						} else {
+							row.append(ColorUtil.CC);
+							row.append(newRight);
+						}
+					} catch (ArrayIndexOutOfBoundsException aioobe) {
+						//depending on the kick settings and the width settings,
+						//this happens if the last column of pixels in the resized image is not even.
+						//just ignore it and do nothing.
+					}
+				}
+				row.append(ColorUtil.CC);
+				ret[y / 2] = postProcessColoredRow(row.toString());
+			} catch (StringIndexOutOfBoundsException aioobe) {
+				//depending on the kick settings and the width settings,
+				//this happens if the last column of pixels in the resized image is not even.
+				//just ignore it and do nothing.
+			}
+		}
+		return ret;
+	}
+	
+	private Map<String, Integer> prepareColorMap() {
+		final Map<String, Integer> colorMap = new HashMap<String, Integer>();
+		for (IrcColor ic : IrcColor.values()) {
+			colorMap.put(ic.name(), ic.getDefaultScheme());
+		}
+		return colorMap;
+	}
+	
+	private boolean isUp(int topRed, int topGreen, int topBlue, int bottomRed, int bottomGreen, int bottomBlue, int offset){
+		return ((topRed + topGreen + topBlue) / 3) <= (127 + offset)
+		     && ((bottomRed + bottomGreen + bottomBlue) / 3) > (127 - offset);
+	}
+	
+	private boolean isDown(int topRed, int topGreen, int topBlue, int bottomRed, int bottomGreen, int bottomBlue, int offset){
+	     return ((topRed + topGreen + topBlue) / 3) > (127 - offset)
+		     && ((bottomRed + bottomGreen + bottomBlue) / 3) <= (127 + offset);
 	}
 	
 	private String postProcessColoredRow(final String row) {

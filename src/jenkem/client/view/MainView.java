@@ -3,6 +3,7 @@ package jenkem.client.view;
 import gwt.g2d.client.graphics.Surface;
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.ExtendedTextBox;
+import jenkem.shared.ConversionMethod;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -16,6 +17,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,7 +29,9 @@ public class MainView extends Composite implements MainPresenter.Display {
 //	private Canvas canvas = Canvas.createIfSupported();
 	
 	private final Frame previewFrame = new Frame();
-
+	
+	private final ListBox methodListBox = new ListBox();
+	
 	private final FlexTable contentTable;
 	
 	public MainView() {
@@ -74,8 +78,20 @@ public class MainView extends Composite implements MainPresenter.Display {
 
 		previewFrame.setWidth("600px");
 		previewFrame.setHeight("750px");
-
 		content.add(previewFrame);
+
+		FlexTable settingsTable = new FlexTable();
+
+		for (ConversionMethod method : ConversionMethod.values()) {
+			methodListBox.addItem(method.toString());
+		}
+		settingsTable.setText(0, 0, "Conversion Method");
+		settingsTable.setWidget(0, 1, methodListBox);
+		
+		content.add(settingsTable);
+		
+
+		
 		contentTable.setWidget(row++, 0, content);
 		contentTableDecorator.add(contentTable);
 	}
@@ -113,6 +129,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 //	public Canvas getCanvas() {
 //		return canvas;
 //	}
+	
+	@Override
+	public ListBox getMethodListBox() {
+		return methodListBox;
+	}
 	
 	@Override
 	public Frame getPreviewFrame() {

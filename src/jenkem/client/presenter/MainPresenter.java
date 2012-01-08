@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import jenkem.client.service.JenkemServiceAsync;
+import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.data.JenkemImage;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -23,6 +26,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,10 +36,13 @@ public class MainPresenter implements Presenter {
 	public interface Display {
 		HasValue<String> getInputLink();
 		TextBox getInputTextBox();
+		HasClickHandlers getShowButton();
+		
 //		Canvas getCanvas();
 		Surface getSurface();
 		Frame getPreviewFrame();
-		HasClickHandlers getShowButton();
+		
+		ListBox getMethodListBox();
 		Widget asWidget();
 	}
 
@@ -54,15 +61,28 @@ public class MainPresenter implements Presenter {
 	public void bind() {
 		this.display.getShowButton().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
-				// calls the local image servlet to proxify the provided image
-				// in order to circumvent the restrictions put by the same
-				// origin policy
-				String url = "http://" + Window.Location.getHost()
-						+ "/jenkem/image?url="
-						+ display.getInputTextBox().getText();
-				doShow(url);
+				doShow(proxify());
 			}
 		});
+		
+		this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				doShow(proxify());
+			}
+		});
+	}
+	
+	/**
+	 * calls the local image servlet to proxify the provided image
+	 * in order to circumvent the restrictions put by the same origin policy.
+	 * @return url to image servlet
+	 */
+	private String proxify() {
+		return "http://" + Window.Location.getHost()
+				+ "/jenkem/image?url="
+				+ display.getInputTextBox().getText();
+
 	}
 
 	public void go(final HasWidgets container) {
@@ -77,27 +97,36 @@ public class MainPresenter implements Presenter {
 		ImageLoader.loadImages(urls, new ImageLoader.CallBack() {
 			@Override
 			public void onImagesLoaded(ImageElement[] imageElements) {
-				ImageElement image = imageElements[0];
+				final ImageElement image = imageElements[0];
 
-				//best for full-HD mode
-//				final int WIDTH = 72;
-//				final int HEIGHT = (36 * image.getHeight()) / image.getWidth();
-
-				//best for super-hybrid mode
+				final String methodName = display.getMethodListBox().getItemText(display.getMethodListBox().getSelectedIndex());
 				final int WIDTH = 72;
-				final int HEIGHT = (72 * image.getHeight()) / image.getWidth();
-				
-				
+				int height = 0;
+				if (methodName.equals(ConversionMethod.FullHd.toString())) {
+					height = (36 * image.getHeight()) / image.getWidth();
+				} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
+					height = (84 * image.getHeight()) / image.getWidth();	
+				} else { //Super-Hybrid and Pwntari
+					height = (72 * image.getHeight()) / image.getWidth();				
+				}
 				
 				display.getSurface().clear();
-				display.getSurface().drawImage(image, 0, 0, WIDTH, HEIGHT);
+				display.getSurface().setWidth(WIDTH + 5);
+				display.getSurface().setHeight(height);
+				display.getSurface().drawImage(image, 0, 0, WIDTH, height);
 
-				final ImageDataAdapter ida = display.getSurface().getImageData(
-						0, 0, WIDTH, HEIGHT);
-
-				// TODO
-//				String[] ircOutput = generateHighDef(ida);
-				String[] ircOutput = engine.generateSuperHybrid(ida);
+				final ImageDataAdapter ida = display.getSurface().getImageData(0, 0, WIDTH, height);
+				
+				String[] ircOutput = null;
+				if (methodName.equals(ConversionMethod.FullHd.toString())) {
+					ircOutput = engine.generateHighDef(ida);
+				} else if (methodName.equals(ConversionMethod.SuperHybrid.toString())) {
+					ircOutput = engine.generateSuperHybrid(ida);
+				} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
+					ircOutput = engine.generateHybrid(ida);
+				} else if (methodName.equals(ConversionMethod.Pwntari.toString())) {
+					ircOutput = engine.generatePwntari(ida);
+				}
 
 				ArrayList<Text> irc = new ArrayList<Text>();
 				for (String s : ircOutput) {
