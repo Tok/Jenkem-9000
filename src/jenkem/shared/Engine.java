@@ -335,6 +335,84 @@ public class Engine {
 	}
 	
 	/**
+	 * pwntari mode
+	 * @param ImageDataAdapter ida
+	 * @return Strings for IRC.
+	 */
+	public String[] generatePwntari(final ImageDataAdapter ida) {
+		final int height = Math.round(ida.getHeight() / 2);
+		final int width = ida.getWidth();
+		final Map<String, Integer> colorMap = prepareColorMap();
+		final String[] ret = new String[height];
+		
+		int startX = 0; //TODO not here
+		int startY = 0;
+		
+		//TODO reimplement
+//		if (ctx.getKick().equalsIgnoreCase("x") || ctx.getKick().equalsIgnoreCase("xy")) {
+//			startX++;
+//		}
+//		if (ctx.getKick().equalsIgnoreCase("y") || ctx.getKick().equalsIgnoreCase("xy")) {
+//			startY++;
+//		}
+		for (int y = startY; y < height * 2; y = y + 2) {
+			try {
+				ret[y / 2] = "";
+				StringBuilder row = new StringBuilder();
+				String oldLeft;
+				String newLeft = null;
+				String newRight = null;
+				for (int x = startX; x < width; x = x + 2) {
+					try {
+						final double CONTRAST = 0.70;
+						final Sample sample = new Sample(ida, x, y, CONTRAST);
+
+						oldLeft = newLeft;
+						newLeft = cube.getColorChar(
+							colorMap, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft()
+						);
+						newRight = cube.getColorChar(
+							colorMap, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight()
+						);
+						newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
+						newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
+
+						if (newLeft.equals(oldLeft)) {
+							final String charOnly = newLeft.substring(newLeft.length() - 1, newLeft.length());
+							row.append(charOnly);
+						} else {
+							if (row.length() > 0) {
+								row.append(ColorUtil.CC);
+							}
+							row.append(ColorUtil.CC);
+							row.append(newLeft);
+						}
+
+						if (newRight.equals(newLeft)) {
+							final String charOnly = newRight.substring(newRight.length() - 1, newRight.length());
+							row.append(charOnly);
+						} else {
+							row.append(ColorUtil.CC);
+							row.append(newRight);
+						}
+					} catch (ArrayIndexOutOfBoundsException aioobe) {
+						//depending on the kick settings and the width settings,
+						//this happens if the last column of pixels in the resized image is not even.
+						//just ignore it and do nothing.
+					}
+				}
+				row.append(ColorUtil.CC);
+				ret[y / 2] = postProcessColoredRow(row.toString());
+			} catch (StringIndexOutOfBoundsException aioobe) {
+				//depending on the kick settings and the width settings,
+				//this happens if the last column of pixels in the resized image is not even.
+				//just ignore it and do nothing.
+			}
+		}
+		return ret;
+	}
+	
+	/**
 	 * plain mode
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
@@ -467,84 +545,6 @@ public class Engine {
 			}
 		}
 		return result;
-	}
-	
-	/**
-	 * pwntari mode
-	 * @param ImageDataAdapter ida
-	 * @return Strings for IRC.
-	 */
-	public String[] generatePwntari(final ImageDataAdapter ida) {
-		final int height = Math.round(ida.getHeight() / 2);
-		final int width = ida.getWidth();
-		final Map<String, Integer> colorMap = prepareColorMap();
-		final String[] ret = new String[height];
-		
-		int startX = 0; //TODO not here
-		int startY = 0;
-		
-		//TODO reimplement
-//		if (ctx.getKick().equalsIgnoreCase("x") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startX++;
-//		}
-//		if (ctx.getKick().equalsIgnoreCase("y") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startY++;
-//		}
-		for (int y = startY; y < height * 2; y = y + 2) {
-			try {
-				ret[y / 2] = "";
-				StringBuilder row = new StringBuilder();
-				String oldLeft;
-				String newLeft = null;
-				String newRight = null;
-				for (int x = startX; x < width; x = x + 2) {
-					try {
-						final double CONTRAST = 0.70;
-						final Sample sample = new Sample(ida, x, y, CONTRAST);
-
-						oldLeft = newLeft;
-						newLeft = cube.getColorChar(
-							colorMap, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft()
-						);
-						newRight = cube.getColorChar(
-							colorMap, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight()
-						);
-						newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
-						newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
-
-						if (newLeft.equals(oldLeft)) {
-							final String charOnly = newLeft.substring(newLeft.length() - 1, newLeft.length());
-							row.append(charOnly);
-						} else {
-							if (row.length() > 0) {
-								row.append(ColorUtil.CC);
-							}
-							row.append(ColorUtil.CC);
-							row.append(newLeft);
-						}
-
-						if (newRight.equals(newLeft)) {
-							final String charOnly = newRight.substring(newRight.length() - 1, newRight.length());
-							row.append(charOnly);
-						} else {
-							row.append(ColorUtil.CC);
-							row.append(newRight);
-						}
-					} catch (ArrayIndexOutOfBoundsException aioobe) {
-						//depending on the kick settings and the width settings,
-						//this happens if the last column of pixels in the resized image is not even.
-						//just ignore it and do nothing.
-					}
-				}
-				row.append(ColorUtil.CC);
-				ret[y / 2] = postProcessColoredRow(row.toString());
-			} catch (StringIndexOutOfBoundsException aioobe) {
-				//depending on the kick settings and the width settings,
-				//this happens if the last column of pixels in the resized image is not even.
-				//just ignore it and do nothing.
-			}
-		}
-		return ret;
 	}
 	
 	private Map<String, Integer> prepareColorMap() {

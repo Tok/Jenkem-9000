@@ -20,13 +20,18 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -38,6 +43,7 @@ public class MainPresenter implements Presenter {
 		HasValue<String> getInputLink();
 		TextBox getInputTextBox();
 		HasClickHandlers getShowButton();
+		Panel getBusyPanel();
 //		Canvas getCanvas();
 		Surface getSurface();
 		Frame getPreviewFrame();
@@ -58,6 +64,15 @@ public class MainPresenter implements Presenter {
 	}
 
 	public void bind() {
+		this.display.getInputTextBox().addKeyPressHandler(new KeyPressHandler() {
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+					doShow(proxify());
+			    }			
+			}
+		});
+		
 		this.display.getShowButton().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
 				doShow(proxify());
@@ -78,10 +93,12 @@ public class MainPresenter implements Presenter {
 	 * @return url to image servlet
 	 */
 	private String proxify() {
-		return "http://" + Window.Location.getHost()
-				+ "/jenkem/image?url="
-				+ display.getInputTextBox().getText();
-
+		final String urlString = display.getInputTextBox().getText();
+		if (!"".equals(urlString)) {
+			return "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
+		} else {
+			return "";
+		}
 	}
 
 	public void go(final HasWidgets container) {
@@ -92,6 +109,12 @@ public class MainPresenter implements Presenter {
 	}
 
 	private void doShow(final String url) {
+		display.getBusyPanel().clear();
+		if (!"".equals(url)) {
+			final Image busyImage = new Image("/images/busy.gif");
+			display.getBusyPanel().add(busyImage);
+		}
+		
 		final String[] urls = new String[] { url };
 		ImageLoader.loadImages(urls, new ImageLoader.CallBack() {
 			@Override
@@ -151,20 +174,24 @@ public class MainPresenter implements Presenter {
 				jenkemImage.setCss(htmlAndCss[1]);
 
 				jenkemService.saveJenkemImage(jenkemImage,
-						new AsyncCallback<String>() {
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-							}
+					new AsyncCallback<String>() {
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+						}
 
-							@Override
-							public void onSuccess(final String result) {
-								display.getPreviewFrame().setUrl(
-										"http://" + Window.Location.getHost()
-												+ "/jenkem/output?name="
-												+ result + "&type=html");
-							}
-						});
+						@Override
+						public void onSuccess(final String result) {
+							display.getPreviewFrame().setUrl(
+									"http://" + Window.Location.getHost()
+											+ "/jenkem/output?name="
+											+ result + "&type=html");
+							
+							
+						}
+				});
+				
+				display.getBusyPanel().clear();
 			}
 		});
 	}

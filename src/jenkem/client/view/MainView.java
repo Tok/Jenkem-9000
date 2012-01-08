@@ -6,24 +6,23 @@ import jenkem.client.widget.ExtendedTextBox;
 import jenkem.shared.ConversionMethod;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MainView extends Composite implements MainPresenter.Display {
 	private final ExtendedTextBox inputTextBox;
 	private final Button showButton;
+	private final Panel busyPanel = new HorizontalPanel();
 	private final Surface surface = new Surface();
 //	private final Canvas canvas = Canvas.createIfSupported();
 	private final Frame previewFrame = new Frame();
@@ -45,25 +44,16 @@ public class MainView extends Composite implements MainPresenter.Display {
 		
 		inputTextBox = new ExtendedTextBox();
 		inputTextBox.setWidth("710px");
-		inputTextBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				doChange();
-			}
-		});
-		inputTextBox.addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				doChange();
-			}
-		});
+		
+		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		hPanel.setSpacing(5);
 		if (link != null && !link.equals("")) {
 			inputTextBox.setText(link);
-			doChange();
 		}
 		hPanel.add(inputTextBox);		
 		showButton = new Button("Convert Image");
 		hPanel.add(showButton);
+		hPanel.add(busyPanel);
 
 		int row = 0;
 		contentTable.setText(row++, 0, "Enter URL to an image:");		
@@ -90,10 +80,6 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contentTableDecorator.add(contentTable);
 	}
 
-	private void doChange() {
-		
-	}
-	
 	@Override
 	public Widget asWidget() {
 		return this;
@@ -102,6 +88,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 	@Override
 	public HasClickHandlers getShowButton() {
 		return showButton;
+	}
+	
+	@Override
+	public Panel getBusyPanel() {
+		return busyPanel;
 	}
 
 	@Override

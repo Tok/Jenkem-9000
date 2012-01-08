@@ -25,8 +25,8 @@ public class Cube {
 	/**
 	 * Translates the RGB values of the pixel to a colored IRC character
 	 * @param red 0-255
-	 * @param blue 0-255
 	 * @param green 0-255
+	 * @param blue 0-255
 	 * @return a String with the IRC-color codes and the character to display in IRC
 	 * @throws SchemeUnknownException 
 	 */
@@ -34,10 +34,10 @@ public class Cube {
 			final boolean enforceBlackFg) {
 		final double CONTRAST = 0.95d;
 		final int fixedRed = (int) (red * CONTRAST);
-		final int fixedBlue = (int) (blue * CONTRAST);
 		final int fixedGreen = (int) (green * CONTRAST);
+		final int fixedBlue = (int) (blue * CONTRAST);
 		
-		final int[] col = { fixedRed, fixedBlue, fixedGreen };
+		final int[] col = { fixedRed, fixedGreen, fixedBlue };
 		final Color c = getTwoNearestColors(colorMap, col);
 
 		final StringBuilder result = new StringBuilder();
@@ -56,7 +56,7 @@ public class Cube {
 	}
 
 	public String getColorChar(final Map<String, Integer> colorMap, final int red, final int green, final int blue) {
-		return getColorChar(colorMap, red, blue, green, false);
+		return getColorChar(colorMap, red, green, blue, false);
 	}
 
 	private WeightedColor createWc(final Map<String, Integer> colorMap, final int[] col, final String name) {
