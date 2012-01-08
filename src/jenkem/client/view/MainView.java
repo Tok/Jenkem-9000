@@ -24,14 +24,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class MainView extends Composite implements MainPresenter.Display {
 	private final ExtendedTextBox inputTextBox;
 	private final Button showButton;
-	
-	private Surface surface = new Surface();
-//	private Canvas canvas = Canvas.createIfSupported();
-	
+	private final Surface surface = new Surface();
+//	private final Canvas canvas = Canvas.createIfSupported();
 	private final Frame previewFrame = new Frame();
-	
 	private final ListBox methodListBox = new ListBox();
-	
 	private final FlexTable contentTable;
 	
 	public MainView() {
@@ -76,11 +72,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 		final HorizontalPanel content = new HorizontalPanel();
 		content.add(surface);
 
-		previewFrame.setWidth("600px");
+		previewFrame.setWidth("620px");
 		previewFrame.setHeight("750px");
 		content.add(previewFrame);
 
-		FlexTable settingsTable = new FlexTable();
+		final FlexTable settingsTable = new FlexTable();
 
 		for (ConversionMethod method : ConversionMethod.values()) {
 			methodListBox.addItem(method.toString());
@@ -89,8 +85,6 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.setWidget(0, 1, methodListBox);
 		
 		content.add(settingsTable);
-		
-
 		
 		contentTable.setWidget(row++, 0, content);
 		contentTableDecorator.add(contentTable);

@@ -1,16 +1,15 @@
 package jenkem.shared;
 
-public enum ConversionMethod {
-	//TODO add more methods
-	
+public enum ConversionMethod {	
 	SuperHybrid("Super-Hybrid"),
 	FullHd("Full HD"),
 	Pwntari("Pwntari"),
-	Hybrid("Hybrid");
+	Hybrid("Hybrid"),
+	Plain("Plain ASCII");
 	
 	private String name;
 	
-	private ConversionMethod(String name) {
+	private ConversionMethod(final String name) {
 		this.name = name;
 	}
 	

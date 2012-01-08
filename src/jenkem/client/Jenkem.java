@@ -21,10 +21,10 @@ public class Jenkem implements EntryPoint {
 		final HandlerManager eventBus = new HandlerManager(null);
 		final AppController appViewer = new AppController(rpcService, eventBus);
 
-		Image titleImage = new Image("/images/Jenkem-Title.png");
+		final Image titleImage = new Image("/images/Jenkem-Title.png");
 		titleImage.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				eventBus.fireEvent(new CancelledEvent());
 			}
 		});

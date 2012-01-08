@@ -5,9 +5,6 @@ import jenkem.shared.ColorUnknownException;
  * just some constants and stuff.
  */
 public class ColorUtil {
-//	private HashMap<String, Integer> ircColors; //TODO use enums instead?
-//	private HashMap<String, int[]> rgbColors; //(according to mIRC, as measured using gimp)
-
 	//conventional ASCII color codes according to mIRC
 	public static final String CC = ""; // start irc color //TODO better not like this
 	public static final String BC = ""; // bold character for irc
@@ -18,7 +15,7 @@ public class ColorUtil {
 	 * @param input the message to color
 	 * @return the colored message
 	 */
-	public String colorConfig(Integer col, String input) {
+	public String colorConfig(final Integer col, String input) {
 		input = input + "% ";
 		if (col.equals(IrcColor.white.getValue())
 				|| col.equals(IrcColor.cyan.getValue()) 
@@ -33,65 +30,44 @@ public class ColorUtil {
 		}
 	}
 
-	private String concatColorConfig(Integer fg, Integer bg, String input) {
+	private String concatColorConfig(final Integer fg, final Integer bg, final String input) {
 		return CC + fg + "," + bg + " " + input + CC;	
 	}
 
-	public String[] makeBold(String[] ircOutput) {
-		String[] result = new String[ircOutput.length];
+	public String[] makeBold(final String[] ircOutput) {
+		final String[] result = new String[ircOutput.length];
 		for (int i = 0; i < ircOutput.length; i++) {
 			result[i] = BC + ircOutput[i];
 		}
 		return result;
 	}
 
-	public String ircToCss(String irc) throws ColorUnknownException {
+	public String ircToCss(final String irc) throws ColorUnknownException {
 		return ircToCss(Integer.valueOf(irc));
 	}
-	public String ircToCss(int irc) throws ColorUnknownException {
+	public String ircToCss(final int irc) throws ColorUnknownException {
 		if (!IrcColor.isIrcColor(irc)) {
 			throw new ColorUnknownException(String.valueOf(irc));
 		}
-		Integer ircString = Integer.valueOf(irc);
+		final Integer ircString = Integer.valueOf(irc);
 		String css = "#000000"; //assume default black
-		
-		
 		for (IrcColor ircCol : IrcColor.values()) {
 			if (ircString.equals(ircCol.getValue())) { 
 				css = rgbToCss(ircCol.getRgb()); 
 			}
-		}
-		
-//		Iterator<String> iterator = ircColors.keySet().iterator();
-//		while (iterator.hasNext()) {
-//			String colorName = iterator.next();
-//			if (ircString.equals(ircColors.get(colorName))) { 
-//				css = rgbToCss(rgbColors.get(colorName)); 
-//			}
-//		}
-		
-		
+		}	
 		return css;
 	}
 
-	private static String rgbToCss(int[] rgb) {
+	private static String rgbToCss(final int[] rgb) {
 		return "#" + toHex(rgb[0]) + toHex(rgb[1]) + toHex(rgb[2]);
 	}
 
-	public static String toHex(int i) {
+	public static String toHex(final int i) {
 		String ret = Integer.toHexString(i);
 		if (ret.length() == 1) {
 			ret = "0" + ret;
 		}
 		return ret;
 	}
-
-//	public boolean isColor(int col) {
-//		return ircColors.containsValue(Integer.valueOf(col));
-//	}
-//
-//	public boolean isColorName(String name) {
-//		return ircColors.containsKey(name);
-//	}
-
 }

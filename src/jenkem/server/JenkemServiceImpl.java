@@ -24,8 +24,8 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 	private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
 
 	@Override
-	public String saveJenkemImage(JenkemImage jenkemImage) {
-		PersistenceManager pm = PMF.getPersistenceManager();
+	public String saveJenkemImage(final JenkemImage jenkemImage) {
+		final PersistenceManager pm = PMF.getPersistenceManager();
 		try {
 			pm.makePersistent(jenkemImage);
 			LOG.log(Level.INFO, "Image stored!");
@@ -41,10 +41,10 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
-	public JenkemImage getImageByName(String name) {
+	public JenkemImage getImageByName(final String name) {
 		JenkemImage result = null;		
 		if (name != null) {
-			PersistenceManager pm = PMF.getPersistenceManager();
+			final PersistenceManager pm = PMF.getPersistenceManager();
 			try {
 				Query query = pm.newQuery(JenkemImage.class);
 				query.setFilter("name == n");
@@ -57,7 +57,6 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
-
 
 //	@Override
 //	public void startBot() throws NickAlreadyInUseException, IOException, IrcException {

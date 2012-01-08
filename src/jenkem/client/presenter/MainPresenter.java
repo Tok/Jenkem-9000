@@ -32,16 +32,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MainPresenter implements Presenter {
 	private final Engine engine = new Engine();
+	private final HtmlUtil htmlUtil = new HtmlUtil();
 	
 	public interface Display {
 		HasValue<String> getInputLink();
 		TextBox getInputTextBox();
 		HasClickHandlers getShowButton();
-		
 //		Canvas getCanvas();
 		Surface getSurface();
 		Frame getPreviewFrame();
-		
 		ListBox getMethodListBox();
 		Widget asWidget();
 	}
@@ -92,19 +91,19 @@ public class MainPresenter implements Presenter {
 		display.getInputTextBox().setFocus(true);
 	}
 
-	private void doShow(String url) {
-		String[] urls = new String[] { url };
+	private void doShow(final String url) {
+		final String[] urls = new String[] { url };
 		ImageLoader.loadImages(urls, new ImageLoader.CallBack() {
 			@Override
 			public void onImagesLoaded(ImageElement[] imageElements) {
 				final ImageElement image = imageElements[0];
-
 				final String methodName = display.getMethodListBox().getItemText(display.getMethodListBox().getSelectedIndex());
 				final int WIDTH = 72;
 				int height = 0;
 				if (methodName.equals(ConversionMethod.FullHd.toString())) {
 					height = (36 * image.getHeight()) / image.getWidth();
-				} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
+				} else if (methodName.equals(ConversionMethod.Hybrid.toString()) ||
+						methodName.equals(ConversionMethod.Plain.toString())) {
 					height = (84 * image.getHeight()) / image.getWidth();	
 				} else { //Super-Hybrid and Pwntari
 					height = (72 * image.getHeight()) / image.getWidth();				
@@ -122,24 +121,29 @@ public class MainPresenter implements Presenter {
 					ircOutput = engine.generateHighDef(ida);
 				} else if (methodName.equals(ConversionMethod.SuperHybrid.toString())) {
 					ircOutput = engine.generateSuperHybrid(ida);
-				} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
-					ircOutput = engine.generateHybrid(ida);
 				} else if (methodName.equals(ConversionMethod.Pwntari.toString())) {
 					ircOutput = engine.generatePwntari(ida);
+				} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
+					ircOutput = engine.generateHybrid(ida);
+				} else if (methodName.equals(ConversionMethod.Plain.toString())) {
+					ircOutput = engine.generatePlain(ida);
 				}
 
-				ArrayList<Text> irc = new ArrayList<Text>();
+				final ArrayList<Text> irc = new ArrayList<Text>();
 				for (String s : ircOutput) {
 					irc.add(new Text(s));
 				}
 
-				HtmlUtil htmlUtil = new HtmlUtil();
-				Date now = new Date();
-				String name = Long.valueOf(now.getTime()).toString();
-				String[] htmlAndCss = htmlUtil.generateHtml(ircOutput, name,
-						HtmlUtil.MODE_FULL_HD);
-
-				JenkemImage jenkemImage = new JenkemImage();
+				final Date now = new Date();
+				final String name = Long.valueOf(now.getTime()).toString();
+				String[] htmlAndCss = null;
+				if (methodName.equals(ConversionMethod.Plain.toString())) {
+					htmlAndCss = htmlUtil.generateHtml(ircOutput, name, true);
+				} else { //boolean says whether method is plain or not.
+					htmlAndCss = htmlUtil.generateHtml(ircOutput, name, false);
+				}
+				
+				final JenkemImage jenkemImage = new JenkemImage();
 				jenkemImage.setName(name);
 				jenkemImage.setCreateDate(now);
 				jenkemImage.setIrc(irc);
@@ -154,7 +158,7 @@ public class MainPresenter implements Presenter {
 							}
 
 							@Override
-							public void onSuccess(String result) {
+							public void onSuccess(final String result) {
 								display.getPreviewFrame().setUrl(
 										"http://" + Window.Location.getHost()
 												+ "/jenkem/output?name="
@@ -164,7 +168,5 @@ public class MainPresenter implements Presenter {
 			}
 		});
 	}
-
-
 	
 }

@@ -21,7 +21,7 @@ public class AsciiScheme {
 	private String left = "[";
 	private String right = "]";
 
-	public String getChar(double strength, boolean isAbsolute) {
+	public String getChar(double strength, final boolean isAbsolute) {
 		if (isAbsolute) {
 			strength = (255 - strength) / 255;
 		}
@@ -43,7 +43,7 @@ public class AsciiScheme {
 		if (relStrength < 0) {
 			relStrength = 0.0D;
 		}
-		double th = 1.0 / ascii.length();
+		final double th = 1.0 / ascii.length();
 		String ret = "";
 		for (int i = 0; i < ascii.length(); i++) {
 			if (relStrength <= (i + 1) * th) {
@@ -57,7 +57,7 @@ public class AsciiScheme {
 		return ret;
 	}
 
-	private String randomize(String in) {
+	private String randomize(final String in) {
 		if (randomized) {
 			char[] c = in.toCharArray();
 			return String.valueOf(c[new Random().nextInt(c.length)]);
@@ -85,8 +85,8 @@ public class AsciiScheme {
 		}
 	}
 
-	public boolean isCharacterDark(String character) {
-		int halfLength = (ascii.length() + 3) / 2; //cutting off the decimals is OK here
+	public boolean isCharacterDark(final String character) {
+		final int halfLength = (ascii.length() + 3) / 2; //cutting off the decimals is OK here
 		for (int i = 0; i <= halfLength; i++) {
 			String compare = ascii.substring(ascii.length() - i - 1);
 			if (unFormat(character).equals(compare)) {
@@ -96,8 +96,8 @@ public class AsciiScheme {
 		return false;
 	}
 
-	public boolean isCharacterBright(String character) {
-		int halfLength = (ascii.length() + 3) / 2; //cutting off the decimals is OK here
+	public boolean isCharacterBright(final String character) {
+		final int halfLength = (ascii.length() + 3) / 2; //cutting off the decimals is OK here
 		for (int i = 0; i <= halfLength; i++) {
 			String compare = ascii.substring(i);
 			if (unFormat(character).equals(compare)) {
@@ -107,7 +107,7 @@ public class AsciiScheme {
 		return false;
 	}
 
-	private String unFormat(String in) {
+	private String unFormat(final String in) {
 		if (in.length() > 1) {
 			return in.substring(in.length() - 1, in.length());
 		} else {
@@ -122,7 +122,7 @@ public class AsciiScheme {
 	 * @param rep
 	 * @return modified String
 	 */
-	public String replace(String in, String rep) {
+	public String replace(final String in, final String rep) {
 		return in.substring(0, in.length() - 1) + rep;
 	}
 

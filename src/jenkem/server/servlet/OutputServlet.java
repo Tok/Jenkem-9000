@@ -14,19 +14,18 @@ import jenkem.shared.data.JenkemImage;
 public class OutputServlet extends HttpServlet {
 	private static final long serialVersionUID = -6626624514779473378L;
 
-	private HtmlUtil htmlUtil = new HtmlUtil();
-
-	private JenkemServiceImpl jenkemService = new JenkemServiceImpl();
+	private final HtmlUtil htmlUtil = new HtmlUtil();
+	private final JenkemServiceImpl jenkemService = new JenkemServiceImpl();
 	
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	public void doGet(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String name = request.getParameter("name");
-		String type = request.getParameter("type");
+		final String name = request.getParameter("name");
+		final String type = request.getParameter("type");
 		
 		response.setCharacterEncoding("utf-8");
 
-		JenkemImage image = jenkemService.getImageByName(name);
+		final JenkemImage image = jenkemService.getImageByName(name);
 		
 		if (image != null && type != null && type.equals("html")) {
 			response.setContentType("text/html");

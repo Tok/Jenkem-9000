@@ -20,7 +20,8 @@ import com.google.gwt.user.client.Random;
  * http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_farbwuerfel.jpg
  */
 public class Cube {
-
+	private final AsciiScheme asciiScheme = new AsciiScheme();
+	
 	/**
 	 * Translates the RGB values of the pixel to a colored IRC character
 	 * @param red 0-255
@@ -29,16 +30,17 @@ public class Cube {
 	 * @return a String with the IRC-color codes and the character to display in IRC
 	 * @throws SchemeUnknownException 
 	 */
-	public String getColorChar(Map<String, Integer> colorMap, int red, int blue, int green, boolean enforceBlackFg) {
+	public String getColorChar(final Map<String, Integer> colorMap, final int red, final int green, final int blue, 
+			final boolean enforceBlackFg) {
 		final double CONTRAST = 0.95d;
-		int fixedRed = (int) (red * CONTRAST);
-		int fixedBlue = (int) (blue * CONTRAST);
-		int fixedGreen = (int) (green * CONTRAST);
+		final int fixedRed = (int) (red * CONTRAST);
+		final int fixedBlue = (int) (blue * CONTRAST);
+		final int fixedGreen = (int) (green * CONTRAST);
 		
-		int[] col = { fixedRed, fixedBlue, fixedGreen };
-		Color c = getTwoNearestColors(colorMap, col);
+		final int[] col = { fixedRed, fixedBlue, fixedGreen };
+		final Color c = getTwoNearestColors(colorMap, col);
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		if(!enforceBlackFg) {
 			result.append(c.getFg()); //append the foreground color
 		} else {
@@ -48,23 +50,20 @@ public class Cube {
 		result.append(",");
 		result.append(c.getBg()); //append the background color
 
-		AsciiScheme asciiScheme = new AsciiScheme();
-		String character = asciiScheme.getChar(c.getBgStrength(), false);
+		final String character = asciiScheme.getChar(c.getBgStrength(), false);
 		result.append(character); //append the selected ASCII character
 		return result.toString();
 	}
 
-	public String getColorChar(Map<String, Integer> colorMap, int red, int blue, int green) {
+	public String getColorChar(final Map<String, Integer> colorMap, final int red, final int green, final int blue) {
 		return getColorChar(colorMap, red, blue, green, false);
 	}
 
-	private WeightedColor createWc(Map<String, Integer> colorMap, int[] col, String name) {
-		Integer color = IrcColor.valueOf(name).getValue();
-		int[] coords = IrcColor.valueOf(name).getRgb();
-
-		double weight = calcStrength(col, coords, colorMap.get(name));
-
-		WeightedColor wc = new WeightedColor(); //TODO write a Factory
+	private WeightedColor createWc(final Map<String, Integer> colorMap, final int[] col, final String name) {
+		final Integer color = IrcColor.valueOf(name).getValue();
+		final int[] coords = IrcColor.valueOf(name).getRgb();
+		final double weight = calcStrength(col, coords, colorMap.get(name));
+		final WeightedColor wc = new WeightedColor(); //TODO write a Factory
 		wc.setWeight(weight);
 		wc.setColor(color.toString());
 		wc.setCoords(coords);
@@ -72,7 +71,7 @@ public class Cube {
 		return wc;
 	}
 
-	private double calcStrength(int[] col, int[] comp, double factor) {
+	private double calcStrength(final int[] col, final int[] comp, final double factor) {
 		return calcDistance(col,comp) / factor;
 	}
 
@@ -82,14 +81,12 @@ public class Cube {
 	 * @return a Color object with info to represent the same color in irc
 	 * @throws SchemeUnknownException 
 	 */
-	public Color getTwoNearestColors(Map<String, Integer> colorMap ,int[] col) {
-		ArrayList<WeightedColor> list = new ArrayList<WeightedColor>();
-
+	public Color getTwoNearestColors(final Map<String, Integer> colorMap , final int[] col) {
+		final ArrayList<WeightedColor> list = new ArrayList<WeightedColor>();
 		for (IrcColor ic : IrcColor.values()) {
 			list.add(createWc(colorMap,col,ic.name()));
 		}
 
-		
 		//if the list isn't shuffled the following occurs:
 		//the color that happens to be the 1st in the collection is used in favor of the others,
 		//when more possible values would apply with the same strength.
@@ -104,22 +101,18 @@ public class Cube {
 		//TODO make an option to turn it on or off
 //		shuffle(list); //shuffle to randomize colors with the same weight
 		
-		
-		SortedMap<Double, WeightedColor> map = new TreeMap<Double, WeightedColor>();
-		Iterator<WeightedColor> it = list.iterator();
-		while (it.hasNext()) {
-			WeightedColor wc = (WeightedColor) it.next();
-			map.put(wc.getWeight(), wc);
+		final SortedMap<Double, WeightedColor> map = new TreeMap<Double, WeightedColor>();
+		for (WeightedColor wc : list) {
+			map.put(wc.getWeight(), wc);			
 		}
 
-		Map.Entry<Double, WeightedColor> strongest;
-		Map.Entry<Double, WeightedColor> second;
-
-		Iterator<Map.Entry<Double, WeightedColor>> i = map.entrySet().iterator();
+		final Map.Entry<Double, WeightedColor> strongest;
+		final Map.Entry<Double, WeightedColor> second;
+		final Iterator<Map.Entry<Double, WeightedColor>> i = map.entrySet().iterator();
 		strongest = i.next();
 		second = i.next();
 
-		Color c = new Color();
+		final Color c = new Color();
 		c.setRgb(col); 
 		c.setBg(strongest.getValue().getColor());
 		c.setBgRgb(strongest.getValue().getCoords());
@@ -132,8 +125,8 @@ public class Cube {
 		//is just approximative workaround. instead there should be a mathematically provable 
 		//correct way on how to weigh two colors against each other in regard to their 
 		//distance to the center of the cube 127,127,127
-		double power = 4.00; //default should be 3.00 or 4.00;
-		double strongestStrength = 
+		final double power = 4.00; //default should be 3.00 or 4.00;
+		final double strongestStrength = 
 			Math.pow(
 				calcStrength(
 						col
@@ -141,7 +134,7 @@ public class Cube {
 						,colorMap.get(strongest.getValue().getName())
 					),power
 				);
-		double secondStrength = 
+		final double secondStrength = 
 			Math.pow(
 				calcStrength(
 						col
@@ -149,14 +142,14 @@ public class Cube {
 						,colorMap.get(second.getValue().getName())
 					),power
 				);		
-		double strength = strongestStrength / secondStrength;
+		final double strength = strongestStrength / secondStrength;
 		c.setBgStrength(strength);
 
 		return c;
 	}
 
-	public Color getTwoNearestColors(Map<String, Integer> colorMap, int red, int green, int blue) {
-		int[] col = { red, blue, green };
+	public Color getTwoNearestColors(final Map<String, Integer> colorMap, final int red, final int green, final int blue) {
+		final int[] col = { red, green, blue };
 		return getTwoNearestColors(colorMap, col);
 	}
 
@@ -167,13 +160,13 @@ public class Cube {
 	 * @return the distance between the colors
 	 */
 	private double calcDistance(final int[] from, final int[] to) {
-		double fromRed = from[0];
-		double fromGreen = from[1];
-		double fromBlue = from[2];
-		double toRed = to[0];
-		double toGreen = to[1];
-		double toBlue = to[2];
-		double distance = Math.sqrt(
+		final double fromRed = from[0];
+		final double fromGreen = from[1];
+		final double fromBlue = from[2];
+		final double toRed = to[0];
+		final double toGreen = to[1];
+		final double toBlue = to[2];
+		final double distance = Math.sqrt(
 				(Math.pow(toRed - fromRed, 2.0) +
 				 Math.pow(toGreen - fromGreen, 2.0) +
 				 Math.pow(toBlue - fromBlue, 2.0))
@@ -181,9 +174,9 @@ public class Cube {
 		return distance;
 	}
 
-	public boolean isFirstCloserTo(int[] first, int[] second, int[] compare, double offset) {
-		double firstDist = calcDistance(first, compare);
-		double secondDist = calcDistance(second, compare);
+	public boolean isFirstCloserTo(final int[] first, final int[] second, final int[] compare, final double offset) {
+		final double firstDist = calcDistance(first, compare);
+		final double secondDist = calcDistance(second, compare);
 		if ((firstDist + offset) < secondDist) {
 			return true;
 		} else {
@@ -199,11 +192,11 @@ public class Cube {
 	 * @param compare
 	 * @return
 	 */
-	public boolean isFirstCloserTo(int[] first, int[] second, int[] compare) {
+	public boolean isFirstCloserTo(final int[] first, final int[] second, final int[] compare) {
 		//TODO this is awkward. replace this method with a method 
 		//returning an int that is negative, 0 or positive
-		double firstDist = calcDistance(first, compare);
-		double secondDist = calcDistance(second, compare);
+		final double firstDist = calcDistance(first, compare);
+		final double secondDist = calcDistance(second, compare);
 		if (firstDist < secondDist) {
 			return true;
 		} else {
@@ -216,7 +209,7 @@ public class Cube {
 	 * @param List<WeightedColor> colors
 	 */
 	@SuppressWarnings("unused")
-	private void shuffle(List<WeightedColor> colors) {
+	private void shuffle(final List<WeightedColor> colors) {
         for(int i = colors.size(); i > 1; i--) {
             swap(colors, i - 1, Random.nextInt(i)); 
         }
@@ -225,8 +218,8 @@ public class Cube {
 	/**
 	 * Swap method for shuffling
 	 */
-	private void swap(List<WeightedColor> list, int i, int ii) {
-		WeightedColor s = list.get(i);
+	private void swap(final List<WeightedColor> list, final int i, final int ii) {
+		final WeightedColor s = list.get(i);
         list.set(i, list.get(ii));
         list.set(ii, s); 
 	}

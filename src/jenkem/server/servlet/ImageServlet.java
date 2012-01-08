@@ -19,16 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 public class ImageServlet extends HttpServlet {
 	private static final long serialVersionUID = 7865055524973352098L;
 	
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	public void doGet(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("image/jpeg");
 
-		String urlString = request.getParameter("url");
-		URL url = new URL(urlString);
-        InputStream in = url.openStream();
-        OutputStream out = response.getOutputStream();
+		final String urlString = request.getParameter("url");
+		final URL url = new URL(urlString);
+		final InputStream in = url.openStream();
+		final OutputStream out = response.getOutputStream();
 
-        byte[] buf = new byte[1024];
+		final byte[] buf = new byte[1024];
         int count = 0;
         while ((count = in.read(buf)) >= 0) {
             out.write(buf, 0, count);

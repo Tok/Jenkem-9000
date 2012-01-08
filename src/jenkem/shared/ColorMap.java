@@ -27,9 +27,9 @@ public enum ColorMap {
 	public int orange;
 	public int purple;
 	
-	private ColorMap(int black, int gray, int lightGray, int white,
-			int red, int green, int blue, int cyan, int yellow, int magenta,
-			int brown, int darkGreen, int teal, int darkBlue, int orange, int purple) {
+	private ColorMap(final int black, final int gray, final int lightGray, final int white,
+			final int red, final int green, final int blue, final int cyan, final int yellow, final int magenta,
+			final int brown, final int darkGreen, final int teal, final int darkBlue, final int orange, final int purple) {
 		this.black = black;
 		this.gray = gray;
 		this.lightGray = lightGray;

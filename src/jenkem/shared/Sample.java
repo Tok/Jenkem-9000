@@ -30,7 +30,7 @@ public class Sample {
 	private int greenRight;
 	private int blueRight;
 
-	public Sample(ImageDataAdapter img, int x, int y, double contrast) {
+	public Sample(final ImageDataAdapter img, final int x, final int y, final double contrast) {
 		redTopLeft = (int) (img.getRed(x, y) * contrast);
 		greenTopLeft = (int) (img.getGreen(x, y) * contrast);
 		blueTopLeft = (int) (img.getBlue(x, y) * contrast);
