@@ -5,7 +5,8 @@ import jenkem.shared.color.ColorUtil;
 public class HtmlUtil extends AbstractWebUtil {
 	private final String DOCTYPE = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" 
 		+ sep + "    \"http://www.w3.org/TR/html4/strict.dtd\">";
-
+	private final String META = "<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">";
+	
 	public static final String MODE_PLAIN = "plain";
 	public static final String MODE_FULL_HD = "full-hd";
 	public static final String MODE_HYBRID = "hybrid";
@@ -19,6 +20,8 @@ public class HtmlUtil extends AbstractWebUtil {
 		html.append("<html>");
 		html.append(sep);
 		html.append("<head>");
+		html.append(sep);
+		html.append(META);
 		html.append(sep);
 		html.append("<title>");
 		html.append("</title>");
@@ -40,6 +43,8 @@ public class HtmlUtil extends AbstractWebUtil {
 		html.append("<html>");
 		html.append(sep);
 		html.append("<head>");
+		html.append(sep);
+		html.append(META);
 		html.append(sep);
 		html.append("<title>");
 		html.append(name);
