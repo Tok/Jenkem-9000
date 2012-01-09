@@ -24,6 +24,8 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -34,6 +36,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
@@ -60,6 +63,10 @@ public class MainPresenter implements Presenter {
 		Label getContrastLabel();
 		SliderBarSimpleHorizontal getBrightnessSlider();
 		Label getBrightnessLabel();
+		RadioButton getNoKickButton();
+		RadioButton getXKickButton();
+		RadioButton getYKickButton();
+		RadioButton getXyKickButton();
 		Widget asWidget();
 	}
 
@@ -94,6 +101,12 @@ public class MainPresenter implements Presenter {
 		this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
+				final String methodName = display.getMethodListBox().getItemText(display.getMethodListBox().getSelectedIndex());
+				if (methodName.equals(ConversionMethod.FullHd.toString())) {
+					disableKicks();
+				} else {
+					enableKicks();
+				}
 				doShow(proxify());
 			}
 		});
@@ -125,6 +138,42 @@ public class MainPresenter implements Presenter {
 			public void onBarValueChanged(BarValueChangedEvent event) {
 				updateBrightness(event.getValue());
 				doConversion();
+			}
+		});
+		
+		this.display.getNoKickButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()) {
+					doConversion();
+				}
+			}
+		});
+
+		this.display.getXKickButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()) {
+					doConversion();
+				}
+			}
+		});
+		
+		this.display.getYKickButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()) {
+					doConversion();
+				}
+			}
+		});
+		
+		this.display.getXyKickButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()) {
+					doConversion();
+				}
 			}
 		});
 	}
@@ -195,17 +244,18 @@ public class MainPresenter implements Presenter {
 		
 		double contrast = Double.valueOf(display.getContrastLabel().getText());
 		int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
+		String kick = getKick();
 		String[] ircOutput = null;
 		if (methodName.equals(ConversionMethod.FullHd.toString())) {
 			ircOutput = engine.generateHighDef(ida, scheme, contrast, brightness);
 		} else if (methodName.equals(ConversionMethod.SuperHybrid.toString())) {
-			ircOutput = engine.generateSuperHybrid(ida, scheme, contrast, brightness);
+			ircOutput = engine.generateSuperHybrid(ida, scheme, contrast, brightness, kick);
 		} else if (methodName.equals(ConversionMethod.Pwntari.toString())) {
-			ircOutput = engine.generatePwntari(ida, scheme, contrast, brightness);
+			ircOutput = engine.generatePwntari(ida, scheme, contrast, brightness, kick);
 		} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
-			ircOutput = engine.generateHybrid(ida, scheme, contrast, brightness);
+			ircOutput = engine.generateHybrid(ida, scheme, contrast, brightness, kick);
 		} else if (methodName.equals(ConversionMethod.Plain.toString())) {
-			ircOutput = engine.generatePlain(ida, contrast, brightness);
+			ircOutput = engine.generatePlain(ida, contrast, brightness, kick);
 		}
 
 		final ArrayList<Text> irc = new ArrayList<Text>();
@@ -258,6 +308,18 @@ public class MainPresenter implements Presenter {
 	private void removeBusyIcon() {
 		display.getBusyPanel().clear();
 	}
+	
+	private String getKick() {
+		if (this.display.getNoKickButton().getValue()) {
+			return "0";
+		} else if (this.display.getXKickButton().getValue()) {
+			return "X";
+		} else if (this.display.getYKickButton().getValue()) {
+			return "Y";
+		} else {
+			return "XY";
+		}
+	}
 
 	private void doReset() {
 		display.getSchemeListBox().setSelectedIndex(0);
@@ -265,8 +327,23 @@ public class MainPresenter implements Presenter {
 		updateContrast(94);
 		display.getBrightnessSlider().setValue(100);
 		updateBrightness(100);
+		display.getNoKickButton().setValue(true);
 	}
 	
+	private void disableKicks() {
+		display.getNoKickButton().setEnabled(false);
+		display.getXKickButton().setEnabled(false);
+		display.getYKickButton().setEnabled(false);
+		display.getXyKickButton().setEnabled(false);
+	}
+
+	private void enableKicks() {
+		display.getNoKickButton().setEnabled(true);
+		display.getXKickButton().setEnabled(true);
+		display.getYKickButton().setEnabled(true);
+		display.getXyKickButton().setEnabled(true);
+	}
+
 	private void updateContrast(final int value) {
 		double contrast = (Double.valueOf(value) + 1) / 100.0;
 		display.getContrastLabel().setText(String.valueOf(contrast));

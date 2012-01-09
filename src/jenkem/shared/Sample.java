@@ -2,8 +2,6 @@ package jenkem.shared;
 
 import gwt.g2d.client.graphics.canvas.ImageDataAdapter;
 
-
-
 /**
  * Represents the RGBcolors of four pixels from the provided image.
  * TL | TR
@@ -34,15 +32,49 @@ public class Sample {
 		redTopLeft = keepInRange((int) (img.getRed(x, y) * contrast) + brightness);
 		greenTopLeft = keepInRange((int) (img.getGreen(x, y) * contrast) + brightness);
 		blueTopLeft = keepInRange((int) (img.getBlue(x, y) * contrast) + brightness);
-		redBottomLeft = keepInRange((int) (img.getRed(x, y + 1) * contrast) + brightness);
-		greenBottomLeft = keepInRange((int) (img.getGreen(x, y + 1) * contrast) + brightness);
-		blueBottomLeft = keepInRange((int) (img.getBlue(x, y + 1) * contrast) + brightness);
-		redTopRight = keepInRange((int) (img.getRed(x + 1, y) * contrast) + brightness);
-		greenTopRight = keepInRange((int) (img.getGreen(x + 1, y) * contrast) + brightness);
-		blueTopRight = keepInRange((int) (img.getBlue(x + 1, y) * contrast) + brightness);
-		redBottomRight = keepInRange((int) (img.getRed(x + 1, y + 1) * contrast) + brightness);
-		greenBottomRight = keepInRange((int) (img.getGreen(x + 1, y + 1) * contrast) + brightness);
-		blueBottomRight = keepInRange((int) (img.getBlue(x + 1, y + 1) * contrast) + brightness);
+		try {
+			if (x < img.getWidth()) {
+				redTopRight = keepInRange((int) (img.getRed(x + 1, y) * contrast) + brightness);
+				greenTopRight = keepInRange((int) (img.getGreen(x + 1, y) * contrast) + brightness);
+				blueTopRight = keepInRange((int) (img.getBlue(x + 1, y) * contrast) + brightness);
+			} else {
+				redBottomLeft = redTopLeft;
+				greenBottomLeft = greenTopLeft;
+				blueBottomLeft = blueTopLeft;
+			}
+			if (y < img.getHeight()) {
+				redBottomLeft = keepInRange((int) (img.getRed(x, y + 1) * contrast) + brightness);
+				greenBottomLeft = keepInRange((int) (img.getGreen(x, y + 1) * contrast) + brightness);
+				blueBottomLeft = keepInRange((int) (img.getBlue(x, y + 1) * contrast) + brightness);
+			} else {
+				redBottomLeft = redTopLeft;
+				greenBottomLeft = greenTopLeft;
+				blueBottomLeft = blueTopLeft;
+			}
+			if (x < img.getWidth() && y < img.getHeight()) {
+				redBottomRight = keepInRange((int) (img.getRed(x + 1, y + 1) * contrast) + brightness);
+				greenBottomRight = keepInRange((int) (img.getGreen(x + 1, y + 1) * contrast) + brightness);
+				blueBottomRight = keepInRange((int) (img.getBlue(x + 1, y + 1) * contrast) + brightness);
+			} else {
+				redBottomLeft = redTopLeft;
+				greenBottomLeft = greenTopLeft;
+				blueBottomLeft = blueTopLeft;
+			}
+		} catch (Exception e) {
+			//just use Top left on all fields if eny Exception is thrown
+			//may only happen if kick is not "0"
+			//TODO replace ugly trial and error approach.
+			redBottomLeft = redTopLeft;
+			greenBottomLeft = greenTopLeft;
+			blueBottomLeft = blueTopLeft;
+			redBottomLeft = redTopLeft;
+			greenBottomLeft = greenTopLeft;
+			blueBottomLeft = blueTopLeft;
+			redBottomLeft = redTopLeft;
+			greenBottomLeft = greenTopLeft;
+			blueBottomLeft = blueTopLeft;
+		}
+			
 		redLeft = redTopLeft + redBottomLeft / 2;
 		greenLeft = greenTopLeft + greenBottomLeft / 2;
 		blueLeft = blueTopLeft + blueBottomLeft / 2;

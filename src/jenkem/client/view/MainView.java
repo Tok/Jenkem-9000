@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
@@ -36,6 +37,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final Label contrastLabel = new Label();
 	private final SliderBarSimpleHorizontal brightnessSlider = new SliderBarSimpleHorizontal(100, "100px", false);
 	private final Label brightnessLabel = new Label();
+	private final RadioButton noKick = new RadioButton("kick", "0");
+	private final RadioButton xKick = new RadioButton("kick", "X");
+	private final RadioButton yKick = new RadioButton("kick", "Y");
+	private final RadioButton xyKick = new RadioButton("kick", "XY");
 	private final FlexTable contentTable;
 	
 	public MainView() {
@@ -114,6 +119,16 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.setWidget(settingsRow, 2, brightnessLabel);
 		settingsRow++;
 		
+		settingsTable.setText(settingsRow, 0, "Kick");
+		final HorizontalPanel kickPanel = new HorizontalPanel();
+		kickPanel.add(noKick);
+		kickPanel.add(xKick);
+		kickPanel.add(yKick);
+		kickPanel.add(xyKick);
+		settingsTable.setWidget(settingsRow, 1, kickPanel);
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+		settingsRow++;
+		
 		content.add(settingsTable);
 		
 		contentTable.setWidget(row++, 0, content);
@@ -185,6 +200,26 @@ public class MainView extends Composite implements MainPresenter.Display {
 		return brightnessLabel;
 	}
 	
+	@Override
+	public RadioButton getNoKickButton() {
+		return noKick;
+	}
+
+	@Override
+	public RadioButton getXKickButton() {
+		return xKick;
+	}
+
+	@Override
+	public RadioButton getYKickButton() {
+		return yKick;
+	}
+
+	@Override
+	public RadioButton getXyKickButton() {
+		return xyKick;
+	}
+
 	@Override
 	public Frame getPreviewFrame() {
 		return previewFrame;

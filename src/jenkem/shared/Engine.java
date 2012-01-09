@@ -57,27 +57,19 @@ public class Engine {
 		}
 		return ret;
 	}
-
+	
 	/**
 	 * super-hybrid mode
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateSuperHybrid(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness) {
+	public String[] generateSuperHybrid(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(ida.getHeight() / 2);
 		final int width = ida.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
-
-		//TODO reimplement
-		int startX = 0;
-//		if (ctx.getKick().equalsIgnoreCase("x") || ctx.getKick().equalsIgnoreCase("xy")) {
-// 			startX++; //kick to the left
-//		}
-		int startY = 0;
-//		if (ctx.getKick().equalsIgnoreCase("y") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startY++; //kick down
-//		}
+		int startX = getKickedX(kick);
+		int startY = getKickedY(kick);
 		
 		//     X
 		//   +------------>
@@ -192,23 +184,13 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHybrid(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness) {
+	public String[] generateHybrid(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(ida.getHeight() / 2);
 		final int width = ida.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
-
-		//FIXME remove redundancies @see generateSuperHybrid
-		int startX = 0; //TODO not here
-		int startY = 0;
-		
-		//TODO reimplement
-//		if (ctx.getKick().equalsIgnoreCase("x") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startX++;
-//		}
-//		if (ctx.getKick().equalsIgnoreCase("y") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startY++;
-//		}
+		int startX = getKickedX(kick);
+		int startY = getKickedY(kick);
 
 		for (int y = startY; y < height * 2; y = y + 2) {
 			try {
@@ -335,22 +317,14 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePwntari(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness) {
+	public String[] generatePwntari(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(ida.getHeight() / 2);
 		final int width = ida.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
+		int startX = getKickedX(kick);
+		int startY = getKickedY(kick);
 		
-		int startX = 0; //TODO not here
-		int startY = 0;
-		
-		//TODO reimplement
-//		if (ctx.getKick().equalsIgnoreCase("x") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startX++;
-//		}
-//		if (ctx.getKick().equalsIgnoreCase("y") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startY++;
-//		}
 		for (int y = startY; y < height * 2; y = y + 2) {
 			try {
 				ret[y / 2] = "";
@@ -412,21 +386,12 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePlain(final ImageDataAdapter ida, final double contrast, final int brightness) {
+	public String[] generatePlain(final ImageDataAdapter ida, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(ida.getHeight() / 2);
 		final int width = ida.getWidth();
 		final String[] ret = new String[height];
-		
-		int startY = 0;
-		int startX = 0;
-		
-		//TODO reimplement kick
-//		if (ctx.getKick().equalsIgnoreCase("y") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startY++;
-//		}
-//		if (ctx.getKick().equalsIgnoreCase("x") || ctx.getKick().equalsIgnoreCase("xy")) {
-//			startX++;
-//		}
+		int startX = getKickedX(kick);
+		int startY = getKickedY(kick);
 		
 		for (int y = startY; y < height * 2; y = y + 2) {
 			try {
@@ -641,5 +606,22 @@ public class Engine {
 		
 		return buf.toString();
 	}
+	
+	private int getKickedX(String kick) {
+		if (kick.equalsIgnoreCase("X") || kick.equalsIgnoreCase("XY")) {
+ 			return 1; 
+		} else {
+			return 0;
+		}
+	}
+
+	private int getKickedY(String kick) {
+		if (kick.equalsIgnoreCase("Y") || kick.equalsIgnoreCase("XY")) {
+ 			return 1; 
+		} else {
+			return 0;
+		}
+	}
+
 	
 }
