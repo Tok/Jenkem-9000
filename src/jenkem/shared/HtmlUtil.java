@@ -169,6 +169,15 @@ public class HtmlUtil extends AbstractWebUtil {
 		}
 		html.append("</div>");
 		html.append(sep);
+
+		//puts link with output for IRC
+		html.append("<div>");
+		html.append("<a href=\"/jenkem/irc.txt?name=");
+		html.append(name);
+		html.append("\" onclick=\"this.target='blank'\">Download binary textfile for IRC</a>");
+		html.append("</div>");
+		html.append(sep);
+		
 //		if (type.equals("history")) {
 			html.append("<div>");
 			html.append("<a href=\"http://validator.w3.org/check?uri=referer\">");

@@ -13,6 +13,10 @@
     <servlet-class>jenkem.server.servlet.OutputServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>ircOutputServlet</servlet-name>
+    <servlet-class>jenkem.server.servlet.IrcOutputServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>imageServlet</servlet-name>
     <servlet-class>jenkem.server.servlet.ImageServlet</servlet-class>
   </servlet>
@@ -24,6 +28,10 @@
   <servlet-mapping>
     <servlet-name>outputServlet</servlet-name>
     <url-pattern>/jenkem/output</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>ircOutputServlet</servlet-name>
+    <url-pattern>/jenkem/irc.txt</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>imageServlet</servlet-name>

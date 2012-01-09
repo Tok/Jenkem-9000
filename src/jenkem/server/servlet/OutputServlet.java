@@ -19,12 +19,10 @@ public class OutputServlet extends HttpServlet {
 	
 	public void doGet(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setCharacterEncoding("utf-8");
 
 		final String name = request.getParameter("name");
 		final String type = request.getParameter("type");
-		
-		response.setCharacterEncoding("utf-8");
-
 		final JenkemImage image = jenkemService.getImageByName(name);
 		
 		if (image != null && type != null && type.equals("html")) {
