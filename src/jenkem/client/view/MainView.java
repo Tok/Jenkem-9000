@@ -3,6 +3,7 @@ package jenkem.client.view;
 import gwt.g2d.client.graphics.Surface;
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.ExtendedTextBox;
+import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -29,6 +30,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final Surface surface = new Surface();
 	private final Frame previewFrame = new Frame();
 	private final ListBox methodListBox = new ListBox();
+	private final ListBox schemeListBox = new ListBox();
 	private final Button resetButton = new Button("Reset");
 	private final SliderBarSimpleHorizontal contrastSlider = new SliderBarSimpleHorizontal(100, "100px", false);
 	private final Label contrastLabel = new Label();
@@ -92,6 +94,14 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
 
+		for (ColorScheme scheme : ColorScheme.values()) {
+			schemeListBox.addItem(scheme.toString());
+		}
+		settingsTable.setText(settingsRow, 0, "Color Scheme");
+		settingsTable.setWidget(settingsRow, 1, schemeListBox);
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+		settingsRow++;
+		
 		settingsTable.setText(settingsRow, 0, "Contrast");
 		contrastSlider.setMaxValue(199);
 		settingsTable.setWidget(settingsRow, 1, contrastSlider);
@@ -143,6 +153,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 	@Override
 	public ListBox getMethodListBox() {
 		return methodListBox;
+	}
+	
+	@Override
+	public ListBox getSchemeListBox() {
+		return schemeListBox;
 	}
 	
 	@Override

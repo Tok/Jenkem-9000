@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import jenkem.client.service.JenkemServiceAsync;
+import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
@@ -53,6 +54,7 @@ public class MainPresenter implements Presenter {
 		Surface getSurface();
 		Frame getPreviewFrame();
 		ListBox getMethodListBox();
+		ListBox getSchemeListBox();
 		HasClickHandlers getResetButton();
 		SliderBarSimpleHorizontal getContrastSlider();
 		Label getContrastLabel();
@@ -90,6 +92,13 @@ public class MainPresenter implements Presenter {
 		});
 		
 		this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				doShow(proxify());
+			}
+		});
+		
+		this.display.getSchemeListBox().addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
 				doShow(proxify());
@@ -181,18 +190,20 @@ public class MainPresenter implements Presenter {
 		display.getSurface().drawImage(currentImage, 0, 0, WIDTH, height);
 
 		final ImageDataAdapter ida = display.getSurface().getImageData(0, 0, WIDTH, height);
+		final String schemeName = display.getSchemeListBox().getItemText(display.getSchemeListBox().getSelectedIndex());
+		final ColorScheme scheme = ColorScheme.valueOf(schemeName);
 		
 		double contrast = Double.valueOf(display.getContrastLabel().getText());
 		int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
 		String[] ircOutput = null;
 		if (methodName.equals(ConversionMethod.FullHd.toString())) {
-			ircOutput = engine.generateHighDef(ida, contrast, brightness);
+			ircOutput = engine.generateHighDef(ida, scheme, contrast, brightness);
 		} else if (methodName.equals(ConversionMethod.SuperHybrid.toString())) {
-			ircOutput = engine.generateSuperHybrid(ida, contrast, brightness);
+			ircOutput = engine.generateSuperHybrid(ida, scheme, contrast, brightness);
 		} else if (methodName.equals(ConversionMethod.Pwntari.toString())) {
-			ircOutput = engine.generatePwntari(ida, contrast, brightness);
+			ircOutput = engine.generatePwntari(ida, scheme, contrast, brightness);
 		} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
-			ircOutput = engine.generateHybrid(ida, contrast, brightness);
+			ircOutput = engine.generateHybrid(ida, scheme, contrast, brightness);
 		} else if (methodName.equals(ConversionMethod.Plain.toString())) {
 			ircOutput = engine.generatePlain(ida, contrast, brightness);
 		}
@@ -249,6 +260,7 @@ public class MainPresenter implements Presenter {
 	}
 
 	private void doReset() {
+		display.getSchemeListBox().setSelectedIndex(0);
 		display.getContrastSlider().setValue(94);
 		updateContrast(94);
 		display.getBrightnessSlider().setValue(100);

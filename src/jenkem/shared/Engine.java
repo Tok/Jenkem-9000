@@ -21,8 +21,8 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHighDef(final ImageDataAdapter ida, final double contrast, final int brightness) {
-		final Map<String, Integer> colorMap = prepareColorMap();
+	public String[] generateHighDef(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness) {
+		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[ida.getHeight()];
 		
 		for (int y = 0; y < ida.getHeight(); y++) {
@@ -63,10 +63,10 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateSuperHybrid(final ImageDataAdapter ida, final double contrast, final int brightness) {
+	public String[] generateSuperHybrid(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness) {
 		final int height = Math.round(ida.getHeight() / 2);
 		final int width = ida.getWidth();
-		final Map<String, Integer> colorMap = prepareColorMap();
+		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
 
 		//TODO reimplement
@@ -192,10 +192,10 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHybrid(final ImageDataAdapter ida, final double contrast, final int brightness) {
+	public String[] generateHybrid(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness) {
 		final int height = Math.round(ida.getHeight() / 2);
 		final int width = ida.getWidth();
-		final Map<String, Integer> colorMap = prepareColorMap();
+		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
 
 		//FIXME remove redundancies @see generateSuperHybrid
@@ -335,10 +335,10 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePwntari(final ImageDataAdapter ida, final double contrast, final int brightness) {
+	public String[] generatePwntari(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness) {
 		final int height = Math.round(ida.getHeight() / 2);
 		final int width = ida.getWidth();
-		final Map<String, Integer> colorMap = prepareColorMap();
+		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
 		
 		int startX = 0; //TODO not here
@@ -542,10 +542,28 @@ public class Engine {
 		return result;
 	}
 	
-	private Map<String, Integer> prepareColorMap() {
+	private Map<String, Integer> prepareColorMap(final ColorScheme scheme) {
 		final Map<String, Integer> colorMap = new HashMap<String, Integer>();
 		for (IrcColor ic : IrcColor.values()) {
-			colorMap.put(ic.name(), ic.getDefaultScheme());
+			if (scheme.equals(ColorScheme.Default)) {
+				colorMap.put(ic.name(), ic.getDefaultScheme());
+			} else if (scheme.equals(ColorScheme.Old)) {
+				colorMap.put(ic.name(), ic.getOldScheme());
+			} else if (scheme.equals(ColorScheme.Vivid)) {
+				colorMap.put(ic.name(), ic.getVividScheme());
+			} else if (scheme.equals(ColorScheme.Mono)) {
+				colorMap.put(ic.name(), ic.getMonoScheme());
+			} else if (scheme.equals(ColorScheme.Lsd)) {
+				colorMap.put(ic.name(), ic.getLsdScheme());
+			} else if (scheme.equals(ColorScheme.Skin)) {
+				colorMap.put(ic.name(), ic.getSkinScheme());
+			} else if (scheme.equals(ColorScheme.Bwg)) {
+				colorMap.put(ic.name(), ic.getBwgScheme());
+			} else if (scheme.equals(ColorScheme.Bw)) {
+				colorMap.put(ic.name(), ic.getBwScheme());
+			} else {
+				colorMap.put(ic.name(), ic.getDefaultScheme());				
+			}
 		}
 		return colorMap;
 	}
