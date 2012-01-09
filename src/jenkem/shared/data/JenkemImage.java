@@ -25,6 +25,8 @@ public class JenkemImage implements Serializable {
 	@Persistent
 	private String name;
 	@Persistent
+	private Boolean isPersistent;
+	@Persistent
 	private ArrayList<Text> irc;
 	@Persistent
 	private Text html;
@@ -82,5 +84,13 @@ public class JenkemImage implements Serializable {
 
 	public Date getCreateDate() {
 		return createDate;
+	}
+
+	public Boolean getIsPersistent() {
+		return isPersistent;
+	}
+
+	public void setIsPersistent(Boolean isPersistent) {
+		this.isPersistent = isPersistent;
 	}
 }

@@ -48,6 +48,7 @@ public class MainPresenter implements Presenter {
 	private final HtmlUtil htmlUtil = new HtmlUtil();
 	private final Image busyImage = new Image("/images/busy.gif");
 	private ImageElement currentImage;
+	private String currentImageName;
 	
 	public interface Display {
 		HasValue<String> getInputLink();
@@ -69,7 +70,7 @@ public class MainPresenter implements Presenter {
 		RadioButton getXyKickButton();
 		Widget asWidget();
 	}
-
+	
 	private final JenkemServiceAsync jenkemService;
 	@SuppressWarnings("unused")
 	private final HandlerManager eventBus;
@@ -185,6 +186,7 @@ public class MainPresenter implements Presenter {
 	 */
 	private String proxify() {
 		final String urlString = display.getInputTextBox().getText();
+		updateImageName(urlString);
 		if (!"".equals(urlString)) {
 			return "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
 		} else {
@@ -192,6 +194,11 @@ public class MainPresenter implements Presenter {
 		}
 	}
 
+	private void updateImageName(String urlString) {
+		String[] split = urlString.split("/");
+		currentImageName = split[split.length -1];		
+	}
+	
 	public void go(final HasWidgets container) {
 		bind();
 		container.clear();
@@ -264,26 +271,26 @@ public class MainPresenter implements Presenter {
 		}
 
 		final Date now = new Date();
-		final String name = Long.valueOf(now.getTime()).toString();
 		String[] htmlAndCss = null;
 		if (methodName.equals(ConversionMethod.Plain.toString())) {
-			htmlAndCss = htmlUtil.generateHtml(ircOutput, name, true);
+			htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, true);
 		} else { //boolean says whether method is plain or not.
-			htmlAndCss = htmlUtil.generateHtml(ircOutput, name, false);
+			htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, false);
 		}
 		
 		final JenkemImage jenkemImage = new JenkemImage();
-		jenkemImage.setName(name);
+		jenkemImage.setIsPersistent(Boolean.FALSE);
+		jenkemImage.setName(currentImageName);
 		jenkemImage.setCreateDate(now);
 		jenkemImage.setIrc(irc);
 		jenkemImage.setHtml(htmlAndCss[0]);
 		jenkemImage.setCss(htmlAndCss[1]);
 
+		
 		jenkemService.saveJenkemImage(jenkemImage,
 			new AsyncCallback<String>() {
 				@Override
 				public void onFailure(Throwable caught) {
-					//TODO display fail message
 					removeBusyIcon();
 				}
 
@@ -294,10 +301,10 @@ public class MainPresenter implements Presenter {
 					);
 					removeBusyIcon();
 				}
-				
-		});
-	
-		display.getBusyPanel().clear();
+			}
+		);
+		
+
 	}
 	
 	private void displayBusyIcon() {

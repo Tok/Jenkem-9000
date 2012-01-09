@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="cron.xsd">
+	<cron>
+		<url>/jenkem/cleanup</url>
+		<description>removes non-persistent images</description>
+		<schedule>every 30 minutes synchronized</schedule>
+	</cron>	
+</cronentries>
