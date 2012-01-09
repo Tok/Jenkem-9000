@@ -20,8 +20,8 @@ public class IrcOutputServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/plain");
-		final String name = request.getParameter("name");
-		final JenkemImage image = jenkemService.getImageByName(name);
+		final Long ts = Long.valueOf(request.getParameter("ts"));
+		final JenkemImage image = jenkemService.getImageByTimesStamp(ts);
 		if (image != null && image.getIrc() != null) {
 			for (Text text : image.getIrc()) {
 				String line = text.getValue();
