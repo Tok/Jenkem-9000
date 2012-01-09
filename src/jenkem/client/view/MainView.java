@@ -11,22 +11,29 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
 
 public class MainView extends Composite implements MainPresenter.Display {
 	private final ExtendedTextBox inputTextBox;
 	private final Button showButton;
 	private final Panel busyPanel = new HorizontalPanel();
 	private final Surface surface = new Surface();
-//	private final Canvas canvas = Canvas.createIfSupported();
 	private final Frame previewFrame = new Frame();
 	private final ListBox methodListBox = new ListBox();
+	private final Button resetButton = new Button("Reset");
+	private final SliderBarSimpleHorizontal contrastSlider = new SliderBarSimpleHorizontal(100, "100px", false);
+	private final Label contrastLabel = new Label();
+	private final SliderBarSimpleHorizontal brightnessSlider = new SliderBarSimpleHorizontal(100, "100px", false);
+	private final Label brightnessLabel = new Label();
 	private final FlexTable contentTable;
 	
 	public MainView() {
@@ -66,13 +73,36 @@ public class MainView extends Composite implements MainPresenter.Display {
 		previewFrame.setHeight("750px");
 		content.add(previewFrame);
 
+		int settingsRow = 0;
 		final FlexTable settingsTable = new FlexTable();
-
 		for (ConversionMethod method : ConversionMethod.values()) {
 			methodListBox.addItem(method.toString());
 		}
-		settingsTable.setText(0, 0, "Conversion Method");
-		settingsTable.setWidget(0, 1, methodListBox);
+		settingsTable.setText(settingsRow, 0, "Conversion Method");
+		settingsTable.setWidget(settingsRow, 1, methodListBox);
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+		settingsRow++;
+		
+		settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
+		settingsRow++;
+		
+		settingsTable.setText(settingsRow, 0, "Reset values");
+		settingsTable.setWidget(settingsRow, 1, resetButton);
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+		settingsRow++;
+
+		settingsTable.setText(settingsRow, 0, "Contrast");
+		contrastSlider.setMaxValue(199);
+		settingsTable.setWidget(settingsRow, 1, contrastSlider);
+		settingsTable.setWidget(settingsRow, 2, contrastLabel);
+		settingsRow++;
+		
+		settingsTable.setText(settingsRow, 0, "Brightness");
+		brightnessSlider.setMaxValue(200);
+		settingsTable.setWidget(settingsRow, 1, brightnessSlider);
+		settingsTable.setWidget(settingsRow, 2, brightnessLabel);
+		settingsRow++;
 		
 		content.add(settingsTable);
 		
@@ -110,14 +140,34 @@ public class MainView extends Composite implements MainPresenter.Display {
 		return surface;
 	}
 
-//	@Override
-//	public Canvas getCanvas() {
-//		return canvas;
-//	}
-	
 	@Override
 	public ListBox getMethodListBox() {
 		return methodListBox;
+	}
+	
+	@Override
+	public HasClickHandlers getResetButton() {
+		return resetButton;
+	}
+	
+	@Override
+	public SliderBarSimpleHorizontal getContrastSlider() {
+		return contrastSlider;
+	}
+	
+	@Override
+	public Label getContrastLabel() {
+		return contrastLabel;
+	}
+	
+	@Override
+	public SliderBarSimpleHorizontal getBrightnessSlider() {
+		return brightnessSlider;
+	}
+	
+	@Override
+	public Label getBrightnessLabel() {
+		return brightnessLabel;
 	}
 	
 	@Override

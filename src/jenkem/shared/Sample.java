@@ -30,19 +30,19 @@ public class Sample {
 	private int greenRight;
 	private int blueRight;
 
-	public Sample(final ImageDataAdapter img, final int x, final int y, final double contrast) {
-		redTopLeft = (int) (img.getRed(x, y) * contrast);
-		greenTopLeft = (int) (img.getGreen(x, y) * contrast);
-		blueTopLeft = (int) (img.getBlue(x, y) * contrast);
-		redBottomLeft = (int) (img.getRed(x, y + 1) * contrast);
-		greenBottomLeft = (int) (img.getGreen(x, y + 1) * contrast);
-		blueBottomLeft = (int) (img.getBlue(x, y + 1) * contrast);
-		redTopRight = (int) (img.getRed(x + 1, y) * contrast);
-		greenTopRight = (int) (img.getGreen(x + 1, y) * contrast);
-		blueTopRight = (int) (img.getBlue(x + 1, y) * contrast);
-		redBottomRight = (int) (img.getRed(x + 1, y + 1) * contrast);
-		greenBottomRight = (int) (img.getGreen(x + 1, y + 1) * contrast);
-		blueBottomRight = (int) (img.getBlue(x + 1, y + 1) * contrast);
+	public Sample(final ImageDataAdapter img, final int x, final int y, final double contrast, final int brightness) {
+		redTopLeft = keepInRange((int) (img.getRed(x, y) * contrast) + brightness);
+		greenTopLeft = keepInRange((int) (img.getGreen(x, y) * contrast) + brightness);
+		blueTopLeft = keepInRange((int) (img.getBlue(x, y) * contrast) + brightness);
+		redBottomLeft = keepInRange((int) (img.getRed(x, y + 1) * contrast) + brightness);
+		greenBottomLeft = keepInRange((int) (img.getGreen(x, y + 1) * contrast) + brightness);
+		blueBottomLeft = keepInRange((int) (img.getBlue(x, y + 1) * contrast) + brightness);
+		redTopRight = keepInRange((int) (img.getRed(x + 1, y) * contrast) + brightness);
+		greenTopRight = keepInRange((int) (img.getGreen(x + 1, y) * contrast) + brightness);
+		blueTopRight = keepInRange((int) (img.getBlue(x + 1, y) * contrast) + brightness);
+		redBottomRight = keepInRange((int) (img.getRed(x + 1, y + 1) * contrast) + brightness);
+		greenBottomRight = keepInRange((int) (img.getGreen(x + 1, y + 1) * contrast) + brightness);
+		blueBottomRight = keepInRange((int) (img.getBlue(x + 1, y + 1) * contrast) + brightness);
 		redLeft = redTopLeft + redBottomLeft / 2;
 		greenLeft = greenTopLeft + greenBottomLeft / 2;
 		blueLeft = blueTopLeft + blueBottomLeft / 2;
@@ -122,5 +122,14 @@ public class Sample {
 	public int getBlueRight() {
 		return blueRight;
 	}
-
+	
+	public static int keepInRange(final int color) {
+		if (color > 255) {
+			return 255;
+		} else if (color < 0) {
+			return 0;
+		} else {
+			return color;
+		}
+	}
 }

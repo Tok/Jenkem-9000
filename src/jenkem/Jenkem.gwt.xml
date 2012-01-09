@@ -6,6 +6,7 @@
 	
 	<inherits name='gwt.g2d.g2d'/>
 	<inherits name="com.resmarksystems.AppEngineDataTypes"/>
+	<inherits name="com.kiouri.sliderbar.SliderBarMVP"/>
 	
   	<entry-point class='jenkem.client.Jenkem'/>
   	
