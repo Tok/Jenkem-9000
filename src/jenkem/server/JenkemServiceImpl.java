@@ -35,7 +35,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			pm.close();
 		}
-		return jenkemImage.getName();
+		return String.valueOf(jenkemImage.getCreateDate().getTime());
 	}
 		
 	@Override
@@ -61,6 +61,23 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	public JenkemImage getImageByTimesStamp(final Long ts) {
+		JenkemImage result = null;		
+		if (ts != null) {
+			final PersistenceManager pm = PMF.getPersistenceManager();
+			try {
+				Query query = pm.newQuery(JenkemImage.class);
+				query.setFilter("createStamp == ts");
+				query.setUnique(true);
+				query.declareParameters("Long ts");
+				result = (JenkemImage) query.execute(ts.longValue());
+			} finally {
+				pm.close();
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * Deletes all images that are older than 2000000ms and not flagged as persitent.
 	 * @return number of deleted images
@@ -72,7 +89,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		int count = 0;
 		for (JenkemImage image : extent) {
 			if (!image.getIsPersistent()) {
-				final long age = now.getTime() - image.getCreateDate().getTime();
+				final long age = now.getTime() - image.getCreateStamp();
 				if (age > 200000) { //2000000ms = 33,3 minutes
 					pm.deletePersistent(image);
 				}

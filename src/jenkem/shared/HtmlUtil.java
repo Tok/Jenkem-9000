@@ -30,7 +30,7 @@ public class HtmlUtil extends AbstractWebUtil {
 		return html.toString();
 	}
 
-	public String[] generateHtml(final String[] ircOutput, final String name, final boolean isPlain) {
+	public String[] generateHtml(final String[] ircOutput, final String timeStamp, final boolean isPlain) {
 		final StringBuilder html = new StringBuilder();
 		final StringBuilder css = new StringBuilder();
 		html.append(DOCTYPE);
@@ -42,12 +42,12 @@ public class HtmlUtil extends AbstractWebUtil {
 		html.append(META);
 		html.append(sep);
 		html.append("<title>");
-		html.append(name);
+		html.append(timeStamp);
 		html.append("</title>");
 		html.append(sep);
 
-		html.append("<link href=\"/jenkem/output?name=");
-		html.append(name);
+		html.append("<link href=\"/jenkem/output?ts=");
+		html.append(timeStamp);
 		html.append("&amp;type=css");
 		html.append("\" rel=\"stylesheet\" type=\"text/css; charset=utf-8\">");
 		
@@ -172,8 +172,8 @@ public class HtmlUtil extends AbstractWebUtil {
 
 		//puts link with output for IRC
 		html.append("<div>");
-		html.append("<a href=\"/jenkem/irc.txt?name=");
-		html.append(name);
+		html.append("<a href=\"/jenkem/irc.txt?ts=");
+		html.append(timeStamp);
 		html.append("\" onclick=\"this.target='blank'\">Download binary textfile for IRC</a>");
 		html.append("</div>");
 		html.append(sep);

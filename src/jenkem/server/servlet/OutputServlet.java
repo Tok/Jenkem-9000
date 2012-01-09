@@ -21,9 +21,9 @@ public class OutputServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
 
-		final String name = request.getParameter("name");
+		final Long timestamp = Long.valueOf(request.getParameter("ts"));
 		final String type = request.getParameter("type");
-		final JenkemImage image = jenkemService.getImageByName(name);
+		final JenkemImage image = jenkemService.getImageByTimesStamp(timestamp);
 		
 		if (image != null && type != null && type.equals("html")) {
 			response.setContentType("text/html");

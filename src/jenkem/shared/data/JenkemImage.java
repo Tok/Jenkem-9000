@@ -34,6 +34,8 @@ public class JenkemImage implements Serializable {
 	private Text css;
 	@Persistent
 	private Date createDate;
+	@Persistent
+	private Long createStamp;
 	
 	public JenkemImage() {
 	}
@@ -92,5 +94,13 @@ public class JenkemImage implements Serializable {
 
 	public void setIsPersistent(Boolean isPersistent) {
 		this.isPersistent = isPersistent;
+	}
+
+	public Long getCreateStamp() {
+		return createStamp;
+	}
+
+	public void setCreateStamp(Long createStamp) {
+		this.createStamp = createStamp;
 	}
 }

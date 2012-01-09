@@ -273,15 +273,16 @@ public class MainPresenter implements Presenter {
 		final Date now = new Date();
 		String[] htmlAndCss = null;
 		if (methodName.equals(ConversionMethod.Plain.toString())) {
-			htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, true);
+			htmlAndCss = htmlUtil.generateHtml(ircOutput, String.valueOf(now.getTime()), true);
 		} else { //boolean says whether method is plain or not.
-			htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, false);
+			htmlAndCss = htmlUtil.generateHtml(ircOutput, String.valueOf(now.getTime()), false);
 		}
 		
 		final JenkemImage jenkemImage = new JenkemImage();
 		jenkemImage.setIsPersistent(Boolean.FALSE);
 		jenkemImage.setName(currentImageName);
 		jenkemImage.setCreateDate(now);
+		jenkemImage.setCreateStamp(now.getTime());
 		jenkemImage.setIrc(irc);
 		jenkemImage.setHtml(htmlAndCss[0]);
 		jenkemImage.setCss(htmlAndCss[1]);
@@ -297,7 +298,7 @@ public class MainPresenter implements Presenter {
 				@Override
 				public void onSuccess(final String result) {
 					display.getPreviewFrame().setUrl(
-						"http://" + Window.Location.getHost() + "/jenkem/output?name=" + result + "&type=html"
+						"http://" + Window.Location.getHost() + "/jenkem/output?ts=" + result + "&type=html"
 					);
 					removeBusyIcon();
 				}
