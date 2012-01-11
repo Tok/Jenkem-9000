@@ -23,7 +23,7 @@ public class HtmlUtil extends AbstractWebUtil {
 		html.append(sep);
 		html.append("</head>");
 		html.append(sep);
-		html.append("<body>");
+		html.append("<body class=\"jenkemBody\">");
 		html.append("</body>");
 		html.append(sep);
 		html.append("</html>");
@@ -55,7 +55,7 @@ public class HtmlUtil extends AbstractWebUtil {
 
 		html.append("</head>");
 		html.append(sep);
-		html.append("<body>");
+		html.append("<body class=\"jenkemBody\">");
 		html.append(sep);
 		html.append("<div>");
 		html.append(sep);
@@ -76,7 +76,7 @@ public class HtmlUtil extends AbstractWebUtil {
 		if (isPlain) {
 			while (ircOutput != null && line < ircOutput.length
 					&& ircOutput[line] != null && ircOutput[line].length() > 0) {
-				html.append("<div>");
+				html.append("<div class=\"jenkem\">");
 				html.append("<span id=\"id_");
 				html.append(line);
 				html.append("\">");
@@ -93,7 +93,7 @@ public class HtmlUtil extends AbstractWebUtil {
 		} else {
 			while (ircOutput != null && line < ircOutput.length
 					&& ircOutput[line] != null && ircOutput[line].length() > 0) {
-				html.append("<div>");
+				html.append("<div class=\"jenkem\">");
 				final String[] splitSections = ircOutput[line].split(ColorUtil.CC);
 				final String[] sections = new String[splitSections.length];
 				int i = 0;
@@ -171,7 +171,7 @@ public class HtmlUtil extends AbstractWebUtil {
 		html.append(sep);
 
 		//puts link with output for IRC
-		html.append("<div>");
+		html.append("<div class=\"ircBinary\">");
 		html.append("<a href=\"/jenkem/irc.txt?ts=");
 		html.append(timeStamp);
 		html.append("\" onclick=\"this.target='blank'\">Download binary textfile for IRC</a>");
@@ -179,7 +179,7 @@ public class HtmlUtil extends AbstractWebUtil {
 		html.append(sep);
 		
 //		if (type.equals("history")) {
-			html.append("<div>");
+			html.append("<div class=\"validator\">");
 			html.append("<a href=\"http://validator.w3.org/check?uri=referer\">");
 			html.append("<img src=\"http://www.w3.org/Icons/valid-html401\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
 			html.append("</a>");
@@ -200,4 +200,38 @@ public class HtmlUtil extends AbstractWebUtil {
 		ret[1] = css.toString();
 		return ret;
 	}
+	
+	public String prepareCssForInline(String inputHtml) {
+		String inlineCssString = "<style type=\"text/css\">\n" + inputHtml + "\n</style>";
+		String[] cssLines = inlineCssString.split("\n");
+		StringBuffer newInlineCss = new StringBuffer();
+		for (String line : cssLines) {
+			if (line.startsWith("div {")) {
+				newInlineCss.append(".jenkem { float: left; width: auto; clear: both; font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; }");
+			} else if (line.startsWith("body {")) {
+				newInlineCss.append(".jenkemBody { font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; background-color: black; }");
+			} else {
+				newInlineCss.append(line);
+			}
+		}
+		return newInlineCss.toString();
+	}
+	
+	public String prepareHtmlForInline(String inputHtml, String inputCss) {
+		String[] htmlLines = inputHtml.split("\n");
+		StringBuffer newInlineHtml = new StringBuffer();
+		for (String line : htmlLines) {
+			if (line.startsWith("<link href=")) {
+				newInlineHtml.append(inputCss.toString());
+			} else if (line.startsWith("<div class=\"ircBinary\">")) {
+				//ignore
+			} else if (line.startsWith("<div class=\"validator\">")) {
+				//ignore
+			} else {
+				newInlineHtml.append(line);
+			}
+		}
+		return newInlineHtml.toString();
+	}
+	
 }

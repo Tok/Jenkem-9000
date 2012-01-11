@@ -28,15 +28,15 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
@@ -56,7 +56,8 @@ public class MainPresenter implements Presenter {
 		HasClickHandlers getShowButton();
 		Panel getBusyPanel();
 		Surface getSurface();
-		Frame getPreviewFrame();
+		InlineHTML getPreviewHtml();
+		TextArea getIrcTextArea();
 		ListBox getMethodListBox();
 		ListBox getSchemeListBox();
 		HasClickHandlers getResetButton();
@@ -71,6 +72,7 @@ public class MainPresenter implements Presenter {
 		Widget asWidget();
 	}
 	
+	@SuppressWarnings("unused")
 	private final JenkemServiceAsync jenkemService;
 	@SuppressWarnings("unused")
 	private final HandlerManager eventBus;
@@ -287,7 +289,20 @@ public class MainPresenter implements Presenter {
 		jenkemImage.setHtml(htmlAndCss[0]);
 		jenkemImage.setCss(htmlAndCss[1]);
 
+		final String inlineCss = htmlUtil.prepareCssForInline(htmlAndCss[1]);
+		final String inlineHtml = htmlUtil.prepareHtmlForInline(htmlAndCss[0], inlineCss);
+
+		display.getPreviewHtml().setHTML(inlineHtml);
 		
+		StringBuilder binaryOutput = new StringBuilder();
+		for (String line : ircOutput) {
+			binaryOutput.append(line);
+			binaryOutput.append("\n");
+		}
+		display.getIrcTextArea().setText(binaryOutput.toString());
+		display.getIrcTextArea().selectAll();
+		
+		/*
 		jenkemService.saveJenkemImage(jenkemImage,
 			new AsyncCallback<String>() {
 				@Override
@@ -304,8 +319,9 @@ public class MainPresenter implements Presenter {
 				}
 			}
 		);
-		
+		*/
 
+		removeBusyIcon();
 	}
 	
 	private void displayBusyIcon() {

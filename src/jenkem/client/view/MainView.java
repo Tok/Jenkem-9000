@@ -7,20 +7,23 @@ import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
 
@@ -29,7 +32,9 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final Button showButton;
 	private final Panel busyPanel = new HorizontalPanel();
 	private final Surface surface = new Surface();
-	private final Frame previewFrame = new Frame();
+	private final Panel previewPanel = new VerticalPanel();
+	private final InlineHTML inline = new InlineHTML();
+	private final TextArea ircText = new TextArea();
 	private final ListBox methodListBox = new ListBox();
 	private final ListBox schemeListBox = new ListBox();
 	private final Button resetButton = new Button("Reset");
@@ -74,11 +79,20 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contentTable.setWidget(row++, 0, hPanel);
 		
 		final HorizontalPanel content = new HorizontalPanel();
+		surface.setWidth("100px");
 		content.add(surface);
-
-		previewFrame.setWidth("620px");
-		previewFrame.setHeight("750px");
-		content.add(previewFrame);
+		
+		previewPanel.setWidth("550px");
+		previewPanel.add(new Label("HTML Preview:"));
+		previewPanel.add(inline);
+		ircText.setCharacterWidth(80);
+		ircText.setVisibleLines(5);
+		ircText.setReadOnly(true);
+		ircText.setDirection(Direction.LTR);
+		ircText.getElement().setAttribute("wrap", "off");
+		previewPanel.add(new Label("Binary output for IRC:"));
+		previewPanel.add(ircText);
+		content.add(previewPanel);
 
 		int settingsRow = 0;
 		final FlexTable settingsTable = new FlexTable();
@@ -219,10 +233,14 @@ public class MainView extends Composite implements MainPresenter.Display {
 	public RadioButton getXyKickButton() {
 		return xyKick;
 	}
-
+	
 	@Override
-	public Frame getPreviewFrame() {
-		return previewFrame;
+	public InlineHTML getPreviewHtml() {
+		return inline;
 	}
-
+	
+	@Override
+	public TextArea getIrcTextArea() {
+		return ircText;
+	}
 }
