@@ -78,21 +78,24 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contentTable.setText(row++, 0, "Enter URL to an image:");		
 		contentTable.setWidget(row++, 0, hPanel);
 		
-		final HorizontalPanel content = new HorizontalPanel();
-		surface.setWidth("100px");
-		content.add(surface);
+		final FlexTable flex = new FlexTable();
+		flex.setWidget(0, 0, surface);
+		flex.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+		flex.getFlexCellFormatter().setWidth(0, 0, "150px");
 		
-		previewPanel.setWidth("550px");
 		previewPanel.add(new Label("HTML Preview:"));
 		previewPanel.add(inline);
-		ircText.setCharacterWidth(80);
+		ircText.setCharacterWidth(77);
 		ircText.setVisibleLines(5);
 		ircText.setReadOnly(true);
 		ircText.setDirection(Direction.LTR);
 		ircText.getElement().setAttribute("wrap", "off");
 		previewPanel.add(new Label("Binary output for IRC:"));
 		previewPanel.add(ircText);
-		content.add(previewPanel);
+
+		flex.setWidget(0, 1, previewPanel);
+		flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+		flex.getFlexCellFormatter().setWidth(0, 1, "600px");
 
 		int settingsRow = 0;
 		final FlexTable settingsTable = new FlexTable();
@@ -143,9 +146,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
 		
-		content.add(settingsTable);
-		
-		contentTable.setWidget(row++, 0, content);
+		flex.setWidget(0, 2, settingsTable);
+		flex.getFlexCellFormatter().setVerticalAlignment(0, 2, HasVerticalAlignment.ALIGN_TOP);
+		flex.getFlexCellFormatter().setWidth(0, 2, "350px");
+
+		contentTable.setWidget(row++, 0, flex);
 		contentTableDecorator.add(contentTable);
 	}
 
