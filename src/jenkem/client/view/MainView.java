@@ -28,9 +28,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
 
 public class MainView extends Composite implements MainPresenter.Display {
-	private final ExtendedTextBox inputTextBox;
-	private final Button showButton;
+	private final ExtendedTextBox inputTextBox = new ExtendedTextBox();
+	private final Button showButton = new Button("Convert Image");
 	private final Panel busyPanel = new HorizontalPanel();
+	private final Label statusLabel = new Label("Please enter URL to an image:");
 	private final Surface surface = new Surface();
 	private final Panel previewPanel = new VerticalPanel();
 	private final InlineHTML inline = new InlineHTML();
@@ -46,6 +47,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final RadioButton xKick = new RadioButton("kick", "X");
 	private final RadioButton yKick = new RadioButton("kick", "Y");
 	private final RadioButton xyKick = new RadioButton("kick", "XY");
+	private final Button submitButton = new Button("Submit");
 	private final FlexTable contentTable;
 	
 	public MainView() {
@@ -53,31 +55,27 @@ public class MainView extends Composite implements MainPresenter.Display {
 		
 		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
 		contentTableDecorator.setWidth("100%");
-		contentTableDecorator.setWidth("1024px");
+		contentTableDecorator.setWidth("1010px");
 		initWidget(contentTableDecorator);
 
 		contentTable = new FlexTable();
 		contentTable.setWidth("100%");
 		
 		final HorizontalPanel hPanel = new HorizontalPanel();
-		
-		inputTextBox = new ExtendedTextBox();
 		inputTextBox.setWidth("710px");
-		
 		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		hPanel.setSpacing(5);
 		if (link != null && !link.equals("")) {
 			inputTextBox.setText(link);
 		}
-		hPanel.add(inputTextBox);		
-		showButton = new Button("Convert Image");
+		hPanel.add(inputTextBox);
 		hPanel.add(showButton);
 		hPanel.add(busyPanel);
 
 		int row = 0;
-		contentTable.setText(row++, 0, "Enter URL to an image:");		
+		contentTable.setWidget(row++, 0, statusLabel);		
 		contentTable.setWidget(row++, 0, hPanel);
-		
+				
 		final FlexTable flex = new FlexTable();
 		flex.setWidget(0, 0, surface);
 		flex.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
@@ -95,7 +93,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 
 		flex.setWidget(0, 1, previewPanel);
 		flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
-		flex.getFlexCellFormatter().setWidth(0, 1, "600px");
+		flex.getFlexCellFormatter().setWidth(0, 1, "550px");
 
 		int settingsRow = 0;
 		final FlexTable settingsTable = new FlexTable();
@@ -146,9 +144,16 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
 		
+		settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
+		settingsRow++;
+		
+		settingsTable.setText(settingsRow, 0, "Submit Conversion");
+		settingsTable.setWidget(settingsRow, 1, submitButton);
+		
 		flex.setWidget(0, 2, settingsTable);
 		flex.getFlexCellFormatter().setVerticalAlignment(0, 2, HasVerticalAlignment.ALIGN_TOP);
-		flex.getFlexCellFormatter().setWidth(0, 2, "350px");
+		flex.getFlexCellFormatter().setWidth(0, 2, "250px");
 
 		contentTable.setWidget(row++, 0, flex);
 		contentTableDecorator.add(contentTable);
@@ -178,7 +183,12 @@ public class MainView extends Composite implements MainPresenter.Display {
 	public TextBox getInputTextBox() {
 		return inputTextBox;
 	}
-
+	
+	@Override
+	public Label getStatusLabel() {
+		return statusLabel;
+	}
+	
 	@Override
 	public Surface getSurface() {
 		return surface;
@@ -247,5 +257,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 	@Override
 	public TextArea getIrcTextArea() {
 		return ircText;
+	}
+	
+	@Override
+	public HasClickHandlers getSubmitButton() {
+		return submitButton;
 	}
 }

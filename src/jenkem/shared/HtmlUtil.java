@@ -1,5 +1,7 @@
 package jenkem.shared;
 
+import com.google.gwt.user.client.Window;
+
 import jenkem.shared.color.ColorUtil;
 
 public class HtmlUtil extends AbstractWebUtil {
@@ -46,7 +48,9 @@ public class HtmlUtil extends AbstractWebUtil {
 		html.append("</title>");
 		html.append(sep);
 
-		html.append("<link href=\"/jenkem/output?ts=");
+		html.append("<link href=\"http://");
+		html.append(Window.Location.getHost());
+		html.append("/jenkem/output?ts=");		
 		html.append(timeStamp);
 		html.append("&amp;type=css");
 		html.append("\" rel=\"stylesheet\" type=\"text/css; charset=utf-8\">");

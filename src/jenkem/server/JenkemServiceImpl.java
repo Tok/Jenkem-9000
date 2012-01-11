@@ -37,13 +37,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return String.valueOf(jenkemImage.getCreateDate().getTime());
 	}
-		
-	@Override
-	public List<String> getImageList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	public JenkemImage getImageByName(final String name) {
 		JenkemImage result = null;		
 		if (name != null) {
@@ -98,17 +92,20 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return count;
 	}
-
-	public List<JenkemImage> getAllPersitentImages() {
+	
+	@Override
+	public ArrayList<JenkemImage> getAllPersitentImages() {
 		final PersistenceManager pm = PMF.getPersistenceManager();
-		final ArrayList<JenkemImage> result = new ArrayList<JenkemImage>();
-		final Extent<JenkemImage> extent = pm.getExtent(JenkemImage.class, false);
-		for (JenkemImage image : extent) {
-			if (image.getIsPersistent()) {
-				result.add(image);
-			}
+		ArrayList<JenkemImage> result = new ArrayList<JenkemImage>();
+		try {
+			Query query = pm.newQuery(JenkemImage.class);
+			query.setRange(0, 200);
+			@SuppressWarnings("unchecked")
+			List<JenkemImage> tmp = (List<JenkemImage>) query.execute();
+			result.addAll(tmp);
+		} finally {
+			pm.close();
 		}
-		extent.closeAll();
 		return result;
 	}
 	

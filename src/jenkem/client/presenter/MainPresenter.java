@@ -28,6 +28,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
@@ -36,6 +37,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -43,16 +45,22 @@ import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
 import com.kiouri.sliderbar.client.event.BarValueChangedHandler;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
 
-public class MainPresenter implements Presenter {
+public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	private final Engine engine = new Engine();
 	private final HtmlUtil htmlUtil = new HtmlUtil();
+	
+	private final Display display;
+	
 	private final Image busyImage = new Image("/images/busy.gif");
+	
 	private ImageElement currentImage;
 	private String currentImageName;
+	private final JenkemImage jenkemImage = new JenkemImage();
 	
 	public interface Display {
 		HasValue<String> getInputLink();
 		TextBox getInputTextBox();
+		Label getStatusLabel();
 		HasClickHandlers getShowButton();
 		Panel getBusyPanel();
 		Surface getSurface();
@@ -69,19 +77,13 @@ public class MainPresenter implements Presenter {
 		RadioButton getXKickButton();
 		RadioButton getYKickButton();
 		RadioButton getXyKickButton();
+		HasClickHandlers getSubmitButton();
 		Widget asWidget();
 	}
-	
-	@SuppressWarnings("unused")
-	private final JenkemServiceAsync jenkemService;
-	@SuppressWarnings("unused")
-	private final HandlerManager eventBus;
-	private final Display display;
 
 	public MainPresenter(final JenkemServiceAsync jenkemService,
-			final HandlerManager eventBus, final Display view) {
-		this.jenkemService = jenkemService;
-		this.eventBus = eventBus;
+			final HandlerManager eventBus, final TabPanel tabPanel, final Display view) {
+		super(jenkemService, eventBus, tabPanel);
 		this.display = view;
 	}
 
@@ -179,6 +181,25 @@ public class MainPresenter implements Presenter {
 				}
 			}
 		});
+		
+		this.display.getSubmitButton().addClickHandler(new ClickHandler() {			
+			@Override
+			public void onClick(ClickEvent event) {
+				jenkemImage.setIsPersistent(Boolean.TRUE);
+				getJenkemService().saveJenkemImage(jenkemImage,
+					new AsyncCallback<String>() {
+						@Override
+						public void onFailure(Throwable caught) {
+							display.getStatusLabel().setText("Fail submitting conversion.");
+						}
+						@Override
+						public void onSuccess(final String result) {
+							display.getStatusLabel().setText("Conversion submitted successfully.");
+						}
+					}
+				);
+			}
+		});
 	}
 	
 	/**
@@ -187,6 +208,7 @@ public class MainPresenter implements Presenter {
 	 * @return url to image servlet
 	 */
 	private String proxify() {
+		display.getStatusLabel().setText("Proxifying image...");
 		final String urlString = display.getInputTextBox().getText();
 		updateImageName(urlString);
 		if (!"".equals(urlString)) {
@@ -203,10 +225,10 @@ public class MainPresenter implements Presenter {
 	
 	public void go(final HasWidgets container) {
 		bind();
-		container.clear();
-		container.add(display.asWidget());
-		doReset();
 		display.getInputTextBox().setFocus(true);
+		container.clear();
+		container.add(super.getTabPanel());
+		doReset();
 	}
 
 	private void doShow(final String url) {
@@ -277,8 +299,7 @@ public class MainPresenter implements Presenter {
 			htmlAndCss = htmlUtil.generateHtml(ircOutput, String.valueOf(now.getTime()), false);
 		}
 		
-		final JenkemImage jenkemImage = new JenkemImage();
-		jenkemImage.setIsPersistent(Boolean.FALSE);
+		//save conversion in jenkem image
 		jenkemImage.setName(currentImageName);
 		jenkemImage.setCreateDate(now);
 		jenkemImage.setCreateStamp(now.getTime());
@@ -286,11 +307,12 @@ public class MainPresenter implements Presenter {
 		jenkemImage.setHtml(htmlAndCss[0]);
 		jenkemImage.setCss(htmlAndCss[1]);
 
+		//get HTML and CSS for inline element
 		final String inlineCss = htmlUtil.prepareCssForInline(htmlAndCss[1]);
 		final String inlineHtml = htmlUtil.prepareHtmlForInline(htmlAndCss[0], inlineCss);
-
 		display.getPreviewHtml().setHTML(inlineHtml);
 		
+		//prepare output for IRC
 		StringBuilder binaryOutput = new StringBuilder();
 		for (String line : ircOutput) {
 			binaryOutput.append(line);
@@ -298,25 +320,6 @@ public class MainPresenter implements Presenter {
 		}
 		display.getIrcTextArea().setText(binaryOutput.toString());
 		display.getIrcTextArea().selectAll();
-		
-		/*
-		jenkemService.saveJenkemImage(jenkemImage,
-			new AsyncCallback<String>() {
-				@Override
-				public void onFailure(Throwable caught) {
-					removeBusyIcon();
-				}
-
-				@Override
-				public void onSuccess(final String result) {
-					display.getPreviewFrame().setUrl(
-						"http://" + Window.Location.getHost() + "/jenkem/output?ts=" + result + "&type=html"
-					);
-					removeBusyIcon();
-				}
-			}
-		);
-		*/
 
 		removeBusyIcon();
 	}
@@ -324,10 +327,12 @@ public class MainPresenter implements Presenter {
 	private void displayBusyIcon() {
 		display.getBusyPanel().clear();
 		display.getBusyPanel().add(busyImage);
+		display.getStatusLabel().setText("Converting image...");
 	}
 	
 	private void removeBusyIcon() {
 		display.getBusyPanel().clear();
+		display.getStatusLabel().setText("Please enter URL to an image:");
 	}
 	
 	private String getKick() {

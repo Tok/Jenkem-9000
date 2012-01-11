@@ -1,7 +1,11 @@
-/** Add css rules here for your application. */
+.everything {
+	background: #CCCCCC;
+}
 
+#content {
+	background: white;	
+}
 
-/** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;
   font-weight: bold;
@@ -15,7 +19,6 @@ h1 {
   font-size: 16pt;
 }
 
-/** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
 }
@@ -32,13 +35,12 @@ textarea {
     resize: none;
 }
 
-/** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
 }
 
 .menu-table {
-/*	border: 1px solid #777777;*/
+/* 	border: 1px solid #777777; */
 	background-color: #D0E4F6;
 	padding-top: 6px;
 	padding-bottom: 6px;

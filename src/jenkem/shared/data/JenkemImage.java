@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -26,7 +27,9 @@ public class JenkemImage implements Serializable {
 	private String name;
 	@Persistent
 	private Boolean isPersistent;
-	@Persistent
+	
+	@Persistent(serialized = "true")
+	@Order(column="JENKEMIMAGE_IRC")
 	private ArrayList<Text> irc;
 	@Persistent
 	private Text html;

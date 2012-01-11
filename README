@@ -20,3 +20,6 @@ It is currently using the libraries gwt-g2d, which should be raplaced because of
 and appengine-utils-client to store long Text.
 
 WARNING: Jenkem-9000 is currently in an infinished state and may therefore yield crappy results compared to the original.
+
+Issues:
+-- Doesn't work in IE
