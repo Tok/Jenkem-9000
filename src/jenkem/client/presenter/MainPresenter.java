@@ -235,10 +235,7 @@ public class MainPresenter implements Presenter {
 		int height = 0;
 		if (methodName.equals(ConversionMethod.FullHd.toString())) {
 			height = (36 * currentImage.getHeight()) / currentImage.getWidth();
-		} else if (methodName.equals(ConversionMethod.Hybrid.toString()) ||
-				methodName.equals(ConversionMethod.Plain.toString())) {
-			height = (84 * currentImage.getHeight()) / currentImage.getWidth();	
-		} else { //Super-Hybrid and Pwntari
+		} else { //Super-Hybrid, Hybrid, Plain and Pwntari
 			height = (72 * currentImage.getHeight()) / currentImage.getWidth();				
 		}
 		
