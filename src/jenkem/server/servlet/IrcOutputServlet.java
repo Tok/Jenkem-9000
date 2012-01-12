@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jenkem.server.JenkemServiceImpl;
-import jenkem.shared.data.JenkemImage;
+import jenkem.shared.data.JenkemImageIrc;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -21,9 +21,9 @@ public class IrcOutputServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/plain");
 		final String name = request.getParameter("name");
-		final JenkemImage image = jenkemService.getImageByName(name);
-		if (image != null && image.getIrc() != null) {
-			for (Text text : image.getIrc()) {
+		final JenkemImageIrc imageIrc = jenkemService.getImageIrcByName(name);
+		if (imageIrc != null && imageIrc.getIrc() != null) {
+			for (Text text : imageIrc.getIrc()) {
 				String line = text.getValue();
 				response.getWriter().println(line);
 			}

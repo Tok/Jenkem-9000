@@ -1,10 +1,8 @@
 package jenkem.shared.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -14,21 +12,17 @@ import com.google.appengine.api.datastore.Text;
 
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class JenkemImage implements Serializable {
-	private static final long serialVersionUID = -6473171638408382577L;
+public class JenkemImageHtml implements Serializable {
+	private static final long serialVersionUID = 4833906739614704L;
 
 	@PrimaryKey
 	private String name;
 	
-	@Persistent(serialized = "true")
-	@Order(column="JENKEMIMAGE_IRC")
-	private ArrayList<Text> irc;
 	@Persistent
 	private Text html;
-	@Persistent
-	private Text css;
+
 	
-	public JenkemImage() {
+	public JenkemImageHtml() {
 	}
 	
 	public void setName(String name) {
@@ -39,28 +33,12 @@ public class JenkemImage implements Serializable {
 		return name;
 	}
 
-	public ArrayList<Text> getIrc() {
-		return irc;
-	}
-	
-	public void setIrc(ArrayList<Text> irc) {
-		this.irc = irc;
-	}
-	
 	public String getHtml() {
 		return html.getValue();
 	}
 	
 	public void setHtml(String html) {
 		this.html = new Text(html);
-	}
-	
-	public String getCss() {
-		return css.getValue();
-	}
-	
-	public void setCss(String css) {
-		this.css = new Text(css);
 	}
 	
 }

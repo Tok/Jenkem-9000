@@ -12,8 +12,10 @@ import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
-import jenkem.shared.data.JenkemImage;
+import jenkem.shared.data.JenkemImageCss;
+import jenkem.shared.data.JenkemImageHtml;
 import jenkem.shared.data.JenkemImageInfo;
+import jenkem.shared.data.JenkemImageIrc;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gwt.dom.client.ImageElement;
@@ -56,8 +58,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	
 	private ImageElement currentImage;
 	private String currentImageName;
+	
 	private final JenkemImageInfo jenkemImageInfo = new JenkemImageInfo();
-	private final JenkemImage jenkemImage = new JenkemImage();
+	private final JenkemImageHtml jenkemImageHtml = new JenkemImageHtml();
+	private final JenkemImageCss jenkemImageCss = new JenkemImageCss();
+	private final JenkemImageIrc jenkemImageIrc = new JenkemImageIrc();
 	
 	public interface Display {
 		HasValue<String> getInputLink();
@@ -187,7 +192,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		this.display.getSubmitButton().addClickHandler(new ClickHandler() {			
 			@Override
 			public void onClick(ClickEvent event) {
-				getJenkemService().saveJenkemImage(jenkemImageInfo, jenkemImage,
+				getJenkemService().saveJenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc,
 					new AsyncCallback<String>() {
 						@Override
 						public void onFailure(Throwable caught) {
@@ -303,13 +308,18 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		//save image info
 		jenkemImageInfo.setName(currentImageName);
 		jenkemImageInfo.setCreateDate(now);
-		jenkemImageInfo.setCreateStamp(now.getTime());
 		
-		//save conversion in jenkem image
-		jenkemImage.setName(currentImageName);
-		jenkemImage.setIrc(irc);
-		jenkemImage.setHtml(htmlAndCss[0]);
-		jenkemImage.setCss(htmlAndCss[1]);
+		//save HTML
+		jenkemImageHtml.setName(currentImageName);
+		jenkemImageHtml.setHtml(htmlAndCss[0]);
+
+		//save CSS
+		jenkemImageCss.setName(currentImageName);
+		jenkemImageCss.setCss(htmlAndCss[1]);
+
+		//save IRC
+		jenkemImageIrc.setName(currentImageName);
+		jenkemImageIrc.setIrc(irc);
 
 		//get HTML and CSS for inline element
 		final String inlineCss = htmlUtil.prepareCssForInline(htmlAndCss[1]);

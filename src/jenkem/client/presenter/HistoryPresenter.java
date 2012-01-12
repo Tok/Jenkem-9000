@@ -63,7 +63,7 @@ public class HistoryPresenter extends AbstractTabPresenter implements Presenter 
 		
 	private void prepareResultTable(List<JenkemImageInfo> result) {
 		display.getHistoryList().setText(0, 0, "Name");
-		display.getHistoryList().setText(0, 1, "Createion Date");
+		display.getHistoryList().setText(0, 1, "Creation Date");
 		final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss"); //TODO use date Util
 		int row = 1;
 		for (JenkemImageInfo imageInfo : result) {

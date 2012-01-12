@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import jenkem.server.JenkemServiceImpl;
 import jenkem.shared.HtmlUtil;
-import jenkem.shared.data.JenkemImage;
+import jenkem.shared.data.JenkemImageCss;
+import jenkem.shared.data.JenkemImageHtml;
 
 public class OutputServlet extends HttpServlet {
 	private static final long serialVersionUID = -6626624514779473378L;
@@ -23,19 +24,20 @@ public class OutputServlet extends HttpServlet {
 
 		final String name = request.getParameter("name");
 		final String type = request.getParameter("type");
-		final JenkemImage image = jenkemService.getImageByName(name);
 		
-		if (image != null && type != null && type.equals("html")) {
+		if (type != null && type.equals("html")) {
+			final JenkemImageHtml imageHtml = jenkemService.getImageHtmlByName(name);
 			response.setContentType("text/html");
-			if (image != null && image.getHtml() != null) {
-				response.getWriter().println(image.getHtml());
+			if (imageHtml != null && imageHtml.getHtml() != null) {
+				response.getWriter().println(imageHtml.getHtml());
 			} else {
 				response.getWriter().println(htmlUtil.generateEmpty());
 			}
-		} else if (image != null && type != null && type.equals("css")) { 
+		} else if (type != null && type.equals("css")) {
+			final JenkemImageCss imageCss = jenkemService.getImageCssByName(name);
 			response.setContentType("text/css");
-			if (image != null && image.getCss() != null) {
-				response.getWriter().println(image.getCss());
+			if (imageCss != null && imageCss.getCss() != null) {
+				response.getWriter().println(imageCss.getCss());
 			}
 		} else {
 			response.setContentType("text/html");
