@@ -8,6 +8,7 @@ import java.util.Map;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.Cube;
 import jenkem.shared.color.IrcColor;
+import jenkem.shared.color.Sample;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;

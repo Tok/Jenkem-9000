@@ -1,4 +1,4 @@
-package jenkem.shared;
+package jenkem.shared.color;
 
 import gwt.g2d.client.graphics.canvas.ImageDataAdapter;
 
