@@ -8,7 +8,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import jenkem.shared.AsciiScheme;
-import jenkem.shared.SchemeUnknownException;
 
 import com.google.gwt.user.client.Random;
 
@@ -28,7 +27,6 @@ public class Cube {
 	 * @param green 0-255
 	 * @param blue 0-255
 	 * @return a String with the IRC-color codes and the character to display in IRC
-	 * @throws SchemeUnknownException 
 	 */
 	public String getColorChar(final Map<String, Integer> colorMap, final int red, final int green, final int blue, 
 			final boolean enforceBlackFg) {
@@ -79,7 +77,6 @@ public class Cube {
 	 * This method is where everything happens. it's the tongue of jenkem.
 	 * @param col  and array with three RGB values representing the pixel to translate.
 	 * @return a Color object with info to represent the same color in irc
-	 * @throws SchemeUnknownException 
 	 */
 	public Color getTwoNearestColors(final Map<String, Integer> colorMap , final int[] col) {
 		final ArrayList<WeightedColor> list = new ArrayList<WeightedColor>();

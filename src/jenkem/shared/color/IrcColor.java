@@ -125,13 +125,5 @@ public enum IrcColor {
 	public void setBwScheme(Integer bwScheme) {
 		this.bwScheme = bwScheme;
 	}
-	
-	public static boolean isIrcColor(int irc) {
-		for (IrcColor color : IrcColor.values()) {
-			if (color.getValue().equals(irc)) {
-				return true;
-			}
-		}
-		return false;
-	}
+
 }

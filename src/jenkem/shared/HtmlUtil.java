@@ -155,13 +155,11 @@ public class HtmlUtil extends AbstractWebUtil {
 					css.append("_");
 					css.append(section);
 					css.append(" { color: ");
-					try {
-						css.append(colorUtil.ircToCss(fg));
-						css.append("; background-color: ");
-						css.append(colorUtil.ircToCss(bg));
-					} catch (ColorUnknownException cue) {
-						//ignore. this must never happen.
-					}
+
+					css.append(colorUtil.ircToCss(fg));
+					css.append("; background-color: ");
+					css.append(colorUtil.ircToCss(bg));
+
 					css.append("; }");
 					css.append(sep);
 					section++;

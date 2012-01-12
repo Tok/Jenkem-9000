@@ -1,5 +1,4 @@
 package jenkem.shared.color;
-import jenkem.shared.ColorUnknownException;
 
 /**
  * just some constants and stuff.
@@ -42,13 +41,11 @@ public class ColorUtil {
 		return result;
 	}
 
-	public String ircToCss(final String irc) throws ColorUnknownException {
+	public String ircToCss(final String irc) {
 		return ircToCss(Integer.valueOf(irc));
 	}
-	public String ircToCss(final int irc) throws ColorUnknownException {
-		if (!IrcColor.isIrcColor(irc)) {
-			throw new ColorUnknownException(String.valueOf(irc));
-		}
+	
+	public String ircToCss(final int irc) {
 		final Integer ircString = Integer.valueOf(irc);
 		String css = "#000000"; //assume default black
 		for (IrcColor ircCol : IrcColor.values()) {
