@@ -214,6 +214,8 @@ public class HtmlUtil extends AbstractWebUtil {
 				newInlineCss.append(".jenkem { float: left; width: auto; clear: both; font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; }");
 			} else if (line.startsWith("body {")) {
 				newInlineCss.append(".jenkemBody { font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; background-color: black; }");
+			} else if (line.startsWith("html {")) {
+				//ignore
 			} else {
 				newInlineCss.append(line);
 			}

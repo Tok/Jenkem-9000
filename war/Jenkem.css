@@ -1,3 +1,7 @@
+html {
+	background-color: #CCCCCC;
+}
+
 .everything {
 	background: #CCCCCC;
 }
@@ -49,6 +53,7 @@ textarea {
 }
 
 div#page {
+	background: #CCCCCC;
 	width: 1024px;
 	height: 768px;
 	margin: 0 auto; 
