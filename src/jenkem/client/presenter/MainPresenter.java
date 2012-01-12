@@ -31,8 +31,8 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -168,10 +168,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 			}
 		});
 		
-		this.display.getContrastSlider().addFocusHandler(new FocusHandler() {
+		this.display.getContrastSlider().addMouseOverHandler(new MouseOverHandler() {
 			@Override
-			public void onFocus(FocusEvent event) {
-				readyForSlider = true;				
+			public void onMouseOver(MouseOverEvent event) {
+				readyForSlider = true;
 			}
 		});
 				
@@ -183,6 +183,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 					doConversion();
 					readyForSlider = false;
 				}
+			}
+		});
+
+		this.display.getBrightnessSlider().addMouseOverHandler(new MouseOverHandler() {
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				readyForSlider = true;
 			}
 		});
 		
