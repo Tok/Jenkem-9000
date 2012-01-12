@@ -79,7 +79,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		final FlexTable flex = new FlexTable();
 		flex.setWidget(0, 0, surface);
 		flex.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
-		flex.getFlexCellFormatter().setWidth(0, 0, "150px");
+		flex.getFlexCellFormatter().setWidth(0, 0, "100px");
 		
 		previewPanel.add(new Label("HTML Preview:"));
 		previewPanel.add(inline);
@@ -153,7 +153,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		
 		flex.setWidget(0, 2, settingsTable);
 		flex.getFlexCellFormatter().setVerticalAlignment(0, 2, HasVerticalAlignment.ALIGN_TOP);
-		flex.getFlexCellFormatter().setWidth(0, 2, "250px");
+		flex.getFlexCellFormatter().setWidth(0, 2, "300px");
 
 		contentTable.setWidget(row++, 0, flex);
 		contentTableDecorator.add(contentTable);
