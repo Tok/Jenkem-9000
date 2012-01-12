@@ -182,19 +182,18 @@ public class HtmlUtil extends AbstractWebUtil {
 		html.append("</div>");
 		html.append(sep);
 		
-//		if (type.equals("history")) {
-			html.append("<div class=\"validator\">");
-			html.append("<a href=\"http://validator.w3.org/check?uri=referer\">");
-			html.append("<img src=\"http://www.w3.org/Icons/valid-html401\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
+		html.append("<div class=\"validator\">");
+		html.append("<a href=\"http://validator.w3.org/check?uri=referer\">");
+		html.append("<img src=\"http://www.w3.org/Icons/valid-html401\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
+		html.append("</a>");
+		if (!isPlain) {
+			html.append("<a href=\"http://jigsaw.w3.org/css-validator/check/referer\">");
+			html.append("<img src=\"http://jigsaw.w3.org/css-validator/images/vcss\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
 			html.append("</a>");
-			if (!isPlain) {
-				html.append("<a href=\"http://jigsaw.w3.org/css-validator/check/referer\">");
-				html.append("<img src=\"http://jigsaw.w3.org/css-validator/images/vcss\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
-				html.append("</a>");
-			}
-			html.append("</div>");
-			html.append(sep);
-//		}
+		}
+		html.append("</div>");
+		html.append(sep);
+
 		html.append("</body>");
 		html.append(sep);
 		html.append("</html>");
@@ -205,10 +204,10 @@ public class HtmlUtil extends AbstractWebUtil {
 		return ret;
 	}
 	
-	public String prepareCssForInline(String inputHtml) {
-		String inlineCssString = "<style type=\"text/css\">\n" + inputHtml + "\n</style>";
-		String[] cssLines = inlineCssString.split("\n");
+	public String prepareCssForInline(String inputCss) {
+		String[] cssLines = inputCss.split("\n");
 		StringBuffer newInlineCss = new StringBuffer();
+		newInlineCss.append("<style type=\"text/css\">\n");
 		for (String line : cssLines) {
 			if (line.startsWith("div {")) {
 				newInlineCss.append(".jenkem { float: left; width: auto; clear: both; font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; }");
@@ -220,6 +219,7 @@ public class HtmlUtil extends AbstractWebUtil {
 				newInlineCss.append(line);
 			}
 		}
+		newInlineCss.append("\n</style>");
 		return newInlineCss.toString();
 	}
 	

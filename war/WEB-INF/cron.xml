@@ -4,6 +4,6 @@
 	<cron>
 		<url>/jenkem/cleanup</url>
 		<description>removes non-persistent images</description>
-		<schedule>every 30 minutes synchronized</schedule>
+		<schedule>every 6 hours synchronized</schedule>
 	</cron>	
 </cronentries>
