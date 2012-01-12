@@ -1,6 +1,6 @@
 package jenkem.shared.color;
 
-import gwt.g2d.client.graphics.canvas.ImageDataAdapter;
+import com.google.gwt.canvas.dom.client.ImageData;
 
 /**
  * Represents the RGBcolors of four pixels from the provided image.
@@ -9,9 +9,9 @@ import gwt.g2d.client.graphics.canvas.ImageDataAdapter;
  * BL | BR
  */
 public class Sample {
-	private int redTopLeft;
-	private int greenTopLeft;
-	private int blueTopLeft;
+	private int redTopLeft = 0;
+	private int greenTopLeft = 0;
+	private int blueTopLeft = 0;
 	private int redBottomLeft;
 	private int greenBottomLeft;
 	private int blueBottomLeft;
@@ -28,33 +28,33 @@ public class Sample {
 	private int greenRight;
 	private int blueRight;
 
-	public Sample(final ImageDataAdapter img, final int x, final int y, final double contrast, final int brightness) {
-		redTopLeft = keepInRange((int) (img.getRed(x, y) * contrast) + brightness);
-		greenTopLeft = keepInRange((int) (img.getGreen(x, y) * contrast) + brightness);
-		blueTopLeft = keepInRange((int) (img.getBlue(x, y) * contrast) + brightness);
+	public Sample(final ImageData img, final int x, final int y, final double contrast, final int brightness) {
 		try {
+			redTopLeft = keepInRange((int) (img.getRedAt(x, y) * contrast) + brightness);
+			greenTopLeft = keepInRange((int) (img.getGreenAt(x, y) * contrast) + brightness);
+			blueTopLeft = keepInRange((int) (img.getBlueAt(x, y) * contrast) + brightness);
 			if (x < img.getWidth()) {
-				redTopRight = keepInRange((int) (img.getRed(x + 1, y) * contrast) + brightness);
-				greenTopRight = keepInRange((int) (img.getGreen(x + 1, y) * contrast) + brightness);
-				blueTopRight = keepInRange((int) (img.getBlue(x + 1, y) * contrast) + brightness);
+				redTopRight = keepInRange((int) (img.getRedAt(x + 1, y) * contrast) + brightness);
+				greenTopRight = keepInRange((int) (img.getGreenAt(x + 1, y) * contrast) + brightness);
+				blueTopRight = keepInRange((int) (img.getBlueAt(x + 1, y) * contrast) + brightness);
 			} else {
 				redBottomLeft = redTopLeft;
 				greenBottomLeft = greenTopLeft;
 				blueBottomLeft = blueTopLeft;
 			}
 			if (y < img.getHeight()) {
-				redBottomLeft = keepInRange((int) (img.getRed(x, y + 1) * contrast) + brightness);
-				greenBottomLeft = keepInRange((int) (img.getGreen(x, y + 1) * contrast) + brightness);
-				blueBottomLeft = keepInRange((int) (img.getBlue(x, y + 1) * contrast) + brightness);
+				redBottomLeft = keepInRange((int) (img.getRedAt(x, y + 1) * contrast) + brightness);
+				greenBottomLeft = keepInRange((int) (img.getGreenAt(x, y + 1) * contrast) + brightness);
+				blueBottomLeft = keepInRange((int) (img.getBlueAt(x, y + 1) * contrast) + brightness);
 			} else {
 				redBottomLeft = redTopLeft;
 				greenBottomLeft = greenTopLeft;
 				blueBottomLeft = blueTopLeft;
 			}
 			if (x < img.getWidth() && y < img.getHeight()) {
-				redBottomRight = keepInRange((int) (img.getRed(x + 1, y + 1) * contrast) + brightness);
-				greenBottomRight = keepInRange((int) (img.getGreen(x + 1, y + 1) * contrast) + brightness);
-				blueBottomRight = keepInRange((int) (img.getBlue(x + 1, y + 1) * contrast) + brightness);
+				redBottomRight = keepInRange((int) (img.getRedAt(x + 1, y + 1) * contrast) + brightness);
+				greenBottomRight = keepInRange((int) (img.getGreenAt(x + 1, y + 1) * contrast) + brightness);
+				blueBottomRight = keepInRange((int) (img.getBlueAt(x + 1, y + 1) * contrast) + brightness);
 			} else {
 				redBottomLeft = redTopLeft;
 				greenBottomLeft = greenTopLeft;

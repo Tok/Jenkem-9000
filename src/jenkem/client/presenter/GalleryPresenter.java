@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HistoryPresenter extends AbstractTabPresenter implements Presenter {
+public class GalleryPresenter extends AbstractTabPresenter implements Presenter {
 	private final Display display;
 
 	public interface Display {
@@ -23,7 +23,7 @@ public class HistoryPresenter extends AbstractTabPresenter implements Presenter 
 		Widget asWidget();
 	}
 	
-	public HistoryPresenter(final JenkemServiceAsync jenkemService, final HandlerManager eventBus, final TabPanel tabPanel, final Display view) {
+	public GalleryPresenter(final JenkemServiceAsync jenkemService, final HandlerManager eventBus, final TabPanel tabPanel, final Display view) {
 		super(jenkemService, eventBus, tabPanel);
 		this.display = view;
 	}

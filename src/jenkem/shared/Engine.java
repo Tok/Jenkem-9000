@@ -1,7 +1,5 @@
 package jenkem.shared;
 
-import gwt.g2d.client.graphics.canvas.ImageDataAdapter;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +8,7 @@ import jenkem.shared.color.Cube;
 import jenkem.shared.color.IrcColor;
 import jenkem.shared.color.Sample;
 
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
@@ -22,20 +21,20 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHighDef(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness) {
+	public String[] generateHighDef(final ImageData id, final ColorScheme scheme, final double contrast, final int brightness) {
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
-		final String[] ret = new String[ida.getHeight()];
+		final String[] ret = new String[id.getHeight()];
 		
-		for (int y = 0; y < ida.getHeight(); y++) {
+		for (int y = 0; y < id.getHeight(); y++) {
 			ret[y] = "";
 			final StringBuilder row = new StringBuilder();
 			String oldPix; // lets pretend this is FROTRAN :D
 			String newPix = null;
 			try {
-				for (int x = 0; x < ida.getWidth(); x++) {
-					final int red = Sample.keepInRange((int) (ida.getRed(x, y) * contrast) + brightness);
-					final int green = Sample.keepInRange((int) (ida.getGreen(x, y) * contrast) + brightness);
-					final int blue = Sample.keepInRange((int) (ida.getBlue(x, y) * contrast) + brightness);
+				for (int x = 0; x < id.getWidth(); x++) {
+					final int red = Sample.keepInRange((int) (id.getRedAt(x, y) * contrast) + brightness);
+					final int green = Sample.keepInRange((int) (id.getGreenAt(x, y) * contrast) + brightness);
+					final int blue = Sample.keepInRange((int) (id.getBlueAt(x, y) * contrast) + brightness);
 					oldPix = newPix;
 					newPix = cube.getColorChar(colorMap, red, green, blue, false); // the cube is used here.
 					if (newPix.equals(oldPix)) {
@@ -64,9 +63,9 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateSuperHybrid(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
-		final int height = Math.round(ida.getHeight() / 2);
-		final int width = ida.getWidth();
+	public String[] generateSuperHybrid(final ImageData id, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
+		final int height = Math.round(id.getHeight() / 2);
+		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
 		int startX = getKickedX(kick);
@@ -97,7 +96,7 @@ public class Engine {
 				String newRight = null;
 				for (int x = startX; x < width; x = x + 2) {
 					try {
-						final Sample sample = new Sample(ida, x, y, contrast, brightness);
+						final Sample sample = new Sample(id, x, y, contrast, brightness);
 						
 						oldLeft = newLeft;
 						newLeft = cube.getColorChar(
@@ -185,9 +184,9 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHybrid(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
-		final int height = Math.round(ida.getHeight() / 2);
-		final int width = ida.getWidth();
+	public String[] generateHybrid(final ImageData id, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
+		final int height = Math.round(id.getHeight() / 2);
+		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
 		int startX = getKickedX(kick);
@@ -203,7 +202,7 @@ public class Engine {
 				for (int x = startX; x < width; x = x + 2) {
 					try {					
 						//FIXME really y/2 ?
-						final Sample sample = new Sample(ida, x, y, contrast, brightness);
+						final Sample sample = new Sample(id, x, y, contrast, brightness);
 						
 						oldLeft = newLeft;
 						//TODO reimplement foreground enforcement
@@ -318,9 +317,9 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePwntari(final ImageDataAdapter ida, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
-		final int height = Math.round(ida.getHeight() / 2);
-		final int width = ida.getWidth();
+	public String[] generatePwntari(final ImageData id, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
+		final int height = Math.round(id.getHeight() / 2);
+		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[height];
 		int startX = getKickedX(kick);
@@ -335,7 +334,7 @@ public class Engine {
 				String newRight = null;
 				for (int x = startX; x < width; x = x + 2) {
 					try {
-						final Sample sample = new Sample(ida, x, y, contrast, brightness);
+						final Sample sample = new Sample(id, x, y, contrast, brightness);
 
 						oldLeft = newLeft;
 						newLeft = cube.getColorChar(
@@ -387,9 +386,9 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePlain(final ImageDataAdapter ida, final double contrast, final int brightness, final String kick) {
-		final int height = Math.round(ida.getHeight() / 2);
-		final int width = ida.getWidth();
+	public String[] generatePlain(final ImageData id, final double contrast, final int brightness, final String kick) {
+		final int height = Math.round(id.getHeight() / 2);
+		final int width = id.getWidth();
 		final String[] ret = new String[height];
 		int startX = getKickedX(kick);
 		int startY = getKickedY(kick);
@@ -402,10 +401,10 @@ public class Engine {
 					// TODO ugly
 					int topLeft = 0, bottomLeft = 0, topRight = 0, bottomRight = 0;
 					try {
-						topLeft = Sample.keepInRange((int) (getDarkFromImage(ida, x, y) * contrast) + brightness);
-						bottomLeft = Sample.keepInRange((int) (getDarkFromImage(ida, x, y + 1) * contrast) + brightness);
-						topRight = Sample.keepInRange((int) (getDarkFromImage(ida, x + 1, y) * contrast) + brightness);
-						bottomRight = Sample.keepInRange((int) (getDarkFromImage(ida, x + 1, y + 1) * contrast) + brightness);
+						topLeft = Sample.keepInRange((int) (getDarkFromImage(id, x, y) * contrast) + brightness);
+						bottomLeft = Sample.keepInRange((int) (getDarkFromImage(id, x, y + 1) * contrast) + brightness);
+						topRight = Sample.keepInRange((int) (getDarkFromImage(id, x + 1, y) * contrast) + brightness);
+						bottomRight = Sample.keepInRange((int) (getDarkFromImage(id, x + 1, y + 1) * contrast) + brightness);
 					} catch (ArrayIndexOutOfBoundsException aioobe) {
 						//depending on the kick settings and the width settings,
 						//this happens if the last column of pixels in the resized image is not even.
@@ -481,8 +480,8 @@ public class Engine {
 	 * @param rgb
 	 * @return darkness
 	 */
-	private static int getDarkFromImage(final ImageDataAdapter ida, int x, int y) {
-		final double d = ida.getRed(x, y) + ida.getGreen(x, y) + ida.getBlue(x, y);
+	private static int getDarkFromImage(final ImageData id, int x, int y) {
+		final double d = id.getRedAt(x, y) + id.getGreenAt(x, y) + id.getBlueAt(x, y);
 		final int dark = Double.valueOf(Math.round(d / 3)).intValue();
 		return dark;
 	}

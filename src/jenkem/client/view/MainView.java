@@ -1,11 +1,11 @@
 package jenkem.client.view;
 
-import gwt.g2d.client.graphics.Surface;
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.ExtendedTextBox;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.ui.Button;
@@ -32,7 +32,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final Button showButton = new Button("Convert Image");
 	private final Panel busyPanel = new HorizontalPanel();
 	private final Label statusLabel = new Label("Please enter URL to an image:");
-	private final Surface surface = new Surface();
+	private final Canvas canvas = Canvas.createIfSupported(); 
 	private final Panel previewPanel = new VerticalPanel();
 	private final InlineHTML inline = new InlineHTML();
 	private final TextArea ircText = new TextArea();
@@ -76,10 +76,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contentTable.setWidget(row++, 0, statusLabel);		
 		contentTable.setWidget(row++, 0, hPanel);
 				
-		final FlexTable flex = new FlexTable();
-		flex.setWidget(0, 0, surface);
-		flex.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
-		flex.getFlexCellFormatter().setWidth(0, 0, "100px");
+		
 		
 		previewPanel.add(new Label("HTML Preview:"));
 		previewPanel.add(inline);
@@ -91,9 +88,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 		previewPanel.add(new Label("Binary output for IRC:"));
 		previewPanel.add(ircText);
 
-		flex.setWidget(0, 1, previewPanel);
-		flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
-		flex.getFlexCellFormatter().setWidth(0, 1, "550px");
+		final FlexTable flex = new FlexTable();
+		flex.setWidget(0, 0, previewPanel);
+		flex.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+		flex.getFlexCellFormatter().setWidth(0, 0, "600px");
 
 		int settingsRow = 0;
 		final FlexTable settingsTable = new FlexTable();
@@ -151,9 +149,9 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.setText(settingsRow, 0, "Submit Conversion");
 		settingsTable.setWidget(settingsRow, 1, submitButton);
 		
-		flex.setWidget(0, 2, settingsTable);
-		flex.getFlexCellFormatter().setVerticalAlignment(0, 2, HasVerticalAlignment.ALIGN_TOP);
-		flex.getFlexCellFormatter().setWidth(0, 2, "300px");
+		flex.setWidget(0, 1, settingsTable);
+		flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+		flex.getFlexCellFormatter().setWidth(0, 1, "300px");
 
 		contentTable.setWidget(row++, 0, flex);
 		contentTableDecorator.add(contentTable);
@@ -188,10 +186,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 	public Label getStatusLabel() {
 		return statusLabel;
 	}
-	
+
 	@Override
-	public Surface getSurface() {
-		return surface;
+	public Canvas getCanvas() {
+		return canvas;
 	}
 
 	@Override
