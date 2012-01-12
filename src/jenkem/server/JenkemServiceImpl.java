@@ -1,12 +1,10 @@
 package jenkem.server;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -14,6 +12,7 @@ import javax.jdo.Query;
 
 import jenkem.client.service.JenkemService;
 import jenkem.shared.data.JenkemImage;
+import jenkem.shared.data.JenkemImageInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -27,15 +26,16 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 	private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
 
 	@Override
-	public String saveJenkemImage(final JenkemImage jenkemImage) {
+	public String saveJenkemImage(final JenkemImageInfo jenkemImageInfo, final JenkemImage jenkemImage) {
 		final PersistenceManager pm = PMF.getPersistenceManager();
 		try {
+			pm.makePersistent(jenkemImageInfo);
 			pm.makePersistent(jenkemImage);
 			LOG.log(Level.INFO, "Image stored!");
 		} finally {
 			pm.close();
 		}
-		return String.valueOf(jenkemImage.getCreateDate().getTime());
+		return String.valueOf(jenkemImageInfo.getCreateDate().getTime());
 	}
 	
 	public JenkemImage getImageByName(final String name) {
@@ -54,54 +54,16 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
-
-	public JenkemImage getImageByTimesStamp(final Long ts) {
-		JenkemImage result = null;		
-		if (ts != null) {
-			final PersistenceManager pm = PMF.getPersistenceManager();
-			try {
-				Query query = pm.newQuery(JenkemImage.class);
-				query.setFilter("createStamp == ts");
-				query.setUnique(true);
-				query.declareParameters("Long ts");
-				result = (JenkemImage) query.execute(ts.longValue());
-			} finally {
-				pm.close();
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Deletes all images that are older than 2000000ms and not flagged as persitent.
-	 * @return number of deleted images
-	 */
-	public int doCleanUp() {
-		final Date now = new Date();
-		final PersistenceManager pm = PMF.getPersistenceManager();
-		final Extent<JenkemImage> extent = pm.getExtent(JenkemImage.class, false);
-		int count = 0;
-		for (JenkemImage image : extent) {
-			if (!image.getIsPersistent()) {
-				final long age = now.getTime() - image.getCreateStamp();
-				if (age > 200000) { //2000000ms = 33,3 minutes
-					pm.deletePersistent(image);
-				}
-			}
-			count++;
-		}
-		return count;
-	}
 	
 	@Override
-	public ArrayList<JenkemImage> getAllPersitentImages() {
+	public ArrayList<JenkemImageInfo> getAllImageInfo() {
 		final PersistenceManager pm = PMF.getPersistenceManager();
-		ArrayList<JenkemImage> result = new ArrayList<JenkemImage>();
+		ArrayList<JenkemImageInfo> result = new ArrayList<JenkemImageInfo>();
 		try {
-			Query query = pm.newQuery(JenkemImage.class);
+			Query query = pm.newQuery(JenkemImageInfo.class);
 			query.setRange(0, 200);
 			@SuppressWarnings("unchecked")
-			List<JenkemImage> tmp = (List<JenkemImage>) query.execute();
+			List<JenkemImageInfo> tmp = (List<JenkemImageInfo>) query.execute();
 			result.addAll(tmp);
 		} finally {
 			pm.close();

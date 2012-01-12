@@ -13,6 +13,7 @@ import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.data.JenkemImage;
+import jenkem.shared.data.JenkemImageInfo;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gwt.dom.client.ImageElement;
@@ -55,6 +56,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	
 	private ImageElement currentImage;
 	private String currentImageName;
+	private final JenkemImageInfo jenkemImageInfo = new JenkemImageInfo();
 	private final JenkemImage jenkemImage = new JenkemImage();
 	
 	public interface Display {
@@ -185,8 +187,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		this.display.getSubmitButton().addClickHandler(new ClickHandler() {			
 			@Override
 			public void onClick(ClickEvent event) {
-				jenkemImage.setIsPersistent(Boolean.TRUE);
-				getJenkemService().saveJenkemImage(jenkemImage,
+				getJenkemService().saveJenkemImage(jenkemImageInfo, jenkemImage,
 					new AsyncCallback<String>() {
 						@Override
 						public void onFailure(Throwable caught) {
@@ -294,15 +295,18 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		final Date now = new Date();
 		String[] htmlAndCss = null;
 		if (methodName.equals(ConversionMethod.Plain.toString())) {
-			htmlAndCss = htmlUtil.generateHtml(ircOutput, String.valueOf(now.getTime()), true);
+			htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, true);
 		} else { //boolean says whether method is plain or not.
-			htmlAndCss = htmlUtil.generateHtml(ircOutput, String.valueOf(now.getTime()), false);
+			htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, false);
 		}
+		
+		//save image info
+		jenkemImageInfo.setName(currentImageName);
+		jenkemImageInfo.setCreateDate(now);
+		jenkemImageInfo.setCreateStamp(now.getTime());
 		
 		//save conversion in jenkem image
 		jenkemImage.setName(currentImageName);
-		jenkemImage.setCreateDate(now);
-		jenkemImage.setCreateStamp(now.getTime());
 		jenkemImage.setIrc(irc);
 		jenkemImage.setHtml(htmlAndCss[0]);
 		jenkemImage.setCss(htmlAndCss[1]);

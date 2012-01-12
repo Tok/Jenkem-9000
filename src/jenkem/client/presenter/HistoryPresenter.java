@@ -3,7 +3,7 @@ package jenkem.client.presenter;
 import java.util.List;
 
 import jenkem.client.service.JenkemServiceAsync;
-import jenkem.shared.data.JenkemImage;
+import jenkem.shared.data.JenkemImageInfo;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -42,9 +42,9 @@ public class HistoryPresenter extends AbstractTabPresenter implements Presenter 
 		display.getHistoryList().removeAllRows();
 		display.getHistoryList().setText(0, 0, "Loading...");
 		
-		getJenkemService().getAllPersitentImages(new AsyncCallback<List<JenkemImage>>() {			
+		getJenkemService().getAllImageInfo(new AsyncCallback<List<JenkemImageInfo>>() {			
 			@Override
-			public void onSuccess(List<JenkemImage> result) {
+			public void onSuccess(List<JenkemImageInfo> result) {
 				if (result != null) {
 					prepareResultTable(result);					
 				} else {
@@ -61,15 +61,15 @@ public class HistoryPresenter extends AbstractTabPresenter implements Presenter 
 		display.getHistoryList().setText(0, 0, "Loading...");
 	}
 		
-	private void prepareResultTable(List<JenkemImage> result) {
+	private void prepareResultTable(List<JenkemImageInfo> result) {
 		display.getHistoryList().setText(0, 0, "Name");
 		display.getHistoryList().setText(0, 1, "Createion Date");
 		final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss"); //TODO use date Util
 		int row = 1;
-		for (JenkemImage image : result) {
-			String urlString = "http://" + Window.Location.getHost() + "/jenkem/output?ts=" + image.getCreateStamp() + "&type=html";
-			display.getHistoryList().setWidget(row, 0, new Anchor(image.getName(), urlString));
-			display.getHistoryList().setText(row, 1, format.format(image.getCreateDate()));
+		for (JenkemImageInfo imageInfo : result) {
+			String urlString = "http://" + Window.Location.getHost() + "/jenkem/output?name=" + imageInfo.getName() + "&type=html";
+			display.getHistoryList().setWidget(row, 0, new Anchor(imageInfo.getName(), urlString));
+			display.getHistoryList().setText(row, 1, format.format(imageInfo.getCreateDate()));
 			row++;
 		}
 	}

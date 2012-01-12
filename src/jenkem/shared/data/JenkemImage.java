@@ -2,9 +2,7 @@ package jenkem.shared.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
@@ -20,13 +18,7 @@ public class JenkemImage implements Serializable {
 	private static final long serialVersionUID = -6473171638408382577L;
 
 	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long key;
-
-	@Persistent
 	private String name;
-	@Persistent
-	private Boolean isPersistent;
 	
 	@Persistent(serialized = "true")
 	@Order(column="JENKEMIMAGE_IRC")
@@ -35,10 +27,6 @@ public class JenkemImage implements Serializable {
 	private Text html;
 	@Persistent
 	private Text css;
-	@Persistent
-	private Date createDate;
-	@Persistent
-	private Long createStamp;
 	
 	public JenkemImage() {
 	}
@@ -75,35 +63,4 @@ public class JenkemImage implements Serializable {
 		this.css = new Text(css);
 	}
 	
-	public Long getKey() {
-		return key;
-	}
-
-	public void setKey(Long key) {
-		this.key = key;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public Boolean getIsPersistent() {
-		return isPersistent;
-	}
-
-	public void setIsPersistent(Boolean isPersistent) {
-		this.isPersistent = isPersistent;
-	}
-
-	public Long getCreateStamp() {
-		return createStamp;
-	}
-
-	public void setCreateStamp(Long createStamp) {
-		this.createStamp = createStamp;
-	}
 }

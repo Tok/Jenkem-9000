@@ -20,10 +20,6 @@
     <servlet-name>imageServlet</servlet-name>
     <servlet-class>jenkem.server.servlet.ImageServlet</servlet-class>
   </servlet>
-  <servlet>
-    <servlet-name>cleanupServlet</servlet-name>
-    <servlet-class>jenkem.server.servlet.CleanupServlet</servlet-class>
-  </servlet>
   
   <servlet-mapping>
     <servlet-name>jenkemService</servlet-name>
@@ -40,10 +36,6 @@
   <servlet-mapping>
     <servlet-name>imageServlet</servlet-name>
     <url-pattern>/jenkem/image</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>cleanupServlet</servlet-name>
-    <url-pattern>/jenkem/cleanup</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>
