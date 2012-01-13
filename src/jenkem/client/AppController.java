@@ -27,7 +27,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	
 	private final TabPanel tabPanel = new TabPanel();
 	private final MainView mainView = new MainView();
-	private final GalleryView historyView = new GalleryView();
+	private final GalleryView galleryView = new GalleryView();
 	
 	private Presenter mainPresenter;
 	private Presenter galleryPresenter;
@@ -55,9 +55,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 		});
 
-		tabPanel.setAnimationEnabled(true);
+//		tabPanel.setAnimationEnabled(true); //XXX
 		tabPanel.add(mainView.asWidget(), "Main");
-		tabPanel.add(historyView.asWidget(), "Gallery");
+		tabPanel.add(galleryView.asWidget(), "Gallery");
 	}
 	
 	private void bind() {
@@ -92,7 +92,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			mainPresenter.go(container);
 		} else if (token.startsWith("gallery/")) {
 			tabPanel.selectTab(1);
-			galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, historyView);
+			galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, galleryView);
 			galleryPresenter.go(container);
 		} else {
 			tabPanel.selectTab(0);

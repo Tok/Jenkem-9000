@@ -56,12 +56,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 		String link = com.google.gwt.user.client.Window.Location.getParameter("link");
 		
 		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
-		contentTableDecorator.setWidth("100%");
 		contentTableDecorator.setWidth("1010px");
 		initWidget(contentTableDecorator);
 
 		contentTable = new FlexTable();
-		contentTable.setWidth("100%");
 		
 		final HorizontalPanel hPanel = new HorizontalPanel();
 		inputTextBox.setWidth("800px");
@@ -78,16 +76,8 @@ public class MainView extends Composite implements MainPresenter.Display {
 		int row = 0;
 		contentTable.setWidget(row++, 0, statusLabel);		
 		contentTable.setWidget(row++, 0, hPanel);
-				
-		previewPanel.add(new Label("HTML Preview:"));
+
 		previewPanel.add(inline);
-		ircText.setCharacterWidth(77);
-		ircText.setVisibleLines(5);
-		ircText.setReadOnly(true);
-		ircText.setDirection(Direction.LTR);
-		ircText.getElement().setAttribute("wrap", "off");
-		previewPanel.add(new Label("Binary output for IRC:"));
-		previewPanel.add(ircText);
 
 		final FlexTable flex = new FlexTable();
 		flex.setWidget(0, 0, previewPanel);
@@ -99,7 +89,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		for (ConversionMethod method : ConversionMethod.values()) {
 			methodListBox.addItem(method.toString());
 		}
-		settingsTable.setText(settingsRow, 0, "Conversion Method");
+		settingsTable.setText(settingsRow, 0, "Conversion Method:");
 		methodListBox.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, methodListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
@@ -109,7 +99,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
 		settingsRow++;
 		
-		settingsTable.setText(settingsRow, 0, "Reset values");
+		settingsTable.setText(settingsRow, 0, "Reset values:");
 		resetButton.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, resetButton);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
@@ -118,7 +108,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		for (ColorScheme scheme : ColorScheme.values()) {
 			schemeListBox.addItem(scheme.toString());
 		}
-		settingsTable.setText(settingsRow, 0, "Color Scheme");
+		settingsTable.setText(settingsRow, 0, "Color Scheme:");
 		schemeListBox.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, schemeListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
@@ -127,27 +117,27 @@ public class MainView extends Composite implements MainPresenter.Display {
 		for (AsciiPreset preset : AsciiPreset.values()) {
 			presetListBox.addItem(preset.name());
 		}
-		settingsTable.setText(settingsRow, 0, "ASCII Preset");
+		settingsTable.setText(settingsRow, 0, "ASCII Preset:");
 		presetListBox.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, presetListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
 		
-		settingsTable.setText(settingsRow, 0, "Contrast");
+		settingsTable.setText(settingsRow, 0, "Contrast:");
 		contrastSlider.setMaxValue(199);
 		contrastSlider.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, contrastSlider);
 		settingsTable.setWidget(settingsRow, 2, contrastLabel);
 		settingsRow++;
 		
-		settingsTable.setText(settingsRow, 0, "Brightness");
+		settingsTable.setText(settingsRow, 0, "Brightness:");
 		brightnessSlider.setMaxValue(200);
 		brightnessSlider.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, brightnessSlider);
 		settingsTable.setWidget(settingsRow, 2, brightnessLabel);
 		settingsRow++;
 		
-		settingsTable.setText(settingsRow, 0, "Kick");
+		settingsTable.setText(settingsRow, 0, "Kick:");
 		final HorizontalPanel kickPanel = new HorizontalPanel();
 		kickPanel.add(noKick);
 		kickPanel.add(xKick);
@@ -161,13 +151,27 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
 		settingsRow++;
 		
-		settingsTable.setText(settingsRow, 0, "Submit Conversion");
+		settingsTable.setText(settingsRow, 0, "Submit Conversion:");
 		submitButton.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, submitButton);
+		settingsRow++;
+		
+		settingsTable.setText(settingsRow, 0, "Binary Output for IRC:");
+		settingsRow++;
 
+		ircText.setCharacterWidth(77);
+		ircText.setVisibleLines(5);
+		ircText.setReadOnly(true);
+		ircText.setDirection(Direction.LTR);
+		ircText.getElement().setAttribute("wrap", "off");
+		ircText.setWidth("393px");
+		settingsTable.setWidget(settingsRow, 0, ircText);
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 0, 3);
+		
 		settingsTable.getFlexCellFormatter().setWidth(0, 0, "170px");
 		settingsTable.getFlexCellFormatter().setWidth(1, 0, "400px");
 		settingsTable.getFlexCellFormatter().setWidth(2, 0, "50px");
+		
 		flex.setWidget(0, 1, settingsTable);
 		flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
 		flex.getFlexCellFormatter().setWidth(0, 1, "450px");

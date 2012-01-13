@@ -13,13 +13,10 @@ public class GalleryView extends Composite implements GalleryPresenter.Display {
 	
 	public GalleryView() {
 		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
-		contentTableDecorator.setWidth("100%");
 		contentTableDecorator.setWidth("1010px");
 		initWidget(contentTableDecorator);
 
 		contentTable = new FlexTable();
-		contentTable.setWidth("100%");
-
 		historyList.setWidth("987px");
 		contentTable.setWidget(0, 0, historyList);
 

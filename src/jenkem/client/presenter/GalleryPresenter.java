@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GalleryPresenter extends AbstractTabPresenter implements Presenter {
 	private final Display display;
-
+	
 	public interface Display {
 		FlexTable getHistoryList();
 		Widget asWidget();

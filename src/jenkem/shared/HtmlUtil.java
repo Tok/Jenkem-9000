@@ -208,9 +208,11 @@ public class HtmlUtil extends AbstractWebUtil {
 		newInlineCss.append("<style type=\"text/css\">\n");
 		for (String line : cssLines) {
 			if (line.startsWith("div {")) {
-				newInlineCss.append(".jenkem { float: left; width: auto; clear: both; font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; }");
+				newInlineCss.append(".jenkem { font-family: monospace; font-weight: bold; }");
+			} else if (line.startsWith("form {")) {
+				//ignore
 			} else if (line.startsWith("body {")) {
-				newInlineCss.append(".jenkemBody { font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; background-color: black; }");
+				//ignore
 			} else if (line.startsWith("html {")) {
 				//ignore
 			} else {

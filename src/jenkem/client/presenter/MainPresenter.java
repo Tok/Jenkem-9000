@@ -403,10 +403,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 			binaryOutput.append(line);
 			binaryOutput.append("\n");
 		}
-		display.getIrcTextArea().setText(binaryOutput.toString());
-		display.getIrcTextArea().selectAll();
 
 		removeBusyIcon();
+	
+		display.getIrcTextArea().setText(binaryOutput.toString());
+		display.getIrcTextArea().selectAll();
 	}
 
 	private void displayBusyIcon() {
