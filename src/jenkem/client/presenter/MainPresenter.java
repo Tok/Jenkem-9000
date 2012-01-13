@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import jenkem.client.service.JenkemServiceAsync;
+import jenkem.shared.AsciiPreset;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
@@ -23,8 +24,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -76,45 +75,26 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 	public interface Display {
 		HasValue<String> getInputLink();
-
 		TextBox getInputTextBox();
-
 		Label getStatusLabel();
-
 		HasClickHandlers getShowButton();
-
 		Panel getBusyPanel();
-
 		Canvas getCanvas();
-
 		InlineHTML getPreviewHtml();
-
 		TextArea getIrcTextArea();
-
 		ListBox getMethodListBox();
-
 		ListBox getSchemeListBox();
-
+		ListBox getPresetListBox();
 		HasClickHandlers getResetButton();
-
 		SliderBarSimpleHorizontal getContrastSlider();
-
 		Label getContrastLabel();
-
 		SliderBarSimpleHorizontal getBrightnessSlider();
-
 		Label getBrightnessLabel();
-
 		RadioButton getNoKickButton();
-
 		RadioButton getXKickButton();
-
 		RadioButton getYKickButton();
-
 		RadioButton getXyKickButton();
-
 		HasClickHandlers getSubmitButton();
-
 		Widget asWidget();
 	}
 
@@ -157,7 +137,14 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		this.display.getSchemeListBox().addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
-				doShow(proxify());
+				doConversion();
+			}
+		});
+		
+		this.display.getPresetListBox().addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				doConversion();
 			}
 		});
 		
@@ -189,13 +176,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		this.display.getBrightnessSlider().addMouseOverHandler(new MouseOverHandler() {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				readyForSlider = true;
-			}
-		});
-		
-		this.display.getBrightnessSlider().addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
 				readyForSlider = true;
 			}
 		});
@@ -354,6 +334,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 				display.getSchemeListBox().getSelectedIndex());
 		final ColorScheme scheme = ColorScheme.valueOf(schemeName);
 
+		final String presetName = display.getPresetListBox().getItemText(
+				display.getPresetListBox().getSelectedIndex());
+		final AsciiPreset preset = AsciiPreset.valueOf(presetName);
+		
+		
 		double contrast = Double.valueOf(display.getContrastLabel().getText());
 		int brightness = Integer
 				.valueOf(display.getBrightnessLabel().getText());
@@ -361,18 +346,18 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		String[] ircOutput = null;
 		if (methodName.equals(ConversionMethod.FullHd.toString())) {
 			ircOutput = engine
-					.generateHighDef(id, scheme, contrast, brightness);
+					.generateHighDef(id, scheme, preset, contrast, brightness);
 		} else if (methodName.equals(ConversionMethod.SuperHybrid.toString())) {
-			ircOutput = engine.generateSuperHybrid(id, scheme, contrast,
+			ircOutput = engine.generateSuperHybrid(id, scheme, preset, contrast,
 					brightness, kick);
 		} else if (methodName.equals(ConversionMethod.Pwntari.toString())) {
-			ircOutput = engine.generatePwntari(id, scheme, contrast,
+			ircOutput = engine.generatePwntari(id, scheme, preset, contrast,
 					brightness, kick);
 		} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
-			ircOutput = engine.generateHybrid(id, scheme, contrast, brightness,
+			ircOutput = engine.generateHybrid(id, scheme, preset, contrast, brightness,
 					kick);
 		} else if (methodName.equals(ConversionMethod.Plain.toString())) {
-			ircOutput = engine.generatePlain(id, contrast, brightness, kick);
+			ircOutput = engine.generatePlain(id, preset, contrast, brightness, kick);
 		}
 
 		final ArrayList<Text> irc = new ArrayList<Text>();
@@ -432,7 +417,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 	private void removeBusyIcon() {
 		display.getBusyPanel().clear();
-		display.getStatusLabel().setText("Please enter URL to an image:");
+		display.getStatusLabel().setText("Enter URL to an image:");
 	}
 
 	private String getKick() {
@@ -449,6 +434,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 	private void doReset() {
 		display.getSchemeListBox().setSelectedIndex(0);
+		display.getPresetListBox().setSelectedIndex(0);
 		display.getContrastSlider().setValue(94);
 		updateContrast(94);
 		display.getBrightnessSlider().setValue(100);

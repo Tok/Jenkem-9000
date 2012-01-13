@@ -3,7 +3,6 @@ package jenkem.shared;
 import java.util.Random;
 
 public class AsciiScheme {
-	private String ascii = " -+xX#";
 	private boolean postProcessed = true;
 	private boolean processed = true;
 	private boolean randomized = true;
@@ -21,11 +20,11 @@ public class AsciiScheme {
 	private String left = "[";
 	private String right = "]";
 
-	public String getChar(double strength, final boolean isAbsolute) {
+	public String getChar(double strength, final AsciiPreset preset, final boolean isAbsolute) {
 		if (isAbsolute) {
 			strength = (255 - strength) / 255;
 		}
-		return getChar(strength);
+		return getChar(strength, preset);
 	}
 
 	/**
@@ -36,18 +35,18 @@ public class AsciiScheme {
 	 *            a relative value between 0.0 and 1.0
 	 * @return String with the character to use. (assuming bg > fg)
 	 */
-	private String getChar(double relStrength) {
+	private String getChar(double relStrength, final AsciiPreset preset) {
 		if (relStrength > 1) {
 			relStrength = 1.0D;
 		}
 		if (relStrength < 0) {
 			relStrength = 0.0D;
 		}
-		final double th = 1.0 / ascii.length();
+		final double th = 1.0 / preset.getAscii().length();
 		String ret = "";
-		for (int i = 0; i < ascii.length(); i++) {
+		for (int i = 0; i < preset.getAscii().length(); i++) {
 			if (relStrength <= (i + 1) * th) {
-				ret = Character.toString(ascii.toCharArray()[i]);
+				ret = Character.toString(preset.getAscii().toCharArray()[i]);
 				break; // we have a winrar
 			}
 		}
@@ -85,10 +84,10 @@ public class AsciiScheme {
 		}
 	}
 
-	public boolean isCharacterDark(final String character) {
-		final int halfLength = (ascii.length() + 3) / 2; //cutting off the decimals is OK here
+	public boolean isCharacterDark(final String character, final AsciiPreset preset) {
+		final int halfLength = (preset.getAscii().length() + 3) / 2; //cutting off the decimals is OK here
 		for (int i = 0; i <= halfLength; i++) {
-			String compare = ascii.substring(ascii.length() - i - 1);
+			String compare = preset.getAscii().substring(preset.getAscii().length() - i - 1);
 			if (unFormat(character).equals(compare)) {
 				return true;
 			}
@@ -96,10 +95,10 @@ public class AsciiScheme {
 		return false;
 	}
 
-	public boolean isCharacterBright(final String character) {
-		final int halfLength = (ascii.length() + 3) / 2; //cutting off the decimals is OK here
+	public boolean isCharacterBright(final String character, final AsciiPreset preset) {
+		final int halfLength = (preset.getAscii().length() + 3) / 2; //cutting off the decimals is OK here
 		for (int i = 0; i <= halfLength; i++) {
-			String compare = ascii.substring(i);
+			String compare = preset.getAscii().substring(i);
 			if (unFormat(character).equals(compare)) {
 				return true;
 			}
@@ -124,14 +123,6 @@ public class AsciiScheme {
 	 */
 	public String replace(final String in, final String rep) {
 		return in.substring(0, in.length() - 1) + rep;
-	}
-
-	public void setAscii(String ascii) {
-		this.ascii = ascii;
-	}
-
-	public String getAscii() {
-		return ascii;
 	}
 
 	public void setPostProcessed(boolean postProcessed) {
@@ -302,8 +293,8 @@ public class AsciiScheme {
 		this.right = right;
 	}
 
-	public String getDarkestCharacter() {
-		return ascii.substring(ascii.length());
+	public String getDarkestCharacter(final AsciiPreset preset) {
+		return preset.getAscii().substring(preset.getAscii().length());
 	}
 
 }

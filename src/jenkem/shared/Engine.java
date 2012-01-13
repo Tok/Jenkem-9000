@@ -21,7 +21,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHighDef(final ImageData id, final ColorScheme scheme, final double contrast, final int brightness) {
+	public String[] generateHighDef(final ImageData id, final ColorScheme scheme, final AsciiPreset preset, final double contrast, final int brightness) {
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[id.getHeight()];
 		
@@ -36,7 +36,7 @@ public class Engine {
 					final int green = Sample.keepInRange((int) (id.getGreenAt(x, y) * contrast) + brightness);
 					final int blue = Sample.keepInRange((int) (id.getBlueAt(x, y) * contrast) + brightness);
 					oldPix = newPix;
-					newPix = cube.getColorChar(colorMap, red, green, blue, false); // the cube is used here.
+					newPix = cube.getColorChar(colorMap, preset, red, green, blue, false); // the cube is used here.
 					if (newPix.equals(oldPix)) {
 						String charOnly = newPix.substring(newPix.length() - 1, newPix.length());
 						row.append(charOnly);
@@ -63,7 +63,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateSuperHybrid(final ImageData id, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
+	public String[] generateSuperHybrid(final ImageData id, final ColorScheme scheme, final AsciiPreset preset, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(id.getHeight() / 2);
 		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
@@ -100,10 +100,10 @@ public class Engine {
 						
 						oldLeft = newLeft;
 						newLeft = cube.getColorChar(
-							colorMap, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft()
+							colorMap, preset, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft()
 						);
 						newRight = cube.getColorChar(
-							colorMap, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight()
+							colorMap, preset, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight()
 						);
 
 						final jenkem.shared.color.Color leftCol = cube.getTwoNearestColors(colorMap, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft());
@@ -184,7 +184,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHybrid(final ImageData id, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
+	public String[] generateHybrid(final ImageData id, final ColorScheme scheme, final AsciiPreset preset, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(id.getHeight() / 2);
 		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
@@ -208,16 +208,16 @@ public class Engine {
 						//TODO reimplement foreground enforcement
 						final boolean isEnforceBlackFg = false;
 						newLeft = cube.getColorChar(
-							colorMap, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft(), isEnforceBlackFg
+							colorMap, preset, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft(), isEnforceBlackFg
 						);
 						newRight = cube.getColorChar(
-							colorMap, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight(), isEnforceBlackFg
+							colorMap, preset, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight(), isEnforceBlackFg
 						);
 
-						if (asciiScheme.isCharacterBright(newLeft) && asciiScheme.isCharacterDark(newRight)) {
+						if (asciiScheme.isCharacterBright(newLeft, preset) && asciiScheme.isCharacterDark(newRight, preset)) {
 							newLeft = asciiScheme.replace(newLeft, asciiScheme.selectVline());
 						}
-						if (asciiScheme.isCharacterDark(newLeft) && asciiScheme.isCharacterBright(newRight)) {
+						if (asciiScheme.isCharacterDark(newLeft, preset) && asciiScheme.isCharacterBright(newRight, preset)) {
 							newRight = asciiScheme.replace(newRight, asciiScheme.selectVline());
 						}
 
@@ -231,26 +231,26 @@ public class Engine {
 						final int upDownOffset = 2;
 
 						if (isUp(sample.getRedTopLeft(), sample.getGreenTopLeft(), sample.getBlueTopLeft(), sample.getRedBottomLeft(), sample.getGreenBottomLeft(), sample.getBlueBottomLeft(), upOffset)) {
-							if (asciiScheme.isCharacterDark(newRight)) {
+							if (asciiScheme.isCharacterDark(newRight, preset)) {
 								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectRightUp(); // y7
 							} else {
 								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectUp(); // "
 							}
 						} else if (isDown(sample.getRedTopLeft(), sample.getGreenTopLeft(), sample.getBlueTopLeft(), sample.getRedBottomLeft(), sample.getGreenBottomLeft(), sample.getBlueBottomLeft(), downOffset)) {
-							if (asciiScheme.isCharacterDark(newRight)) {
+							if (asciiScheme.isCharacterDark(newRight, preset)) {
 								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectRightDown(); // j
 							} else {
 								newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
 							}
 						}
 						if (isUp(sample.getRedTopRight(), sample.getGreenTopRight(), sample.getBlueTopRight(), sample.getRedBottomRight(), sample.getGreenBottomRight(), sample.getBlueBottomRight(), upOffset)) {
-							if (asciiScheme.isCharacterDark(newLeft)) {
+							if (asciiScheme.isCharacterDark(newLeft, preset)) {
 								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectLeftUp(); // F
 							} else {
 								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectUp(); // "
 							}
 						} else if (isDown(sample.getRedTopRight(), sample.getGreenTopRight(), sample.getBlueTopRight(), sample.getRedBottomRight(), sample.getGreenBottomRight(), sample.getBlueBottomRight(), downOffset)) {
-							if (asciiScheme.isCharacterDark(newLeft)) {
+							if (asciiScheme.isCharacterDark(newLeft, preset)) {
 								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectLeftDown(); // L
 							} else {
 								newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
@@ -317,7 +317,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePwntari(final ImageData id, final ColorScheme scheme, final double contrast, final int brightness, final String kick) {
+	public String[] generatePwntari(final ImageData id, final ColorScheme scheme, final AsciiPreset preset, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(id.getHeight() / 2);
 		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
@@ -338,10 +338,10 @@ public class Engine {
 
 						oldLeft = newLeft;
 						newLeft = cube.getColorChar(
-							colorMap, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft()
+							colorMap, preset, sample.getRedLeft(), sample.getGreenLeft(), sample.getBlueLeft()
 						);
 						newRight = cube.getColorChar(
-							colorMap, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight()
+							colorMap, preset, sample.getRedRight(), sample.getGreenRight(), sample.getBlueRight()
 						);
 						newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
 						newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
@@ -386,7 +386,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePlain(final ImageData id, final double contrast, final int brightness, final String kick) {
+	public String[] generatePlain(final ImageData id, final AsciiPreset preset, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(id.getHeight() / 2);
 		final int width = id.getWidth();
 		final String[] ret = new String[height];
@@ -417,7 +417,7 @@ public class Engine {
 					} else if (topLeft > 127 && bottomLeft <= 127) {
 						charPixel = asciiScheme.getDown();
 					} else {
-						charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2,	true);
+						charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2, preset,	true);
 					} // TODO make this shit clean
 
 					// 2nd char
@@ -426,7 +426,7 @@ public class Engine {
 					} else if (topRight > 127 && bottomRight <= 127) {
 						charPixel = charPixel + asciiScheme.getDown();
 					} else {
-						charPixel = charPixel + asciiScheme.getChar((topRight + bottomRight) / 2, true);
+						charPixel = charPixel + asciiScheme.getChar((topRight + bottomRight) / 2, preset, true);
 					}
 
 					// replace chars
@@ -437,27 +437,27 @@ public class Engine {
 						charPixel = asciiScheme.getDownUp();
 					}
 
-					if (asciiScheme.isCharacterDark(charPixel.substring(0, 1))
+					if (asciiScheme.isCharacterDark(charPixel.substring(0, 1), preset)
 							&& charPixel.substring(1, 2).equals(asciiScheme.getDown())) {
 						charPixel = charPixel.substring(0, 1) + asciiScheme.selectLeftDown();
 					}
 					if (charPixel.substring(0, 1).equals(asciiScheme.getDown())
-							&& asciiScheme.isCharacterDark(charPixel.substring(1, 2))) {
+							&& asciiScheme.isCharacterDark(charPixel.substring(1, 2), preset)) {
 						charPixel = asciiScheme.selectRightDown() + charPixel.substring(1, 2);
 					}
-					if (asciiScheme.isCharacterDark(charPixel.substring(0, 1))
+					if (asciiScheme.isCharacterDark(charPixel.substring(0, 1), preset)
 							&& charPixel.substring(1, 2).equals(asciiScheme.getUp())) {
 						charPixel = charPixel.substring(0, 1) + asciiScheme.selectLeftUp();
 					}
 					if (charPixel.substring(0, 1).equals(asciiScheme.getUp())
-							&& asciiScheme.isCharacterDark(charPixel.substring(1, 2))) {
+							&& asciiScheme.isCharacterDark(charPixel.substring(1, 2), preset)) {
 						charPixel = asciiScheme.selectRightUp() + charPixel.substring(1, 2);
 					}
 
-					if (charPixel.equals(asciiScheme.getDarkestCharacter() + " ")) {
+					if (charPixel.equals(asciiScheme.getDarkestCharacter(preset) + " ")) {
 						charPixel = asciiScheme.getVline() + " ";
 					}
-					if (charPixel.equals(" " + asciiScheme.getDarkestCharacter())) {
+					if (charPixel.equals(" " + asciiScheme.getDarkestCharacter(preset))) {
 						charPixel = " " + asciiScheme.getVline();
 					}
 					row.append(charPixel);

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import jenkem.shared.AsciiPreset;
 import jenkem.shared.AsciiScheme;
 
 import com.google.gwt.user.client.Random;
@@ -28,7 +29,7 @@ public class Cube {
 	 * @param blue 0-255
 	 * @return a String with the IRC-color codes and the character to display in IRC
 	 */
-	public String getColorChar(final Map<String, Integer> colorMap, final int red, final int green, final int blue, 
+	public String getColorChar(final Map<String, Integer> colorMap, final AsciiPreset preset, final int red, final int green, final int blue, 
 			final boolean enforceBlackFg) {
 		final double CONTRAST = 0.95d;
 		final int fixedRed = (int) (red * CONTRAST);
@@ -48,13 +49,13 @@ public class Cube {
 		result.append(",");
 		result.append(c.getBg()); //append the background color
 
-		final String character = asciiScheme.getChar(c.getBgStrength(), false);
+		final String character = asciiScheme.getChar(c.getBgStrength(), preset, false);
 		result.append(character); //append the selected ASCII character
 		return result.toString();
 	}
 
-	public String getColorChar(final Map<String, Integer> colorMap, final int red, final int green, final int blue) {
-		return getColorChar(colorMap, red, green, blue, false);
+	public String getColorChar(final Map<String, Integer> colorMap, final AsciiPreset preset, final int red, final int green, final int blue) {
+		return getColorChar(colorMap, preset, red, green, blue, false);
 	}
 
 	private WeightedColor createWc(final Map<String, Integer> colorMap, final int[] col, final String name) {

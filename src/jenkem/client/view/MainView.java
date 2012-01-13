@@ -2,6 +2,7 @@ package jenkem.client.view;
 
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.ExtendedTextBox;
+import jenkem.shared.AsciiPreset;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 
@@ -31,13 +32,14 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final ExtendedTextBox inputTextBox = new ExtendedTextBox();
 	private final Button showButton = new Button("Convert Image");
 	private final Panel busyPanel = new HorizontalPanel();
-	private final Label statusLabel = new Label("Please enter URL to an image:");
+	private final Label statusLabel = new Label("Enter URL to an image:");
 	private final Canvas canvas = Canvas.createIfSupported(); 
 	private final Panel previewPanel = new VerticalPanel();
 	private final InlineHTML inline = new InlineHTML();
 	private final TextArea ircText = new TextArea();
 	private final ListBox methodListBox = new ListBox();
 	private final ListBox schemeListBox = new ListBox();
+	private final ListBox presetListBox = new ListBox();
 	private final Button resetButton = new Button("Reset");
 	private final SliderBarSimpleHorizontal contrastSlider = new SliderBarSimpleHorizontal(100, "100px", false);
 	private final Label contrastLabel = new Label();
@@ -62,13 +64,14 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contentTable.setWidth("100%");
 		
 		final HorizontalPanel hPanel = new HorizontalPanel();
-		inputTextBox.setWidth("710px");
+		inputTextBox.setWidth("800px");
 		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		hPanel.setSpacing(5);
 		if (link != null && !link.equals("")) {
 			inputTextBox.setText(link);
 		}
 		hPanel.add(inputTextBox);
+		showButton.setWidth("137px");
 		hPanel.add(showButton);
 		hPanel.add(busyPanel);
 
@@ -76,8 +79,6 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contentTable.setWidget(row++, 0, statusLabel);		
 		contentTable.setWidget(row++, 0, hPanel);
 				
-		
-		
 		previewPanel.add(new Label("HTML Preview:"));
 		previewPanel.add(inline);
 		ircText.setCharacterWidth(77);
@@ -99,6 +100,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 			methodListBox.addItem(method.toString());
 		}
 		settingsTable.setText(settingsRow, 0, "Conversion Method");
+		methodListBox.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, methodListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
@@ -108,6 +110,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsRow++;
 		
 		settingsTable.setText(settingsRow, 0, "Reset values");
+		resetButton.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, resetButton);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
@@ -116,18 +119,30 @@ public class MainView extends Composite implements MainPresenter.Display {
 			schemeListBox.addItem(scheme.toString());
 		}
 		settingsTable.setText(settingsRow, 0, "Color Scheme");
+		schemeListBox.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, schemeListBox);
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+		settingsRow++;
+		
+		for (AsciiPreset preset : AsciiPreset.values()) {
+			presetListBox.addItem(preset.name());
+		}
+		settingsTable.setText(settingsRow, 0, "ASCII Preset");
+		presetListBox.setWidth("200px");
+		settingsTable.setWidget(settingsRow, 1, presetListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
 		
 		settingsTable.setText(settingsRow, 0, "Contrast");
 		contrastSlider.setMaxValue(199);
+		contrastSlider.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, contrastSlider);
 		settingsTable.setWidget(settingsRow, 2, contrastLabel);
 		settingsRow++;
 		
 		settingsTable.setText(settingsRow, 0, "Brightness");
 		brightnessSlider.setMaxValue(200);
+		brightnessSlider.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, brightnessSlider);
 		settingsTable.setWidget(settingsRow, 2, brightnessLabel);
 		settingsRow++;
@@ -147,11 +162,15 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsRow++;
 		
 		settingsTable.setText(settingsRow, 0, "Submit Conversion");
+		submitButton.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, submitButton);
-		
+
+		settingsTable.getFlexCellFormatter().setWidth(0, 0, "170px");
+		settingsTable.getFlexCellFormatter().setWidth(1, 0, "400px");
+		settingsTable.getFlexCellFormatter().setWidth(2, 0, "50px");
 		flex.setWidget(0, 1, settingsTable);
 		flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
-		flex.getFlexCellFormatter().setWidth(0, 1, "300px");
+		flex.getFlexCellFormatter().setWidth(0, 1, "450px");
 
 		contentTable.setWidget(row++, 0, flex);
 		contentTableDecorator.add(contentTable);
@@ -200,6 +219,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 	@Override
 	public ListBox getSchemeListBox() {
 		return schemeListBox;
+	}
+	
+	@Override
+	public ListBox getPresetListBox() {
+		return presetListBox;
 	}
 	
 	@Override
