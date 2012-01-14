@@ -44,6 +44,15 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 		row++;
 		
 		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
+
+		display.getInfoList().setText(row, 0, "Problems:");
+		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		row++;
+		display.getInfoList().setText(row, 0, "This version of Jenkem 9000 doesn't work right with Internet Explorer, Opera or Lynx. For best results use Firefox or Chrome. Safari may also work, but isn't tested.");
+		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		row++;
+		
+		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
 		
 		display.getInfoList().setText(row, 0, "Conversion Modes:");
 		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
