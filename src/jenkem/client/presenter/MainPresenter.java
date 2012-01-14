@@ -17,6 +17,8 @@ import jenkem.shared.data.JenkemImageIrc;
 import com.google.appengine.api.datastore.Text;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -326,6 +328,15 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		}
 		displayBusyIcon();
 
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				doDereferredConversion();
+			}
+		});		
+	}
+
+	private void doDereferredConversion() {
 		currentImage = ImageElement.as(image.getElement());
 
 		final String methodName = display.getMethodListBox().getItemText(
@@ -340,9 +351,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 		display.getCanvas().setWidth(String.valueOf(WIDTH) + "px");
 		display.getCanvas().setHeight(String.valueOf(height) + "px");
-		display.getCanvas().getContext2d().fillRect(0, 0, WIDTH, height);
-		display.getCanvas().getContext2d()
-				.drawImage(currentImage, 0, 0, WIDTH, height);
+		display.getCanvas().getContext2d().fillRect(0, 0, WIDTH, height); //resets the canvas with black bg
+		display.getCanvas().getContext2d().drawImage(currentImage, 0, 0, WIDTH, height);
 
 		final ImageData id = display.getCanvas().getContext2d()
 				.getImageData(0, 0, WIDTH, height);
@@ -426,7 +436,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		display.getIrcTextArea().setText(binaryOutput.toString());
 		display.getIrcTextArea().selectAll();
 	}
-
+	
 	private void displayBusyIcon() {
 		display.getBusyPanel().clear();
 		display.getBusyPanel().add(busyImage);
