@@ -3,11 +3,13 @@ package jenkem.client;
 import jenkem.client.event.CancelledEvent;
 import jenkem.client.event.CancelledEventHandler;
 import jenkem.client.presenter.GalleryPresenter;
+import jenkem.client.presenter.InfoPresenter;
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.presenter.Presenter;
 import jenkem.client.service.JenkemService;
 import jenkem.client.service.JenkemServiceAsync;
 import jenkem.client.view.GalleryView;
+import jenkem.client.view.InfoView;
 import jenkem.client.view.MainView;
 
 import com.google.gwt.core.client.GWT;
@@ -28,9 +30,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private final TabPanel tabPanel = new TabPanel();
 	private final MainView mainView = new MainView();
 	private final GalleryView galleryView = new GalleryView();
+	private final InfoView infoView = new InfoView();
 	
 	private Presenter mainPresenter;
 	private Presenter galleryPresenter;
+	private Presenter infoPresenter;
 	
 	public AppController() {
 		prepareTabs();
@@ -52,12 +56,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 						History.newItem("gallery/");
 					}
 				}
+				if(selection == 2) {
+					if(!History.getToken().startsWith("info")) {	
+						History.newItem("info/");
+					}
+				}
 			}
 		});
 
 //		tabPanel.setAnimationEnabled(true); //XXX
 		tabPanel.add(mainView.asWidget(), "Main");
 		tabPanel.add(galleryView.asWidget(), "Gallery");
+		tabPanel.add(infoView.asWidget(), "Info");
 	}
 	
 	private void bind() {
@@ -94,6 +104,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			tabPanel.selectTab(1);
 			galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, galleryView);
 			galleryPresenter.go(container);
+		} else if (token.startsWith("info/")) {
+			tabPanel.selectTab(2);
+			infoPresenter = new InfoPresenter(eventBus, tabPanel, infoView);
+			infoPresenter.go(container);
 		} else {
 			tabPanel.selectTab(0);
 			mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);

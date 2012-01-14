@@ -55,6 +55,8 @@ import com.kiouri.sliderbar.client.event.BarValueChangedHandler;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
 
 public class MainPresenter extends AbstractTabPresenter implements Presenter {
+	private final JenkemServiceAsync jenkemService;
+	
 	private final Engine engine = new Engine();
 	private final HtmlUtil htmlUtil = new HtmlUtil();
 
@@ -101,7 +103,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	public MainPresenter(final JenkemServiceAsync jenkemService,
 			final HandlerManager eventBus, final TabPanel tabPanel,
 			final Display view) {
-		super(jenkemService, eventBus, tabPanel);
+		super(eventBus, tabPanel);
+		this.jenkemService = jenkemService;
 		this.display = view;
 	}
 
@@ -230,7 +233,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		this.display.getSubmitButton().addClickHandler(new ClickHandler() {			
 			@Override
 			public void onClick(ClickEvent event) {
-				getJenkemService().saveJenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc,
+				jenkemService.saveJenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc,
 					new AsyncCallback<String>() {
 						@Override
 						public void onFailure(Throwable caught) {

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GalleryPresenter extends AbstractTabPresenter implements Presenter {
 	private final Display display;
+	private final JenkemServiceAsync jenkemService;
 	
 	public interface Display {
 		FlexTable getHistoryList();
@@ -24,7 +25,8 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
 	}
 	
 	public GalleryPresenter(final JenkemServiceAsync jenkemService, final HandlerManager eventBus, final TabPanel tabPanel, final Display view) {
-		super(jenkemService, eventBus, tabPanel);
+		super(eventBus, tabPanel);
+		this.jenkemService = jenkemService;
 		this.display = view;
 	}
 
@@ -42,7 +44,7 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
 		display.getHistoryList().removeAllRows();
 		display.getHistoryList().setText(0, 0, "Loading...");
 		
-		getJenkemService().getAllImageInfo(new AsyncCallback<List<JenkemImageInfo>>() {			
+		jenkemService.getAllImageInfo(new AsyncCallback<List<JenkemImageInfo>>() {			
 			@Override
 			public void onSuccess(List<JenkemImageInfo> result) {
 				if (result != null) {
@@ -57,8 +59,6 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
 				display.getHistoryList().setText(0, 0, "Fail loading images.");
 			}
 		});
-		
-		display.getHistoryList().setText(0, 0, "Loading...");
 	}
 		
 	private void prepareResultTable(List<JenkemImageInfo> result) {

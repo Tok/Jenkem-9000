@@ -180,7 +180,7 @@ public class Engine {
 	}
 	
 	/**
-	 * pwntari mode
+	 * hgybrid mode
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
