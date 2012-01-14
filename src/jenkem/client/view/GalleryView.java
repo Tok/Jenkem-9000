@@ -5,6 +5,7 @@ import jenkem.client.presenter.GalleryPresenter;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GalleryView extends Composite implements GalleryPresenter.Display {	
@@ -17,8 +18,10 @@ public class GalleryView extends Composite implements GalleryPresenter.Display {
 		initWidget(contentTableDecorator);
 
 		contentTable = new FlexTable();
+		contentTable.setHeight("1010px");
 		historyList.setWidth("987px");
 		contentTable.setWidget(0, 0, historyList);
+		contentTable.getFlexCellFormatter().setVerticalAlignment(0, 0, HasAlignment.ALIGN_TOP);
 
 		contentTableDecorator.add(contentTable);
 	}

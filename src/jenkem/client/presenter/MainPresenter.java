@@ -35,6 +35,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasValue;
@@ -113,14 +114,14 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
 				if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-					doShow(proxify());
+					replaceUrl();
 			    }			
 			}
 		});
 		
 		this.display.getShowButton().addClickHandler(new ClickHandler() {
 			public void onClick(final ClickEvent event) {
-				doShow(proxify());
+				replaceUrl();
 			}
 		});
 		
@@ -133,7 +134,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 				} else {
 					enableKicks();
 				}
-				doShow(proxify());
+				replaceUrl();
 			}
 		});
 		
@@ -248,20 +249,32 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 			}
 		});
 	}
+	
+	private void replaceUrl() {
+		final String currentToken = History.getToken();
+		final String currentUrl = display.getInputTextBox().getValue();
+		if (!currentToken.endsWith(currentUrl)) {
+			History.newItem("main/" + display.getInputTextBox().getValue());			
+		} else {
+			proxifyAndConvert();
+		}
+	}
+	
+	public void proxifyAndConvert() {
+		final String urlString = display.getInputTextBox().getText();
+		doShow(proxify(urlString));
+	}
 
 	/**
 	 * calls the local image servlet to proxify the provided image in order to
 	 * circumvent the restrictions put by the same origin policy.
-	 * 
 	 * @return url to image servlet
 	 */
-	private String proxify() {
+	private String proxify(final String urlString) {
 		display.getStatusLabel().setText("Proxifying image...");
-		final String urlString = display.getInputTextBox().getText();
 		updateImageName(urlString);
 		if (!"".equals(urlString)) {
-			return "http://" + Window.Location.getHost() + "/jenkem/image?url="
-					+ urlString;
+			return "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
 		} else {
 			return "";
 		}
@@ -327,6 +340,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 		display.getCanvas().setWidth(String.valueOf(WIDTH) + "px");
 		display.getCanvas().setHeight(String.valueOf(height) + "px");
+		display.getCanvas().getContext2d().fillRect(0, 0, WIDTH, height);
 		display.getCanvas().getContext2d()
 				.drawImage(currentImage, 0, 0, WIDTH, height);
 

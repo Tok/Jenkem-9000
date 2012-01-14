@@ -32,9 +32,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private final GalleryView galleryView = new GalleryView();
 	private final InfoView infoView = new InfoView();
 	
-	private Presenter mainPresenter;
+	private MainPresenter mainPresenter;
 	private Presenter galleryPresenter;
 	private Presenter infoPresenter;
+	
+	private boolean doConvert = true;
 	
 	public AppController() {
 		prepareTabs();
@@ -48,7 +50,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				int selection = event.getSelectedItem().intValue();
 				if(selection == 0) {
 					if(!History.getToken().startsWith("main")) {
-						History.newItem("main/");
+						doConvert = false;
+						History.newItem("main/" + mainView.getInputTextBox().getValue());
 					}
 				}
 				if(selection == 1) {
@@ -82,7 +85,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	}
 
 	private void doEditTermCancelled() {
-		History.newItem("main/");
+		History.newItem("main/" + mainView.getInputTextBox().getValue());
 	}
 
 	public void go(final HasWidgets container) {
@@ -97,9 +100,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	public void onValueChange(final ValueChangeEvent<String> event) {
 		final String token = event.getValue();
 		if (token.startsWith("main/")) {
-			tabPanel.selectTab(0);
-			mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
-			mainPresenter.go(container);
+			prepareMainTab(token);
 		} else if (token.startsWith("gallery/")) {
 			tabPanel.selectTab(1);
 			galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, galleryView);
@@ -109,10 +110,24 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			infoPresenter = new InfoPresenter(eventBus, tabPanel, infoView);
 			infoPresenter.go(container);
 		} else {
-			tabPanel.selectTab(0);
-			mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
-			mainPresenter.go(container);			
+			prepareMainTab("main/");
 		}
 	}
 	
+	private void prepareMainTab(String token) {
+		mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
+		tabPanel.selectTab(0);
+		String imageUrl = "";
+		if (token.split("/", 2).length > 1) {
+			imageUrl = token.split("/", 2)[1];
+			if (!"".equals(imageUrl)) {
+				if (doConvert) {
+					mainView.setUrl(imageUrl);
+					mainPresenter.proxifyAndConvert();
+				}
+			}
+		}
+		doConvert = true;
+		mainPresenter.go(container);		
+	}
 }

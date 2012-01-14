@@ -60,7 +60,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		initWidget(contentTableDecorator);
 
 		contentTable = new FlexTable();
-		
+				
 		final HorizontalPanel hPanel = new HorizontalPanel();
 		inputTextBox.setWidth("800px");
 		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -77,6 +77,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contentTable.setWidget(row++, 0, statusLabel);		
 		contentTable.setWidget(row++, 0, hPanel);
 
+		previewPanel.setHeight("1010px");
 		previewPanel.add(inline);
 
 		final FlexTable flex = new FlexTable();
@@ -177,6 +178,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		flex.getFlexCellFormatter().setWidth(0, 1, "450px");
 
 		contentTable.setWidget(row++, 0, flex);
+
 		contentTableDecorator.add(contentTable);
 	}
 
@@ -288,5 +290,14 @@ public class MainView extends Composite implements MainPresenter.Display {
 	@Override
 	public HasClickHandlers getSubmitButton() {
 		return submitButton;
+	}
+
+	public void setUrl(String imageUrl) {
+		inputTextBox.setText(imageUrl);
+		inputTextBox.selectAll();
+	}
+
+	public Object getUrl() {
+		return inputTextBox.getText();
 	}
 }

@@ -1,10 +1,12 @@
 package jenkem.client.presenter;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -40,6 +42,7 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 		display.getInfoList().setText(row, 0, "To convert an image, go to the main tab, enter a link to the image and click the convert button. Please be patient. It takes a few seconds before the output appears. If you make a good conversion, you can add it to the gallery, by clicking the submit button. Other images with the same name will be repalced. You can save the HTML output from the gallery after submitting your conversion. If you do so, don't forget to also save the provided CSS and fix the stylesheet link in your HTML source if you want to upload it somewhere else.");
 		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
 		row++;
+		
 		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
 		
 		display.getInfoList().setText(row, 0, "Conversion Modes:");
@@ -125,7 +128,18 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 					
 		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
 
-		display.getInfoList().setText(row, 0, "You can find the source code of this application at:");
+		display.getInfoList().setText(row, 0, "You can link to this application converting an image, by appending the image-url to the main link like this:");
+		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		row++;
+		final String externalLink = "http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png";
+		Hyperlink link = new Hyperlink("http://" + Window.Location.getHost() + "/Jenkem.html/#main/" + externalLink, "main/" + externalLink);
+		display.getInfoList().setWidget(row, 0, link);
+		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		row++;
+
+		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
+		
+		display.getInfoList().setText(row, 0, "The source code of this application can be found at:");
 		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
 		row++;
 
