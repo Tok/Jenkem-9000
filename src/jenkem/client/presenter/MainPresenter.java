@@ -141,9 +141,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 					enableKicks();
 				}
 				if (method.equals(ConversionMethod.Plain)) {
-					display.getPresetListBox().setEnabled(false);
+					display.getSchemeListBox().setEnabled(false);
 				} else {
-					display.getPresetListBox().setEnabled(true);					
+					display.getSchemeListBox().setEnabled(true);					
 				}
 				resetContrastAndBrightness();
 				replaceUrl();
@@ -480,10 +480,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		display.getStatusLabel().setText("Enter URL to an image:");
 		display.getMethodListBox().setEnabled(true);
 		display.getResetButton().setEnabled(true);
-		display.getSchemeListBox().setEnabled(true);
 		if (!method.equals(ConversionMethod.Plain)) {
-			display.getPresetListBox().setEnabled(true);
+			display.getSchemeListBox().setEnabled(true);
 		}
+		display.getPresetListBox().setEnabled(true);
 		display.getSubmitButton().setEnabled(true);
 		enableKicks();
 	}
