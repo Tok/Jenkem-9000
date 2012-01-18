@@ -11,7 +11,8 @@ import jenkem.server.JenkemServiceImpl;
 import jenkem.shared.data.JenkemImageCss;
 
 public class CssOutputServlet extends HttpServlet {
-	private static final long serialVersionUID = -6626624514779473378L;
+	private static final long serialVersionUID = 7683169629001671486L;
+	
 	private final JenkemServiceImpl jenkemService = new JenkemServiceImpl();
 	
 	public void doGet(final HttpServletRequest request, final HttpServletResponse response)
@@ -22,5 +23,4 @@ public class CssOutputServlet extends HttpServlet {
 		response.setContentType("text/css");
 		response.getWriter().println(imageCss.getCss());
 	}
-
 }

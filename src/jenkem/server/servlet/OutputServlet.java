@@ -13,7 +13,7 @@ import jenkem.shared.data.JenkemImageHtml;
 
 public class OutputServlet extends HttpServlet {
 	private static final long serialVersionUID = -6626624514779473378L;
-
+	
 	private final HtmlUtil htmlUtil = new HtmlUtil();
 	private final JenkemServiceImpl jenkemService = new JenkemServiceImpl();
 	
