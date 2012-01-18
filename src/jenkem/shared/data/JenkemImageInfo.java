@@ -18,6 +18,11 @@ public class JenkemImageInfo implements Serializable {
 	private String name;
 
 	@Persistent
+	private Integer lines;
+	@Persistent
+	private Integer lineWidth;
+
+	@Persistent
 	private Date createDate;
 	
 	public JenkemImageInfo() {
@@ -37,6 +42,22 @@ public class JenkemImageInfo implements Serializable {
 
 	public Date getCreateDate() {
 		return createDate;
+	}
+
+	public Integer getLineWidth() {
+		return lineWidth;
+	}
+
+	public void setLineWidth(Integer lineWidth) {
+		this.lineWidth = lineWidth;
+	}
+
+	public Integer getLines() {
+		return lines;
+	}
+
+	public void setLines(Integer lines) {
+		this.lines = lines;
 	}
 
 }

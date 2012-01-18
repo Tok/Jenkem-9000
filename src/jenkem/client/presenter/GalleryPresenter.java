@@ -63,13 +63,18 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
 		
 	private void prepareResultTable(List<JenkemImageInfo> result) {
 		display.getHistoryList().setText(0, 0, "Name");
-		display.getHistoryList().setText(0, 1, "Creation Date");
+		display.getHistoryList().setText(0, 1, "Number of Lines");
+		display.getHistoryList().setText(0, 2, "Line Width");
+		display.getHistoryList().setText(0, 3, "Creation Date");
 		final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss"); //TODO use date Util
 		int row = 1;
 		for (JenkemImageInfo imageInfo : result) {
 			String urlString = "http://" + Window.Location.getHost() + "/jenkem/output?name=" + imageInfo.getName();
 			display.getHistoryList().setWidget(row, 0, new Anchor(imageInfo.getName(), urlString));
-			display.getHistoryList().setText(row, 1, format.format(imageInfo.getCreateDate()));
+			display.getHistoryList().setText(row, 1, imageInfo.getLines().toString());
+			display.getHistoryList().setText(row, 2, imageInfo.getLineWidth().toString());
+//			display.getHistoryList().getFlexCellFormatter().setHorizontalAlignment(row, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+			display.getHistoryList().setText(row, 3, format.format(imageInfo.getCreateDate()));
 			row++;
 		}
 	}

@@ -458,6 +458,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 		// save image info
 		jenkemImageInfo.setName(currentImageName);
+		jenkemImageInfo.setLines(irc.size());
+		jenkemImageInfo.setLineWidth(getCurrentLineWidth());
 		jenkemImageInfo.setCreateDate(now);
 
 		// save HTML
