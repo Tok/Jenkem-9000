@@ -70,7 +70,7 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 		display.getInfoList().setText(row, 1, "This is the default method and combines the best of all other methods. The output is anti aliased on the ASCII level, taking a sample of four Pixels.");
 		row++;
 		display.getInfoList().setText(row, 0, "Full HD:");
-		display.getInfoList().setText(row, 1, "Tanslates the image pixel by pixel. It doesn't have any anti aliasing on the ASCII level.");
+		display.getInfoList().setText(row, 1, "Tanslates the image pixel by pixel. It doesn't have any anti aliasing on the ASCII level. This mode is best suited for use with an ANSII character set.");
 		row++;
 		display.getInfoList().setText(row, 0, "Pwntari:");
 		display.getInfoList().setText(row, 1, "Doesn't use any ASCII palette. The output is only using the character \"_\" and creates the image by combining background- and foreground colors.");
