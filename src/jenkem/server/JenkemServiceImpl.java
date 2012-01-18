@@ -100,6 +100,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		try {
 			Query query = pm.newQuery(JenkemImageInfo.class);
 			query.setRange(0, 200);
+			query.setOrdering("createDate desc");
 			@SuppressWarnings("unchecked")
 			List<JenkemImageInfo> tmp = (List<JenkemImageInfo>) query.execute();
 			result.addAll(tmp);
