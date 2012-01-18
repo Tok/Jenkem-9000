@@ -5,7 +5,7 @@ public enum ConversionMethod {
 	FullHd("Full HD"),
 	Pwntari("Pwntari"),
 	Hybrid("Hybrid"),
-	Plain("Plain ASCII");
+	Plain("Plain");
 	
 	private String name;
 	

@@ -34,6 +34,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final Panel busyPanel = new HorizontalPanel();
 	private final Label statusLabel = new Label("Enter URL to an image:");
 	private final Canvas canvas = Canvas.createIfSupported(); 
+//	private final ProgressBar progress = new ProgressBar();
 	private final Panel previewPanel = new VerticalPanel();
 	private final InlineHTML inline = new InlineHTML();
 	private final TextArea ircText = new TextArea();
@@ -233,7 +234,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	}
 	
 	@Override
-	public HasClickHandlers getResetButton() {
+	public Button getResetButton() {
 		return resetButton;
 	}
 	
@@ -288,7 +289,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	}
 	
 	@Override
-	public HasClickHandlers getSubmitButton() {
+	public Button getSubmitButton() {
 		return submitButton;
 	}
 

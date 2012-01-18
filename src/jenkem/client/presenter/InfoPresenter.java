@@ -5,6 +5,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -35,6 +36,8 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 
 	private void prepareTable() {
 		display.getInfoList().removeAllRows();
+		display.getInfoList().getColumnFormatter().setWidth(0, "100px");
+		
 		int row = 0;
 		display.getInfoList().setText(row, 0, "Welcome to the Jenkem 9000 ASCII converter.");
 		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
@@ -48,11 +51,13 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 		display.getInfoList().setText(row, 0, "Problems:");
 		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
 		row++;
-		display.getInfoList().setText(row, 0, "This version of Jenkem 9000 doesn't work right with Internet Explorer, Lynx and unfortunately Opera. For best results use Firefox or Chrome. Safari may also work, but isn't tested.");
-		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		display.getInfoList().setText(row, 0, "Browsers:");
+		display.getInfoList().getCellFormatter().setVerticalAlignment(row, 0, HasVerticalAlignment.ALIGN_TOP);
+		display.getInfoList().setText(row, 1, "This version of Jenkem 9000 doesn't work right with Internet Explorer, Lynx and unfortunately Opera. For best results use Firefox or Chrome. Safari may also work, but isn't tested.");
 		row++;
-		display.getInfoList().setText(row, 0, "Some IRC clients limit the input that can be put on one line. Depending on your client, the data will just be cut off, or worse being skipped to a new line and breaking the image. It's therefore a good idea, to test the conversion by pasting it into an empty channel before playing it into a full channel with fifty people idling in it.");
-		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		display.getInfoList().setText(row, 0, "IRC Clients:");
+		display.getInfoList().getCellFormatter().setVerticalAlignment(row, 0, HasVerticalAlignment.ALIGN_TOP);
+		display.getInfoList().setText(row, 1, "Some IRC clients limit the input that can be put on one line. Depending on your client, the data will just be cut off, or worse being skipped to a new line and breaking the image. It's therefore a good idea, to test the conversion by pasting it into an empty channel before playing it into a full channel with fifty people idling in it.");
 		row++;
 		
 		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
