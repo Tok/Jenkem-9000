@@ -184,7 +184,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 
 	private void initKicks(HorizontalPanel kickPanel) {
 		for (Kick kick : Kick.values()) {
-			final RadioButton kickRadioButton = new RadioButton("kick", "0");
+			final RadioButton kickRadioButton = new RadioButton("kick", kick.name());
 			kickButtons.put(kick, kickRadioButton);
 			kickPanel.add(kickRadioButton);			
 		}
