@@ -28,7 +28,6 @@ public class OutputServlet extends HttpServlet {
 		}
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
-		response.getWriter().println(htmlUtil.generateEmpty());
 	}
 
 }
