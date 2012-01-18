@@ -221,18 +221,20 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		this.display.getSubmitButton().addClickHandler(new ClickHandler() {			
 			@Override
 			public void onClick(ClickEvent event) {
-				jenkemService.saveJenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc,
-					new AsyncCallback<String>() {
-						@Override
-						public void onFailure(Throwable caught) {
-							display.getStatusLabel().setText("Fail submitting conversion.");
+				synchronized(this) {
+					jenkemService.saveJenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc,
+						new AsyncCallback<String>() {
+							@Override
+							public void onFailure(Throwable caught) {
+								display.getStatusLabel().setText("Fail submitting conversion.");
+							}
+							@Override
+							public void onSuccess(final String result) {
+								display.getStatusLabel().setText("Conversion submitted successfully.");
+							}
 						}
-						@Override
-						public void onSuccess(final String result) {
-							display.getStatusLabel().setText("Conversion submitted successfully.");
-						}
-					}
-				);
+					);
+				}
 			}
 		});
 	}
