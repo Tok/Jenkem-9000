@@ -298,7 +298,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		image.addErrorHandler(new ErrorHandler() {
 			@Override
 			public void onError(ErrorEvent event) {
-				display.getStatusLabel().setText("Submitting image failed.");
+				display.getStatusLabel().setText("Proxifying this image failed.");
+				removeBusyIcon();
 			}
 		});
 		image.addLoadHandler(new LoadHandler() {
