@@ -235,7 +235,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 						new AsyncCallback<String>() {
 							@Override
 							public void onFailure(Throwable caught) {
-								display.getStatusLabel().setText("Fail submitting conversion.");
+								//display.getStatusLabel().setText("Fail submitting conversion.");
 							}
 							@Override
 							public void onSuccess(final String result) {
@@ -391,16 +391,16 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 			ircOutput = new String[lastIndex];
 			engine.generateHighDef(id, scheme, preset, contrast, brightness);
 		} else if (method.equals(ConversionMethod.SuperHybrid)) {
-			ircOutput = new String[lastIndex+2];
+			ircOutput = new String[lastIndex];
 			engine.generateSuperHybrid(id, scheme, preset, contrast, brightness, getSelectedKick());
 		} else if (method.equals(ConversionMethod.Pwntari)) {
-			ircOutput = new String[lastIndex+2];
+			ircOutput = new String[lastIndex];
 			engine.generatePwntari(id, scheme, preset, contrast, brightness, getSelectedKick());
 		} else if (method.equals(ConversionMethod.Hybrid)) {
-			ircOutput = new String[lastIndex+2];
+			ircOutput = new String[lastIndex];
 			engine.generateHybrid(id, scheme, preset, contrast, brightness,	getSelectedKick());
 		} else if (method.equals(ConversionMethod.Plain)) {
-			ircOutput = new String[lastIndex+2];
+			ircOutput = new String[lastIndex];
 			engine.generatePlain(id, preset, contrast, brightness, getSelectedKick());
 		}
 	}

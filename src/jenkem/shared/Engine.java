@@ -128,9 +128,9 @@ public class Engine {
 	
 	public void generateSuperHybridLine(final int index) {
 		String result = "";
-		//omit last line if Y not kicked
-		if (startY == 0 && index == id.getHeight()) {
-			presenter.addIrcOutputLine(result, index);
+		if (isLineOmitted(index)) {
+			presenter.addIrcOutputLine("", index);
+			return;
 		}
 		try {
 			result = "";
@@ -224,9 +224,9 @@ public class Engine {
 		
 	public void generateHybridLine(int index) {
 		String result = "";
-		//omit last line if Y not kicked
-		if (startY == 0 && index == id.getHeight()) {
-			presenter.addIrcOutputLine(result, index);
+		if (isLineOmitted(index)) {
+			presenter.addIrcOutputLine("", index);
+			return;
 		}
 		try {
 			final StringBuilder row = new StringBuilder();
@@ -347,9 +347,9 @@ public class Engine {
 	
 	public void generatePwntariLine(int index) {
 		String result = "";
-		//omit last line if Y not kicked
-		if (startY == 0 && index == id.getHeight()) {
-			presenter.addIrcOutputLine(result, index);
+		if (isLineOmitted(index)) {
+			presenter.addIrcOutputLine("", index);
+			return;
 		}
 		try {
 			StringBuilder row = new StringBuilder();
@@ -406,9 +406,9 @@ public class Engine {
 		
 	public void generatePlainLine(int index) {
 		String result = "";
-		//omit last line if Y not kicked
-		if (startY == 0 && index == id.getHeight()) {
-			presenter.addIrcOutputLine(result, index);
+		if (isLineOmitted(index)) {
+			presenter.addIrcOutputLine("", index);
+			return;
 		}
 		try {
 			final StringBuilder row = new StringBuilder();
@@ -488,6 +488,17 @@ public class Engine {
 			//just ignore it and do nothing.
 		}
 		presenter.addIrcOutputLine(result, index);
+	}
+	
+	private boolean isLineOmitted(final int index) {
+		//omit last line if Y not kicked
+		if (startY == 0 && (index == id.getHeight() || index == id.getHeight() - 1)) {
+			return true; //omit last two lines
+		} else if (startY == 1 && index == id.getHeight()) {
+			return true; //omit last line
+		} else {
+			return false;
+		}
 	}
 	
 	/**
