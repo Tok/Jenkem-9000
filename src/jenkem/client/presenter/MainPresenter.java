@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import jenkem.client.service.JenkemServiceAsync;
-import jenkem.shared.AsciiPreset;
+import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
@@ -363,7 +363,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 		final String presetName = display.getPresetListBox().getItemText(
 				display.getPresetListBox().getSelectedIndex());
-		final AsciiPreset preset = AsciiPreset.valueOf(presetName);
+		final CharacterSet preset = CharacterSet.valueOf(presetName);
 		
 		
 		double contrast = Double.valueOf(display.getContrastLabel().getText());

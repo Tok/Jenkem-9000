@@ -20,7 +20,7 @@ public class AsciiScheme {
 	private String left = "[";
 	private String right = "]";
 
-	public String getChar(double strength, final AsciiPreset preset, final boolean isAbsolute) {
+	public String getChar(double strength, final CharacterSet preset, final boolean isAbsolute) {
 		if (isAbsolute) {
 			strength = (255 - strength) / 255;
 		}
@@ -35,18 +35,18 @@ public class AsciiScheme {
 	 *            a relative value between 0.0 and 1.0
 	 * @return String with the character to use. (assuming bg > fg)
 	 */
-	private String getChar(double relStrength, final AsciiPreset preset) {
+	private String getChar(double relStrength, final CharacterSet preset) {
 		if (relStrength > 1) {
 			relStrength = 1.0D;
 		}
 		if (relStrength < 0) {
 			relStrength = 0.0D;
 		}
-		final double th = 1.0 / preset.getAscii().length();
+		final double th = 1.0 / preset.getCharacters().length();
 		String ret = "";
-		for (int i = 0; i < preset.getAscii().length(); i++) {
+		for (int i = 0; i < preset.getCharacters().length(); i++) {
 			if (relStrength <= (i + 1) * th) {
-				ret = Character.toString(preset.getAscii().toCharArray()[i]);
+				ret = Character.toString(preset.getCharacters().toCharArray()[i]);
 				break; // we have a winrar
 			}
 		}
@@ -84,10 +84,10 @@ public class AsciiScheme {
 		}
 	}
 
-	public boolean isCharacterDark(final String character, final AsciiPreset preset) {
-		final int halfLength = (preset.getAscii().length() + 3) / 2; //cutting off the decimals is OK here
+	public boolean isCharacterDark(final String character, final CharacterSet preset) {
+		final int halfLength = (preset.getCharacters().length() + 3) / 2; //cutting off the decimals is OK here
 		for (int i = 0; i <= halfLength; i++) {
-			String compare = preset.getAscii().substring(preset.getAscii().length() - i - 1);
+			String compare = preset.getCharacters().substring(preset.getCharacters().length() - i - 1);
 			if (unFormat(character).equals(compare)) {
 				return true;
 			}
@@ -95,10 +95,10 @@ public class AsciiScheme {
 		return false;
 	}
 
-	public boolean isCharacterBright(final String character, final AsciiPreset preset) {
-		final int halfLength = (preset.getAscii().length() + 3) / 2; //cutting off the decimals is OK here
+	public boolean isCharacterBright(final String character, final CharacterSet preset) {
+		final int halfLength = (preset.getCharacters().length() + 3) / 2; //cutting off the decimals is OK here
 		for (int i = 0; i <= halfLength; i++) {
-			String compare = preset.getAscii().substring(i);
+			String compare = preset.getCharacters().substring(i);
 			if (unFormat(character).equals(compare)) {
 				return true;
 			}
@@ -293,8 +293,8 @@ public class AsciiScheme {
 		this.right = right;
 	}
 
-	public String getDarkestCharacter(final AsciiPreset preset) {
-		return preset.getAscii().substring(preset.getAscii().length());
+	public String getDarkestCharacter(final CharacterSet preset) {
+		return preset.getCharacters().substring(preset.getCharacters().length());
 	}
 
 }

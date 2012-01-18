@@ -21,7 +21,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHighDef(final ImageData id, final ColorScheme scheme, final AsciiPreset preset, final double contrast, final int brightness) {
+	public String[] generateHighDef(final ImageData id, final ColorScheme scheme, final CharacterSet preset, final double contrast, final int brightness) {
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
 		final String[] ret = new String[id.getHeight()];
 		
@@ -63,7 +63,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateSuperHybrid(final ImageData id, final ColorScheme scheme, final AsciiPreset preset, final double contrast, final int brightness, final String kick) {
+	public String[] generateSuperHybrid(final ImageData id, final ColorScheme scheme, final CharacterSet preset, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(id.getHeight() / 2);
 		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
@@ -184,7 +184,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generateHybrid(final ImageData id, final ColorScheme scheme, final AsciiPreset preset, final double contrast, final int brightness, final String kick) {
+	public String[] generateHybrid(final ImageData id, final ColorScheme scheme, final CharacterSet preset, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(id.getHeight() / 2);
 		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
@@ -317,7 +317,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePwntari(final ImageData id, final ColorScheme scheme, final AsciiPreset preset, final double contrast, final int brightness, final String kick) {
+	public String[] generatePwntari(final ImageData id, final ColorScheme scheme, final CharacterSet preset, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(id.getHeight() / 2);
 		final int width = id.getWidth();
 		final Map<String, Integer> colorMap = prepareColorMap(scheme);
@@ -386,7 +386,7 @@ public class Engine {
 	 * @param ImageDataAdapter ida
 	 * @return Strings for IRC.
 	 */
-	public String[] generatePlain(final ImageData id, final AsciiPreset preset, final double contrast, final int brightness, final String kick) {
+	public String[] generatePlain(final ImageData id, final CharacterSet preset, final double contrast, final int brightness, final String kick) {
 		final int height = Math.round(id.getHeight() / 2);
 		final int width = id.getWidth();
 		final String[] ret = new String[height];

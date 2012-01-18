@@ -2,7 +2,7 @@ package jenkem.client.view;
 
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.ExtendedTextBox;
-import jenkem.shared.AsciiPreset;
+import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 
@@ -115,10 +115,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
 		
-		for (AsciiPreset preset : AsciiPreset.values()) {
+		for (CharacterSet preset : CharacterSet.values()) {
 			presetListBox.addItem(preset.name());
 		}
-		settingsTable.setText(settingsRow, 0, "ASCII Preset:");
+		settingsTable.setText(settingsRow, 0, "Character Set:");
 		presetListBox.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, presetListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);

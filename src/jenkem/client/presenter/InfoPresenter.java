@@ -51,6 +51,9 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 		display.getInfoList().setText(row, 0, "This version of Jenkem 9000 doesn't work right with Internet Explorer, Lynx and unfortunately Opera. For best results use Firefox or Chrome. Safari may also work, but isn't tested.");
 		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
 		row++;
+		display.getInfoList().setText(row, 0, "Some IRC clients limit the input that can be put on one line. Depending on your client, the data will just be cut off, or worse being skipped to a new line and breaking the image. It's therefore a good idea, to test the conversion by pasting it into an empty channel before playing it into a full channel with fifty people idling in it.");
+		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		row++;
 		
 		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
 		
