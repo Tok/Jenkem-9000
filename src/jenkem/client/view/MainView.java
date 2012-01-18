@@ -1,10 +1,14 @@
 package jenkem.client.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.ExtendedTextBox;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
+import jenkem.shared.Kick;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -34,7 +38,6 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final Panel busyPanel = new HorizontalPanel();
 	private final Label statusLabel = new Label("Enter URL to an image:");
 	private final Canvas canvas = Canvas.createIfSupported(); 
-//	private final ProgressBar progress = new ProgressBar();
 	private final Panel previewPanel = new VerticalPanel();
 	private final InlineHTML inline = new InlineHTML();
 	private final TextArea ircText = new TextArea();
@@ -46,10 +49,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final Label contrastLabel = new Label();
 	private final SliderBarSimpleHorizontal brightnessSlider = new SliderBarSimpleHorizontal(100, "100px", false);
 	private final Label brightnessLabel = new Label();
-	private final RadioButton noKick = new RadioButton("kick", "0");
-	private final RadioButton xKick = new RadioButton("kick", "X");
-	private final RadioButton yKick = new RadioButton("kick", "Y");
-	private final RadioButton xyKick = new RadioButton("kick", "XY");
+	private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
 	private final Button submitButton = new Button("Submit");
 	private final FlexTable contentTable;
 	
@@ -129,6 +129,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contrastSlider.setMaxValue(199);
 		contrastSlider.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, contrastSlider);
+		contrastLabel.setWidth("25px");
 		settingsTable.setWidget(settingsRow, 2, contrastLabel);
 		settingsRow++;
 		
@@ -136,15 +137,13 @@ public class MainView extends Composite implements MainPresenter.Display {
 		brightnessSlider.setMaxValue(200);
 		brightnessSlider.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, brightnessSlider);
+		brightnessLabel.setWidth("25px");
 		settingsTable.setWidget(settingsRow, 2, brightnessLabel);
 		settingsRow++;
 		
 		settingsTable.setText(settingsRow, 0, "Kick:");
 		final HorizontalPanel kickPanel = new HorizontalPanel();
-		kickPanel.add(noKick);
-		kickPanel.add(xKick);
-		kickPanel.add(yKick);
-		kickPanel.add(xyKick);
+		initKicks(kickPanel);
 		settingsTable.setWidget(settingsRow, 1, kickPanel);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
@@ -181,6 +180,14 @@ public class MainView extends Composite implements MainPresenter.Display {
 		contentTable.setWidget(row++, 0, flex);
 
 		contentTableDecorator.add(contentTable);
+	}
+
+	private void initKicks(HorizontalPanel kickPanel) {
+		for (Kick kick : Kick.values()) {
+			final RadioButton kickRadioButton = new RadioButton("kick", "0");
+			kickButtons.put(kick, kickRadioButton);
+			kickPanel.add(kickRadioButton);			
+		}
 	}
 
 	@Override
@@ -257,25 +264,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 	public Label getBrightnessLabel() {
 		return brightnessLabel;
 	}
-	
-	@Override
-	public RadioButton getNoKickButton() {
-		return noKick;
-	}
 
 	@Override
-	public RadioButton getXKickButton() {
-		return xKick;
-	}
-
-	@Override
-	public RadioButton getYKickButton() {
-		return yKick;
-	}
-
-	@Override
-	public RadioButton getXyKickButton() {
-		return xyKick;
+	public RadioButton getKickButton(Kick kick) {
+		return kickButtons.get(kick);
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
+import jenkem.shared.Kick;
 import jenkem.shared.data.JenkemImageCss;
 import jenkem.shared.data.JenkemImageHtml;
 import jenkem.shared.data.JenkemImageInfo;
@@ -62,7 +63,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	private final JenkemServiceAsync jenkemService;
 	
 	private Engine engine;
-	private String methodName;
+	private ConversionMethod method;
 	private String[] ircOutput;
 	private int lastIndex;
 	
@@ -100,10 +101,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		Label getContrastLabel();
 		SliderBarSimpleHorizontal getBrightnessSlider();
 		Label getBrightnessLabel();
-		RadioButton getNoKickButton();
-		RadioButton getXKickButton();
-		RadioButton getYKickButton();
-		RadioButton getXyKickButton();
+		RadioButton getKickButton(Kick kick);
 		Button getSubmitButton();
 		Widget asWidget();
 	}
@@ -136,12 +134,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
-				final String methodName = display.getMethodListBox().getItemText(display.getMethodListBox().getSelectedIndex());
-				if (methodName.equals(ConversionMethod.FullHd.toString())) {
+				method = getCurrentConversionMethod();
+				if (method.equals(ConversionMethod.FullHd)) {
 					disableKicks();
 				} else {
 					enableKicks();
 				}
+				resetContrastAndBrightness();
 				replaceUrl();
 			}
 		});
@@ -203,41 +202,16 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 			}
 		});
 		
-		this.display.getNoKickButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				if (event.getValue()) {
-					doConversion();
+		for (Kick kick : Kick.values()) {
+			this.display.getKickButton(kick).addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+				@Override
+				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					if (event.getValue()) {
+						doConversion();
+					}
 				}
-			}
-		});
-
-		this.display.getXKickButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				if (event.getValue()) {
-					doConversion();
-				}
-			}
-		});
-		
-		this.display.getYKickButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				if (event.getValue()) {
-					doConversion();
-				}
-			}
-		});
-		
-		this.display.getXyKickButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				if (event.getValue()) {
-					doConversion();
-				}
-			}
-		});
+			});
+		}
 		
 		this.display.getSubmitButton().addClickHandler(new ClickHandler() {			
 			@Override
@@ -342,16 +316,20 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		});		
 	}
 
+	private ConversionMethod getCurrentConversionMethod() {
+		final String methodName = display.getMethodListBox().getItemText(display.getMethodListBox().getSelectedIndex());
+		return ConversionMethod.getValueByName(methodName);
+	}
+	
 	private void doDeferredConversion() {
 		engine = new Engine(this);
 		
 		currentImage = ImageElement.as(image.getElement());
 
-		methodName = display.getMethodListBox().getItemText(
-				display.getMethodListBox().getSelectedIndex());
+		method = getCurrentConversionMethod();
 		final int WIDTH = 72; // creates output with width of 72 characters
 		int height = 0;
-		if (methodName.equals(ConversionMethod.FullHd.toString())) {
+		if (method.equals(ConversionMethod.FullHd)) {
 			height = (36 * currentImage.getHeight()) / currentImage.getWidth();
 		} else { // Super-Hybrid, Hybrid, Plain and Pwntari
 			height = (72 * currentImage.getHeight()) / currentImage.getWidth();
@@ -377,28 +355,25 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		final double contrast = Double.valueOf(display.getContrastLabel().getText());
 		final int brightness = Integer
 				.valueOf(display.getBrightnessLabel().getText());
-		final String kick = getKick();
 		
 		lastIndex = id.getHeight();
 		
-		if (methodName.equals(ConversionMethod.FullHd.toString())) {			
+		if (method.equals(ConversionMethod.FullHd)) {			
 			ircOutput = new String[lastIndex];
 			engine.generateHighDef(id, scheme, preset, contrast, brightness);
-		} else if (methodName.equals(ConversionMethod.SuperHybrid.toString())) {
+		} else if (method.equals(ConversionMethod.SuperHybrid)) {
 			ircOutput = new String[lastIndex+2];
-			engine.generateSuperHybrid(id, scheme, preset, contrast, brightness, kick);
-		} else if (methodName.equals(ConversionMethod.Pwntari.toString())) {
+			engine.generateSuperHybrid(id, scheme, preset, contrast, brightness, getSelectedKick());
+		} else if (method.equals(ConversionMethod.Pwntari)) {
 			ircOutput = new String[lastIndex+2];
-			engine.generatePwntari(id, scheme, preset, contrast, brightness, kick);
-		} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
+			engine.generatePwntari(id, scheme, preset, contrast, brightness, getSelectedKick());
+		} else if (method.equals(ConversionMethod.Hybrid)) {
 			ircOutput = new String[lastIndex+2];
-			engine.generateHybrid(id, scheme, preset, contrast, brightness,	kick);
-		} else if (methodName.equals(ConversionMethod.Plain.toString())) {
+			engine.generateHybrid(id, scheme, preset, contrast, brightness,	getSelectedKick());
+		} else if (method.equals(ConversionMethod.Plain)) {
 			ircOutput = new String[lastIndex+2];
-			engine.generatePlain(id, preset, contrast, brightness, kick);
+			engine.generatePlain(id, preset, contrast, brightness, getSelectedKick());
 		}
-
-
 	}
 	
 	public synchronized void addIrcOutputLine(final String ircLine, final int index) {
@@ -413,15 +388,15 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 				if (index >= lastIndex -1) {
 					addIrcOutput();
 				} else {
-					if (methodName.equals(ConversionMethod.FullHd.toString())) {
+					if (method.equals(ConversionMethod.FullHd)) {
 						engine.generateHighDefLine(index + 1);
-					} else if (methodName.equals(ConversionMethod.SuperHybrid.toString())) {
+					} else if (method.equals(ConversionMethod.SuperHybrid)) {
 						engine.generateSuperHybridLine(index + 2);
-					} else if (methodName.equals(ConversionMethod.Pwntari.toString())) {
+					} else if (method.equals(ConversionMethod.Pwntari)) {
 						engine.generatePwntariLine(index + 2);
-					} else if (methodName.equals(ConversionMethod.Hybrid.toString())) {
+					} else if (method.equals(ConversionMethod.Hybrid)) {
 						engine.generateHybridLine(index + 2);
-					} else if (methodName.equals(ConversionMethod.Plain.toString())) {
+					} else if (method.equals(ConversionMethod.Plain)) {
 						engine.generatePlainLine(index + 2);
 					}
 				}
@@ -440,7 +415,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 		final Date now = new Date();
 		String[] htmlAndCss = null;
-		if (methodName.equals(ConversionMethod.Plain.toString())) {
+		if (method.equals(ConversionMethod.Plain)) {
 			htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName,
 					true);
 		} else { // boolean says whether method is plain or not.
@@ -506,41 +481,47 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		enableKicks();
 	}
 
-	private String getKick() {
-		if (this.display.getNoKickButton().getValue()) {
-			return "0";
-		} else if (this.display.getXKickButton().getValue()) {
-			return "X";
-		} else if (this.display.getYKickButton().getValue()) {
-			return "Y";
-		} else {
-			return "XY";
+	private Kick getSelectedKick() {
+		for (Kick kick : Kick.values()) {
+			if (this.display.getKickButton(kick).getValue()) {
+				return kick;
+			}
 		}
+		return Kick.Off;
 	}
 
 	private void doReset() {
 		display.getSchemeListBox().setSelectedIndex(0);
 		display.getPresetListBox().setSelectedIndex(0);
-		display.getContrastSlider().setValue(94);
-		updateContrast(94);
+		resetContrastAndBrightness();
+		display.getKickButton(Kick.Off).setValue(true);
+	}
+	
+	private void resetContrastAndBrightness() {
+		method = getCurrentConversionMethod();
+		if (method.equals(ConversionMethod.FullHd) 
+				|| method.equals(ConversionMethod.Plain)) {
+			display.getContrastSlider().setValue(89);
+			updateContrast(89);
+		} else {
+			display.getContrastSlider().setValue(59);
+			updateContrast(59);
+		}		
 		display.getBrightnessSlider().setValue(100);
 		updateBrightness(100);
-		display.getNoKickButton().setValue(true);
 	}
 
 	private void disableKicks() {
-		display.getNoKickButton().setEnabled(false);
-		display.getXKickButton().setEnabled(false);
-		display.getYKickButton().setEnabled(false);
-		display.getXyKickButton().setEnabled(false);
+		for (Kick kick : Kick.values()) {
+			display.getKickButton(kick).setEnabled(false);			
+		}
 	}
 
 	private void enableKicks() {
-		if (!methodName.equals(ConversionMethod.FullHd.toString())) {
-			display.getNoKickButton().setEnabled(true);
-			display.getXKickButton().setEnabled(true);
-			display.getYKickButton().setEnabled(true);
-			display.getXyKickButton().setEnabled(true);
+		if (!method.equals(ConversionMethod.FullHd)) {
+			for (Kick kick : Kick.values()) {
+				display.getKickButton(kick).setEnabled(true);			
+			}
 		}
 	}
 
