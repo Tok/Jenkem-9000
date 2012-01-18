@@ -405,7 +405,7 @@ public class Engine {
 	}
 		
 	public void generatePlainLine(int index) {
-		String result = " ";
+		String result = "";
 		//omit last line if Y not kicked
 		if (startY == 0 && index == id.getHeight()) {
 			presenter.addIrcOutputLine(result, index);
@@ -607,26 +607,30 @@ public class Engine {
 
 		final StringBuffer buf = new StringBuffer();
 		if (matchFound) {
-		    for (int i=0; i <= matcher.getGroupCount(); i++) {
+		    for (int i=0; i < matcher.getGroupCount(); i++) {
 		    	String originalStr = matcher.getGroup(i);
 		    	if (originalStr != null) {
 		    		final StringBuilder line = new StringBuilder();
 		    		final String[] strings = row.split(originalStr);
-		    		line.append(strings[0]);
-		    		line.append(replaceBy);
-		    		for (int ii = 0; ii < originalStr.length() - 2; ii++) {
-		    			// -2 because the first and the last letter is replaced
-		    			line.append(asciiScheme.getHline());
+		    		int index = 0;
+		    		for (String part : strings) {
+		    			line.append(part);
+		    			index++;
+		    			if (index < strings.length) {
+		    				line.append(replaceBy);
+		    				for (int ii = 0; ii < originalStr.length() - 2; ii++) {
+		    					// -2 because the first and the last letter is replaced
+		    					line.append(asciiScheme.getHline());
+		    				}
+		    				line.append(replaceBy);
+		    			}		    			
 		    		}
-		    		line.append(replaceBy);
-		    		line.append(strings[1]);
-			    	buf.append(line);
+		    		buf.append(line);			    	
 		    	}
 		    }
 		} else {
 			buf.append(row);
 		}
-		
 		return buf.toString();
 	}
 	
