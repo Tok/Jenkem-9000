@@ -57,7 +57,7 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 		row++;
 		display.getInfoList().setText(row, 0, "IRC Clients:");
 		display.getInfoList().getCellFormatter().setVerticalAlignment(row, 0, HasVerticalAlignment.ALIGN_TOP);
-		display.getInfoList().setText(row, 1, "Some IRC clients limit the input that can be put on one line. Depending on your client, the data of lines with too many color changes will just be cut off, or worse being skipped to a new line and thereby break the image. It's therefore a good idea to test the conversion by pasting it into an empty channel before playing it into a full channel with fifty people idling in it.");
+		display.getInfoList().setText(row, 1, "Some IRC clients limit the input that can be put on one line. Depending on your client long lines with many color changes and therefore too many data will be cut off, or worse being skipped to a new line and thereby break the image. If this happens, you might try to use a lower setting for the line width of your conversion. It's often a good idea to test replaying your converted image into an empty channel before flooding it into channel full with fifty people idling in it.");
 		row++;
 		
 		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
@@ -81,8 +81,18 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 		display.getInfoList().setText(row, 0, "Plain:");
 		display.getInfoList().setText(row, 1, "Doesn't output any colors. This method is best used with black & white images like stencils.");
 		row++;
+		
 		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
-
+		
+		display.getInfoList().setText(row, 0, "Line width:");
+		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		row++;
+		display.getInfoList().setText(row, 0, "Allows setting how many visible characters the converted image should have per line. Invisible characters like IRC color codes are not counted.");
+		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+		row++;
+		
+		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
+		
 		display.getInfoList().setText(row, 0, "Color Schemes:");
 		display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
 		row++;

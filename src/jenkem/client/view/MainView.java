@@ -42,6 +42,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final InlineHTML inline = new InlineHTML();
 	private final TextArea ircText = new TextArea();
 	private final ListBox methodListBox = new ListBox();
+	private final ListBox widthListBox = new ListBox();
 	private final ListBox schemeListBox = new ListBox();
 	private final ListBox presetListBox = new ListBox();
 	private final Button resetButton = new Button("Reset");
@@ -97,6 +98,18 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
 		
+		widthListBox.addItem("72");
+		widthListBox.addItem("64");
+		widthListBox.addItem("56");
+		widthListBox.addItem("48");
+		widthListBox.addItem("40");
+		widthListBox.addItem("32");
+		settingsTable.setText(settingsRow, 0, "Line Width:");
+		widthListBox.setWidth("200px");
+		settingsTable.setWidget(settingsRow, 1, widthListBox);
+		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+		settingsRow++;
+				
 		settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
 		settingsRow++;
@@ -228,6 +241,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 	@Override
 	public ListBox getMethodListBox() {
 		return methodListBox;
+	}
+	
+	@Override
+	public ListBox getWidthListBox() {
+		return widthListBox;
 	}
 	
 	@Override

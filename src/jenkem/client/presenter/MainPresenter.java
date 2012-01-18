@@ -95,6 +95,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		InlineHTML getPreviewHtml();
 		TextArea getIrcTextArea();
 		ListBox getMethodListBox();
+		ListBox getWidthListBox();
 		ListBox getSchemeListBox();
 		ListBox getPresetListBox();
 		Button getResetButton();
@@ -148,6 +149,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 				}
 				resetContrastAndBrightness();
 				replaceUrl();
+			}
+		});
+		
+		this.display.getWidthListBox().addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				replaceUrl();				
 			}
 		});
 		
@@ -337,18 +345,23 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		return ConversionMethod.getValueByName(methodName);
 	}
 	
+	private int getCurrentLineWidth() {
+		final String widthString = display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex());
+		return Integer.parseInt(widthString);
+	}
+	
 	private void doDeferredConversion() {
 		engine = new Engine(this);
 		
 		currentImage = ImageElement.as(image.getElement());
 
 		method = getCurrentConversionMethod();
-		final int WIDTH = 72; // creates output with width of 72 characters
+		final int WIDTH = getCurrentLineWidth(); 
 		int height = 0;
 		if (method.equals(ConversionMethod.FullHd)) {
-			height = (36 * currentImage.getHeight()) / currentImage.getWidth();
+			height = ((WIDTH / 2) * currentImage.getHeight()) / currentImage.getWidth();
 		} else { // Super-Hybrid, Hybrid, Plain and Pwntari
-			height = (72 * currentImage.getHeight()) / currentImage.getWidth();
+			height = (WIDTH * currentImage.getHeight()) / currentImage.getWidth();
 		}
 
 		display.getCanvas().setWidth(String.valueOf(WIDTH) + "px");
@@ -482,6 +495,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		display.getBusyPanel().clear();
 		display.getBusyPanel().add(busyImage);
 		display.getMethodListBox().setEnabled(false);
+		display.getWidthListBox().setEnabled(false);
 		display.getResetButton().setEnabled(false);
 		display.getSchemeListBox().setEnabled(false);
 		display.getPresetListBox().setEnabled(false);
@@ -493,6 +507,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		display.getBusyPanel().clear();
 		display.getStatusLabel().setText("Enter URL to an image: ");
 		display.getMethodListBox().setEnabled(true);
+		display.getWidthListBox().setEnabled(true);
 		display.getResetButton().setEnabled(true);
 		if (!method.equals(ConversionMethod.Plain)) {
 			display.getSchemeListBox().setEnabled(true);
