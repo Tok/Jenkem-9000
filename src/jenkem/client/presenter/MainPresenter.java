@@ -140,6 +140,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 				} else {
 					enableKicks();
 				}
+				if (method.equals(ConversionMethod.Plain)) {
+					display.getPresetListBox().setEnabled(false);
+				} else {
+					display.getPresetListBox().setEnabled(true);					
+				}
 				resetContrastAndBrightness();
 				replaceUrl();
 			}
@@ -476,7 +481,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		display.getMethodListBox().setEnabled(true);
 		display.getResetButton().setEnabled(true);
 		display.getSchemeListBox().setEnabled(true);
-		display.getPresetListBox().setEnabled(true);
+		if (!method.equals(ConversionMethod.Plain)) {
+			display.getPresetListBox().setEnabled(true);
+		}
 		display.getSubmitButton().setEnabled(true);
 		enableKicks();
 	}
