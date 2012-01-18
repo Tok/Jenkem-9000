@@ -50,9 +50,8 @@ public class HtmlUtil extends AbstractWebUtil {
 
 		html.append("<link href=\"http://");
 		html.append(Window.Location.getHost());
-		html.append("/jenkem/output?name=");		
+		html.append("/jenkem/cssOutput?name=");		
 		html.append(name);
-		html.append("&type=css");
 		html.append("\" rel=\"stylesheet\" type=\"text/css; charset=utf-8\">");
 		
 		html.append(sep);

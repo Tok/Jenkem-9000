@@ -67,7 +67,7 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
 		final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss"); //TODO use date Util
 		int row = 1;
 		for (JenkemImageInfo imageInfo : result) {
-			String urlString = "http://" + Window.Location.getHost() + "/jenkem/output?name=" + imageInfo.getName() + "&type=html";
+			String urlString = "http://" + Window.Location.getHost() + "/jenkem/output?name=" + imageInfo.getName();
 			display.getHistoryList().setWidget(row, 0, new Anchor(imageInfo.getName(), urlString));
 			display.getHistoryList().setText(row, 1, format.format(imageInfo.getCreateDate()));
 			row++;

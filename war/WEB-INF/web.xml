@@ -13,6 +13,10 @@
     <servlet-class>jenkem.server.servlet.OutputServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>cssOutputServlet</servlet-name>
+    <servlet-class>jenkem.server.servlet.CssOutputServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>ircOutputServlet</servlet-name>
     <servlet-class>jenkem.server.servlet.IrcOutputServlet</servlet-class>
   </servlet>
@@ -28,6 +32,10 @@
   <servlet-mapping>
     <servlet-name>outputServlet</servlet-name>
     <url-pattern>/jenkem/output</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>cssOutputServlet</servlet-name>
+    <url-pattern>/jenkem/cssOutput</url-pattern>
   </servlet-mapping>
     <servlet-mapping>
     <servlet-name>ircOutputServlet</servlet-name>

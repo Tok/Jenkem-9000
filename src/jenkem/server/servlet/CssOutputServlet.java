@@ -8,27 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jenkem.server.JenkemServiceImpl;
-import jenkem.shared.HtmlUtil;
-import jenkem.shared.data.JenkemImageHtml;
+import jenkem.shared.data.JenkemImageCss;
 
-public class OutputServlet extends HttpServlet {
+public class CssOutputServlet extends HttpServlet {
 	private static final long serialVersionUID = -6626624514779473378L;
-
-	private final HtmlUtil htmlUtil = new HtmlUtil();
 	private final JenkemServiceImpl jenkemService = new JenkemServiceImpl();
 	
 	public void doGet(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
-		final String name = request.getParameter("name");		
-		final JenkemImageHtml imageHtml = jenkemService.getImageHtmlByName(name);
-		if (imageHtml != null && imageHtml.getHtml() != null) {
-			response.getWriter().println(imageHtml.getHtml());
-		} else {
-			response.getWriter().println(htmlUtil.generateEmpty());
-		}
+		final String name = request.getParameter("name");
+		final JenkemImageCss imageCss = jenkemService.getImageCssByName(name);
 		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html");
-		response.getWriter().println(htmlUtil.generateEmpty());
+		response.setContentType("text/css");
+		response.getWriter().println(imageCss.getCss());
 	}
 
 }
