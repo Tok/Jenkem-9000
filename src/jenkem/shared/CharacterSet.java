@@ -2,13 +2,14 @@ package jenkem.shared;
 
 public enum CharacterSet {
 	Hard(" -+xX#"),
-	DoubleHard(" -+xX##"),
-	TrippleHard(" -+xXX###"),
 	Soft(" .:oO@"),
-	DoubleSoft(" .:oO@@"),
-	TrippleSoft(" .:oOO@@@"),
 	Ansi(" ░▒▓"),
-	DoubleAnsi(" ░▒▒▓▓▓");	
+	HalfHard("      -----++++xxxXX#"),
+	HalfSoft("      .....::::oooOO@"),
+	HalfAnsi("   ░░░▒▒▓"),
+	DoubleHard(" --+++xxxxXXXXX######"),
+	DoubleSoft(" ..:::ooooOOOOO@@@@@@"),
+	DoubleAnsi(" ░░▒▒▒▓▓▓▓");
 	//XXX numbers can't be used
 	
 	private String characters;
