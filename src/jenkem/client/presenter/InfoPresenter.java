@@ -57,7 +57,7 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 		row++;
 		display.getInfoList().setText(row, 0, "IRC Clients:");
 		display.getInfoList().getCellFormatter().setVerticalAlignment(row, 0, HasVerticalAlignment.ALIGN_TOP);
-		display.getInfoList().setText(row, 1, "Some IRC clients limit the input that can be put on one line. Depending on your client long lines with many color changes and therefore too many data will be cut off, or worse being skipped to a new line and thereby break the image. If this happens, you might try to use a lower setting for the line width of your conversion. It's often a good idea to test replaying your converted image into an empty channel before flooding it into channel full with fifty people idling in it.");
+		display.getInfoList().setText(row, 1, "Some IRC clients limit the input that can be put on one line. Depending on your client, long lines with many color changes and therefore too much data will be cut off or skipped to a new line and thereby break the image. If this happens, you might try to use a lower setting for the line-width of your conversion. It's often a good idea to test replaying your converted image into an empty channel before flooding it directly into a channel full with people idling in it.");
 		row++;
 		
 		display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
