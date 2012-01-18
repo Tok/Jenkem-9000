@@ -38,6 +38,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -81,7 +82,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	private final JenkemImageHtml jenkemImageHtml = new JenkemImageHtml();
 	private final JenkemImageCss jenkemImageCss = new JenkemImageCss();
 	private final JenkemImageIrc jenkemImageIrc = new JenkemImageIrc();
-
+	
 	private boolean readyForSlider = false;
 
 	public interface Display {
@@ -251,7 +252,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	
 	public void proxifyAndConvert() {
 		final String urlString = display.getInputTextBox().getText();
-		doShow(proxify(urlString));
+		final String proxifiedUrl = proxify(urlString);
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				doShow(proxifiedUrl);
+			}
+		});		
 	}
 
 	/**
@@ -260,7 +267,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	 * @return url to image servlet
 	 */
 	private String proxify(final String urlString) {
-		display.getStatusLabel().setText("Proxifying image...");
+		display.getStatusLabel().setText("Proxifying image.");
 		updateImageName(urlString);
 		if (!"".equals(urlString)) {
 			return "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
@@ -291,12 +298,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		image.addErrorHandler(new ErrorHandler() {
 			@Override
 			public void onError(ErrorEvent event) {
-				display.getStatusLabel().setText(event.toString());
+				display.getStatusLabel().setText("Submitting image failed.");
 			}
 		});
 		image.addLoadHandler(new LoadHandler() {
 			@Override
 			public void onLoad(LoadEvent event) {
+				display.getStatusLabel().setText("Image loaded.");
 				doConversion();
 			}
 		});
@@ -383,9 +391,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		}
 	}
 	
+	private void updateProgress(final int index) {
+		final double percentDone = index * 100 / lastIndex;
+		display.getStatusLabel().setText("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");	
+	}
+	
 	public synchronized void addIrcOutputLine(final String ircLine, final int index) {
-		display.getStatusLabel().setText(display.getStatusLabel().getText() + ".");
-				
+		updateProgress(index);
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -468,7 +480,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	private void displayBusyIcon() {
 		display.getBusyPanel().clear();
 		display.getBusyPanel().add(busyImage);
-		display.getStatusLabel().setText("Converting image...");
 		display.getMethodListBox().setEnabled(false);
 		display.getResetButton().setEnabled(false);
 		display.getSchemeListBox().setEnabled(false);
@@ -479,7 +490,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
 	private void removeBusyIcon() {
 		display.getBusyPanel().clear();
-		display.getStatusLabel().setText("Enter URL to an image:");
+		display.getStatusLabel().setText("Enter URL to an image: ");
 		display.getMethodListBox().setEnabled(true);
 		display.getResetButton().setEnabled(true);
 		if (!method.equals(ConversionMethod.Plain)) {
