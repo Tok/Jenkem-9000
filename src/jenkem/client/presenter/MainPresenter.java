@@ -347,7 +347,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	
 	private int getCurrentLineWidth() {
 		final String widthString = display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex());
-		return Integer.parseInt(widthString);
+		int result = Integer.parseInt(widthString);
+		if (currentImage.getWidth() < result) {
+			result = currentImage.getWidth();
+		}
+		return result;
 	}
 	
 	private void doDeferredConversion() {
