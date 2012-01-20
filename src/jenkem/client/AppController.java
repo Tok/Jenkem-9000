@@ -127,7 +127,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				}
 			}
 		}
-		doConvert = true;
+//		doConvert = true;
 		mainPresenter.go(container);		
 	}
 }

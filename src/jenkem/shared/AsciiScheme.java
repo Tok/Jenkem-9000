@@ -47,11 +47,12 @@ public class AsciiScheme {
 		for (int i = 0; i < preset.getCharacters().length(); i++) {
 			if (relStrength <= (i + 1) * th) {
 				ret = Character.toString(preset.getCharacters().toCharArray()[i]);
-				break; // we have a winrar
+				break; //we have a winrar
 			}
 		}
-		if (ret.length() == 0) { //TODO
-			ret = "!"; // assert this forbidden character must never appear!!1
+		if (ret.length() == 0) {
+			assert false;
+			ret = "!"; //this forbidden character must never appear!!1
 		}
 		return ret;
 	}

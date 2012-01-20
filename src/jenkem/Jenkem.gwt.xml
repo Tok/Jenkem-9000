@@ -3,20 +3,11 @@
 	<inherits name='com.google.gwt.http.HTTP'/>
 	<inherits name='com.google.gwt.user.User'/>
 	<inherits name='com.google.gwt.user.theme.clean.Clean'/>
-	<inherits name="com.google.gwt.junit.JUnit"/>
 	<inherits name="com.resmarksystems.AppEngineDataTypes"/>
 	<inherits name="com.kiouri.sliderbar.SliderBarMVP"/>
 
   	<entry-point class='jenkem.client.Jenkem'/>
-  	
-  	<!-- Service declarations -->
-  	<servlet path='/jenkem' class='jenkem.server.JenkemServiceImpl'/>
-  	<!-- Servlet declarations -->
-  	<servlet path='/output' class='jenkem.server.servlet.OutputServlet'/>
-  	<servlet path='/cssOutput' class='jenkem.server.servlet.CssOutputServlet'/>
-  	<servlet path='/irc.txt' class='jenkem.server.servlet.IrcOutputServlet'/>
-  	<servlet path='/image' class='jenkem.server.servlet.ImageServlet'/>
-
+  		
   	<source path='client'/>
   	<source path='shared'/>
 </module>

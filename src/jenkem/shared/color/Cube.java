@@ -31,6 +31,7 @@ public class Cube {
 	 * @param blue 0-255
 	 * @return a String with the IRC-color codes and the character to display in IRC
 	 */
+	//TODO make this private
 	public String getColorChar(final Map<String, Integer> colorMap, final CharacterSet preset, final int red, final int green, final int blue, 
 			final boolean enforceBlackFg) {
 		final double CONTRAST = 0.95d;
@@ -56,24 +57,31 @@ public class Cube {
 		return result.toString();
 	}
 
+	public String getColorChar(Map<String, Integer> colorMap, CharacterSet preset, int[] rgb, boolean enforceBlackFg) {
+		return getColorChar(colorMap, preset, rgb[0], rgb[1], rgb[2], enforceBlackFg);
+	}
+
+	public String getColorChar(Map<String, Integer> colorMap, CharacterSet preset, int[] rgb) {
+		return getColorChar(colorMap, preset, rgb[0], rgb[1], rgb[2], false);
+	}
+
 	public String getColorChar(final Map<String, Integer> colorMap, final CharacterSet preset, final int red, final int green, final int blue) {
 		return getColorChar(colorMap, preset, red, green, blue, false);
 	}
 
+	public String getColorChar(Map<String, Integer> colorMap, CharacterSet preset, Sample sample, Sample.Xdir xDir) {
+		return getColorChar(colorMap, preset, sample.getRgbValues(xDir));
+	}
+	
 	private WeightedColor createWc(final Map<String, Integer> colorMap, final int[] col, final String name) {
-		final Integer color = IrcColor.valueOf(name).getValue();
 		final int[] coords = IrcColor.valueOf(name).getRgb();
 		final double weight = calcStrength(col, coords, colorMap.get(name));
-		final WeightedColor wc = new WeightedColor(); //TODO write a Factory
-		wc.setWeight(weight);
-		wc.setColor(color.toString());
-		wc.setCoords(coords);
-		wc.setName(name);
+		final WeightedColor wc = WeightedColor.getInstance(name, coords, weight);
 		return wc;
 	}
 
 	private double calcStrength(final int[] col, final int[] comp, final double factor) {
-		return calcDistance(col,comp) / factor;
+		return calcDistance(col, comp) / factor;
 	}
 
 	/**
@@ -122,7 +130,7 @@ public class Cube {
 		//strength is used to calculate which character to return. 
 		//TODO XXX FIXME tune and explain this, #math suggested Vorni diagrams.
 		//..using a variable for power and the formula applied in calcStrength
-		//is just approximative workaround. instead there should be a mathematically provable 
+		//is just an approximative workaround. instead there should be a mathematically provable 
 		//correct way on how to weigh two colors against each other in regard to their 
 		//distance to the center of the cube 127,127,127
 		final double power = 4.00; //default should be 3.00 or 4.00;
@@ -223,4 +231,8 @@ public class Cube {
         list.set(i, list.get(ii));
         list.set(ii, s); 
 	}
+
+
+
+
 }

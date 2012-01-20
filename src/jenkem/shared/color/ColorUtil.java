@@ -4,10 +4,10 @@ package jenkem.shared.color;
  * just some constants and stuff.
  */
 public class ColorUtil {
-	//conventional ASCII color codes according to mIRC
-	public static final String CC = ""; // start irc color //TODO better not like this
-	public static final String BC = ""; // bold character for irc
-
+	//conventional color codes according to mIRC
+	public static final String BC = String.valueOf('\u0002'); // bold character for IRC
+	public static final String CC = String.valueOf('\u0003'); // color character for IRC
+	
 	/**
 	 * Colors the entered String black or white, depending on the provided background color.
 	 * This method is used to output the color config into IRC

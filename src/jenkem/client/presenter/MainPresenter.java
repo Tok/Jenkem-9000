@@ -84,7 +84,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	private final JenkemImageIrc jenkemImageIrc = new JenkemImageIrc();
 	
 	private boolean readyForSlider = false;
-
+	private boolean isConversionRunnung = false;
+	
 	public interface Display {
 		HasValue<String> getInputLink();
 		TextBox getInputTextBox();
@@ -335,14 +336,17 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		if (image == null) {
 			return;
 		}
-		displayBusyIcon();
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				doDeferredConversion();
-			}
-		});		
+		
+		if (!isConversionRunnung) {
+			isConversionRunnung = true;
+			displayBusyIcon();
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+				@Override
+				public void execute() {
+					doDeferredConversion();
+				}
+			});
+		}
 	}
 
 	private ConversionMethod getCurrentConversionMethod() {
@@ -416,7 +420,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	
 	private void updateProgress(final int index) {
 		final double percentDone = index * 100 / lastIndex;
-		display.getStatusLabel().setText("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");	
+		display.getStatusLabel().setText("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");
+		if (index == lastIndex) {
+			isConversionRunnung = false;
+		}
 	}
 	
 	public synchronized void addIrcOutputLine(final String ircLine, final int index) {

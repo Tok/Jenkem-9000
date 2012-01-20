@@ -89,7 +89,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
 	public void testIsUpOrDownExtremeValues() throws Exception {
 		final int offset = 0;
-		final Object[] parameters = { 0, 0, 0, 255, 255, 255, offset };
+		final int[] top = { 0, 0, 0 };
+		final int[] bottom = { 255, 255, 255 };		
+		final Object[] parameters = { top, bottom, offset };
 		final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
 		assertTrue(upOutput.booleanValue());
 		final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
@@ -98,7 +100,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
 	public void testIsDownOrUpExtremeValues() throws Exception {
 		final int offset = 0;
-		final Object[] parameters = { 255, 255, 255, 0, 0, 0, offset };
+		final int[] top = { 255, 255, 255 };
+		final int[] bottom = { 0, 0, 0 };
+		final Object[] parameters = { top, bottom, offset };
 		final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
 		assertTrue(downOutput.booleanValue());
 		final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
@@ -107,7 +111,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
 	public void testIsUpOrDownBoundaryValues() throws Exception {
 		final int offset = 0;
-		final Object[] parameters = { 126, 126, 126, 128, 128, 128, offset };
+		final int[] top = { 126, 126, 126 };
+		final int[] bottom = { 128, 128, 128 };
+		final Object[] parameters = { top, bottom, offset };
 		final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
 		assertTrue(upOutput.booleanValue());
 		final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
@@ -116,7 +122,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
 	public void testIsDownOrUpBoundaryValues() throws Exception {
 		final int offset = 0;
-		final Object[] parameters = { 128, 128, 128, 126, 126, 126, offset };
+		final int[] top = { 128, 128, 128 };
+		final int[] bottom = { 126, 126, 126 };
+		final Object[] parameters = { top, bottom, offset };
 		final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
 		assertTrue(downOutput.booleanValue());
 		final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
@@ -125,7 +133,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
 	public void testIsUpOrDownOffsetValues() throws Exception {
 		final int offset = 100;
-		final Object[] parameters = { 26, 26, 26, 228, 228, 228, offset };
+		final int[] top = { 26, 26, 26 };
+		final int[] bottom = { 228, 228, 228 };
+		final Object[] parameters = { top, bottom, offset };
 		final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
 		assertTrue(upOutput.booleanValue());
 		final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
@@ -134,7 +144,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
 	public void testIsDownOrUpOffsetValues() throws Exception {
 		final int offset = 100;
-		final Object[] parameters = { 228, 228, 228, 26, 26, 26, offset };
+		final int[] top = { 228, 228, 228 };
+		final int[] bottom = { 26, 26, 26 };
+		final Object[] parameters = { top, bottom, offset };
 		final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
 		assertTrue(downOutput.booleanValue());
 		final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
