@@ -344,8 +344,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	private void doConversion() {
 		if (image == null) {
 			return;
-		}
-		
+		}		
 		if (!isConversionRunnung) {
 			isConversionRunnung = true;
 			displayBusyIcon();
@@ -431,9 +430,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	private void updateProgress(final int index) {
 		final double percentDone = index * 100 / lastIndex;
 		display.getStatusLabel().setText("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");
-		if (index == lastIndex) {
-			isConversionRunnung = false;
-		}
 	}
 	
 	public synchronized void addIrcOutputLine(final String ircLine, final int index) {
@@ -517,6 +513,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 	
 		display.getIrcTextArea().setText(binaryOutput.toString());
 		display.getIrcTextArea().selectAll();
+		
+		isConversionRunnung = false;
 	}
 	
 	private void displayBusyIcon() {
