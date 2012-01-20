@@ -24,6 +24,8 @@ public class Cube {
 	
 	/**
 	 * Translates the RGB values of the pixel to a colored IRC character
+	 * @param colorMap Map<String, Integer>
+	 * @param preset selected CharacterSet
 	 * @param red 0-255
 	 * @param green 0-255
 	 * @param blue 0-255
@@ -184,7 +186,7 @@ public class Cube {
 
 	/**
 	 * compares two colors to a third and returns true if the
-	 * first one is closes to the third than the second.
+	 * first one is closer to the third than the second.
 	 * @param first
 	 * @param second
 	 * @param compare

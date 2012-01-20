@@ -65,7 +65,7 @@ public class AsciiScheme {
 		}
 	}
 
-	private String randomizeSix(String in) {
+	private String randomizeSix(final String in) {
 		if (randomized) {
 			try {
 				if (new Random().nextDouble() <= 0.3d) {
@@ -98,7 +98,8 @@ public class AsciiScheme {
 	public boolean isCharacterBright(final String character, final CharacterSet preset) {
 		final int halfLength = (preset.getCharacters().length() + 3) / 2; //cutting off the decimals is OK here
 		for (int i = 0; i <= halfLength; i++) {
-			String compare = preset.getCharacters().substring(i);
+			//String compare = preset.getCharacters().substring(i);
+			String compare = preset.getCharacters().substring(i, i+1);
 			if (unFormat(character).equals(compare)) {
 				return true;
 			}
@@ -116,7 +117,6 @@ public class AsciiScheme {
 
 	/**
 	 * utility method
-	 * 
 	 * @param in
 	 * @param rep
 	 * @return modified String
@@ -294,7 +294,8 @@ public class AsciiScheme {
 	}
 
 	public String getDarkestCharacter(final CharacterSet preset) {
-		return preset.getCharacters().substring(preset.getCharacters().length());
+//		return preset.getCharacters().substring(preset.getCharacters().length());
+		return preset.getCharacters().substring(preset.getCharacters().length() -1, preset.getCharacters().length());
 	}
 
 }

@@ -9,30 +9,37 @@ public class ColorUtil {
 	public static final String BC = ""; // bold character for irc
 
 	/**
-	 * Colors the entered String black or white, depending of the provided background color.
+	 * Colors the entered String black or white, depending on the provided background color.
+	 * This method is used to output the color config into IRC
 	 * @param col the color for the background (fg will become white or black)
 	 * @param input the message to color
 	 * @return the colored message
 	 */
 	public String colorConfig(final Integer col, String input) {
 		input = input + "% ";
-		if (col.equals(IrcColor.white.getValue())
-				|| col.equals(IrcColor.cyan.getValue()) 
-				|| col.equals(IrcColor.yellow.getValue()) 
-				|| col.equals(IrcColor.magenta.getValue()) 
-				|| col.equals(IrcColor.green.getValue()) 
-				|| col.equals(IrcColor.orange.getValue()) 				
-				|| col.equals(IrcColor.lightGray.getValue())) {
-			return concatColorConfig(IrcColor.black.getValue(), col, input);
-		} else {
-			return concatColorConfig(IrcColor.white.getValue(), col, input);
+		for (IrcColor ircColor : IrcColor.values()) {
+			if (col.equals(ircColor.getValue())) {
+				//color found. return provided String with black or white background
+				if (ircColor.isDark()) {
+					return concatColorConfig(IrcColor.white.getValue(), col, input);
+				} else {
+					return concatColorConfig(IrcColor.black.getValue(), col, input);
+				}
+			}
 		}
+		assert false;
+		return concatColorConfig(IrcColor.black.getValue(), col, input);
 	}
 
 	private String concatColorConfig(final Integer fg, final Integer bg, final String input) {
 		return CC + fg + "," + bg + " " + input + CC;	
 	}
 
+	/**
+	 * This method is used to add the bold code in front of every line in the ircOutput
+	 * @param ircOutput String[] with the lines to forward into IRC
+	 * @return String[] with every line preceded by bold code character
+	 */
 	public String[] makeBold(final String[] ircOutput) {
 		final String[] result = new String[ircOutput.length];
 		for (int i = 0; i < ircOutput.length; i++) {
@@ -51,6 +58,7 @@ public class ColorUtil {
 		for (IrcColor ircCol : IrcColor.values()) {
 			if (ircString.equals(ircCol.getValue())) { 
 				css = rgbToCss(ircCol.getRgb()); 
+				break;
 			}
 		}	
 		return css;
