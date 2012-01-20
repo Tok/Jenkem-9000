@@ -579,6 +579,7 @@ public class Engine {
 		     && ((bottomRed + bottomGreen + bottomBlue) / 3) <= (127 + offset);
 	}
 	
+	//FIXME this method doesn't work the way it was intended.
 	private String postProcessColoredRow(final String row) {
 		if (row.indexOf(ColorUtil.CC) <= 0) { //no CC, so process
 			final StringBuilder result = new StringBuilder();
