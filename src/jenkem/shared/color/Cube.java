@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import jenkem.shared.CharacterSet;
 import jenkem.shared.AsciiScheme;
-
-import com.google.gwt.user.client.Random;
-
+import jenkem.shared.CharacterSet;
 
 /**
  * This Class is used to manipulate a Cube made of colors.
@@ -21,6 +19,8 @@ import com.google.gwt.user.client.Random;
  */
 public class Cube {
 	private final AsciiScheme asciiScheme = new AsciiScheme();
+	private final Random random = new Random();
+	private boolean isRandomized = true;
 	
 	/**
 	 * Translates the RGB values of the pixel to a colored IRC character
@@ -105,9 +105,10 @@ public class Cube {
 		//on the black-white scale
 		//(=represented by the black to white diagonal in the cube, which has the same distance to all the 3 RGB and the 3 CMY edges).
 
-		//WARNING: this shuffling method takes alot! of CPU for a small effect on the output.
-		//TODO make an option to turn it on or off
-//		shuffle(list); //shuffle to randomize colors with the same weight
+		//WARNING: this shuffling method may take alot of CPU
+		if (isRandomized) {
+			shuffle(list); //shuffle to randomize colors with the same weight
+		}
 		
 		final SortedMap<Double, WeightedColor> map = new TreeMap<Double, WeightedColor>();
 		for (WeightedColor wc : list) {
@@ -216,10 +217,9 @@ public class Cube {
 	 * Shuffles the weighted color List
 	 * @param List<WeightedColor> colors
 	 */
-	@SuppressWarnings("unused")
 	private void shuffle(final List<WeightedColor> colors) {
         for(int i = colors.size(); i > 1; i--) {
-            swap(colors, i - 1, Random.nextInt(i)); 
+            swap(colors, i - 1, random.nextInt(colors.size())); 
         }
 	}
 
@@ -232,7 +232,8 @@ public class Cube {
         list.set(ii, s); 
 	}
 
-
-
+	public void enableRandomization(boolean booleanValue) {
+		this.isRandomized = booleanValue;
+	}
 
 }

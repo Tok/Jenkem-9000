@@ -624,5 +624,9 @@ public class Engine {
 			return 0;
 		}
 	}
+
+	public void useRandomization(boolean booleanValue) {
+		cube.enableRandomization(booleanValue);
+	}
 	
 }
