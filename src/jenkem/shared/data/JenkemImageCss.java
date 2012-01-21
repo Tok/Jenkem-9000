@@ -9,35 +9,33 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
-
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class JenkemImageCss implements Serializable {
-	private static final long serialVersionUID = 4390406347861996970L;
+    private static final long serialVersionUID = 4390406347861996970L;
 
-	@PrimaryKey
-	private String name;
-	
-	@Persistent
-	private Text css;
-	
-	public JenkemImageCss() {
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public String getCss() {
-		return css.getValue();
-	}
-	
-	public void setCss(String css) {
-		this.css = new Text(css);
-	}
-	
+    @PrimaryKey
+    private String name;
+
+    @Persistent
+    private Text css;
+
+    public JenkemImageCss() {
+    }
+
+    public final void setName(final String name) {
+        this.name = name;
+    }
+
+    public final String getName() {
+        return name;
+    }
+
+    public final String getCss() {
+        return css.getValue();
+    }
+
+    public final void setCss(final String css) {
+        this.css = new Text(css);
+    }
+
 }

@@ -10,7 +10,12 @@ import jenkem.shared.data.JenkemImageIrc;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface JenkemServiceAsync {
-	void saveJenkemImage(final JenkemImageInfo jenkemImageInfo, final JenkemImageHtml jenkemImageHtml, 
-			final JenkemImageCss image, final JenkemImageIrc jenkemImageIrc, final AsyncCallback<String> callback);
-	void getAllImageInfo(AsyncCallback<List<JenkemImageInfo>> callback);
+    void saveJenkemImage(
+            final JenkemImageInfo jenkemImageInfo,
+            final JenkemImageHtml jenkemImageHtml, 
+            final JenkemImageCss image,
+            final JenkemImageIrc jenkemImageIrc,
+            final AsyncCallback<String> callback);
+
+    void getAllImageInfo(AsyncCallback<List<JenkemImageInfo>> callback);
 }

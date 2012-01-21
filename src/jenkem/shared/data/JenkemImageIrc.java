@@ -11,36 +11,34 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
-
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class JenkemImageIrc implements Serializable {
-	private static final long serialVersionUID = -8360097117647923335L;
+    private static final long serialVersionUID = -8360097117647923335L;
 
-	@PrimaryKey
-	private String name;
-	
-	@Persistent(serialized = "true")
-	@Order(column="JENKEMIMAGEIRC_IRC")
-	private ArrayList<Text> irc;
-	
-	public JenkemImageIrc() {
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
+    @PrimaryKey
+    private String name;
 
-	public ArrayList<Text> getIrc() {
-		return irc;
-	}
-	
-	public void setIrc(ArrayList<Text> irc) {
-		this.irc = irc;
-	}
-	
+    @Persistent(serialized = "true")
+    @Order(column = "JENKEMIMAGEIRC_IRC")
+    private ArrayList<Text> irc;
+
+    public JenkemImageIrc() {
+    }
+
+    public final void setName(final String name) {
+        this.name = name;
+    }
+
+    public final String getName() {
+        return name;
+    }
+
+    public final ArrayList<Text> getIrc() {
+        return irc;
+    }
+
+    public final void setIrc(final ArrayList<Text> irc) {
+        this.irc = irc;
+    }
+
 }

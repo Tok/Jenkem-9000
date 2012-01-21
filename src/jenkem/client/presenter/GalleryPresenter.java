@@ -16,67 +16,78 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GalleryPresenter extends AbstractTabPresenter implements Presenter {
-	private final Display display;
-	private final JenkemServiceAsync jenkemService;
-	
-	public interface Display {
-		FlexTable getHistoryList();
-		Widget asWidget();
-	}
-	
-	public GalleryPresenter(final JenkemServiceAsync jenkemService, final HandlerManager eventBus, final TabPanel tabPanel, final Display view) {
-		super(eventBus, tabPanel);
-		this.jenkemService = jenkemService;
-		this.display = view;
-	}
+    private final Display display;
+    private final JenkemServiceAsync jenkemService;
 
-	public void bind() {
-	}
-		
-	public void go(final HasWidgets container) {
-		bind();
-		prepareTable();
-		container.clear();
-		container.add(super.getTabPanel());
-	}
+    public interface Display {
+        FlexTable getHistoryList();
 
-	private void prepareTable() {
-		display.getHistoryList().removeAllRows();
-		display.getHistoryList().setText(0, 0, "Loading...");
-		
-		jenkemService.getAllImageInfo(new AsyncCallback<List<JenkemImageInfo>>() {			
-			@Override
-			public void onSuccess(List<JenkemImageInfo> result) {
-				if (result != null) {
-					prepareResultTable(result);					
-				} else {
-					display.getHistoryList().setText(0, 0, "No images saved.");					
-				}
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				display.getHistoryList().setText(0, 0, "Fail loading images.");
-			}
-		});
-	}
-		
-	private void prepareResultTable(List<JenkemImageInfo> result) {
-		display.getHistoryList().setText(0, 0, "Name");
-		display.getHistoryList().setText(0, 1, "Number of Lines");
-		display.getHistoryList().setText(0, 2, "Line Width");
-		display.getHistoryList().setText(0, 3, "Creation Date");
-		final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss"); //TODO use date Util
-		int row = 1;
-		for (JenkemImageInfo imageInfo : result) {
-			String urlString = "http://" + Window.Location.getHost() + "/jenkem/output?name=" + imageInfo.getName();
-			display.getHistoryList().setWidget(row, 0, new Anchor(imageInfo.getName(), urlString));
-			display.getHistoryList().setText(row, 1, imageInfo.getLines().toString());
-			display.getHistoryList().setText(row, 2, imageInfo.getLineWidth().toString());
-//			display.getHistoryList().getFlexCellFormatter().setHorizontalAlignment(row, 1, HasHorizontalAlignment.ALIGN_RIGHT);
-			display.getHistoryList().setText(row, 3, format.format(imageInfo.getCreateDate()));
-			row++;
-		}
-	}
-	
+        Widget asWidget();
+    }
+
+    public GalleryPresenter(final JenkemServiceAsync jenkemService,
+            final HandlerManager eventBus, final TabPanel tabPanel,
+            final Display view) {
+        super(eventBus, tabPanel);
+        this.jenkemService = jenkemService;
+        this.display = view;
+    }
+
+    public void bind() {
+    }
+
+    @Override
+    public final void go(final HasWidgets container) {
+        bind();
+        prepareTable();
+        container.clear();
+        container.add(super.getTabPanel());
+    }
+
+    private void prepareTable() {
+        display.getHistoryList().removeAllRows();
+        display.getHistoryList().setText(0, 0, "Loading...");
+
+        jenkemService.getAllImageInfo(new AsyncCallback<List<JenkemImageInfo>>() {
+                    @Override
+                    public void onSuccess(final List<JenkemImageInfo> result) {
+                        if (result != null) {
+                            prepareResultTable(result);
+                        } else {
+                            display.getHistoryList().setText(0, 0,
+                                    "No images saved.");
+                        }
+                    }
+                    @Override
+                    public void onFailure(final Throwable caught) {
+                        display.getHistoryList().setText(0, 0,
+                                "Fail loading images.");
+                    }
+                });
+    }
+
+    private void prepareResultTable(final List<JenkemImageInfo> result) {
+        display.getHistoryList().setText(0, 0, "Name");
+        display.getHistoryList().setText(0, 1, "Number of Lines");
+        display.getHistoryList().setText(0, 2, "Line Width");
+        display.getHistoryList().setText(0, 3, "Creation Date");
+        final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss"); // TODO use date Util
+        int row = 1;
+        for (final JenkemImageInfo imageInfo : result) {
+            final String urlString = "http://" + Window.Location.getHost()
+                    + "/jenkem/output?name=" + imageInfo.getName();
+            display.getHistoryList().setWidget(row, 0,
+                    new Anchor(imageInfo.getName(), urlString));
+            display.getHistoryList().setText(row, 1,
+                    imageInfo.getLines().toString());
+            display.getHistoryList().setText(row, 2,
+                    imageInfo.getLineWidth().toString());
+            // display.getHistoryList().getFlexCellFormatter().setHorizontalAlignment(row,
+            // 1, HasHorizontalAlignment.ALIGN_RIGHT);
+            display.getHistoryList().setText(row, 3,
+                    format.format(imageInfo.getCreateDate()));
+            row++;
+        }
+    }
+
 }

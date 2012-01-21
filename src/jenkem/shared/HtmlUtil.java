@@ -1,242 +1,219 @@
 package jenkem.shared;
 
-import com.google.gwt.user.client.Window;
-
 import jenkem.shared.color.ColorUtil;
 
+import com.google.gwt.user.client.Window;
+
 public class HtmlUtil extends AbstractWebUtil {
-	private final String DOCTYPE = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"" + sep + "    \"http://www.w3.org/TR/html4/strict.dtd\">";
-	private final String META = "<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">";
-	
-	private final ColorUtil colorUtil = new ColorUtil();
-	
-	public String generateEmpty() {
-		final StringBuilder html = new StringBuilder();
-		html.append(DOCTYPE);
-		html.append(sep);
-		html.append("<html>");
-		html.append(sep);
-		html.append("<head>");
-		html.append(sep);
-		html.append(META);
-		html.append(sep);
-		html.append("<title>");
-		html.append("</title>");
-		html.append(sep);
-		html.append("</head>");
-		html.append(sep);
-		html.append("<body class=\"jenkemBody\">");
-		html.append("</body>");
-		html.append(sep);
-		html.append("</html>");
-		return html.toString();
-	}
+    private final String doctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\""
+            + SEP + "    \"http://www.w3.org/TR/html4/strict.dtd\">";
+    private final String meta = "<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">";
+    private final ColorUtil colorUtil = new ColorUtil();
 
-	public String[] generateHtml(final String[] ircOutput, final String name, final boolean isPlain) {
-		final StringBuilder html = new StringBuilder();
-		final StringBuilder css = new StringBuilder();
-		html.append(DOCTYPE);
-		html.append(sep);
-		html.append("<html>");
-		html.append(sep);
-		html.append("<head>");
-		html.append(sep);
-		html.append(META);
-		html.append(sep);
-		html.append("<title>");
-		html.append(name);
-		html.append("</title>");
-		html.append(sep);
+    public final String generateEmpty() {
+        final StringBuilder html = new StringBuilder();
+        appendLineToBuilder(html, doctype);
+        appendLineToBuilder(html, "<html>");
+        appendLineToBuilder(html, "<head>");
+        appendLineToBuilder(html, meta);
+        appendLineToBuilder(html, "<title></title>");
+        appendLineToBuilder(html, "</head>");
+        appendLineToBuilder(html, "<body class=\"jenkemBody\"></body>");
+        appendLineToBuilder(html, "</html>");
+        return html.toString();
+    }
 
-		html.append("<link href=\"http://");
-		html.append(Window.Location.getHost());
-		html.append("/jenkem/cssOutput?name=");		
-		html.append(name);
-		html.append("\" rel=\"stylesheet\" type=\"text/css; charset=iso-8859-1\">");
-		
-		html.append(sep);
+    public final String[] generateHtml(final String[] ircOutput,
+            final String name, final boolean isPlain) {
+        final StringBuilder html = new StringBuilder();
+        final StringBuilder css = new StringBuilder();
+        
+        appendLineToBuilder(html, doctype);
+        appendLineToBuilder(html, "<html>");
+        appendLineToBuilder(html, "<head>");
+        appendLineToBuilder(html, meta);
+        html.append("<title>");
+        html.append(name);
+        appendLineToBuilder(html, "</title>");
+        html.append("<link href=\"http://");
+        html.append(Window.Location.getHost());
+        html.append("/jenkem/cssOutput?name=");
+        html.append(name);
+        html.append("\" rel=\"stylesheet\" type=\"text/css; charset=iso-8859-1\">");
+        html.append(SEP);
 
-		html.append("</head>");
-		html.append(sep);
-		html.append("<body class=\"jenkemBody\">");
-		html.append(sep);
-		html.append("<div>");
-		html.append(sep);
+        appendLineToBuilder(html, "</head>");
+        appendLineToBuilder(html, "<body class=\"jenkemBody\">");
+        appendLineToBuilder(html, "<div>");
 
-		css.append("form { margin: 0 auto; padding: 0; }");
-		css.append(sep);
-		css.append("html { background-color: #ffffff }");
-		css.append(sep);
-		css.append("body { font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; background-color: black; }");
-		css.append(sep);
-		css.append("div { float: left; width: auto; clear: both; }");
-		css.append(sep);
-		css.append("span { float: left; width: auto; }");
-		css.append(sep);
+        appendLineToBuilder(css, "form { margin: 0 auto; padding: 0; }");
+        appendLineToBuilder(css, "html { background-color: #ffffff }");
+        appendLineToBuilder(css, "body { font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; background-color: black; }");
+        appendLineToBuilder(css, "div { float: left; width: auto; clear: both; }");
+        appendLineToBuilder(css, "span { float: left; width: auto; }");
 
-		int line = 0;
+        int line = 0;
 
-		if (isPlain) {
-			while (ircOutput != null && line < ircOutput.length
-					&& ircOutput[line] != null && ircOutput[line].length() > 0) {
-				html.append("<div class=\"jenkem\">");
-				html.append("<span id=\"id_");
-				html.append(line);
-				html.append("\">");
-				html.append(escape(ircOutput[line]));
-				html.append("</span>");
-				html.append("</div>");
-				html.append(sep);
-				css.append("#id_");
-				css.append(line);
-				css.append(" { color: #000000; background-color: #ffffff; }");
-				css.append(sep);
-				line++;
-			}
-		} else {
-			while (ircOutput != null && line < ircOutput.length
-					&& ircOutput[line] != null && ircOutput[line].length() > 0) {
-				html.append("<div class=\"jenkem\">");
-				final String[] splitSections = ircOutput[line].split(ColorUtil.CC);
-				final String[] sections = new String[splitSections.length];
-				int i = 0;
-				for (String s : splitSections) {
-					if (!s.equals("")) {
-						sections[i] = s;
-						i++;
-					}
-				}
-				int section = 0;
-				for (String token : sections) {
-					if (token == null || token.equals("")) {
-						break;
-					}
-					if (token.equals(ColorUtil.BC)) {
-						break; //throw bold code away
-					}
-					final String[] splitCut = token.split(",");
-					final String[] cut = new String[splitCut.length];
-					int ii = 0;
-					for (String s : splitCut) {
-						if (!s.equals("")) {
-							cut[ii] = s;
-							ii++;
-						}
-					}
-					final String fg = cut[0];
-					final String bgAndChars = cut[1];
-					String bg = "";
-					String chars = "";
-					
-					try { // FIXME ugly trial and error approach
-						Integer.parseInt(bgAndChars.substring(0, 2));
-						// if parseInt works we know that the bg color takes two
-						// characters
-						bg = bgAndChars.substring(0, 2);
-						chars = bgAndChars.substring(2, bgAndChars.length());
-					} catch (Exception e) {
-						bg = bgAndChars.substring(0, 1);
-						chars = bgAndChars.substring(1, bgAndChars.length());
-					}
-					
-					html.append("<span id=\"id_");
-					html.append(line);
-					html.append("_");
-					html.append(section);
-					html.append("\">");
+        if (isPlain) {
+            while (ircOutput != null && line < ircOutput.length
+                    && ircOutput[line] != null && ircOutput[line].length() > 0) {
+                html.append("<div class=\"jenkem\">");
+                html.append("<span id=\"id_");
+                html.append(line);
+                html.append("\">");
+                html.append(escape(ircOutput[line]));
+                html.append("</span>");
+                html.append("</div>");
+                html.append(SEP);
+                css.append("#id_");
+                css.append(line);
+                css.append(" { color: #000000; background-color: #ffffff; }");
+                css.append(SEP);
+                line++;
+            }
+        } else {
+            while (ircOutput != null && line < ircOutput.length
+                    && ircOutput[line] != null && ircOutput[line].length() > 0) {
+                html.append("<div class=\"jenkem\">");
+                final String[] splitSections = ircOutput[line]
+                        .split(ColorUtil.CC);
+                final String[] sections = new String[splitSections.length];
+                int i = 0;
+                for (final String s : splitSections) {
+                    if (!s.equals("")) {
+                        sections[i] = s;
+                        i++;
+                    }
+                }
+                int section = 0;
+                for (final String token : sections) {
+                    if (token == null || token.equals("")) {
+                        break;
+                    }
+                    if (token.equals(ColorUtil.BC)) {
+                        break; // throw bold code away
+                    }
+                    final String[] splitCut = token.split(",");
+                    final String[] cut = new String[splitCut.length];
+                    int ii = 0;
+                    for (final String s : splitCut) {
+                        if (!s.equals("")) {
+                            cut[ii] = s;
+                            ii++;
+                        }
+                    }
+                    final String fg = cut[0];
+                    final String bgAndChars = cut[1];
+                    String bg = "";
+                    String chars = "";
 
-					chars = escape(chars);
+                    try { // FIXME ugly trial and error approach
+                        Integer.parseInt(bgAndChars.substring(0, 2));
+                        // if parseInt works we know that the bg color takes two
+                        // characters
+                        bg = bgAndChars.substring(0, 2);
+                        chars = bgAndChars.substring(2, bgAndChars.length());
+                    } catch (final Exception e) {
+                        bg = bgAndChars.substring(0, 1);
+                        chars = bgAndChars.substring(1, bgAndChars.length());
+                    }
 
-					html.append(chars);
-					html.append("</span>");
-					css.append("#id_");
-					css.append(line);
-					css.append("_");
-					css.append(section);
-					css.append(" { color: ");
+                    html.append("<span id=\"id_");
+                    html.append(line);
+                    html.append("_");
+                    html.append(section);
+                    html.append("\">");
 
-					css.append(colorUtil.ircToCss(fg));
-					css.append("; background-color: ");
-					css.append(colorUtil.ircToCss(bg));
+                    chars = escape(chars);
 
-					css.append("; }");
-					css.append(sep);
-					section++;
-				}
-				html.append("</div>");
-				html.append(sep);
-				line++;
-			}
-		}
-		html.append("</div>");
-		html.append(sep);
+                    html.append(chars);
+                    html.append("</span>");
+                    css.append("#id_");
+                    css.append(line);
+                    css.append("_");
+                    css.append(section);
+                    css.append(" { color: ");
 
-		//puts link with output for IRC
-		html.append("<div class=\"ircBinary\">");
-		html.append("<a href=\"/jenkem/irc.txt?name=");
-		html.append(name);
-		html.append("\" onclick=\"this.target='blank'\">Download binary textfile for IRC</a>");
-		html.append("</div>");
-		html.append(sep);
-		
-		html.append("<div class=\"validator\">");
-		html.append("<a href=\"http://validator.w3.org/check?uri=referer\">");
-		html.append("<img src=\"http://www.w3.org/Icons/valid-html401\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
-		html.append("</a>");
-		if (!isPlain) {
-			html.append("<a href=\"http://jigsaw.w3.org/css-validator/check/referer\">");
-			html.append("<img src=\"http://jigsaw.w3.org/css-validator/images/vcss\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
-			html.append("</a>");
-		}
-		html.append("</div>");
-		html.append(sep);
+                    css.append(colorUtil.ircToCss(fg));
+                    css.append("; background-color: ");
+                    css.append(colorUtil.ircToCss(bg));
 
-		html.append("</body>");
-		html.append(sep);
-		html.append("</html>");
+                    css.append("; }");
+                    css.append(SEP);
+                    section++;
+                }
+                html.append("</div>");
+                html.append(SEP);
+                line++;
+            }
+        }
+        appendLineToBuilder(html, "</div>");
 
-		final String[] ret = new String[2];
-		ret[0] = html.toString();
-		ret[1] = css.toString();
-		return ret;
-	}
-	
-	public String prepareCssForInline(String inputCss) {
-		String[] cssLines = inputCss.split("\n");
-		StringBuffer newInlineCss = new StringBuffer();
-		newInlineCss.append("<style type=\"text/css\">\n");
-		for (String line : cssLines) {
-			if (line.startsWith("div {")) {
-				newInlineCss.append(".jenkem { font-family: monospace; font-weight: bold; }");
-			} else if (line.startsWith("form {")) {
-				//ignore
-			} else if (line.startsWith("body {")) {
-				//ignore
-			} else if (line.startsWith("html {")) {
-				//ignore
-			} else {
-				newInlineCss.append(line);
-			}
-		}
-		newInlineCss.append("\n</style>");
-		return newInlineCss.toString();
-	}
-	
-	public String prepareHtmlForInline(String inputHtml, String inputCss) {
-		String[] htmlLines = inputHtml.split("\n");
-		StringBuffer newInlineHtml = new StringBuffer();
-		for (String line : htmlLines) {
-			if (line.startsWith("<link href=")) {
-				newInlineHtml.append(inputCss.toString());
-			} else if (line.startsWith("<div class=\"ircBinary\">")) {
-				//ignore
-			} else if (line.startsWith("<div class=\"validator\">")) {
-				//ignore
-			} else {
-				newInlineHtml.append(line);
-			}
-		}
-		return newInlineHtml.toString();
-	}
-	
+        // puts link with output for IRC
+        html.append("<div class=\"ircBinary\">");
+        html.append("<a href=\"/jenkem/irc.txt?name=");
+        html.append(name);
+        html.append("\" onclick=\"this.target='blank'\">Download binary textfile for IRC</a>");
+        appendLineToBuilder(html, "</div>");
+
+        html.append("<div class=\"validator\">");
+        html.append("<a href=\"http://validator.w3.org/check?uri=referer\">");
+        html.append("<img src=\"http://www.w3.org/Icons/valid-html401\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
+        html.append("</a>");
+        if (!isPlain) {
+            html.append("<a href=\"http://jigsaw.w3.org/css-validator/check/referer\">");
+            html.append("<img src=\"http://jigsaw.w3.org/css-validator/images/vcss\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
+            html.append("</a>");
+        }
+        appendLineToBuilder(html, "</div>");
+
+        appendLineToBuilder(html, "</body>");
+        html.append("</html>");
+
+        final String[] ret = new String[2];
+        ret[0] = html.toString();
+        ret[1] = css.toString();
+        return ret;
+    }
+
+    public final String prepareCssForInline(final String inputCss) {
+        final String[] cssLines = inputCss.split("\n");
+        final StringBuffer newInlineCss = new StringBuffer();
+        newInlineCss.append("<style type=\"text/css\">\n");
+        for (final String line : cssLines) {
+            if (line.startsWith("div {")) {
+                newInlineCss
+                        .append(".jenkem { font-family: monospace; font-weight: bold; }");
+            } else if (line.startsWith("form {")) {
+                // ignore
+            } else if (line.startsWith("body {")) {
+                // ignore
+            } else if (line.startsWith("html {")) {
+                // ignore
+            } else {
+                newInlineCss.append(line);
+            }
+        }
+        newInlineCss.append("\n</style>");
+        return newInlineCss.toString();
+    }
+
+    public final String prepareHtmlForInline(final String inputHtml,
+            final String inputCss) {
+        final String[] htmlLines = inputHtml.split("\n");
+        final StringBuffer newInlineHtml = new StringBuffer();
+        for (final String line : htmlLines) {
+            if (line.startsWith("<link href=")) {
+                newInlineHtml.append(inputCss.toString());
+            } else if (line.startsWith("<div class=\"ircBinary\">")) {
+                // ignore
+            } else if (line.startsWith("<div class=\"validator\">")) {
+                // ignore
+            } else {
+                newInlineHtml.append(line);
+            }
+        }
+        return newInlineHtml.toString();
+    }
+
 }
