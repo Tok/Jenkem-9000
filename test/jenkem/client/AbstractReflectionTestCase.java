@@ -24,11 +24,10 @@ public abstract class AbstractReflectionTestCase extends TestCase {
 	}
 
 	/**
-	 * Executes private methods from other classes.
+	 * Executes private methods from another classes.
 	 * @param instance Instance of the class that is tests
 	 * @param methodName Name of the method to test
 	 * @param parameters Parameters to pass to the method that is tested
-	 * @param parameterType class of the Parameters
 	 * @return Object Object with the return value of the executed method
 	 * @throws InvocationTargetException 
 	 * @throws IllegalAccessException 
@@ -48,6 +47,16 @@ public abstract class AbstractReflectionTestCase extends TestCase {
 		return result;
 	}	
 	
+	/**
+	 * Executes private methods from another classes.
+	 * @param instance
+	 * @param methodName
+	 * @param parameters
+	 * @return Object that was returned by the invoked method
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
 	public Object invokePrivateMethodWithIntegerParameters(Object instance, String methodName,
 			Object parameters[]) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		Object result = null;

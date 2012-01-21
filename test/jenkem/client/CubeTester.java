@@ -93,7 +93,8 @@ public class CubeTester extends AbstractReflectionTestCase {
 			@SuppressWarnings("unchecked")
 			final Map<String, Integer> colorMap = (Map<String, Integer>) object; 
 			for (CharacterSet set : CharacterSet.values()) {
-				final String result = cube.getColorChar(colorMap, set, 0, 0, 0, false);
+				final int[] black = { 0, 0, 0 };
+				final String result = cube.getColorChar(colorMap, set, black, false);
 				final String[] splitted = result.split(",");
 				final String backgroundAndChar = splitted[splitted.length-1];
 				final String background = backgroundAndChar.substring(backgroundAndChar.length() -2, backgroundAndChar.length() -1);
@@ -110,7 +111,8 @@ public class CubeTester extends AbstractReflectionTestCase {
 				@SuppressWarnings("unchecked")
 				final Map<String, Integer> colorMap = (Map<String, Integer>) object; 
 				for (CharacterSet set : CharacterSet.values()) {
-					final String result = cube.getColorChar(colorMap, set, 255, 0, 0, false);
+					final int[] red = { 255, 0, 0 };
+					final String result = cube.getColorChar(colorMap, set, red, false);
 					final String[] splitted = result.split(",");
 					final String backgroundAndChar = splitted[splitted.length-1];
 					final String background = backgroundAndChar.substring(backgroundAndChar.length() -2, backgroundAndChar.length() -1);
@@ -128,7 +130,8 @@ public class CubeTester extends AbstractReflectionTestCase {
 				@SuppressWarnings("unchecked")
 				final Map<String, Integer> colorMap = (Map<String, Integer>) object; 
 				for (CharacterSet set : CharacterSet.values()) {
-					final String result = cube.getColorChar(colorMap, set, 255, 255, 0, false);
+					final int[] yellow = { 255, 255, 0 };
+					final String result = cube.getColorChar(colorMap, set, yellow, false);
 					final String[] splitted = result.split(",");
 					final String backgroundAndChar = splitted[splitted.length-1];
 					final String background = backgroundAndChar.substring(backgroundAndChar.length() -2, backgroundAndChar.length() -1);
@@ -146,7 +149,8 @@ public class CubeTester extends AbstractReflectionTestCase {
 				@SuppressWarnings("unchecked")
 				final Map<String, Integer> colorMap = (Map<String, Integer>) object; 
 				for (CharacterSet set : CharacterSet.values()) {
-					final String result = cube.getColorChar(colorMap, set, 156, 0, 156, false);
+					final int[] purple = { 156, 0, 156 };
+					final String result = cube.getColorChar(colorMap, set, purple, false);
 					final String[] splitted = result.split(",");
 					final String backgroundAndChar = splitted[splitted.length-1];
 					final String background = backgroundAndChar.substring(backgroundAndChar.length() -2, backgroundAndChar.length() -1);
@@ -165,7 +169,8 @@ public class CubeTester extends AbstractReflectionTestCase {
 				@SuppressWarnings("unchecked")
 				final Map<String, Integer> colorMap = (Map<String, Integer>) object; 
 				for (CharacterSet set : CharacterSet.values()) {
-					final String result = cube.getColorChar(colorMap, set, 127, 127, 127, false);
+					final int[] gray = { 127, 127, 127 };
+					final String result = cube.getColorChar(colorMap, set, gray, false);
 					final String[] splitted = result.split(",");
 					final String backgroundAndChar = splitted[splitted.length-1];
 					final String background = backgroundAndChar.substring(backgroundAndChar.length() -3, backgroundAndChar.length() -1);

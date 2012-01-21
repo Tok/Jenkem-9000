@@ -27,14 +27,22 @@ public class Engine {
 
 	private int startX;
 	private int startY;
-	
+
+	/**
+	 * Public constructor
+	 * @param presenter with a method to add converted lines.
+	 */
 	public Engine(MainPresenter presenter) {
 		this.presenter = presenter;
 	}
 	
 	/**
-	 * Full-HD mode
+	 * Initializes Engine and starts Full-HD mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
+	 * @param id the ImageData
+	 * @param preset the CharacterSet to use
+	 * @param contrast value will be multiplied with the rgb of each pixel
+	 * @param brightness value will be added to the rgb of each pixel
 	 */
 	public void generateHighDef(final ImageData id, final ColorScheme scheme, final CharacterSet preset, final double contrast, final int brightness) {
 		this.colorMap = prepareColorMap(scheme);
@@ -46,8 +54,13 @@ public class Engine {
 	}
 	
 	/**
-	 * Super-Hybrid mode
+	 * Initializes Engine and starts Super-Hybrid mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
+	 * @param id the ImageData
+	 * @param preset the CharacterSet to use
+	 * @param contrast value will be multiplied with the rgb of each pixel
+	 * @param brightness value will be added to the rgb of each pixel
+	 * @param kick
 	 */
 	public void generateSuperHybrid(final ImageData id, final ColorScheme scheme, final CharacterSet preset, final double contrast, final int brightness, final Kick kick) {
 		this.colorMap = prepareColorMap(scheme);
@@ -60,8 +73,13 @@ public class Engine {
 	}
 	
 	/**
-	 * Hybrid mode
+	 * Initializes Engine and starts Hybrid mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
+	 * @param id the ImageData
+	 * @param preset the CharacterSet to use
+	 * @param contrast value will be multiplied with the rgb of each pixel
+	 * @param brightness value will be added to the rgb of each pixel
+	 * @param kick
 	 */
 	public void generateHybrid(final ImageData id, final ColorScheme scheme, final CharacterSet preset, final double contrast, final int brightness, final Kick kick) {
 		this.colorMap = prepareColorMap(scheme);
@@ -74,9 +92,14 @@ public class Engine {
 	}
 	
 	/**
-	 * Pwntari mode
+	 * Initializes Engine and starts Pwntari mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
- 	 */
+	 * @param id the ImageData
+	 * @param preset the CharacterSet to use
+	 * @param contrast value will be multiplied with the rgb of each pixel
+	 * @param brightness value will be added to the rgb of each pixel
+	 * @param kick
+	 */
 	public void generatePwntari(final ImageData id, final ColorScheme scheme, final CharacterSet preset, final double contrast, final int brightness, final Kick kick) {
 		this.colorMap = prepareColorMap(scheme);
 		this.id = id;
@@ -86,10 +109,15 @@ public class Engine {
 		applyKicks(kick);
 		generatePwntariLine(0 + startY); //start by triggering the conversion of the 1st line
 	}
-	
+
 	/**
-	 * Plain mode
+	 * Initializes Engine and starts Plain mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
+	 * @param id the ImageData
+	 * @param preset the CharacterSet to use
+	 * @param contrast value will be multiplied with the rgb of each pixel
+	 * @param brightness value will be added to the rgb of each pixel
+	 * @param kick
 	 */
 	public void generatePlain(final ImageData id, final CharacterSet preset, final double contrast, final int brightness, final Kick kick) {
 		this.id = id;
@@ -102,16 +130,16 @@ public class Engine {
 		
 	/**
 	 * Generates a line in HD mode and adds it to the presenter, 
-	 * wich will recall this method again with an increased y until all
+	 * which will recall this method again with an increased y until all
 	 * data is converted.
-	 * @param y row of pixels in the ImageData to convert
+	 * @param index row of pixels in the ImageData to convert
 	 */
-	public void generateHighDefLine(final int y) {
+	public void generateHighDefLine(final int index) {
 		final StringBuilder line = new StringBuilder();
 		String oldPix;
 		String newPix = null;
 		for (int x = 0; x < id.getWidth(); x++) { //this method can handle uneven image widths
-			final int rgb[] = Sample.calculateRgb(id, x, y, contrast, brightness);
+			final int rgb[] = Sample.calculateRgb(id, x, index, contrast, brightness);
 			oldPix = newPix;
 			newPix = cube.getColorChar(colorMap, preset, rgb, false); // the cube is used here.
 			if (newPix.equals(oldPix)) { //don't change color
@@ -126,15 +154,14 @@ public class Engine {
 			}
 		}
 		line.append(ColorUtil.CC); //closes the last CC in the line
-		presenter.addIrcOutputLine(line.toString(), y);
+		presenter.addIrcOutputLine(line.toString(), index);
 	}
 	
 	/**
 	 * Generates a line in super hybrid mode and adds it to the presenter, 
-	 * wich will recall this method again with an increased y until all
+	 * which will recall this method again with an increased y until all
 	 * data is converted.
-	 * @param y row of pixels in the ImageData to convert
-	 * @param index
+	 * @param index row of pixels in the ImageData to convert
 	 */
 	public void generateSuperHybridLine(final int index) {
 		final StringBuilder row = new StringBuilder();
@@ -147,12 +174,10 @@ public class Engine {
 			oldLeft = newLeft;
 			newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
 			newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
-
 			final int[] leftRgb = sample.getRgbValues(Sample.Xdir.LEFT);
 			final Color leftCol = cube.getTwoNearestColors(colorMap, leftRgb);
 			final int[] rightRgb = sample.getRgbValues(Sample.Xdir.RIGHT);
 			final Color rightCol = cube.getTwoNearestColors(colorMap, rightRgb);
-
 			final int[] leftTopRgb = sample.getRgbValues(Sample.Ydir.TOP, Sample.Xdir.LEFT);
 			final Color leftTopCol = cube.getTwoNearestColors(colorMap, leftTopRgb);
 			final int[] leftBottomRgb = sample.getRgbValues(Sample.Ydir.BOT, Sample.Xdir.LEFT);
@@ -161,7 +186,6 @@ public class Engine {
 			final Color rightTopCol = cube.getTwoNearestColors(colorMap, rightTopRgb);
 			final int[] rightBottomRgb = sample.getRgbValues(Sample.Ydir.BOT, Sample.Xdir.RIGHT);
 			final Color rightBottomCol = cube.getTwoNearestColors(colorMap, rightBottomRgb);
-
 			final double offset = +32.0D;
 			if (cube.isFirstCloserTo(leftBottomCol.getRgb(), leftTopCol.getRgb(), leftCol.getFgRgb(), offset)) {
 				if (rightCol.getBg().equals(leftCol.getFg())) {
@@ -211,7 +235,13 @@ public class Engine {
 		String result = postProcessColoredRow(row.toString());
 		presenter.addIrcOutputLine(result, index);
 	}
-		
+	
+	/**
+	 * Generates a line in hybrid mode and adds it to the presenter, 
+	 * wich will recall this method again with an increased y until all
+	 * data is converted.
+	 * @param index row of pixels in the ImageData to convert
+	 */
 	public void generateHybridLine(int index) {
 		final StringBuilder row = new StringBuilder();
 		String oldLeft;
@@ -221,19 +251,16 @@ public class Engine {
 			final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
 			
 			oldLeft = newLeft;	
-			
 			@SuppressWarnings("unused") //TODO reimplement foreground enforcement
 			final boolean isEnforceBlackFg = false;
 			newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
 			newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
-
 			if (asciiScheme.isCharacterBright(newLeft, preset) && asciiScheme.isCharacterDark(newRight, preset)) {
 				newLeft = asciiScheme.replace(newLeft, asciiScheme.selectVline());
 			}
 			if (asciiScheme.isCharacterDark(newLeft, preset) && asciiScheme.isCharacterBright(newRight, preset)) {
 				newRight = asciiScheme.replace(newRight, asciiScheme.selectVline());
 			}
-			
 			//XXX tune this
 			final int downOffset = 21;
 			final int upOffset = 13;
@@ -268,7 +295,6 @@ public class Engine {
 					newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
 				}
 			}
-			
 			final int[] leftTopRgb = sample.getRgbValues(Sample.Ydir.TOP, Sample.Xdir.LEFT);
 			final int[] leftBottomRgb = sample.getRgbValues(Sample.Ydir.BOT, Sample.Xdir.LEFT);
 			final int[] rightTopRgb = sample.getRgbValues(Sample.Ydir.TOP, Sample.Xdir.RIGHT);
@@ -313,6 +339,12 @@ public class Engine {
 		presenter.addIrcOutputLine(postProcessColoredRow(row.toString()), index);
 	}
 	
+	/**
+	 * Generates a line in Pwntari mode and adds it to the presenter, 
+	 * which will recall this method again with an increased y until all
+	 * data is converted.
+	 * @param index row of pixels in the ImageData to convert
+	 */
 	public void generatePwntariLine(int index) {
 		StringBuilder row = new StringBuilder();
 		String oldLeft;
@@ -326,7 +358,6 @@ public class Engine {
 			newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
 			newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
 			newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
-
 			if (newLeft.equals(oldLeft)) {
 				final String charOnly = newLeft.substring(newLeft.length() - 1, newLeft.length());
 				row.append(charOnly);
@@ -348,7 +379,13 @@ public class Engine {
 		row.append(ColorUtil.CC);
 		presenter.addIrcOutputLine(postProcessColoredRow(row.toString()), index);
 	}
-		
+	
+	/**
+	 * Generates a line in Plain mode and adds it to the presenter, 
+	 * which will recall this method again with an increased y until all
+	 * data is converted.
+	 * @param index row of pixels in the ImageData to convert
+	 */
 	public void generatePlainLine(int index) {
 		final StringBuilder row = new StringBuilder();
 		for (int x = startX; x < id.getWidth() -1; x = x + 2) {
@@ -366,8 +403,7 @@ public class Engine {
 				charPixel = asciiScheme.getDown();
 			} else {
 				charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2, preset,	true);
-			} // TODO make this shit clean
-
+			}
 			// 2nd char
 			if (topRight <= 127 && bottomRight > 127) {
 				charPixel = charPixel + asciiScheme.getUp();
@@ -384,7 +420,6 @@ public class Engine {
 			if (charPixel.equals(asciiScheme.getDown() + asciiScheme.getUp())) {
 				charPixel = asciiScheme.getDownUp();
 			}
-
 			if (asciiScheme.isCharacterDark(charPixel.substring(0, 1), preset)
 					&& charPixel.substring(1, 2).equals(asciiScheme.getDown())) {
 				charPixel = charPixel.substring(0, 1) + asciiScheme.selectLeftDown();
@@ -401,7 +436,6 @@ public class Engine {
 					&& asciiScheme.isCharacterDark(charPixel.substring(1, 2), preset)) {
 				charPixel = asciiScheme.selectRightUp() + charPixel.substring(1, 2);
 			}
-
 			if (charPixel.equals(asciiScheme.getDarkestCharacter(preset) + " ")) {
 				charPixel = asciiScheme.getVline() + " ";
 			}
@@ -429,24 +463,13 @@ public class Engine {
 			return id.getWidth() - 1;
 		}		
 	}
-
-	@SuppressWarnings("unused")
-	private boolean isLineOmitted(final int index) {
-		//omit last line if Y not kicked
-		if (startY == 0 && (index == id.getHeight() || index == id.getHeight() - 1)) {
-			return true; //omit last two lines
-		} else if (startY == 1 && index == id.getHeight()) {
-			return true; //omit last line
-		} else {
-			return false;
-		}
-	}
 	
 	/**
-	 * @param ImageData
+	 * Calculates the average darkness of a pixel.
+	 * @param ImageData image with the pixel to calculate
 	 * @param int x
 	 * @param int y
-	 * @return darkness
+	 * @return darkness of the selected pixel
 	 */
 	private static int getDarkFromImage(final ImageData id, int x, int y) {
 		final double d = id.getRedAt(x, y) + id.getGreenAt(x, y) + id.getBlueAt(x, y);
@@ -456,8 +479,8 @@ public class Engine {
 	
 	/**
 	 * Removes empty lines from output.
-	 * @param String[] input
-	 * @return String[] without empty lines
+	 * @param input String array with the input line
+	 * @return String array without empty lines
 	 */
 	public String[] removeEmptyLines(String[] input) {
 		int notEmptyCounter = 0;
@@ -478,8 +501,8 @@ public class Engine {
 	}
 	
 	/**
-	 * Prepares a Map with the Colors depending on the selected ColorScheme
-	 * @param scheme
+	 * Prepares a Map with the Colors depending on the selected ColorScheme.
+	 * @param scheme the selected ColorScheme
 	 * @return prepared Map
 	 */
 	private Map<String, Integer> prepareColorMap(final ColorScheme scheme) {
@@ -508,16 +531,35 @@ public class Engine {
 		return colorMap;
 	}
 
+	/**
+	 * Decides if top is darker than bottom.
+	 * @param top rgb values of the top pixels
+	 * @param bottom rgb values of the bottom pixels
+	 * @param offset for calculation
+	 * @return true if top is darker than top
+	 */
 	private boolean isUp(final int[] top, final int[] bottom, final int offset){
 		return ((top[0] + top[1] + top[2]) / 3) <= (127 + offset)
 		     && ((bottom[0] + bottom[1] + bottom[2]) / 3) > (127 - offset);
 	}
-	
+
+	/**
+	 * Decides if bottom is darker than bottom.
+	 * @param top rgb values of the top pixels
+	 * @param bottom rgb values of the bottom pixels
+	 * @param offset for calculation
+	 * @return true if bottom is darker than top
+	 */
 	private boolean isDown(final int[] top, final int[] bottom, final int offset){
 	     return ((top[0] + top[1] + top[2]) / 3) > (127 - offset)
 		     && ((bottom[0] + bottom[1] + bottom[2]) / 3) <= (127 + offset);
 	}
 		
+	/**
+	 * Makes colored ASCII output smooth.
+	 * @param row to process
+	 * @return the processed line
+	 */
 	//FIXME this method doesn't work the way it was intended.
 	private String postProcessColoredRow(final String row) {
 		if (row.indexOf(ColorUtil.CC) <= 0) { //no CC, so process
@@ -530,6 +572,11 @@ public class Engine {
 		}
 	}
 	
+	/**
+	 * Makes plain ASCII output smooth
+	 * @param row to process
+	 * @return the processed line
+	 */
 	private String postProcessRow(final String row) {
 		// 1st procession for the upper part of the characters (true case)
 		// 2nd one for the lower parts (false case)
@@ -537,11 +584,10 @@ public class Engine {
 	}
 	
 	/**
-	 * makes plain ASCII output smooth
-	 * @param row
-	 * @param up
-	 * true if line is " half, false if _ half of ASCII character
-	 * @return the post processed line.
+	 * Makes plain ASCII output smooth
+	 * @param row to process
+	 * @param up true if line is " half, false if _ half of ASCII character
+	 * @return the post-processed line.
 	 */
 	private String postProcessVert(final String row, final boolean up) {
 		final String replaceBy;
@@ -609,6 +655,11 @@ public class Engine {
 		this.startY = getKickedY(kick);
 	}
 	
+	/**
+	 * Decides if x is kicked
+	 * @param kick
+	 * @return 1 or 0
+	 */
 	private int getKickedX(Kick kick) {
 		if (kick.equals(Kick.X) || kick.equals(Kick.XY)) {
  			return 1; 
@@ -617,6 +668,11 @@ public class Engine {
 		}
 	}
 
+	/**
+	 * Decides if y is kicked
+	 * @param kick
+	 * @return 1 or 0
+	 */
 	private int getKickedY(Kick kick) {
 		if (kick.equals(Kick.Y) || kick.equals(Kick.XY)) {
  			return 1; 
@@ -624,9 +680,4 @@ public class Engine {
 			return 0;
 		}
 	}
-
-	public void useRandomization(boolean booleanValue) {
-		cube.enableRandomization(booleanValue);
-	}
-	
 }

@@ -20,7 +20,6 @@ import jenkem.shared.CharacterSet;
 public class Cube {
 	private final AsciiScheme asciiScheme = new AsciiScheme();
 	private final Random random = new Random();
-	private boolean isRandomized = true;
 	
 	/**
 	 * Translates the RGB values of the pixel to a colored IRC character
@@ -31,8 +30,7 @@ public class Cube {
 	 * @param blue 0-255
 	 * @return a String with the IRC-color codes and the character to display in IRC
 	 */
-	//TODO make this private
-	public String getColorChar(final Map<String, Integer> colorMap, final CharacterSet preset, final int red, final int green, final int blue, 
+	private String getColorChar(final Map<String, Integer> colorMap, final CharacterSet preset, final int red, final int green, final int blue, 
 			final boolean enforceBlackFg) {
 		final double CONTRAST = 0.95d;
 		final int fixedRed = (int) (red * CONTRAST);
@@ -106,9 +104,7 @@ public class Cube {
 		//(=represented by the black to white diagonal in the cube, which has the same distance to all the 3 RGB and the 3 CMY edges).
 
 		//WARNING: this shuffling method may take alot of CPU
-		if (isRandomized) {
-			shuffle(list); //shuffle to randomize colors with the same weight
-		}
+		shuffle(list); //shuffle to randomize colors with the same weight
 		
 		final SortedMap<Double, WeightedColor> map = new TreeMap<Double, WeightedColor>();
 		for (WeightedColor wc : list) {
@@ -194,12 +190,12 @@ public class Cube {
 	}
 
 	/**
-	 * compares two colors to a third and returns true if the
+	 * Compares two colors to a third and returns true if the
 	 * first one is closer to the third than the second.
-	 * @param first
-	 * @param second
-	 * @param compare
-	 * @return
+	 * @param first rgb values of the first color to compare
+	 * @param second rgb values of the second color to compare
+	 * @param compare rgb values of the color to compare the others to
+	 * @return boolean that is true if the first color is closer to the comparation
 	 */
 	public boolean isFirstCloserTo(final int[] first, final int[] second, final int[] compare) {
 		//TODO this is awkward. replace this method with a method 
@@ -232,8 +228,5 @@ public class Cube {
         list.set(ii, s); 
 	}
 
-	public void enableRandomization(boolean booleanValue) {
-		this.isRandomized = booleanValue;
-	}
 
 }

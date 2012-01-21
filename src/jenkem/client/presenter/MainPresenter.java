@@ -43,7 +43,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
@@ -106,7 +105,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		SliderBarSimpleHorizontal getBrightnessSlider();
 		Label getBrightnessLabel();
 		RadioButton getKickButton(Kick kick);
-		CheckBox getRandomizationCheckBox();
 		Button getSubmitButton();
 		Widget asWidget();
 	}
@@ -234,14 +232,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 				}
 			});
 		}
-		
-		this.display.getRandomizationCheckBox().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				doConversion();
-			}
-		});
-		
+
 		this.display.getSubmitButton().addClickHandler(new ClickHandler() {			
 			@Override
 			public void onClick(ClickEvent event) {
@@ -407,8 +398,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 				.valueOf(display.getBrightnessLabel().getText());
 		
 		lastIndex = id.getHeight();
-		engine.useRandomization(display.getRandomizationCheckBox().getValue().booleanValue());
-		
+
 		if (method.equals(ConversionMethod.FullHd)) {			
 			ircOutput = new String[lastIndex];
 			engine.generateHighDef(id, scheme, preset, contrast, brightness);
@@ -526,7 +516,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		display.getSchemeListBox().setEnabled(false);
 		display.getPresetListBox().setEnabled(false);
 		display.getSubmitButton().setEnabled(false);
-		display.getRandomizationCheckBox().setEnabled(false);
 		disableKicks();
 	}
 
@@ -542,7 +531,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		if (!method.equals(ConversionMethod.Pwntari)) {
 			display.getPresetListBox().setEnabled(true);
 		}
-		display.getRandomizationCheckBox().setEnabled(true);
 		display.getSubmitButton().setEnabled(true);
 		enableKicks();
 	}
@@ -561,7 +549,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 		display.getPresetListBox().setSelectedIndex(0);
 		resetContrastAndBrightness();
 		display.getKickButton(Kick.Off).setValue(true);
-		display.getRandomizationCheckBox().setValue(true);
 	}
 	
 	private void resetContrastAndBrightness() {

@@ -14,7 +14,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -52,7 +51,6 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final SliderBarSimpleHorizontal brightnessSlider = new SliderBarSimpleHorizontal(100, "100px", false);
 	private final Label brightnessLabel = new Label();
 	private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
-	private final CheckBox useRandomizationCheckBox = new CheckBox("Check for quality over speed.");
 	private final Button submitButton = new Button("Submit");
 	private final FlexTable contentTable;
 	
@@ -160,13 +158,6 @@ public class MainView extends Composite implements MainPresenter.Display {
 		final HorizontalPanel kickPanel = new HorizontalPanel();
 		initKicks(kickPanel);
 		settingsTable.setWidget(settingsRow, 1, kickPanel);
-		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
-		settingsRow++;
-		
-		settingsTable.setText(settingsRow, 0, "Randomize colors:");
-		useRandomizationCheckBox.setValue(true);
-		useRandomizationCheckBox.setTitle("This option may only have a visible effect on very bright or very dark areas.");
-		settingsTable.setWidget(settingsRow, 1, useRandomizationCheckBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
 				
@@ -295,11 +286,6 @@ public class MainView extends Composite implements MainPresenter.Display {
 	@Override
 	public RadioButton getKickButton(Kick kick) {
 		return kickButtons.get(kick);
-	}
-
-	@Override
-	public CheckBox getRandomizationCheckBox() {
-		return useRandomizationCheckBox;
 	}
 		
 	@Override

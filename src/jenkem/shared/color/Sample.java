@@ -33,8 +33,8 @@ public class Sample {
 			this.ydir = ydir;
 			this.xdir = xdir;
 		}
-		public static SampleKey getKey(Col col, Ydir ydir, Xdir xdir) {
-			return new SampleKey(col, ydir, xdir);
+		public static String getKey(Col col, Ydir ydir, Xdir xdir) {
+			return new SampleKey(col, ydir, xdir).toString();
 		}
 		public String toString() {
 			return col.name() + ydir.name() + xdir.name();
@@ -46,42 +46,21 @@ public class Sample {
 	}
 	
 	private Sample(final ImageData img, final int x, final int y, final double contrast, final int brightness) {
-		try {
-			values.put(SampleKey.getKey(Col.RED, Ydir.TOP, Xdir.LEFT).toString(), keepInRange((int) (img.getRedAt(x, y) * contrast) + brightness));
-			values.put(SampleKey.getKey(Col.GREEN, Ydir.TOP, Xdir.LEFT).toString(), keepInRange((int) (img.getGreenAt(x, y) * contrast) + brightness));
-			values.put(SampleKey.getKey(Col.BLUE, Ydir.TOP, Xdir.LEFT).toString(), keepInRange((int) (img.getBlueAt(x, y) * contrast) + brightness));
-			
+		for (Col col : Col.values()) {
+			values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.LEFT), takeColor(img, col, x, y, contrast, brightness));
+			values.put(SampleKey.getKey(col, Ydir.BOT, Xdir.LEFT), takeColor(img, col, x, y+1, contrast, brightness));
 			if (img.getWidth() <= x + 1) {
-				values.put(SampleKey.getKey(Col.RED, Ydir.TOP, Xdir.RIGHT).toString(), keepInRange((int) (img.getRedAt(x+1, y) * contrast) + brightness));
-				values.put(SampleKey.getKey(Col.GREEN, Ydir.TOP, Xdir.RIGHT).toString(), keepInRange((int) (img.getGreenAt(x+1, y) * contrast) + brightness));
-				values.put(SampleKey.getKey(Col.BLUE, Ydir.TOP, Xdir.RIGHT).toString(), keepInRange((int) (img.getBlueAt(x+1, y) * contrast) + brightness));
-			} else {
-				values.put(SampleKey.getKey(Col.RED, Ydir.TOP, Xdir.RIGHT).toString(), keepInRange((int) (img.getRedAt(x, y) * contrast) + brightness));
-				values.put(SampleKey.getKey(Col.GREEN, Ydir.TOP, Xdir.RIGHT).toString(), keepInRange((int) (img.getGreenAt(x, y) * contrast) + brightness));
-				values.put(SampleKey.getKey(Col.BLUE, Ydir.TOP, Xdir.RIGHT).toString(), keepInRange((int) (img.getBlueAt(x, y) * contrast) + brightness));
+				values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.RIGHT), takeColor(img, col, x+1, y, contrast, brightness)); 
+				values.put(SampleKey.getKey(col, Ydir.BOT, Xdir.RIGHT), takeColor(img, col, x+1, y+1, contrast, brightness));
+			} else { //fallback by using the pixel to the left
+				values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.RIGHT), takeColor(img, col, x, y, contrast, brightness));
+				values.put(SampleKey.getKey(col, Ydir.BOT, Xdir.RIGHT), takeColor(img, col, x, y+1, contrast, brightness));
 			}
-			
-			values.put(SampleKey.getKey(Col.RED, Ydir.BOT, Xdir.LEFT).toString(), keepInRange((int) (img.getRedAt(x, y+1) * contrast) + brightness));
-			values.put(SampleKey.getKey(Col.GREEN, Ydir.BOT, Xdir.LEFT).toString(), keepInRange((int) (img.getGreenAt(x, y+1) * contrast) + brightness));
-			values.put(SampleKey.getKey(Col.BLUE, Ydir.BOT, Xdir.LEFT).toString(), keepInRange((int) (img.getBlueAt(x, y+1) * contrast) + brightness));
-
-			if (img.getWidth() <= x + 1) {
-				values.put(SampleKey.getKey(Col.RED, Ydir.BOT, Xdir.RIGHT).toString(), keepInRange((int) (img.getRedAt(x+1, y+1) * contrast) + brightness));
-				values.put(SampleKey.getKey(Col.GREEN, Ydir.BOT, Xdir.RIGHT).toString(), keepInRange((int) (img.getGreenAt(x+1, y+1) * contrast) + brightness));
-				values.put(SampleKey.getKey(Col.BLUE, Ydir.BOT, Xdir.RIGHT).toString(), keepInRange((int) (img.getBlueAt(x+1, y+1) * contrast) + brightness));
-			} else {
-				values.put(SampleKey.getKey(Col.RED, Ydir.BOT, Xdir.RIGHT).toString(), keepInRange((int) (img.getRedAt(x, y+1) * contrast) + brightness));
-				values.put(SampleKey.getKey(Col.GREEN, Ydir.BOT, Xdir.RIGHT).toString(), keepInRange((int) (img.getGreenAt(x, y+1) * contrast) + brightness));
-				values.put(SampleKey.getKey(Col.BLUE, Ydir.BOT, Xdir.RIGHT).toString(), keepInRange((int) (img.getBlueAt(x, y+1) * contrast) + brightness));				
-			}
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage()); //TODO remove as soon as save to do so
 		}
 	}
 
 	public int get(Col col, Ydir yDir, Xdir xDir) {
-		final String key = SampleKey.getKey(col, yDir, xDir).toString();
+		final String key = SampleKey.getKey(col, yDir, xDir);
 		if (values.containsKey(key)) {
 			return values.get(key);
 		} else {
@@ -90,8 +69,8 @@ public class Sample {
 	}
 	
 	public int get(Col col, Xdir xDir) {
-		final String firstKey = SampleKey.getKey(col, Ydir.TOP, xDir).toString();
-		final String secondKey = SampleKey.getKey(col, Ydir.BOT, xDir).toString();
+		final String firstKey = SampleKey.getKey(col, Ydir.TOP, xDir);
+		final String secondKey = SampleKey.getKey(col, Ydir.BOT, xDir);
 		if (values.containsKey(firstKey)) {
 			if (values.containsKey(secondKey)) { //TODO test to make sure no other cases can be true
 				return values.get(firstKey) + values.get(secondKey) / 2;
@@ -108,8 +87,8 @@ public class Sample {
 	}
 
 	public int get(Col col, Ydir yDir) {
-		final String firstKey = SampleKey.getKey(col, yDir, Xdir.LEFT).toString();
-		final String secondKey = SampleKey.getKey(col, yDir, Xdir.RIGHT).toString();
+		final String firstKey = SampleKey.getKey(col, yDir, Xdir.LEFT);
+		final String secondKey = SampleKey.getKey(col, yDir, Xdir.RIGHT);
 		if (values.containsKey(firstKey)) {
 			if (values.containsKey(secondKey)) {
 				return values.get(firstKey) + values.get(secondKey) / 2;				
@@ -159,6 +138,18 @@ public class Sample {
 		return result;
 	}
 
+	private static int takeColor(ImageData id, Col col, int x, int y, double contrast, int brightness) {
+		if (col.equals(Col.RED)) {
+			return calculateColor(id.getRedAt(x, y), contrast, brightness);
+		} else if (col.equals(Col.GREEN)) {
+			return calculateColor(id.getGreenAt(x, y), contrast, brightness);
+		} else if (col.equals(Col.BLUE)) {
+			return calculateColor(id.getBlueAt(x, y), contrast, brightness);			
+		}
+		assert false;
+		return 0;
+	}
+	
 	/**
 	 * Applies the contrast and brightness to the provided value
 	 * and makes sure that the result is kept in range.
@@ -185,7 +176,6 @@ public class Sample {
 			return colorComponent;
 		}
 	}
-
 
 
 }
