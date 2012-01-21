@@ -24,6 +24,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class JenkemServiceImpl extends RemoteServiceServlet implements
 		JenkemService {
+    private static final long QUERY_RANGE = 200;
 	private static final Logger LOG = Logger.getLogger(JenkemServiceImpl.class.getName());
 	private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
 
@@ -41,7 +42,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return String.valueOf(jenkemImageInfo.getCreateDate().getTime());
 	}
-	
+
 	public JenkemImageHtml getImageHtmlByName(final String name) {
 		JenkemImageHtml result = null;		
 		if (name != null) {
@@ -58,7 +59,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
-	
+
 	public JenkemImageCss getImageCssByName(final String name) {
 		JenkemImageCss result = null;		
 		if (name != null) {
@@ -75,7 +76,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
-	
+
 	public JenkemImageIrc getImageIrcByName(final String name) {
 		JenkemImageIrc result = null;		
 		if (name != null) {
@@ -92,14 +93,14 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
-	
+
 	@Override
 	public ArrayList<JenkemImageInfo> getAllImageInfo() {
 		final PersistenceManager pm = PMF.getPersistenceManager();
 		ArrayList<JenkemImageInfo> result = new ArrayList<JenkemImageInfo>();
 		try {
 			Query query = pm.newQuery(JenkemImageInfo.class);
-			query.setRange(0, 200);
+			query.setRange(0, QUERY_RANGE);
 			query.setOrdering("createDate desc");
 			@SuppressWarnings("unchecked")
 			List<JenkemImageInfo> tmp = (List<JenkemImageInfo>) query.execute();
@@ -109,7 +110,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
-	
+
 //	@Override
 //	public void startBot() throws NickAlreadyInUseException, IOException, IrcException {
 //		JenkemBot bot = new JenkemBot();

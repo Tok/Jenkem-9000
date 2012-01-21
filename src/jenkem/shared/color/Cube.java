@@ -20,7 +20,10 @@ import jenkem.shared.CharacterSet;
 public class Cube {
 	private final AsciiScheme asciiScheme = new AsciiScheme();
 	private final Random random = new Random();
-	
+    public static final int NO_OFFSET = 0;
+    public static final int NEGATIVE_OFFSET = -10;
+    public static final int POSITIVE_OFFSET = 10;
+
 	/**
 	 * Translates the RGB values of the pixel to a colored IRC character
 	 * @param colorMap Map<String, Integer>
@@ -32,12 +35,7 @@ public class Cube {
 	 */
 	private String getColorChar(final Map<String, Integer> colorMap, final CharacterSet preset, final int red, final int green, final int blue, 
 			final boolean enforceBlackFg) {
-		final double CONTRAST = 0.95d;
-		final int fixedRed = (int) (red * CONTRAST);
-		final int fixedGreen = (int) (green * CONTRAST);
-		final int fixedBlue = (int) (blue * CONTRAST);
-		
-		final int[] col = { fixedRed, fixedGreen, fixedBlue };
+	    final int[] col = { red, green, blue };
 		final Color c = getTwoNearestColors(colorMap, col);
 
 		final StringBuilder result = new StringBuilder();
@@ -70,7 +68,7 @@ public class Cube {
 	public String getColorChar(Map<String, Integer> colorMap, CharacterSet preset, Sample sample, Sample.Xdir xDir) {
 		return getColorChar(colorMap, preset, sample.getRgbValues(xDir));
 	}
-	
+
 	private WeightedColor createWc(final Map<String, Integer> colorMap, final int[] col, final String name) {
 		final int[] coords = IrcColor.valueOf(name).getRgb();
 		final double weight = calcStrength(col, coords, colorMap.get(name));
@@ -105,7 +103,7 @@ public class Cube {
 
 		//WARNING: this shuffling method may take alot of CPU
 		shuffle(list); //shuffle to randomize colors with the same weight
-		
+
 		final SortedMap<Double, WeightedColor> map = new TreeMap<Double, WeightedColor>();
 		for (WeightedColor wc : list) {
 			map.put(wc.getWeight(), wc);			
@@ -172,9 +170,9 @@ public class Cube {
 		final double toGreen = to[1];
 		final double toBlue = to[2];
 		final double distance = Math.sqrt(
-				(Math.pow(toRed - fromRed, 2.0) +
-				 Math.pow(toGreen - fromGreen, 2.0) +
-				 Math.pow(toBlue - fromBlue, 2.0))
+			(Math.pow(toRed - fromRed, 2.0) 
+		   + Math.pow(toGreen - fromGreen, 2.0)
+		   + Math.pow(toBlue - fromBlue, 2.0))
 		);
 		return distance;
 	}
@@ -227,6 +225,5 @@ public class Cube {
         list.set(i, list.get(ii));
         list.set(ii, s); 
 	}
-
 
 }

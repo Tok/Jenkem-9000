@@ -9,7 +9,12 @@ import jenkem.shared.color.Cube;
 import jenkem.shared.color.IrcColor;
 
 public class CubeTester extends AbstractReflectionTestCase {
-	final Cube cube = new Cube();
+    private static final double CENTER_TO_NEAR_EDGE_DISTANCE = 219.9704525612474;
+    private static final double CENTER_TO_FAR_EDGE_DISTANCE = 221.70250336881628;
+    private static final double SIDE_DISTANCE = 255.0;
+    private static final double AREA_DIAGONAL_DISTANCE = 360.62445840513925;
+    private static final double SPACE_DIAGONAL_DISTANCE = 441.6729559300637;
+    final Cube cube = new Cube();
 	final Engine engine = new Engine(null);
 
 	public void testSamePointDistance() throws Exception {
@@ -19,13 +24,13 @@ public class CubeTester extends AbstractReflectionTestCase {
 		Double distance = (Double) invokePrivateMethod(cube, "calcDistance", parameters);
 		assertEquals(0.0, distance.doubleValue());
 	}
-	
+
 	public void testCenterToNearEdgeDistance() throws Exception {
 		final int[] from = { 127, 127, 127 };
 		final int[] to = { 0, 0, 0 };
 		final int[][] parameters = { from, to };
 		Double distance = (Double) invokePrivateMethod(cube, "calcDistance", parameters);
-		assertEquals(219.9704525612474, distance.doubleValue());
+		assertEquals(CENTER_TO_NEAR_EDGE_DISTANCE, distance.doubleValue());
 	}
 
 	public void testCenterToFarEdgeDistance() throws Exception {
@@ -33,7 +38,7 @@ public class CubeTester extends AbstractReflectionTestCase {
 		final int[] to = { 255, 255, 255 };
 		final int[][] parameters = { from, to };
 		Double distance = (Double) invokePrivateMethod(cube, "calcDistance", parameters);
-		assertEquals(221.70250336881628, distance.doubleValue());
+		assertEquals(CENTER_TO_FAR_EDGE_DISTANCE, distance.doubleValue());
 	}
 
 	public void testSideDistance() throws Exception {
@@ -41,7 +46,7 @@ public class CubeTester extends AbstractReflectionTestCase {
 		final int[] to = { 255, 0, 0 };
 		final int[][] parameters = { from, to };
 		Double distance = (Double) invokePrivateMethod(cube, "calcDistance", parameters);
-		assertEquals(255.0, distance.doubleValue());
+		assertEquals(SIDE_DISTANCE, distance.doubleValue());
 	}
 
 	public void testAreaDiagonalDistance() throws Exception {
@@ -49,7 +54,7 @@ public class CubeTester extends AbstractReflectionTestCase {
 		final int[] to = { 255, 255, 0 };
 		final int[][] parameters = { from, to };
 		Double distance = (Double) invokePrivateMethod(cube, "calcDistance", parameters);
-		assertEquals(360.62445840513925, distance.doubleValue());
+		assertEquals(AREA_DIAGONAL_DISTANCE, distance.doubleValue());
 	}
 
 	public void testSpaceDiagonalDistance() throws Exception {
@@ -57,17 +62,17 @@ public class CubeTester extends AbstractReflectionTestCase {
 		final int[] to = { 255, 255, 255 }; //white
 		final int[][] parameters = { from, to };
 		Double distance = (Double) invokePrivateMethod(cube, "calcDistance", parameters);
-		assertEquals(441.6729559300637, distance.doubleValue());
+		assertEquals(SPACE_DIAGONAL_DISTANCE, distance.doubleValue());
 	}
-	
+
 	public void testCenterCloserToNearEdge() throws Exception {
 		final int[] first = { 0, 0, 0 }; //black
 		final int[] second = { 255, 255, 255 }; //white
 		final int[] compare = { 127, 127, 127 }; //gray
 		assertTrue(cube.isFirstCloserTo(first, second, compare));
-		assertTrue(cube.isFirstCloserTo(first, second, compare, 0));
-		assertTrue(cube.isFirstCloserTo(first, second, compare, -10));
-		assertFalse(cube.isFirstCloserTo(first, second, compare, 10));
+		assertTrue(cube.isFirstCloserTo(first, second, compare, Cube.NO_OFFSET));
+		assertTrue(cube.isFirstCloserTo(first, second, compare, Cube.NEGATIVE_OFFSET));
+		assertFalse(cube.isFirstCloserTo(first, second, compare, Cube.POSITIVE_OFFSET));
 	}
 
 	public void testRedCloserToBlackThanWhite() throws Exception {
@@ -102,7 +107,7 @@ public class CubeTester extends AbstractReflectionTestCase {
 			}
 		}
 	}
-	
+
 	public void testColorCharRed() throws Exception {
 		for (final ColorScheme scheme : ColorScheme.values()) {
 			if (!scheme.equals(ColorScheme.Bw) && !scheme.equals(ColorScheme.Bwg)) { //exclude schemes without red

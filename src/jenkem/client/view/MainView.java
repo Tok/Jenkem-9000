@@ -33,7 +33,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
 
 public class MainView extends Composite implements MainPresenter.Display {
-	private final ExtendedTextBox inputTextBox = new ExtendedTextBox();
+    private static final int SPACING = 5;
+    private static final int IRC_TEXT_CHARACTER_WIDTH = 77;
+    private static final int INITIAL_BRIGHTNESS_ABS = 200;
+    private static final int INITIAL_CONTRAST_ABS = 199;
+
+    private final ExtendedTextBox inputTextBox = new ExtendedTextBox();
 	private final Button showButton = new Button("Convert Image");
 	private final Panel busyPanel = new HorizontalPanel();
 	private final Label statusLabel = new Label("Enter URL to an image:");
@@ -53,20 +58,20 @@ public class MainView extends Composite implements MainPresenter.Display {
 	private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
 	private final Button submitButton = new Button("Submit");
 	private final FlexTable contentTable;
-	
+
 	public MainView() {
 		String link = com.google.gwt.user.client.Window.Location.getParameter("link");
-		
+
 		final DecoratorPanel contentTableDecorator = new DecoratorPanel();
 		contentTableDecorator.setWidth("1010px");
 		initWidget(contentTableDecorator);
 
 		contentTable = new FlexTable();
-				
+
 		final HorizontalPanel hPanel = new HorizontalPanel();
 		inputTextBox.setWidth("800px");
 		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		hPanel.setSpacing(5);
+		hPanel.setSpacing(SPACING);
 		if (link != null && !link.equals("")) {
 			inputTextBox.setText(link);
 		}
@@ -76,7 +81,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		hPanel.add(busyPanel);
 
 		int row = 0;
-		contentTable.setWidget(row++, 0, statusLabel);		
+		contentTable.setWidget(row++, 0, statusLabel);
 		contentTable.setWidget(row++, 0, hPanel);
 
 		previewPanel.setHeight("1010px");
@@ -97,7 +102,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.setWidget(settingsRow, 1, methodListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
-		
+
 		widthListBox.addItem("72");
 		widthListBox.addItem("64");
 		widthListBox.addItem("56");
@@ -109,11 +114,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.setWidget(settingsRow, 1, widthListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
-				
+
 		settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
 		settingsRow++;
-		
+
 		settingsTable.setText(settingsRow, 0, "Reset values:");
 		resetButton.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, resetButton);
@@ -128,7 +133,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.setWidget(settingsRow, 1, schemeListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
-		
+
 		for (CharacterSet preset : CharacterSet.values()) {
 			presetListBox.addItem(preset.name());
 		}
@@ -137,43 +142,43 @@ public class MainView extends Composite implements MainPresenter.Display {
 		settingsTable.setWidget(settingsRow, 1, presetListBox);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
-		
+
 		settingsTable.setText(settingsRow, 0, "Contrast:");
-		contrastSlider.setMaxValue(199);
+		contrastSlider.setMaxValue(INITIAL_CONTRAST_ABS);
 		contrastSlider.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, contrastSlider);
 		contrastLabel.setWidth("25px");
 		settingsTable.setWidget(settingsRow, 2, contrastLabel);
 		settingsRow++;
-		
+
 		settingsTable.setText(settingsRow, 0, "Brightness:");
-		brightnessSlider.setMaxValue(200);
+		brightnessSlider.setMaxValue(INITIAL_BRIGHTNESS_ABS);
 		brightnessSlider.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, brightnessSlider);
 		brightnessLabel.setWidth("25px");
 		settingsTable.setWidget(settingsRow, 2, brightnessLabel);
 		settingsRow++;
-		
+
 		settingsTable.setText(settingsRow, 0, "Kick:");
 		final HorizontalPanel kickPanel = new HorizontalPanel();
 		initKicks(kickPanel);
 		settingsTable.setWidget(settingsRow, 1, kickPanel);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
 		settingsRow++;
-				
+
 		settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
 		settingsRow++;
-		
+
 		settingsTable.setText(settingsRow, 0, "Submit Conversion:");
 		submitButton.setWidth("200px");
 		settingsTable.setWidget(settingsRow, 1, submitButton);
 		settingsRow++;
-		
+
 		settingsTable.setText(settingsRow, 0, "Binary Output for IRC:");
 		settingsRow++;
 
-		ircText.setCharacterWidth(77);
+		ircText.setCharacterWidth(IRC_TEXT_CHARACTER_WIDTH);
 		ircText.setVisibleLines(5);
 		ircText.setReadOnly(true);
 		ircText.setDirection(Direction.LTR);
@@ -181,11 +186,11 @@ public class MainView extends Composite implements MainPresenter.Display {
 		ircText.setWidth("393px");
 		settingsTable.setWidget(settingsRow, 0, ircText);
 		settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 0, 3);
-		
+
 		settingsTable.getFlexCellFormatter().setWidth(0, 0, "170px");
 		settingsTable.getFlexCellFormatter().setWidth(1, 0, "400px");
 		settingsTable.getFlexCellFormatter().setWidth(2, 0, "50px");
-		
+
 		flex.setWidget(0, 1, settingsTable);
 		flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
 		flex.getFlexCellFormatter().setWidth(0, 1, "450px");
@@ -199,7 +204,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		for (Kick kick : Kick.values()) {
 			final RadioButton kickRadioButton = new RadioButton("kick", kick.name());
 			kickButtons.put(kick, kickRadioButton);
-			kickPanel.add(kickRadioButton);			
+			kickPanel.add(kickRadioButton);
 		}
 	}
 
@@ -212,7 +217,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	public HasClickHandlers getShowButton() {
 		return showButton;
 	}
-	
+
 	@Override
 	public Panel getBusyPanel() {
 		return busyPanel;
@@ -227,7 +232,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	public TextBox getInputTextBox() {
 		return inputTextBox;
 	}
-	
+
 	@Override
 	public Label getStatusLabel() {
 		return statusLabel;
@@ -242,42 +247,42 @@ public class MainView extends Composite implements MainPresenter.Display {
 	public ListBox getMethodListBox() {
 		return methodListBox;
 	}
-	
+
 	@Override
 	public ListBox getWidthListBox() {
 		return widthListBox;
 	}
-	
+
 	@Override
 	public ListBox getSchemeListBox() {
 		return schemeListBox;
 	}
-	
+
 	@Override
 	public ListBox getPresetListBox() {
 		return presetListBox;
 	}
-	
+
 	@Override
 	public Button getResetButton() {
 		return resetButton;
 	}
-	
+
 	@Override
 	public SliderBarSimpleHorizontal getContrastSlider() {
 		return contrastSlider;
 	}
-	
+
 	@Override
 	public Label getContrastLabel() {
 		return contrastLabel;
 	}
-	
+
 	@Override
 	public SliderBarSimpleHorizontal getBrightnessSlider() {
 		return brightnessSlider;
 	}
-	
+
 	@Override
 	public Label getBrightnessLabel() {
 		return brightnessLabel;
@@ -287,17 +292,17 @@ public class MainView extends Composite implements MainPresenter.Display {
 	public RadioButton getKickButton(Kick kick) {
 		return kickButtons.get(kick);
 	}
-		
+
 	@Override
 	public InlineHTML getPreviewHtml() {
 		return inline;
 	}
-	
+
 	@Override
 	public TextArea getIrcTextArea() {
 		return ircText;
 	}
-	
+
 	@Override
 	public Button getSubmitButton() {
 		return submitButton;

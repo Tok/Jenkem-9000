@@ -7,7 +7,8 @@ public class ColorUtil {
 	//conventional color codes according to mIRC
 	public static final String BC = String.valueOf('\u0002'); // bold character for IRC
 	public static final String CC = String.valueOf('\u0003'); // color character for IRC
-	
+    public static final int MAX_RGB = 255;
+
 	/**
 	 * Colors the entered String black or white, depending on the provided background color.
 	 * This method is used to output the color config into IRC
@@ -51,7 +52,7 @@ public class ColorUtil {
 	public String ircToCss(final String irc) {
 		return ircToCss(Integer.valueOf(irc));
 	}
-	
+
 	public String ircToCss(final int irc) {
 		final Integer ircString = Integer.valueOf(irc);
 		String css = "#000000"; //assume default black
@@ -60,7 +61,7 @@ public class ColorUtil {
 				css = rgbToCss(ircCol.getRgb()); 
 				break;
 			}
-		}	
+		}
 		return css;
 	}
 

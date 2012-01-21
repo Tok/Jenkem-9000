@@ -3,6 +3,9 @@ package jenkem.shared;
 import java.util.Random;
 
 public class AsciiScheme {
+    private static final double BARRIER = 0.3d;
+    private static final int MAX_RGB = 255;
+
 	private boolean postProcessed = true;
 	private boolean processed = true;
 	private boolean randomized = true;
@@ -22,7 +25,7 @@ public class AsciiScheme {
 
 	public String getChar(double strength, final CharacterSet preset, final boolean isAbsolute) {
 		if (isAbsolute) {
-			strength = (255 - strength) / 255;
+			strength = (MAX_RGB - strength) / MAX_RGB;
 		}
 		return getChar(strength, preset);
 	}
@@ -69,9 +72,9 @@ public class AsciiScheme {
 	private String randomizeSix(final String in) {
 		if (randomized) {
 			try {
-				if (new Random().nextDouble() <= 0.3d) {
+				if (new Random().nextDouble() <= BARRIER) {
 					return in.substring(0, 2);
-				} else if (new Random().nextDouble() <= 0.3d) { 
+				} else if (new Random().nextDouble() <= BARRIER) { 
 					return in.substring(2, 4);
 				} else {
 					return in.substring(4, 6);
@@ -295,8 +298,7 @@ public class AsciiScheme {
 	}
 
 	public String getDarkestCharacter(final CharacterSet preset) {
-//		return preset.getCharacters().substring(preset.getCharacters().length());
-		return preset.getCharacters().substring(preset.getCharacters().length() -1, preset.getCharacters().length());
+	    return preset.getCharacters().substring(preset.getCharacters().length() -1, preset.getCharacters().length());
 	}
 
 }

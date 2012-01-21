@@ -15,10 +15,11 @@ import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
 public class Engine {
-	private final Cube cube = new Cube();
+	private static final int CENTER = 127;
+    private final Cube cube = new Cube();
 	private final AsciiScheme asciiScheme = new AsciiScheme();
 	private final MainPresenter presenter;
-	
+
 	private Map<String, Integer> colorMap;
 	private ImageData id;
 	private CharacterSet preset;
@@ -35,7 +36,7 @@ public class Engine {
 	public Engine(MainPresenter presenter) {
 		this.presenter = presenter;
 	}
-	
+
 	/**
 	 * Initializes Engine and starts Full-HD mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
@@ -52,7 +53,7 @@ public class Engine {
 		this.brightness = brightness;
 		generateHighDefLine(0); //start by triggering the conversion of the 1st line
 	}
-	
+
 	/**
 	 * Initializes Engine and starts Super-Hybrid mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
@@ -71,7 +72,7 @@ public class Engine {
 		applyKicks(kick);		
 		generateSuperHybridLine(0 + startY); //start by triggering the conversion of the 1st line
 	}
-	
+
 	/**
 	 * Initializes Engine and starts Hybrid mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
@@ -90,7 +91,7 @@ public class Engine {
 		applyKicks(kick);
 		generateHybridLine(0 + startY); //start by triggering the conversion of the 1st line
 	}
-	
+
 	/**
 	 * Initializes Engine and starts Pwntari mode conversion.
 	 * Prepares the colorMap, sets the variables and starts generating the first line of the output.
@@ -127,7 +128,7 @@ public class Engine {
 		applyKicks(kick);
 		generatePlainLine(0 + startY); //start by triggering the conversion of the 1st line
 	}
-		
+
 	/**
 	 * Generates a line in HD mode and adds it to the presenter, 
 	 * which will recall this method again with an increased y until all
@@ -156,7 +157,7 @@ public class Engine {
 		line.append(ColorUtil.CC); //closes the last CC in the line
 		presenter.addIrcOutputLine(line.toString(), index);
 	}
-	
+
 	/**
 	 * Generates a line in super hybrid mode and adds it to the presenter, 
 	 * which will recall this method again with an increased y until all
@@ -170,7 +171,7 @@ public class Engine {
 		String newRight = null;
 		for (int x = startX; x < getEvenWidth(); x = x + 2) { //this method can handle uneven image widths
 			final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
-			
+
 			oldLeft = newLeft;
 			newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
 			newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
@@ -235,7 +236,7 @@ public class Engine {
 		String result = postProcessColoredRow(row.toString());
 		presenter.addIrcOutputLine(result, index);
 	}
-	
+
 	/**
 	 * Generates a line in hybrid mode and adds it to the presenter, 
 	 * wich will recall this method again with an increased y until all
@@ -249,8 +250,8 @@ public class Engine {
 		String newRight = null;
 		for (int x = startX; x < id.getWidth() -1; x = x + 2) {
 			final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
-			
-			oldLeft = newLeft;	
+
+			oldLeft = newLeft;
 			@SuppressWarnings("unused") //TODO reimplement foreground enforcement
 			final boolean isEnforceBlackFg = false;
 			newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
@@ -338,7 +339,7 @@ public class Engine {
 		row.append(ColorUtil.CC);
 		presenter.addIrcOutputLine(postProcessColoredRow(row.toString()), index);
 	}
-	
+
 	/**
 	 * Generates a line in Pwntari mode and adds it to the presenter, 
 	 * which will recall this method again with an increased y until all
@@ -379,7 +380,7 @@ public class Engine {
 		row.append(ColorUtil.CC);
 		presenter.addIrcOutputLine(postProcessColoredRow(row.toString()), index);
 	}
-	
+
 	/**
 	 * Generates a line in Plain mode and adds it to the presenter, 
 	 * which will recall this method again with an increased y until all
@@ -397,17 +398,17 @@ public class Engine {
 
 			String charPixel = "";
 			// 1st char
-			if (topLeft <= 127 && bottomLeft > 127) {
+			if (topLeft <= CENTER && bottomLeft > CENTER) {
 				charPixel = asciiScheme.getUp();
-			} else if (topLeft > 127 && bottomLeft <= 127) {
+			} else if (topLeft > CENTER && bottomLeft <= CENTER) {
 				charPixel = asciiScheme.getDown();
 			} else {
 				charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2, preset,	true);
 			}
 			// 2nd char
-			if (topRight <= 127 && bottomRight > 127) {
+			if (topRight <= CENTER && bottomRight > CENTER) {
 				charPixel = charPixel + asciiScheme.getUp();
-			} else if (topRight > 127 && bottomRight <= 127) {
+			} else if (topRight > CENTER && bottomRight <= CENTER) {
 				charPixel = charPixel + asciiScheme.getDown();
 			} else {
 				charPixel = charPixel + asciiScheme.getChar((topRight + bottomRight) / 2, preset, true);
@@ -450,7 +451,7 @@ public class Engine {
 			presenter.addIrcOutputLine(row.toString(), index);
 		}
 	}
-	
+
 	/**
 	 * Returns the width of the imageData or 1 less if it isn't even.
 	 * This is done because some conversion methods cannot handle uneven numbers.
@@ -461,9 +462,9 @@ public class Engine {
 			return id.getWidth();
 		} else {
 			return id.getWidth() - 1;
-		}		
+		}
 	}
-	
+
 	/**
 	 * Calculates the average darkness of a pixel.
 	 * @param ImageData image with the pixel to calculate
@@ -476,7 +477,7 @@ public class Engine {
 		final int dark = Double.valueOf(Math.round(d / 3)).intValue();
 		return dark;
 	}
-	
+
 	/**
 	 * Removes empty lines from output.
 	 * @param input String array with the input line
@@ -486,7 +487,7 @@ public class Engine {
 		int notEmptyCounter = 0;
 		for (String line : input) {
 			if (line != null && !line.equals("")) {
-				notEmptyCounter++;				
+				notEmptyCounter++;
 			}
 		}
 		final String[] result = new String[notEmptyCounter];
@@ -499,7 +500,7 @@ public class Engine {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Prepares a Map with the Colors depending on the selected ColorScheme.
 	 * @param scheme the selected ColorScheme
@@ -525,7 +526,7 @@ public class Engine {
 			} else if (scheme.equals(ColorScheme.Bw)) {
 				colorMap.put(ic.name(), ic.getBwScheme());
 			} else {
-				colorMap.put(ic.name(), ic.getDefaultScheme());				
+				colorMap.put(ic.name(), ic.getDefaultScheme());
 			}
 		}
 		return colorMap;
@@ -539,8 +540,8 @@ public class Engine {
 	 * @return true if top is darker than top
 	 */
 	private boolean isUp(final int[] top, final int[] bottom, final int offset){
-		return ((top[0] + top[1] + top[2]) / 3) <= (127 + offset)
-		     && ((bottom[0] + bottom[1] + bottom[2]) / 3) > (127 - offset);
+		return ((top[0] + top[1] + top[2]) / 3) <= (CENTER + offset)
+		     && ((bottom[0] + bottom[1] + bottom[2]) / 3) > (CENTER - offset);
 	}
 
 	/**
@@ -551,10 +552,10 @@ public class Engine {
 	 * @return true if bottom is darker than top
 	 */
 	private boolean isDown(final int[] top, final int[] bottom, final int offset){
-	     return ((top[0] + top[1] + top[2]) / 3) > (127 - offset)
-		     && ((bottom[0] + bottom[1] + bottom[2]) / 3) <= (127 + offset);
+	     return ((top[0] + top[1] + top[2]) / 3) > (CENTER - offset)
+		     && ((bottom[0] + bottom[1] + bottom[2]) / 3) <= (CENTER + offset);
 	}
-		
+
 	/**
 	 * Makes colored ASCII output smooth.
 	 * @param row to process
@@ -571,7 +572,7 @@ public class Engine {
 			return row; //can't touch this //TODO throw exception
 		}
 	}
-	
+
 	/**
 	 * Makes plain ASCII output smooth
 	 * @param row to process
@@ -582,7 +583,7 @@ public class Engine {
 		// 2nd one for the lower parts (false case)
 		return postProcessVert(postProcessVert(row, true), false);
 	}
-	
+
 	/**
 	 * Makes plain ASCII output smooth
 	 * @param row to process
@@ -596,7 +597,7 @@ public class Engine {
 		} else { // replace _______ by _-----_
 			replaceBy = asciiScheme.getDown();
 		}
-		
+
 		final String matchMe = replaceBy + replaceBy + "*" + replaceBy;
 		final RegExp regex = RegExp.compile(matchMe);
 		final MatchResult matcher = regex.exec(row);
@@ -620,9 +621,9 @@ public class Engine {
 		    					line.append(asciiScheme.getHline());
 		    				}
 		    				line.append(replaceBy);
-		    			}		    			
+		    			}
 		    		}
-		    		buf.append(line);			    	
+		    		buf.append(line);
 		    	}
 		    }
 		} else {
@@ -630,7 +631,7 @@ public class Engine {
 		}
 		return buf.toString();
 	}
-	
+
 	/**
 	 * For modes with a kick-option
 	 * the loop-counters are initialized according to the 4 possible kicks.
@@ -647,14 +648,14 @@ public class Engine {
 	 *   | ## ## ##
 	 *   | ## ## ##
 	 *   v
-	 * 
+	 *
 	 * @param kick
 	 */
 	private void applyKicks(Kick kick) {
 		this.startX = getKickedX(kick);
 		this.startY = getKickedY(kick);
 	}
-	
+
 	/**
 	 * Decides if x is kicked
 	 * @param kick
@@ -662,7 +663,7 @@ public class Engine {
 	 */
 	private int getKickedX(Kick kick) {
 		if (kick.equals(Kick.X) || kick.equals(Kick.XY)) {
- 			return 1; 
+ 			return 1;
 		} else {
 			return 0;
 		}
@@ -675,7 +676,7 @@ public class Engine {
 	 */
 	private int getKickedY(Kick kick) {
 		if (kick.equals(Kick.Y) || kick.equals(Kick.XY)) {
- 			return 1; 
+ 			return 1;
 		} else {
 			return 0;
 		}

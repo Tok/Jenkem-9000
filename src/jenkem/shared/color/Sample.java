@@ -12,6 +12,9 @@ import com.google.gwt.canvas.dom.client.ImageData;
  * BL | BR
  */
 public class Sample {
+    private static final int MAP_CAPACITY = 12;
+    private static final int MAX_RGB = 255;
+    
 	public enum Col {
 		RED, GREEN, BLUE;
 	}
@@ -21,8 +24,8 @@ public class Sample {
 	public enum Xdir {
 		LEFT, RIGHT;
 	}
-
-	private Map<String, Integer> values = new HashMap<String, Integer>(12);
+	
+	private Map<String, Integer> values = new HashMap<String, Integer>(MAP_CAPACITY);
 
 	public static class SampleKey {
 		private final Col col;
@@ -40,11 +43,11 @@ public class Sample {
 			return col.name() + ydir.name() + xdir.name();
 		}
 	}
-	
+
 	public static Sample getInstance(final ImageData img, final int x, final int y, final double contrast, final int brightness) {
 		return new Sample(img, x, y, contrast, brightness);
 	}
-	
+
 	private Sample(final ImageData img, final int x, final int y, final double contrast, final int brightness) {
 		for (Col col : Col.values()) {
 			values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.LEFT), takeColor(img, col, x, y, contrast, brightness));
@@ -67,7 +70,7 @@ public class Sample {
 			return 0;
 		}
 	}
-	
+
 	public int get(Col col, Xdir xDir) {
 		final String firstKey = SampleKey.getKey(col, Ydir.TOP, xDir);
 		final String secondKey = SampleKey.getKey(col, Ydir.BOT, xDir);
@@ -108,17 +111,17 @@ public class Sample {
 		int[] rgb = { get(Col.RED, xDir), get(Col.GREEN, xDir), get(Col.BLUE, xDir) };
 		return rgb;
 	}
-	
+
 	public int[] getRgbValues(Ydir yDir) {
 		int[] rgb = { get(Col.RED, yDir), get(Col.GREEN, yDir), get(Col.BLUE, yDir) };
 		return rgb;
 	}
-	
+
 	public int[] getRgbValues(Ydir yDir, Xdir xDir) {
 		int[] rgb = { get(Col.RED, xDir), get(Col.GREEN, xDir), get(Col.BLUE, xDir) };
 		return rgb;
 	}
-	
+
 	/**
 	 * Calculates the RGB values of the pixel in the provided imageData at position x, y
 	 * and applies the provided contrast and brightness.
@@ -149,7 +152,7 @@ public class Sample {
 		assert false;
 		return 0;
 	}
-	
+
 	/**
 	 * Applies the contrast and brightness to the provided value
 	 * and makes sure that the result is kept in range.
@@ -168,14 +171,13 @@ public class Sample {
 	 * @return value of the provided colorComponent between 0 and 255
 	 */
 	public static int keepInRange(final int colorComponent) {
-		if (colorComponent > 255) {
-			return 255;
+		if (colorComponent > MAX_RGB) {
+			return MAX_RGB;
 		} else if (colorComponent < 0) {
 			return 0;
 		} else {
 			return colorComponent;
 		}
 	}
-
 
 }

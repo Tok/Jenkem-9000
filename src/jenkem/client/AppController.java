@@ -26,23 +26,23 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private final JenkemServiceAsync jenkemService = GWT.create(JenkemService.class);
 	private final HandlerManager eventBus = new HandlerManager(null);
 	private HasWidgets container;
-	
+
 	private final TabPanel tabPanel = new TabPanel();
 	private final MainView mainView = new MainView();
 	private final GalleryView galleryView = new GalleryView();
 	private final InfoView infoView = new InfoView();
-	
+
 	private MainPresenter mainPresenter;
 	private Presenter galleryPresenter;
 	private Presenter infoPresenter;
-	
+
 	private boolean doConvert = true;
-	
+
 	public AppController() {
 		prepareTabs();
 		bind();
 	}
-	
+
 	private void prepareTabs() {		
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 			@Override
@@ -72,7 +72,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		tabPanel.add(galleryView.asWidget(), "Gallery");
 		tabPanel.add(infoView.asWidget(), "Info");
 	}
-	
+
 	private void bind() {
 		History.addValueChangeHandler(this);
 		eventBus.addHandler(CancelledEvent.TYPE,
@@ -96,7 +96,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			History.fireCurrentHistoryState();
 		}
 	}
-	
+
 	public void onValueChange(final ValueChangeEvent<String> event) {
 		final String token = event.getValue();
 		if (token.startsWith("main/")) {
@@ -113,7 +113,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			prepareMainTab("main/");
 		}
 	}
-	
+
 	private void prepareMainTab(String token) {
 		mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
 		tabPanel.selectTab(0);
