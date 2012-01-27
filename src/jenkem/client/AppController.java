@@ -51,8 +51,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 if (selection == 0) {
                     if (!History.getToken().startsWith("main")) {
                         doConvert = false;
-                        History.newItem("main/"
-                                + mainView.getInputTextBox().getValue());
+                        History.newItem("main/" + mainView.getInputTextBox().getValue());
                     }
                 }
                 if (selection == 1) {
@@ -105,8 +104,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
             prepareMainTab(token);
         } else if (token.startsWith("gallery/")) {
             tabPanel.selectTab(1);
-            galleryPresenter = new GalleryPresenter(jenkemService, eventBus,
-                    tabPanel, galleryView);
+            galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, galleryView);
             galleryPresenter.go(container);
         } else if (token.startsWith("info/")) {
             tabPanel.selectTab(2);
@@ -118,8 +116,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     }
 
     private void prepareMainTab(final String token) {
-        mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel,
-                mainView);
+        mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
         tabPanel.selectTab(0);
         String imageUrl = "";
         if (token.split("/", 2).length > 1) {
@@ -131,7 +128,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 }
             }
         }
-        // doConvert = true;
         mainPresenter.go(container);
     }
 }

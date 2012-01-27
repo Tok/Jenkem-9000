@@ -31,8 +31,7 @@ public final class Sample {
         LEFT, RIGHT;
     }
 
-    private final Map<String, Integer> values = new HashMap<String, Integer>(
-            MAP_CAPACITY);
+    private final Map<String, Integer> values = new HashMap<String, Integer>(MAP_CAPACITY);
 
     public static final class SampleKey {
         private final Col col;
@@ -68,7 +67,7 @@ public final class Sample {
                     takeColor(img, col, x, y, contrast, brightness));
             values.put(SampleKey.getKey(col, Ydir.BOT, Xdir.LEFT),
                     takeColor(img, col, x, y + 1, contrast, brightness));
-            if (img.getWidth() <= x + 1) {
+            if (img.getWidth() >= x + 1) {
                 values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.RIGHT),
                         takeColor(img, col, x + 1, y, contrast, brightness));
                 values.put(SampleKey.getKey(col, Ydir.BOT, Xdir.RIGHT),
@@ -95,8 +94,8 @@ public final class Sample {
         final String firstKey = SampleKey.getKey(col, Ydir.TOP, xDir);
         final String secondKey = SampleKey.getKey(col, Ydir.BOT, xDir);
         if (values.containsKey(firstKey)) {
-            if (values.containsKey(secondKey)) { // TODO test to make sure no
-                                                 // other cases can be true
+            if (values.containsKey(secondKey)) { 
+                // TODO test to make sure no other cases can be true
                 return values.get(firstKey) + values.get(secondKey) / 2;
             } else {
                 return values.get(firstKey) / 2;
