@@ -170,13 +170,11 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 
         display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
 
-        display.getInfoList().setText(row, 0, "You can link to this application converting an image, by appending the image-url to the main link like this:");
+        display.getInfoList().setText(row, 0, "You can link to this application converting an image, by appending the image-url to the #main link like this:");
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
         final String externalLink = "http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png";
-        final Hyperlink link = new Hyperlink("http://"
-                + Window.Location.getHost() + "/Jenkem.html/#main/"
-                + externalLink, "main/" + externalLink);
+        final Hyperlink link = new Hyperlink("http://" + Window.Location.getHost() + "/Jenkem.html/#main/" + externalLink, "main/" + externalLink);
         display.getInfoList().setWidget(row, 0, link);
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
@@ -186,10 +184,17 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
         display.getInfoList().setText(row, 0, "The source code of this application can be found at:");
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
-
         final String gitHubLink = "http://github.com/Tok/Jenkem-9000";
-        display.getInfoList().setWidget(row, 0,
-                new Anchor(gitHubLink, gitHubLink));
+        display.getInfoList().setWidget(row, 0, new Anchor(gitHubLink, gitHubLink));
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+        row++;
+
+        display.getInfoList().setText(row, 0, "Jenkem 9000 project page:");
+        display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+        row++;
+        final String projectLink = "http://tok.github.com/Jenkem-9000/";
+        display.getInfoList().setWidget(row, 0, new Anchor(projectLink, projectLink));
+        display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+        row++;
     }
 }
