@@ -9,6 +9,9 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Persistent CSS data for converted images.
+ */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class JenkemImageCss implements Serializable {
     private static final long serialVersionUID = 4390406347861996970L;

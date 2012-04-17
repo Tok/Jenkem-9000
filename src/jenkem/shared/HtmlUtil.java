@@ -4,12 +4,19 @@ import jenkem.shared.color.ColorUtil;
 
 import com.google.gwt.user.client.Window;
 
+/**
+ * Utility class to turn conversions into their HTML representation.
+ */
 public class HtmlUtil extends AbstractWebUtil {
     private final String doctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\""
             + SEP + "    \"http://www.w3.org/TR/html4/strict.dtd\">";
     private final String meta = "<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">";
     private final ColorUtil colorUtil = new ColorUtil();
 
+    /**
+     * Generates empty HTML.
+     * @return html
+     */
     public final String generateEmpty() {
         final StringBuilder html = new StringBuilder();
         appendLineToBuilder(html, doctype);
@@ -23,6 +30,13 @@ public class HtmlUtil extends AbstractWebUtil {
         return html.toString();
     }
 
+    /**
+     * Generates the HTML for the provided IRC-Output.
+     * @param ircOutput
+     * @param name
+     * @param isPlain
+     * @return html
+     */
     public final String[] generateHtml(final String[] ircOutput,
             final String name, final boolean isPlain) {
         final StringBuilder html = new StringBuilder();
@@ -175,6 +189,11 @@ public class HtmlUtil extends AbstractWebUtil {
         return ret;
     }
 
+    /**
+     * Prepares the CSS to inline.
+     * @param inputCss
+     * @return css
+     */
     public final String prepareCssForInline(final String inputCss) {
         final String[] cssLines = inputCss.split("\n");
         final StringBuffer newInlineCss = new StringBuffer();
@@ -197,6 +216,12 @@ public class HtmlUtil extends AbstractWebUtil {
         return newInlineCss.toString();
     }
 
+    /**
+     * Prepares the HTML for inline.
+     * @param inputHtml
+     * @param inputCss
+     * @return html
+     */
     public final String prepareHtmlForInline(final String inputHtml,
             final String inputCss) {
         final String[] htmlLines = inputHtml.split("\n");

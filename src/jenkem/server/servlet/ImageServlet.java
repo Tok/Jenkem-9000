@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Takes an URL parameter to an image and proxifies it back, so the client can
- * locally call this servlet. in order to circumvent the same origin policies.
+ * locally call this servlet in order to circumvent the same origin policies
+ * set by the browser.
  */
 public class ImageServlet extends HttpServlet {
     private static final long serialVersionUID = 7865055524973352098L;

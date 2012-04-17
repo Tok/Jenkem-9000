@@ -9,6 +9,9 @@ import jenkem.shared.data.JenkemImageIrc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * Asynchronous interface for the service to store and read converted images.
+ */
 public interface JenkemServiceAsync {
     void saveJenkemImage(
             final JenkemImageInfo jenkemImageInfo,

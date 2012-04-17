@@ -9,6 +9,9 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Persistent HTML data for converted images.
+ */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class JenkemImageHtml implements Serializable {
     private static final long serialVersionUID = 4833906739614704L;

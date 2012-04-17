@@ -10,6 +10,9 @@ import jenkem.shared.data.JenkemImageIrc;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * Interface for the service to store and read converted images.
+ */
 @RemoteServiceRelativePath("jenkem")
 public interface JenkemService extends RemoteService {
     List<JenkemImageInfo> getAllImageInfo();

@@ -15,16 +15,25 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Presenter for the GalleryView.
+ */
 public class GalleryPresenter extends AbstractTabPresenter implements Presenter {
     private final Display display;
     private final JenkemServiceAsync jenkemService;
 
     public interface Display {
         FlexTable getHistoryList();
-
         Widget asWidget();
     }
 
+    /**
+     * Default constructor.
+     * @param jenkemService
+     * @param eventBus
+     * @param tabPanel
+     * @param view
+     */
     public GalleryPresenter(final JenkemServiceAsync jenkemService,
             final HandlerManager eventBus, final TabPanel tabPanel,
             final Display view) {
@@ -44,10 +53,12 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
         container.add(super.getTabPanel());
     }
 
+    /**
+     * Prepares the table to display with gallery entries.
+     */
     private void prepareTable() {
         display.getHistoryList().removeAllRows();
         display.getHistoryList().setText(0, 0, "Loading...");
-
         jenkemService.getAllImageInfo(new AsyncCallback<List<JenkemImageInfo>>() {
                     @Override
                     public void onSuccess(final List<JenkemImageInfo> result) {
@@ -66,6 +77,10 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
                 });
     }
 
+    /**
+     * Prepares the table to display the converted images.
+     * @param result
+     */
     private void prepareResultTable(final List<JenkemImageInfo> result) {
         display.getHistoryList().setText(0, 0, "Name");
         display.getHistoryList().setText(0, 1, "Number of Lines");

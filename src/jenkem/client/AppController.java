@@ -1,6 +1,7 @@
 package jenkem.client;
 
 import jenkem.client.event.CancelledEvent;
+
 import jenkem.client.event.CancelledEventHandler;
 import jenkem.client.presenter.GalleryPresenter;
 import jenkem.client.presenter.InfoPresenter;
@@ -22,6 +23,9 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.TabPanel;
 
+/**
+* Controls the views and the presenters in relation to the tabs.
+*/
 public class AppController implements Presenter, ValueChangeHandler<String> {
     private final JenkemServiceAsync jenkemService = GWT.create(JenkemService.class);
     private final HandlerManager eventBus = new HandlerManager(null);
@@ -38,11 +42,17 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
     private boolean doConvert = true;
 
+    /**
+     * Default constructor.
+     */
     public AppController() {
         prepareTabs();
         bind();
     }
 
+    /**
+     * Maps the history tokens to the tab selections and prepares the tabs.
+     */
     private void prepareTabs() {
         tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
             @Override
@@ -72,6 +82,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         tabPanel.add(infoView.asWidget(), "Info");
     }
 
+    /**
+     * Binds the cancel event to the main token.
+     */
     private void bind() {
         History.addValueChangeHandler(this);
         eventBus.addHandler(CancelledEvent.TYPE, new CancelledEventHandler() {
@@ -82,6 +95,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         });
     }
 
+    /**
+     * Sets the history item for the image url.
+     */
     private void doEditTermCancelled() {
         History.newItem("main/" + mainView.getInputTextBox().getValue());
     }
@@ -96,6 +112,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         }
     }
 
+    /**
+     * Maps changed tokens to the related tabs and creates a new Presenter if required.
+     * @param event the ValueChangeEvent
+     */
     @Override
     public final void onValueChange(final ValueChangeEvent<String> event) {
         final String token = event.getValue();
@@ -114,6 +134,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         }
     }
 
+    /**
+     * Prepares the main tab.
+     * @param token
+     */
     private void prepareMainTab(final String token) {
         mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
         tabPanel.selectTab(0);

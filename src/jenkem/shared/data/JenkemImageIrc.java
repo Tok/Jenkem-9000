@@ -11,6 +11,9 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Persistent IRC data for converted images.
+ */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class JenkemImageIrc implements Serializable {
     private static final long serialVersionUID = -8360097117647923335L;

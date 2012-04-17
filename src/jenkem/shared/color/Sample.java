@@ -5,16 +5,12 @@ import java.util.Map;
 
 import com.google.gwt.canvas.dom.client.ImageData;
 
-//@formatter:off
 /**
  * Represents the RGBcolors of four pixels from the provided image.
- *
  * TL | TR
  * ---+---
  * BL | BR
- *
  */
- //@formatter:on
 public final class Sample {
     private static final int MAP_CAPACITY = 12;
     private static final int MAX_RGB = 255;
@@ -145,17 +141,11 @@ public final class Sample {
     /**
      * Calculates the RGB values of the pixel in the provided imageData at
      * position x, y and applies the provided contrast and brightness.
-     *
-     * @param id
-     *            ImageData
-     * @param x
-     *            the target pixel column
-     * @param y
-     *            the target pixel row
-     * @param contrast
-     *            is multiplied with the result
-     * @param brightness
-     *            is added to the result
+     * @param id ImageData
+     * @param x the target pixel column
+     * @param y the target pixel row
+     * @param contrast is multiplied with the result
+     * @param brightness is added to the result
      * @return an int[] of size 3 with the values for red, green and blue.
      */
     public static int[] calculateRgb(final ImageData id, final int x,
@@ -184,13 +174,9 @@ public final class Sample {
     /**
      * Applies the contrast and brightness to the provided value and makes sure
      * that the result is kept in range.
-     *
-     * @param input
-     *            the rgb value
-     * @param contrast
-     *            is multiplied with rgb value of the pixel
-     * @param brightness
-     *            is added to the rgb value of the pixel
+     * @param input the rgb value
+     * @param contrast is multiplied with rgb value of the pixel
+     * @param brightness is added to the rgb value of the pixel
      * @return int the correted value
      */
     private static int calculateColor(final int input, final double contrast,
@@ -200,9 +186,7 @@ public final class Sample {
 
     /**
      * Makes sure that the provided color is kept in range between 0 and 255.
-     *
-     * @param colorComponent
-     *            value after correction
+     * @param colorComponent value after correction
      * @return value of the provided colorComponent between 0 and 255
      */
     public static int keepInRange(final int colorComponent) {

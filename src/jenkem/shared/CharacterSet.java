@@ -1,7 +1,9 @@
 package jenkem.shared;
 
+/**
+ * Represents a style-set of characters for the ASCII output.
+ */
 public enum CharacterSet {
-    //formatter:off
     Hard(" -+xX#"),
     Soft(" .:oO@"),
     Ansi(" ░▒▓"),

@@ -19,16 +19,17 @@ import jenkem.shared.data.JenkemImageIrc;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * The server side implementation of the RPC service.
+ * The server side implementation of the RPC service to store and read converted iamges.
  */
 @SuppressWarnings("serial")
-public class JenkemServiceImpl extends RemoteServiceServlet implements
-        JenkemService {
+public class JenkemServiceImpl extends RemoteServiceServlet implements JenkemService {
     private static final long QUERY_RANGE = 200;
     private static final Logger LOG = Logger.getLogger(JenkemServiceImpl.class.getName());
-    private static final PersistenceManagerFactory PMF
-        = JDOHelper.getPersistenceManagerFactory("transactions-optional");
+    private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
 
+    /**
+     * Saves a converted JenkemImage.
+     */
     @Override
     public final String saveJenkemImage(final JenkemImageInfo jenkemImageInfo,
             final JenkemImageHtml jenkemImageHtml,
@@ -47,8 +48,13 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
         return String.valueOf(jenkemImageInfo.getCreateDate().getTime());
     }
 
+    /**
+     * Returns the HTML of the stored image corresponding to the provided name.
+     * @param name
+     * @return jenkemImageHtml
+     */
     public final JenkemImageHtml getImageHtmlByName(final String name) {
-        JenkemImageHtml result = null;
+        JenkemImageHtml jenkemImageHtml = null;
         if (name != null) {
             final PersistenceManager pm = PMF.getPersistenceManager();
             try {
@@ -56,16 +62,21 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
                 query.setFilter("name == n");
                 query.setUnique(true);
                 query.declareParameters("String n");
-                result = (JenkemImageHtml) query.execute(name);
+                jenkemImageHtml = (JenkemImageHtml) query.execute(name);
             } finally {
                 pm.close();
             }
         }
-        return result;
+        return jenkemImageHtml;
     }
 
+    /**
+     * Returns the CSS of the stored image corresponding to the provided name.
+     * @param name
+     * @return jenkemImageCss
+     */
     public final JenkemImageCss getImageCssByName(final String name) {
-        JenkemImageCss result = null;
+        JenkemImageCss jenkemImageCss = null;
         if (name != null) {
             final PersistenceManager pm = PMF.getPersistenceManager();
             try {
@@ -73,16 +84,21 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
                 query.setFilter("name == n");
                 query.setUnique(true);
                 query.declareParameters("String n");
-                result = (JenkemImageCss) query.execute(name);
+                jenkemImageCss = (JenkemImageCss) query.execute(name);
             } finally {
                 pm.close();
             }
         }
-        return result;
+        return jenkemImageCss;
     }
 
+    /**
+     * Returns the IRC representation of the stored image corresponding to the provided name.
+     * @param name
+     * @return jenkemImageIrc
+     */
     public final JenkemImageIrc getImageIrcByName(final String name) {
-        JenkemImageIrc result = null;
+        JenkemImageIrc jenkemImageIrc = null;
         if (name != null) {
             final PersistenceManager pm = PMF.getPersistenceManager();
             try {
@@ -90,40 +106,33 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
                 query.setFilter("name == n");
                 query.setUnique(true);
                 query.declareParameters("String n");
-                result = (JenkemImageIrc) query.execute(name);
+                jenkemImageIrc = (JenkemImageIrc) query.execute(name);
             } finally {
                 pm.close();
             }
         }
-        return result;
+        return jenkemImageIrc;
     }
 
+    /**
+     * Returns an ArrayList with the information of all images in range.
+     * @return infoList
+     */
     @Override
     public final ArrayList<JenkemImageInfo> getAllImageInfo() {
         final PersistenceManager pm = PMF.getPersistenceManager();
-        final ArrayList<JenkemImageInfo> result = new ArrayList<JenkemImageInfo>();
+        final ArrayList<JenkemImageInfo> infoList = new ArrayList<JenkemImageInfo>();
         try {
             final Query query = pm.newQuery(JenkemImageInfo.class);
             query.setRange(0, QUERY_RANGE);
             query.setOrdering("createDate desc");
             @SuppressWarnings("unchecked")
-            final List<JenkemImageInfo> tmp = (List<JenkemImageInfo>) query
-                    .execute();
-            result.addAll(tmp);
+            final List<JenkemImageInfo> tmp = (List<JenkemImageInfo>) query.execute();
+            infoList.addAll(tmp);
         } finally {
             pm.close();
         }
-        return result;
+        return infoList;
     }
-
-    // @Override
-    // public void startBot() throws NickAlreadyInUseException, IOException,
-    // IrcException {
-    // JenkemBot bot = new JenkemBot();
-    // bot.setAutoNickChange(true);
-    // bot.setVerbose(true);
-    // bot.connect("irc.servercentral.net");
-    // bot.joinChannel("#ASCII_test");
-    // }
 
 }

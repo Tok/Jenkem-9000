@@ -13,7 +13,7 @@ import jenkem.shared.data.JenkemImageIrc;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Servlet to retrieve and return stored IRC output
+ * Servlet to retrieve and return stored IRC output.
  */
 public class IrcOutputServlet extends HttpServlet {
     private static final long serialVersionUID = -7032670557877867620L;

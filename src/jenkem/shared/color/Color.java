@@ -1,7 +1,7 @@
 package jenkem.shared.color;
 
 /**
- * represents a color for irc etc.
+ * Represents a color for irc etc.
  */
 public class Color {
     private int[] rgb; // only used for phpbbCode and full-hd html
@@ -9,8 +9,7 @@ public class Color {
     private int[] fgRgb; // internal
     private String bg; // background color
     private int[] bgRgb; // internal
-    private double bgStrength; // represents the strength of the background
-                               // compared to the foreground.
+    private double bgStrength; // represents the strength of the background compared to the foreground.
 
     public final int[] getRgb() {
         return rgb;

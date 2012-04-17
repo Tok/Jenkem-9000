@@ -11,7 +11,7 @@ import jenkem.server.JenkemServiceImpl;
 import jenkem.shared.data.JenkemImageCss;
 
 /**
- * Servlet to retrieve and return stored CSS
+ * Servlet to retrieve and return stored CSS.
  */
 public class CssOutputServlet extends HttpServlet {
     private static final long serialVersionUID = 7683169629001671486L;

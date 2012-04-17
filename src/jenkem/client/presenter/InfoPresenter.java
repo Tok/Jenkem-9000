@@ -11,6 +11,9 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Presenter for the InfoView.
+ */
 public class InfoPresenter extends AbstractTabPresenter implements Presenter {
     private final Display display;
 
@@ -19,6 +22,12 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
         Widget asWidget();
     }
 
+    /**
+     * Default constructor.
+     * @param eventBus
+     * @param tabPanel
+     * @param view
+     */
     public InfoPresenter(final HandlerManager eventBus,
             final TabPanel tabPanel, final Display view) {
         super(eventBus, tabPanel);
@@ -36,14 +45,15 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
         container.add(super.getTabPanel());
     }
 
-    //formatter:off
+    /**
+     * Prepares the info table.
+     */
     private void prepareTable() {
         display.getInfoList().removeAllRows();
         display.getInfoList().getColumnFormatter().setWidth(0, "100px");
 
         int row = 0;
-        display.getInfoList().setText(row, 0,
-                "Welcome to the Jenkem 9000 ASCII converter.");
+        display.getInfoList().setText(row, 0, "Welcome to the Jenkem 9000 ASCII converter.");
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
         display.getInfoList().setText(row, 0, "To convert an image, go to the main tab, enter a link to the image and click the convert button. Please be patient. It takes a few seconds before the output appears. If you make a good conversion, you can add it to the gallery, by clicking the submit button. Other images with the same name will be repalced. You can save the HTML output from the gallery after submitting your conversion. If you do so, don't forget to also save the provided CSS and fix the stylesheet link in your HTML source if you want to upload it somewhere else.");
@@ -56,10 +66,8 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
         display.getInfoList().setText(row, 0, "Browsers:");
-        display.getInfoList().getCellFormatter()
-                .setVerticalAlignment(row, 0, HasVerticalAlignment.ALIGN_TOP);
-        display.getInfoList()
-                .setText(row, 1, "This version of Jenkem 9000 doesn't work right with Internet Explorer, Lynx and unfortunately Opera. For best results use Firefox or Chrome. Safari may also work, but isn't tested.");
+        display.getInfoList().getCellFormatter().setVerticalAlignment(row, 0, HasVerticalAlignment.ALIGN_TOP);
+        display.getInfoList().setText(row, 1, "This version of Jenkem 9000 doesn't work right with Internet Explorer, Lynx and unfortunately Opera. For best results use Firefox or Chrome. Safari may also work, but isn't tested.");
         row++;
         display.getInfoList().setText(row, 0, "IRC Clients:");
         display.getInfoList().getCellFormatter()
@@ -175,8 +183,7 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
 
         display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
 
-        display.getInfoList().setText(row, 0,
-                "The source code of this application can be found at:");
+        display.getInfoList().setText(row, 0, "The source code of this application can be found at:");
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
 
@@ -185,6 +192,4 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
                 new Anchor(gitHubLink, gitHubLink));
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
     }
-    //formatter:on
-
 }

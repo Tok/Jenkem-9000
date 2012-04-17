@@ -10,6 +10,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class Jenkem implements EntryPoint {
     private final AppController appController = new AppController();
 
+    /**
+     * Creates AppController and sets it to the content div from the html.
+     */
     @Override
     public final void onModuleLoad() {
         final Image titleImage = new Image("/images/Jenkem-Title.png");

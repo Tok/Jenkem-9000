@@ -2,6 +2,9 @@ package jenkem.shared.color;
 
 import jenkem.shared.ColorScheme;
 
+/**
+ * Enum to represent IRC colors.
+ */
 public enum IrcColor {
     //   IRC,                dark,                             def, old, viv, mon, lsd, ski, bwg, bw
     white(0,      new int[] {255, 255, 255}, false, new int[] {100, 100,  90, 100,  10,  90, 100, 100}),

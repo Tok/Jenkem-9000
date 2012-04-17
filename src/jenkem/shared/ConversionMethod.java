@@ -1,7 +1,9 @@
 package jenkem.shared;
 
+/**
+ * Enum for different ASCII-conversion methods.
+ */
 public enum ConversionMethod {
-    //formatter:off
     SuperHybrid("Super-Hybrid"),
     FullHd("Full HD"),
     Pwntari("Pwntari"),

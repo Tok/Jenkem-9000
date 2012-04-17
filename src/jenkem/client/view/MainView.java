@@ -32,6 +32,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
 
+/**
+ * View of the main page.
+ */
 public class MainView extends Composite implements MainPresenter.Display {
     private static final int SPACING = 5;
     private static final int IRC_TEXT_CHARACTER_WIDTH = 77;
@@ -59,9 +62,11 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final Button submitButton = new Button("Submit");
     private final FlexTable contentTable;
 
+    /**
+     * Default constructor.
+     */
     public MainView() {
-        final String link = com.google.gwt.user.client.Window.Location
-                .getParameter("link");
+        final String link = com.google.gwt.user.client.Window.Location.getParameter("link");
 
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
         contentTableDecorator.setWidth("1010px");
@@ -203,15 +208,21 @@ public class MainView extends Composite implements MainPresenter.Display {
         contentTableDecorator.add(contentTable);
     }
 
+    /**
+     * Initializes the Kick RadioButtons.
+     * @param kickPanel
+     */
     private void initKicks(final HorizontalPanel kickPanel) {
         for (final Kick kick : Kick.values()) {
-            final RadioButton kickRadioButton = new RadioButton("kick",
-                    kick.name());
+            final RadioButton kickRadioButton = new RadioButton("kick", kick.name());
             kickButtons.put(kick, kickRadioButton);
             kickPanel.add(kickRadioButton);
         }
     }
 
+    /**
+     * Returns this view as gwt Widget.
+     */
     @Override
     public final Widget asWidget() {
         return this;
@@ -312,11 +323,19 @@ public class MainView extends Composite implements MainPresenter.Display {
         return submitButton;
     }
 
+    /**
+     * Sets the provided image url to the TextBox.
+     * @param imageUrl
+     */
     public final void setUrl(final String imageUrl) {
         inputTextBox.setText(imageUrl);
         inputTextBox.selectAll();
     }
 
+    /**
+     * Returns the url in the TextBox.
+     * @return imageUrl
+     */
     public final Object getUrl() {
         return inputTextBox.getText();
     }

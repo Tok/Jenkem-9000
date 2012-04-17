@@ -2,6 +2,9 @@ package jenkem.shared;
 
 import java.util.Random;
 
+/**
+ * Settings for the ASCII conversion.
+ */
 public class AsciiScheme {
     private static final double BARRIER = 0.3d;
     private static final int MAX_RGB = 255;
@@ -23,6 +26,13 @@ public class AsciiScheme {
     private String left = "[";
     private String right = "]";
 
+    /**
+     * Returns a String with the character according to the provided parameters.
+     * @param strength
+     * @param preset
+     * @param isAbsolute
+     * @return characterString
+     */
     public final String getChar(final double strength,
             final CharacterSet preset, final boolean isAbsolute) {
         if (isAbsolute) {
@@ -33,14 +43,11 @@ public class AsciiScheme {
     }
 
     /**
-     * selects a character from the provided ASCII palette and selects the
+     * Selects a character from the provided ASCII palette and selects the
      * character to use depending on the entered strength value. ascii must be a
      * String like ' .:xX#', from bright to dark.
-     *
-     * @param relStrength
-     *            a relative value between 0.0 and 1.0
-     * @param preset
-     *            the character set to use
+     * @param relStrength a relative value between 0.0 and 1.0
+     * @param preset the character set to use
      * @return String with the character to use. (assuming bg > fg)
      */
     private String getChar(final double relStrength, final CharacterSet preset) {
@@ -67,34 +74,50 @@ public class AsciiScheme {
         return ret;
     }
 
-    private String randomize(final String in) {
+    /**
+     * Randomizes an input String.
+     * @param input
+     * @return
+     */
+    private String randomize(final String input) {
         if (randomized) {
-            final char[] c = in.toCharArray();
+            final char[] c = input.toCharArray();
             return String.valueOf(c[new Random().nextInt(c.length)]);
         } else {
-            return in.substring(0, 1);
+            return input.substring(0, 1);
         }
     }
 
-    private String randomizeSix(final String in) {
+    /**
+     * Randomizes an input String with six options.
+     * @param input
+     * @return the randomized String
+     */
+    private String randomizeSix(final String input) {
         if (randomized) {
             try {
                 if (new Random().nextDouble() <= BARRIER) {
-                    return in.substring(0, 2);
+                    return input.substring(0, 2);
                 } else if (new Random().nextDouble() <= BARRIER) {
-                    return in.substring(2, 4);
+                    return input.substring(2, 4);
                 } else {
-                    return in.substring(4, 6);
+                    return input.substring(4, 6);
                 }
             } catch (final IndexOutOfBoundsException ioobe) {
                 // just ignore the error and return 2
-                return in.substring(0, 2);
+                return input.substring(0, 2);
             }
         } else {
-            return in.substring(0, 2);
+            return input.substring(0, 2);
         }
     }
 
+    /**
+     * True if the provided character is dark.
+     * @param character
+     * @param preset
+     * @return isCharacterDark
+     */
     public final boolean isCharacterDark(final String character,
             final CharacterSet preset) {
         final int halfLength = (preset.getCharacters().length() + 3) / 2;
@@ -109,6 +132,12 @@ public class AsciiScheme {
         return false;
     }
 
+    /**
+     * TRue if the provided character is bright.
+     * @param character
+     * @param preset
+     * @return isCharacterBright
+     */
     public final boolean isCharacterBright(final String character,
             final CharacterSet preset) {
         final int halfLength = (preset.getCharacters().length() + 3) / 2;
@@ -123,25 +152,27 @@ public class AsciiScheme {
         return false;
     }
 
-    private String unFormat(final String in) {
-        if (in.length() > 1) {
-            return in.substring(in.length() - 1, in.length());
+    /**
+     * Unformats and returns the provided String if required.
+     * @param input
+     * @return unformattedString
+     */
+    private String unFormat(final String input) {
+        if (input.length() > 1) {
+            return input.substring(input.length() - 1, input.length());
         } else {
-            return in;
+            return input;
         }
     }
 
     /**
      * Utility method to replace the last character in a String.
-     *
-     * @param in
-     *            input String
-     * @param rep
-     *            replacement
+     * @param input String
+     * @param replacement
      * @return modified String
      */
-    public final String replace(final String in, final String rep) {
-        return in.substring(0, in.length() - 1) + rep;
+    public final String replace(final String input, final String replacement) {
+        return input.substring(0, input.length() - 1) + replacement;
     }
 
     public final void setPostProcessed(final boolean postProcessed) {
@@ -312,6 +343,11 @@ public class AsciiScheme {
         this.right = right;
     }
 
+    /**
+     * Returns the darkest character according to the provided preset.
+     * @param preset
+     * @return darkestCharacter
+     */
     public final String getDarkestCharacter(final CharacterSet preset) {
         return preset.getCharacters().substring(
                 preset.getCharacters().length() - 1,

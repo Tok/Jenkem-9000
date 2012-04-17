@@ -14,6 +14,9 @@ import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
+/**
+ * Makes the conversion to ASCII.
+ */
 public class Engine {
     private static final int CENTER = 127;
     private final Cube cube = new Cube();
@@ -31,9 +34,7 @@ public class Engine {
 
     /**
      * Public constructor.
-     *
-     * @param presenter
-     *            with a method to add converted lines.
+     * @param presenter with a method to add converted lines.
      */
     public Engine(final MainPresenter presenter) {
         this.presenter = presenter;
@@ -43,17 +44,11 @@ public class Engine {
      * Initializes Engine and starts Full-HD mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     *
-     * @param id
-     *            the ImageData
-     * @param scheme
-     *            the ColorScheme to use
-     * @param preset
-     *            the CharacterSet to use
-     * @param contrast
-     *            value will be multiplied with the rgb of each pixel
-     * @param brightness
-     *            value will be added to the rgb of each pixel
+     * @param id the ImageData
+     * @param scheme the ColorScheme to use
+     * @param preset the CharacterSet to use
+     * @param contrast value will be multiplied with the rgb of each pixel
+     * @param brightness value will be added to the rgb of each pixel
      */
     public final void generateHighDef(final ImageData id,
             final ColorScheme scheme, final CharacterSet preset,
@@ -71,19 +66,12 @@ public class Engine {
      * Initializes Engine and starts Super-Hybrid mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     *
-     * @param id
-     *            the ImageData
-     * @param scheme
-     *            the ColorScheme to use
-     * @param preset
-     *            the CharacterSet to use
-     * @param contrast
-     *            value will be multiplied with the rgb of each pixel
-     * @param brightness
-     *            value will be added to the rgb of each pixel
-     * @param kick
-     *            the selected Kick
+     * @param id the ImageData
+     * @param scheme the ColorScheme to use
+     * @param preset the CharacterSet to use
+     * @param contrast value will be multiplied with the rgb of each pixel
+     * @param brightness value will be added to the rgb of each pixel
+     * @param kick the selected Kick
      */
     public final void generateSuperHybrid(final ImageData id,
             final ColorScheme scheme, final CharacterSet preset,
@@ -102,19 +90,12 @@ public class Engine {
      * Initializes Engine and starts Hybrid mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     *
-     * @param id
-     *            the ImageData
-     * @param scheme
-     *            the ColorScheme to use
-     * @param preset
-     *            the CharacterSet to use
-     * @param contrast
-     *            value will be multiplied with the rgb of each pixel
-     * @param brightness
-     *            value will be added to the rgb of each pixel
-     * @param kick
-     *            the selected Kick
+     * @param id the ImageData
+     * @param scheme the ColorScheme to use
+     * @param preset the CharacterSet to use
+     * @param contrast value will be multiplied with the rgb of each pixel
+     * @param brightness value will be added to the rgb of each pixel
+     * @param kick the selected Kick
      */
     public final void generateHybrid(final ImageData id,
             final ColorScheme scheme, final CharacterSet preset,
@@ -133,19 +114,12 @@ public class Engine {
      * Initializes Engine and starts Pwntari mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     *
-     * @param id
-     *            the ImageData
-     * @param scheme
-     *            the ColorScheme to use
-     * @param preset
-     *            the CharacterSet to use
-     * @param contrast
-     *            value will be multiplied with the rgb of each pixel
-     * @param brightness
-     *            value will be added to the rgb of each pixel
-     * @param kick
-     *            the selected Kick
+     * @param id the ImageData
+     * @param scheme the ColorScheme to use
+     * @param preset the CharacterSet to use
+     * @param contrast value will be multiplied with the rgb of each pixel
+     * @param brightness value will be added to the rgb of each pixel
+     * @param kick the selected Kick
      */
     public final void generatePwntari(final ImageData id,
             final ColorScheme scheme, final CharacterSet preset,
@@ -164,17 +138,11 @@ public class Engine {
      * Initializes Engine and starts Plain mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     *
-     * @param id
-     *            the ImageData
-     * @param preset
-     *            the CharacterSet to use
-     * @param contrast
-     *            value will be multiplied with the rgb of each pixel
-     * @param brightness
-     *            value will be added to the rgb of each pixel
-     * @param kick
-     *            the selected Kick
+     * @param id the ImageData
+     * @param preset the CharacterSet to use
+     * @param contrast value will be multiplied with the rgb of each pixel
+     * @param brightness value will be added to the rgb of each pixel
+     * @param kick the selected Kick
      */
     public final void generatePlain(final ImageData id,
             final CharacterSet preset, final double contrast,
@@ -191,9 +159,7 @@ public class Engine {
     /**
      * Generates a line in HD mode and adds it to the presenter, which will
      * recall this method again with an increased y until all data is converted.
-     *
-     * @param index
-     *            row of pixels in the ImageData to convert
+     * @param index row of pixels in the ImageData to convert
      */
     public final void generateHighDefLine(final int index) {
         final StringBuilder line = new StringBuilder();
@@ -204,10 +170,8 @@ public class Engine {
             final int[] rgb = Sample.calculateRgb(id, x, index, contrast,
                     brightness);
             oldPix = newPix;
-            newPix = cube.getColorChar(colorMap, preset, rgb, false); // the
-                                                                      // cube is
-                                                                      // used
-                                                                      // here.
+            // the cube is used here.
+            newPix = cube.getColorChar(colorMap, preset, rgb, false);
             if (newPix.equals(oldPix)) { // don't change color
                 final String charOnly = newPix.substring(newPix.length() - 1,
                         newPix.length());
@@ -228,9 +192,7 @@ public class Engine {
      * Generates a line in super hybrid mode and adds it to the presenter, which
      * will recall this method again with an increased y until all data is
      * converted.
-     *
-     * @param index
-     *            row of pixels in the ImageData to convert
+     * @param index row of pixels in the ImageData to convert
      */
     public final void generateSuperHybridLine(final int index) {
         final StringBuilder row = new StringBuilder();
@@ -325,9 +287,7 @@ public class Engine {
     /**
      * Generates a line in hybrid mode and adds it to the presenter, wich will
      * recall this method again with an increased y until all data is converted.
-     *
-     * @param index
-     *            row of pixels in the ImageData to convert
+     * @param index row of pixels in the ImageData to convert
      */
     public final void generateHybridLine(final int index) {
         final StringBuilder row = new StringBuilder();
@@ -442,16 +402,13 @@ public class Engine {
             }
         }
         row.append(ColorUtil.CC);
-        presenter
-                .addIrcOutputLine(postProcessColoredRow(row.toString()), index);
+        presenter.addIrcOutputLine(postProcessColoredRow(row.toString()), index);
     }
 
     /**
      * Generates a line in Pwntari mode and adds it to the presenter, which will
      * recall this method again with an increased y until all data is converted.
-     *
-     * @param index
-     *            row of pixels in the ImageData to convert
+     * @param index row of pixels in the ImageData to convert
      */
     public final void generatePwntariLine(final int index) {
         final StringBuilder row = new StringBuilder();
@@ -459,9 +416,7 @@ public class Engine {
         String newLeft = null;
         String newRight = null;
         for (int x = startX; x < id.getWidth() - 1; x = x + 2) {
-            final Sample sample = Sample.getInstance(id, x, index, contrast,
-                    brightness);
-
+            final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
             oldLeft = newLeft;
             newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
             newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
@@ -493,9 +448,7 @@ public class Engine {
     /**
      * Generates a line in Plain mode and adds it to the presenter, which will
      * recall this method again with an increased y until all data is converted.
-     *
-     * @param index
-     *            row of pixels in the ImageData to convert
+     * @param index row of pixels in the ImageData to convert
      */
     public final void generatePlainLine(final int index) {
         final StringBuilder row = new StringBuilder();
@@ -566,7 +519,6 @@ public class Engine {
     /**
      * Returns the width of the imageData or 1 less if it isn't even. This is
      * done because some conversion methods cannot handle uneven numbers.
-     *
      * @return corrected width.
      */
     private int getEvenWidth() {
@@ -579,13 +531,9 @@ public class Engine {
 
     /**
      * Calculates the average darkness of a pixel.
-     *
-     * @param id
-     *            ImageData image with the pixel to calculate
-     * @param x
-     *            horizontal coordinate
-     * @param y
-     *            vertical coordinate
+     * @param id ImageData image with the pixel to calculate
+     * @param x horizontal coordinate
+     * @param y vertical coordinate
      * @return darkness of the selected pixel
      */
     private static int getDarkFromImage(final ImageData id, final int x,
@@ -597,9 +545,7 @@ public class Engine {
 
     /**
      * Removes empty lines from output.
-     *
-     * @param input
-     *            String array with the input line
+     * @param input String array with the input line
      * @return String array without empty lines
      */
     public final String[] removeEmptyLines(final String[] input) {
@@ -622,9 +568,7 @@ public class Engine {
 
     /**
      * Prepares a Map with the Colors depending on the selected ColorScheme.
-     *
-     * @param scheme
-     *            the selected ColorScheme
+     * @param scheme the selected ColorScheme
      * @return prepared Map
      */
     private Map<String, Integer> prepareColorMap(final ColorScheme scheme) {
@@ -655,13 +599,9 @@ public class Engine {
 
     /**
      * Decides if top is darker than bottom.
-     *
-     * @param top
-     *            rgb values of the top pixels
-     * @param bottom
-     *            rgb values of the bottom pixels
-     * @param offset
-     *            for calculation
+     * @param top rgb values of the top pixels
+     * @param bottom rgb values of the bottom pixels
+     * @param offset for calculation
      * @return true if top is darker than top
      */
     private boolean isUp(final int[] top, final int[] bottom, final int offset) {
@@ -671,13 +611,9 @@ public class Engine {
 
     /**
      * Decides if bottom is darker than bottom.
-     *
-     * @param top
-     *            rgb values of the top pixels
-     * @param bottom
-     *            rgb values of the bottom pixels
-     * @param offset
-     *            for calculation
+     * @param top rgb values of the top pixels
+     * @param bottom rgb values of the bottom pixels
+     * @param offset for calculation
      * @return true if bottom is darker than top
      */
     private boolean isDown(final int[] top, final int[] bottom, final int offset) {
@@ -687,9 +623,7 @@ public class Engine {
 
     /**
      * Makes colored ASCII output smooth.
-     *
-     * @param row
-     *            to process
+     * @param row to process
      * @return the processed line
      */
     // FIXME this method doesn't work the way it was intended.
@@ -706,9 +640,7 @@ public class Engine {
 
     /**
      * Makes plain ASCII output smooth.
-     *
-     * @param row
-     *            to process
+     * @param row to process
      * @return the processed line
      */
     private String postProcessRow(final String row) {
@@ -719,11 +651,8 @@ public class Engine {
 
     /**
      * Makes plain ASCII output smooth.
-     *
-     * @param row
-     *            to process
-     * @param up
-     *            true if line is " half, false if _ half of ASCII character
+     * @param row to process
+     * @param up true if line is " half, false if _ half of ASCII character
      * @return the post-processed line.
      */
     private String postProcessVert(final String row, final boolean up) {
@@ -733,12 +662,10 @@ public class Engine {
         } else { // replace _______ by _-----_
             replaceBy = asciiScheme.getDown();
         }
-
         final String matchMe = replaceBy + replaceBy + "*" + replaceBy;
         final RegExp regex = RegExp.compile(matchMe);
         final MatchResult matcher = regex.exec(row);
         final boolean matchFound = regex.test(row);
-
         final StringBuffer buf = new StringBuffer();
         if (matchFound) {
             for (int i = 0; i < matcher.getGroupCount(); i++) {
@@ -777,8 +704,6 @@ public class Engine {
      * the color values between those 4 pixels which is why the kick option even
      * works. (a good anti-aliasing algorithm on the ASCII level would defeat
      * this purpose)
-     *
-     * formatter:off
      *   X
      * Y +------------>
      *   | ## ## ##
@@ -786,10 +711,7 @@ public class Engine {
      *   | ## ## ##
      *   | ## ## ##
      *   v
-     * fomatter:on
-     *
-     * @param kick
-     *            the selected Kick
+     * @param kick the selected Kick
      */
     private void applyKicks(final Kick kick) {
         this.startX = getKickedX(kick);
@@ -798,9 +720,7 @@ public class Engine {
 
     /**
      * Decides if x is kicked.
-     *
-     * @param kick
-     *            the selected Kick
+     * @param kick the selected Kick
      * @return 1 or 0
      */
     private int getKickedX(final Kick kick) {
@@ -813,9 +733,7 @@ public class Engine {
 
     /**
      * Decides if y is kicked.
-     *
-     * @param kick
-     *            the selected Kick
+     * @param kick the selected Kick
      * @return 1 or 0
      */
     private int getKickedY(final Kick kick) {

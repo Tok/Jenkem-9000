@@ -12,7 +12,7 @@ import jenkem.shared.HtmlUtil;
 import jenkem.shared.data.JenkemImageHtml;
 
 /**
- * Servlet to retrieve and return stored HTML
+ * Servlet to retrieve and return stored HTML.
  */
 public class OutputServlet extends HttpServlet {
     private static final long serialVersionUID = -6626624514779473378L;

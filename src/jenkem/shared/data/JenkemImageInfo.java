@@ -8,6 +8,9 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+/**
+ * Persistent info data for converted images.
+ */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class JenkemImageInfo implements Serializable {
     private static final long serialVersionUID = 790775137840003002L;

@@ -25,28 +25,19 @@ public class Cube {
 
     /**
      * Translates the RGB values of the pixel to a colored IRC character.
-     *
-     * @param colorMap
-     *            Map<String, Integer>
-     * @param preset
-     *            selected CharacterSet
-     * @param red
-     *            0-255
-     * @param green
-     *            0-255
-     * @param blue
-     *            0-255
-     * @param enforceBlackFg
-     *            true if foreground color should be enforced to be black
-     * @return a String with the IRC-color codes and the character to display in
-     *         IRC
+     * @param colorMap Map<String, Integer>
+     * @param preset selected CharacterSet
+     * @param red 0-255
+     * @param green 0-255
+     * @param blue 0-255
+     * @param enforceBlackFg true if foreground color should be enforced to be black
+     * @return a String with the IRC-color codes and the character to display in IRC
      */
     private String getColorChar(final Map<String, Integer> colorMap,
             final CharacterSet preset, final int red, final int green,
             final int blue, final boolean enforceBlackFg) {
         final int[] col = {red, green, blue};
         final Color c = getTwoNearestColors(colorMap, col);
-
         final StringBuilder result = new StringBuilder();
         if (!enforceBlackFg) {
             result.append(c.getFg()); // append the foreground color
@@ -57,9 +48,7 @@ public class Cube {
         }
         result.append(",");
         result.append(c.getBg()); // append the background color
-
-        final String character = asciiScheme.getChar(c.getBgStrength(), preset,
-                false);
+        final String character = asciiScheme.getChar(c.getBgStrength(), preset, false);
         result.append(character); // append the selected ASCII character
         return result.toString();
     }
@@ -102,12 +91,8 @@ public class Cube {
 
     /**
      * This method is where everything happens. it's the tongue of jenkem.
-     *
-     * @param colorMap
-     *            the colormap to use
-     * @param col
-     *            an array with three RGB values representing the pixel to
-     *            translate.
+     * @param colorMap the colormap to use
+     * @param col an array with three RGB values representing the pixel to translate.
      * @return a Color object with info to represent the same color in irc
      */
     public final Color getTwoNearestColors(final Map<String, Integer> colorMap,
@@ -188,11 +173,8 @@ public class Cube {
     /**
      * Calculates the distance between two points (=colors) in the RGB
      * color-space cube (255^3).
-     *
-     * @param from
-     *            RGB colors
-     * @param to
-     *            RGB colors
+     * @param from RGB colors
+     * @param to RGB colors
      * @return the distance between the colors
      */
     private double calcDistance(final int[] from, final int[] to) {
@@ -218,15 +200,10 @@ public class Cube {
     /**
      * Compares two colors to a third and returns true if the first one is
      * closer to the third than the second.
-     *
-     * @param first
-     *            rgb values of the first color to compare
-     * @param second
-     *            rgb values of the second color to compare
-     * @param compare
-     *            rgb values of the color to compare the others to
-     * @return boolean that is true if the first color is closer to the
-     *         comparation
+     * @param first rgb values of the first color to compare
+     * @param second rgb values of the second color to compare
+     * @param compare rgb values of the color to compare the others to
+     * @return boolean that is true if the first color is closer to the comparation
      */
     public final boolean isFirstCloserTo(final int[] first, final int[] second,
             final int[] compare) {
@@ -239,9 +216,7 @@ public class Cube {
 
     /**
      * Shuffles the weighted color List.
-     *
-     * @param colors
-     *            the colors to shuffle
+     * @param colors the colors to shuffle
      */
     private void shuffle(final List<WeightedColor> colors) {
         for (int i = colors.size(); i > 1; i--) {
@@ -251,13 +226,9 @@ public class Cube {
 
     /**
      * Swap method for shuffling.
-     *
-     * @param list
-     *            to swap values
-     * @param i
-     *            first index
-     * @param ii
-     *            second index
+     * @param list to swap values
+     * @param i first index
+     * @param ii second index
      */
     private void swap(final List<WeightedColor> list, final int i, final int ii) {
         final WeightedColor s = list.get(i);
