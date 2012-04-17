@@ -26,7 +26,7 @@ public class JenkemServiceImpl extends RemoteServiceServlet implements
         JenkemService {
     private static final long QUERY_RANGE = 200;
     private static final Logger LOG = Logger.getLogger(JenkemServiceImpl.class.getName());
-    private static final PersistenceManagerFactory PMF 
+    private static final PersistenceManagerFactory PMF
         = JDOHelper.getPersistenceManagerFactory("transactions-optional");
 
     @Override

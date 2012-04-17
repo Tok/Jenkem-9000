@@ -27,8 +27,7 @@ public abstract class AbstractReflectionTestCase extends TestCase {
      */
     public final Object invokePrivateMethod(final Object instance,
             final String methodName, final Object[] parameters)
-            throws IllegalArgumentException, IllegalAccessException,
-            InvocationTargetException {
+            throws IllegalAccessException, InvocationTargetException {
         return invokePrivateMethod(instance, methodName, parameters, Object.class);
     }
 
@@ -54,8 +53,7 @@ public abstract class AbstractReflectionTestCase extends TestCase {
     public final Object invokePrivateMethod(final Object instance,
             final String methodName, final Object[] parameters,
             final Class<Object> parameterTypes)
-            throws IllegalArgumentException, IllegalAccessException,
-            InvocationTargetException {
+            throws IllegalAccessException, InvocationTargetException {
         Object result = null;
         final Method[] methods = instance.getClass().getDeclaredMethods();
         for (final Method method : methods) {
@@ -87,8 +85,7 @@ public abstract class AbstractReflectionTestCase extends TestCase {
      */
     public final Object invokePrivateMethodWithIntegerParameters(
             final Object instance, final String methodName,
-            final Object[] parameters) throws IllegalArgumentException,
-            IllegalAccessException, InvocationTargetException {
+            final Object[] parameters) throws IllegalAccessException, InvocationTargetException {
         Object result = null;
         final Method[] methods = instance.getClass().getDeclaredMethods();
         for (final Method method : methods) {
@@ -116,8 +113,7 @@ public abstract class AbstractReflectionTestCase extends TestCase {
      *             throwable
      */
     public final Object retrievePrivateField(final Object instance,
-            final String fieldName) throws IllegalArgumentException,
-            IllegalAccessException {
+            final String fieldName) throws IllegalAccessException {
         Object result = null;
         final Field[] fields = instance.getClass().getDeclaredFields();
         for (final Field field : fields) {
@@ -151,8 +147,7 @@ public abstract class AbstractReflectionTestCase extends TestCase {
      */
     public final Object changePrivateBooleanField(final Object instance,
             final String fieldName, final boolean value)
-            throws SecurityException, NoSuchFieldException,
-            IllegalArgumentException, IllegalAccessException {
+            throws NoSuchFieldException, IllegalAccessException {
         final Field field = instance.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
         field.setBoolean(instance, Boolean.valueOf(value));

@@ -13,7 +13,7 @@ public class EngineTester extends AbstractReflectionTestCase {
 
     public final void testUpPostProcession() throws Exception {
         final String upInput = "##" + up + up + up + up + "##";
-        final Object[] upParameters = { upInput, true };
+        final Object[] upParameters = {upInput, true};
         final String upOutput = (String) invokePrivateMethod(engine,
                 "postProcessVert", upParameters);
         assertEquals("##" + up + hLine + hLine + up + "##", upOutput);
@@ -21,7 +21,7 @@ public class EngineTester extends AbstractReflectionTestCase {
 
     public final void testDownPostProcession() throws Exception {
         final String downInput = "##" + down + down + down + down + "##";
-        final Object[] downParameters = { downInput, false };
+        final Object[] downParameters = {downInput, false};
         final String downOutput = (String) invokePrivateMethod(engine,
                 "postProcessVert", downParameters);
         assertEquals("##" + down + hLine + hLine + down + "##", downOutput);
@@ -30,7 +30,7 @@ public class EngineTester extends AbstractReflectionTestCase {
     public final void testPostProcession() throws Exception {
         final String input = "##" + down + down + down + down + "##" + up + up
                 + up + up + "##";
-        final Object[] parameters = { input };
+        final Object[] parameters = {input};
         final String output = (String) invokePrivateMethod(engine,
                 "postProcessRow", parameters);
         assertEquals("##" + down + hLine + hLine + down + "##" + up + hLine
@@ -57,7 +57,7 @@ public class EngineTester extends AbstractReflectionTestCase {
      */
 
     public final void testNoKick() throws Exception {
-        final Object[] parameters = { Kick.Off };
+        final Object[] parameters = {Kick.Off};
         invokePrivateMethod(engine, "applyKicks", parameters);
         final Integer x = (Integer) retrievePrivateField(engine, "startX");
         final Integer y = (Integer) retrievePrivateField(engine, "startY");
@@ -66,7 +66,7 @@ public class EngineTester extends AbstractReflectionTestCase {
     }
 
     public final void testXKick() throws Exception {
-        final Object[] parameters = { Kick.X };
+        final Object[] parameters = {Kick.X};
         invokePrivateMethod(engine, "applyKicks", parameters);
         final Integer x = (Integer) retrievePrivateField(engine, "startX");
         final Integer y = (Integer) retrievePrivateField(engine, "startY");
@@ -75,7 +75,7 @@ public class EngineTester extends AbstractReflectionTestCase {
     }
 
     public final void testYKick() throws Exception {
-        final Object[] parameters = { Kick.Y };
+        final Object[] parameters = {Kick.Y};
         invokePrivateMethod(engine, "applyKicks", parameters);
         final Integer x = (Integer) retrievePrivateField(engine, "startX");
         final Integer y = (Integer) retrievePrivateField(engine, "startY");
@@ -84,7 +84,7 @@ public class EngineTester extends AbstractReflectionTestCase {
     }
 
     public final void testXyKick() throws Exception {
-        final Object[] parameters = { Kick.XY };
+        final Object[] parameters = {Kick.XY};
         invokePrivateMethod(engine, "applyKicks", parameters);
         final Integer x = (Integer) retrievePrivateField(engine, "startX");
         final Integer y = (Integer) retrievePrivateField(engine, "startY");
@@ -94,9 +94,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
     public final void testIsUpOrDownExtremeValues() throws Exception {
         final int offset = 0;
-        final int[] top = { 0, 0, 0 };
-        final int[] bottom = { 255, 255, 255 };
-        final Object[] parameters = { top, bottom, offset };
+        final int[] top = {0, 0, 0};
+        final int[] bottom = {255, 255, 255};
+        final Object[] parameters = {top, bottom, offset};
         final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
         assertTrue(upOutput.booleanValue());
         final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
@@ -105,9 +105,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
     public final void testIsDownOrUpExtremeValues() throws Exception {
         final int offset = 0;
-        final int[] top = { 255, 255, 255 };
-        final int[] bottom = { 0, 0, 0 };
-        final Object[] parameters = { top, bottom, offset };
+        final int[] top = {255, 255, 255};
+        final int[] bottom = {0, 0, 0};
+        final Object[] parameters = {top, bottom, offset};
         final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
         assertTrue(downOutput.booleanValue());
         final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
@@ -116,9 +116,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
     public final void testIsUpOrDownBoundaryValues() throws Exception {
         final int offset = 0;
-        final int[] top = { 126, 126, 126 };
-        final int[] bottom = { 128, 128, 128 };
-        final Object[] parameters = { top, bottom, offset };
+        final int[] top = {126, 126, 126};
+        final int[] bottom = {128, 128, 128};
+        final Object[] parameters = {top, bottom, offset};
         final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
         assertTrue(upOutput.booleanValue());
         final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
@@ -127,9 +127,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
     public final void testIsDownOrUpBoundaryValues() throws Exception {
         final int offset = 0;
-        final int[] top = { 128, 128, 128 };
-        final int[] bottom = { 126, 126, 126 };
-        final Object[] parameters = { top, bottom, offset };
+        final int[] top = {128, 128, 128};
+        final int[] bottom = {126, 126, 126};
+        final Object[] parameters = {top, bottom, offset};
         final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
         assertTrue(downOutput.booleanValue());
         final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
@@ -138,9 +138,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
     public final void testIsUpOrDownOffsetValues() throws Exception {
         final int offset = 100;
-        final int[] top = { 26, 26, 26 };
-        final int[] bottom = { 228, 228, 228 };
-        final Object[] parameters = { top, bottom, offset };
+        final int[] top = {26, 26, 26};
+        final int[] bottom = {228, 228, 228};
+        final Object[] parameters = {top, bottom, offset};
         final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
         assertTrue(upOutput.booleanValue());
         final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
@@ -149,9 +149,9 @@ public class EngineTester extends AbstractReflectionTestCase {
 
     public final void testIsDownOrUpOffsetValues() throws Exception {
         final int offset = 100;
-        final int[] top = { 228, 228, 228 };
-        final int[] bottom = { 26, 26, 26 };
-        final Object[] parameters = { top, bottom, offset };
+        final int[] top = {228, 228, 228};
+        final int[] bottom = {26, 26, 26};
+        final Object[] parameters = {top, bottom, offset};
         final Boolean downOutput = (Boolean) invokePrivateMethod(engine, "isDown", parameters);
         assertTrue(downOutput.booleanValue());
         final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
@@ -159,10 +159,10 @@ public class EngineTester extends AbstractReflectionTestCase {
     }
 
     public final void testEmptyLineRemover() throws Exception {
-        final String[] input = { "X", "", "Y", null, "Z" };
-        final Object[] parameters = { input };
+        final String[] input = {"X", "", "Y", null, "Z"};
+        final Object[] parameters = {input};
         final String[] output = (String[]) invokePrivateMethod(engine, "removeEmptyLines", parameters);
-        final String[] expected = { "X", "Y", "Z" };
+        final String[] expected = {"X", "Y", "Z"};
         assertEquals(expected.length, output.length);
         int index = 0;
         for (final String exp : expected) {

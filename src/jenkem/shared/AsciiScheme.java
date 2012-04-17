@@ -97,7 +97,7 @@ public class AsciiScheme {
 
     public final boolean isCharacterDark(final String character,
             final CharacterSet preset) {
-        final int halfLength = (preset.getCharacters().length() + 3) / 2; 
+        final int halfLength = (preset.getCharacters().length() + 3) / 2;
         // cutting off the decimals in OK here
         for (int i = 0; i <= halfLength; i++) {
             final String compare = preset.getCharacters().substring(
@@ -111,7 +111,7 @@ public class AsciiScheme {
 
     public final boolean isCharacterBright(final String character,
             final CharacterSet preset) {
-        final int halfLength = (preset.getCharacters().length() + 3) / 2; 
+        final int halfLength = (preset.getCharacters().length() + 3) / 2;
         // cutting off the decimals in OK here
         for (int i = 0; i <= halfLength; i++) {
             // String compare = preset.getCharacters().substring(i);

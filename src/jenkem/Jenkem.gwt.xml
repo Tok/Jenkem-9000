@@ -5,9 +5,7 @@
 	<inherits name='com.google.gwt.user.theme.clean.Clean'/>
 	<inherits name="com.resmarksystems.AppEngineDataTypes"/>
 	<inherits name="com.kiouri.sliderbar.SliderBarMVP"/>
-
   	<entry-point class='jenkem.client.Jenkem'/>
-  		
   	<source path='client'/>
   	<source path='shared'/>
 </module>

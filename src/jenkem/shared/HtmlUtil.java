@@ -27,7 +27,7 @@ public class HtmlUtil extends AbstractWebUtil {
             final String name, final boolean isPlain) {
         final StringBuilder html = new StringBuilder();
         final StringBuilder css = new StringBuilder();
-        
+
         appendLineToBuilder(html, doctype);
         appendLineToBuilder(html, "<html>");
         appendLineToBuilder(html, "<head>");
@@ -137,7 +137,6 @@ public class HtmlUtil extends AbstractWebUtil {
                     css.append(colorUtil.ircToCss(fg));
                     css.append("; background-color: ");
                     css.append(colorUtil.ircToCss(bg));
-
                     css.append("; }");
                     css.append(SEP);
                     section++;
@@ -185,11 +184,11 @@ public class HtmlUtil extends AbstractWebUtil {
                 newInlineCss
                         .append(".jenkem { font-family: monospace; font-weight: bold; }");
             } else if (line.startsWith("form {")) {
-                // ignore
+                assert true; // ignore
             } else if (line.startsWith("body {")) {
-                // ignore
+                assert true; // ignore
             } else if (line.startsWith("html {")) {
-                // ignore
+                assert true; // ignore
             } else {
                 newInlineCss.append(line);
             }
@@ -206,9 +205,9 @@ public class HtmlUtil extends AbstractWebUtil {
             if (line.startsWith("<link href=")) {
                 newInlineHtml.append(inputCss.toString());
             } else if (line.startsWith("<div class=\"ircBinary\">")) {
-                // ignore
+                assert true; // ignore
             } else if (line.startsWith("<div class=\"validator\">")) {
-                // ignore
+                assert true; // ignore
             } else {
                 newInlineHtml.append(line);
             }

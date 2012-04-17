@@ -46,7 +46,7 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
                 "Welcome to the Jenkem 9000 ASCII converter.");
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
-        display.getInfoList().setText(row, 0,"To convert an image, go to the main tab, enter a link to the image and click the convert button. Please be patient. It takes a few seconds before the output appears. If you make a good conversion, you can add it to the gallery, by clicking the submit button. Other images with the same name will be repalced. You can save the HTML output from the gallery after submitting your conversion. If you do so, don't forget to also save the provided CSS and fix the stylesheet link in your HTML source if you want to upload it somewhere else.");
+        display.getInfoList().setText(row, 0, "To convert an image, go to the main tab, enter a link to the image and click the convert button. Please be patient. It takes a few seconds before the output appears. If you make a good conversion, you can add it to the gallery, by clicking the submit button. Other images with the same name will be repalced. You can save the HTML output from the gallery after submitting your conversion. If you do so, don't forget to also save the provided CSS and fix the stylesheet link in your HTML source if you want to upload it somewhere else.");
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
 
@@ -94,7 +94,7 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
         display.getInfoList().setText(row, 0, "Line width:");
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
-        display.getInfoList().setText(row, 0,"Allows setting how many visible characters the converted image should have per line. Invisible characters like IRC color codes are not counted.");
+        display.getInfoList().setText(row, 0, "Allows setting how many visible characters the converted image should have per line. Invisible characters like IRC color codes are not counted.");
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
 

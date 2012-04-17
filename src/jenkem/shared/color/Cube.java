@@ -44,7 +44,7 @@ public class Cube {
     private String getColorChar(final Map<String, Integer> colorMap,
             final CharacterSet preset, final int red, final int green,
             final int blue, final boolean enforceBlackFg) {
-        final int[] col = { red, green, blue };
+        final int[] col = {red, green, blue};
         final Color c = getTwoNearestColors(colorMap, col);
 
         final StringBuilder result = new StringBuilder();
@@ -87,7 +87,7 @@ public class Cube {
         return getColorChar(colorMap, preset, sample.getRgbValues(xDir));
     }
 
-    private final WeightedColor createWc(final Map<String, Integer> colorMap,
+    private WeightedColor createWc(final Map<String, Integer> colorMap,
             final int[] col, final String name) {
         final int[] coords = IrcColor.valueOf(name).getRgb();
         final double weight = calcStrength(col, coords, colorMap.get(name));
@@ -163,15 +163,15 @@ public class Cube {
         // to their
         // distance to the center of the cube 127,127,127
         final double power = 4.00; // default should be 3.00 or 4.00;
-        final double strongestStrength = 
+        final double strongestStrength =
                 Math.pow(
                         calcStrength(col, strongest.getValue().getCoords(),
-                        colorMap.get(strongest.getValue().getName())), 
+                        colorMap.get(strongest.getValue().getName())),
                 power);
-        final double secondStrength = 
+        final double secondStrength =
                 Math.pow(
                         calcStrength(col, second.getValue().getCoords(),
-                        colorMap.get(second.getValue().getName())), 
+                        colorMap.get(second.getValue().getName())),
                 power);
         final double strength = strongestStrength / secondStrength;
         c.setBgStrength(strength);
@@ -181,7 +181,7 @@ public class Cube {
 
     public final Color getTwoNearestColors(final Map<String, Integer> colorMap,
             final int red, final int green, final int blue) {
-        final int[] col = { red, green, blue };
+        final int[] col = {red, green, blue};
         return getTwoNearestColors(colorMap, col);
     }
 

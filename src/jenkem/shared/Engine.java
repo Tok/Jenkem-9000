@@ -237,7 +237,7 @@ public class Engine {
         String oldLeft;
         String newLeft = null;
         String newRight = null;
-        for (int x = startX; x < getEvenWidth(); x = x + 2) { 
+        for (int x = startX; x < getEvenWidth(); x = x + 2) {
             // this method can handle uneven image widths
             final Sample sample = Sample.getInstance(id, x, index, contrast,
                     brightness);

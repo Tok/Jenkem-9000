@@ -66,7 +66,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 }
             }
         });
-
         // tabPanel.setAnimationEnabled(true); //XXX
         tabPanel.add(mainView.asWidget(), "Main");
         tabPanel.add(galleryView.asWidget(), "Gallery");
@@ -75,7 +74,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
     private void bind() {
         History.addValueChangeHandler(this);
-        eventBus.addHandler(CancelledEvent.type, new CancelledEventHandler() {
+        eventBus.addHandler(CancelledEvent.TYPE, new CancelledEventHandler() {
             @Override
             public void onCancelled(final CancelledEvent event) {
                 doEditTermCancelled();
@@ -131,3 +130,4 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
         mainPresenter.go(container);
     }
 }
+

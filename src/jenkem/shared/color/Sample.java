@@ -94,7 +94,7 @@ public final class Sample {
         final String firstKey = SampleKey.getKey(col, Ydir.TOP, xDir);
         final String secondKey = SampleKey.getKey(col, Ydir.BOT, xDir);
         if (values.containsKey(firstKey)) {
-            if (values.containsKey(secondKey)) { 
+            if (values.containsKey(secondKey)) {
                 // TODO test to make sure no other cases can be true
                 return values.get(firstKey) + values.get(secondKey) / 2;
             } else {
@@ -128,17 +128,17 @@ public final class Sample {
     }
 
     public int[] getRgbValues(final Xdir xDir) {
-        final int[] rgb = { get(Col.RED, xDir), get(Col.GREEN, xDir), get(Col.BLUE, xDir) };
+        final int[] rgb = {get(Col.RED, xDir), get(Col.GREEN, xDir), get(Col.BLUE, xDir)};
         return rgb;
     }
 
     public int[] getRgbValues(final Ydir yDir) {
-        final int[] rgb = { get(Col.RED, yDir), get(Col.GREEN, yDir), get(Col.BLUE, yDir) };
+        final int[] rgb = {get(Col.RED, yDir), get(Col.GREEN, yDir), get(Col.BLUE, yDir)};
         return rgb;
     }
 
     public int[] getRgbValues(final Ydir yDir, final Xdir xDir) {
-        final int[] rgb = { get(Col.RED, xDir), get(Col.GREEN, xDir), get(Col.BLUE, xDir) };
+        final int[] rgb = {get(Col.RED, xDir), get(Col.GREEN, xDir), get(Col.BLUE, xDir)};
         return rgb;
     }
 

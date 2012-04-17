@@ -12,8 +12,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("jenkem")
 public interface JenkemService extends RemoteService {
-    public List<JenkemImageInfo> getAllImageInfo();
-
+    List<JenkemImageInfo> getAllImageInfo();
     String saveJenkemImage(JenkemImageInfo jenkemImageInfo,
             JenkemImageHtml jenkemImageHtml, JenkemImageCss image,
             JenkemImageIrc jenkemImageIrc);
