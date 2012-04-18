@@ -4,8 +4,6 @@ jenkem.client.presenter
 jenkem.client.service
 jenkem.client.view
 jenkem.client.widget
-jenkem.server
-jenkem.server.servlet
 jenkem.shared
 jenkem.shared.color
 jenkem.shared.data
