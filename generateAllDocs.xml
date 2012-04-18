@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="generateAllDocs">
+	<taskdef resource="scala/tools/ant/antlib.xml">
+		<classpath>
+			<pathelement location="C:\Program Files\scala-2.9.2\lib\scala-compiler.jar" />
+			<pathelement location="C:\Program Files\scala-2.9.2\lib\scala-library.jar" />
+		</classpath>
+	</taskdef>
+
+	<property name="appname" value="Jenkem 9000" />
+	<!-- classpath entires were determined by running javadoc generation from eclipse and storing the reulting ant script -->
+	<property name="classpath" value="C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\jsp\repackaged-appengine-tomcat-juli-6.0.29.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\jsp\repackaged-appengine-ant-launcher-1.7.1.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\appengine-jsr107cache-1.6.4.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\jsp\repackaged-appengine-jasper-el-6.0.29.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\jsp-api.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\orm\datanucleus-core-1.1.5.jar;C:\Users\Zirteq\.eclipse\org.eclipse.platform_3.7.0_1709980481\plugins\com.google.gwt.eclipse.sdkbundle_2.4.0.v201202290255-rel-r37\gwt-2.4.0\validation-api-1.0.0.GA-sources.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\jsp\repackaged-appengine-ant-1.7.1.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\jsr107cache-1.1.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\appengine-api-1.0-sdk-1.6.4.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\jsp\repackaged-appengine-jasper-6.0.29.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\appengine-tools-api.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\appengine-api-labs-1.6.4.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\appengine-local-runtime-shared.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\el-api.jar;C:\Users\Zirteq\.eclipse\org.eclipse.platform_3.7.0_1709980481\plugins\com.google.gwt.eclipse.sdkbundle_2.4.0.v201202290255-rel-r37\gwt-2.4.0\validation-api-1.0.0.GA.jar;C:\Users\Zirteq\.eclipse\org.eclipse.platform_3.7.0_1709980481\plugins\com.google.gwt.eclipse.sdkbundle_2.4.0.v201202290255-rel-r37\gwt-2.4.0\gwt-user.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\orm\geronimo-jta_1.1_spec-1.1.1.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\orm\datanucleus-jpa-1.1.5.jar;test-classes;C:\Users\Zirteq\.eclipse\org.eclipse.platform_3.7.0_1709980481\plugins\com.google.gwt.eclipse.sdkbundle_2.4.0.v201202290255-rel-r37\gwt-2.4.0\gwt-dev.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\shared\servlet-api.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\orm\geronimo-jpa_3.0_spec-1.1.1.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\orm\jdo2-api-2.3-eb.jar;C:\eclipse\plugins\com.google.appengine.eclipse.sdkbundle_1.6.4.v201203300216r37\appengine-java-sdk-1.6.4\lib\user\orm\datanucleus-appengine-1.0.10.final.jar;${basedir}/lib/gwt-slider-bar-1.0.jar;${basedir}/lib/junit-4.10.jar" />
+
+	<target name="generateAllDocs" depends="clean,generateJavaDoc,generateScalaDoc" />
+	<target name="clean">
+		<echo>Base directory: ${basedir}</echo>
+		<delete dir="${basedir}/doc/javadoc" />
+		<delete dir="${basedir}/doc/scaladoc" />
+		<mkdir dir="${basedir}/doc/javadoc" />
+		<mkdir dir="${basedir}/doc/scaladoc" />
+	</target>
+	<target name="generateJavaDoc">
+		<javadoc 
+			access="public"
+			author="true"
+			classpath="${classpath}"
+			destdir="${basedir}/doc/javadoc"
+			doctitle="${appname} JavaDoc"
+			nodeprecated="false"
+			nodeprecatedlist="false"
+			noindex="false"
+			nonavbar="false"
+			notree="false"
+			source="1.7"
+			sourcepath="${basedir}/src;${basedir}/test"
+			splitindex="true"
+			use="true"
+			version="true" />
+	</target>
+	<target name="generateScalaDoc">
+		<scaladoc 
+				srcdir="${basedir}/src;${basedir}/test"
+				destdir="${basedir}/doc/scaladoc"
+				deprecation="yes"
+				unchecked="yes"
+				doctitle="${appname} ScalaDoc"
+				classpath="C:\Program Files\scala-2.9.2\lib\scala-library.jar;${classpath}">
+			<include name="**/*.scala" />
+			<include name="**/*.java" />
+		</scaladoc>
+	</target>
+</project>
