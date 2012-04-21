@@ -9,6 +9,8 @@ public class AsciiScheme {
     private static final double BARRIER = 0.3d;
     private static final int MAX_RGB = 255;
 
+    private final Random random = new Random();
+
     private boolean postProcessed = true;
     private boolean processed = true;
     private boolean randomized = true;
@@ -94,11 +96,14 @@ public class AsciiScheme {
      * @return the randomized String
      */
     private String randomizeSix(final String input) {
+        if (input.length() < 2) {
+            return input + " ";
+        }
         if (randomized) {
             try {
-                if (new Random().nextDouble() <= BARRIER) {
+                if (random.nextDouble() <= BARRIER) {
                     return input.substring(0, 2);
-                } else if (new Random().nextDouble() <= BARRIER) {
+                } else if (random.nextDouble() <= BARRIER) {
                     return input.substring(2, 4);
                 } else {
                     return input.substring(4, 6);
