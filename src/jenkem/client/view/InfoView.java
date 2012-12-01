@@ -24,6 +24,9 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         contentTable = new FlexTable();
         infoList.setWidth("987px");
         contentTable.setWidget(0, 0, infoList);
+
+        //contentTable.setWidget(1, 0, new IrcConnector()); //FIXME remove
+
         contentTableDecorator.add(contentTable);
     }
 

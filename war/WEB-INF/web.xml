@@ -7,6 +7,10 @@
 		<servlet-name>jenkemService</servlet-name>
 		<servlet-class>jenkem.server.JenkemServiceImpl</servlet-class>
 	</servlet>
+    <servlet>
+        <servlet-name>ircService</servlet-name>
+        <servlet-class>jenkem.server.IrcServiceImpl</servlet-class>
+    </servlet>
 	<servlet>
 		<servlet-name>outputServlet</servlet-name>
 		<servlet-class>jenkem.server.servlet.OutputServlet</servlet-class>
@@ -27,6 +31,10 @@
 		<servlet-name>jenkemService</servlet-name>
 		<url-pattern>/jenkem/jenkem</url-pattern>
 	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ircService</servlet-name>
+        <url-pattern>/jenkem/irc</url-pattern>
+    </servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>outputServlet</servlet-name>
 		<url-pattern>/jenkem/output</url-pattern>

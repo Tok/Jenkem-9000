@@ -13,3 +13,7 @@
 /jdo2-api-2.3-eb.jar
 /jsr107cache-1.1.jar
 /scala-library.jar
+/appengine-api-1.0-sdk-1.7.3.jar
+/appengine-api-labs.jar
+/appengine-endpoints.jar
+/appengine-jsr107cache-1.7.3.jar

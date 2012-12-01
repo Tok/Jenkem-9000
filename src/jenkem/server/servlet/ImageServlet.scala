@@ -21,10 +21,10 @@ class ImageServlet extends HttpServlet {
     response.setContentType("image/jpeg")
     val urlString = request.getParameter("url")
     val url = new URL(urlString)
-    val in: InputStream = url.openStream()
-    val out: OutputStream = response.getOutputStream()
+    val in: InputStream = url.openStream
+    val out: OutputStream = response.getOutputStream
     Iterator.continually(in.read).takeWhile(-1 !=).foreach(out.write)
-    in.close()
-    out.close()
+    in.close
+    out.close
   }
 }

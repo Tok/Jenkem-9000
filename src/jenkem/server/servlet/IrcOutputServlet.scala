@@ -18,16 +18,16 @@ import scala.collection.JavaConversions._
  * Servlet to retrieve and return stored IRC output.
  */
 class IrcOutputServlet extends HttpServlet {
-  val jenkemService: JenkemServiceImpl = new JenkemServiceImpl()
+  val jenkemService: JenkemServiceImpl = new JenkemServiceImpl
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
     val name = request.getParameter("name")
     val imageIrc: JenkemImageIrc = jenkemService.getImageIrcByName(name)
     response.setCharacterEncoding("utf-8")
     response.setContentType("text/plain")
-    if (imageIrc != null && imageIrc.getIrc() != null) {
-      for (text: Text <- imageIrc.getIrc()) {
-        response.getWriter().println(text.getValue());
+    if (imageIrc != null && imageIrc.getIrc != null) {
+      for (text: Text <- imageIrc.getIrc) {
+        response.getWriter.println(text.getValue);
       }
     }
   }
