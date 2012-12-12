@@ -1,0 +1,23 @@
+http://jenkem-9000.rhcloud.com/
+
+Setup new app:
+Login to openshift website and create new app.
+Select latest jboss and add the mongodb cartridge.
+
+There is no need to set the mongodb credentials in the code, since they are looked up (in PMS.scala)
+Consider to add the rockmongo cartridge to manage mongodb.
+
+Don't clone the openshift repo because the gwt compilation doesn't work with openshift yet.
+Instead build the war locally from the pom.xml in this repo and submit it to openshift by sftp.
+(there are launchers for eclipse)
+
+Depoly war to local jBoss by running the eclipse laucher or do it manually:
+http://127.0.0.1:9990/console/App.html#deployments --> manually submit war from /target
+(make sure mongodb is running locally with default settings)
+http://127.0.0.1:8080/
+
+Submit to openshift by sftp:
+connect to 
+sftp://[hexUsername]@[appname]-[namespace].rhcloud.com/app-root/repo/deployments
+and submit the ROOT.war from /deployments
+Then restart the app using "rhc ctl_app restart" or ssh into the shell and do it there.

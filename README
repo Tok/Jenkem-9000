@@ -10,16 +10,16 @@
  | | | |  \____/\___)_| |_|_|\_\___)_||_||_|        (_____/\_____/\_____/\_____/
  (_|_|_)
 
-Jenkem-9000 is a Web-Application to convert Images into IRC-style HTML&CSS.
+Jenkem-9000 is a Web-Application to convert Images into IRC-style HTML&CSS and generate colored output for IRC.
 
-Jenkem-9000 is running at: http://jenkem9000.appspot.com
+Stable version is running at: http://jenkem9000.appspot.com
+New version is running at: http://jenkem-9000.rhcloud.com
+This application was moved away from gae in order to make it possible to run an IRC bot. (not yet implemented)
+
 Project page: http://tok.github.com/Jenkem-9000/
 
-When finished it will have about the same functionality as: http://github.com/Tok/jenkem
-But instead of running an IRC-Bot, this Version will focus on the HTML/CSS part.
-
-This application is implemented using GWT to run on Googles App-Engine.
-It is using the library appengine-utils-client to store long Text.
-
 Issues:
+-- Glitchy interface can cause double submissions in new version. (should be fixed soon)
+-- Output of new version throws two warnings in the w3c html validator.
+-- Problems with refering to the w3c css validator if https protocol is used. (may be disabled)
 -- Doesn't work in IE
