@@ -8,6 +8,7 @@ import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.Kick;
+import jenkem.shared.data.JenkemImage;
 import jenkem.shared.data.JenkemImageCss;
 import jenkem.shared.data.JenkemImageHtml;
 import jenkem.shared.data.JenkemImageInfo;
@@ -84,10 +85,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private ImageElement currentImage;
     private String currentImageName;
 
-    private static final JenkemImageInfo jenkemImageInfo = new JenkemImageInfo();
-    private static final JenkemImageHtml jenkemImageHtml = new JenkemImageHtml();
-    private static final JenkemImageCss jenkemImageCss = new JenkemImageCss();
-    private static final JenkemImageIrc jenkemImageIrc = new JenkemImageIrc();
+    private static JenkemImage jenkemImage;
 
     private boolean readyForSlider = false;
     private boolean isConversionRunnung = false;
@@ -251,8 +249,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             @Override
             public void onClick(final ClickEvent event) {
                 synchronized (this) {
-                    jenkemService.saveJenkemImage(jenkemImageInfo,
-                            jenkemImageHtml, jenkemImageCss, jenkemImageIrc,
+                    jenkemService.saveJenkemImage(jenkemImage,
                             new AsyncCallback<Void>() {
                                 @Override
                                 public void onFailure(final Throwable caught) {
@@ -503,7 +500,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             irc.append(s);
             irc.append("\n");
         }
-        
+
         final Date now = new Date();
         String[] htmlAndCss = null;
 
@@ -514,6 +511,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         }
 
         // save image info
+        final JenkemImageInfo jenkemImageInfo = new JenkemImageInfo();
         jenkemImageInfo.setName(currentImageName);
         jenkemImageInfo.setLines(ircOutput.length);
         jenkemImageInfo.setLineWidth(getCurrentLineWidth());
@@ -521,16 +519,22 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         jenkemImageInfo.setCreation(format.format(now));
 
         // save HTML
+        final JenkemImageHtml jenkemImageHtml = new JenkemImageHtml();
         jenkemImageHtml.setName(currentImageName);
         jenkemImageHtml.setHtml(htmlAndCss[0]);
 
         // save CSS
+        final JenkemImageCss jenkemImageCss = new JenkemImageCss();
         jenkemImageCss.setName(currentImageName);
         jenkemImageCss.setCss(htmlAndCss[1]);
 
         // save IRC
+        final JenkemImageIrc jenkemImageIrc = new JenkemImageIrc();
         jenkemImageIrc.setName(currentImageName);
         jenkemImageIrc.setIrc(irc.toString());
+
+        // wrap parts
+        jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc);
 
         // get HTML and CSS for inline element
         final String inlineCss = htmlUtil.prepareCssForInline(htmlAndCss[1]);

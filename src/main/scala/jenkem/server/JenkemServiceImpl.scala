@@ -1,13 +1,13 @@
 package jenkem.server
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet
-
 import javax.jdo.Transaction
 import jenkem.client.service.JenkemService
 import jenkem.shared.data.JenkemImageCss
 import jenkem.shared.data.JenkemImageHtml
 import jenkem.shared.data.JenkemImageInfo
 import jenkem.shared.data.JenkemImageIrc
+import jenkem.shared.data.JenkemImage
 
 /**
  * Implementation of service to handle the persistence of reports.
@@ -18,19 +18,15 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
   /**
    * Saves a converted JenkemImage.
    */
-  override def saveJenkemImage(
-        jenkemImageInfo: JenkemImageInfo,
-        jenkemImageHtml: JenkemImageHtml,
-        jenkemImageCss: JenkemImageCss,
-        jenkemImageIrc: JenkemImageIrc) {
+  override def saveJenkemImage(jenkemImage: JenkemImage) {
     val pm = PMF.get.getPersistenceManager
     val tx: Transaction = pm.currentTransaction
     try {
       tx.begin
-      pm.makePersistent(jenkemImageInfo)
-      pm.makePersistent(jenkemImageHtml)
-      pm.makePersistent(jenkemImageCss)
-      pm.makePersistent(jenkemImageIrc)
+      pm.makePersistent(jenkemImage.getInfo)
+      pm.makePersistent(jenkemImage.getHtml)
+      pm.makePersistent(jenkemImage.getCss)
+      pm.makePersistent(jenkemImage.getCss)
       tx.commit
     } finally {
       if (tx.isActive) { tx.rollback }
@@ -86,7 +82,7 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
       }
     } else { null.asInstanceOf[T] }
   }
-  
+
   /**
    * Returns an ArrayList with the information of all images in range.
    * @return infoList

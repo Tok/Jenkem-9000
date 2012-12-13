@@ -1,12 +1,8 @@
 package jenkem.client.service;
 
 import java.util.List;
-
-import jenkem.shared.data.JenkemImageCss;
-import jenkem.shared.data.JenkemImageHtml;
+import jenkem.shared.data.JenkemImage;
 import jenkem.shared.data.JenkemImageInfo;
-import jenkem.shared.data.JenkemImageIrc;
-
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -16,7 +12,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("jenkem")
 public interface JenkemService extends RemoteService {
     List<JenkemImageInfo> getAllImageInfo();
-    void saveJenkemImage(JenkemImageInfo jenkemImageInfo,
-            JenkemImageHtml jenkemImageHtml, JenkemImageCss image,
-            JenkemImageIrc jenkemImageIrc);
+    void saveJenkemImage(JenkemImage jenkemImage);
 }
