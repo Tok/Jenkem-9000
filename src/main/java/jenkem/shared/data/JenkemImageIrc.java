@@ -10,16 +10,18 @@ import javax.jdo.annotations.PrimaryKey;
  */
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class JenkemImageIrc implements Serializable {
+public class JenkemImageIrc extends AbstractImagePart implements Serializable {
 
     @PrimaryKey
-    public String name; // mongodb identifier
+    private String name; // mongodb identifier
     private String irc;
 
-    public JenkemImageIrc() {}
+    public JenkemImageIrc() { super(null); }
 
-    public final void setName(final String name) {
+    public JenkemImageIrc(final String name, final String irc) {
+        super(name);
         this.name = name;
+        this.irc = irc;
     }
 
     public final String getName() {
@@ -28,39 +30,5 @@ public class JenkemImageIrc implements Serializable {
 
     public final String getIrc() {
         return irc;
-    }
-
-    public final void setIrc(final String irc) {
-        this.irc = irc;
-    }
-
-    @Override
-    public final String toString() {
-        return name;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        JenkemImageIrc other = (JenkemImageIrc) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
     }
 }

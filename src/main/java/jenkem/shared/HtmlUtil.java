@@ -42,7 +42,7 @@ public class HtmlUtil extends AbstractWebUtil {
             final String name, final boolean isPlain) {
         final StringBuilder html = new StringBuilder();
         final StringBuilder css = new StringBuilder();
-                
+
         appendLineToBuilder(html, doctype);
         appendLineToBuilder(html, "<html>");
         appendLineToBuilder(html, "<head>");
@@ -50,9 +50,7 @@ public class HtmlUtil extends AbstractWebUtil {
         html.append("<title>");
         html.append(name);
         appendLineToBuilder(html, "</title>");
-        html.append("<link href=\"");
-        html.append(getCssUrl(name));
-        html.append("\" rel=\"stylesheet\" type=\"text/css\">");
+        html.append("<link href=\"" + getCssUrl(name) + "\" rel=\"stylesheet\" type=\"text/css\">");
         html.append(SEP);
 
         appendLineToBuilder(html, "</head>");
@@ -168,16 +166,11 @@ public class HtmlUtil extends AbstractWebUtil {
         appendLineToBuilder(html, "</div>");
 
         html.append("<div class=\"validator\">");
-        html.append("<a href=\"http://validator.w3.org/check?uri=");
-        html.append(getHtmlUrl(name));
-        html.append("\">");
-        
+        html.append("<a href=\"http://validator.w3.org/check?uri=" + getHtmlUrl(name) + "\">");
         html.append("<img src=\"/images/valid-html401.png\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
         html.append("</a>");
         if (!isPlain) {
-            html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=");
-            html.append(getCssUrl(name));
-            html.append("&amp;profile=css3\">");
+            html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=" + getCssUrl(name) + "&amp;profile=css3\">");
             html.append("<img src=\"/images/vcss.gif\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
             html.append("</a>");
         }
@@ -251,7 +244,7 @@ public class HtmlUtil extends AbstractWebUtil {
     public static String getHtmlUrl(final String name) {
         return obtainProtocolAndHost() + "/jenkem/output?name=" + name + ".html";
     }
-    
+
     /**
      * Returns the url for the css associated with the provided name.
      * @param name
@@ -269,7 +262,7 @@ public class HtmlUtil extends AbstractWebUtil {
     public static String getIrcUrl(final String name) {
         return obtainProtocolAndHost() + "/jenkem/irc?name=" + name + ".txt";
     }
-    
+
     /**
      * Returns protocol and host. insecure for local os ssl for production mode.
      * @return protocol string
@@ -278,7 +271,7 @@ public class HtmlUtil extends AbstractWebUtil {
         final String protocol = isLocal() ? "http://" : "https://";
         return protocol + Window.Location.getHost();
     }
-    
+
     /**
      * Decides if app runs on localhost.
      * @return isLocal

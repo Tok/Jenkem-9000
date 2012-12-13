@@ -26,7 +26,7 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
       pm.makePersistent(jenkemImage.getInfo)
       pm.makePersistent(jenkemImage.getHtml)
       pm.makePersistent(jenkemImage.getCss)
-      pm.makePersistent(jenkemImage.getCss)
+      pm.makePersistent(jenkemImage.getIrc)
       tx.commit
     } finally {
       if (tx.isActive) { tx.rollback }

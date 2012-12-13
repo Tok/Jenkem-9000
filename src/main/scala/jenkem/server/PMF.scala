@@ -21,12 +21,11 @@ object PMF {
   if (dbHost != null) { //configure for openshift
     properties.setProperty("javax.jdo.option.ConnectionURL", "mongodb:" + dbHost + ":" + dbPort + "/" + dbName);
     properties.setProperty("javax.jdo.option.ConnectionUserName", dbUser);
-    properties.setProperty("javax.jdo.option.ConnectionPassword", dbPass);    
+    properties.setProperty("javax.jdo.option.ConnectionPassword", dbPass);
   } else { //use local config
     properties.setProperty("javax.jdo.option.ConnectionURL", "mongodb:/jenkem" );
   }
 
   final val pmf: PersistenceManagerFactory = JDOHelper.getPersistenceManagerFactory(properties)
   def get: PersistenceManagerFactory = pmf
-
 }

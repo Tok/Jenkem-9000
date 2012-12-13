@@ -10,17 +10,18 @@ import javax.jdo.annotations.PrimaryKey;
  */
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class JenkemImageCss implements Serializable {
+public class JenkemImageCss extends AbstractImagePart implements Serializable {
 
     @PrimaryKey
-    public String name; //mongodb identifier
+    private String name; //mongodb identifier
     private String css;
 
-    public JenkemImageCss() {
-    }
+    public JenkemImageCss() { super(null); }
 
-    public final void setName(final String name) {
+    public JenkemImageCss(final String name, final String css) {
+        super(name);
         this.name = name;
+        this.css = css;
     }
 
     public final String getName() {
@@ -29,39 +30,5 @@ public class JenkemImageCss implements Serializable {
 
     public final String getCss() {
         return css;
-    }
-
-    public final void setCss(final String css) {
-        this.css = css;
-    }
-
-    @Override
-    public final String toString() {
-        return name;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        JenkemImageCss other = (JenkemImageCss) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
     }
 }

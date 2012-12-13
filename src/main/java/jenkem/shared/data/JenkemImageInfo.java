@@ -10,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
  */
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class JenkemImageInfo implements Serializable {
+public class JenkemImageInfo extends AbstractImagePart implements Serializable {
 
     @PrimaryKey
     private String name; // mongodb identifier
@@ -18,19 +18,19 @@ public class JenkemImageInfo implements Serializable {
     private Integer lineWidth;
     private String creation;
 
-    public JenkemImageInfo() {
-    }
+    public JenkemImageInfo() { super(null); }
 
-    public final void setName(final String name) {
+    public JenkemImageInfo(final String name, final int lines,
+            final int lineWidth, final String creation) {
+        super(name);
         this.name = name;
+        this.lines = lines;
+        this.lineWidth = lineWidth;
+        this.creation = creation;
     }
 
     public final String getName() {
         return name;
-    }
-
-    public final void setCreation(final String creation) {
-        this.creation = creation;
     }
 
     public final String getCreation() {
@@ -41,40 +41,7 @@ public class JenkemImageInfo implements Serializable {
         return lineWidth;
     }
 
-    public final void setLineWidth(final Integer lineWidth) {
-        this.lineWidth = lineWidth;
-    }
-
     public final Integer getLines() {
         return lines;
-    }
-
-    public final void setLines(final Integer lines) {
-        this.lines = lines;
-    }
-
-    @Override
-    public final String toString() {
-        return name;
-    }
-
-    @Override
-    public final int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    @Override
-    public final boolean equals(final Object obj) {
-        if (this == obj) { return true; }
-        if (obj == null) { return false; }
-        if (getClass() != obj.getClass()) { return false; }
-        JenkemImageInfo other = (JenkemImageInfo) obj;
-        if (name == null) {
-            if (other.name != null) { return false; }
-        } else if (!name.equals(other.name)) { return false; }
-        return true;
     }
 }

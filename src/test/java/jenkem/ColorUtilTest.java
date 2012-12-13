@@ -5,7 +5,7 @@ import jenkem.shared.color.IrcColor;
 
 public class ColorUtilTest extends AbstractReflectionTestCase {
     private final ColorUtil util = new ColorUtil();
-    
+
     public final void testColorConfig() throws Exception {
         final String whiteResult = util.colorConfig(IrcColor.white.getValue(), "###");
         assertEquals(ColorUtil.CC + 1 + "," + 0 + " ###% " + ColorUtil.CC, whiteResult);

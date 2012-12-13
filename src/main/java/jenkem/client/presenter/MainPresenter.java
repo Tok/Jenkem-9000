@@ -83,7 +83,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
     private Image image;
     private ImageElement currentImage;
-    private String currentImageName;
+    private String currentName;
 
     private static JenkemImage jenkemImage;
 
@@ -314,7 +314,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      */
     private void updateImageName(final String urlString) {
         final String[] split = urlString.split("/");
-        currentImageName = split[split.length - 1];
+        currentName = split[split.length - 1];
     }
 
     @Override
@@ -505,35 +505,18 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         String[] htmlAndCss = null;
 
         if (method.equals(ConversionMethod.Plain)) { //TODO pass enum instead of boolean
-            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, true);
+            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, true);
         } else { // boolean says whether method is plain or not.
-            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, false);
+            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, false);
         }
 
-        // save image info
-        final JenkemImageInfo jenkemImageInfo = new JenkemImageInfo();
-        jenkemImageInfo.setName(currentImageName);
-        jenkemImageInfo.setLines(ircOutput.length);
-        jenkemImageInfo.setLineWidth(getCurrentLineWidth());
-        final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss"); // TODO use date Util
-        jenkemImageInfo.setCreation(format.format(now));
-
-        // save HTML
-        final JenkemImageHtml jenkemImageHtml = new JenkemImageHtml();
-        jenkemImageHtml.setName(currentImageName);
-        jenkemImageHtml.setHtml(htmlAndCss[0]);
-
-        // save CSS
-        final JenkemImageCss jenkemImageCss = new JenkemImageCss();
-        jenkemImageCss.setName(currentImageName);
-        jenkemImageCss.setCss(htmlAndCss[1]);
-
-        // save IRC
-        final JenkemImageIrc jenkemImageIrc = new JenkemImageIrc();
-        jenkemImageIrc.setName(currentImageName);
-        jenkemImageIrc.setIrc(irc.toString());
-
-        // wrap parts
+        // create and wrap image parts
+        final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss");
+        final JenkemImageInfo jenkemImageInfo = new JenkemImageInfo(
+                currentName, ircOutput.length, getCurrentLineWidth(), format.format(now));
+        final JenkemImageHtml jenkemImageHtml = new JenkemImageHtml(currentName, htmlAndCss[0]);
+        final JenkemImageCss jenkemImageCss = new JenkemImageCss(currentName, htmlAndCss[1]);
+        final JenkemImageIrc jenkemImageIrc = new JenkemImageIrc(currentName, irc.toString());
         jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc);
 
         // get HTML and CSS for inline element
