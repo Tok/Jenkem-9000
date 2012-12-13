@@ -15,8 +15,8 @@ import jenkem.shared.data.JenkemImageCss
  */
 class CssOutputServlet extends AbstractOutputServlet {
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
-    response.getWriter.println(jenkemService.getImageCssByName(request.getParameter("name")).getCss)
-    response.setCharacterEncoding("utf-8")
+    response.setCharacterEncoding(encoding)
     response.setContentType("text/css")
+    response.getWriter.println(jenkemService.getImageCssByName(obtainName(request)).getCss)
   }
 }

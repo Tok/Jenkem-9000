@@ -17,9 +17,9 @@ import scala.collection.JavaConversions._
  */
 class IrcOutputServlet extends AbstractOutputServlet {
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
-    val imageIrc: JenkemImageIrc = jenkemService.getImageIrcByName(request.getParameter("name"))
-    response.setCharacterEncoding("utf-8")
+    response.setCharacterEncoding(encoding)
     response.setContentType("text/plain")
+    val imageIrc: JenkemImageIrc = jenkemService.getImageIrcByName(obtainName(request))
     if (imageIrc != null && imageIrc.getIrc != null) {
       response.getWriter.println(imageIrc.getIrc)
     }

@@ -8,9 +8,10 @@ import com.google.gwt.user.client.Window;
  * Utility class to turn conversions into their HTML representation.
  */
 public class HtmlUtil extends AbstractWebUtil {
+    private final String charset = "UTF-8";
     private final String doctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\""
             + SEP + "    \"http://www.w3.org/TR/html4/strict.dtd\">";
-    private final String meta = "<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">";
+    private final String meta = "<meta http-equiv=\"content-type\" content=\"text/html; charset=" + charset + "\">";
     private final ColorUtil colorUtil = new ColorUtil();
 
     /**
@@ -41,7 +42,7 @@ public class HtmlUtil extends AbstractWebUtil {
             final String name, final boolean isPlain) {
         final StringBuilder html = new StringBuilder();
         final StringBuilder css = new StringBuilder();
-
+                
         appendLineToBuilder(html, doctype);
         appendLineToBuilder(html, "<html>");
         appendLineToBuilder(html, "<head>");
@@ -49,11 +50,9 @@ public class HtmlUtil extends AbstractWebUtil {
         html.append("<title>");
         html.append(name);
         appendLineToBuilder(html, "</title>");
-        html.append("<link href=\"http://");
-        html.append(Window.Location.getHost());
-        html.append("/jenkem/cssOutput?name=");
-        html.append(name);
-        html.append("\" rel=\"stylesheet\" type=\"text/css; charset=iso-8859-1\">");
+        html.append("<link href=\"");
+        html.append(getCssUrl(name));
+        html.append("\" rel=\"stylesheet\" type=\"text/css\">");
         html.append(SEP);
 
         appendLineToBuilder(html, "</head>");
@@ -89,8 +88,7 @@ public class HtmlUtil extends AbstractWebUtil {
             while (ircOutput != null && line < ircOutput.length
                     && ircOutput[line] != null && ircOutput[line].length() > 0) {
                 html.append("<div class=\"jenkem\">");
-                final String[] splitSections = ircOutput[line]
-                        .split(ColorUtil.CC);
+                final String[] splitSections = ircOutput[line].split(ColorUtil.CC);
                 final String[] sections = new String[splitSections.length];
                 int i = 0;
                 for (final String s : splitSections) {
@@ -164,18 +162,23 @@ public class HtmlUtil extends AbstractWebUtil {
 
         // puts link with output for IRC
         html.append("<div class=\"ircBinary\">");
-        html.append("<a href=\"/jenkem/irc.txt?name=");
-        html.append(name);
+        html.append("<a href=\"");
+        html.append(getIrcUrl(name));
         html.append("\" onclick=\"this.target='blank'\">Download binary textfile for IRC</a>");
         appendLineToBuilder(html, "</div>");
 
         html.append("<div class=\"validator\">");
-        html.append("<a href=\"http://validator.w3.org/check?uri=referer\">");
-        html.append("<img src=\"http://www.w3.org/Icons/valid-html401\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
+        html.append("<a href=\"http://validator.w3.org/check?uri=");
+        html.append(getHtmlUrl(name));
+        html.append("\">");
+        
+        html.append("<img src=\"/images/valid-html401.png\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
         html.append("</a>");
         if (!isPlain) {
-            html.append("<a href=\"http://jigsaw.w3.org/css-validator/check/referer\">");
-            html.append("<img src=\"http://jigsaw.w3.org/css-validator/images/vcss\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
+            html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=");
+            html.append(getCssUrl(name));
+            html.append("&amp;profile=css3\">");
+            html.append("<img src=\"/images/vcss.gif\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
             html.append("</a>");
         }
         appendLineToBuilder(html, "</div>");
@@ -240,4 +243,30 @@ public class HtmlUtil extends AbstractWebUtil {
         return newInlineHtml.toString();
     }
 
+    /**
+     * Returns the url for the html associated with the provided name.
+     * @param name
+     * @return url
+     */
+    public static String getHtmlUrl(final String name) {
+        return "https://" + Window.Location.getHost() + "/jenkem/output?name=" + name + ".html";
+    }
+    
+    /**
+     * Returns the url for the css associated with the provided name.
+     * @param name
+     * @return url
+     */
+    public static String getCssUrl(final String name) {
+        return "https://" + Window.Location.getHost() + "/jenkem/cssOutput?name=" + name + ".css";
+    }
+
+    /**
+     * Returns the url for the irc text associated with the provided name.
+     * @param name
+     * @return url
+     */
+    public static String getIrcUrl(final String name) {
+        return "https://" + Window.Location.getHost() + "/jenkem/irc?name=" + name + ".txt";
+    }
 }

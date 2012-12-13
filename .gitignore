@@ -1,8 +1,7 @@
-target
 datanucleus.log
-.settings/*
-.project
-.classpath
+target
 .cache
 
+.classpath
+.project
 .settings

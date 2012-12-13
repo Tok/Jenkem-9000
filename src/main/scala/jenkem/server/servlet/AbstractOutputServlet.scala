@@ -15,5 +15,11 @@ import jenkem.shared.data.JenkemImageHtml
  * Abstract Servlet for output
  */
 class AbstractOutputServlet extends HttpServlet {
+  val encoding = "UTF-8"
   val jenkemService: JenkemServiceImpl = new JenkemServiceImpl
+  
+  def obtainName(request: HttpServletRequest): String = {
+    val extendedName = request.getParameter("name")
+    extendedName.substring(0, extendedName.lastIndexOf('.'));
+  }
 }

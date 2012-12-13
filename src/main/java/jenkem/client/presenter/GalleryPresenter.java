@@ -2,9 +2,9 @@ package jenkem.client.presenter;
 
 import java.util.List;
 import jenkem.client.service.JenkemServiceAsync;
+import jenkem.shared.HtmlUtil;
 import jenkem.shared.data.JenkemImageInfo;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -85,8 +85,7 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
         display.getHistoryList().setText(0, 3, "Creation Date");
         int row = 1;
         for (final JenkemImageInfo imageInfo : result) {
-            final String urlString = "http://" + Window.Location.getHost()
-                    + "/jenkem/output?name=" + imageInfo.getName();
+            final String urlString = HtmlUtil.getHtmlUrl(imageInfo.getName());
             display.getHistoryList().setWidget(row, 0,
                     new Anchor(imageInfo.getName(), urlString));
             display.getHistoryList().setText(row, 1,

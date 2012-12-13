@@ -18,13 +18,13 @@ class OutputServlet extends AbstractOutputServlet {
   val htmlUtil = new HtmlUtil
 
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
-    val imageHtml: JenkemImageHtml = jenkemService.getImageHtmlByName(request.getParameter("name"))
+    response.setCharacterEncoding(encoding)
+    response.setContentType("text/html")
+    val imageHtml: JenkemImageHtml = jenkemService.getImageHtmlByName(obtainName(request))
     if (imageHtml != null && imageHtml.getHtml != null) {
       response.getWriter.println(imageHtml.getHtml)
     } else {
       response.getWriter.println(htmlUtil.generateEmpty)
     }
-    response.setCharacterEncoding("utf-8")
-    response.setContentType("text/html")
   }
 }

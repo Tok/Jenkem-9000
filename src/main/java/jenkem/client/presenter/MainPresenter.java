@@ -506,12 +506,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         
         final Date now = new Date();
         String[] htmlAndCss = null;
+
         if (method.equals(ConversionMethod.Plain)) { //TODO pass enum instead of boolean
-            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName,
-                    true);
+            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, true);
         } else { // boolean says whether method is plain or not.
-            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName,
-                    false);
+            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentImageName, false);
         }
 
         // save image info
