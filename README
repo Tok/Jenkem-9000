@@ -20,5 +20,4 @@ Project page: http://tok.github.com/Jenkem-9000/
 
 Issues:
 -- Glitchy interface can cause double submissions in new version. (should be fixed soon)
--- Output of new version throws two warnings in the w3c html validator.
 -- Doesn't work in IE

@@ -39,46 +39,12 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
   }
 
   /**
-   * Returns the Info of the stored image corresponding to the provided name.
-   * @param name
-   * @return jenkemImageInfo
-   */
-  @deprecated("not used", "10.12.2012")
-  def getImageInfoByName(name: String): JenkemImageInfo = {
-    if (name != null) {
-      val pm = PMF.get.getPersistenceManager
-      try {
-        val query = pm.newQuery(classOf[JenkemImageInfo])
-        query.setFilter("name == n")
-        query.setUnique(true)
-        query.declareParameters("String n")
-        val result = query.execute(name).asInstanceOf[JenkemImageInfo]
-        result
-      } finally {
-        pm.close
-      }
-    } else { null.asInstanceOf[JenkemImageInfo] }
-  }
-
-  /**
    * Returns the HTML of the stored image corresponding to the provided name.
    * @param name
    * @return jenkemImageHtml
    */
   def getImageHtmlByName(name: String): JenkemImageHtml = {
-    if (name != null) {
-      val pm = PMF.get.getPersistenceManager
-      try {
-        val query = pm.newQuery(classOf[JenkemImageHtml])
-        query.setFilter("name == n")
-        query.setUnique(true)
-        query.declareParameters("String n")
-        val result = query.execute(name).asInstanceOf[JenkemImageHtml]
-        result
-      } finally {
-        pm.close
-      }
-    } else { null.asInstanceOf[JenkemImageHtml] }
+    getByName[JenkemImageHtml](name, classOf[JenkemImageHtml])
   }
 
   /**
@@ -87,19 +53,7 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
    * @return jenkemImageCss
    */
   def getImageCssByName(name: String): JenkemImageCss = {
-    if (name != null) {
-      val pm = PMF.get.getPersistenceManager
-      try {
-        val query = pm.newQuery(classOf[JenkemImageCss])
-        query.setFilter("name == n")
-        query.setUnique(true)
-        query.declareParameters("String n")
-        val result = query.execute(name).asInstanceOf[JenkemImageCss]
-        result
-      } finally {
-        pm.close
-      }
-    } else { null.asInstanceOf[JenkemImageCss] }
+    getByName[JenkemImageCss](name, classOf[JenkemImageCss])
   }
 
   /**
@@ -108,21 +62,31 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
    * @return jenkemImageIrc
    */
   def getImageIrcByName(name: String): JenkemImageIrc = {
+    getByName[JenkemImageIrc](name, classOf[JenkemImageIrc])
+  }
+
+   /**
+   * Returns the representation of the stored type corresponding to the provided name.
+   * @param name
+   * @param type
+   * @return type
+   */
+  def getByName[T](name: String, c: java.lang.Class[T]): T = {
     if (name != null) {
       val pm = PMF.get.getPersistenceManager
       try {
-        val query = pm.newQuery(classOf[JenkemImageIrc])
+        val query = pm.newQuery(c)
         query.setFilter("name == n")
         query.setUnique(true)
         query.declareParameters("String n")
-        val result = query.execute(name).asInstanceOf[JenkemImageIrc]
+        val result = query.execute(name).asInstanceOf[T]
         result
       } finally {
         pm.close
       }
-    } else { null.asInstanceOf[JenkemImageIrc] }
+    } else { null.asInstanceOf[T] }
   }
-
+  
   /**
    * Returns an ArrayList with the information of all images in range.
    * @return infoList

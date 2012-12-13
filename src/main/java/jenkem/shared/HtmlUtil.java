@@ -249,7 +249,7 @@ public class HtmlUtil extends AbstractWebUtil {
      * @return url
      */
     public static String getHtmlUrl(final String name) {
-        return "https://" + Window.Location.getHost() + "/jenkem/output?name=" + name + ".html";
+        return obtainProtocolAndHost() + "/jenkem/output?name=" + name + ".html";
     }
     
     /**
@@ -258,7 +258,7 @@ public class HtmlUtil extends AbstractWebUtil {
      * @return url
      */
     public static String getCssUrl(final String name) {
-        return "https://" + Window.Location.getHost() + "/jenkem/cssOutput?name=" + name + ".css";
+        return obtainProtocolAndHost() + "/jenkem/cssOutput?name=" + name + ".css";
     }
 
     /**
@@ -267,6 +267,23 @@ public class HtmlUtil extends AbstractWebUtil {
      * @return url
      */
     public static String getIrcUrl(final String name) {
-        return "https://" + Window.Location.getHost() + "/jenkem/irc?name=" + name + ".txt";
+        return obtainProtocolAndHost() + "/jenkem/irc?name=" + name + ".txt";
+    }
+    
+    /**
+     * Returns protocol and host. insecure for local os ssl for production mode.
+     * @return protocol string
+     */
+    private static String obtainProtocolAndHost() {
+        final String protocol = isLocal() ? "http://" : "https://";
+        return protocol + Window.Location.getHost();
+    }
+    
+    /**
+     * Decides if app runs on localhost.
+     * @return isLocal
+     */
+    private static boolean isLocal() {
+        return Window.Location.getHost() == "127.0.0.1:8080";
     }
 }
