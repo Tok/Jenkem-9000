@@ -27,17 +27,11 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
         val exists: Boolean = getByName[ImageInfo](name, classOf[ImageInfo]) != null
         if (exists) {
           tx.begin
-          pm.deletePersistent(pm.getObjectById(classOf[ImageInfo], name))
-          pm.deletePersistent(pm.getObjectById(classOf[ImageHtml], name))
-          pm.deletePersistent(pm.getObjectById(classOf[ImageCss], name))
-          pm.deletePersistent(pm.getObjectById(classOf[ImageIrc], name))
+          JenkemImage.Part.values.map(part => pm.deletePersistent(pm.getObjectById(part.obtainClass, name)))
           tx.commit
         }
         tx.begin
-        pm.makePersistent(jenkemImage.getInfo)
-        pm.makePersistent(jenkemImage.getHtml)
-        pm.makePersistent(jenkemImage.getCss)
-        pm.makePersistent(jenkemImage.getIrc)
+        JenkemImage.Part.values.map(part => pm.makePersistent(jenkemImage.getComponents.get(part)))
         tx.commit
       } finally {
         if (tx.isActive) { tx.rollback }
@@ -74,19 +68,20 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
    * @return type
    */
   def getByName[T](name: String, c: java.lang.Class[T]): T = {
-    if (name != null) {
+    if (name == null) { null.asInstanceOf[T] }
+    else {
       val pm = PMF.get.getPersistenceManager
       try {
         val query = pm.newQuery(c)
-        query.setFilter("name == n")
         query.setUnique(true)
+        query.setFilter("name == n")
         query.declareParameters("String n")
         val result = query.execute(name).asInstanceOf[T]
         result
       } finally {
         pm.close
       }
-    } else { null.asInstanceOf[T] }
+    }
   }
 
   /**

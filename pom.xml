@@ -10,6 +10,7 @@
 
 	<properties>
 		<scalaVersion>2.9.2</scalaVersion>
+		<javaVersion>1.6</javaVersion><!-- not used by gwt plugin -->
 		<gwtVersion>2.5.0</gwtVersion>
 		<datanucleusVersion>3.2.0-m1</datanucleusVersion>
 		<datanucleusEnhancerVersion>3.1.1</datanucleusEnhancerVersion>
@@ -17,14 +18,22 @@
 		<validationApiVersion>1.0.0.GA</validationApiVersion>
 		<openshiftNamespace>9000</openshiftNamespace>
 		<!-- http://maven.apache.org/plugins/index.html -->
-		<mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
-		<mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
+		<!-- building -->
 		<mavenDependencyPluginVersion>2.6</mavenDependencyPluginVersion>
-		<mavenWarPluginVersion>2.3</mavenWarPluginVersion>
-		<mavenJavadocPluginVersion>2.9</mavenJavadocPluginVersion>
-		<mavenSurefirePluginVersion>2.12.4</mavenSurefirePluginVersion>
+		<mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
+		<mavenCompilerPluginVersion>3.0</mavenCompilerPluginVersion>
 		<mavenDatanucleusPluginVersion>${datanucleusVersion}</mavenDatanucleusPluginVersion>
 		<mavenGwtPluginVersion>${gwtVersion}</mavenGwtPluginVersion>
+		<mavenWarPluginVersion>2.3</mavenWarPluginVersion>
+		<mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
+		<!-- reporting -->
+		<mavenCheckstylePluginVersion>2.9.1</mavenCheckstylePluginVersion>
+		<mavenSurefirePluginVersion>2.12.4</mavenSurefirePluginVersion>
+		<mavenCoberturaPluginVersion>2.5.2</mavenCoberturaPluginVersion>
+		<mavenFindbugsPluginVersion>2.5.2</mavenFindbugsPluginVersion>
+		<mavenJavadocPluginVersion>2.9</mavenJavadocPluginVersion>
+		<mavenProjectInfoReportsPluginVersion>2.6</mavenProjectInfoReportsPluginVersion>
+		<mavenSitePluginVersion>3.2</mavenSitePluginVersion>
 		<!-- -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -155,6 +164,51 @@
 	<reporting>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${mavenCheckstylePluginVersion}</version>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<failOnViolation>true</failOnViolation>
+					<goal>checkstyle-aggregate</goal>
+				</configuration>
+				<inherited>false</inherited>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>checkstyle-aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${mavenFindbugsPluginVersion}</version>
+				<configuration>
+					<failOnError>true</failOnError>
+					<xmlOutput>true</xmlOutput>
+					<xmlOutputDirectory>${basedir}/target/site</xmlOutputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${mavenSurefirePluginVersion}</version>
+				<configuration>
+					<goal>surefire-report:report</goal>
+					<reportFormat>html</reportFormat>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${mavenCoberturaPluginVersion}</version>
+			</plugin>
+			<plugin>
 				<groupId>org.scala-tools</groupId>
 				<artifactId>maven-scala-plugin</artifactId>
 				<version>${mavenScalaPluginVersion}</version>
@@ -163,6 +217,16 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${mavenJavadocPluginVersion}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${mavenProjectInfoReportsPluginVersion}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>${mavenSitePluginVersion}</version>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -188,14 +252,23 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${mavenCompilerPluginVersion}</version>
+				<configuration>
+					<source>${javaVersion}</source>
+					<target>${javaVersion}</target>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.datanucleus</groupId>
 				<artifactId>maven-datanucleus-plugin</artifactId>
 				<version>${mavenDatanucleusPluginVersion}</version>
 				<configuration>
 					<api>JDO</api>
-					<mappingIncludes>**/data/*.class</mappingIncludes>
-					<verbose>false</verbose>
+					<mappingIncludes>**/data/*.class</mappingIncludes>					
 					<fork>false</fork>
+					<log4jConfiguration>log4j.properties</log4jConfiguration>
 				</configuration>
 				<executions>
 					<execution>
@@ -219,13 +292,7 @@
 				</executions>
 				<configuration>
 					<gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
-					<runTarget>Jenkem.html</runTarget>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${mavenSurefirePluginVersion}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
@@ -246,20 +313,6 @@
 				<version>${mavenAntRunPluginVersion}</version>
 				<executions>
 					<execution>
-						<id>clean</id>
-						<phase>clean</phase>
-						<configuration>
-							<target>
-								<delete verbose="true">
-									<fileset dir="${basedir}" includes="*.log" />
-								</delete>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					<execution>
 						<id>install</id>
 						<phase>install</phase>
 						<configuration>
@@ -271,7 +324,7 @@
 										includes="${project.artifactId}-${project.version}.${project.packaging}" />
 									<globmapper from="*.${project.packaging}" to="ROOT.${project.packaging}" />
 								</copy>
-								<!-- prevents problem in eclipse -->
+								<!-- may prevent warning in eclipse -->
 								<mkdir dir="${basedir}/target/WEB-INF" />
 								<copy todir="${basedir}/target/WEB-INF/" verbose="true">
 									<fileset

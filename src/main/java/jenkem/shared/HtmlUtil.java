@@ -35,7 +35,7 @@ public class HtmlUtil extends AbstractWebUtil {
      * Generates the HTML for the provided IRC-Output.
      * @param ircOutput
      * @param name
-     * @param isPlain
+     * @param method
      * @return html
      */
     public final String[] generateHtml(final String[] ircOutput,
