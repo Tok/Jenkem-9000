@@ -39,7 +39,7 @@ public class HtmlUtil extends AbstractWebUtil {
      * @return html
      */
     public final String[] generateHtml(final String[] ircOutput,
-            final String name, final boolean isPlain) {
+            final String name, final ConversionMethod method) {
         final StringBuilder html = new StringBuilder();
         final StringBuilder css = new StringBuilder();
 
@@ -65,7 +65,7 @@ public class HtmlUtil extends AbstractWebUtil {
 
         int line = 0;
 
-        if (isPlain) {
+        if (method.equals(ConversionMethod.Plain)) {
             while (ircOutput != null && line < ircOutput.length
                     && ircOutput[line] != null && ircOutput[line].length() > 0) {
                 html.append("<div class=\"jenkem\">");
@@ -169,7 +169,7 @@ public class HtmlUtil extends AbstractWebUtil {
         html.append("<a href=\"http://validator.w3.org/check?uri=" + getHtmlUrl(name) + "\">");
         html.append("<img src=\"/images/valid-html401.png\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
         html.append("</a>");
-        if (!isPlain) {
+        if (!method.equals(ConversionMethod.Plain)) {
             html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=" + getCssUrl(name) + "&amp;profile=css3\">");
             html.append("<img src=\"/images/vcss.gif\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
             html.append("</a>");

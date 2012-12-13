@@ -19,5 +19,4 @@ This application was moved away from gae in order to make it possible to run an 
 Project page: http://tok.github.com/Jenkem-9000/
 
 Issues:
--- Glitchy interface can cause double submissions in new version. (should be fixed soon)
 -- Doesn't work in IE

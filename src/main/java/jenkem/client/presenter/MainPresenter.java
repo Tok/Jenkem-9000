@@ -9,10 +9,10 @@ import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.Kick;
 import jenkem.shared.data.JenkemImage;
-import jenkem.shared.data.JenkemImageCss;
-import jenkem.shared.data.JenkemImageHtml;
-import jenkem.shared.data.JenkemImageInfo;
-import jenkem.shared.data.JenkemImageIrc;
+import jenkem.shared.data.ImageCss;
+import jenkem.shared.data.ImageHtml;
+import jenkem.shared.data.ImageInfo;
+import jenkem.shared.data.ImageIrc;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
@@ -249,20 +249,30 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             @Override
             public void onClick(final ClickEvent event) {
                 synchronized (this) {
+                    display.getSubmitButton().setEnabled(false); //prevent double clicks
                     jenkemService.saveJenkemImage(jenkemImage,
                             new AsyncCallback<Void>() {
                                 @Override
                                 public void onFailure(final Throwable caught) {
-                                    display.getStatusLabel().setText("Fail submitting conversion.");
+                                    handleSubmissionResult("Fail submitting conversion.");
                                 }
                                 @Override
                                 public void onSuccess(final Void result) {
-                                    display.getStatusLabel().setText("Conversion submitted successfully.");
+                                    handleSubmissionResult("Conversion submitted successfully.");
                                 }
                             });
                 }
             }
         });
+    }
+
+    /**
+     * Shows submission message and enables submission button.
+     * @param result
+     */
+    private void handleSubmissionResult(final String result) {
+        display.getStatusLabel().setText(result);
+        display.getSubmitButton().setEnabled(true);
     }
 
     /**
@@ -281,7 +291,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Proxifies the image and calls the show method.
      */
-    public final void proxifyAndConvert() {
+    public final synchronized void proxifyAndConvert() {
         final String urlString = display.getInputTextBox().getText();
         final String proxifiedUrl = proxify(urlString);
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -330,7 +340,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Shows the proxified image.
      * @param url to the image
      */
-    private void doShow(final String url) {
+    private synchronized void doShow(final String url) {
         if (!"".equals(url)) {
             displayBusyIcon();
         }
@@ -338,8 +348,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         image.addErrorHandler(new ErrorHandler() {
             @Override
             public void onError(final ErrorEvent event) {
-                display.getStatusLabel().setText(
-                        "Proxifying this image failed.");
+                display.getStatusLabel().setText("Proxifying this image failed.");
                 removeBusyIcon();
             }
         });
@@ -360,10 +369,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Defers the conversion.
      */
-    private void doConversion() {
-        if (image == null) {
-            return;
-        }
+    private synchronized void doConversion() {
+        if (image == null) { return; }
         if (!isConversionRunnung) {
             isConversionRunnung = true;
             displayBusyIcon();
@@ -403,7 +410,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Processes the conversion.
      */
-    private void doDeferredConversion() {
+    private synchronized void doDeferredConversion() {
         engine = new Engine(this);
         currentImage = ImageElement.as(image.getElement());
         method = getCurrentConversionMethod();
@@ -502,21 +509,15 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         }
 
         final Date now = new Date();
-        String[] htmlAndCss = null;
-
-        if (method.equals(ConversionMethod.Plain)) { //TODO pass enum instead of boolean
-            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, true);
-        } else { // boolean says whether method is plain or not.
-            htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, false);
-        }
+        final String[] htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, method);
 
         // create and wrap image parts
         final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss");
-        final JenkemImageInfo jenkemImageInfo = new JenkemImageInfo(
+        final ImageInfo jenkemImageInfo = new ImageInfo(
                 currentName, ircOutput.length, getCurrentLineWidth(), format.format(now));
-        final JenkemImageHtml jenkemImageHtml = new JenkemImageHtml(currentName, htmlAndCss[0]);
-        final JenkemImageCss jenkemImageCss = new JenkemImageCss(currentName, htmlAndCss[1]);
-        final JenkemImageIrc jenkemImageIrc = new JenkemImageIrc(currentName, irc.toString());
+        final ImageHtml jenkemImageHtml = new ImageHtml(currentName, htmlAndCss[0]);
+        final ImageCss jenkemImageCss = new ImageCss(currentName, htmlAndCss[1]);
+        final ImageIrc jenkemImageIrc = new ImageIrc(currentName, irc.toString());
         jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc);
 
         // get HTML and CSS for inline element

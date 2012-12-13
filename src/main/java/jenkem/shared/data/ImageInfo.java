@@ -10,19 +10,21 @@ import javax.jdo.annotations.PrimaryKey;
  */
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class JenkemImageInfo extends AbstractImagePart implements Serializable {
+public class ImageInfo extends AbstractImagePart implements Serializable {
 
     @PrimaryKey
-    private String name; // mongodb identifier
+    private String _id; // mongodb identifier
+    private String name;
     private Integer lines;
     private Integer lineWidth;
     private String creation;
 
-    public JenkemImageInfo() { super(null); }
+    public ImageInfo() { super(null); }
 
-    public JenkemImageInfo(final String name, final int lines,
+    public ImageInfo(final String name, final int lines,
             final int lineWidth, final String creation) {
         super(name);
+        this._id = name;
         this.name = name;
         this.lines = lines;
         this.lineWidth = lineWidth;

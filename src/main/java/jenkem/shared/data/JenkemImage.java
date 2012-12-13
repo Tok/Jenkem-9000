@@ -7,37 +7,37 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class JenkemImage implements Serializable {
-    private JenkemImageInfo info;
-    private JenkemImageHtml html;
-    private JenkemImageCss css;
-    private JenkemImageIrc irc;
+    private ImageInfo info;
+    private ImageHtml html;
+    private ImageCss css;
+    private ImageIrc irc;
 
     public JenkemImage() { }
 
     public JenkemImage(
-            final JenkemImageInfo info,
-            final JenkemImageHtml html,
-            final JenkemImageCss css,
-            final JenkemImageIrc irc) {
+            final ImageInfo info,
+            final ImageHtml html,
+            final ImageCss css,
+            final ImageIrc irc) {
         this.info = info;
         this.html = html;
         this.css = css;
         this.irc = irc;
     }
 
-    public final JenkemImageInfo getInfo() {
+    public final ImageInfo getInfo() {
         return info;
     }
 
-    public final JenkemImageHtml getHtml() {
+    public final ImageHtml getHtml() {
         return html;
     }
 
-    public final JenkemImageCss getCss() {
+    public final ImageCss getCss() {
         return css;
     }
 
-    public final JenkemImageIrc getIrc() {
+    public final ImageIrc getIrc() {
         return irc;
     }
 }

@@ -3,7 +3,7 @@ package jenkem.client.presenter;
 import java.util.List;
 import jenkem.client.service.JenkemServiceAsync;
 import jenkem.shared.HtmlUtil;
-import jenkem.shared.data.JenkemImageInfo;
+import jenkem.shared.data.ImageInfo;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -56,9 +56,9 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
     private void prepareTable() {
         display.getHistoryList().removeAllRows();
         display.getHistoryList().setText(0, 0, "Loading...");
-        jenkemService.getAllImageInfo(new AsyncCallback<List<JenkemImageInfo>>() {
+        jenkemService.getAllImageInfo(new AsyncCallback<List<ImageInfo>>() {
                     @Override
-                    public void onSuccess(final List<JenkemImageInfo> result) {
+                    public void onSuccess(final List<ImageInfo> result) {
                         if (result != null) {
                             prepareResultTable(result);
                         } else {
@@ -78,13 +78,13 @@ public class GalleryPresenter extends AbstractTabPresenter implements Presenter 
      * Prepares the table to display the converted images.
      * @param result
      */
-    private void prepareResultTable(final List<JenkemImageInfo> result) {
+    private void prepareResultTable(final List<ImageInfo> result) {
         display.getHistoryList().setText(0, 0, "Name");
         display.getHistoryList().setText(0, 1, "Number of Lines");
         display.getHistoryList().setText(0, 2, "Line Width");
         display.getHistoryList().setText(0, 3, "Creation Date");
         int row = 1;
-        for (final JenkemImageInfo imageInfo : result) {
+        for (final ImageInfo imageInfo : result) {
             final String urlString = HtmlUtil.getHtmlUrl(imageInfo.getName());
             display.getHistoryList().setWidget(row, 0,
                     new Anchor(imageInfo.getName(), urlString));

@@ -6,29 +6,31 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * Persistent HTML data for converted images.
+ * Persistent IRC data for converted images.
  */
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class JenkemImageHtml extends AbstractImagePart implements Serializable {
+public class ImageIrc extends AbstractImagePart implements Serializable {
 
     @PrimaryKey
-    private String name; // mongodb identifier
-    private String html;
+    private String _id; // mongodb identifier
+    private String name;
+    private String irc;
 
-    public JenkemImageHtml() { super(null); }
+    public ImageIrc() { super(null); }
 
-    public JenkemImageHtml(final String name, final String html) {
+    public ImageIrc(final String name, final String irc) {
         super(name);
+        this._id = name;
         this.name = name;
-        this.html = html;
+        this.irc = irc;
     }
 
     public final String getName() {
         return name;
     }
 
-    public final String getHtml() {
-        return html;
+    public final String getIrc() {
+        return irc;
     }
 }

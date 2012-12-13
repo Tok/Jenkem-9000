@@ -143,10 +143,9 @@ public class Cube {
         // TODO XXX FIXME tune and explain this, #math suggested Vorni diagrams.
         // ..using a variable for power and the formula applied in calcStrength
         // is just an approximative workaround. instead there should be a
-        // mathematically provable
-        // correct way on how to weigh two colors against each other in regard
-        // to their
-        // distance to the center of the cube 127,127,127
+        // mathematically provable correct way on how to weigh two colors
+        // against each other in regard to their distance to the
+        // center of the cube 127,127,127
         final double power = 4.00; // default should be 3.00 or 4.00;
         final double strongestStrength =
                 Math.pow(
