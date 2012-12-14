@@ -56,4 +56,49 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
         assertEquals("#0000ff", util.ircToCss(IrcColor.blue.getValue()));
         assertEquals("#ffffff", util.ircToCss(IrcColor.white.getValue()));
     }
+
+    public final void testIsColorInfo() throws Exception {
+        assertTrue(ColorUtil.isColorInfo(ColorUtil.CC + "1,1"));
+        assertTrue(ColorUtil.isColorInfo(ColorUtil.CC + "11,0"));
+        assertTrue(ColorUtil.isColorInfo(ColorUtil.CC + "1,11"));
+        assertTrue(ColorUtil.isColorInfo(ColorUtil.CC + "11,11"));
+        assertFalse(ColorUtil.isColorInfo(""));
+        assertFalse(ColorUtil.isColorInfo(","));
+        assertFalse(ColorUtil.isColorInfo("#"));
+        assertFalse(ColorUtil.isColorInfo("1"));
+        assertFalse(ColorUtil.isColorInfo("1,1"));
+        assertFalse(ColorUtil.isColorInfo("1,11"));
+        assertFalse(ColorUtil.isColorInfo("11,1"));
+        assertFalse(ColorUtil.isColorInfo("11,11"));
+    }
+
+    public final void testIsLegalColorBlock() throws Exception {
+        assertTrue(ColorUtil.isLegalColorBlock(ColorUtil.CC + "1,1##"));
+        assertTrue(ColorUtil.isLegalColorBlock(ColorUtil.CC + "1,1##"));
+        assertTrue(ColorUtil.isLegalColorBlock(ColorUtil.CC + "11,0##"));
+        assertTrue(ColorUtil.isLegalColorBlock(ColorUtil.CC + "1,11##"));
+        assertTrue(ColorUtil.isLegalColorBlock(ColorUtil.CC + "11,11##"));
+        assertFalse(ColorUtil.isLegalColorBlock(ColorUtil.CC));
+        assertFalse(ColorUtil.isLegalColorBlock(""));
+        assertFalse(ColorUtil.isLegalColorBlock(","));
+        assertFalse(ColorUtil.isLegalColorBlock("#"));
+        assertFalse(ColorUtil.isLegalColorBlock("1##"));
+        assertFalse(ColorUtil.isLegalColorBlock("1,1##"));
+        assertFalse(ColorUtil.isLegalColorBlock("1,11##"));
+        assertFalse(ColorUtil.isLegalColorBlock("11,1##"));
+        assertFalse(ColorUtil.isLegalColorBlock("11,11##"));
+    }
+
+    //FIXME activate test
+    /*
+    public final void testSplitIntoColorBlocks() throws Exception {
+        final String input = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1 " + ColorUtil.CC + ColorUtil.CC + "  ";
+        final List<String> expected = new ArrayList<String>(Arrays.asList(ColorUtil.CC + "2,1  ", ColorUtil.CC + "1,2#", ColorUtil.CC + "2,1   "));
+        System.out.println("exp: " + expected);
+        final List<String> result = ColorUtil.splitIntoColorBlocks(input);
+        System.out.println("res: " + result);
+        assertEquals(expected.size(), result.size());
+        assertEquals(expected, result);
+    }
+    */
 }

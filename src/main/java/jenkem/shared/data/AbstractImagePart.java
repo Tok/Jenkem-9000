@@ -1,7 +1,11 @@
 package jenkem.shared.data;
 
-public abstract class AbstractImagePart {
-    private final String superName;
+import java.io.Serializable;
+
+public abstract class AbstractImagePart implements Serializable {
+    private static final long serialVersionUID = -5770880658655855416L;
+
+    private final transient String superName;
 
     public AbstractImagePart(final String name) {
         this.superName = name;
@@ -15,9 +19,7 @@ public abstract class AbstractImagePart {
     @Override
     public final int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result + ((superName == null) ? 0 : superName.hashCode());
-        return result;
+        return prime * 1 + ((superName == null) ? 0 : superName.hashCode());
     }
 
     @Override

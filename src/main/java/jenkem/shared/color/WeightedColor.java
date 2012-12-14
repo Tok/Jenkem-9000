@@ -8,7 +8,7 @@ public final class WeightedColor {
 
     public static WeightedColor getInstance(final String name,
             final int[] coords, final double weight) {
-        return new WeightedColor(name, coords, weight);
+        return new WeightedColor(name, CopyUtil.makeCopy(coords), weight);
     }
 
     private WeightedColor(final String name, final int[] coords,
@@ -24,7 +24,7 @@ public final class WeightedColor {
     }
 
     public int[] getCoords() {
-        return coords;
+        return CopyUtil.makeCopy(coords);
     }
 
     public String getName() {

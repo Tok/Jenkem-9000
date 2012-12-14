@@ -3,6 +3,7 @@ package jenkem;
 import jenkem.shared.AsciiScheme;
 import jenkem.shared.Engine;
 import jenkem.shared.Kick;
+import jenkem.shared.color.ColorUtil;
 
 public class EngineTest extends AbstractReflectionTestCase {
     private final Engine engine = new Engine(null);
@@ -37,24 +38,43 @@ public class EngineTest extends AbstractReflectionTestCase {
                 + hLine + up + "##", output);
     }
 
-    /*
-     * FIXME make colored post processing work public void
-     * testColorPostProcessionWithColor() throws Exception { String input =
-     * ColorUtil.CC + "##" + down + down + down + down + "##" + up + up + up +
-     * up + "##"; final Object[] parameters = { input }; String output =
-     * (String) invokePrivateMethod(engine, "postProcessColoredRow",
-     * parameters); assertEquals(input, output); }
-     */
+    public final void testPostProcessRowWithColor() throws Exception {
+        final String input = ColorUtil.CC + "##" + down + down + down + down + "##" + up + up + up + up + "##";
+        final String expect = ColorUtil.CC + "##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(engine, "postProcessRow", parameters);
+        assertEquals(expect, output);
+    }
 
+    public final void testPostProcessRowWithhoutColor() throws Exception {
+        final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
+        final String expect = "##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(engine, "postProcessRow", parameters);
+        assertEquals(expect, output);
+    }
+
+    //FIXME activate test
     /*
-     * FIXME make colored post processing work public void
-     * testColorPostProcessionWithoutColor() throws Exception { String input =
-     * "##" + down + down + down + down + "##" + up + up + up + up + "##"; final
-     * Object[] parameters = { input }; String output = (String)
-     * invokePrivateMethod(engine, "postProcessColoredRow", parameters);
-     * assertEquals("##" + down + hLine + hLine + down + "##" + up + hLine +
-     * hLine + up + "##", output); }
-     */
+    public final void testColorPostProcessionWithColorRedundancies() throws Exception {
+        final String input = ColorUtil.CC + "1,1##" + ColorUtil.CC + "1,1XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
+        final String expect = ColorUtil.CC + "1,1##XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(engine, "postProcessColoredRow", parameters);
+        assertEquals(expect, output);
+    }
+    */
+
+    //FIXME activate test
+    /*
+    public final void testColorPostProcessionWithoutColor() throws Exception {
+        final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
+        final String expect = "##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(engine, "postProcessColoredRow", parameters);
+        assertEquals(expect, output);
+    }
+    */
 
     public final void testNoKick() throws Exception {
         final Object[] parameters = {Kick.Off};

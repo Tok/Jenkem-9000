@@ -12,6 +12,7 @@ import jenkem.shared.data.ImageIrc
 /**
  * Implementation of service to handle the persistence of reports.
  */
+@SerialVersionUID(-3333333333333333333L)
 class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
   val QUERY_RANGE = 200L
 
@@ -97,9 +98,9 @@ class JenkemServiceImpl extends RemoteServiceServlet with JenkemService {
       query.setOrdering("creation desc")
       val tmp = query.execute().asInstanceOf[java.util.List[ImageInfo]]
       infoList.addAll(tmp)
+      infoList
     } finally {
       pm.close
     }
-    infoList
   }
 }

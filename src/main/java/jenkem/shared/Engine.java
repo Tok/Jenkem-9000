@@ -2,14 +2,12 @@ package jenkem.shared;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import jenkem.client.presenter.MainPresenter;
 import jenkem.shared.color.Color;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.Cube;
 import jenkem.shared.color.IrcColor;
 import jenkem.shared.color.Sample;
-
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -466,8 +464,7 @@ public class Engine {
             } else if (topLeft > CENTER && bottomLeft <= CENTER) {
                 charPixel = asciiScheme.getDown();
             } else {
-                charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2,
-                        preset, true);
+                charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2D, preset, true);
             }
             // 2nd char
             if (topRight <= CENTER && bottomRight > CENTER) {
@@ -475,7 +472,7 @@ public class Engine {
             } else if (topRight > CENTER && bottomRight <= CENTER) {
                 charPixel = charPixel + asciiScheme.getDown();
             } else {
-                charPixel = charPixel + asciiScheme.getChar((topRight + bottomRight) / 2, preset, true);
+                charPixel = charPixel + asciiScheme.getChar((topRight + bottomRight) / 2D, preset, true);
             }
 
             // replace chars
@@ -628,15 +625,29 @@ public class Engine {
      */
     // FIXME this method doesn't work the way it was intended.
     private String postProcessColoredRow(final String row) {
-        if (row.indexOf(ColorUtil.CC) <= 0) { // no CC, so process
-            final StringBuilder result = new StringBuilder();
-            result.append(row.substring(0, row.length() - 2));
-            result.append(postProcessRow(row.substring(row.length() - 2, row.length())));
-            return result.toString();
+        return row;
+
+        /*
+        //C2,1   C1,2#CC1,2#CC2,1 CC2,1  C
+        return row.replaceAll("([" + ColorUtil.CC + "])\\1", ColorUtil.CC);
+
+        use:
+        ColorUtil.isColorInfo
+
+expected:<CC1,1##[]XXCC11,11xxCC1,1@@>
+but was:<CC1,1##[CC1,1]XXCC11,11xxCC1,1@@>
+        */
+        /*
+        if (row.contains(ColorUtil.CC)) { // can't touch this
+            return row; //TODO throw exception?
         } else {
-            return row; // can't touch this //TODO throw exception
+            //obey recursion!
+            return row.substring(0, row.length() - 2) + postProcessRow(row.substring(row.length() - 2, row.length()));
         }
+        */
     }
+
+
 
     /**
      * Makes plain ASCII output smooth.
@@ -656,12 +667,7 @@ public class Engine {
      * @return the post-processed line.
      */
     private String postProcessVert(final String row, final boolean up) {
-        final String replaceBy;
-        if (up) { // replace """"""" by "-----"
-            replaceBy = asciiScheme.getUp();
-        } else { // replace _______ by _-----_
-            replaceBy = asciiScheme.getDown();
-        }
+        final String replaceBy = up ? asciiScheme.getUp() : asciiScheme.getDown();
         final String matchMe = replaceBy + replaceBy + "*" + replaceBy;
         final RegExp regex = RegExp.compile(matchMe);
         final MatchResult matcher = regex.exec(row);
@@ -724,11 +730,7 @@ public class Engine {
      * @return 1 or 0
      */
     private int getKickedX(final Kick kick) {
-        if (kick.equals(Kick.X) || kick.equals(Kick.XY)) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return (kick.equals(Kick.X) || kick.equals(Kick.XY)) ? 1 : 0;
     }
 
     /**
@@ -737,10 +739,6 @@ public class Engine {
      * @return 1 or 0
      */
     private int getKickedY(final Kick kick) {
-        if (kick.equals(Kick.Y) || kick.equals(Kick.XY)) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return (kick.equals(Kick.Y) || kick.equals(Kick.XY)) ? 1 : 0;
     }
 }

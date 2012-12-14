@@ -7,6 +7,7 @@ import jenkem.shared.data.ImageIrc
 /**
  * Servlet to retrieve and return stored IRC output.
  */
+@SerialVersionUID(-44444444444L)
 class IrcOutputServlet extends AbstractOutputServlet {
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
     response.setCharacterEncoding(encoding)

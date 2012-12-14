@@ -12,11 +12,11 @@ public class Color {
     private double bgStrength; // represents the strength of the background compared to the foreground.
 
     public final int[] getRgb() {
-        return rgb;
+        return CopyUtil.makeCopy(rgb);
     }
 
     public final void setRgb(final int[] rgb) {
-        this.rgb = rgb;
+        this.rgb = CopyUtil.makeCopy(rgb);
     }
 
     public final String getFg() {
@@ -44,18 +44,18 @@ public class Color {
     }
 
     public final void setFgRgb(final int[] fgRgb) {
-        this.fgRgb = fgRgb;
+        this.fgRgb = CopyUtil.makeCopy(fgRgb);
     }
 
     public final int[] getFgRgb() {
-        return fgRgb;
+        return CopyUtil.makeCopy(fgRgb);
     }
 
     public final void setBgRgb(final int[] bgRgb) {
-        this.bgRgb = bgRgb;
+        this.bgRgb = CopyUtil.makeCopy(bgRgb);
     }
 
     public final int[] getBgRgb() {
-        return bgRgb;
+        return CopyUtil.makeCopy(bgRgb);
     }
 }

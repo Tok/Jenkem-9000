@@ -7,8 +7,9 @@ import java.util.Map;
 /**
  * Wrapper for Jenkem image parts.
  */
-@SuppressWarnings("serial")
 public class JenkemImage implements Serializable {
+    private static final long serialVersionUID = -2079733401454484728L;
+
     public enum Part {
         INFO(ImageInfo.class), HTML(ImageHtml.class), CSS(ImageCss.class),  IRC(ImageIrc.class);
         private Class<? extends AbstractImagePart> c;

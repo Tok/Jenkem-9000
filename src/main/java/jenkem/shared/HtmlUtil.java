@@ -1,29 +1,29 @@
 package jenkem.shared;
 
 import jenkem.shared.color.ColorUtil;
-
 import com.google.gwt.user.client.Window;
 
 /**
  * Utility class to turn conversions into their HTML representation.
  */
-public class HtmlUtil extends AbstractWebUtil {
-    private final String charset = "UTF-8";
-    private final String doctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\""
+public class HtmlUtil {
+    private static final String SEP = "\n";
+    private static final String CHARSET = "UTF-8";
+    private static final String DOCTYPE = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\""
             + SEP + "    \"http://www.w3.org/TR/html4/strict.dtd\">";
-    private final String meta = "<meta http-equiv=\"content-type\" content=\"text/html; charset=" + charset + "\">";
+    private static final String META = "<meta http-equiv=\"content-type\" content=\"text/html; charset=" + CHARSET + "\">";
     private final ColorUtil colorUtil = new ColorUtil();
 
     /**
      * Generates empty HTML.
      * @return html
      */
-    public final String generateEmpty() {
+    public static final String generateEmpty() {
         final StringBuilder html = new StringBuilder();
-        appendLineToBuilder(html, doctype);
+        appendLineToBuilder(html, DOCTYPE);
         appendLineToBuilder(html, "<html>");
         appendLineToBuilder(html, "<head>");
-        appendLineToBuilder(html, meta);
+        appendLineToBuilder(html, META);
         appendLineToBuilder(html, "<title></title>");
         appendLineToBuilder(html, "</head>");
         appendLineToBuilder(html, "<body class=\"jenkemBody\"></body>");
@@ -43,10 +43,10 @@ public class HtmlUtil extends AbstractWebUtil {
         final StringBuilder html = new StringBuilder();
         final StringBuilder css = new StringBuilder();
 
-        appendLineToBuilder(html, doctype);
+        appendLineToBuilder(html, DOCTYPE);
         appendLineToBuilder(html, "<html>");
         appendLineToBuilder(html, "<head>");
-        appendLineToBuilder(html, meta);
+        appendLineToBuilder(html, META);
         html.append("<title>");
         html.append(name);
         appendLineToBuilder(html, "</title>");
@@ -97,12 +97,7 @@ public class HtmlUtil extends AbstractWebUtil {
                 }
                 int section = 0;
                 for (final String token : sections) {
-                    if (token == null || token.equals("")) {
-                        break;
-                    }
-                    if (token.equals(ColorUtil.BC)) {
-                        break; // throw bold code away
-                    }
+                    if (token == null || token.equals("") || token.equals(ColorUtil.BC)) { break; }
                     final String[] splitCut = token.split(",");
                     final String[] cut = new String[splitCut.length];
                     int ii = 0;
@@ -112,31 +107,17 @@ public class HtmlUtil extends AbstractWebUtil {
                             ii++;
                         }
                     }
-                    final String fg = cut[0];
-                    final String bgAndChars = cut[1];
-                    String bg = "";
-                    String chars = "";
 
-                    try { // FIXME ugly trial and error approach
-                        Integer.parseInt(bgAndChars.substring(0, 2));
-                        // if parseInt works we know that the bg color takes two
-                        // characters
-                        bg = bgAndChars.substring(0, 2);
-                        chars = bgAndChars.substring(2, bgAndChars.length());
-                    } catch (final Exception e) {
-                        bg = bgAndChars.substring(0, 1);
-                        chars = bgAndChars.substring(1, bgAndChars.length());
-                    }
+                    final String bgAndChars = cut[1]; //1X, 1XX, 12X or 12XX
+                    final String bg = bgAndChars.replaceAll("[^0-9]", ""); //remove nonnumeric
+                    final String chars = bgAndChars.replaceAll("[0-9]", ""); //remove numeric
 
                     html.append("<span id=\"id_");
                     html.append(line);
                     html.append("_");
                     html.append(section);
                     html.append("\">");
-
-                    chars = escape(chars);
-
-                    html.append(chars);
+                    html.append(escape(chars));
                     html.append("</span>");
                     css.append("#id_");
                     css.append(line);
@@ -144,7 +125,7 @@ public class HtmlUtil extends AbstractWebUtil {
                     css.append(section);
                     css.append(" { color: ");
 
-                    css.append(colorUtil.ircToCss(fg));
+                    css.append(colorUtil.ircToCss(cut[0])); //fg
                     css.append("; background-color: ");
                     css.append(colorUtil.ircToCss(bg));
                     css.append("; }");
@@ -218,13 +199,12 @@ public class HtmlUtil extends AbstractWebUtil {
      * @param inputCss
      * @return html
      */
-    public final String prepareHtmlForInline(final String inputHtml,
-            final String inputCss) {
+    public final String prepareHtmlForInline(final String inputHtml, final String inputCss) {
         final String[] htmlLines = inputHtml.split("\n");
         final StringBuffer newInlineHtml = new StringBuffer();
         for (final String line : htmlLines) {
             if (line.startsWith("<link href=")) {
-                newInlineHtml.append(inputCss.toString());
+                newInlineHtml.append(inputCss);
             } else if (line.startsWith("<div class=\"ircBinary\">")) {
                 assert true; // ignore
             } else if (line.startsWith("<div class=\"validator\">")) {
@@ -277,6 +257,29 @@ public class HtmlUtil extends AbstractWebUtil {
      * @return isLocal
      */
     private static boolean isLocal() {
-        return Window.Location.getHost() == "127.0.0.1:8080";
+        return Window.Location.getHost().equals("127.0.0.1:8080");
+    }
+
+    /**
+     * Escapes and returns the provided String
+     * @param input
+     * @return escaped
+     */
+    final String escape(final String input) {
+        String escaped = input.replaceAll("&", "&amp;");
+        escaped = escaped.replaceAll("<", "&lt;");
+        escaped = escaped.replaceAll(">", "&gt;");
+        escaped = escaped.replaceAll(" ", "&nbsp;");
+        return escaped;
+    }
+
+    /**
+     * Appends a new Line to the provided StringBuilder.
+     * @param builder
+     * @param line
+     */
+    static final void appendLineToBuilder(final StringBuilder builder, final String line) {
+        builder.append(line);
+        builder.append(SEP);
     }
 }

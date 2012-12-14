@@ -8,9 +8,9 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Persistent info data for converted images.
  */
-@SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class ImageInfo extends AbstractImagePart implements Serializable {
+    private static final long serialVersionUID = -2831420951898466391L;
 
     @PrimaryKey
     private String _id; // mongodb identifier

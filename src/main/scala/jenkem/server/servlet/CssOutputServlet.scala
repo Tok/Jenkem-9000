@@ -7,6 +7,7 @@ import jenkem.server.JenkemServiceImpl
 /**
  * Servlet to retrieve and return stored CSS.
  */
+@SerialVersionUID(-3333333333333333333L)
 class CssOutputServlet extends AbstractOutputServlet {
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
     response.setCharacterEncoding(encoding)

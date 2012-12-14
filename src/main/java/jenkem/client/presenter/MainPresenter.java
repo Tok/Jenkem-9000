@@ -156,14 +156,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 } else {
                     enableKicks();
                 }
-                if (method.equals(ConversionMethod.Plain)) {
-                    display.getSchemeListBox().setEnabled(false);
-                } else {
-                    display.getSchemeListBox().setEnabled(true);
-                }
+                display.getSchemeListBox().setEnabled(!method.equals(ConversionMethod.Plain));
                 if (!method.equals(ConversionMethod.Pwntari)) {
-                    display.getPresetListBox().setEnabled(true);
-                } else {
                     display.getPresetListBox().setEnabled(true);
                 }
                 resetContrastAndBrightness();
@@ -291,7 +285,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Proxifies the image and calls the show method.
      */
-    public final synchronized void proxifyAndConvert() {
+    public final void proxifyAndConvert() {
         final String urlString = display.getInputTextBox().getText();
         final String proxifiedUrl = proxify(urlString);
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -340,7 +334,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Shows the proxified image.
      * @param url to the image
      */
-    private synchronized void doShow(final String url) {
+    private void doShow(final String url) {
         if (!"".equals(url)) {
             displayBusyIcon();
         }
@@ -369,7 +363,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Defers the conversion.
      */
-    private synchronized void doConversion() {
+    private void doConversion() {
         if (image == null) { return; }
         if (!isConversionRunnung) {
             isConversionRunnung = true;
@@ -410,7 +404,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Processes the conversion.
      */
-    private synchronized void doDeferredConversion() {
+    private void doDeferredConversion() {
         engine = new Engine(this);
         currentImage = ImageElement.as(image.getElement());
         method = getCurrentConversionMethod();
@@ -458,7 +452,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @param index
      */
     private void updateProgress(final int index) {
-        final double percentDone = index * TOTAL_PERCENT / lastIndex;
+        final double percentDone = index * TOTAL_PERCENT / Integer.valueOf(lastIndex).doubleValue();
         display.getStatusLabel().setText("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");
     }
 
@@ -467,8 +461,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @param ircLine
      * @param index
      */
-    public final synchronized void addIrcOutputLine(final String ircLine,
-            final int index) {
+    public final void addIrcOutputLine(final String ircLine, final int index) {
         updateProgress(index);
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
@@ -499,7 +492,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Adds the finished output to the view.
      */
-    private synchronized void addOutput() {
+    private void addOutput() {
         ircOutput = engine.removeEmptyLines(ircOutput);
 
         final StringBuilder irc = new StringBuilder();

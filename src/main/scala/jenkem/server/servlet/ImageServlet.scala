@@ -15,16 +15,17 @@ import javax.servlet.http.HttpServletResponse
  * locally call this servlet in order to circumvent the same origin policies
  * set by the browser.
  */
+@SerialVersionUID(-7777777777777777777L)
 class ImageServlet extends HttpServlet {
-
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
-    response.setContentType("image/jpeg")
-    val urlString = request.getParameter("url")
-    val url = new URL(urlString)
-    val in: InputStream = url.openStream
-    val out: OutputStream = response.getOutputStream
-    Iterator.continually(in.read).takeWhile(-1 !=).foreach(out.write)
-    in.close
-    out.close
+    synchronized {
+      response.setContentType("image/jpeg")
+      val urlString = request.getParameter("url")
+      val in: InputStream = new URL(urlString).openStream
+      val out: OutputStream = response.getOutputStream
+      Iterator.continually(in.read).takeWhile(-1 !=).foreach(out.write)
+      in.close
+      out.close
+    }
   }
 }

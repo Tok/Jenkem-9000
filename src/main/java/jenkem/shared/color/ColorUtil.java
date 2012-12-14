@@ -1,5 +1,8 @@
 package jenkem.shared.color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Just some constants and stuff.
  */
@@ -8,6 +11,8 @@ public class ColorUtil {
     public static final String BC = String.valueOf('\u0002'); // bold character for IRC
     public static final String CC = String.valueOf('\u0003'); // color character for IRC
     public static final int MAX_RGB = 255;
+    private static final String CC_MATCHER = "[" + CC + "][0-9][0-9]?[,][0-9][0-9]?";
+    private static final String CC_BLOCK_MATCHER = CC_MATCHER + "[^" + CC + ",[0-9]]+";
 
     /**
      * Colors the entered String black or white, depending on the provided
@@ -104,4 +109,59 @@ public class ColorUtil {
         }
         return ret;
     }
+
+    /**
+     * Tests if the provided String is a color info for IRC
+     * @param test
+     * @return isColorInfo
+     */
+    public static boolean isColorInfo(final String test) {
+        return test.matches("^" + CC_MATCHER + "$");
+    }
+
+    /**
+     * Tests if the provided IRC String is legal and starts with a color info for IRC
+     * @param test
+     * @return isLegalColorBlock
+     */
+    public static boolean isLegalColorBlock(final String test) {
+        return test.matches("^" + CC_BLOCK_MATCHER + "$");
+    }
+
+    /**
+     * Splits the provided line into IRC color blocks.
+     * @param in
+     * @return splitted
+     */
+    //FIXME
+    public static List<String> splitIntoColorBlocks(final String in) {
+        System.out.println(in);
+        final String valid = removeInvalidBlocks(in);
+        System.out.println(valid);
+        final List<String> matches = new ArrayList<String>();
+
+        //No Pattern and Matcher in GWT client!
+        /*
+        final Matcher m = Pattern.compile(CC_BLOCK_MATCHER).matcher(valid);
+        while (m.find()) {
+            matches.add(m.group());
+        }
+        */
+        return matches;
+    }
+
+    //FIXME
+    private static String removeInvalidBlocks(final String in) {
+        final StringBuffer result = new StringBuffer();
+        //No Pattern and Matcher in GWT client!
+        /*
+        final Matcher m = Pattern.compile("[" + CC + "]([^0-9])+").matcher(in);
+        while (m.find()) {
+            System.out.println(" Pattern matches " + m.group());
+            result.append(m.group(0) + m.group(1));
+        }
+        */
+        return result.toString();
+    }
+
 }

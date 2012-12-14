@@ -191,6 +191,8 @@
 					<failOnError>true</failOnError>
 					<xmlOutput>true</xmlOutput>
 					<xmlOutputDirectory>${basedir}/target/site</xmlOutputDirectory>
+                    <effort>Max</effort> <!-- Min, Default and Max. -->
+					<threshold>Low</threshold> <!-- High, Default, Low, Ignore, Exp -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -222,6 +224,17 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>${mavenProjectInfoReportsPluginVersion}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+							<report>summary</report>
+							<report>dependency-info</report>
+							<report>dependencies</report>
+							<report>plugins</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -266,7 +279,7 @@
 				<version>${mavenDatanucleusPluginVersion}</version>
 				<configuration>
 					<api>JDO</api>
-					<mappingIncludes>**/data/*.class</mappingIncludes>					
+					<mappingIncludes>**/data/*.class</mappingIncludes>
 					<fork>false</fork>
 					<log4jConfiguration>log4j.properties</log4jConfiguration>
 				</configuration>

@@ -53,11 +53,11 @@ public enum IrcColor {
     }
 
     public void setRgb(final int[] rgb) {
-        this.rgb = rgb;
+        this.rgb = CopyUtil.makeCopy(rgb);
     }
 
     public int[] getRgb() {
-        return rgb;
+        return CopyUtil.makeCopy(rgb);
     }
 
     public void setValue(final Integer value) {
