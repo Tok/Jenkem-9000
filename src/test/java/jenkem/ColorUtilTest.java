@@ -1,10 +1,70 @@
 package jenkem;
 
+import jenkem.shared.AsciiScheme;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.IrcColor;
 
 public class ColorUtilTest extends AbstractReflectionTestCase {
     private final ColorUtil util = new ColorUtil();
+    private final AsciiScheme scheme = new AsciiScheme();
+    private final String up = scheme.getUp();
+    private final String down = scheme.getDown();
+    private final String hLine = scheme.getHline();
+
+    public final void testUpPostProcession() throws Exception {
+        final String upInput = "##" + up + up + up + up + "##";
+        final Object[] upParameters = {upInput, true};
+        final String upOutput = (String) invokePrivateMethod(util, "postProcessHor", upParameters);
+        assertEquals("##" + up + hLine + hLine + up + "##", upOutput);
+    }
+
+    public final void testDownPostProcession() throws Exception {
+        final String downInput = "##" + down + down + down + down + "##";
+        final Object[] downParameters = {downInput, false};
+        final String downOutput = (String) invokePrivateMethod(util, "postProcessHor", downParameters);
+        assertEquals("##" + down + hLine + hLine + down + "##", downOutput);
+    }
+
+    public final void testPostProcession() throws Exception {
+        final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
+        assertEquals("##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##", output);
+    }
+
+    public final void testPostProcessRowWithColor() throws Exception {
+        final String input = ColorUtil.CC + "##" + down + down + down + down + "##" + up + up + up + up + "##";
+        final String expect = ColorUtil.CC + "##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
+        assertEquals(expect, output);
+    }
+
+    public final void testPostProcessRowWithhoutColor() throws Exception {
+        final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
+        final String expect = "##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
+        assertEquals(expect, output);
+    }
+
+    public final void testColorPostProcessionWithColorRedundancies() throws Exception {
+        final String input = ColorUtil.CC + "1,1##" + ColorUtil.CC + "1,1XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
+        final String expect = ColorUtil.CC + "1,1##XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(util, "postProcessColoredRow", parameters);
+        assertEquals(expect, output);
+    }
+
+    public final void testColorPostProcessionWithoutColor() throws Exception {
+        final String input = ColorUtil.CC + "1,1##" + down + ColorUtil.CC + "2,2"
+                + down + down + down + "##" + up + up + ColorUtil.CC + "3,3" + up + up + "##";
+        final String expect = ColorUtil.CC + "1,1##" + down + ColorUtil.CC + "2,2"
+                + hLine + hLine + down + "##" + up + hLine + ColorUtil.CC + "3,3" + hLine + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(util, "postProcessColoredRow", parameters);
+        assertEquals(expect, output);
+    }
 
     public final void testColorConfig() throws Exception {
         final String whiteResult = util.colorConfig(IrcColor.white.getValue(), "###");
@@ -89,16 +149,44 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
         assertFalse(ColorUtil.isLegalColorBlock("11,11##"));
     }
 
-    //FIXME activate test
-    /*
-    public final void testSplitIntoColorBlocks() throws Exception {
+    public final void testRemoveConsecutiveCcs() throws Exception {
         final String input = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1 " + ColorUtil.CC + ColorUtil.CC + "  ";
-        final List<String> expected = new ArrayList<String>(Arrays.asList(ColorUtil.CC + "2,1  ", ColorUtil.CC + "1,2#", ColorUtil.CC + "2,1   "));
-        System.out.println("exp: " + expected);
-        final List<String> result = ColorUtil.splitIntoColorBlocks(input);
-        System.out.println("res: " + result);
-        assertEquals(expected.size(), result.size());
+        final String expected = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1   ";
+        final String result = ColorUtil.removeInvalidCc(input);
         assertEquals(expected, result);
     }
-    */
+
+    public final void testRemoveInvalidCcs() throws Exception {
+        final String input = ColorUtil.CC + "2,1  " + ColorUtil.CC + "#" + ColorUtil.CC + "2,1 " + ColorUtil.CC + ColorUtil.CC + "  ";
+        final String expected = ColorUtil.CC + "2,1  #" + ColorUtil.CC + "2,1   ";
+        final String result = ColorUtil.removeInvalidCc(input);
+        assertEquals(expected, result);
+    }
+
+    public final void testReturnBlockInfo() throws Exception {
+        assertEquals(ColorUtil.CC + "1,1", ColorUtil.returnBlockInfo(ColorUtil.CC + "1,1xx"));
+        assertEquals(ColorUtil.CC + "11,1", ColorUtil.returnBlockInfo(ColorUtil.CC + "11,1xx"));
+        assertEquals(ColorUtil.CC + "1,11", ColorUtil.returnBlockInfo(ColorUtil.CC + "1,11xx"));
+        assertEquals(ColorUtil.CC + "11,11", ColorUtil.returnBlockInfo(ColorUtil.CC + "11,11xx"));
+        assertEquals("1,1", ColorUtil.returnBlockInfo("1,1xx"));
+        assertEquals("11,1", ColorUtil.returnBlockInfo("11,1xx"));
+        assertEquals("1,11", ColorUtil.returnBlockInfo("1,11xx"));
+        assertEquals("11,11", ColorUtil.returnBlockInfo("11,11xx"));
+        assertEquals(ColorUtil.CC, ColorUtil.returnBlockInfo(ColorUtil.CC));
+        assertEquals("", ColorUtil.returnBlockInfo(""));
+    }
+
+    public final void testRemoveDoubleCcs() throws Exception {
+        final String input = ColorUtil.CC + "2,1XX" + ColorUtil.CC + "2,1xx" + ColorUtil.CC + "3,3xx" + ColorUtil.CC + "2,1xx";
+        final String expected = ColorUtil.CC + "2,1XXxx" + ColorUtil.CC + "3,3xx" + ColorUtil.CC + "2,1xx";
+        final String result = ColorUtil.removeDoubleCc(input);
+        assertEquals(expected, result);
+    }
+
+    public final void testSplitIntoColorBlocks() throws Exception {
+        final String input = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1 " + ColorUtil.CC + ColorUtil.CC + "  ";
+        final String expected = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1   ";
+        final String result = ColorUtil.makeBlocksValid(input);
+        assertEquals(expected, result);
+    }
 }

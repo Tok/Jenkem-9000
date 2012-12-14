@@ -9,8 +9,6 @@ import jenkem.shared.color.Cube;
 import jenkem.shared.color.IrcColor;
 import jenkem.shared.color.Sample;
 import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
 
 /**
  * Makes the conversion to ASCII.
@@ -19,6 +17,7 @@ public class Engine {
     private static final int CENTER = 127;
     private final Cube cube = new Cube();
     private final AsciiScheme asciiScheme = new AsciiScheme();
+    private final ColorUtil colorUtil = new ColorUtil();
     private final MainPresenter presenter;
 
     private Map<String, Integer> colorMap;
@@ -278,7 +277,7 @@ public class Engine {
             }
         }
         row.append(ColorUtil.CC);
-        final String result = postProcessColoredRow(row.toString());
+        final String result = colorUtil.postProcessColoredRow(row.toString());
         presenter.addIrcOutputLine(result, index);
     }
 
@@ -400,7 +399,7 @@ public class Engine {
             }
         }
         row.append(ColorUtil.CC);
-        presenter.addIrcOutputLine(postProcessColoredRow(row.toString()), index);
+        presenter.addIrcOutputLine(colorUtil.postProcessColoredRow(row.toString()), index);
     }
 
     /**
@@ -440,7 +439,8 @@ public class Engine {
             }
         }
         row.append(ColorUtil.CC);
-        presenter.addIrcOutputLine(postProcessColoredRow(row.toString()), index);
+        // postProcession is pointless for Pwntari mode.
+        presenter.addIrcOutputLine(row.toString(), index);
     }
 
     /**
@@ -507,7 +507,7 @@ public class Engine {
             row.append(charPixel);
         }
         if (asciiScheme.isPostProcessed()) {
-            presenter.addIrcOutputLine(postProcessRow(row.toString()), index);
+            presenter.addIrcOutputLine(colorUtil.postProcessRow(row.toString()), index);
         } else {
             presenter.addIrcOutputLine(row.toString(), index);
         }
@@ -616,90 +616,6 @@ public class Engine {
     private boolean isDown(final int[] top, final int[] bottom, final int offset) {
         return ((top[0] + top[1] + top[2]) / 3) > (CENTER - offset)
                 && ((bottom[0] + bottom[1] + bottom[2]) / 3) <= (CENTER + offset);
-    }
-
-    /**
-     * Makes colored ASCII output smooth.
-     * @param row to process
-     * @return the processed line
-     */
-    // FIXME this method doesn't work the way it was intended.
-    private String postProcessColoredRow(final String row) {
-        return row;
-
-        /*
-        //C2,1   C1,2#CC1,2#CC2,1 CC2,1  C
-        return row.replaceAll("([" + ColorUtil.CC + "])\\1", ColorUtil.CC);
-
-        use:
-        ColorUtil.isColorInfo
-
-expected:<CC1,1##[]XXCC11,11xxCC1,1@@>
-but was:<CC1,1##[CC1,1]XXCC11,11xxCC1,1@@>
-        */
-        /*
-        if (row.contains(ColorUtil.CC)) { // can't touch this
-            return row; //TODO throw exception?
-        } else {
-            //obey recursion!
-            return row.substring(0, row.length() - 2) + postProcessRow(row.substring(row.length() - 2, row.length()));
-        }
-        */
-    }
-
-
-
-    /**
-     * Makes plain ASCII output smooth.
-     * @param row to process
-     * @return the processed line
-     */
-    private String postProcessRow(final String row) {
-        // 1st procession for the upper part of the characters (true case)
-        // 2nd one for the lower parts (false case)
-        return postProcessVert(postProcessVert(row, true), false);
-    }
-
-    /**
-     * Makes plain ASCII output smooth.
-     * @param row to process
-     * @param up true if line is " half, false if _ half of ASCII character
-     * @return the post-processed line.
-     */
-    private String postProcessVert(final String row, final boolean up) {
-        final String replaceBy = up ? asciiScheme.getUp() : asciiScheme.getDown();
-        final String matchMe = replaceBy + replaceBy + "*" + replaceBy;
-        final RegExp regex = RegExp.compile(matchMe);
-        final MatchResult matcher = regex.exec(row);
-        final boolean matchFound = regex.test(row);
-        final StringBuffer buf = new StringBuffer();
-        if (matchFound) {
-            for (int i = 0; i < matcher.getGroupCount(); i++) {
-                final String originalStr = matcher.getGroup(i);
-                if (originalStr != null) {
-                    final StringBuilder line = new StringBuilder();
-                    final String[] strings = row.split(originalStr);
-                    int index = 0;
-                    for (final String part : strings) {
-                        line.append(part);
-                        index++;
-                        if (index < strings.length) {
-                            line.append(replaceBy);
-                            for (int ii = 0; ii < originalStr.length() - 2; ii++) {
-                                // -2 because the first and the last letter is
-                                // replaced
-                                line.append(asciiScheme.getHline());
-                            }
-                            line.append(replaceBy);
-                        }
-                    }
-                    buf.append(line);
-                }
-            }
-        } else {
-            buf.append(row);
-        }
-        return buf.toString();
     }
 
     /**

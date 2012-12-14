@@ -177,15 +177,10 @@ public class HtmlUtil {
         newInlineCss.append("<style type=\"text/css\">\n");
         for (final String line : cssLines) {
             if (line.startsWith("div {")) {
-                newInlineCss
-                        .append(".jenkem { font-family: monospace; font-weight: bold; }");
-            } else if (line.startsWith("form {")) {
-                assert true; // ignore
-            } else if (line.startsWith("body {")) {
-                assert true; // ignore
-            } else if (line.startsWith("html {")) {
-                assert true; // ignore
-            } else {
+                newInlineCss.append(".jenkem { font-family: monospace; font-weight: bold; }");
+            } else if (!line.startsWith("form {")
+                    && !line.startsWith("body {")
+                    && !line.startsWith("html {")) {
                 newInlineCss.append(line);
             }
         }
@@ -205,11 +200,8 @@ public class HtmlUtil {
         for (final String line : htmlLines) {
             if (line.startsWith("<link href=")) {
                 newInlineHtml.append(inputCss);
-            } else if (line.startsWith("<div class=\"ircBinary\">")) {
-                assert true; // ignore
-            } else if (line.startsWith("<div class=\"validator\">")) {
-                assert true; // ignore
-            } else {
+            } else if (!line.startsWith("<div class=\"ircBinary\">")
+                    && !line.startsWith("<div class=\"validator\">")) {
                 newInlineHtml.append(line);
             }
         }

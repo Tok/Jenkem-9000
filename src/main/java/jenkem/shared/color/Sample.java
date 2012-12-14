@@ -167,8 +167,7 @@ public final class Sample {
         } else if (col.equals(Col.BLUE)) {
             return calculateColor(id.getBlueAt(x, y), contrast, brightness);
         }
-        assert false;
-        return 0;
+        throw new IllegalArgumentException("Illegal color.");
     }
 
     /**
