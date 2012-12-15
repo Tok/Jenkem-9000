@@ -144,8 +144,7 @@ public class Engine {
         String newRight = null;
         for (int x = startX; x < getEvenWidth(); x = x + 2) {
             // this method can handle uneven image widths
-            final Sample sample = Sample.getInstance(id, x, index, contrast,
-                    brightness);
+            final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
 
             oldLeft = newLeft;
             newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
@@ -484,29 +483,6 @@ public class Engine {
         final double d = id.getRedAt(x, y) + id.getGreenAt(x, y) + id.getBlueAt(x, y);
         final int dark = Double.valueOf(Math.round(d / 3)).intValue();
         return dark;
-    }
-
-    /**
-     * Removes empty lines from output.
-     * @param input String array with the input line
-     * @return String array without empty lines
-     */
-    public final String[] removeEmptyLines(final String[] input) {
-        int notEmptyCounter = 0;
-        for (final String line : input) {
-            if (line != null && !line.equals("")) {
-                notEmptyCounter++;
-            }
-        }
-        final String[] result = new String[notEmptyCounter];
-        int index = 0;
-        for (final String line : input) {
-            if (line != null && !line.equals("")) {
-                result[index] = line;
-                index++;
-            }
-        }
-        return result;
     }
 
     public final void prepareScheme(final ColorScheme scheme) {

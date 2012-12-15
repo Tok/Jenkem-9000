@@ -1,6 +1,8 @@
 package jenkem.client.presenter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import jenkem.client.service.JenkemServiceAsync;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
@@ -69,7 +71,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private final Display display;
 
     private ConversionMethod method;
-    private String[] ircOutput;
+    //private String[] ircOutput;
+    private final List<String> ircOutput = new ArrayList<String>();
     private int lastIndex;
 
     private final Image busyImage = new Image("/images/busy.gif");
@@ -376,7 +379,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         if (!method.equals(ConversionMethod.Plain)) {
             engine.prepareScheme(scheme);
         }
-        ircOutput = new String[lastIndex];
+        ircOutput.clear();
         if (method.equals(ConversionMethod.FullHd)) {
             engine.generateHighDef();
         } else if (method.equals(ConversionMethod.SuperHybrid)) {
@@ -409,8 +412,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
             public void execute() {
-                if (ircLine != null && index < ircOutput.length) {
-                    ircOutput[index] = ircLine;
+                if (ircLine != null && !ircLine.isEmpty() && index < lastIndex) {
+                    ircOutput.add(ircLine + "\n");
                 }
                 if (index >= lastIndex - 1) {
                     addOutput();
@@ -426,54 +429,48 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                     } else if (method.equals(ConversionMethod.Plain)) {
                         engine.generatePlainLine(index + 2);
                     }
+                    updatePreview(ircOutput);
                 }
             }
         });
-
     }
 
     /**
      * Adds the finished output to the view.
      */
     private void addOutput() {
-        ircOutput = engine.removeEmptyLines(ircOutput);
-
-        final StringBuilder irc = new StringBuilder();
-        for (final String s : ircOutput) {
-            irc.append(s);
-            irc.append("\n");
-        }
-
-        final Date now = new Date();
-        final String[] htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, method);
+        final String[] htmlAndCss = updatePreview(ircOutput);
 
         //create and wrap image parts
+        final Date now = new Date();
         final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss");
-        final ImageInfo jenkemImageInfo = new ImageInfo(
-                currentName, ircOutput.length, getCurrentLineWidth(), format.format(now));
+        final ImageInfo jenkemImageInfo = new ImageInfo(currentName, ircOutput.size(), getCurrentLineWidth(), format.format(now));
         final ImageHtml jenkemImageHtml = new ImageHtml(currentName, htmlAndCss[0]);
         final ImageCss jenkemImageCss = new ImageCss(currentName, htmlAndCss[1]);
+        final StringBuilder irc = new StringBuilder();
+        for (final String line : ircOutput) { irc.append(line); }
         final ImageIrc jenkemImageIrc = new ImageIrc(currentName, irc.toString());
         jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc);
 
-        //get HTML and CSS for inline element
+        display.getIrcTextArea().setText(irc.toString());
+        display.getIrcTextArea().selectAll();
+
+        removeBusyIcon();
+        isConversionRunnung = false;
+    }
+
+    /**
+     * Updates the HTML preview and returns the generated HTML, CSS.
+     * @param html
+     * @param css
+     * @return
+     */
+    private String[] updatePreview(final List<String> ircOutput) {
+        final String[] htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, method);
         final String inlineCss = htmlUtil.prepareCssForInline(htmlAndCss[1]);
         final String inlineHtml = htmlUtil.prepareHtmlForInline(htmlAndCss[0], inlineCss);
         display.getPreviewHtml().setHTML(inlineHtml);
-
-        //prepare output for IRC
-        final StringBuilder binaryOutput = new StringBuilder();
-        for (final String line : ircOutput) {
-            binaryOutput.append(line);
-            binaryOutput.append("\n");
-        }
-
-        removeBusyIcon();
-
-        display.getIrcTextArea().setText(binaryOutput.toString());
-        display.getIrcTextArea().selectAll();
-
-        isConversionRunnung = false;
+        return htmlAndCss;
     }
 
     /**

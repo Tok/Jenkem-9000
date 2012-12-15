@@ -1,5 +1,6 @@
 package jenkem.shared;
 
+import java.util.List;
 import jenkem.shared.color.ColorUtil;
 import com.google.gwt.user.client.Window;
 
@@ -38,7 +39,7 @@ public class HtmlUtil {
      * @param method
      * @return html
      */
-    public final String[] generateHtml(final String[] ircOutput,
+    public final String[] generateHtml(final List<String> ircOutput,
             final String name, final ConversionMethod method) {
         final StringBuilder html = new StringBuilder();
         final StringBuilder css = new StringBuilder();
@@ -66,13 +67,13 @@ public class HtmlUtil {
         int line = 0;
 
         if (method.equals(ConversionMethod.Plain)) {
-            while (ircOutput != null && line < ircOutput.length
-                    && ircOutput[line] != null && ircOutput[line].length() > 0) {
+            while (ircOutput != null && line < ircOutput.size()
+                    && ircOutput.get(line) != null && ircOutput.get(line).length() > 0) {
                 html.append("<div class=\"jenkem\">");
                 html.append("<span id=\"id_");
                 html.append(line);
                 html.append("\">");
-                html.append(escape(ircOutput[line]));
+                html.append(escape(ircOutput.get(line)));
                 html.append("</span>");
                 html.append("</div>");
                 html.append(SEP);
@@ -83,10 +84,10 @@ public class HtmlUtil {
                 line++;
             }
         } else {
-            while (ircOutput != null && line < ircOutput.length
-                    && ircOutput[line] != null && ircOutput[line].length() > 0) {
+            while (ircOutput != null && line < ircOutput.size()
+                    && ircOutput.get(line) != null && ircOutput.get(line).length() > 0) {
                 html.append("<div class=\"jenkem\">");
-                final String[] splitSections = ircOutput[line].split(ColorUtil.CC);
+                final String[] splitSections = ircOutput.get(line).split(ColorUtil.CC);
                 final String[] sections = new String[splitSections.length];
                 int i = 0;
                 for (final String s : splitSections) {

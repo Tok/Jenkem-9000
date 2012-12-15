@@ -107,17 +107,4 @@ public class EngineTest extends AbstractReflectionTestCase {
         final Boolean upOutput = (Boolean) invokePrivateMethod(engine, "isUp", parameters);
         assertFalse(upOutput.booleanValue());
     }
-
-    public final void testEmptyLineRemover() throws Exception {
-        final String[] input = {"X", "", "Y", null, "Z"};
-        final Object[] parameters = {input};
-        final String[] output = (String[]) invokePrivateMethod(engine, "removeEmptyLines", parameters);
-        final String[] expected = {"X", "Y", "Z"};
-        assertEquals(expected.length, output.length);
-        int index = 0;
-        for (final String exp : expected) {
-            assertEquals(exp, output[index]);
-            index++;
-        }
-    }
 }
