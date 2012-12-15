@@ -84,8 +84,7 @@ public class Cube {
         return wc;
     }
 
-    private double calcStrength(final int[] col, final int[] comp,
-            final double factor) {
+    private double calcStrength(final int[] col, final int[] comp, final double factor) {
         return calcDistance(col, comp) / factor;
     }
 

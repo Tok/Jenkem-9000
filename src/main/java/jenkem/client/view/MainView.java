@@ -38,8 +38,11 @@ import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHori
 public class MainView extends Composite implements MainPresenter.Display {
     private static final int SPACING = 5;
     private static final int IRC_TEXT_CHARACTER_WIDTH = 77;
-    private static final int INITIAL_BRIGHTNESS_ABS = 200;
-    private static final int INITIAL_CONTRAST_ABS = 199;
+    private static final int SLIDER_WIDTH = 200;
+    private static final int INITIAL_CONTRAST_MAX = SLIDER_WIDTH - 1;
+    private static final int INITIAL_CONTRAST_DEFAULT = (SLIDER_WIDTH / 2);
+    private static final int INITIAL_BRIGHTNESS_MAX = SLIDER_WIDTH - 1;
+    private static final int INITIAL_BRIGHTNESS_DEFAULT = (SLIDER_WIDTH / 2);
 
     private final ExtendedTextBox inputTextBox = new ExtendedTextBox();
     private final Button showButton = new Button("Convert Image");
@@ -151,16 +154,18 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsRow++;
 
         settingsTable.setText(settingsRow, 0, "Contrast:");
-        contrastSlider.setMaxValue(INITIAL_CONTRAST_ABS);
-        contrastSlider.setWidth("200px");
+        contrastSlider.setValue(INITIAL_CONTRAST_DEFAULT);
+        contrastSlider.setMaxValue(INITIAL_CONTRAST_MAX);
+        contrastSlider.setWidth(SLIDER_WIDTH + "px");
         settingsTable.setWidget(settingsRow, 1, contrastSlider);
         contrastLabel.setWidth("25px");
         settingsTable.setWidget(settingsRow, 2, contrastLabel);
         settingsRow++;
 
         settingsTable.setText(settingsRow, 0, "Brightness:");
-        brightnessSlider.setMaxValue(INITIAL_BRIGHTNESS_ABS);
-        brightnessSlider.setWidth("200px");
+        brightnessSlider.setValue(INITIAL_BRIGHTNESS_DEFAULT);
+        brightnessSlider.setMaxValue(INITIAL_BRIGHTNESS_MAX);
+        brightnessSlider.setWidth(SLIDER_WIDTH + "px");
         settingsTable.setWidget(settingsRow, 1, brightnessSlider);
         brightnessLabel.setWidth("25px");
         settingsTable.setWidget(settingsRow, 2, brightnessLabel);
@@ -338,5 +343,15 @@ public class MainView extends Composite implements MainPresenter.Display {
      */
     public final Object getUrl() {
         return inputTextBox.getText();
+    }
+
+    @Override
+    public final int getInitialContrast() {
+        return INITIAL_CONTRAST_DEFAULT;
+    }
+
+    @Override
+    public final int getInitialBrightness() {
+        return INITIAL_BRIGHTNESS_DEFAULT;
     }
 }

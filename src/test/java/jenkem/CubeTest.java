@@ -102,14 +102,12 @@ public class CubeTest extends AbstractReflectionTestCase {
     public final void testColorCharBlack() throws Exception {
         for (final ColorScheme scheme : ColorScheme.values()) {
             final Object[] schemeParameter = {scheme};
-            final Object object = invokePrivateMethod(engine,
-                    "prepareColorMap", schemeParameter);
+            final Object object = invokePrivateMethod(engine, "prepareColorMap", schemeParameter);
             @SuppressWarnings("unchecked")
             final Map<String, Integer> colorMap = (Map<String, Integer>) object;
             for (final CharacterSet set : CharacterSet.values()) {
                 final int[] black = {0, 0, 0};
-                final String result = cube.getColorChar(colorMap, set, black,
-                        false);
+                final String result = cube.getColorChar(colorMap, set, black, false);
                 final String[] splitted = result.split(",");
                 final String backgroundAndChar = splitted[splitted.length - 1];
                 final String background = backgroundAndChar.substring(
@@ -123,18 +121,15 @@ public class CubeTest extends AbstractReflectionTestCase {
 
     public final void testColorCharRed() throws Exception {
         for (final ColorScheme scheme : ColorScheme.values()) {
-            if (!scheme.equals(ColorScheme.Bw)
-                    && !scheme.equals(ColorScheme.Bwg)) { // exclude schemes
-                                                          // without red
+            // exclude schemes without red
+            if (!scheme.equals(ColorScheme.Bw) && !scheme.equals(ColorScheme.Bwg)) {
                 final Object[] schemeParameter = {scheme};
-                final Object object = invokePrivateMethod(engine,
-                        "prepareColorMap", schemeParameter);
+                final Object object = invokePrivateMethod(engine, "prepareColorMap", schemeParameter);
                 @SuppressWarnings("unchecked")
                 final Map<String, Integer> colorMap = (Map<String, Integer>) object;
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] red = {255, 0, 0};
-                    final String result = cube.getColorChar(colorMap, set, red,
-                            false);
+                    final String result = cube.getColorChar(colorMap, set, red, false);
                     final String[] splitted = result.split(",");
                     final String backgroundAndChar = splitted[splitted.length - 1];
                     final String background =
@@ -150,12 +145,10 @@ public class CubeTest extends AbstractReflectionTestCase {
 
     public final void testColorCharYellow() throws Exception {
         for (final ColorScheme scheme : ColorScheme.values()) {
-            if (!scheme.equals(ColorScheme.Bw)
-                    && !scheme.equals(ColorScheme.Bwg)) { // exclude schemes
-                                                          // without yellow
+            // exclude schemes without yellow
+            if (!scheme.equals(ColorScheme.Bw) && !scheme.equals(ColorScheme.Bwg)) {
                 final Object[] schemeParameter = {scheme};
-                final Object object = invokePrivateMethod(engine,
-                        "prepareColorMap", schemeParameter);
+                final Object object = invokePrivateMethod(engine, "prepareColorMap", schemeParameter);
                 @SuppressWarnings("unchecked")
                 final Map<String, Integer> colorMap = (Map<String, Integer>) object;
                 for (final CharacterSet set : CharacterSet.values()) {
@@ -177,9 +170,10 @@ public class CubeTest extends AbstractReflectionTestCase {
 
     public final void testColorCharPurple() throws Exception {
         for (final ColorScheme scheme : ColorScheme.values()) {
+            // exclude schemes without purple
             if (!scheme.equals(ColorScheme.Bw)
                     && !scheme.equals(ColorScheme.Bwg)
-                    && !scheme.equals(ColorScheme.Mono)) { // exclude schemes without purple
+                    && !scheme.equals(ColorScheme.Mono)) {
                 final Object[] schemeParameter = {scheme};
                 final Object object = invokePrivateMethod(engine, "prepareColorMap", schemeParameter);
                 @SuppressWarnings("unchecked")
@@ -212,8 +206,7 @@ public class CubeTest extends AbstractReflectionTestCase {
                 final Map<String, Integer> colorMap = (Map<String, Integer>) object;
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] gray = {127, 127, 127};
-                    final String result = cube.getColorChar(colorMap, set,
-                            gray, false);
+                    final String result = cube.getColorChar(colorMap, set, gray, false);
                     final String[] splitted = result.split(",");
                     final String backgroundAndChar = splitted[splitted.length - 1];
                     final String background =

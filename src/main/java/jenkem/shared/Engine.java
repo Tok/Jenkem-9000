@@ -23,7 +23,7 @@ public class Engine {
     private Map<String, Integer> colorMap;
     private ImageData id;
     private CharacterSet preset;
-    private double contrast;
+    private int contrast;
     private int brightness;
 
     private int startX;
@@ -38,117 +38,63 @@ public class Engine {
     }
 
     /**
-     * Initializes Engine and starts Full-HD mode conversion. Prepares the
-     * colorMap, sets the variables and starts generating the first line of the
-     * output.
+     * Prepares Engine.
      * @param id the ImageData
-     * @param scheme the ColorScheme to use
      * @param preset the CharacterSet to use
      * @param contrast value will be multiplied with the rgb of each pixel
      * @param brightness value will be added to the rgb of each pixel
      */
-    public final void generateHighDef(final ImageData id,
-            final ColorScheme scheme, final CharacterSet preset,
-            final double contrast, final int brightness) {
-        this.colorMap = prepareColorMap(scheme);
+    public final void setParams(final ImageData id, final CharacterSet preset, final Kick kick,
+            final int contrast, final int brightness) {
         this.id = id;
         this.preset = preset;
         this.contrast = contrast;
         this.brightness = brightness;
-        generateHighDefLine(0); // start by triggering the conversion of the 1st
-                                // line
+        applyKicks(kick);
+    }
+
+    /**
+     * Initializes Engine and starts Full-HD mode conversion. Prepares the
+     * colorMap, sets the variables and starts generating the first line of the
+     * output.
+     */
+    public final void generateHighDef() {
+        generateHighDefLine(0); // start by triggering the conversion of the 1st line
     }
 
     /**
      * Initializes Engine and starts Super-Hybrid mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     * @param id the ImageData
-     * @param scheme the ColorScheme to use
-     * @param preset the CharacterSet to use
-     * @param contrast value will be multiplied with the rgb of each pixel
-     * @param brightness value will be added to the rgb of each pixel
-     * @param kick the selected Kick
      */
-    public final void generateSuperHybrid(final ImageData id,
-            final ColorScheme scheme, final CharacterSet preset,
-            final double contrast, final int brightness, final Kick kick) {
-        this.colorMap = prepareColorMap(scheme);
-        this.id = id;
-        this.preset = preset;
-        this.contrast = contrast;
-        this.brightness = brightness;
-        applyKicks(kick);
-        generateSuperHybridLine(0 + startY); // start by triggering the
-                                             // conversion of the 1st line
+    public final void generateSuperHybrid() {
+        generateSuperHybridLine(0 + startY); // start by triggering the conversion of the 1st line
     }
 
     /**
      * Initializes Engine and starts Hybrid mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     * @param id the ImageData
-     * @param scheme the ColorScheme to use
-     * @param preset the CharacterSet to use
-     * @param contrast value will be multiplied with the rgb of each pixel
-     * @param brightness value will be added to the rgb of each pixel
-     * @param kick the selected Kick
      */
-    public final void generateHybrid(final ImageData id,
-            final ColorScheme scheme, final CharacterSet preset,
-            final double contrast, final int brightness, final Kick kick) {
-        this.colorMap = prepareColorMap(scheme);
-        this.id = id;
-        this.preset = preset;
-        this.contrast = contrast;
-        this.brightness = brightness;
-        applyKicks(kick);
-        generateHybridLine(0 + startY); // start by triggering the conversion of
-                                        // the 1st line
+    public final void generateHybrid() {
+        generateHybridLine(0 + startY); // start by triggering the conversion of the 1st line
     }
 
     /**
      * Initializes Engine and starts Pwntari mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     * @param id the ImageData
-     * @param scheme the ColorScheme to use
-     * @param preset the CharacterSet to use
-     * @param contrast value will be multiplied with the rgb of each pixel
-     * @param brightness value will be added to the rgb of each pixel
-     * @param kick the selected Kick
      */
-    public final void generatePwntari(final ImageData id,
-            final ColorScheme scheme, final CharacterSet preset,
-            final double contrast, final int brightness, final Kick kick) {
-        this.colorMap = prepareColorMap(scheme);
-        this.id = id;
-        this.preset = preset;
-        this.contrast = contrast;
-        this.brightness = brightness;
-        applyKicks(kick);
-        generatePwntariLine(0 + startY); // start by triggering the conversion
-                                         // of the 1st line
+    public final void generatePwntari() {
+        generatePwntariLine(0 + startY); // start by triggering the conversion of the 1st line
     }
 
     /**
      * Initializes Engine and starts Plain mode conversion. Prepares the
      * colorMap, sets the variables and starts generating the first line of the
      * output.
-     * @param id the ImageData
-     * @param preset the CharacterSet to use
-     * @param contrast value will be multiplied with the rgb of each pixel
-     * @param brightness value will be added to the rgb of each pixel
-     * @param kick the selected Kick
      */
-    public final void generatePlain(final ImageData id,
-            final CharacterSet preset, final double contrast,
-            final int brightness, final Kick kick) {
-        this.id = id;
-        this.preset = preset;
-        this.contrast = contrast;
-        this.brightness = brightness;
-        applyKicks(kick);
+    public final void generatePlain() {
         generatePlainLine(0 + startY); // start by triggering the conversion of
                                        // the 1st line
     }
@@ -563,10 +509,13 @@ public class Engine {
         return result;
     }
 
+    public final void prepareScheme(final ColorScheme scheme) {
+        this.colorMap = prepareColorMap(scheme);
+    }
+
     /**
      * Prepares a Map with the Colors depending on the selected ColorScheme.
      * @param scheme the selected ColorScheme
-     * @return prepared Map
      */
     private Map<String, Integer> prepareColorMap(final ColorScheme scheme) {
         final Map<String, Integer> colorMap = new HashMap<String, Integer>();
@@ -588,7 +537,7 @@ public class Engine {
             } else if (scheme.equals(ColorScheme.Bw)) {
                 colorMap.put(ic.name(), ic.getBwScheme());
             } else {
-                colorMap.put(ic.name(), ic.getDefaultScheme());
+                throw new IllegalArgumentException("Unknown scheme.");
             }
         }
         return colorMap;

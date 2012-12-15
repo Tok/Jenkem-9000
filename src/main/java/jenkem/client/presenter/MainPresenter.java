@@ -8,11 +8,12 @@ import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.Kick;
-import jenkem.shared.data.JenkemImage;
+import jenkem.shared.color.Sample;
 import jenkem.shared.data.ImageCss;
 import jenkem.shared.data.ImageHtml;
 import jenkem.shared.data.ImageInfo;
 import jenkem.shared.data.ImageIrc;
+import jenkem.shared.data.JenkemImage;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
@@ -30,8 +31,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -62,32 +61,23 @@ import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHori
  * Presenter for the main view.
  */
 public class MainPresenter extends AbstractTabPresenter implements Presenter {
-    private static final double CONTRAST_DIVISOR = 100.0;
     private static final int TOTAL_PERCENT = 100;
-    private static final int INITIAL_BRIGHNESS = 100;
-    private static final int INITIAL_CONTRAST_FOR_PLAIN = 89;
-    private static final int INITIAL_CONTRAST = 59;
 
     private final JenkemServiceAsync jenkemService;
+    private final HtmlUtil htmlUtil = new HtmlUtil();
+    private final Engine engine;
+    private final Display display;
 
-    private Engine engine;
     private ConversionMethod method;
     private String[] ircOutput;
     private int lastIndex;
 
-    private final HtmlUtil htmlUtil = new HtmlUtil();
-
-    private final Display display;
-
     private final Image busyImage = new Image("/images/busy.gif");
-
     private Image image;
     private ImageElement currentImage;
     private String currentName;
-
     private static JenkemImage jenkemImage;
 
-    private boolean readyForSlider = false;
     private boolean isConversionRunnung = false;
 
     public interface Display {
@@ -111,6 +101,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         RadioButton getKickButton(Kick kick);
         Button getSubmitButton();
         Widget asWidget();
+        int getInitialContrast();
+        int getInitialBrightness();
     }
 
     /**
@@ -126,27 +118,25 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         super(eventBus, tabPanel);
         this.jenkemService = jenkemService;
         this.display = view;
+        this.engine = new Engine(this);
     }
 
     /**
      * Binds the elements from the view.
      */
     public final void bind() {
-        this.display.getInputTextBox().addKeyPressHandler(
-                new KeyPressHandler() {
-                    @Override
-                    public void onKeyPress(final KeyPressEvent event) {
-                        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-                            replaceUrl();
-                        }
-                    }
-                });
+        this.display.getInputTextBox().addKeyPressHandler(new KeyPressHandler() {
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+                if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+                    replaceUrl();
+                }
+            }});
         this.display.getShowButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
                 replaceUrl();
-            }
-        });
+            }});
         this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(final ChangeEvent event) {
@@ -162,102 +152,66 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 }
                 resetContrastAndBrightness();
                 replaceUrl();
-            }
-        });
+            }});
         this.display.getWidthListBox().addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(final ChangeEvent event) {
                 replaceUrl();
-            }
-        });
+            }});
         this.display.getSchemeListBox().addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(final ChangeEvent event) {
                 doConversion();
-            }
-        });
+            }});
         this.display.getPresetListBox().addChangeHandler(new ChangeHandler() {
             @Override
             public void onChange(final ChangeEvent event) {
                 doConversion();
-            }
-        });
+            }});
         this.display.getResetButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
                 doReset();
                 doConversion();
-            }
-        });
-        this.display.getContrastSlider().addMouseOverHandler(
-                new MouseOverHandler() {
-                    @Override
-                    public void onMouseOver(final MouseOverEvent event) {
-                        readyForSlider = true;
-                    }
-                });
-        this.display.getContrastSlider().addBarValueChangedHandler(
-                new BarValueChangedHandler() {
-                    @Override
-                    public void onBarValueChanged(
-                            final BarValueChangedEvent event) {
-                        if (readyForSlider) {
-                            updateContrast(event.getValue());
-                            doConversion();
-                            readyForSlider = false;
-                        }
-                    }
-                });
-        this.display.getBrightnessSlider().addMouseOverHandler(
-                new MouseOverHandler() {
-                    @Override
-                    public void onMouseOver(final MouseOverEvent event) {
-                        readyForSlider = true;
-                    }
-                });
-        this.display.getBrightnessSlider().addBarValueChangedHandler(
-                new BarValueChangedHandler() {
-                    @Override
-                    public void onBarValueChanged(
-                            final BarValueChangedEvent event) {
-                        if (readyForSlider) {
-                            updateBrightness(event.getValue());
-                            doConversion();
-                            readyForSlider = false;
-                        }
-                    }
-                });
+            }});
+        this.display.getContrastSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
+            @Override
+            public void onBarValueChanged(final BarValueChangedEvent event) {
+                updateContrast();
+                doConversion();
+            }});
+        this.display.getBrightnessSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
+            @Override
+            public void onBarValueChanged(final BarValueChangedEvent event) {
+                updateBrightness();
+                doConversion();
+            }});
         for (final Kick kick : Kick.values()) {
-            this.display.getKickButton(kick).addValueChangeHandler(
-                    new ValueChangeHandler<Boolean>() {
-                        @Override
-                        public void onValueChange(
-                                final ValueChangeEvent<Boolean> event) {
-                            if (event.getValue()) {
-                                doConversion();
-                            }
-                        }
-                    });
+            this.display.getKickButton(kick).addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+                @Override
+                public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                    if (event.getValue()) {
+                        doConversion();
+                    }
+                }});
         }
         this.display.getSubmitButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(final ClickEvent event) {
                 synchronized (this) {
                     display.getSubmitButton().setEnabled(false); //prevent double clicks
-                    jenkemService.saveJenkemImage(jenkemImage,
-                            new AsyncCallback<Void>() {
-                                @Override
-                                public void onFailure(final Throwable caught) {
-                                    handleSubmissionResult("Fail submitting conversion.");
-                                }
-                                @Override
-                                public void onSuccess(final Void result) {
-                                    handleSubmissionResult("Conversion submitted successfully.");
-                                }
-                            });
+                    jenkemService.saveJenkemImage(jenkemImage, new AsyncCallback<Void>() {
+                        @Override
+                        public void onFailure(final Throwable caught) {
+                            handleSubmissionResult("Fail submitting conversion.");
+                        }
+                        @Override
+                        public void onSuccess(final Void result) {
+                            handleSubmissionResult("Conversion submitted successfully.");
+                        }
+                    });
                 }
-            }
-        });
+            }});
     }
 
     /**
@@ -289,10 +243,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final String urlString = display.getInputTextBox().getText();
         final String proxifiedUrl = proxify(urlString);
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override
-            public void execute() {
-                doShow(proxifiedUrl);
-            }
+            @Override public void execute() { doShow(proxifiedUrl); }
         });
     }
 
@@ -305,11 +256,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private String proxify(final String urlString) {
         display.getStatusLabel().setText("Proxifying image.");
         updateImageName(urlString);
-        if (!"".equals(urlString)) {
-            return "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
-        } else {
-            return "";
-        }
+        return ("".equals(urlString)) ? "" : "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
     }
 
     /**
@@ -335,24 +282,20 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @param url to the image
      */
     private void doShow(final String url) {
-        if (!"".equals(url)) {
-            displayBusyIcon();
-        }
+        if (!"".equals(url)) { displayBusyIcon(); }
         image = new Image();
         image.addErrorHandler(new ErrorHandler() {
             @Override
             public void onError(final ErrorEvent event) {
                 display.getStatusLabel().setText("Proxifying this image failed.");
                 removeBusyIcon();
-            }
-        });
+            }});
         image.addLoadHandler(new LoadHandler() {
             @Override
             public void onLoad(final LoadEvent event) {
                 display.getStatusLabel().setText("Image loaded.");
                 doConversion();
-            }
-        });
+            }});
         image.setUrl(url);
         // Image must be added in order for load event to fire.
         image.setVisible(false);
@@ -372,8 +315,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 @Override
                 public void execute() {
                     doDeferredConversion();
-                }
-            });
+                }});
         }
     }
 
@@ -405,19 +347,18 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Processes the conversion.
      */
     private void doDeferredConversion() {
-        engine = new Engine(this);
         currentImage = ImageElement.as(image.getElement());
         method = getCurrentConversionMethod();
         final int width = getCurrentLineWidth();
         int height = 0;
         if (method.equals(ConversionMethod.FullHd)) {
             height = ((width / 2) * currentImage.getHeight()) / currentImage.getWidth();
-        } else { // Super-Hybrid, Hybrid, Plain and Pwntari
+        } else { //Super-Hybrid, Hybrid, Plain and Pwntari
             height = (width * currentImage.getHeight()) / currentImage.getWidth();
         }
         display.getCanvas().setWidth(String.valueOf(width) + "px");
         display.getCanvas().setHeight(String.valueOf(height) + "px");
-        display.getCanvas().getContext2d().fillRect(0, 0, width, height); // resets the canvas with black bg
+        display.getCanvas().getContext2d().fillRect(0, 0, width, height); //resets the canvas with black bg
         display.getCanvas().getContext2d().drawImage(currentImage, 0, 0, width, height);
 
         final ImageData id = display.getCanvas().getContext2d().getImageData(0, 0, width, height);
@@ -425,25 +366,27 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final ColorScheme scheme = ColorScheme.valueOf(schemeName);
         final String presetName = display.getPresetListBox().getItemText(display.getPresetListBox().getSelectedIndex());
         final CharacterSet preset = CharacterSet.valueOf(presetName);
-        final double contrast = Double.valueOf(display.getContrastLabel().getText());
+
+        final double sensitivity = Double.valueOf(Sample.HALF_RGB) / Double.valueOf(TOTAL_PERCENT);
+        final int contrast = (int) ((Integer.valueOf(display.getContrastLabel().getText()) * sensitivity) + Sample.HALF_RGB);
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
 
         lastIndex = id.getHeight();
+        engine.setParams(id, preset, getSelectedKick(), contrast, brightness);
+        if (!method.equals(ConversionMethod.Plain)) {
+            engine.prepareScheme(scheme);
+        }
+        ircOutput = new String[lastIndex];
         if (method.equals(ConversionMethod.FullHd)) {
-            ircOutput = new String[lastIndex];
-            engine.generateHighDef(id, scheme, preset, contrast, brightness);
+            engine.generateHighDef();
         } else if (method.equals(ConversionMethod.SuperHybrid)) {
-            ircOutput = new String[lastIndex];
-            engine.generateSuperHybrid(id, scheme, preset, contrast, brightness, getSelectedKick());
+            engine.generateSuperHybrid();
         } else if (method.equals(ConversionMethod.Pwntari)) {
-            ircOutput = new String[lastIndex];
-            engine.generatePwntari(id, scheme, preset, contrast, brightness, getSelectedKick());
+            engine.generatePwntari();
         } else if (method.equals(ConversionMethod.Hybrid)) {
-            ircOutput = new String[lastIndex];
-            engine.generateHybrid(id, scheme, preset, contrast, brightness, getSelectedKick());
+            engine.generateHybrid();
         } else if (method.equals(ConversionMethod.Plain)) {
-            ircOutput = new String[lastIndex];
-            engine.generatePlain(id, preset, contrast, brightness, getSelectedKick());
+            engine.generatePlain();
         }
     }
 
@@ -504,7 +447,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final Date now = new Date();
         final String[] htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, method);
 
-        // create and wrap image parts
+        //create and wrap image parts
         final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss");
         final ImageInfo jenkemImageInfo = new ImageInfo(
                 currentName, ircOutput.length, getCurrentLineWidth(), format.format(now));
@@ -513,12 +456,12 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final ImageIrc jenkemImageIrc = new ImageIrc(currentName, irc.toString());
         jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc);
 
-        // get HTML and CSS for inline element
+        //get HTML and CSS for inline element
         final String inlineCss = htmlUtil.prepareCssForInline(htmlAndCss[1]);
         final String inlineHtml = htmlUtil.prepareHtmlForInline(htmlAndCss[0], inlineCss);
         display.getPreviewHtml().setHTML(inlineHtml);
 
-        // prepare output for IRC
+        //prepare output for IRC
         final StringBuilder binaryOutput = new StringBuilder();
         for (final String line : ircOutput) {
             binaryOutput.append(line);
@@ -595,16 +538,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      */
     private void resetContrastAndBrightness() {
         method = getCurrentConversionMethod();
-        if (method.equals(ConversionMethod.FullHd)
-                || method.equals(ConversionMethod.Plain)) {
-            display.getContrastSlider().setValue(INITIAL_CONTRAST_FOR_PLAIN);
-            updateContrast(INITIAL_CONTRAST_FOR_PLAIN);
-        } else {
-            display.getContrastSlider().setValue(INITIAL_CONTRAST);
-            updateContrast(INITIAL_CONTRAST);
-        }
-        display.getBrightnessSlider().setValue(INITIAL_BRIGHNESS);
-        updateBrightness(INITIAL_BRIGHNESS);
+        display.getContrastSlider().setValue(display.getInitialContrast());
+        updateContrast();
+        display.getBrightnessSlider().setValue(display.getInitialBrightness());
+        updateBrightness();
     }
 
     /**
@@ -631,17 +568,17 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Updates the contrast with the provided value.
      * @param value
      */
-    private void updateContrast(final int value) {
-        final double contrast = (Double.valueOf(value) + 1) / CONTRAST_DIVISOR;
-        display.getContrastLabel().setText(String.valueOf(contrast));
+    private void updateContrast() {
+        final int value = display.getContrastSlider().getValue() - display.getInitialContrast();
+        display.getContrastLabel().setText(String.valueOf(value));
     }
 
     /**
      * Updates the brightness with the provided value.
      * @param value
      */
-    private void updateBrightness(final int value) {
-        final int brightness = value - INITIAL_BRIGHNESS;
-        display.getBrightnessLabel().setText(String.valueOf(brightness));
+    private void updateBrightness() {
+        final int value = display.getBrightnessSlider().getValue() - display.getInitialBrightness();
+        display.getBrightnessLabel().setText(String.valueOf(value));
     }
 }

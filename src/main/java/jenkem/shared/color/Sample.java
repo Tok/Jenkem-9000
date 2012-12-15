@@ -13,19 +13,12 @@ import com.google.gwt.canvas.dom.client.ImageData;
  */
 public final class Sample {
     private static final int MAP_CAPACITY = 12;
-    private static final int MAX_RGB = 255;
+    public static final int MAX_RGB = 255;
+    public static final int HALF_RGB = 127;
 
-    public enum Col {
-        RED, GREEN, BLUE;
-    }
-
-    public enum Ydir {
-        TOP, BOT;
-    }
-
-    public enum Xdir {
-        LEFT, RIGHT;
-    }
+    public enum Col { RED, GREEN, BLUE; }
+    public enum Ydir { TOP, BOT; }
+    public enum Xdir { LEFT, RIGHT; }
 
     private final Map<String, Integer> values = new HashMap<String, Integer>(MAP_CAPACITY);
 
@@ -52,12 +45,12 @@ public final class Sample {
     }
 
     public static Sample getInstance(final ImageData img, final int x,
-            final int y, final double contrast, final int brightness) {
+            final int y, final int contrast, final int brightness) {
         return new Sample(img, x, y, contrast, brightness);
     }
 
     private Sample(final ImageData img, final int x, final int y,
-            final double contrast, final int brightness) {
+            final int contrast, final int brightness) {
         for (final Col col : Col.values()) {
             values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.LEFT),
                     takeColor(img, col, x, y, contrast, brightness));
@@ -79,11 +72,7 @@ public final class Sample {
 
     public int get(final Col col, final Ydir yDir, final Xdir xDir) {
         final String key = SampleKey.getKey(col, yDir, xDir);
-        if (values.containsKey(key)) {
-            return values.get(key);
-        } else {
-            return 0;
-        }
+        return values.containsKey(key) ? values.get(key) : 0;
     }
 
     public int get(final Col col, final Xdir xDir) {
@@ -97,11 +86,7 @@ public final class Sample {
                 return values.get(firstKey) / 2;
             }
         } else {
-            if (values.containsKey(secondKey)) {
-                return values.get(secondKey) / 2;
-            } else {
-                return 0;
-            }
+            return values.containsKey(secondKey) ? (values.get(secondKey) / 2) : 0;
         }
     }
 
@@ -115,11 +100,7 @@ public final class Sample {
                 return values.get(firstKey) / 2;
             }
         } else {
-            if (values.containsKey(secondKey)) {
-                return values.get(secondKey) / 2;
-            } else {
-                return 0;
-            }
+            return values.containsKey(secondKey) ? (values.get(secondKey) / 2) : 0;
         }
     }
 
@@ -149,7 +130,7 @@ public final class Sample {
      * @return an int[] of size 3 with the values for red, green and blue.
      */
     public static int[] calculateRgb(final ImageData id, final int x,
-            final int y, final double contrast, final int brightness) {
+            final int y, final int contrast, final int brightness) {
         final int[] result = {
                 calculateColor(id.getRedAt(x, y), contrast, brightness),
                 calculateColor(id.getGreenAt(x, y), contrast, brightness),
@@ -158,7 +139,7 @@ public final class Sample {
     }
 
     private static int takeColor(final ImageData id, final Col col,
-            final int x, final int y, final double contrast,
+            final int x, final int y, final int contrast,
             final int brightness) {
         if (col.equals(Col.RED)) {
             return calculateColor(id.getRedAt(x, y), contrast, brightness);
@@ -178,9 +159,8 @@ public final class Sample {
      * @param brightness is added to the rgb value of the pixel
      * @return int the correted value
      */
-    private static int calculateColor(final int input, final double contrast,
-            final int brightness) {
-        return keepInRange((int) (input * contrast) + brightness);
+    private static int calculateColor(final int input, final int contrast, final int brightness) {
+        return keepInRange((int) (input * (Double.valueOf(HALF_RGB) / Double.valueOf(contrast))) + brightness);
     }
 
     /**
@@ -189,13 +169,7 @@ public final class Sample {
      * @return value of the provided colorComponent between 0 and 255
      */
     public static int keepInRange(final int colorComponent) {
-        if (colorComponent > MAX_RGB) {
-            return MAX_RGB;
-        } else if (colorComponent < 0) {
-            return 0;
-        } else {
-            return colorComponent;
-        }
+        return Math.max(0, Math.min(colorComponent, MAX_RGB));
     }
 
 }
