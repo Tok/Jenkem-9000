@@ -32,6 +32,7 @@
 		<mavenCoberturaPluginVersion>2.5.2</mavenCoberturaPluginVersion>
 		<mavenFindbugsPluginVersion>2.5.2</mavenFindbugsPluginVersion>
 		<mavenJavadocPluginVersion>2.9</mavenJavadocPluginVersion>
+		<mavenTaglistPluginVersion>2.4</mavenTaglistPluginVersion>
 		<mavenProjectInfoReportsPluginVersion>2.6</mavenProjectInfoReportsPluginVersion>
 		<mavenSitePluginVersion>3.2</mavenSitePluginVersion>
 		<!-- -->
@@ -191,7 +192,7 @@
 					<failOnError>true</failOnError>
 					<xmlOutput>true</xmlOutput>
 					<xmlOutputDirectory>${basedir}/target/site</xmlOutputDirectory>
-                    <effort>Max</effort> <!-- Min, Default and Max. -->
+					<effort>Max</effort> <!-- Min, Default and Max. -->
 					<threshold>Low</threshold> <!-- High, Default, Low, Ignore, Exp -->
 				</configuration>
 			</plugin>
@@ -227,7 +228,7 @@
 				<reportSets>
 					<reportSet>
 						<reports>
-							<report>index</report>
+                            <report>index</report>
 							<report>summary</report>
 							<report>dependency-info</report>
 							<report>dependencies</report>
@@ -240,6 +241,20 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>${mavenSitePluginVersion}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<version>${mavenTaglistPluginVersion}</version>
+				<configuration>
+					<aggregate>true</aggregate>
+					<tags>
+                        <tag>FIXME</tag>
+						<tag>TODO</tag>
+						<tag>XXX</tag>
+			            <tag>@deprecated</tag>
+					</tags>
+				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>
