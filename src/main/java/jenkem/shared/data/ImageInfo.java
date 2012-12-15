@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
  * Persistent info data for converted images.
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class ImageInfo extends AbstractImagePart implements Serializable {
+public class ImageInfo implements ImagePartIfc, Serializable {
     private static final long serialVersionUID = -2831420951898466391L;
 
     @PrimaryKey
@@ -19,11 +19,10 @@ public class ImageInfo extends AbstractImagePart implements Serializable {
     private Integer lineWidth;
     private String creation;
 
-    public ImageInfo() { super(null); }
+    public ImageInfo() { }
 
     public ImageInfo(final String name, final int lines,
             final int lineWidth, final String creation) {
-        super(name);
         this._id = name;
         this.name = name;
         this.lines = lines;
@@ -45,5 +44,10 @@ public class ImageInfo extends AbstractImagePart implements Serializable {
 
     public final Integer getLines() {
         return lines;
+    }
+
+    @Override
+    public final String toString() {
+        return name;
     }
 }

@@ -194,6 +194,7 @@
 					<xmlOutputDirectory>${basedir}/target/site</xmlOutputDirectory>
 					<effort>Max</effort> <!-- Min, Default and Max. -->
 					<threshold>Low</threshold> <!-- High, Default, Low, Ignore, Exp -->
+    				<excludeFilterFile>findbugs-excludes.xml</excludeFilterFile>
 				</configuration>
 			</plugin>
 			<plugin>

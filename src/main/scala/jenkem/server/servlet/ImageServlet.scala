@@ -21,8 +21,8 @@ class ImageServlet extends HttpServlet {
     synchronized {
       response.setContentType("image/jpeg")
       val urlString = request.getParameter("url")
-      val in: InputStream = new URL(urlString).openStream
-      val out: OutputStream = response.getOutputStream
+      @transient val in: InputStream = new URL(urlString).openStream
+      @transient val out: OutputStream = response.getOutputStream
       Iterator.continually(in.read).takeWhile(-1 !=).foreach(out.write)
       in.close
       out.close

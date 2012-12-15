@@ -1,0 +1,10 @@
+<FindBugsFilter>
+	<Match>
+		<!-- Exclude scala classes: -->
+		<Package name="~jenkem.server.*" />
+	</Match>
+	<Match>
+		<!-- Excludes jdo-enhanced classes: -->
+		<Package name="~jenkem.shared.data.*" />
+	</Match>
+</FindBugsFilter>

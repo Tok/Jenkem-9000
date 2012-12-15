@@ -9,18 +9,18 @@ import javax.jdo.annotations.PrimaryKey;
  * Persistent CSS data for converted images.
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class ImageCss extends AbstractImagePart implements Serializable {
+public class ImageCss implements ImagePartIfc, Serializable {
     private static final long serialVersionUID = 6300119792059722410L;
 
     @PrimaryKey
-    private String _id; //mongodb identifier
+    private String _id; // mongodb identifier
     private String name;
     private String css;
 
-    public ImageCss() { super(null); }
+    public ImageCss() {
+    }
 
     public ImageCss(final String name, final String css) {
-        super(name);
         this._id = name;
         this.name = name;
         this.css = css;
@@ -32,5 +32,10 @@ public class ImageCss extends AbstractImagePart implements Serializable {
 
     public final String getCss() {
         return css;
+    }
+
+    @Override
+    public final String toString() {
+        return name;
     }
 }

@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
  * Persistent HTML data for converted images.
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class ImageHtml extends AbstractImagePart implements Serializable {
+public class ImageHtml implements ImagePartIfc, Serializable {
     private static final long serialVersionUID = 7068931434659156682L;
 
     @PrimaryKey
@@ -17,10 +17,10 @@ public class ImageHtml extends AbstractImagePart implements Serializable {
     private String name;
     private String html;
 
-    public ImageHtml() { super(null); }
+    public ImageHtml() {
+    }
 
     public ImageHtml(final String name, final String html) {
-        super(name);
         this._id = name;
         this.name = name;
         this.html = html;
@@ -32,5 +32,10 @@ public class ImageHtml extends AbstractImagePart implements Serializable {
 
     public final String getHtml() {
         return html;
+    }
+
+    @Override
+    public final String toString() {
+        return name;
     }
 }

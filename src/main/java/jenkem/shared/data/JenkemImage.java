@@ -12,13 +12,13 @@ public class JenkemImage implements Serializable {
 
     public enum Part {
         INFO(ImageInfo.class), HTML(ImageHtml.class), CSS(ImageCss.class),  IRC(ImageIrc.class);
-        private Class<? extends AbstractImagePart> c;
-        private <T extends AbstractImagePart> Part(final Class<T> c) { this.c = c; }
-        public final Class<? extends AbstractImagePart> obtainClass() { return c; }
+        private Class<? extends ImagePartIfc> c;
+        private <T extends ImagePartIfc> Part(final Class<T> c) { this.c = c; }
+        public final Class<? extends ImagePartIfc> obtainClass() { return c; }
     }
 
     // TODO use diamond syntax when gwt supports it
-    private Map<Part, AbstractImagePart> components = new HashMap<Part, AbstractImagePart>();
+    private Map<Part, ImagePartIfc> components = new HashMap<Part, ImagePartIfc>();
 
     public JenkemImage() { }
     public JenkemImage(final ImageInfo info, final ImageHtml html,
@@ -29,7 +29,7 @@ public class JenkemImage implements Serializable {
         this.components.put(Part.IRC, irc);
     }
 
-    public final Map<Part, AbstractImagePart> getComponents() {
+    public final Map<Part, ImagePartIfc> getComponents() {
         return components;
     }
 
