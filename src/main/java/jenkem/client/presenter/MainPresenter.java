@@ -3,6 +3,7 @@ package jenkem.client.presenter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import jenkem.client.ClientAsciiEngine;
 import jenkem.client.event.SendToIrcEvent;
 import jenkem.client.event.SendToIrcEventHandler;
 import jenkem.client.service.JenkemServiceAsync;
@@ -10,7 +11,6 @@ import jenkem.client.widget.IrcConnector;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
-import jenkem.shared.Engine;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.Kick;
 import jenkem.shared.color.Sample;
@@ -45,6 +45,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
@@ -70,7 +71,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
     private final JenkemServiceAsync jenkemService;
     private final HtmlUtil htmlUtil = new HtmlUtil();
-    private final Engine engine;
+    private final ClientAsciiEngine engine;
     private final Display display;
 
     private ConversionMethod method;
@@ -83,6 +84,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private ImageElement currentImage;
     private String currentName;
     private static JenkemImage jenkemImage;
+    private List<HasEnabled> mayBeBusy = new ArrayList<HasEnabled>();
 
     private boolean isConversionRunnung = false;
 
@@ -125,7 +127,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         super(eventBus, tabPanel);
         this.jenkemService = jenkemService;
         this.display = view;
-        this.engine = new Engine(this);
+        this.engine = new ClientAsciiEngine(this);
+        mayBeBusy.add(display.getMethodListBox());
+        mayBeBusy.add(display.getWidthListBox());
+        mayBeBusy.add(display.getResetButton());
+        mayBeBusy.add(display.getSubmitButton());
     }
 
     /**
@@ -347,13 +353,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @return lineWidth
      */
     private int getCurrentLineWidth() {
-        final String widthString = display.getWidthListBox().getItemText(
-                display.getWidthListBox().getSelectedIndex());
-        int lineWidth = Integer.parseInt(widthString);
-        if (currentImage.getWidth() < lineWidth) {
-            lineWidth = currentImage.getWidth();
-        }
-        return lineWidth;
+      final String widthString = display.getWidthListBox().getItemText(
+              display.getWidthListBox().getSelectedIndex());
+      return Math.min(Integer.parseInt(widthString), currentImage.getWidth());
     }
 
     /**
@@ -363,12 +365,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         currentImage = ImageElement.as(image.getElement());
         method = getCurrentConversionMethod();
         final int width = getCurrentLineWidth();
-        int height = 0;
-        if (method.equals(ConversionMethod.FullHd)) {
-            height = ((width / 2) * currentImage.getHeight()) / currentImage.getWidth();
-        } else { //Super-Hybrid, Hybrid, Plain and Pwntari
-            height = (width * currentImage.getHeight()) / currentImage.getWidth();
-        }
+        final int divisor = method.hasKick() ? 1 : 2;
+        final int height = ((width / divisor) * currentImage.getHeight()) / currentImage.getWidth();
         display.getCanvas().setWidth(String.valueOf(width) + "px");
         display.getCanvas().setHeight(String.valueOf(height) + "px");
         display.getCanvas().getContext2d().fillRect(0, 0, width, height); //resets the canvas with black bg
@@ -390,17 +388,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             engine.prepareScheme(scheme);
         }
         ircOutput.clear();
-        if (method.equals(ConversionMethod.FullHd)) {
-            engine.generateHighDef();
-        } else if (method.equals(ConversionMethod.SuperHybrid)) {
-            engine.generateSuperHybrid();
-        } else if (method.equals(ConversionMethod.Pwntari)) {
-            engine.generatePwntari();
-        } else if (method.equals(ConversionMethod.Hybrid)) {
-            engine.generateHybrid();
-        } else if (method.equals(ConversionMethod.Plain)) {
-            engine.generatePlain();
-        }
+        engine.generate(method);
     }
 
     /**
@@ -428,18 +416,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 if (index >= lastIndex - 1) {
                     addOutput();
                 } else {
-                    //TODO make simple
-                    if (method.equals(ConversionMethod.FullHd)) {
-                        engine.generateHighDefLine(index + 1);
-                    } else if (method.equals(ConversionMethod.SuperHybrid)) {
-                        engine.generateSuperHybridLine(index + 2);
-                    } else if (method.equals(ConversionMethod.Pwntari)) {
-                        engine.generatePwntariLine(index + 2);
-                    } else if (method.equals(ConversionMethod.Hybrid)) {
-                        engine.generateHybridLine(index + 2);
-                    } else if (method.equals(ConversionMethod.Plain)) {
-                        engine.generatePlainLine(index + 2);
-                    }
+                    engine.generateLine(method, method.hasKick() ? index + 2 : index + 1);
                     updatePreview(ircOutput);
                 }
             }
@@ -490,12 +467,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private void displayBusyIcon() {
         display.getBusyPanel().clear();
         display.getBusyPanel().add(busyImage);
-        display.getMethodListBox().setEnabled(false);
-        display.getWidthListBox().setEnabled(false);
-        display.getResetButton().setEnabled(false);
+        for (final HasEnabled widget : mayBeBusy) {
+            widget.setEnabled(false);
+        }
         display.getSchemeListBox().setEnabled(false);
         display.getPresetListBox().setEnabled(false);
-        display.getSubmitButton().setEnabled(false);
         disableKicks();
     }
 
@@ -505,16 +481,15 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private void removeBusyIcon() {
         display.getBusyPanel().clear();
         display.getStatusLabel().setText("Enter URL to an image: ");
-        display.getMethodListBox().setEnabled(true);
-        display.getWidthListBox().setEnabled(true);
-        display.getResetButton().setEnabled(true);
+        for (final HasEnabled widget : mayBeBusy) {
+            widget.setEnabled(true);
+        }
         if (!method.equals(ConversionMethod.Plain)) {
             display.getSchemeListBox().setEnabled(true);
         }
         if (!method.equals(ConversionMethod.Pwntari)) {
             display.getPresetListBox().setEnabled(true);
         }
-        display.getSubmitButton().setEnabled(true);
         enableKicks();
     }
 

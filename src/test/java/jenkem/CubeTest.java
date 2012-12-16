@@ -15,7 +15,7 @@ public class CubeTest extends AbstractReflectionTestCase {
     private static final double SPACE_DIAGONAL_DISTANCE = 441.6729559300637;
 
     private final Cube cube = new Cube();
-    private final Engine engine = new Engine(null);
+    private final Engine engine = new Engine();
 
     public final void testSamePointDistance() throws Exception {
         final int[] from = {0, 0, 0};

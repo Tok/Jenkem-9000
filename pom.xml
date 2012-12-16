@@ -258,6 +258,7 @@
 						<tag>TODO</tag>
 						<tag>XXX</tag>
 						<tag>@deprecated</tag>
+						<tag>@SuppressWarnings</tag>
 					</tags>
 				</configuration>
 			</plugin>

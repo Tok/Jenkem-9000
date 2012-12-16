@@ -2,7 +2,6 @@ package jenkem.shared;
 
 import java.util.HashMap;
 import java.util.Map;
-import jenkem.client.presenter.MainPresenter;
 import jenkem.shared.color.Color;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.Cube;
@@ -16,13 +15,9 @@ import com.google.gwt.canvas.dom.client.ImageData;
 public class Engine {
     private static final int CENTER = 127;
 
-    private enum Mode { CLIENT, SERVER }
-    private final Mode mode; //TODO better solve this with inheritance
-
     private final Cube cube = new Cube();
     private final AsciiScheme asciiScheme = new AsciiScheme();
     private final ColorUtil colorUtil = new ColorUtil();
-    private final MainPresenter presenter;
 
     private Map<String, Integer> colorMap;
     private ImageData id;
@@ -33,23 +28,7 @@ public class Engine {
     private int startX;
     private int startY;
 
-    /**
-     * Public constructor for Client.
-     * @param presenter with a method to add converted lines.
-     */
-    public Engine(final MainPresenter presenter) {
-        mode = Mode.CLIENT;
-        this.presenter = presenter;
-    }
-
-    /**
-     * Public constructor for Server (Bot).
-     * @param presenter with a method to add converted lines.
-     */
-    public Engine() {
-        mode = Mode.SERVER;
-        this.presenter = null;
-    }
+    public Engine() { }
 
     /**
      * Prepares Engine.
@@ -65,52 +44,6 @@ public class Engine {
         this.contrast = contrast;
         this.brightness = brightness;
         applyKicks(kick);
-    }
-
-    /**
-     * Initializes Engine and starts Full-HD mode conversion. Prepares the
-     * colorMap, sets the variables and starts generating the first line of the
-     * output.
-     */
-    public final void generateHighDef() {
-        generateHighDefLine(0); // start by triggering the conversion of the 1st line
-    }
-
-    /**
-     * Initializes Engine and starts Super-Hybrid mode conversion. Prepares the
-     * colorMap, sets the variables and starts generating the first line of the
-     * output.
-     */
-    public final void generateSuperHybrid() {
-        generateSuperHybridLine(0 + startY); // start by triggering the conversion of the 1st line
-    }
-
-    /**
-     * Initializes Engine and starts Hybrid mode conversion. Prepares the
-     * colorMap, sets the variables and starts generating the first line of the
-     * output.
-     */
-    public final void generateHybrid() {
-        generateHybridLine(0 + startY); // start by triggering the conversion of the 1st line
-    }
-
-    /**
-     * Initializes Engine and starts Pwntari mode conversion. Prepares the
-     * colorMap, sets the variables and starts generating the first line of the
-     * output.
-     */
-    public final void generatePwntari() {
-        generatePwntariLine(0 + startY); // start by triggering the conversion of the 1st line
-    }
-
-    /**
-     * Initializes Engine and starts Plain mode conversion. Prepares the
-     * colorMap, sets the variables and starts generating the first line of the
-     * output.
-     */
-    public final void generatePlain() {
-        generatePlainLine(0 + startY); // start by triggering the conversion of
-                                       // the 1st line
     }
 
     /**
@@ -142,12 +75,7 @@ public class Engine {
             }
         }
         line.append(ColorUtil.CC); // closes the last CC in the line
-        if (mode.equals(Mode.CLIENT)) {
-            presenter.addIrcOutputLine(ColorUtil.makeBlocksValid(line.toString()), index);
-            return "";
-        } else {
-            return ColorUtil.makeBlocksValid(line.toString());
-        }
+        return ColorUtil.makeBlocksValid(line.toString());
     }
 
     /**
@@ -241,13 +169,7 @@ public class Engine {
             }
         }
         row.append(ColorUtil.CC);
-        final String result = colorUtil.postProcessColoredRow(row.toString());
-        if (mode.equals(Mode.CLIENT)) {
-            presenter.addIrcOutputLine(result, index);
-            return "";
-        } else {
-            return result;
-        }
+        return colorUtil.postProcessColoredRow(row.toString());
     }
 
     /**
@@ -368,12 +290,7 @@ public class Engine {
             }
         }
         line.append(ColorUtil.CC);
-        if (mode.equals(Mode.CLIENT)) {
-            presenter.addIrcOutputLine(colorUtil.postProcessColoredRow(line.toString()), index);
-            return "";
-        } else {
-            return colorUtil.postProcessColoredRow(line.toString());
-        }
+        return colorUtil.postProcessColoredRow(line.toString());
     }
 
     /**
@@ -414,12 +331,7 @@ public class Engine {
         }
         line.append(ColorUtil.CC);
         // postProcession is pointless for Pwntari mode.
-        if (mode.equals(Mode.CLIENT)) {
-            presenter.addIrcOutputLine(ColorUtil.makeBlocksValid(line.toString()), index);
-            return "";
-        } else {
-            return ColorUtil.makeBlocksValid(line.toString());
-        }
+        return ColorUtil.makeBlocksValid(line.toString());
     }
 
     /**
@@ -428,7 +340,7 @@ public class Engine {
      * @param index row of pixels in the ImageData to convert
      */
     public final String generatePlainLine(final int index) {
-        final StringBuilder row = new StringBuilder();
+        final StringBuilder line = new StringBuilder();
         for (int x = startX; x < id.getWidth() - 1; x = x + 2) {
             int topLeft = 0, bottomLeft = 0, topRight = 0, bottomRight = 0;
             topLeft = Sample.keepInRange((int) (getDarkFromImage(id, x, index) * contrast) + brightness);
@@ -483,15 +395,9 @@ public class Engine {
             if (charPixel.equals(" " + asciiScheme.getDarkestCharacter(preset))) {
                 charPixel = " " + asciiScheme.getVline();
             }
-            row.append(charPixel);
+            line.append(charPixel);
         }
-        final String result = asciiScheme.isPostProcessed() ? colorUtil.postProcessRow(row.toString()) : row.toString();
-        if (mode.equals(Mode.CLIENT)) {
-            presenter.addIrcOutputLine(result, index);
-            return "";
-        } else {
-            return colorUtil.postProcessRow(row.toString());
-        }
+        return colorUtil.postProcessRow(line.toString());
     }
 
     /**
@@ -599,5 +505,9 @@ public class Engine {
      */
     private int getKickedY(final Kick kick) {
         return (kick.equals(Kick.Y) || kick.equals(Kick.XY)) ? 1 : 0;
+    }
+
+    public final int getStartY() {
+        return startY;
     }
 }

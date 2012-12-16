@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse
  */
 @SerialVersionUID(-7777777777777777777L)
 class ImageServlet extends HttpServlet {
+
+  //TODO resize image here?
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
     synchronized {
       response.setContentType("image/jpeg")

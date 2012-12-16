@@ -4,7 +4,7 @@ import jenkem.shared.Engine;
 import jenkem.shared.Kick;
 
 public class EngineTest extends AbstractReflectionTestCase {
-    private final Engine engine = new Engine(null);
+    private final Engine engine = new Engine();
 
     public final void testNoKick() throws Exception {
         final Object[] parameters = {Kick.Off};

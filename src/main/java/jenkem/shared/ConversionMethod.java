@@ -4,16 +4,18 @@ package jenkem.shared;
  * Enum for different ASCII-conversion methods.
  */
 public enum ConversionMethod {
-    SuperHybrid("Super-Hybrid"),
-    FullHd("Full HD"),
-    Pwntari("Pwntari"),
-    Hybrid("Hybrid"),
-    Plain("Plain");
+    SuperHybrid("Super-Hybrid", true),
+    FullHd("Full HD", false),
+    Pwntari("Pwntari", true),
+    Hybrid("Hybrid", true),
+    Plain("Plain", true);
 
     private String name;
+    private boolean hasKick;
 
-    private ConversionMethod(final String name) {
+    private ConversionMethod(final String name, final boolean hasKick) {
         this.name = name;
+        this.hasKick = hasKick;
     }
 
     public static ConversionMethod getValueByName(final String name) {
@@ -22,11 +24,15 @@ public enum ConversionMethod {
                 return method;
             }
         }
-        return SuperHybrid;
+        throw new IllegalArgumentException("Unknown name for ConversionMethod.");
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean hasKick() {
+        return hasKick;
     }
 
     @Override

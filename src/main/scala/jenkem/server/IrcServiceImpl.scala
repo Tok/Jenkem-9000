@@ -12,7 +12,6 @@ class IrcServiceImpl extends RemoteServiceServlet with IrcService {
   val bot = new JenkemBot
 
   override def connect(network: String, port: Int, channel: String, nick: String): String = {
-    bot.setVerbose(true) //TODO remove
     bot.connectAndJoin(network, port, channel, nick)
   }
 

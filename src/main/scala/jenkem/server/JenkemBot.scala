@@ -1,13 +1,11 @@
 package jenkem.server
 
-import org.jibble.pircbot.PircBot
-import org.jibble.pircbot.NickAlreadyInUseException
 import java.io.IOException
+import java.lang.InterruptedException
+
 import org.jibble.pircbot.IrcException
-import java.util.HashMap
-import jenkem.shared.CharacterSet
-import jenkem.shared.ColorScheme
-import jenkem.shared.Engine
+import org.jibble.pircbot.NickAlreadyInUseException
+import org.jibble.pircbot.PircBot
 
 class JenkemBot extends PircBot {
   object Command extends Enumeration {
@@ -20,16 +18,21 @@ class JenkemBot extends PircBot {
     val DELAY = Value
   }
 
-  object Int { //extractor
-    def unapply(s : String) : Option[Int] = try {
+  object IntExtractor {
+    def unapply(s: String): Option[Int] = try {
       Some(s.toInt)
     } catch {
-      case _ : java.lang.NumberFormatException => None
+      case _: java.lang.NumberFormatException => None
     }
   }
 
+  object UrlExtractor {
+    def unapply(u: java.net.URL) = Some((
+      u.getProtocol, u.getHost, u.getPort, u.getPath))
+  }
+
   val log = new StringBuilder
-  val engine = new Engine
+  val engine = new ServerAsciiEngine
   var stopSwitch = false
 
   def Bot() {
@@ -87,9 +90,12 @@ class JenkemBot extends PircBot {
   }
 
   def changeConfig(sender: String, item: String, value: String) = {
-    ConfigItem.withName(item.toUpperCase) match {
-      case ConfigItem.DELAY => setMessageDelay(sender, value)
-      case _ => sendMessage(sender, "Config item unknown: " + item)
+    try {
+      ConfigItem.withName(item.toUpperCase) match {
+        case ConfigItem.DELAY => setMessageDelay(sender, value)
+      }
+    } catch {
+      case nsee: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
     }
   }
 
@@ -98,10 +104,10 @@ class JenkemBot extends PircBot {
     val max = 3000
     val between = " between " + min + " and " + max + "."
     value match {
-      case Int(v) if min to max contains v =>
+      case IntExtractor(v) if min to max contains v =>
         setMessageDelay(v)
         sendMessage(target, ConfigItem.DELAY + " set to " + v)
-      case Int(v) => sendMessage(target, ConfigItem.DELAY + " must be" + between)
+      case IntExtractor(v) => sendMessage(target, ConfigItem.DELAY + " must be" + between)
       case _ => sendMessage(target, ConfigItem.DELAY + " must be a numeric value" + between)
     }
   }
@@ -110,26 +116,40 @@ class JenkemBot extends PircBot {
     val m = message.split(" ")
     if (channel.equals(getChannels.head)) {
       if (m.head.equalsIgnoreCase("Jenkem") || m.head.equalsIgnoreCase(getLogin) || m.head.equalsIgnoreCase(getNick)) {
-        Command.withName(m.tail.head.toUpperCase) match {
-          case Command.GTFO => disconnect
-          case Command.QUIT => disconnect
-          case Command.STFU => stopSwitch = true
-          case Command.STOP => stopSwitch = true
-          case Command.HELP => showHelp(channel)
-          case Command.CONFIG => showConfig(channel)
-          case Command.SET => changeConfig(channel, m(2), m(3))
-          case _ => sendMessage(channel, "Command unknown: " + message)
+        try {
+          Command.withName(m.tail.head.toUpperCase) match {
+            case Command.GTFO => disconnect
+            case Command.QUIT => disconnect
+            case Command.STFU => stopSwitch = true
+            case Command.STOP => stopSwitch = true
+            case Command.HELP => showHelp(channel)
+            case Command.CONFIG => showConfig(channel)
+            case Command.SET => changeConfig(channel, m(2), m(3))
+          }
+        } catch {
+          case nsee: NoSuchElementException => convertAndPlay(channel, m.tail.head)
         }
       }
     }
   }
 
+  def convertAndPlay(channel: String, url: String) {
+    //TODO use channel
+    new java.net.URL(url) match {
+      case UrlExtractor(protocol, host, port, path) => playImage(engine.generate(url))
+      case _ => sendMessage(channel, "Command unknown: " + url)
+    }
+  }
+
   override def onPrivateMessage(sender: String, login: String, hostname: String, message: String) {
     val m = message.split(" ")
-    Command.withName(m.head.toUpperCase) match {
-      case Command.HELP => showHelp(sender)
-      case Command.CONFIG => showConfig(sender)
-      case _ => sendMessage(sender, "Command unknown: " + message)
+    try {
+      Command.withName(m.head.toUpperCase) match {
+        case Command.HELP => showHelp(sender)
+        case Command.CONFIG => showConfig(sender)
+      }
+    } catch {
+        case nsee: NoSuchElementException => sendMessage(sender, "Command unknown: " + message)
     }
   }
 
