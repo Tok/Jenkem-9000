@@ -15,6 +15,10 @@ import com.google.gwt.canvas.dom.client.ImageData;
  */
 public class Engine {
     private static final int CENTER = 127;
+
+    private enum Mode { CLIENT, SERVER }
+    private final Mode mode; //TODO better solve this with inheritance
+
     private final Cube cube = new Cube();
     private final AsciiScheme asciiScheme = new AsciiScheme();
     private final ColorUtil colorUtil = new ColorUtil();
@@ -30,11 +34,21 @@ public class Engine {
     private int startY;
 
     /**
-     * Public constructor.
+     * Public constructor for Client.
      * @param presenter with a method to add converted lines.
      */
     public Engine(final MainPresenter presenter) {
+        mode = Mode.CLIENT;
         this.presenter = presenter;
+    }
+
+    /**
+     * Public constructor for Server (Bot).
+     * @param presenter with a method to add converted lines.
+     */
+    public Engine() {
+        mode = Mode.SERVER;
+        this.presenter = null;
     }
 
     /**
@@ -104,7 +118,7 @@ public class Engine {
      * recall this method again with an increased y until all data is converted.
      * @param index row of pixels in the ImageData to convert
      */
-    public final void generateHighDefLine(final int index) {
+    public final String generateHighDefLine(final int index) {
         final StringBuilder line = new StringBuilder();
         String oldPix;
         String newPix = null;
@@ -128,7 +142,12 @@ public class Engine {
             }
         }
         line.append(ColorUtil.CC); // closes the last CC in the line
-        presenter.addIrcOutputLine(line.toString(), index);
+        if (mode.equals(Mode.CLIENT)) {
+            presenter.addIrcOutputLine(ColorUtil.makeBlocksValid(line.toString()), index);
+            return "";
+        } else {
+            return ColorUtil.makeBlocksValid(line.toString());
+        }
     }
 
     /**
@@ -137,7 +156,7 @@ public class Engine {
      * converted.
      * @param index row of pixels in the ImageData to convert
      */
-    public final void generateSuperHybridLine(final int index) {
+    public final String generateSuperHybridLine(final int index) {
         final StringBuilder row = new StringBuilder();
         String oldLeft;
         String newLeft = null;
@@ -223,7 +242,12 @@ public class Engine {
         }
         row.append(ColorUtil.CC);
         final String result = colorUtil.postProcessColoredRow(row.toString());
-        presenter.addIrcOutputLine(result, index);
+        if (mode.equals(Mode.CLIENT)) {
+            presenter.addIrcOutputLine(result, index);
+            return "";
+        } else {
+            return result;
+        }
     }
 
     /**
@@ -231,8 +255,8 @@ public class Engine {
      * recall this method again with an increased y until all data is converted.
      * @param index row of pixels in the ImageData to convert
      */
-    public final void generateHybridLine(final int index) {
-        final StringBuilder row = new StringBuilder();
+    public final String generateHybridLine(final int index) {
+        final StringBuilder line = new StringBuilder();
         String oldLeft;
         String newLeft = null;
         String newRight = null;
@@ -326,25 +350,30 @@ public class Engine {
             if (newLeft.equals(oldLeft)) {
                 final String charOnly = newLeft.substring(newLeft.length() - 1,
                         newLeft.length());
-                row.append(charOnly);
+                line.append(charOnly);
             } else {
-                if (row.length() > 0) {
-                    row.append(ColorUtil.CC);
+                if (line.length() > 0) {
+                    line.append(ColorUtil.CC);
                 }
-                row.append(ColorUtil.CC);
-                row.append(newLeft);
+                line.append(ColorUtil.CC);
+                line.append(newLeft);
             }
             if (newRight.equals(newLeft)) {
                 final String charOnly = newRight.substring(
                         newRight.length() - 1, newRight.length());
-                row.append(charOnly);
+                line.append(charOnly);
             } else {
-                row.append(ColorUtil.CC);
-                row.append(newRight);
+                line.append(ColorUtil.CC);
+                line.append(newRight);
             }
         }
-        row.append(ColorUtil.CC);
-        presenter.addIrcOutputLine(colorUtil.postProcessColoredRow(row.toString()), index);
+        line.append(ColorUtil.CC);
+        if (mode.equals(Mode.CLIENT)) {
+            presenter.addIrcOutputLine(colorUtil.postProcessColoredRow(line.toString()), index);
+            return "";
+        } else {
+            return colorUtil.postProcessColoredRow(line.toString());
+        }
     }
 
     /**
@@ -352,8 +381,8 @@ public class Engine {
      * recall this method again with an increased y until all data is converted.
      * @param index row of pixels in the ImageData to convert
      */
-    public final void generatePwntariLine(final int index) {
-        final StringBuilder row = new StringBuilder();
+    public final String generatePwntariLine(final int index) {
+        final StringBuilder line = new StringBuilder();
         String oldLeft;
         String newLeft = null;
         String newRight = null;
@@ -366,26 +395,31 @@ public class Engine {
             newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
             if (newLeft.equals(oldLeft)) {
                 final String charOnly = newLeft.substring(newLeft.length() - 1, newLeft.length());
-                row.append(charOnly);
+                line.append(charOnly);
             } else {
-                if (row.length() > 0) {
-                    row.append(ColorUtil.CC);
+                if (line.length() > 0) {
+                    line.append(ColorUtil.CC);
                 }
-                row.append(ColorUtil.CC);
-                row.append(newLeft);
+                line.append(ColorUtil.CC);
+                line.append(newLeft);
             }
             if (newRight.equals(newLeft)) {
                 final String charOnly = newRight.substring(
                         newRight.length() - 1, newRight.length());
-                row.append(charOnly);
+                line.append(charOnly);
             } else {
-                row.append(ColorUtil.CC);
-                row.append(newRight);
+                line.append(ColorUtil.CC);
+                line.append(newRight);
             }
         }
-        row.append(ColorUtil.CC);
+        line.append(ColorUtil.CC);
         // postProcession is pointless for Pwntari mode.
-        presenter.addIrcOutputLine(row.toString(), index);
+        if (mode.equals(Mode.CLIENT)) {
+            presenter.addIrcOutputLine(ColorUtil.makeBlocksValid(line.toString()), index);
+            return "";
+        } else {
+            return ColorUtil.makeBlocksValid(line.toString());
+        }
     }
 
     /**
@@ -393,7 +427,7 @@ public class Engine {
      * recall this method again with an increased y until all data is converted.
      * @param index row of pixels in the ImageData to convert
      */
-    public final void generatePlainLine(final int index) {
+    public final String generatePlainLine(final int index) {
         final StringBuilder row = new StringBuilder();
         for (int x = startX; x < id.getWidth() - 1; x = x + 2) {
             int topLeft = 0, bottomLeft = 0, topRight = 0, bottomRight = 0;
@@ -451,10 +485,12 @@ public class Engine {
             }
             row.append(charPixel);
         }
-        if (asciiScheme.isPostProcessed()) {
-            presenter.addIrcOutputLine(colorUtil.postProcessRow(row.toString()), index);
+        final String result = asciiScheme.isPostProcessed() ? colorUtil.postProcessRow(row.toString()) : row.toString();
+        if (mode.equals(Mode.CLIENT)) {
+            presenter.addIrcOutputLine(result, index);
+            return "";
         } else {
-            presenter.addIrcOutputLine(row.toString(), index);
+            return colorUtil.postProcessRow(row.toString());
         }
     }
 
@@ -496,25 +532,7 @@ public class Engine {
     private Map<String, Integer> prepareColorMap(final ColorScheme scheme) {
         final Map<String, Integer> colorMap = new HashMap<String, Integer>();
         for (final IrcColor ic : IrcColor.values()) {
-            if (scheme.equals(ColorScheme.Default)) {
-                colorMap.put(ic.name(), ic.getDefaultScheme());
-            } else if (scheme.equals(ColorScheme.Old)) {
-                colorMap.put(ic.name(), ic.getOldScheme());
-            } else if (scheme.equals(ColorScheme.Vivid)) {
-                colorMap.put(ic.name(), ic.getVividScheme());
-            } else if (scheme.equals(ColorScheme.Mono)) {
-                colorMap.put(ic.name(), ic.getMonoScheme());
-            } else if (scheme.equals(ColorScheme.Lsd)) {
-                colorMap.put(ic.name(), ic.getLsdScheme());
-            } else if (scheme.equals(ColorScheme.Skin)) {
-                colorMap.put(ic.name(), ic.getSkinScheme());
-            } else if (scheme.equals(ColorScheme.Bwg)) {
-                colorMap.put(ic.name(), ic.getBwgScheme());
-            } else if (scheme.equals(ColorScheme.Bw)) {
-                colorMap.put(ic.name(), ic.getBwScheme());
-            } else {
-                throw new IllegalArgumentException("Unknown scheme.");
-            }
+            colorMap.put(ic.name(), ic.getOrder(scheme));
         }
         return colorMap;
     }

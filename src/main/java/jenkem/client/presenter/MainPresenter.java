@@ -428,6 +428,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 if (index >= lastIndex - 1) {
                     addOutput();
                 } else {
+                    //TODO make simple
                     if (method.equals(ConversionMethod.FullHd)) {
                         engine.generateHighDefLine(index + 1);
                     } else if (method.equals(ConversionMethod.SuperHybrid)) {

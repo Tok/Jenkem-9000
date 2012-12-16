@@ -1,5 +1,7 @@
 package jenkem.shared.color;
 
+import java.util.HashMap;
+import java.util.Map;
 import jenkem.shared.ColorScheme;
 
 /**
@@ -28,28 +30,16 @@ public enum IrcColor {
     private int[] rgb;
     private boolean isDark; // color looks better on white background if true
 
-    private Integer defaultScheme;
-    private Integer oldScheme;
-    private Integer vividScheme;
-    private Integer monoScheme;
-    private Integer lsdScheme;
-    private Integer skinScheme;
-    private Integer bwgScheme;
-    private Integer bwScheme;
+    private Map<ColorScheme, Integer> orders = new HashMap<ColorScheme, Integer>();
 
     private IrcColor(final Integer value, final int[] rgb,
             final boolean isDark, final int[] scheme) {
         this.setValue(value);
         this.setRgb(rgb);
         this.setDark(isDark);
-        this.setDefaultScheme(scheme[ColorScheme.Default.getOrder()]);
-        this.setOldScheme(ColorScheme.Old.getOrder());
-        this.setVividScheme(ColorScheme.Vivid.getOrder());
-        this.setMonoScheme(ColorScheme.Mono.getOrder());
-        this.setLsdScheme(ColorScheme.Lsd.getOrder());
-        this.setSkinScheme(ColorScheme.Skin.getOrder());
-        this.setBwgScheme(ColorScheme.Bwg.getOrder());
-        this.setBwScheme(ColorScheme.Bw.getOrder());
+        for (ColorScheme cs : ColorScheme.values()) {
+            orders.put(cs, scheme[cs.getOrder()]);
+        }
     }
 
     public void setRgb(final int[] rgb) {
@@ -68,68 +58,12 @@ public enum IrcColor {
         return value;
     }
 
-    public void setDefaultScheme(final Integer defaultScheme) {
-        this.defaultScheme = defaultScheme;
+    public void setOrder(final ColorScheme cs, final Integer order) {
+        orders.put(cs, order);
     }
 
-    public Integer getDefaultScheme() {
-        return defaultScheme;
-    }
-
-    public Integer getOldScheme() {
-        return oldScheme;
-    }
-
-    public void setOldScheme(final Integer oldScheme) {
-        this.oldScheme = oldScheme;
-    }
-
-    public Integer getVividScheme() {
-        return vividScheme;
-    }
-
-    public void setVividScheme(final Integer vividScheme) {
-        this.vividScheme = vividScheme;
-    }
-
-    public Integer getMonoScheme() {
-        return monoScheme;
-    }
-
-    public void setMonoScheme(final Integer monoScheme) {
-        this.monoScheme = monoScheme;
-    }
-
-    public Integer getLsdScheme() {
-        return lsdScheme;
-    }
-
-    public void setLsdScheme(final Integer lsdScheme) {
-        this.lsdScheme = lsdScheme;
-    }
-
-    public Integer getSkinScheme() {
-        return skinScheme;
-    }
-
-    public void setSkinScheme(final Integer skinScheme) {
-        this.skinScheme = skinScheme;
-    }
-
-    public Integer getBwgScheme() {
-        return bwgScheme;
-    }
-
-    public void setBwgScheme(final Integer bwgScheme) {
-        this.bwgScheme = bwgScheme;
-    }
-
-    public Integer getBwScheme() {
-        return bwScheme;
-    }
-
-    public void setBwScheme(final Integer bwScheme) {
-        this.bwScheme = bwScheme;
+    public Integer getOrder(final ColorScheme cs) {
+        return orders.get(cs);
     }
 
     public boolean isDark() {

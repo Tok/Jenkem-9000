@@ -5,11 +5,14 @@ import org.jibble.pircbot.NickAlreadyInUseException
 import java.io.IOException
 import org.jibble.pircbot.IrcException
 import java.util.HashMap
+import jenkem.shared.CharacterSet
+import jenkem.shared.ColorScheme
+import jenkem.shared.Engine
 
 class JenkemBot extends PircBot {
   object Command extends Enumeration {
     type Command = Value
-    val GTFO, QUIT, HELP, CONFIG, SET = Value
+    val GTFO, QUIT, STFU, STOP, HELP, CONFIG, ASCII, COLORS, SET = Value
   }
 
   object ConfigItem extends Enumeration {
@@ -26,11 +29,13 @@ class JenkemBot extends PircBot {
   }
 
   val log = new StringBuilder
+  val engine = new Engine
+  var stopSwitch = false
 
   def Bot() {
     super.setEncoding("UTF-8")
     super.setLogin("jenkem")
-    super.setVersion("Jenkem 9000")
+    super.setVersion("Jenkem-9000")
     super.setAutoNickChange(false)
     super.setMessageDelay(1000)
   }
@@ -108,6 +113,8 @@ class JenkemBot extends PircBot {
         Command.withName(m.tail.head.toUpperCase) match {
           case Command.GTFO => disconnect
           case Command.QUIT => disconnect
+          case Command.STFU => stopSwitch = true
+          case Command.STOP => stopSwitch = true
           case Command.HELP => showHelp(channel)
           case Command.CONFIG => showConfig(channel)
           case Command.SET => changeConfig(channel, m(2), m(3))
@@ -162,7 +169,8 @@ class JenkemBot extends PircBot {
           } catch {
             case ie: InterruptedException => sendRawLine(sendMe + ie.getMessage)
           }
-          sendImageLine(image.tail)
+          if (!stopSwitch) { sendImageLine(image.tail) }
+          else { stopSwitch = false }
         }
       }
     }
