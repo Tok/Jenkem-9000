@@ -32,7 +32,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     private HasWidgets container;
 
     private final TabPanel tabPanel = new TabPanel();
-    private final MainView mainView = new MainView();
+    private final MainView mainView = new MainView(eventBus);
     private final GalleryView galleryView = new GalleryView();
     private final InfoView infoView = new InfoView();
 

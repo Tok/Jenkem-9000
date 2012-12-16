@@ -34,7 +34,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ircService</servlet-name>
-        <url-pattern>/jenkem/irc</url-pattern>
+        <url-pattern>/jenkem/ircService</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>outputServlet</servlet-name>

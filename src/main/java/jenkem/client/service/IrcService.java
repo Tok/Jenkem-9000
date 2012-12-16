@@ -1,13 +1,17 @@
 package jenkem.client.service;
 
+import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * Interface for the service to store and read converted images.
  */
-@RemoteServiceRelativePath("irc")
+@RemoteServiceRelativePath("ircService")
 public interface IrcService extends RemoteService {
-    @Deprecated
-    String sendMessage(final String network, final String channel, final String message);
+    String connect(final String network, final int port, final String channel, final String nick);
+    String disconnect();
+    boolean isBotConnected();
+    String getLog();
+    String sendMessage(final List<String> message);
 }

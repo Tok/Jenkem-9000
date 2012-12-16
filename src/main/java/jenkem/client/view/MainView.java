@@ -2,16 +2,16 @@ package jenkem.client.view;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.ExtendedTextBox;
+import jenkem.client.widget.IrcConnector;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Kick;
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -52,6 +52,7 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final Panel previewPanel = new VerticalPanel();
     private final InlineHTML inline = new InlineHTML();
     private final TextArea ircText = new TextArea();
+    private final IrcConnector ircConnector;
     private final ListBox methodListBox = new ListBox();
     private final ListBox widthListBox = new ListBox();
     private final ListBox schemeListBox = new ListBox();
@@ -62,13 +63,15 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final SliderBarSimpleHorizontal brightnessSlider = new SliderBarSimpleHorizontal(100, "100px", false);
     private final Label brightnessLabel = new Label();
     private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
-    private final Button submitButton = new Button("Submit");
+    private final Button submitButton = new Button("Submit to Gallery");
     private final FlexTable contentTable;
 
     /**
      * Default constructor.
      */
-    public MainView() {
+    public MainView(final HandlerManager eventBus) {
+        ircConnector = new IrcConnector(eventBus);
+
         final String link = com.google.gwt.user.client.Window.Location.getParameter("link");
 
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
@@ -98,8 +101,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 
         final FlexTable flex = new FlexTable();
         flex.setWidget(0, 0, previewPanel);
-        flex.getFlexCellFormatter().setVerticalAlignment(0, 0,
-                HasVerticalAlignment.ALIGN_TOP);
+        flex.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
         flex.getFlexCellFormatter().setWidth(0, 0, "600px");
 
         int settingsRow = 0;
@@ -198,18 +200,22 @@ public class MainView extends Composite implements MainPresenter.Display {
         ircText.setWidth("393px");
         settingsTable.setWidget(settingsRow, 0, ircText);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 0, 3);
+        settingsRow++;
+
+        settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
+        settingsRow++;
+        settingsTable.setWidget(settingsRow, 0, ircConnector);
+        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 0, 3);
 
         settingsTable.getFlexCellFormatter().setWidth(0, 0, "170px");
         settingsTable.getFlexCellFormatter().setWidth(1, 0, "400px");
         settingsTable.getFlexCellFormatter().setWidth(2, 0, "50px");
 
         flex.setWidget(0, 1, settingsTable);
-        flex.getFlexCellFormatter().setVerticalAlignment(0, 1,
-                HasVerticalAlignment.ALIGN_TOP);
+        flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
         flex.getFlexCellFormatter().setWidth(0, 1, "450px");
 
         contentTable.setWidget(row++, 0, flex);
-
         contentTableDecorator.add(contentTable);
     }
 
@@ -321,6 +327,11 @@ public class MainView extends Composite implements MainPresenter.Display {
     @Override
     public final TextArea getIrcTextArea() {
         return ircText;
+    }
+
+    @Override
+    public final IrcConnector getIrcConnector() {
+        return ircConnector;
     }
 
     @Override

@@ -3,7 +3,10 @@ package jenkem.client.presenter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import jenkem.client.event.SendToIrcEvent;
+import jenkem.client.event.SendToIrcEventHandler;
 import jenkem.client.service.JenkemServiceAsync;
+import jenkem.client.widget.IrcConnector;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
@@ -92,6 +95,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         Canvas getCanvas();
         InlineHTML getPreviewHtml();
         TextArea getIrcTextArea();
+        IrcConnector getIrcConnector();
         ListBox getMethodListBox();
         ListBox getWidthListBox();
         ListBox getSchemeListBox();
@@ -128,6 +132,12 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Binds the elements from the view.
      */
     public final void bind() {
+        getEventBus().addHandler(SendToIrcEvent.TYPE, new SendToIrcEventHandler() {
+            @Override
+            public void onSend(final SendToIrcEvent event) {
+                display.getIrcConnector().sendMessage(ircOutput);
+            }
+        });
         this.display.getInputTextBox().addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(final KeyPressEvent event) {

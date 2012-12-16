@@ -12,6 +12,7 @@
 		<scalaVersion>2.9.2</scalaVersion>
 		<javaVersion>1.6</javaVersion><!-- not used by gwt plugin -->
 		<gwtVersion>2.5.0</gwtVersion>
+		<pircbotVersion>1.5.0</pircbotVersion>
 		<datanucleusVersion>3.2.0-m1</datanucleusVersion>
 		<datanucleusEnhancerVersion>3.1.1</datanucleusEnhancerVersion>
 		<junitVersion>4.10</junitVersion>
@@ -90,6 +91,11 @@
 			<groupId>org.scala-tools</groupId>
 			<artifactId>maven-scala-plugin</artifactId>
 			<version>${mavenScalaPluginVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>pircbot</groupId>
+			<artifactId>pircbot</artifactId>
+			<version>${pircbotVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -192,7 +198,7 @@
 					<failOnError>true</failOnError>
 					<effort>Max</effort> <!-- Min, Default and Max. -->
 					<threshold>Low</threshold> <!-- High, Default, Low, Ignore, Exp -->
-    				<excludeFilterFile>findbugs-excludes.xml</excludeFilterFile>
+					<excludeFilterFile>findbugs-excludes.xml</excludeFilterFile>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -227,7 +233,7 @@
 				<reportSets>
 					<reportSet>
 						<reports>
-                            <report>index</report>
+							<report>index</report>
 							<report>summary</report>
 							<report>dependency-info</report>
 							<report>dependencies</report>
@@ -248,10 +254,10 @@
 				<configuration>
 					<aggregate>true</aggregate>
 					<tags>
-                        <tag>FIXME</tag>
+						<tag>FIXME</tag>
 						<tag>TODO</tag>
 						<tag>XXX</tag>
-			            <tag>@deprecated</tag>
+						<tag>@deprecated</tag>
 					</tags>
 				</configuration>
 			</plugin>
