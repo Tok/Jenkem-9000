@@ -157,6 +157,18 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.IrcServiceImpl#bot" data-isabs="false">
+      <a id="bot:JenkemBot"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bot</span><span class="result">: <a name="jenkem.server.JenkemBot" class="extype" href="JenkemBot.html">JenkemBot</a></span>
+      </span>
+      </h4>
+      
     </li><li visbl="prt" name="com.google.gwt.user.server.rpc.RemoteServiceServlet#checkPermutationStrongName" data-isabs="false">
       <a id="checkPermutationStrongName():Unit"></a>
       <h4 class="signature">
@@ -187,6 +199,18 @@
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.IrcServiceImpl#connect" data-isabs="false">
+      <a id="connect(String,Int,String,String):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">connect</span><span class="params">(<span name="network">network: String</span>, <span name="port">port: <span name="scala.Int" class="extype">Int</span></span>, <span name="channel">channel: String</span>, <span name="nick">nick: String</span>)</span><span class="result">: String</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="jenkem.server.IrcServiceImpl" class="extype" href="">IrcServiceImpl</a> → <a name="jenkem.client.service.IrcService" class="extype" href="../client/service/IrcService.html">IrcService</a></dd></dl></div>
     </li><li visbl="pub" name="javax.servlet.GenericServlet#destroy" data-isabs="false">
       <a id="destroy():Unit"></a>
       <h4 class="signature">
@@ -199,6 +223,18 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>GenericServlet → Servlet</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.IrcServiceImpl#disconnect" data-isabs="false">
+      <a id="disconnect():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">disconnect</span><span class="params">()</span><span class="result">: String</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="jenkem.server.IrcServiceImpl" class="extype" href="">IrcServiceImpl</a> → <a name="jenkem.client.service.IrcService" class="extype" href="../client/service/IrcService.html">IrcService</a></dd></dl></div>
     </li><li visbl="prt" name="javax.servlet.http.HttpServlet#doDelete" data-isabs="false">
       <a id="doDelete(HttpServletRequest,HttpServletResponse):Unit"></a>
       <h4 class="signature">
@@ -424,6 +460,18 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="javax.servlet.http" class="extype" href="../../javax/servlet/http/package.html">http</a>] </dd><dt>Definition Classes</dt><dd>HttpServlet</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.IrcServiceImpl#getLog" data-isabs="false">
+      <a id="getLog():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLog</span><span class="params">()</span><span class="result">: String</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="jenkem.server.IrcServiceImpl" class="extype" href="">IrcServiceImpl</a> → <a name="jenkem.client.service.IrcService" class="extype" href="../client/service/IrcService.html">IrcService</a></dd></dl></div>
     </li><li visbl="prt" name="com.google.gwt.user.server.rpc.AbstractRemoteServiceServlet#getPermutationStrongName" data-isabs="false">
       <a id="getPermutationStrongName():String"></a>
       <h4 class="signature">
@@ -562,6 +610,18 @@
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.IrcServiceImpl#isBotConnected" data-isabs="false">
+      <a id="isBotConnected():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isBotConnected</span><span class="params">()</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="jenkem.server.IrcServiceImpl" class="extype" href="">IrcServiceImpl</a> → <a name="jenkem.client.service.IrcService" class="extype" href="../client/service/IrcService.html">IrcService</a></dd></dl></div>
     </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <h4 class="signature">
@@ -722,14 +782,14 @@
               
         </dd></dl></div>
     </li><li visbl="pub" name="jenkem.server.IrcServiceImpl#sendMessage" data-isabs="false">
-      <a id="sendMessage(String,String,String):String"></a>
+      <a id="sendMessage(List[String]):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sendMessage</span><span class="params">(<span name="network">network: String</span>, <span name="channel">channel: String</span>, <span name="message">message: String</span>)</span><span class="result">: String</span>
+        <span class="name">sendMessage</span><span class="params">(<span name="image">image: <span name="java.util.List" class="extype">List</span>[String]</span>)</span><span class="result">: String</span>
       </span>
       </h4>
       <p class="shortcomment cmt">Saves a converted JenkemImage.</p><div class="fullcomment"><div class="comment cmt"><p>Saves a converted JenkemImage.

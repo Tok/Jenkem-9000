@@ -8,7 +8,7 @@
     <language>en-us</language>
     <copyright>&#169;2012</copyright>
     <item>
-      <title>File: 38,
+      <title>File: 41,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -58,6 +58,20 @@
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#jenkem.shared.color.CopyUtil.java">jenkem/shared/color/CopyUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.event.SendToIrcEvent.java">jenkem/client/event/SendToIrcEvent.java</a>
                 </td>
                 <td>
                   0
@@ -254,6 +268,34 @@
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#jenkem.client.presenter.GalleryPresenter.java">jenkem/client/presenter/GalleryPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.event.SendToIrcEventHandler.java">jenkem/client/event/SendToIrcEventHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.widget.IrcSettings.java">jenkem/client/widget/IrcSettings.java</a>
                 </td>
                 <td>
                   0

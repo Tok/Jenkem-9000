@@ -64,15 +64,63 @@
 
         <div class="values members" id="values">
               <h3>Abstract Value Members</h3>
-              <ol><li visbl="pub" name="jenkem.client.service.IrcService#sendMessage" data-isabs="true">
-      <a id="sendMessage(String,String,String):String"></a>
+              <ol><li visbl="pub" name="jenkem.client.service.IrcService#connect" data-isabs="true">
+      <a id="connect(String,Int,String,String):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sendMessage</span><span class="params">(<span name="network">network: <span name="java.lang.String" class="extype">String</span></span>, <span name="channel">channel: <span name="java.lang.String" class="extype">String</span></span>, <span name="message">message: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+        <span class="name">connect</span><span class="params">(<span name="network">network: <span name="java.lang.String" class="extype">String</span></span>, <span name="port">port: <span name="scala.Int" class="extype">Int</span></span>, <span name="channel">channel: <span name="java.lang.String" class="extype">String</span></span>, <span name="nick">nick: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.client.service.IrcService#disconnect" data-isabs="true">
+      <a id="disconnect():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">disconnect</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.client.service.IrcService#getLog" data-isabs="true">
+      <a id="getLog():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLog</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.client.service.IrcService#isBotConnected" data-isabs="true">
+      <a id="isBotConnected():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isBotConnected</span><span class="params">()</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.client.service.IrcService#sendMessage" data-isabs="true">
+      <a id="sendMessage(List[String]):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendMessage</span><span class="params">(<span name="message">message: <span name="java.util.List" class="extype">List</span>[<span name="java.lang.String" class="extype">String</span>]</span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
       </span>
       </h4>
       

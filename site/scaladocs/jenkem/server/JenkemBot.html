@@ -1,0 +1,2067 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>jenkem.server.JenkemBot</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../lib/template.css" />
+      <script type="text/javascript" src="../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="type">
+      <div id="definition">
+        <img src="../../lib/class_big.png" />
+        <p id="owner"><a name="jenkem" class="extype" href="../package.html">jenkem</a>.<a name="jenkem.server" class="extype" href="package.html">server</a></p>
+        <h1>JenkemBot</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">JenkemBot</span><span class="result"> extends <span name="org.jibble.pircbot.PircBot" class="extype">PircBot</span></span>
+      </span>
+      </h4>
+      
+      <div class="fullcommenttop" id="comment"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span name="org.jibble.pircbot.PircBot" class="extype">PircBot</span>, <span name="org.jibble.pircbot.ReplyConstants" class="extype">ReplyConstants</span>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+        </div></div>
+    
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol><li class="alpha in"><span>Alphabetic</span></li><li class="inherit out"><span>By inheritance</span></li></ol>
+            </div>
+        <div id="ancestors">
+              <span class="filtertype">Inherited</span>
+              <ol><li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li></ol>
+              <ol id="linearization"><li name="jenkem.server.JenkemBot" class="in"><span>JenkemBot</span></li><li name="org.jibble.pircbot.PircBot" class="in"><span>PircBot</span></li><li name="org.jibble.pircbot.ReplyConstants" class="in"><span>ReplyConstants</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+            </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div class="members" id="constructors">
+              <h3>Instance Constructors</h3>
+              <ol><li visbl="pub" name="jenkem.server.JenkemBot#this" data-isabs="false">
+      <a id="this:JenkemBot"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">JenkemBot</span><span class="params">()</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="jenkem.server.JenkemBot.IrcSender" data-isabs="false">
+      <a id="IrcSender:IrcSender"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="JenkemBot$IrcSender.html"><span class="name">IrcSender</span></a><span class="result"> extends Runnable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Runs a thread to play the image into the channel.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $bang$eq">!=</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#!=" data-isabs="false">
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $bang$eq">!=</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef###" data-isabs="false">
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $hash$hash">##</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#==" data-isabs="false">
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $eq$eq">==</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#==" data-isabs="false">
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $eq$eq">==</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#Bot" data-isabs="false">
+      <a id="Bot():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Bot</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.server.JenkemBot.Command" data-isabs="false">
+      <a id="Command:Command"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JenkemBot$Command$.html"><span class="name">Command</span></a><span class="result"> extends Enumeration</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.server.JenkemBot.ConfigItem" data-isabs="false">
+      <a id="ConfigItem:ConfigItem"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JenkemBot$ConfigItem$.html"><span class="name">ConfigItem</span></a><span class="result"> extends Enumeration</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.server.JenkemBot.Int" data-isabs="false">
+      <a id="Int:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JenkemBot$Int$.html"><span class="name">Int</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#ban" data-isabs="false">
+      <a id="ban(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ban</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#changeConfig" data-isabs="false">
+      <a id="changeConfig(String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">changeConfig</span><span class="params">(<span name="sender">sender: String</span>, <span name="item">item: String</span>, <span name="value">value: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#changeNick" data-isabs="false">
+      <a id="changeNick(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">changeNick</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#connect" data-isabs="false">
+      <a id="connect(String,Int,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">connect</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#connect" data-isabs="false">
+      <a id="connect(String,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">connect</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#connect" data-isabs="false">
+      <a id="connect(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">connect</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#connectAndJoin" data-isabs="false">
+      <a id="connectAndJoin(String,Int,String,String):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">connectAndJoin</span><span class="params">(<span name="network">network: String</span>, <span name="port">port: <span name="scala.Int" class="extype">Int</span></span>, <span name="channel">channel: String</span>, <span name="nick">nick: String</span>)</span><span class="result">: String</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Connects the jenkem bot to IRC and joins the selected channel.</p>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#dccSendChatRequest" data-isabs="false">
+      <a id="dccSendChatRequest(String,Int):DccChat"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dccSendChatRequest</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="org.jibble.pircbot.DccChat" class="extype">DccChat</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#dccSendFile" data-isabs="false">
+      <a id="dccSendFile(File,String,Int):DccFileTransfer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dccSendFile</span><span class="params">(<span name="arg0">arg0: <span name="java.io.File" class="extype">File</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="org.jibble.pircbot.DccFileTransfer" class="extype">DccFileTransfer</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#deOp" data-isabs="false">
+      <a id="deOp(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">deOp</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#deVoice" data-isabs="false">
+      <a id="deVoice(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">deVoice</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#disconnect" data-isabs="false">
+      <a id="disconnect():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">disconnect</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#dispose" data-isabs="false">
+      <a id="dispose():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dispose</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#equals" data-isabs="false">
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot → AnyRef → Any</dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getChannels" data-isabs="false">
+      <a id="getChannels():Array[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getChannels</span><span class="params">()</span><span class="result">: <span name="scala.Array" class="extype">Array</span>[<span name="java.lang.String" class="extype">String</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
+      <a id="getClass():java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getDccInetAddress" data-isabs="false">
+      <a id="getDccInetAddress():InetAddress"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDccInetAddress</span><span class="params">()</span><span class="result">: <span name="java.net.InetAddress" class="extype">InetAddress</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getDccPorts" data-isabs="false">
+      <a id="getDccPorts():Array[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDccPorts</span><span class="params">()</span><span class="result">: <span name="scala.Array" class="extype">Array</span>[<span name="scala.Int" class="extype">Int</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getEncoding" data-isabs="false">
+      <a id="getEncoding():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getEncoding</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getFinger" data-isabs="false">
+      <a id="getFinger():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getFinger</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getInetAddress" data-isabs="false">
+      <a id="getInetAddress():InetAddress"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInetAddress</span><span class="params">()</span><span class="result">: <span name="java.net.InetAddress" class="extype">InetAddress</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#getLog" data-isabs="false">
+      <a id="getLog():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLog</span><span class="params">()</span><span class="result">: String</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getLogin" data-isabs="false">
+      <a id="getLogin():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLogin</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getMaxLineLength" data-isabs="false">
+      <a id="getMaxLineLength():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMaxLineLength</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getMessageDelay" data-isabs="false">
+      <a id="getMessageDelay():Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMessageDelay</span><span class="params">()</span><span class="result">: <span name="scala.Long" class="extype">Long</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getName" data-isabs="false">
+      <a id="getName():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getName</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getNick" data-isabs="false">
+      <a id="getNick():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getNick</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getOutgoingQueueSize" data-isabs="false">
+      <a id="getOutgoingQueueSize():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getOutgoingQueueSize</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getPassword" data-isabs="false">
+      <a id="getPassword():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPassword</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getPort" data-isabs="false">
+      <a id="getPort():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPort</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getServer" data-isabs="false">
+      <a id="getServer():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getServer</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getUsers" data-isabs="false">
+      <a id="getUsers(String):Array[User]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getUsers</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Array" class="extype">Array</span>[<span name="org.jibble.pircbot.User" class="extype">User</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#getVersion" data-isabs="false">
+      <a id="getVersion():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getVersion</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#handleLine" data-isabs="false">
+      <a id="handleLine(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">handleLine</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#hashCode" data-isabs="false">
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot → AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#identify" data-isabs="false">
+      <a id="identify(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">identify</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#ipToLong" data-isabs="false">
+      <a id="ipToLong(Array[Byte]):Long"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ipToLong</span><span class="params">(<span name="arg0">arg0: <span name="scala.Array" class="extype">Array</span>[<span name="scala.Byte" class="extype">Byte</span>]</span>)</span><span class="result">: <span name="scala.Long" class="extype">Long</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#isConnected" data-isabs="false">
+      <a id="isConnected():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isConnected</span><span class="params">()</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#joinChannel" data-isabs="false">
+      <a id="joinChannel(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">joinChannel</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#joinChannel" data-isabs="false">
+      <a id="joinChannel(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">joinChannel</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#kick" data-isabs="false">
+      <a id="kick(String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">kick</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#kick" data-isabs="false">
+      <a id="kick(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">kick</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#listChannels" data-isabs="false">
+      <a id="listChannels(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">listChannels</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#listChannels" data-isabs="false">
+      <a id="listChannels():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">listChannels</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#log" data-isabs="false">
+      <a id="log(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">log</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#log" data-isabs="false">
+      <a id="log:StringBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">log</span><span class="result">: <span name="scala.collection.mutable.StringBuilder" class="extype">StringBuilder</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#longToIp" data-isabs="false">
+      <a id="longToIp(Long):Array[Int]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">longToIp</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Array" class="extype">Array</span>[<span name="scala.Int" class="extype">Int</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notifyAll" data-isabs="false">
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onAction" data-isabs="false">
+      <a id="onAction(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onAction</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onChannelInfo" data-isabs="false">
+      <a id="onChannelInfo(String,Int,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onChannelInfo</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onConnect" data-isabs="false">
+      <a id="onConnect():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onConnect</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onDeVoice" data-isabs="false">
+      <a id="onDeVoice(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onDeVoice</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onDeop" data-isabs="false">
+      <a id="onDeop(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onDeop</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onDisconnect" data-isabs="false">
+      <a id="onDisconnect():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onDisconnect</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onFileTransferFinished" data-isabs="false">
+      <a id="onFileTransferFinished(DccFileTransfer,Exception):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onFileTransferFinished</span><span class="params">(<span name="arg0">arg0: <span name="org.jibble.pircbot.DccFileTransfer" class="extype">DccFileTransfer</span></span>, <span name="arg1">arg1: <span name="java.lang.Exception" class="extype">Exception</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onFinger" data-isabs="false">
+      <a id="onFinger(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onFinger</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onIncomingChatRequest" data-isabs="false">
+      <a id="onIncomingChatRequest(DccChat):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onIncomingChatRequest</span><span class="params">(<span name="arg0">arg0: <span name="org.jibble.pircbot.DccChat" class="extype">DccChat</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onIncomingFileTransfer" data-isabs="false">
+      <a id="onIncomingFileTransfer(DccFileTransfer):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onIncomingFileTransfer</span><span class="params">(<span name="arg0">arg0: <span name="org.jibble.pircbot.DccFileTransfer" class="extype">DccFileTransfer</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onInvite" data-isabs="false">
+      <a id="onInvite(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onInvite</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onJoin" data-isabs="false">
+      <a id="onJoin(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onJoin</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onKick" data-isabs="false">
+      <a id="onKick(String,String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onKick</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg5">arg5: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#onMessage" data-isabs="false">
+      <a id="onMessage(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onMessage</span><span class="params">(<span name="channel">channel: String</span>, <span name="sender">sender: String</span>, <span name="login">login: String</span>, <span name="hostname">hostname: String</span>, <span name="message">message: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="jenkem.server.JenkemBot" class="extype" href="">JenkemBot</a> → PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onMode" data-isabs="false">
+      <a id="onMode(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onMode</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onNickChange" data-isabs="false">
+      <a id="onNickChange(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onNickChange</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onNotice" data-isabs="false">
+      <a id="onNotice(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onNotice</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onOp" data-isabs="false">
+      <a id="onOp(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onOp</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onPart" data-isabs="false">
+      <a id="onPart(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onPart</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onPing" data-isabs="false">
+      <a id="onPing(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onPing</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#onPrivateMessage" data-isabs="false">
+      <a id="onPrivateMessage(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onPrivateMessage</span><span class="params">(<span name="sender">sender: String</span>, <span name="login">login: String</span>, <span name="hostname">hostname: String</span>, <span name="message">message: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="jenkem.server.JenkemBot" class="extype" href="">JenkemBot</a> → PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onQuit" data-isabs="false">
+      <a id="onQuit(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onQuit</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemoveChannelBan" data-isabs="false">
+      <a id="onRemoveChannelBan(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemoveChannelBan</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemoveChannelKey" data-isabs="false">
+      <a id="onRemoveChannelKey(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemoveChannelKey</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemoveChannelLimit" data-isabs="false">
+      <a id="onRemoveChannelLimit(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemoveChannelLimit</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemoveInviteOnly" data-isabs="false">
+      <a id="onRemoveInviteOnly(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemoveInviteOnly</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemoveModerated" data-isabs="false">
+      <a id="onRemoveModerated(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemoveModerated</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemoveNoExternalMessages" data-isabs="false">
+      <a id="onRemoveNoExternalMessages(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemoveNoExternalMessages</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemovePrivate" data-isabs="false">
+      <a id="onRemovePrivate(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemovePrivate</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemoveSecret" data-isabs="false">
+      <a id="onRemoveSecret(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemoveSecret</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onRemoveTopicProtection" data-isabs="false">
+      <a id="onRemoveTopicProtection(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onRemoveTopicProtection</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onServerPing" data-isabs="false">
+      <a id="onServerPing(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onServerPing</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onServerResponse" data-isabs="false">
+      <a id="onServerResponse(Int,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onServerResponse</span><span class="params">(<span name="arg0">arg0: <span name="scala.Int" class="extype">Int</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetChannelBan" data-isabs="false">
+      <a id="onSetChannelBan(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetChannelBan</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetChannelKey" data-isabs="false">
+      <a id="onSetChannelKey(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetChannelKey</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetChannelLimit" data-isabs="false">
+      <a id="onSetChannelLimit(String,String,String,String,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetChannelLimit</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetInviteOnly" data-isabs="false">
+      <a id="onSetInviteOnly(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetInviteOnly</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetModerated" data-isabs="false">
+      <a id="onSetModerated(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetModerated</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetNoExternalMessages" data-isabs="false">
+      <a id="onSetNoExternalMessages(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetNoExternalMessages</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetPrivate" data-isabs="false">
+      <a id="onSetPrivate(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetPrivate</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetSecret" data-isabs="false">
+      <a id="onSetSecret(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetSecret</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onSetTopicProtection" data-isabs="false">
+      <a id="onSetTopicProtection(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onSetTopicProtection</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onTime" data-isabs="false">
+      <a id="onTime(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onTime</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onTopic" data-isabs="false">
+      <a id="onTopic(String,String,String,Long,Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onTopic</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg4">arg4: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onUnknown" data-isabs="false">
+      <a id="onUnknown(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onUnknown</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onUserList" data-isabs="false">
+      <a id="onUserList(String,Array[User]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onUserList</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="scala.Array" class="extype">Array</span>[<span name="org.jibble.pircbot.User" class="extype">User</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onUserMode" data-isabs="false">
+      <a id="onUserMode(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onUserMode</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onVersion" data-isabs="false">
+      <a id="onVersion(String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onVersion</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onVoice" data-isabs="false">
+      <a id="onVoice(String,String,String,String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onVoice</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#op" data-isabs="false">
+      <a id="op(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">op</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#partChannel" data-isabs="false">
+      <a id="partChannel(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">partChannel</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#partChannel" data-isabs="false">
+      <a id="partChannel(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">partChannel</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#playImage" data-isabs="false">
+      <a id="playImage(List[String]):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">playImage</span><span class="params">(<span name="out">out: List[String]</span>)</span><span class="result">: String</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Takes a String[] and floods it to IRC by using a new Thread.</p><div class="fullcomment"><div class="comment cmt"><p>Takes a String[] and floods it to IRC by using a new Thread.</p></div><dl class="paramcmts block"><dt class="param">out</dt><dd class="cmt"><p>a String[] with the image as ASCII for IRC.
+</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[InterruptedException]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#quitServer" data-isabs="false">
+      <a id="quitServer(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">quitServer</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#quitServer" data-isabs="false">
+      <a id="quitServer():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">quitServer</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#reconnect" data-isabs="false">
+      <a id="reconnect():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reconnect</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#sendAction" data-isabs="false">
+      <a id="sendAction(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendAction</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#sendCTCPCommand" data-isabs="false">
+      <a id="sendCTCPCommand(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendCTCPCommand</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#sendInvite" data-isabs="false">
+      <a id="sendInvite(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendInvite</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#sendMessage" data-isabs="false">
+      <a id="sendMessage(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendMessage</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#sendNotice" data-isabs="false">
+      <a id="sendNotice(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendNotice</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#sendRawLine" data-isabs="false">
+      <a id="sendRawLine(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendRawLine</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#sendRawLineViaQueue" data-isabs="false">
+      <a id="sendRawLineViaQueue(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendRawLineViaQueue</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#setAutoNickChange" data-isabs="false">
+      <a id="setAutoNickChange(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAutoNickChange</span><span class="params">(<span name="arg0">arg0: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#setDccInetAddress" data-isabs="false">
+      <a id="setDccInetAddress(InetAddress):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDccInetAddress</span><span class="params">(<span name="arg0">arg0: <span name="java.net.InetAddress" class="extype">InetAddress</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#setDccPorts" data-isabs="false">
+      <a id="setDccPorts(Array[Int]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDccPorts</span><span class="params">(<span name="arg0">arg0: <span name="scala.Array" class="extype">Array</span>[<span name="scala.Int" class="extype">Int</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#setEncoding" data-isabs="false">
+      <a id="setEncoding(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setEncoding</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#setFinger" data-isabs="false">
+      <a id="setFinger(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setFinger</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#setLogin" data-isabs="false">
+      <a id="setLogin(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setLogin</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#setMessageDelay" data-isabs="false">
+      <a id="setMessageDelay(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMessageDelay</span><span class="params">(<span name="target">target: String</span>, <span name="value">value: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#setMessageDelay" data-isabs="false">
+      <a id="setMessageDelay(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMessageDelay</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#setMode" data-isabs="false">
+      <a id="setMode(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMode</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#setName" data-isabs="false">
+      <a id="setName(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setName</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#setTopic" data-isabs="false">
+      <a id="setTopic(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setTopic</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#setVerbose" data-isabs="false">
+      <a id="setVerbose(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setVerbose</span><span class="params">(<span name="arg0">arg0: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#setVersion" data-isabs="false">
+      <a id="setVersion(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setVersion</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#showConfig" data-isabs="false">
+      <a id="showConfig(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showConfig</span><span class="params">(<span name="target">target: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Shows the configuration.</p><div class="fullcomment"><div class="comment cmt"><p>Shows the configuration.</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>channel name or name of the receiver.
+</p></dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#showException" data-isabs="false">
+      <a id="showException(String,Throwable):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showException</span><span class="params">(<span name="target">target: String</span>, <span name="t">t: Throwable</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Handles Exceptions by forwarding them to the IRC channel.</p><div class="fullcomment"><div class="comment cmt"><p>Handles Exceptions by forwarding them to the IRC channel.</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>name of the sender or channel</p></dd></dl></div>
+    </li><li visbl="pub" name="jenkem.server.JenkemBot#showHelp" data-isabs="false">
+      <a id="showHelp(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showHelp</span><span class="params">(<span name="target">target: String</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Shows the help-text.</p><div class="fullcomment"><div class="comment cmt"><p>Shows the help-text.</p></div><dl class="paramcmts block"><dt class="param">target</dt><dd class="cmt"><p>channel name or name of the receiver.
+</p></dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#startIdentServer" data-isabs="false">
+      <a id="startIdentServer():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">startIdentServer</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
+      <a id="synchronized[T0](⇒ T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ T0</span>)</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#toString" data-isabs="false">
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot → AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#unBan" data-isabs="false">
+      <a id="unBan(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">unBan</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="org.jibble.pircbot.PircBot#voice" data-isabs="false">
+      <a id="voice(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">voice</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>PircBot</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div class="values members" id="values">
+              <h3>Deprecated Value Members</h3>
+              <ol><li visbl="prt" name="org.jibble.pircbot.PircBot#dccAcceptChatRequest" data-isabs="false">
+      <a id="dccAcceptChatRequest(String,Long,Int):DccChat"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">dccAcceptChatRequest</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg2">arg2: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="org.jibble.pircbot.DccChat" class="extype">DccChat</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#dccReceiveFile" data-isabs="false">
+      <a id="dccReceiveFile(File,Long,Int,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">dccReceiveFile</span><span class="params">(<span name="arg0">arg0: <span name="java.io.File" class="extype">File</span></span>, <span name="arg1">arg1: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg2">arg2: <span name="scala.Int" class="extype">Int</span></span>, <span name="arg3">arg3: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onDccChatRequest" data-isabs="false">
+      <a id="onDccChatRequest(String,String,String,Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">onDccChatRequest</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg4">arg4: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onDccSendRequest" data-isabs="false">
+      <a id="onDccSendRequest(String,String,String,String,Long,Int,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">onDccSendRequest</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg2">arg2: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg3">arg3: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg4">arg4: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg5">arg5: <span name="scala.Int" class="extype">Int</span></span>, <span name="arg6">arg6: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li visbl="prt" name="org.jibble.pircbot.PircBot#onTopic" data-isabs="false">
+      <a id="onTopic(String,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">onTopic</span><span class="params">(<span name="arg0">arg0: <span name="java.lang.String" class="extype">String</span></span>, <span name="arg1">arg1: <span name="java.lang.String" class="extype">String</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="org.jibble.pircbot" class="extype" href="../../org/jibble/pircbot/package.html">pircbot</a>] </dd><dt>Definition Classes</dt><dd>PircBot</dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li></ol>
+            </div>
+        </div>
+
+        <div id="inheritedMembers">
+        <div name="org.jibble.pircbot.PircBot" class="parent">
+              <h3>Inherited from <span name="org.jibble.pircbot.PircBot" class="extype">PircBot</span></h3>
+            </div><div name="org.jibble.pircbot.ReplyConstants" class="parent">
+              <h3>Inherited from <span name="org.jibble.pircbot.ReplyConstants" class="extype">ReplyConstants</span></h3>
+            </div><div name="scala.AnyRef" class="parent">
+              <h3>Inherited from AnyRef</h3>
+            </div><div name="scala.Any" class="parent">
+              <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

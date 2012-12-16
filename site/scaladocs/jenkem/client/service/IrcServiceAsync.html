@@ -61,15 +61,63 @@
 
         <div class="values members" id="values">
               <h3>Abstract Value Members</h3>
-              <ol><li visbl="pub" name="jenkem.client.service.IrcServiceAsync#sendMessage" data-isabs="true">
-      <a id="sendMessage(String,String,String,AsyncCallback[String]):Unit"></a>
+              <ol><li visbl="pub" name="jenkem.client.service.IrcServiceAsync#connect" data-isabs="true">
+      <a id="connect(String,Int,String,String,AsyncCallback[String]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sendMessage</span><span class="params">(<span name="network">network: <span name="java.lang.String" class="extype">String</span></span>, <span name="channel">channel: <span name="java.lang.String" class="extype">String</span></span>, <span name="message">message: <span name="java.lang.String" class="extype">String</span></span>, <span name="callback">callback: <span name="com.google.gwt.user.client.rpc.AsyncCallback" class="extype">AsyncCallback</span>[<span name="java.lang.String" class="extype">String</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+        <span class="name">connect</span><span class="params">(<span name="network">network: <span name="java.lang.String" class="extype">String</span></span>, <span name="port">port: <span name="scala.Int" class="extype">Int</span></span>, <span name="channel">channel: <span name="java.lang.String" class="extype">String</span></span>, <span name="nick">nick: <span name="java.lang.String" class="extype">String</span></span>, <span name="ac">ac: <span name="com.google.gwt.user.client.rpc.AsyncCallback" class="extype">AsyncCallback</span>[<span name="java.lang.String" class="extype">String</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.client.service.IrcServiceAsync#disconnect" data-isabs="true">
+      <a id="disconnect(AsyncCallback[String]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">disconnect</span><span class="params">(<span name="ac">ac: <span name="com.google.gwt.user.client.rpc.AsyncCallback" class="extype">AsyncCallback</span>[<span name="java.lang.String" class="extype">String</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.client.service.IrcServiceAsync#getLog" data-isabs="true">
+      <a id="getLog(AsyncCallback[String]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLog</span><span class="params">(<span name="ac">ac: <span name="com.google.gwt.user.client.rpc.AsyncCallback" class="extype">AsyncCallback</span>[<span name="java.lang.String" class="extype">String</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.client.service.IrcServiceAsync#isBotConnected" data-isabs="true">
+      <a id="isBotConnected(AsyncCallback[Boolean]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isBotConnected</span><span class="params">(<span name="ac">ac: <span name="com.google.gwt.user.client.rpc.AsyncCallback" class="extype">AsyncCallback</span>[<span name="java.lang.Boolean" class="extype">Boolean</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.client.service.IrcServiceAsync#sendMessage" data-isabs="true">
+      <a id="sendMessage(List[String],AsyncCallback[String]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sendMessage</span><span class="params">(<span name="message">message: <span name="java.util.List" class="extype">List</span>[<span name="java.lang.String" class="extype">String</span>]</span>, <span name="ac">ac: <span name="com.google.gwt.user.client.rpc.AsyncCallback" class="extype">AsyncCallback</span>[<span name="java.lang.String" class="extype">String</span>]</span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
       </span>
       </h4>
       
