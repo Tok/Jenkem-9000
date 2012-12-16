@@ -24,6 +24,8 @@ public class IrcConnector extends Composite {
     private final IrcSettings ircSettings = GWT.create(IrcSettings.class);
     private final IrcServiceAsync ircService = GWT.create(IrcService.class);
     private final HorizontalPanel mainPanel = new HorizontalPanel();
+    private final HorizontalPanel connectionPanel = new HorizontalPanel();
+    private final HorizontalPanel controlPanel = new HorizontalPanel();
     private final FlexTable flex = new FlexTable();
     private final TextBox networkBox = new TextBox();
     private final TextBox portBox = new TextBox();
@@ -32,7 +34,6 @@ public class IrcConnector extends Composite {
     private final Button connectButton = new Button("Connect");
     private final Button disconnectButton = new Button("Disconnect");
     private final Button sendButton = new Button("Send Conversion");
-    private final Button updateLogButton = new Button("Update Log"); //TODO remove
     private final Label statusLabel = new Label();
 
     /**
@@ -53,27 +54,35 @@ public class IrcConnector extends Composite {
         //[Label ][Box           ]
         //[Button][Button][Button]
         //[Label ][Status        ]
-        flex.setWidget(0, 0, new Label("IRC Network: "));
-        networkBox.setWidth("290px");
+        final Label nLabel = new Label("IRC Network: ");
+        nLabel.setWidth("80px");
+        flex.setWidget(0, 0, nLabel);
+        networkBox.setWidth("210px");
+        portBox.setWidth("50px");
         flex.setWidget(0, 1, networkBox);
         flex.setWidget(0, 2, portBox);
+
         flex.setWidget(1, 0, new Label("Channel: "));
         channelBox.setWidth("290px");
         flex.setWidget(1, 1, channelBox);
         flex.getFlexCellFormatter().setColSpan(1, 1, 2);
+
         flex.setWidget(2, 0, new Label("Nick: "));
         nickBox.setWidth("290px");
         flex.setWidget(2, 1, nickBox);
         flex.getFlexCellFormatter().setColSpan(2, 1, 2);
-        connectButton.setWidth("100px");
-        flex.setWidget(3, 0, connectButton);
-        disconnectButton.setWidth("100px");
-        flex.setWidget(3, 1, disconnectButton);
-        sendButton.setWidth("200px");
-        flex.setWidget(3, 2, sendButton);
 
-        flex.setWidget(4, 0, updateLogButton);
-        flex.getFlexCellFormatter().setColSpan(4, 0, 3);
+        connectButton.setWidth("150px");
+        disconnectButton.setWidth("150px");
+        connectionPanel.add(connectButton);
+        connectionPanel.add(disconnectButton);
+        flex.setWidget(3, 1, connectionPanel);
+        flex.getFlexCellFormatter().setColSpan(3, 1, 2);
+
+        sendButton.setWidth("300px");
+        controlPanel.add(sendButton);
+        flex.setWidget(4, 1, controlPanel);
+        flex.getFlexCellFormatter().setColSpan(4, 1, 2);
 
         flex.setWidget(5, 0, new Label("Status: "));
         flex.setWidget(5, 1, statusLabel);
@@ -96,6 +105,7 @@ public class IrcConnector extends Composite {
     private void bind() {
         connectButton.addClickHandler(new ClickHandler() {
             @Override public void onClick(final ClickEvent event) {
+                connectButton.setEnabled(false);
                 final String network = networkBox.getText();
                 final int port = Integer.parseInt(portBox.getText());
                 final String channel = channelBox.getText();
@@ -106,6 +116,7 @@ public class IrcConnector extends Composite {
                         setConnectionState(true);
                     }
                     @Override public void onFailure(final Throwable caught) {
+                        connectButton.setEnabled(true);
                         statusLabel.setText("Fail connecting: " + caught);
                     }
                 });
@@ -125,19 +136,6 @@ public class IrcConnector extends Composite {
         sendButton.addClickHandler(new ClickHandler() {
             @Override public void onClick(final ClickEvent event) {
                 eventBus.fireEvent(new SendToIrcEvent());
-            }});
-        updateLogButton.addClickHandler(new ClickHandler() {
-            @Override public void onClick(final ClickEvent event) {
-                ircService.getLog(new AsyncCallback<String>() {
-                    @Override
-                    public void onSuccess(final String result) {
-                        statusLabel.setText(result);
-                    }
-                    @Override
-                    public void onFailure(final Throwable caught) {
-                        statusLabel.setText("Fail updating log: " + caught);
-                    }
-                });
             }});
     }
 
