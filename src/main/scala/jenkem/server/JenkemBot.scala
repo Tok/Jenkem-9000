@@ -66,10 +66,10 @@ class JenkemBot extends PircBot {
    * @param target channel name or name of the receiver.
    */
   def showHelp(target: String) {
-    sendMessage(target, "Play image from url: [url]")
+    //sendMessage(target, "Play image from url: [url]")
     sendMessage(target, "Show configuration: CONFIG")
-    sendMessage(target, "Commands that change the state of this bot can only be used in a channel and must start with " + getLogin)
-    sendMessage(target, "Change config: JENKEM [Item] [Value]")
+    //sendMessage(target, "Commands that change the state of this bot can only be used in a channel and must start with " + getLogin)
+    sendMessage(target, "Change config: JENKEM [ConfigItem] [Value]")
   }
 
   /**

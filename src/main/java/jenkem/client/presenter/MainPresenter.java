@@ -13,7 +13,6 @@ import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.Kick;
-import jenkem.shared.color.Sample;
 import jenkem.shared.data.ImageCss;
 import jenkem.shared.data.ImageHtml;
 import jenkem.shared.data.ImageInfo;
@@ -75,7 +74,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private final Display display;
 
     private ConversionMethod method;
-    //private String[] ircOutput;
     private final List<String> ircOutput = new ArrayList<String>();
     private int lastIndex;
 
@@ -378,14 +376,15 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final String presetName = display.getPresetListBox().getItemText(display.getPresetListBox().getSelectedIndex());
         final CharacterSet preset = CharacterSet.valueOf(presetName);
 
-        final double sensitivity = Double.valueOf(Sample.HALF_RGB) / Double.valueOf(TOTAL_PERCENT);
-        final int contrast = (int) ((Integer.valueOf(display.getContrastLabel().getText()) * sensitivity) + Sample.HALF_RGB);
+        final int contrast = Integer.valueOf(display.getContrastLabel().getText());
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
 
         lastIndex = id.getHeight();
-        engine.setParams(id, preset, getSelectedKick(), contrast, brightness);
-        if (!method.equals(ConversionMethod.Plain)) {
+        if (!method.equals(ConversionMethod.Plain)) { //FIXME ugly workaround
+            engine.setParams(id, preset, getSelectedKick(), contrast, brightness);
             engine.prepareScheme(scheme);
+        } else {
+            engine.setParams(id, preset, getSelectedKick(), contrast + 1, brightness);
         }
         ircOutput.clear();
         engine.generate(method);

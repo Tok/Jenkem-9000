@@ -198,8 +198,7 @@ public class CubeTest extends AbstractReflectionTestCase {
         for (final ColorScheme scheme : ColorScheme.values()) {
             if (!scheme.equals(ColorScheme.Bw)
                     && !scheme.equals(ColorScheme.Mono)
-                    && !scheme.equals(ColorScheme.Lsd)
-                    && !scheme.equals(ColorScheme.Skin)) { // exclude schemes with no or almost no gray
+                    && !scheme.equals(ColorScheme.Lsd)) { // exclude schemes with no or almost no gray
                 final Object[] schemeParameter = {scheme};
                 final Object object = invokePrivateMethod(engine, "prepareColorMap", schemeParameter);
                 @SuppressWarnings("unchecked")

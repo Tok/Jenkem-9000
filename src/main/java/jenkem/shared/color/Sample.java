@@ -13,6 +13,7 @@ import com.google.gwt.canvas.dom.client.ImageData;
  */
 public final class Sample {
     private static final int MAP_CAPACITY = 12;
+    private static final int TOTAL_PERCENT = 100;
     public static final int MAX_RGB = 255;
     public static final int HALF_RGB = 127;
 
@@ -160,7 +161,19 @@ public final class Sample {
      * @return int the correted value
      */
     private static int calculateColor(final int input, final int contrast, final int brightness) {
-        return keepInRange((int) (input * (Double.valueOf(HALF_RGB) / Double.valueOf(contrast))) + brightness);
+        return keepInRange(correctDistance(input, contrast) + brightness);
+    }
+
+    /**
+     * Applies contrast
+     * @param input R, G, or B value between 0 and 255
+     * @param contrast relative contrast between -100 and +100
+     * @return
+     */
+    private static int correctDistance(final int input, final int contrast) {
+        final int distanceFromCenter = input < HALF_RGB ? HALF_RGB - input : input - HALF_RGB;
+        final double contrastedDist = distanceFromCenter * (1D + (Double.valueOf(contrast) / TOTAL_PERCENT));
+        return Double.valueOf(input < HALF_RGB ? HALF_RGB - contrastedDist : HALF_RGB + contrastedDist).intValue();
     }
 
     /**
