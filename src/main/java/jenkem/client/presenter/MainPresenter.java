@@ -11,6 +11,7 @@ import jenkem.client.event.SendToIrcEventHandler;
 import jenkem.client.service.JenkemServiceAsync;
 import jenkem.client.widget.IrcColorSetter;
 import jenkem.client.widget.IrcConnector;
+import jenkem.client.widget.UrlSetter;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.HtmlUtil;
@@ -32,10 +33,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -43,23 +40,19 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasEnabled;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
 import com.kiouri.sliderbar.client.event.BarValueChangedHandler;
@@ -80,7 +73,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private final List<String> ircOutput = new ArrayList<String>();
     private int lastIndex;
 
-    private final Image busyImage = new Image("/images/busy.gif");
     private Image image;
     private ImageElement currentImage;
     private String currentName;
@@ -90,30 +82,26 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private boolean isConversionRunnung = false;
 
     public interface Display {
-        HasValue<String> getInputLink();
-        TextBox getInputTextBox();
-        Label getStatusLabel();
-        HasClickHandlers getShowButton();
-        Panel getBusyPanel();
-        Canvas getCanvas();
+        UrlSetter getUrlSetter();
         InlineHTML getPreviewHtml();
+        IrcColorSetter getIrcColorSetter();
         TextArea getIrcTextArea();
         IrcConnector getIrcConnector();
-        IrcColorSetter getIrcColorSetter();
         ListBox getMethodListBox();
         ListBox getWidthListBox();
         ListBox getPresetListBox();
         ListBox getPowerListBox();
         Button getResetButton();
-        SliderBarSimpleHorizontal getContrastSlider();
-        Label getContrastLabel();
-        SliderBarSimpleHorizontal getBrightnessSlider();
-        Label getBrightnessLabel();
-        RadioButton getKickButton(Kick kick);
         Button getSubmitButton();
-        Widget asWidget();
+        SliderBarSimpleHorizontal getContrastSlider();
+        SliderBarSimpleHorizontal getBrightnessSlider();
+        Label getContrastLabel();
+        Label getBrightnessLabel();
         int getInitialContrast();
         int getInitialBrightness();
+        RadioButton getKickButton(Kick kick);
+        Canvas getCanvas();
+        Widget asWidget();
     }
 
     /**
@@ -137,57 +125,42 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         mayBeBusy.add(display.getSubmitButton());
     }
 
+    @Override public final void go(final HasWidgets container) {
+        bind();
+        container.clear();
+        container.add(super.getTabPanel());
+        doReset();
+    }
+
     /**
      * Binds the elements from the view.
      */
     public final void bind() {
         getEventBus().addHandler(SendToIrcEvent.TYPE, new SendToIrcEventHandler() {
             @Override public void onSend(final SendToIrcEvent event) {
-                display.getIrcConnector().sendMessage(ircOutput);
-            }
+                display.getIrcConnector().sendMessage(ircOutput); }
         });
         getEventBus().addHandler(DoConversionEvent.TYPE, new DoConversionEventHandler() {
             @Override public void onDoConversion(final DoConversionEvent event) {
-                doConversion();
-            }
-        });
-        this.display.getInputTextBox().addKeyPressHandler(new KeyPressHandler() {
-            @Override public void onKeyPress(final KeyPressEvent event) {
-                if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-                    replaceUrl();
-                }
-            }});
-        this.display.getShowButton().addClickHandler(new ClickHandler() {
-            @Override public void onClick(final ClickEvent event) {
-                replaceUrl();
+                if (event.proxify()) { proxifyAndConvert(); } else { doConversion(); }
             }});
         this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
             @Override public void onChange(final ChangeEvent event) {
                 method = getCurrentConversionMethod();
-                if (method.equals(ConversionMethod.FullHd)) {
-                    disableKicks();
-                } else {
-                    enableKicks();
-                }
+                setKicksEnabled(!method.equals(ConversionMethod.FullHd));
                 display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
                 if (!method.equals(ConversionMethod.Pwntari)) {
                     display.getPresetListBox().setEnabled(true);
                 }
                 resetContrastAndBrightness();
-                replaceUrl();
+                display.getUrlSetter().replaceUrl();
             }});
         this.display.getWidthListBox().addChangeHandler(new ChangeHandler() {
             @Override public void onChange(final ChangeEvent event) {
-                replaceUrl();
+                display.getUrlSetter().replaceUrl();
             }});
-        this.display.getPresetListBox().addChangeHandler(new ChangeHandler() {
-            @Override public void onChange(final ChangeEvent event) {
-                doConversion();
-            }});
-        this.display.getPowerListBox().addChangeHandler(new ChangeHandler() {
-            @Override public void onChange(final ChangeEvent event) {
-                doConversion();
-            }});
+        this.display.getPresetListBox().addChangeHandler(makeConversionChangeHandler());
+        this.display.getPowerListBox().addChangeHandler(makeConversionChangeHandler());
         this.display.getResetButton().addClickHandler(new ClickHandler() {
             @Override public void onClick(final ClickEvent event) {
                 doReset();
@@ -206,9 +179,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         for (final Kick kick : Kick.values()) {
             this.display.getKickButton(kick).addValueChangeHandler(new ValueChangeHandler<Boolean>() {
                 @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
-                    if (event.getValue()) {
-                        doConversion();
-                    }
+                    if (event.getValue()) { doConversion(); }
                 }});
         }
         this.display.getSubmitButton().addClickHandler(new ClickHandler() {
@@ -227,33 +198,24 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             }});
     }
 
+    private ChangeHandler makeConversionChangeHandler() {
+        return new ChangeHandler() { @Override public void onChange(final ChangeEvent event) { doConversion(); }};
+    }
+
     /**
      * Shows submission message and enables submission button.
      * @param result
      */
     private void handleSubmissionResult(final String result) {
-        display.getStatusLabel().setText(result);
+        display.getUrlSetter().setStatus(result);
         display.getSubmitButton().setEnabled(true);
-    }
-
-    /**
-     * Creates a new history event if required.
-     */
-    private void replaceUrl() {
-        final String currentToken = History.getToken();
-        final String currentUrl = display.getInputTextBox().getValue();
-        if (!currentToken.endsWith(currentUrl)) {
-            History.newItem("main/" + display.getInputTextBox().getValue());
-        } else {
-            proxifyAndConvert();
-        }
     }
 
     /**
      * Proxifies the image and calls the show method.
      */
     public final void proxifyAndConvert() {
-        final String urlString = display.getInputTextBox().getText();
+        final String urlString = display.getUrlSetter().getUrl();
         final String proxifiedUrl = proxify(urlString);
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override public void execute() { doShow(proxifiedUrl); }
@@ -267,27 +229,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @return url to image servlet
      */
     private String proxify(final String urlString) {
-        display.getStatusLabel().setText("Proxifying image.");
-        updateImageName(urlString);
-        return ("".equals(urlString)) ? "" : "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
-    }
-
-    /**
-     * Updates the name of the image from the provided url.
-     * @param urlString
-     */
-    private void updateImageName(final String urlString) {
+        display.getUrlSetter().setStatus("Proxifying image.");
         final String[] split = urlString.split("/");
         currentName = split[split.length - 1];
-    }
-
-    @Override
-    public final void go(final HasWidgets container) {
-        bind();
-        container.clear();
-        container.add(super.getTabPanel());
-        display.getInputTextBox().setFocus(true);
-        doReset();
+        return ("".equals(urlString)) ? "" : "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
     }
 
     /**
@@ -295,25 +240,23 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @param url to the image
      */
     private void doShow(final String url) {
-        if (!"".equals(url)) { displayBusyIcon(); }
+        if (!"".equals(url)) { makeBusy(true); }
         image = new Image();
-        image.addErrorHandler(new ErrorHandler() {
-            @Override
-            public void onError(final ErrorEvent event) {
-                display.getStatusLabel().setText("Proxifying this image failed.");
-                removeBusyIcon();
-            }});
-        image.addLoadHandler(new LoadHandler() {
-            @Override
-            public void onLoad(final LoadEvent event) {
-                display.getStatusLabel().setText("Image loaded.");
-                doConversion();
-            }});
+        image.setVisible(false);
         image.setUrl(url);
         // Image must be added in order for load event to fire.
-        image.setVisible(false);
         RootPanel.get("invisible").clear();
         RootPanel.get("invisible").add(image);
+        image.addErrorHandler(new ErrorHandler() {
+            @Override public void onError(final ErrorEvent event) {
+                display.getUrlSetter().setStatus("Proxifying this image failed.");
+                display.getUrlSetter().makeBusy(false);
+            }});
+        image.addLoadHandler(new LoadHandler() {
+            @Override public void onLoad(final LoadEvent event) {
+                display.getUrlSetter().setStatus("Image loaded.");
+                doConversion();
+            }});
     }
 
     /**
@@ -323,7 +266,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         if (image == null) { return; }
         if (!isConversionRunnung) {
             isConversionRunnung = true;
-            displayBusyIcon();
+            makeBusy(true);
             Scheduler.get().scheduleDeferred(new ScheduledCommand() {
                 @Override
                 public void execute() {
@@ -391,7 +334,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      */
     private void updateProgress(final int index) {
         final double percentDone = index * TOTAL_PERCENT / Integer.valueOf(lastIndex).doubleValue();
-        display.getStatusLabel().setText("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");
+        display.getUrlSetter().setStatus("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");
     }
 
     /**
@@ -437,7 +380,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         display.getIrcTextArea().setText(irc.toString());
         display.getIrcTextArea().selectAll();
 
-        removeBusyIcon();
+        makeBusy(false);
         isConversionRunnung = false;
     }
 
@@ -455,36 +398,21 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         return htmlAndCss;
     }
 
-    /**
-     * Displays the icon for when the application is busy.
-     */
-    private void displayBusyIcon() {
-        display.getBusyPanel().clear();
-        display.getBusyPanel().add(busyImage);
+    private void makeBusy(final boolean isBusy) {
+        setKicksEnabled(!isBusy);
+        display.getUrlSetter().makeBusy(isBusy);
+        if (!isBusy) {
+            display.getUrlSetter().setStatus("Enter URL to an image: ");
+        }
         for (final HasEnabled widget : mayBeBusy) {
-            widget.setEnabled(false);
+            widget.setEnabled(isBusy);
         }
-        display.getIrcColorSetter().setEnabled(false);
-        display.getPresetListBox().setEnabled(false);
-        disableKicks();
-    }
-
-    /**
-     * Removes the busy icon.
-     */
-    private void removeBusyIcon() {
-        display.getBusyPanel().clear();
-        display.getStatusLabel().setText("Enter URL to an image: ");
-        for (final HasEnabled widget : mayBeBusy) {
-            widget.setEnabled(true);
+        if (!isBusy || !method.equals(ConversionMethod.Plain)) {
+            display.getIrcColorSetter().setEnabled(isBusy);
         }
-        if (!method.equals(ConversionMethod.Plain)) {
-            display.getIrcColorSetter().setEnabled(true);
+        if (!isBusy || !method.equals(ConversionMethod.Pwntari)) {
+            display.getPresetListBox().setEnabled(isBusy);
         }
-        if (!method.equals(ConversionMethod.Pwntari)) {
-            display.getPresetListBox().setEnabled(true);
-        }
-        enableKicks();
     }
 
     /**
@@ -501,8 +429,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     }
 
     /**
-     * Returns the selected Kick.
-     * @return kick
+     * Returns the selected Power.
+     * @return power
      */
     private Power getSelectedPower() {
         final String powerName = display.getPowerListBox().getItemText(
@@ -533,21 +461,12 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     }
 
     /**
-     * Disables the Kick RadioButtons.
+     * Enables or disables the Kick RadionButtons.
      */
-    private void disableKicks() {
-        for (final Kick kick : Kick.values()) {
-            display.getKickButton(kick).setEnabled(false);
-        }
-    }
-
-    /**
-     * Enables the Kick RadionButtons.
-     */
-    private void enableKicks() {
-        if (!method.equals(ConversionMethod.FullHd)) {
+    private void setKicksEnabled(final boolean enabled) {
+        if (!enabled || !method.equals(ConversionMethod.FullHd)) {
             for (final Kick kick : Kick.values()) {
-                display.getKickButton(kick).setEnabled(true);
+                display.getKickButton(kick).setEnabled(enabled);
             }
         }
     }

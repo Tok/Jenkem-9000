@@ -3,16 +3,15 @@ package jenkem.client.view;
 import java.util.HashMap;
 import java.util.Map;
 import jenkem.client.presenter.MainPresenter;
-import jenkem.client.widget.ExtendedTextBox;
 import jenkem.client.widget.IrcColorSetter;
 import jenkem.client.widget.IrcConnector;
+import jenkem.client.widget.UrlSetter;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Kick;
 import jenkem.shared.LineWidth;
 import jenkem.shared.Power;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.ui.Button;
@@ -20,7 +19,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
@@ -29,7 +27,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
@@ -38,7 +35,6 @@ import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHori
  * View of the main page.
  */
 public class MainView extends Composite implements MainPresenter.Display {
-    private static final int SPACING = 5;
     private static final int IRC_TEXT_CHARACTER_WIDTH = 77;
     private static final int SLIDER_WIDTH = 200;
     private static final int INITIAL_CONTRAST_MAX = SLIDER_WIDTH - 1;
@@ -46,27 +42,25 @@ public class MainView extends Composite implements MainPresenter.Display {
     private static final int INITIAL_BRIGHTNESS_MAX = SLIDER_WIDTH - 1;
     private static final int INITIAL_BRIGHTNESS_DEFAULT = (SLIDER_WIDTH / 2);
 
-    private final ExtendedTextBox inputTextBox = new ExtendedTextBox();
-    private final Button showButton = new Button("Convert Image");
-    private final Panel busyPanel = new HorizontalPanel();
-    private final Label statusLabel = new Label("Enter URL to an image:");
-    private final Canvas canvas = Canvas.createIfSupported();
-    private final Panel previewPanel = new VerticalPanel();
-    private final InlineHTML inline = new InlineHTML();
-    private final TextArea ircText = new TextArea();
-    private final IrcConnector ircConnector;
+    private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
     private final ListBox methodListBox = new ListBox();
     private final ListBox widthListBox = new ListBox();
     private final ListBox presetListBox = new ListBox();
+    private final ListBox powerListBox = new ListBox();
+
+    private final Label contrastLabel = new Label();
+    private final Label brightnessLabel = new Label();
+    private final Button submitButton = new Button("Submit to Gallery");
     private final Button resetButton = new Button("Reset");
     private final SliderBarSimpleHorizontal contrastSlider = new SliderBarSimpleHorizontal(100, "100px", false);
-    private final Label contrastLabel = new Label();
     private final SliderBarSimpleHorizontal brightnessSlider = new SliderBarSimpleHorizontal(100, "100px", false);
-    private final Label brightnessLabel = new Label();
+    private final Panel previewPanel = new VerticalPanel();
+    private final Canvas canvas = Canvas.createIfSupported();
+    private final InlineHTML inline = new InlineHTML();
+    private final TextArea ircText = new TextArea();
+    private final UrlSetter urlSetter;
     private final IrcColorSetter ircColorSetter;
-    private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
-    private final ListBox powerListBox = new ListBox();
-    private final Button submitButton = new Button("Submit to Gallery");
+    private final IrcConnector ircConnector;
     private final FlexTable contentTable;
 
     /**
@@ -74,27 +68,17 @@ public class MainView extends Composite implements MainPresenter.Display {
      * TODO Megamoth
      */
     public MainView(final HandlerManager eventBus) {
+        urlSetter = new UrlSetter(eventBus);
         ircColorSetter = new IrcColorSetter(eventBus);
         ircConnector = new IrcConnector(eventBus);
-        final String link = com.google.gwt.user.client.Window.Location.getParameter("link");
+
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
         contentTableDecorator.setWidth("1010px");
         initWidget(contentTableDecorator);
 
-        contentTable = new FlexTable();
-        final HorizontalPanel hPanel = new HorizontalPanel();
-        inputTextBox.setWidth("800px");
-        hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-        hPanel.setSpacing(SPACING);
-        if (link != null && !link.equals("")) { inputTextBox.setText(link); }
-        hPanel.add(inputTextBox);
-        showButton.setWidth("137px");
-        hPanel.add(showButton);
-        hPanel.add(busyPanel);
-
         int row = 0;
-        contentTable.setWidget(row++, 0, statusLabel);
-        contentTable.setWidget(row++, 0, hPanel);
+        contentTable = new FlexTable();
+        contentTable.setWidget(row++, 0, urlSetter);
 
         previewPanel.setHeight("1010px");
         previewPanel.add(inline);
@@ -229,143 +213,24 @@ public class MainView extends Composite implements MainPresenter.Display {
         }
     }
 
-    /**
-     * Returns this view as gwt Widget.
-     */
-    @Override
-    public final Widget asWidget() {
-        return this;
-    }
-
-    @Override
-    public final HasClickHandlers getShowButton() {
-        return showButton;
-    }
-
-    @Override
-    public final Panel getBusyPanel() {
-        return busyPanel;
-    }
-
-    @Override
-    public final HasValue<String> getInputLink() {
-        return inputTextBox;
-    }
-
-    @Override
-    public final TextBox getInputTextBox() {
-        return inputTextBox;
-    }
-
-    @Override
-    public final Label getStatusLabel() {
-        return statusLabel;
-    }
-
-    @Override
-    public final Canvas getCanvas() {
-        return canvas;
-    }
-
-    @Override
-    public final ListBox getMethodListBox() {
-        return methodListBox;
-    }
-
-    @Override
-    public final ListBox getWidthListBox() {
-        return widthListBox;
-    }
-
-    @Override
-    public final ListBox getPresetListBox() {
-        return presetListBox;
-    }
-
-    @Override
-    public final ListBox getPowerListBox() {
-        return powerListBox;
-    }
-
-    @Override
-    public final Button getResetButton() {
-        return resetButton;
-    }
-
-    @Override
-    public final SliderBarSimpleHorizontal getContrastSlider() {
-        return contrastSlider;
-    }
-
-    @Override
-    public final Label getContrastLabel() {
-        return contrastLabel;
-    }
-
-    @Override
-    public final SliderBarSimpleHorizontal getBrightnessSlider() {
-        return brightnessSlider;
-    }
-
-    @Override
-    public final Label getBrightnessLabel() {
-        return brightnessLabel;
-    }
-
-    @Override
-    public final RadioButton getKickButton(final Kick kick) {
-        return kickButtons.get(kick);
-    }
-
-    @Override
-    public final InlineHTML getPreviewHtml() {
-        return inline;
-    }
-
-    @Override
-    public final TextArea getIrcTextArea() {
-        return ircText;
-    }
-
-    @Override
-    public final IrcColorSetter getIrcColorSetter() {
-        return ircColorSetter;
-    }
-
-    @Override
-    public final IrcConnector getIrcConnector() {
-        return ircConnector;
-    }
-
-    @Override
-    public final Button getSubmitButton() {
-        return submitButton;
-    }
-
-    /**
-     * Sets the provided image url to the TextBox.
-     * @param imageUrl
-     */
-    public final void setUrl(final String imageUrl) {
-        inputTextBox.setText(imageUrl);
-        inputTextBox.selectAll();
-    }
-
-    /**
-     * Returns the url in the TextBox.
-     * @return imageUrl
-     */
-    public final Object getUrl() {
-        return inputTextBox.getText();
-    }
-
-    @Override
-    public final int getInitialContrast() {
-        return INITIAL_CONTRAST_DEFAULT;
-    }
-
-    @Override
-    public final int getInitialBrightness() {
-        return INITIAL_BRIGHTNESS_DEFAULT;
-    }
+    @Override public final Widget asWidget() { return this; }
+    @Override public final Canvas getCanvas() { return canvas; }
+    @Override public final UrlSetter getUrlSetter() { return urlSetter; }
+    @Override public final ListBox getMethodListBox() { return methodListBox; }
+    @Override public final ListBox getWidthListBox() { return widthListBox; }
+    @Override public final ListBox getPresetListBox() { return presetListBox; }
+    @Override public final ListBox getPowerListBox() { return powerListBox; }
+    @Override public final Button getResetButton() { return resetButton; }
+    @Override public final SliderBarSimpleHorizontal getContrastSlider() { return contrastSlider; }
+    @Override public final Label getContrastLabel() { return contrastLabel; }
+    @Override public final SliderBarSimpleHorizontal getBrightnessSlider() { return brightnessSlider; }
+    @Override public final Label getBrightnessLabel() { return brightnessLabel; }
+    @Override public final RadioButton getKickButton(final Kick kick) { return kickButtons.get(kick); }
+    @Override public final InlineHTML getPreviewHtml() { return inline; }
+    @Override public final TextArea getIrcTextArea() { return ircText; }
+    @Override public final IrcColorSetter getIrcColorSetter() { return ircColorSetter; }
+    @Override public final IrcConnector getIrcConnector() { return ircConnector; }
+    @Override public final Button getSubmitButton() { return submitButton; }
+    @Override public final int getInitialContrast() { return INITIAL_CONTRAST_DEFAULT; }
+    @Override public final int getInitialBrightness() { return INITIAL_BRIGHTNESS_DEFAULT; }
 }

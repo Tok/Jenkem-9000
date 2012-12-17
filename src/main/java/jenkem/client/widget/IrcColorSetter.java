@@ -60,7 +60,7 @@ public class IrcColorSetter extends Composite {
             @Override public void onChange(final ChangeEvent event) {
                 final String schemeName = schemeListBox.getValue(schemeListBox.getSelectedIndex());
                 setScheme(ColorScheme.valueOf(schemeName));
-                eventBus.fireEvent(new DoConversionEvent());
+                eventBus.fireEvent(new DoConversionEvent(false));
             }});
 
         mainPanel.add(flex);
@@ -71,7 +71,7 @@ public class IrcColorSetter extends Composite {
         colorSlider.addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
                 colorLabel.setText(String.valueOf(MAX_PERCENT - colorSlider.getValue()));
-                eventBus.fireEvent(new DoConversionEvent());
+                eventBus.fireEvent(new DoConversionEvent(false));
             }});
     }
 

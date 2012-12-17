@@ -61,7 +61,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 if (selection == 0) {
                     if (!History.getToken().startsWith("main")) {
                         doConvert = false;
-                        History.newItem("main/" + mainView.getInputTextBox().getValue());
+                        History.newItem("main/" + mainView.getUrlSetter().getUrl());
                     }
                 }
                 if (selection == 1) {
@@ -99,7 +99,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
      * Sets the history item for the image url.
      */
     private void doEditTermCancelled() {
-        History.newItem("main/" + mainView.getInputTextBox().getValue());
+        History.newItem("main/" + mainView.getUrlSetter().getUrl());
     }
 
     @Override
@@ -146,7 +146,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
             imageUrl = token.split("/", 2)[1];
             if (!"".equals(imageUrl)) {
                 if (doConvert) {
-                    mainView.setUrl(imageUrl);
+                    mainView.getUrlSetter().setUrl(imageUrl);
                     mainPresenter.proxifyAndConvert();
                 }
             }

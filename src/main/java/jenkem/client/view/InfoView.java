@@ -13,9 +13,6 @@ public class InfoView extends Composite implements InfoPresenter.Display {
     private final FlexTable contentTable;
     private final FlexTable infoList = new FlexTable();
 
-    /**
-     * Default constructor.
-     */
     public InfoView() {
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
         contentTableDecorator.setWidth("1010px");
@@ -26,19 +23,6 @@ public class InfoView extends Composite implements InfoPresenter.Display {
         contentTableDecorator.add(contentTable);
     }
 
-    /**
-     * Returns this view as gwt Widget.
-     */
-    @Override
-    public final Widget asWidget() {
-        return this;
-    }
-
-    /**
-     * Returns the FlexTable of this info view.
-     */
-    @Override
-    public final FlexTable getInfoList() {
-        return infoList;
-    }
+    @Override public final Widget asWidget() { return this; }
+    @Override public final FlexTable getInfoList() { return infoList; }
 }

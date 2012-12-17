@@ -30,19 +30,6 @@ public class GalleryView extends Composite implements GalleryPresenter.Display {
         contentTableDecorator.add(contentTable);
     }
 
-    /**
-     * Returns this view as gwt Widget.
-     */
-    @Override
-    public final Widget asWidget() {
-        return this;
-    }
-
-    /**
-     * Returns the FlexTable of this gallery.
-     */
-    @Override
-    public final FlexTable getHistoryList() {
-        return historyList;
-    }
+    @Override public final Widget asWidget() { return this; }
+    @Override public final FlexTable getHistoryList() { return historyList; }
 }
