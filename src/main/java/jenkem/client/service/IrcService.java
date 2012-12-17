@@ -1,6 +1,7 @@
 package jenkem.client.service;
 
 import java.util.List;
+import jenkem.shared.BotStatus;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -11,7 +12,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface IrcService extends RemoteService {
     String connect(final String network, final int port, final String channel, final String nick);
     String disconnect();
-    boolean isBotConnected();
+    BotStatus getBotStatus();
     String getLog();
     String sendMessage(final List<String> message);
 }

@@ -1,9 +1,12 @@
 package jenkem.client.widget;
 
 import java.util.List;
+import jenkem.client.event.BotStatusChangeEvent;
+import jenkem.client.event.BotStatusChangeEventHandler;
 import jenkem.client.event.SendToIrcEvent;
 import jenkem.client.service.IrcService;
 import jenkem.client.service.IrcServiceAsync;
+import jenkem.shared.BotStatus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -41,12 +44,6 @@ public class IrcConnector extends Composite {
      */
     public IrcConnector(final HandlerManager eventBus) {
         this.eventBus = eventBus;
-
-        networkBox.setText(ircSettings.network());
-        portBox.setText(ircSettings.port());
-        portBox.setEnabled(false); //XXX port-settings disabled
-        channelBox.setText(ircSettings.channel());
-        nickBox.setText(ircSettings.nick());
 
         flex.setWidth("400px");
         //[Label ][Box   ][Box   ]
@@ -89,20 +86,32 @@ public class IrcConnector extends Composite {
         flex.getFlexCellFormatter().setColSpan(5, 1, 2);
 
         bind();
-        ircService.isBotConnected(new AsyncCallback<Boolean>() {
-            @Override public void onSuccess(final Boolean result) {
-                setConnectionState(result);
+        ircService.getBotStatus(new AsyncCallback<BotStatus>() {
+            @Override public void onSuccess(final BotStatus botStatus) {
+                setBotStatus(botStatus);
+                if (!botStatus.isConnected()) {
+                    networkBox.setText(ircSettings.network());
+                    portBox.setText(ircSettings.port());
+                    channelBox.setText(ircSettings.channel());
+                    nickBox.setText(ircSettings.nick());
+                }
             }
             @Override public void onFailure(final Throwable caught) {
                 statusLabel.setText("Fail getting bot state: " + caught);
             }
         });
+        portBox.setEnabled(false); //XXX port-settings disabled
 
         mainPanel.add(flex);
         initWidget(mainPanel);
     }
 
     private void bind() {
+        eventBus.addHandler(BotStatusChangeEvent.TYPE, new BotStatusChangeEventHandler() {
+            @Override public void onBotStatusChanged(final BotStatusChangeEvent event) {
+                setBotStatus(event.getBotStatus());
+            }
+        });
         connectButton.addClickHandler(new ClickHandler() {
             @Override public void onClick(final ClickEvent event) {
                 connectButton.setEnabled(false);
@@ -113,7 +122,6 @@ public class IrcConnector extends Composite {
                 ircService.connect(network, port, channel, nick, new AsyncCallback<String>() {
                     @Override public void onSuccess(final String result) {
                         statusLabel.setText(result);
-                        setConnectionState(true);
                     }
                     @Override public void onFailure(final Throwable caught) {
                         connectButton.setEnabled(true);
@@ -126,7 +134,6 @@ public class IrcConnector extends Composite {
                 ircService.disconnect(new AsyncCallback<String>() {
                     @Override public void onSuccess(final String result) {
                         statusLabel.setText(result);
-                        setConnectionState(false);
                     }
                     @Override public void onFailure(final Throwable caught) {
                         statusLabel.setText("Fail disconnecting: " + caught);
@@ -135,24 +142,34 @@ public class IrcConnector extends Composite {
             }});
         sendButton.addClickHandler(new ClickHandler() {
             @Override public void onClick(final ClickEvent event) {
+                sendButton.setEnabled(false);
                 eventBus.fireEvent(new SendToIrcEvent());
             }});
     }
 
-    private void setConnectionState(final boolean isConnected) {
-        networkBox.setEnabled(!isConnected);
-        channelBox.setEnabled(!isConnected);
-        nickBox.setEnabled(!isConnected);
-        connectButton.setEnabled(!isConnected);
-        disconnectButton.setEnabled(isConnected);
-        sendButton.setEnabled(isConnected);
+    private void setBotStatus(final BotStatus botStatus) {
+        networkBox.setText(botStatus.getNetwork());
+        channelBox.setText(botStatus.getChannel());
+        nickBox.setText(botStatus.getName());
+        networkBox.setEnabled(!botStatus.isConnected());
+        channelBox.setEnabled(!botStatus.isConnected());
+        nickBox.setEnabled(!botStatus.isConnected());
+        connectButton.setEnabled(!botStatus.isConnected());
+        disconnectButton.setEnabled(botStatus.isConnected());
+        sendButton.setEnabled(!botStatus.isSending());
+        if (botStatus.isSending()) {
+            statusLabel.setText("Bot is busy...");
+        } else {
+            statusLabel.setText(botStatus.isConnected() ? "Bot is connected." : "Bot is disconnected,");
+        }
     }
 
     public final void sendMessage(final List<String> message) {
-        ircService.isBotConnected(new AsyncCallback<Boolean>() {
-            @Override public void onSuccess(final Boolean isConnected) {
-                setConnectionState(isConnected);
-                if (isConnected) {
+        ircService.getBotStatus(new AsyncCallback<BotStatus>() {
+            @Override public void onSuccess(final BotStatus botStatus) {
+                setBotStatus(botStatus);
+                sendButton.setEnabled(false);
+                if (botStatus.isConnected()) {
                     ircService.sendMessage(message, new AsyncCallback<String>() {
                         @Override public void onSuccess(final String result) {
                             statusLabel.setText(result);

@@ -405,13 +405,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             display.getUrlSetter().setStatus("Enter URL to an image: ");
         }
         for (final HasEnabled widget : mayBeBusy) {
-            widget.setEnabled(isBusy);
+            widget.setEnabled(!isBusy);
         }
         if (!isBusy || !method.equals(ConversionMethod.Plain)) {
-            display.getIrcColorSetter().setEnabled(isBusy);
+            display.getIrcColorSetter().setEnabled(!isBusy);
         }
         if (!isBusy || !method.equals(ConversionMethod.Pwntari)) {
-            display.getPresetListBox().setEnabled(isBusy);
+            display.getPresetListBox().setEnabled(!isBusy);
         }
     }
 

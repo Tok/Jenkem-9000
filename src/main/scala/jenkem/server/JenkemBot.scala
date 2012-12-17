@@ -2,10 +2,12 @@ package jenkem.server
 
 import java.io.IOException
 import java.lang.InterruptedException
-
+import com.google.gwt.event.shared.HandlerManager
 import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
+import jenkem.client.event.BotStatusChangeEvent
+import jenkem.shared.BotStatus
 
 class JenkemBot extends PircBot {
   object Command extends Enumeration {
@@ -27,15 +29,18 @@ class JenkemBot extends PircBot {
   }
 
   object UrlExtractor {
-    def unapply(u: java.net.URL) = Some((
-      u.getProtocol, u.getHost, u.getPort, u.getPath))
+    def unapply(u: java.net.URL) = Some((u.getProtocol, u.getHost, u.getPort, u.getPath))
   }
 
-  val log = new StringBuilder
+  val eventBus = new HandlerManager(null);
+  val log = new StringBuilder //TODO use or remove this
   val engine = new ServerAsciiEngine
+  var botStatus = new BotStatus(false, false, "", "", "J_")
+  var lastChan = ""
   var stopSwitch = false
+  var isPlaying = false
 
-  def Bot() {
+  def Bot {
     super.setEncoding("UTF-8")
     super.setLogin("jenkem")
     super.setVersion("Jenkem-9000")
@@ -52,6 +57,9 @@ class JenkemBot extends PircBot {
       super.setName(nick)
       connect(network, port)
       joinChannel(channel)
+      lastChan = channel
+      botStatus = new BotStatus(true, false, network, channel, nick)
+      eventBus.fireEvent(new BotStatusChangeEvent(botStatus))
       log.append("Connected.")
       log.toString
     } catch {
@@ -60,6 +68,13 @@ class JenkemBot extends PircBot {
       case ie: IrcException => "Fail: IrcException: " + ie
     }
   }
+
+  override def onDisconnect = {
+    botStatus = new BotStatus(false, false, getServer, lastChan, getNick)
+    eventBus.fireEvent(new BotStatusChangeEvent(botStatus))
+  }
+
+  def getStatus = botStatus
 
   /**
    * Shows the help-text.
@@ -162,13 +177,18 @@ class JenkemBot extends PircBot {
    */
   @throws(classOf[InterruptedException])
   def playImage(out: List[String]): String = {
-    if (!getChannels.isEmpty) {
-      new Thread(new IrcSender(out)).start
-      log.append("Playing image.")
-    } else {
-      log.append("Bot is not in any channel.")
+    this.synchronized {
+      log.setLength(0) //wipe log
+      if (isPlaying) {
+        log.append("Bot is busy.")
+      } else if (getChannels.isEmpty) {
+        log.append("Bot is not in any channel.")
+      } else {
+        new Thread(new IrcSender(out)).start
+        log.append("Playing image.")
+      }
+      log.toString
     }
-    log.toString
   }
 
   /**
@@ -179,6 +199,7 @@ class JenkemBot extends PircBot {
    */
   class IrcSender(fullImage: List[String]) extends Runnable {
     override def run {
+      isPlaying = true;
       val sendMe = "PRIVMSG " + getChannels.head + " :"
       sendImageLine(fullImage)
       def sendImageLine(image: List[String]) {
@@ -190,10 +211,16 @@ class JenkemBot extends PircBot {
             case ie: InterruptedException => sendRawLine(sendMe + ie.getMessage)
           }
           if (!stopSwitch) { sendImageLine(image.tail) }
-          else { stopSwitch = false }
-        }
+          else { doStop }
+        } else { doStop }
       }
     }
   }
 
+  def doStop() {
+    stopSwitch = false;
+    isPlaying = false;
+    botStatus = new BotStatus(true, false, getServer, getChannels.head, getNick)
+    eventBus.fireEvent(new BotStatusChangeEvent(botStatus))
+  }
 }

@@ -3,6 +3,7 @@ package jenkem.server
 import scala.collection.JavaConverters._
 import com.google.gwt.user.server.rpc.RemoteServiceServlet
 import jenkem.client.service.IrcService
+import jenkem.shared.BotStatus
 
 /**
  * Implementation of service to handle messages for IRC.
@@ -20,8 +21,7 @@ class IrcServiceImpl extends RemoteServiceServlet with IrcService {
     "Disconnected."
   }
 
-  override def isBotConnected(): Boolean = bot.isConnected
-
+  override def getBotStatus(): BotStatus = bot.getStatus
   override def getLog(): String = bot.getLog
 
   /**
