@@ -29,3 +29,5 @@ HTML-Util: /src/main/java/jenkem/shared/HtmlUtil.java
 
 Issues:
 -- Doesn't work in IE
+
+![Jenkem-Octocat](http://tok.github.com/Jenkem-9000/images/jenkem-octocat.png)
