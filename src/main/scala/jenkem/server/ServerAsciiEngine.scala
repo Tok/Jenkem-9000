@@ -4,13 +4,14 @@ import com.google.gwt.canvas.client.Canvas
 import com.google.gwt.canvas.dom.client.ImageData
 import com.google.gwt.dom.client.ImageElement
 import com.google.gwt.user.client.ui.Image
-
 import jenkem.shared.CharacterSet
 import jenkem.shared.ColorScheme
 import jenkem.shared.ConversionMethod
 import jenkem.shared.Engine
 import jenkem.shared.Kick
 import jenkem.shared.color.Sample
+import jenkem.shared.color.IrcColor
+import java.util.HashMap
 
 /**
  * Converts images to colored ASCII on server.
@@ -77,7 +78,9 @@ class ServerAsciiEngine {
     val actualContrast: Int = ((contrast * sensitivity) + Sample.HALF_RGB).asInstanceOf[Int]
     engine.setParams(id, preset, kick, contrast, brightness)
     if (!method.equals(ConversionMethod.Plain)) {
-      engine.prepareScheme(scheme)
+      val colorMap: java.util.Map[String, java.lang.Integer] = new HashMap[String, java.lang.Integer];
+      IrcColor.values.map(ic => colorMap.put(ic.name(), 100)); //TODO implement
+      engine.setColorMap(colorMap);
     }
     id.getHeight
   }

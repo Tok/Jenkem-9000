@@ -115,6 +115,13 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
         assertEquals("#00ff00", util.ircToCss(IrcColor.green.getValue()));
         assertEquals("#0000ff", util.ircToCss(IrcColor.blue.getValue()));
         assertEquals("#ffffff", util.ircToCss(IrcColor.white.getValue()));
+        /* prepare css entries:
+        for (IrcColor ic : IrcColor.values()) {
+            System.out.println("." + ic + " {");
+            System.out.println("    color: " + util.ircToCss(ic.getValue()));
+            System.out.println("}");
+            System.out.println("");
+        } */
     }
 
     public final void testIsColorInfo() throws Exception {

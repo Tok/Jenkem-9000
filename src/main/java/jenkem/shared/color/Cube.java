@@ -124,12 +124,9 @@ public class Cube {
             map.put(wc.getWeight(), wc);
         }
 
-        final Map.Entry<Double, WeightedColor> strongest;
-        final Map.Entry<Double, WeightedColor> second;
-        final Iterator<Map.Entry<Double, WeightedColor>> i = map.entrySet()
-                .iterator();
-        strongest = i.next();
-        second = i.next();
+        final Iterator<Map.Entry<Double, WeightedColor>> i = map.entrySet().iterator();
+        final Map.Entry<Double, WeightedColor> strongest = i.next();
+        final Map.Entry<Double, WeightedColor> second = i.next();
 
         final Color c = new Color();
         c.setRgb(col);
@@ -145,7 +142,13 @@ public class Cube {
         // mathematically provable correct way on how to weigh two colors
         // against each other in regard to their distance to the
         // center of the cube 127,127,127
-        final double power = 4.00; // default should be 3.00 or 4.00;
+
+        //XXX
+        //final double power = 1.00;
+        final double power = 2.00;
+        //final double power = 3.00;
+        //final double power = 4.00;
+
         final double strongestStrength =
                 Math.pow(
                         calcStrength(col, strongest.getValue().getCoords(),

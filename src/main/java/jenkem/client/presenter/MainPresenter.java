@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import jenkem.client.ClientAsciiEngine;
+import jenkem.client.event.DoConversionEvent;
+import jenkem.client.event.DoConversionEventHandler;
 import jenkem.client.event.SendToIrcEvent;
 import jenkem.client.event.SendToIrcEventHandler;
 import jenkem.client.service.JenkemServiceAsync;
+import jenkem.client.widget.IrcColorSetter;
 import jenkem.client.widget.IrcConnector;
 import jenkem.shared.CharacterSet;
-import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.Kick;
@@ -96,9 +98,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         InlineHTML getPreviewHtml();
         TextArea getIrcTextArea();
         IrcConnector getIrcConnector();
+        IrcColorSetter getIrcColorSetter();
         ListBox getMethodListBox();
         ListBox getWidthListBox();
-        ListBox getSchemeListBox();
         ListBox getPresetListBox();
         Button getResetButton();
         SliderBarSimpleHorizontal getContrastSlider();
@@ -137,33 +139,34 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      */
     public final void bind() {
         getEventBus().addHandler(SendToIrcEvent.TYPE, new SendToIrcEventHandler() {
-            @Override
-            public void onSend(final SendToIrcEvent event) {
+            @Override public void onSend(final SendToIrcEvent event) {
                 display.getIrcConnector().sendMessage(ircOutput);
             }
         });
+        getEventBus().addHandler(DoConversionEvent.TYPE, new DoConversionEventHandler() {
+            @Override public void onDoConversion(final DoConversionEvent event) {
+                doConversion();
+            }
+        });
         this.display.getInputTextBox().addKeyPressHandler(new KeyPressHandler() {
-            @Override
-            public void onKeyPress(final KeyPressEvent event) {
+            @Override public void onKeyPress(final KeyPressEvent event) {
                 if (event.getCharCode() == KeyCodes.KEY_ENTER) {
                     replaceUrl();
                 }
             }});
         this.display.getShowButton().addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
+            @Override public void onClick(final ClickEvent event) {
                 replaceUrl();
             }});
         this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(final ChangeEvent event) {
+            @Override public void onChange(final ChangeEvent event) {
                 method = getCurrentConversionMethod();
                 if (method.equals(ConversionMethod.FullHd)) {
                     disableKicks();
                 } else {
                     enableKicks();
                 }
-                display.getSchemeListBox().setEnabled(!method.equals(ConversionMethod.Plain));
+                display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
                 if (!method.equals(ConversionMethod.Pwntari)) {
                     display.getPresetListBox().setEnabled(true);
                 }
@@ -171,59 +174,45 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 replaceUrl();
             }});
         this.display.getWidthListBox().addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(final ChangeEvent event) {
+            @Override public void onChange(final ChangeEvent event) {
                 replaceUrl();
             }});
-        this.display.getSchemeListBox().addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(final ChangeEvent event) {
-                doConversion();
-            }});
         this.display.getPresetListBox().addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(final ChangeEvent event) {
+            @Override public void onChange(final ChangeEvent event) {
                 doConversion();
             }});
         this.display.getResetButton().addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
+            @Override public void onClick(final ClickEvent event) {
                 doReset();
                 doConversion();
             }});
         this.display.getContrastSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
-            @Override
-            public void onBarValueChanged(final BarValueChangedEvent event) {
+            @Override public void onBarValueChanged(final BarValueChangedEvent event) {
                 updateContrast();
                 doConversion();
             }});
         this.display.getBrightnessSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
-            @Override
-            public void onBarValueChanged(final BarValueChangedEvent event) {
+            @Override public void onBarValueChanged(final BarValueChangedEvent event) {
                 updateBrightness();
                 doConversion();
             }});
         for (final Kick kick : Kick.values()) {
             this.display.getKickButton(kick).addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-                @Override
-                public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
                     if (event.getValue()) {
                         doConversion();
                     }
                 }});
         }
         this.display.getSubmitButton().addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
+            @Override public void onClick(final ClickEvent event) {
                 synchronized (this) {
                     display.getSubmitButton().setEnabled(false); //prevent double clicks
                     jenkemService.saveJenkemImage(jenkemImage, new AsyncCallback<Void>() {
-                        @Override
-                        public void onFailure(final Throwable caught) {
+                        @Override public void onFailure(final Throwable caught) {
                             handleSubmissionResult("Fail submitting conversion.");
                         }
-                        @Override
-                        public void onSuccess(final Void result) {
+                        @Override public void onSuccess(final Void result) {
                             handleSubmissionResult("Conversion submitted successfully.");
                         }
                     });
@@ -371,8 +360,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         display.getCanvas().getContext2d().drawImage(currentImage, 0, 0, width, height);
 
         final ImageData id = display.getCanvas().getContext2d().getImageData(0, 0, width, height);
-        final String schemeName = display.getSchemeListBox().getItemText(display.getSchemeListBox().getSelectedIndex());
-        final ColorScheme scheme = ColorScheme.valueOf(schemeName);
+
         final String presetName = display.getPresetListBox().getItemText(display.getPresetListBox().getSelectedIndex());
         final CharacterSet preset = CharacterSet.valueOf(presetName);
 
@@ -382,7 +370,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         lastIndex = id.getHeight();
         if (!method.equals(ConversionMethod.Plain)) { //FIXME ugly workaround
             engine.setParams(id, preset, getSelectedKick(), contrast, brightness);
-            engine.prepareScheme(scheme);
+            engine.setColorMap(display.getIrcColorSetter().getColorMap());
         } else {
             engine.setParams(id, preset, getSelectedKick(), contrast + 1, brightness);
         }
@@ -469,7 +457,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         for (final HasEnabled widget : mayBeBusy) {
             widget.setEnabled(false);
         }
-        display.getSchemeListBox().setEnabled(false);
+        display.getIrcColorSetter().setEnabled(false);
         display.getPresetListBox().setEnabled(false);
         disableKicks();
     }
@@ -484,7 +472,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             widget.setEnabled(true);
         }
         if (!method.equals(ConversionMethod.Plain)) {
-            display.getSchemeListBox().setEnabled(true);
+            display.getIrcColorSetter().setEnabled(true);
         }
         if (!method.equals(ConversionMethod.Pwntari)) {
             display.getPresetListBox().setEnabled(true);
@@ -509,7 +497,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Resets the view.
      */
     private void doReset() {
-        display.getSchemeListBox().setSelectedIndex(0);
+        display.getIrcColorSetter().reset();
         display.getPresetListBox().setSelectedIndex(0);
         resetContrastAndBrightness();
         display.getKickButton(Kick.Off).setValue(true);

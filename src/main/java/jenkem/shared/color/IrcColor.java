@@ -9,23 +9,23 @@ import jenkem.shared.ColorScheme;
  */
 public enum IrcColor {
     //                       defacto standard                  loosely proportional to distance from center of cube
-    //   IRC,                dark,                             def, viv, mon, lsd, bwg,  bw
-    white(0,      new int[] {255, 255, 255}, false, new int[] {100, 100, 100,  10, 100, 100}),
-    black(1,      new int[] {0,     0,   0},  true, new int[] {100, 100, 100,  10, 100, 100}),
-    darkBlue(2,   new int[] {0,     0, 127},  true, new int[] {66 ,  70,   0,  75,   0,   0}),
-    darkGreen(3,  new int[] {0,   147,   0},  true, new int[] {71 ,  75,   0,  75,   0,   0}),
-    red(4,        new int[] {255,   0,   0},  true, new int[] {100, 100, 100, 100,   0,   0}),
-    brown(5,      new int[] {127,   0,   0},  true, new int[] {66 ,  72,   0,  75,   0,   0}),
-    purple(6,     new int[] {156,   0, 156},  true, new int[] {48 ,  60,   0,  60,   0,   0}),
-    orange(7,     new int[] {252, 127,   0}, false, new int[] {66 ,  90,   0,  75,   0,   0}),
-    yellow(8,     new int[] {255, 255,   0}, false, new int[] {100, 100, 100, 100,   0,   0}),
-    green(9,      new int[] {0,   255,   0}, false, new int[] {100, 100, 100, 100,   0,   0}),
-    teal(10,      new int[] {0,   147, 147},  true, new int[] {43 ,  60,   0,  75,   0,   0}),
-    cyan(11,      new int[] {0,   255, 255}, false, new int[] {100, 100, 100, 100,   0,   0}),
-    blue(12,      new int[] {0,     0, 255},  true, new int[] {100, 100, 100, 100,   0,   0}),
-    magenta(13,   new int[] {255,   0, 255}, false, new int[] {100, 100, 100, 100,   0,   0}),
-    gray(14,      new int[] {127, 127, 127},  true, new int[] {10 ,  20,   0,   2, 100,   0}),
-    lightGray(15, new int[] {210, 210, 210}, false, new int[] {21 ,  40,   0,   5, 100,   0});
+    //   IRC,                dark,                             def, ful, viv, mon, lsd, bwg,  bw
+    white(0,      new int[] {255, 255, 255}, false, new int[] {100, 100, 100, 100,  10, 100, 100}),
+    black(1,      new int[] {0,     0,   0},  true, new int[] {100, 100, 100, 100,  10, 100, 100}),
+    darkBlue(2,   new int[] {0,     0, 127},  true, new int[] {66 , 100,  70,   0,  75,   0,   0}),
+    darkGreen(3,  new int[] {0,   147,   0},  true, new int[] {71 , 100,  75,   0,  75,   0,   0}),
+    red(4,        new int[] {255,   0,   0},  true, new int[] {100, 100, 100, 100, 100,   0,   0}),
+    brown(5,      new int[] {127,   0,   0},  true, new int[] {66 , 100,  72,   0,  75,   0,   0}),
+    purple(6,     new int[] {156,   0, 156},  true, new int[] {48 , 100,  60,   0,  60,   0,   0}),
+    orange(7,     new int[] {252, 127,   0}, false, new int[] {66 , 100,  90,   0,  75,   0,   0}),
+    yellow(8,     new int[] {255, 255,   0}, false, new int[] {100, 100, 100, 100, 100,   0,   0}),
+    green(9,      new int[] {0,   255,   0}, false, new int[] {100, 100, 100, 100, 100,   0,   0}),
+    teal(10,      new int[] {0,   147, 147},  true, new int[] {43 , 100,  60,   0,  75,   0,   0}),
+    cyan(11,      new int[] {0,   255, 255}, false, new int[] {100, 100, 100, 100, 100,   0,   0}),
+    blue(12,      new int[] {0,     0, 255},  true, new int[] {100, 100, 100, 100, 100,   0,   0}),
+    magenta(13,   new int[] {255,   0, 255}, false, new int[] {100, 100, 100, 100, 100,   0,   0}),
+    gray(14,      new int[] {127, 127, 127},  true, new int[] {10 , 100,  20,   0,   2, 100,   0}),
+    lightGray(15, new int[] {210, 210, 210}, false, new int[] {21 , 100,  40,   0,   5, 100,   0});
 
     private Integer value;
     private int[] rgb;

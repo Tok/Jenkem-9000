@@ -1,11 +1,9 @@
 package jenkem.shared;
 
-import java.util.HashMap;
 import java.util.Map;
 import jenkem.shared.color.Color;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.Cube;
-import jenkem.shared.color.IrcColor;
 import jenkem.shared.color.Sample;
 import com.google.gwt.canvas.dom.client.ImageData;
 
@@ -19,7 +17,7 @@ public class Engine {
     private final AsciiScheme asciiScheme = new AsciiScheme();
     private final ColorUtil colorUtil = new ColorUtil();
 
-    private Map<String, Integer> colorMap;
+    private Map<String, Integer> colorMap; //TODO change to <IrcColor, Integer>
     private ImageData id;
     private CharacterSet preset;
     private int contrast;
@@ -427,22 +425,6 @@ public class Engine {
         return dark;
     }
 
-    public final void prepareScheme(final ColorScheme scheme) {
-        this.colorMap = prepareColorMap(scheme);
-    }
-
-    /**
-     * Prepares a Map with the Colors depending on the selected ColorScheme.
-     * @param scheme the selected ColorScheme
-     */
-    private Map<String, Integer> prepareColorMap(final ColorScheme scheme) {
-        final Map<String, Integer> colorMap = new HashMap<String, Integer>();
-        for (final IrcColor ic : IrcColor.values()) {
-            colorMap.put(ic.name(), ic.getOrder(scheme));
-        }
-        return colorMap;
-    }
-
     /**
      * Decides if top is darker than bottom.
      * @param top rgb values of the top pixels
@@ -509,5 +491,9 @@ public class Engine {
 
     public final int getStartY() {
         return startY;
+    }
+
+    public final void setColorMap(final Map<String, Integer> colorMap) {
+        this.colorMap = colorMap;
     }
 }

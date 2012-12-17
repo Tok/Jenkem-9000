@@ -1,12 +1,12 @@
 package jenkem.client;
 
-import com.google.gwt.canvas.dom.client.ImageData;
+import java.util.Map;
 import jenkem.client.presenter.MainPresenter;
 import jenkem.shared.CharacterSet;
-import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.Kick;
+import com.google.gwt.canvas.dom.client.ImageData;
 
 /**
  * Converts images to colored ASCII in client.
@@ -54,7 +54,7 @@ public class ClientAsciiEngine {
         engine.setParams(id, preset, selectedKick, contrast, brightness);
     }
 
-    public final void prepareScheme(final ColorScheme scheme) {
-        engine.prepareScheme(scheme);
+    public final void setColorMap(final Map<String, Integer> colorMap) {
+        engine.setColorMap(colorMap);
     }
 }

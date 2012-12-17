@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.ExtendedTextBox;
+import jenkem.client.widget.IrcColorSetter;
 import jenkem.client.widget.IrcConnector;
 import jenkem.shared.CharacterSet;
-import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Kick;
+import jenkem.shared.LineWidth;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
@@ -55,25 +56,25 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final IrcConnector ircConnector;
     private final ListBox methodListBox = new ListBox();
     private final ListBox widthListBox = new ListBox();
-    private final ListBox schemeListBox = new ListBox();
     private final ListBox presetListBox = new ListBox();
     private final Button resetButton = new Button("Reset");
     private final SliderBarSimpleHorizontal contrastSlider = new SliderBarSimpleHorizontal(100, "100px", false);
     private final Label contrastLabel = new Label();
     private final SliderBarSimpleHorizontal brightnessSlider = new SliderBarSimpleHorizontal(100, "100px", false);
     private final Label brightnessLabel = new Label();
+    private final IrcColorSetter ircColorSetter;
     private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
     private final Button submitButton = new Button("Submit to Gallery");
     private final FlexTable contentTable;
 
     /**
      * Default constructor.
+     * TODO Megamoth
      */
     public MainView(final HandlerManager eventBus) {
+        ircColorSetter = new IrcColorSetter(eventBus);
         ircConnector = new IrcConnector(eventBus);
-
         final String link = com.google.gwt.user.client.Window.Location.getParameter("link");
-
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
         contentTableDecorator.setWidth("1010px");
         initWidget(contentTableDecorator);
@@ -84,9 +85,7 @@ public class MainView extends Composite implements MainPresenter.Display {
         inputTextBox.setWidth("800px");
         hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         hPanel.setSpacing(SPACING);
-        if (link != null && !link.equals("")) {
-            inputTextBox.setText(link);
-        }
+        if (link != null && !link.equals("")) { inputTextBox.setText(link); }
         hPanel.add(inputTextBox);
         showButton.setWidth("137px");
         hPanel.add(showButton);
@@ -115,12 +114,11 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
-        widthListBox.addItem("72");
-        widthListBox.addItem("64");
-        widthListBox.addItem("56");
-        widthListBox.addItem("48");
-        widthListBox.addItem("40");
-        widthListBox.addItem("32");
+        for (final LineWidth lw : LineWidth.values()) {
+            widthListBox.addItem(lw.getValueString());
+        }
+        widthListBox.setItemSelected(1, true);
+
         settingsTable.setText(settingsRow, 0, "Max Line Width:");
         widthListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, widthListBox);
@@ -137,21 +135,19 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
-        for (final ColorScheme scheme : ColorScheme.values()) {
-            schemeListBox.addItem(scheme.toString());
-        }
-        settingsTable.setText(settingsRow, 0, "Color Scheme:");
-        schemeListBox.setWidth("200px");
-        settingsTable.setWidget(settingsRow, 1, schemeListBox);
-        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
-        settingsRow++;
-
         for (final CharacterSet preset : CharacterSet.values()) {
             presetListBox.addItem(preset.name());
         }
         settingsTable.setText(settingsRow, 0, "Character Set:");
         presetListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, presetListBox);
+        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+        settingsRow++;
+
+        settingsTable.setText(settingsRow, 0, "Kick:");
+        final HorizontalPanel kickPanel = new HorizontalPanel();
+        initKicks(kickPanel);
+        settingsTable.setWidget(settingsRow, 1, kickPanel);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
@@ -173,11 +169,12 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.setWidget(settingsRow, 2, brightnessLabel);
         settingsRow++;
 
-        settingsTable.setText(settingsRow, 0, "Kick:");
-        final HorizontalPanel kickPanel = new HorizontalPanel();
-        initKicks(kickPanel);
-        settingsTable.setWidget(settingsRow, 1, kickPanel);
-        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+        settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
+        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
+        settingsRow++;
+
+        settingsTable.setWidget(settingsRow, 0, ircColorSetter);
+        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 0, 3);
         settingsRow++;
 
         settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
@@ -280,11 +277,6 @@ public class MainView extends Composite implements MainPresenter.Display {
     }
 
     @Override
-    public final ListBox getSchemeListBox() {
-        return schemeListBox;
-    }
-
-    @Override
     public final ListBox getPresetListBox() {
         return presetListBox;
     }
@@ -327,6 +319,11 @@ public class MainView extends Composite implements MainPresenter.Display {
     @Override
     public final TextArea getIrcTextArea() {
         return ircText;
+    }
+
+    @Override
+    public final IrcColorSetter getIrcColorSetter() {
+        return ircColorSetter;
     }
 
     @Override
