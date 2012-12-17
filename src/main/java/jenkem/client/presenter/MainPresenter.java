@@ -515,8 +515,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      */
     private void doReset() {
         display.getIrcColorSetter().reset();
-        display.getPresetListBox().setSelectedIndex(0);
-        display.getPowerListBox().setSelectedIndex(0);
+        display.getPresetListBox().setSelectedIndex(0); //hard
+        display.getPowerListBox().setSelectedIndex(2); //cubic
         resetContrastAndBrightness();
         display.getKickButton(Kick.Off).setValue(true);
     }

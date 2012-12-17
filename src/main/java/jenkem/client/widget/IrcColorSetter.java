@@ -108,7 +108,7 @@ public class IrcColorSetter extends Composite {
     }
 
     public final void reset() {
-        schemeListBox.setSelectedIndex(0);
+        schemeListBox.setSelectedIndex(1); //default
         final String schemeName = schemeListBox.getValue(schemeListBox.getSelectedIndex());
         setScheme(ColorScheme.valueOf(schemeName));
     }

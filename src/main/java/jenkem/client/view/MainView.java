@@ -106,9 +106,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 
         int settingsRow = 0;
         final FlexTable settingsTable = new FlexTable();
-        for (final ConversionMethod method : ConversionMethod.values()) {
-            methodListBox.addItem(method.toString());
-        }
+        for (final ConversionMethod method : ConversionMethod.values()) { methodListBox.addItem(method.toString()); }
         settingsTable.setText(settingsRow, 0, "Conversion Method:");
         methodListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, methodListBox);
@@ -132,9 +130,7 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
-        for (final CharacterSet preset : CharacterSet.values()) {
-            presetListBox.addItem(preset.name());
-        }
+        for (final CharacterSet preset : CharacterSet.values()) { presetListBox.addItem(preset.name()); }
         settingsTable.setText(settingsRow, 0, "Character Set:");
         presetListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, presetListBox);
@@ -150,6 +146,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 
         settingsTable.setText(settingsRow, 0, "Power:");
         for (final Power power : Power.values()) { powerListBox.addItem(power.toString()); }
+        powerListBox.setSelectedIndex(2); //Cubic
         powerListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, powerListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);

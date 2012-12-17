@@ -9,7 +9,7 @@ import jenkem.shared.ColorScheme;
  */
 public enum IrcColor {
     //                       defacto standard                  loosely proportional to distance from center of cube
-    //   IRC,                dark,                             ful, old, viv, mon, lsd, bwg,  bw
+    //   IRC,                dark,                             ful, def, viv, mon, lsd, bwg,  bw
     white(0,      new int[] {255, 255, 255}, false, new int[] {100, 100, 100, 100,  10, 100, 100}),
     black(1,      new int[] {0,     0,   0},  true, new int[] {100, 100, 100, 100,  10, 100, 100}),
     darkBlue(2,   new int[] {0,     0, 127},  true, new int[] {100,  66,  70,   0,  75,   0,   0}),
