@@ -174,7 +174,7 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
         final String externalLink = "http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png";
-        final Hyperlink link = new Hyperlink("http://" + Window.Location.getHost() + "/Jenkem.html/#main/" + externalLink, "main/" + externalLink);
+        final Hyperlink link = new Hyperlink("http://" + Window.Location.getHost() + "/#main/" + externalLink, "main/" + externalLink);
         display.getInfoList().setWidget(row, 0, link);
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
