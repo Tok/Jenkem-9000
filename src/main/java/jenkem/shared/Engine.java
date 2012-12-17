@@ -493,7 +493,8 @@ public class Engine {
         return startY;
     }
 
-    public final void setColorMap(final Map<String, Integer> colorMap) {
+    public final void prepareEngine(final Map<String, Integer> colorMap, final Power power) {
         this.colorMap = colorMap;
+        cube.setPower(power);
     }
 }

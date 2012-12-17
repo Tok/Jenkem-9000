@@ -10,6 +10,7 @@ import jenkem.shared.CharacterSet;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Kick;
 import jenkem.shared.LineWidth;
+import jenkem.shared.Power;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
@@ -64,6 +65,7 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final Label brightnessLabel = new Label();
     private final IrcColorSetter ircColorSetter;
     private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
+    private final ListBox powerListBox = new ListBox();
     private final Button submitButton = new Button("Submit to Gallery");
     private final FlexTable contentTable;
 
@@ -80,7 +82,6 @@ public class MainView extends Composite implements MainPresenter.Display {
         initWidget(contentTableDecorator);
 
         contentTable = new FlexTable();
-
         final HorizontalPanel hPanel = new HorizontalPanel();
         inputTextBox.setWidth("800px");
         hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -114,11 +115,7 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
-        for (final LineWidth lw : LineWidth.values()) {
-            widthListBox.addItem(lw.getValueString());
-        }
-        widthListBox.setItemSelected(1, true);
-
+        for (final LineWidth lw : LineWidth.values()) { widthListBox.addItem(lw.getValueString()); }
         settingsTable.setText(settingsRow, 0, "Max Line Width:");
         widthListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, widthListBox);
@@ -148,6 +145,13 @@ public class MainView extends Composite implements MainPresenter.Display {
         final HorizontalPanel kickPanel = new HorizontalPanel();
         initKicks(kickPanel);
         settingsTable.setWidget(settingsRow, 1, kickPanel);
+        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+        settingsRow++;
+
+        settingsTable.setText(settingsRow, 0, "Power:");
+        for (final Power power : Power.values()) { powerListBox.addItem(power.toString()); }
+        powerListBox.setWidth("200px");
+        settingsTable.setWidget(settingsRow, 1, powerListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
@@ -279,6 +283,11 @@ public class MainView extends Composite implements MainPresenter.Display {
     @Override
     public final ListBox getPresetListBox() {
         return presetListBox;
+    }
+
+    @Override
+    public final ListBox getPowerListBox() {
+        return powerListBox;
     }
 
     @Override

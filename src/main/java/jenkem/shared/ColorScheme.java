@@ -4,7 +4,7 @@ package jenkem.shared;
  * Enum for different color schemes to set on the IRC/ASCII level.
  */
 public enum ColorScheme {
-    Default(0), Full(1), Vivid(2), Mono(3), Lsd(4), Bwg(5), Bw(6);
+    Full(0), Old(1), Vivid(2), Mono(3), Lsd(4), Bwg(5), Bw(6);
 
     private int order;
 

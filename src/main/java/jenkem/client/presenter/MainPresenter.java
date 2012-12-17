@@ -15,6 +15,7 @@ import jenkem.shared.CharacterSet;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.Kick;
+import jenkem.shared.Power;
 import jenkem.shared.data.ImageCss;
 import jenkem.shared.data.ImageHtml;
 import jenkem.shared.data.ImageInfo;
@@ -102,6 +103,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         ListBox getMethodListBox();
         ListBox getWidthListBox();
         ListBox getPresetListBox();
+        ListBox getPowerListBox();
         Button getResetButton();
         SliderBarSimpleHorizontal getContrastSlider();
         Label getContrastLabel();
@@ -130,6 +132,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         this.engine = new ClientAsciiEngine(this);
         mayBeBusy.add(display.getMethodListBox());
         mayBeBusy.add(display.getWidthListBox());
+        mayBeBusy.add(display.getPowerListBox());
         mayBeBusy.add(display.getResetButton());
         mayBeBusy.add(display.getSubmitButton());
     }
@@ -178,6 +181,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 replaceUrl();
             }});
         this.display.getPresetListBox().addChangeHandler(new ChangeHandler() {
+            @Override public void onChange(final ChangeEvent event) {
+                doConversion();
+            }});
+        this.display.getPowerListBox().addChangeHandler(new ChangeHandler() {
             @Override public void onChange(final ChangeEvent event) {
                 doConversion();
             }});
@@ -370,7 +377,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         lastIndex = id.getHeight();
         if (!method.equals(ConversionMethod.Plain)) { //FIXME ugly workaround
             engine.setParams(id, preset, getSelectedKick(), contrast, brightness);
-            engine.setColorMap(display.getIrcColorSetter().getColorMap());
+            engine.prepareEngine(display.getIrcColorSetter().getColorMap(), getSelectedPower());
         } else {
             engine.setParams(id, preset, getSelectedKick(), contrast + 1, brightness);
         }
@@ -494,11 +501,22 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     }
 
     /**
+     * Returns the selected Kick.
+     * @return kick
+     */
+    private Power getSelectedPower() {
+        final String powerName = display.getPowerListBox().getItemText(
+                display.getPowerListBox().getSelectedIndex());
+        return Power.valueOf(powerName);
+    }
+
+    /**
      * Resets the view.
      */
     private void doReset() {
         display.getIrcColorSetter().reset();
         display.getPresetListBox().setSelectedIndex(0);
+        display.getPowerListBox().setSelectedIndex(0);
         resetContrastAndBrightness();
         display.getKickButton(Kick.Off).setValue(true);
     }

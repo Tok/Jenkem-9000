@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import jenkem.shared.AsciiScheme;
 import jenkem.shared.CharacterSet;
+import jenkem.shared.Power;
 
 /**
  * This Class is used to manipulate a Cube made of colors. X, Y, Z ---> Red,
@@ -22,6 +23,7 @@ public class Cube {
     public static final int NO_OFFSET = 0;
     public static final int NEGATIVE_OFFSET = -10;
     public static final int POSITIVE_OFFSET = 10;
+    private Power power = Power.Linear;
 
     /**
      * Translates the RGB values of the pixel to a colored IRC character.
@@ -143,22 +145,13 @@ public class Cube {
         // against each other in regard to their distance to the
         // center of the cube 127,127,127
 
-        //XXX
-        //final double power = 1.00;
-        final double power = 2.00;
-        //final double power = 3.00;
-        //final double power = 4.00;
-
+        final double p = power.getValue();
         final double strongestStrength =
-                Math.pow(
-                        calcStrength(col, strongest.getValue().getCoords(),
-                        colorMap.get(strongest.getValue().getName())),
-                power);
+                Math.pow(calcStrength(col, strongest.getValue().getCoords(),
+                        colorMap.get(strongest.getValue().getName())), p);
         final double secondStrength =
-                Math.pow(
-                        calcStrength(col, second.getValue().getCoords(),
-                        colorMap.get(second.getValue().getName())),
-                power);
+                Math.pow(calcStrength(col, second.getValue().getCoords(),
+                        colorMap.get(second.getValue().getName())), p);
         final double strength = strongestStrength / secondStrength;
         c.setBgStrength(strength);
 
@@ -237,4 +230,8 @@ public class Cube {
         list.set(ii, s);
     }
 
+
+    public final void setPower(final Power power) {
+        this.power = power;
+    }
 }

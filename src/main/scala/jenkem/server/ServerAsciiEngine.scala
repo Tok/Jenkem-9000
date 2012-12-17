@@ -9,6 +9,7 @@ import jenkem.shared.ColorScheme
 import jenkem.shared.ConversionMethod
 import jenkem.shared.Engine
 import jenkem.shared.Kick
+import jenkem.shared.Power
 import jenkem.shared.color.Sample
 import jenkem.shared.color.IrcColor
 import java.util.HashMap
@@ -22,7 +23,7 @@ class ServerAsciiEngine {
   var width = 72 //TODO make immutable
   var contrast = 0
   var brightness = 0
-  var scheme = ColorScheme.Default
+  var scheme = ColorScheme.Full
   var preset = CharacterSet.Hard
   var method = ConversionMethod.SuperHybrid
   var kick = Kick.Off
@@ -80,7 +81,7 @@ class ServerAsciiEngine {
     if (!method.equals(ConversionMethod.Plain)) {
       val colorMap: java.util.Map[String, java.lang.Integer] = new HashMap[String, java.lang.Integer];
       IrcColor.values.map(ic => colorMap.put(ic.name(), 100)); //TODO implement
-      engine.setColorMap(colorMap);
+      engine.prepareEngine(colorMap, Power.Linear);
     }
     id.getHeight
   }
