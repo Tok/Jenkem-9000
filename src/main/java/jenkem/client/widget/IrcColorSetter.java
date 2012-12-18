@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
@@ -23,8 +22,6 @@ import com.kiouri.sliderbar.client.solution.simplevertical.SliderBarSimpleVertic
 public class IrcColorSetter extends Composite {
     private static final int MAX_PERCENT = 100;
     private final HandlerManager eventBus;
-
-    private final HorizontalPanel mainPanel = new HorizontalPanel();
     private final FlexTable flex = new FlexTable();
 
     private final ListBox schemeListBox = new ListBox();
@@ -63,8 +60,7 @@ public class IrcColorSetter extends Composite {
                 eventBus.fireEvent(new DoConversionEvent(false));
             }});
 
-        mainPanel.add(flex);
-        initWidget(mainPanel);
+        initWidget(flex);
     }
 
     private void bind(final IrcColor ic, final SliderBarSimpleVertical colorSlider, final Label colorLabel) {

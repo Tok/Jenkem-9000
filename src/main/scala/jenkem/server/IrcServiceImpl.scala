@@ -13,7 +13,8 @@ class IrcServiceImpl extends RemoteServiceServlet with IrcService {
   val bot = new JenkemBot
 
   override def connect(network: String, port: Int, channel: String, nick: String): String = {
-    bot.connectAndJoin(network, port, channel, nick)
+    val result = bot.connectAndJoin(network, port, channel, nick)
+    result
   }
 
   override def disconnect(): String = {
@@ -21,8 +22,7 @@ class IrcServiceImpl extends RemoteServiceServlet with IrcService {
     "Disconnected."
   }
 
-  override def getBotStatus(): BotStatus = bot.getStatus
-  override def getLog(): String = bot.getLog
+  override def getBotStatus(): BotStatus = bot.botStatus
 
   /**
    * Saves a converted JenkemImage.

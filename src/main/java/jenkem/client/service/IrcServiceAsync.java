@@ -8,6 +8,5 @@ public interface IrcServiceAsync {
     void connect(final String network, final int port, final String channel, final String nick, final AsyncCallback<String> ac);
     void disconnect(final AsyncCallback<String> ac);
     void getBotStatus(final AsyncCallback<BotStatus> ac);
-    void getLog(final AsyncCallback<String> ac);
     void sendMessage(final List<String> message, final AsyncCallback<String> ac);
 }

@@ -13,6 +13,5 @@ public interface IrcService extends RemoteService {
     String connect(final String network, final int port, final String channel, final String nick);
     String disconnect();
     BotStatus getBotStatus();
-    String getLog();
     String sendMessage(final List<String> message);
 }
