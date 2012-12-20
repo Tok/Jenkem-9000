@@ -43,7 +43,6 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
@@ -77,9 +76,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private ImageElement currentImage;
     private String currentName;
     private static JenkemImage jenkemImage;
-    private List<HasEnabled> mayBeBusy = new ArrayList<HasEnabled>();
 
     private boolean isConversionRunnung = false;
+    private boolean restartConversion = false;
 
     public interface Display {
         UrlSetter getUrlSetter();
@@ -118,11 +117,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         this.jenkemService = jenkemService;
         this.display = view;
         this.engine = new ClientAsciiEngine(this);
-        mayBeBusy.add(display.getMethodListBox());
-        mayBeBusy.add(display.getWidthListBox());
-        mayBeBusy.add(display.getPowerListBox());
-        mayBeBusy.add(display.getResetButton());
-        mayBeBusy.add(display.getSubmitButton());
     }
 
     @Override public final void go(final HasWidgets container) {
@@ -142,7 +136,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         });
         getEventBus().addHandler(DoConversionEvent.TYPE, new DoConversionEventHandler() {
             @Override public void onDoConversion(final DoConversionEvent event) {
-                if (event.proxify()) { proxifyAndConvert(); } else { doConversion(); }
+                if (event.proxify()) { proxifyAndConvert(); } else { startOrRestartConversion(); }
             }});
         this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
             @Override public void onChange(final ChangeEvent event) {
@@ -153,33 +147,33 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                     display.getPresetListBox().setEnabled(true);
                 }
                 resetContrastAndBrightness();
-                display.getUrlSetter().replaceUrl();
+                startOrRestartConversion();
             }});
         this.display.getWidthListBox().addChangeHandler(new ChangeHandler() {
             @Override public void onChange(final ChangeEvent event) {
-                display.getUrlSetter().replaceUrl();
+                startOrRestartConversion();
             }});
         this.display.getPresetListBox().addChangeHandler(makeConversionChangeHandler());
         this.display.getPowerListBox().addChangeHandler(makeConversionChangeHandler());
         this.display.getResetButton().addClickHandler(new ClickHandler() {
             @Override public void onClick(final ClickEvent event) {
                 doReset();
-                doConversion();
+                startOrRestartConversion();
             }});
         this.display.getContrastSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
                 updateContrast();
-                doConversion();
+                startOrRestartConversion();
             }});
         this.display.getBrightnessSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
                 updateBrightness();
-                doConversion();
+                startOrRestartConversion();
             }});
         for (final Kick kick : Kick.values()) {
             this.display.getKickButton(kick).addValueChangeHandler(new ValueChangeHandler<Boolean>() {
                 @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
-                    if (event.getValue()) { doConversion(); }
+                    if (event.getValue()) { startOrRestartConversion(); }
                 }});
         }
         this.display.getSubmitButton().addClickHandler(new ClickHandler() {
@@ -199,7 +193,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     }
 
     private ChangeHandler makeConversionChangeHandler() {
-        return new ChangeHandler() { @Override public void onChange(final ChangeEvent event) { doConversion(); }};
+        return new ChangeHandler() { @Override public void onChange(final ChangeEvent event) { startOrRestartConversion(); }};
     }
 
     /**
@@ -214,7 +208,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Proxifies the image and calls the show method.
      */
-    public final void proxifyAndConvert() {
+    public final synchronized void proxifyAndConvert() {
         final String urlString = display.getUrlSetter().getUrl();
         final String proxifiedUrl = proxify(urlString);
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -228,7 +222,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @param urlString a String with the url to the image
      * @return url to image servlet
      */
-    private String proxify(final String urlString) {
+    private synchronized String proxify(final String urlString) {
         display.getUrlSetter().setStatus("Proxifying image.");
         final String[] split = urlString.split("/");
         currentName = split[split.length - 1];
@@ -255,21 +249,21 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         image.addLoadHandler(new LoadHandler() {
             @Override public void onLoad(final LoadEvent event) {
                 display.getUrlSetter().setStatus("Image loaded.");
-                doConversion();
+                startOrRestartConversion();
             }});
     }
 
     /**
      * Defers the conversion.
      */
-    private void doConversion() {
+    private synchronized void doConversion() {
         if (image == null) { return; }
-        if (!isConversionRunnung) {
+        if (!isConversionRunnung || restartConversion) {
             isConversionRunnung = true;
+            restartConversion = false;
             makeBusy(true);
             Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-                @Override
-                public void execute() {
+                @Override public void execute() {
                     doDeferredConversion();
                 }});
         }
@@ -298,7 +292,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Processes the conversion.
      */
-    private void doDeferredConversion() {
+    private synchronized void doDeferredConversion() {
         currentImage = ImageElement.as(image.getElement());
         method = getCurrentConversionMethod();
         final int width = getCurrentLineWidth();
@@ -342,22 +336,32 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @param ircLine
      * @param index
      */
-    public final void addIrcOutputLine(final String ircLine, final int index) {
-        updateProgress(index);
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override
-            public void execute() {
-                if (ircLine != null && !ircLine.isEmpty() && index < lastIndex) {
-                    ircOutput.add(ircLine + "\n");
+    public final synchronized void addIrcOutputLine(final String ircLine, final int index) {
+        if (restartConversion) {
+            restartConversion = false;
+            isConversionRunnung = false;
+            ircOutput.clear();
+            doConversion();
+        } else if (isConversionRunnung) {
+            updateProgress(index);
+            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                @Override public void execute() {
+                    if (ircLine != null && !ircLine.isEmpty() && index < lastIndex) {
+                        ircOutput.add(ircLine + "\n");
+                    }
+                    if (index >= lastIndex - 1) {
+                        addOutput();
+                    } else {
+                        engine.generateLine(method, method.hasKick() ? index + 2 : index + 1);
+                        updatePreview(ircOutput);
+                    }
                 }
-                if (index >= lastIndex - 1) {
-                    addOutput();
-                } else {
-                    engine.generateLine(method, method.hasKick() ? index + 2 : index + 1);
-                    updatePreview(ircOutput);
-                }
-            }
-        });
+            });
+        }
+    }
+
+    public final synchronized void startOrRestartConversion() {
+        if (isConversionRunnung) { restartConversion = true; } else { doConversion(); }
     }
 
     /**
@@ -399,19 +403,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     }
 
     private void makeBusy(final boolean isBusy) {
-        setKicksEnabled(!isBusy);
         display.getUrlSetter().makeBusy(isBusy);
+        display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
+        display.getPresetListBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
         if (!isBusy) {
             display.getUrlSetter().setStatus("Enter URL to an image: ");
-        }
-        for (final HasEnabled widget : mayBeBusy) {
-            widget.setEnabled(!isBusy);
-        }
-        if (!isBusy || !method.equals(ConversionMethod.Plain)) {
-            display.getIrcColorSetter().setEnabled(!isBusy);
-        }
-        if (!isBusy || !method.equals(ConversionMethod.Pwntari)) {
-            display.getPresetListBox().setEnabled(!isBusy);
         }
     }
 
