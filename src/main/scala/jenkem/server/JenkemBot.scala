@@ -75,7 +75,7 @@ class JenkemBot extends PircBot {
 
   override def onDisconnect = {
     this.botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected,
-        BotStatus.SendStatus.NotSending, getServer, getChannels.head, getNick)
+        BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
   }
 
   /**
@@ -131,7 +131,7 @@ class JenkemBot extends PircBot {
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
     val m = message.split(" ")
-    if (channel.equals(getChannels.head)) {
+    if (channel.equals(lastChan)) {
       if (m.head.equalsIgnoreCase("Jenkem") || m.head.equalsIgnoreCase(getLogin) || m.head.equalsIgnoreCase(getNick)) {
         try {
           Command.withName(m.tail.head.toUpperCase) match {
@@ -198,7 +198,7 @@ class JenkemBot extends PircBot {
   class IrcSender(fullImage: List[String]) extends Runnable {
     override def run {
       isPlaying = true;
-      botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected, BotStatus.SendStatus.Sending, getServer, getChannels.head, getNick)
+      botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected, BotStatus.SendStatus.Sending, getServer, lastChan, getNick)
       val sendMe = "PRIVMSG " + getChannels.head + " :"
       sendImageLine(fullImage)
       def sendImageLine(image: List[String]) {
@@ -225,7 +225,7 @@ class JenkemBot extends PircBot {
   def resetStop() {
     stopSwitch = false;
     isPlaying = false;
-    botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected, BotStatus.SendStatus.NotSending, getServer, getChannels.head, getNick)
+    botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected, BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
   }
 
 }

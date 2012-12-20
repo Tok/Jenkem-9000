@@ -1,5 +1,7 @@
 package jenkem.client.widget;
 
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -16,6 +18,9 @@ public class ExtendedTextBox extends TextBox {
     public ExtendedTextBox() {
         super();
         sinkEvents(Event.ONPASTE);
+        this.addFocusHandler(new FocusHandler() {
+            @Override public void onFocus(final FocusEvent event) { selectAll(); }
+        });
     }
 
     /**
@@ -27,5 +32,11 @@ public class ExtendedTextBox extends TextBox {
         if (DOM.eventGetType(event) == Event.ONPASTE) {
             ValueChangeEvent.fire(ExtendedTextBox.this, getText());
         }
+    }
+
+    @Override
+    public final void setText(final String text) {
+        super.setText(text);
+        selectAll();
     }
 }

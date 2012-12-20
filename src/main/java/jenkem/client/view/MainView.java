@@ -61,7 +61,7 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final UrlSetter urlSetter;
     private final IrcColorSetter ircColorSetter;
     private final IrcConnector ircConnector;
-    private final FlexTable contentTable;
+    private final FlexTable contentTable = new FlexTable();
 
     /**
      * Default constructor.
@@ -72,34 +72,42 @@ public class MainView extends Composite implements MainPresenter.Display {
         ircColorSetter = new IrcColorSetter(eventBus);
         ircConnector = new IrcConnector(eventBus);
 
+        final FlexTable flex = new FlexTable();
+        final FlexTable settingsTable = new FlexTable();
         final DecoratorPanel contentTableDecorator = new DecoratorPanel();
+
         contentTableDecorator.setWidth("1010px");
-        initWidget(contentTableDecorator);
+        previewPanel.setWidth("545px");
+        previewPanel.setHeight("1010px");
+        settingsTable.getFlexCellFormatter().setWidth(0, 0, "170px");
+        settingsTable.getFlexCellFormatter().setWidth(1, 0, "200px");
+        settingsTable.getFlexCellFormatter().setWidth(2, 0, "50px");
+        methodListBox.setWidth("200px");
+        widthListBox.setWidth("200px");
+        resetButton.setWidth("200px");
+        presetListBox.setWidth("200px");
+        powerListBox.setWidth("200px");
+        submitButton.setWidth("200px");
+        contrastLabel.setWidth("25px");
+        brightnessLabel.setWidth("25px");
+        ircText.setWidth("393px");
 
         int row = 0;
-        contentTable = new FlexTable();
         contentTable.setWidget(row++, 0, urlSetter);
 
-        previewPanel.setHeight("1010px");
         previewPanel.add(inline);
-
-        final FlexTable flex = new FlexTable();
         flex.setWidget(0, 0, previewPanel);
         flex.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
-        flex.getFlexCellFormatter().setWidth(0, 0, "600px");
 
         int settingsRow = 0;
-        final FlexTable settingsTable = new FlexTable();
         for (final ConversionMethod method : ConversionMethod.values()) { methodListBox.addItem(method.toString()); }
         settingsTable.setText(settingsRow, 0, "Conversion Method:");
-        methodListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, methodListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
         for (final LineWidth lw : LineWidth.values()) { widthListBox.addItem(lw.getValueString()); }
         settingsTable.setText(settingsRow, 0, "Max Line Width:");
-        widthListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, widthListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
@@ -109,14 +117,12 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsRow++;
 
         settingsTable.setText(settingsRow, 0, "Reset values:");
-        resetButton.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, resetButton);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
         for (final CharacterSet preset : CharacterSet.values()) { presetListBox.addItem(preset.name()); }
         settingsTable.setText(settingsRow, 0, "Character Set:");
-        presetListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, presetListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
@@ -131,7 +137,6 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.setText(settingsRow, 0, "Power:");
         for (final Power power : Power.values()) { powerListBox.addItem(power.toString()); }
         powerListBox.setSelectedIndex(2); //Cubic
-        powerListBox.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, powerListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
@@ -141,7 +146,6 @@ public class MainView extends Composite implements MainPresenter.Display {
         contrastSlider.setMaxValue(INITIAL_CONTRAST_MAX);
         contrastSlider.setWidth(SLIDER_WIDTH + "px");
         settingsTable.setWidget(settingsRow, 1, contrastSlider);
-        contrastLabel.setWidth("25px");
         settingsTable.setWidget(settingsRow, 2, contrastLabel);
         settingsRow++;
 
@@ -150,7 +154,6 @@ public class MainView extends Composite implements MainPresenter.Display {
         brightnessSlider.setMaxValue(INITIAL_BRIGHTNESS_MAX);
         brightnessSlider.setWidth(SLIDER_WIDTH + "px");
         settingsTable.setWidget(settingsRow, 1, brightnessSlider);
-        brightnessLabel.setWidth("25px");
         settingsTable.setWidget(settingsRow, 2, brightnessLabel);
         settingsRow++;
 
@@ -167,7 +170,6 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsRow++;
 
         settingsTable.setText(settingsRow, 0, "Submit Conversion:");
-        submitButton.setWidth("200px");
         settingsTable.setWidget(settingsRow, 1, submitButton);
         settingsRow++;
 
@@ -179,7 +181,6 @@ public class MainView extends Composite implements MainPresenter.Display {
         ircText.setReadOnly(true);
         ircText.setDirection(Direction.LTR);
         ircText.getElement().setAttribute("wrap", "off");
-        ircText.setWidth("393px");
         settingsTable.setWidget(settingsRow, 0, ircText);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 0, 3);
         settingsRow++;
@@ -189,16 +190,12 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.setWidget(settingsRow, 0, ircConnector);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 0, 3);
 
-        settingsTable.getFlexCellFormatter().setWidth(0, 0, "170px");
-        settingsTable.getFlexCellFormatter().setWidth(1, 0, "400px");
-        settingsTable.getFlexCellFormatter().setWidth(2, 0, "50px");
-
         flex.setWidget(0, 1, settingsTable);
         flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
-        flex.getFlexCellFormatter().setWidth(0, 1, "450px");
 
         contentTable.setWidget(row++, 0, flex);
         contentTableDecorator.add(contentTable);
+        initWidget(contentTableDecorator);
     }
 
     /**
