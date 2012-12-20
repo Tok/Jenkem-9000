@@ -233,14 +233,14 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Shows the proxified image.
      * @param url to the image
      */
-    private void doShow(final String url) {
-        if (!"".equals(url)) { makeBusy(true); }
-        image = new Image();
+    private void doShow(final String proxifiedUrl) {
+        Image.prefetch(proxifiedUrl);
+        if (!"".equals(proxifiedUrl)) { makeBusy(true); }
+        image = new Image(proxifiedUrl);
+        final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
+        final int height = image.getHeight() * width / image.getWidth();
+        image.setPixelSize(width, height);
         image.setVisible(false);
-        image.setUrl(url);
-        // Image must be added in order for load event to fire.
-        RootPanel.get("invisible").clear();
-        RootPanel.get("invisible").add(image);
         image.addErrorHandler(new ErrorHandler() {
             @Override public void onError(final ErrorEvent event) {
                 display.getUrlSetter().setStatus("Proxifying this image failed.");
@@ -249,8 +249,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         image.addLoadHandler(new LoadHandler() {
             @Override public void onLoad(final LoadEvent event) {
                 display.getUrlSetter().setStatus("Image loaded.");
+                display.getUrlSetter().addImage(image, width, height);
                 startOrRestartConversion();
             }});
+        // Image must be added to dom in order for load event to fire.
+        RootPanel.get("invisible").clear();
+        RootPanel.get("invisible").setVisible(false);
+        RootPanel.get("invisible").add(image);
     }
 
     /**
