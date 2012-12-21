@@ -88,6 +88,20 @@ public class IrcConnector extends Composite {
 
         bind();
 
+        ircService.getBotStatus(new AsyncCallback<BotStatus>() {
+            @Override public void onSuccess(final BotStatus botStatus) {
+                if (!botStatus.isConnected()) {
+                    networkBox.setText(ircSettings.network());
+                    portBox.setText(ircSettings.port());
+                    channelBox.setText(ircSettings.channel());
+                    nickBox.setText(ircSettings.nick());
+                }
+            }
+            @Override public void onFailure(final Throwable caught) {
+                statusLabel.setText("Fail getting bot status: " + caught);
+            }
+        });
+
         portBox.setEnabled(false); //XXX port-settings disabled
         refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
 
@@ -139,12 +153,6 @@ public class IrcConnector extends Composite {
             ircService.getBotStatus(new AsyncCallback<BotStatus>() {
                 @Override public void onSuccess(final BotStatus botStatus) {
                     setBotStatus(botStatus);
-                    if (!botStatus.isConnected()) {
-                        networkBox.setText(ircSettings.network());
-                        portBox.setText(ircSettings.port());
-                        channelBox.setText(ircSettings.channel());
-                        nickBox.setText(ircSettings.nick());
-                    }
                 }
                 @Override public void onFailure(final Throwable caught) {
                     statusLabel.setText("Fail getting bot status: " + caught);
@@ -154,9 +162,11 @@ public class IrcConnector extends Composite {
     }
 
     private void setBotStatus(final BotStatus botStatus) {
-        networkBox.setText(botStatus.getNetwork());
-        channelBox.setText(botStatus.getChannel());
-        nickBox.setText(botStatus.getName());
+        if (botStatus.isConnected()) {
+            networkBox.setText(botStatus.getNetwork());
+            channelBox.setText(botStatus.getChannel());
+            nickBox.setText(botStatus.getName());
+        }
         networkBox.setEnabled(!botStatus.isConnected());
         channelBox.setEnabled(!botStatus.isConnected());
         nickBox.setEnabled(!botStatus.isConnected());
