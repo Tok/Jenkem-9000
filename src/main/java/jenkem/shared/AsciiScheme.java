@@ -19,8 +19,8 @@ public class AsciiScheme {
     private String down = "_";
     private String hline = "-";
     private String vline = "|";
-    private String upDown = "\\\\";
-    private String downUp = "//";
+    private String upDown = "\\";
+    private String downUp = "/";
     private String leftDown = "L";
     private String rightDown = "J";
     private String leftUp = "F";
@@ -250,8 +250,12 @@ public class AsciiScheme {
         this.vline = vline;
     }
 
-    public final String getUpDown() {
-        return upDown;
+    public final String getUpDown(final ConversionMethod method) {
+        if (method.equals(ConversionMethod.Plain)) {
+            return upDown + upDown;
+        } else {
+            return upDown;
+        }
     }
 
     public final String selectUpDown() {
@@ -262,8 +266,12 @@ public class AsciiScheme {
         this.upDown = upDown;
     }
 
-    public final String getDownUp() {
-        return downUp;
+    public final String getDownUp(final ConversionMethod method) {
+        if (method.equals(ConversionMethod.Plain)) {
+            return downUp + downUp;
+        } else {
+            return downUp;
+        }
     }
 
     public final String selectDownUp() {

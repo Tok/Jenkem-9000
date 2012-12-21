@@ -366,10 +366,10 @@ public class Engine {
 
             // replace chars
             if (charPixel.equals(asciiScheme.getUp() + asciiScheme.getDown())) {
-                charPixel = asciiScheme.getUpDown();
+                charPixel = asciiScheme.getUpDown(ConversionMethod.Plain);
             }
             if (charPixel.equals(asciiScheme.getDown() + asciiScheme.getUp())) {
-                charPixel = asciiScheme.getDownUp();
+                charPixel = asciiScheme.getDownUp(ConversionMethod.Plain);
             }
             if (asciiScheme.isCharacterDark(charPixel.substring(0, 1), preset)
                     && charPixel.substring(1, 2).equals(asciiScheme.getDown())) {
