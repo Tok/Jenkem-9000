@@ -289,10 +289,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Returns the selected line width as int.
      * @return lineWidth
      */
-    private int getCurrentLineWidth() {
+    private int getCurrentLineWidth(final int imgWidth) {
       final String widthString = display.getWidthListBox().getItemText(
               display.getWidthListBox().getSelectedIndex());
-      return Math.min(Integer.parseInt(widthString), currentImage.getWidth());
+      return Math.min(Integer.parseInt(widthString), imgWidth);
     }
 
     /**
@@ -303,8 +303,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final int top = display.getUrlSetter().getCrop(CropPanel.Type.Top);
         final int right = display.getUrlSetter().getCrop(CropPanel.Type.Right);
         final int bottom = display.getUrlSetter().getCrop(CropPanel.Type.Bottom);
-        final int w = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
-        final int h = image.getHeight() * w / image.getWidth();
+
+        final int w = getCurrentLineWidth(image.getWidth());
+        final int divisor = method.hasKick() ? 1 : 2;
+        final int h = ((w / divisor) * image.getHeight()) / image.getWidth();
 
         final int actualWidth = w * TOTAL_PERCENT / ((TOTAL_PERCENT - right) - left);
         final int actualHeight = h * TOTAL_PERCENT / ((TOTAL_PERCENT - top) - bottom);
@@ -314,8 +316,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         currentImage = ImageElement.as(image.getElement());
 
         method = getCurrentConversionMethod();
-        final int width = getCurrentLineWidth();
-        final int divisor = method.hasKick() ? 1 : 2;
+        final int width = getCurrentLineWidth(currentImage.getWidth());
         final int height = ((width / divisor) * currentImage.getHeight()) / currentImage.getWidth();
         display.getCanvas().setWidth(String.valueOf(actualWidth) + "px");
         display.getCanvas().setHeight(String.valueOf(actualHeight) + "px");
@@ -393,7 +394,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         //create and wrap image parts
         final Date now = new Date();
         final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss");
-        final ImageInfo jenkemImageInfo = new ImageInfo(currentName, ircOutput.size(), getCurrentLineWidth(), format.format(now));
+        final ImageInfo jenkemImageInfo = new ImageInfo(currentName, ircOutput.size(), getCurrentLineWidth(currentImage.getWidth()), format.format(now));
         final ImageHtml jenkemImageHtml = new ImageHtml(currentName, htmlAndCss[0]);
         final ImageCss jenkemImageCss = new ImageCss(currentName, htmlAndCss[1]);
         final StringBuilder irc = new StringBuilder();
