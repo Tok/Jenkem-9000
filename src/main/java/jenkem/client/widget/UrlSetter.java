@@ -12,7 +12,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -35,9 +34,11 @@ public class UrlSetter extends Composite {
     private final Label statusLabel = new Label("Enter URL to an image:");
     private final Button showButton = new Button("Convert Image");
     private final ExtendedTextBox inputTextBox = new ExtendedTextBox();
+    private final CropPanel cropPanel;
 
     public UrlSetter(final HandlerManager eventBus) {
         this.eventBus = eventBus;
+        cropPanel = new CropPanel(eventBus, statusLabel);
         flex.setWidth("800px");
         imagePanel.setWidth("72px");
         imagePanel.setHeight("100px");
@@ -48,7 +49,6 @@ public class UrlSetter extends Composite {
         final String link = com.google.gwt.user.client.Window.Location.getParameter("link");
         if (link != null && !link.equals("")) { inputTextBox.setText(link); }
 
-        statusPanel.add(new HTML("&nbsp;&nbsp;"));
         statusPanel.add(statusLabel);
         submissionPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         submissionPanel.setSpacing(SPACING);
@@ -57,10 +57,11 @@ public class UrlSetter extends Composite {
         submissionPanel.add(busyPanel);
 
         bind();
-        flex.getFlexCellFormatter().setRowSpan(0, 0, 2);
+        flex.getFlexCellFormatter().setRowSpan(0, 0, 3);
         flex.setWidget(0, 0, imagePanel);
         flex.setWidget(0, 2, statusPanel);
         flex.setWidget(1, 1, submissionPanel);
+        flex.setWidget(2, 1, cropPanel);
         initWidget(flex);
     }
 
@@ -107,10 +108,11 @@ public class UrlSetter extends Composite {
     public final Panel getBusyPanel() { return busyPanel; }
     public final TextBox getInputTextBox() { return inputTextBox; }
     public final void setStatus(final String status) { statusLabel.setText(status); }
+    public final int getCrop(final CropPanel.Type type) { return cropPanel.getCrop(type); }
 
-    public final void addImage(final Image image, final int width) {
+    public final void addImage(final String proxifiedUrl, final int width) {
         imagePanel.clear();
-        final Image visibleCopy = new Image(image.getUrl());
+        final Image visibleCopy = new Image(proxifiedUrl);
         visibleCopy.setWidth(width + "px");
         imagePanel.add(visibleCopy);
     }

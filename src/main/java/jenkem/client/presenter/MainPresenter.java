@@ -9,6 +9,7 @@ import jenkem.client.event.DoConversionEventHandler;
 import jenkem.client.event.SendToIrcEvent;
 import jenkem.client.event.SendToIrcEventHandler;
 import jenkem.client.service.JenkemServiceAsync;
+import jenkem.client.widget.CropPanel;
 import jenkem.client.widget.IrcColorSetter;
 import jenkem.client.widget.IrcConnector;
 import jenkem.client.widget.UrlSetter;
@@ -236,7 +237,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private synchronized void doShow(final String proxifiedUrl) {
         Image.prefetch(proxifiedUrl);
         if (!"".equals(proxifiedUrl)) { makeBusy(true); }
+
         image = new Image(proxifiedUrl);
+
         image.setVisible(false);
         image.addErrorHandler(new ErrorHandler() {
             @Override public void onError(final ErrorEvent event) {
@@ -246,11 +249,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         image.addLoadHandler(new LoadHandler() {
             @Override public void onLoad(final LoadEvent event) {
                 final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
-                final int height = image.getHeight() * width / image.getWidth();
-                image.setPixelSize(width, height);
-                display.getUrlSetter().addImage(image, width);
+                display.getUrlSetter().addImage(proxifiedUrl, width);
                 display.getUrlSetter().setStatus("Image loaded.");
-                //startOrRestartConversion();
                 doConversion();
             }});
         // Image must be added to dom in order for load event to fire.
@@ -299,17 +299,32 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Processes the conversion.
      */
     private synchronized void doDeferredConversion() {
+        final int left = display.getUrlSetter().getCrop(CropPanel.Type.Left);
+        final int top = display.getUrlSetter().getCrop(CropPanel.Type.Top);
+        final int right = display.getUrlSetter().getCrop(CropPanel.Type.Right);
+        final int bottom = display.getUrlSetter().getCrop(CropPanel.Type.Bottom);
+        final int w = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
+        final int h = image.getHeight() * w / image.getWidth();
+
+        final int actualWidth = w * TOTAL_PERCENT / ((TOTAL_PERCENT - right) - left);
+        final int actualHeight = h * TOTAL_PERCENT / ((TOTAL_PERCENT - top) - bottom);
+        image.setPixelSize(actualWidth, actualHeight);
+        image.setVisible(true);
+
         currentImage = ImageElement.as(image.getElement());
+
         method = getCurrentConversionMethod();
         final int width = getCurrentLineWidth();
         final int divisor = method.hasKick() ? 1 : 2;
         final int height = ((width / divisor) * currentImage.getHeight()) / currentImage.getWidth();
-        display.getCanvas().setWidth(String.valueOf(width) + "px");
-        display.getCanvas().setHeight(String.valueOf(height) + "px");
-        display.getCanvas().getContext2d().fillRect(0, 0, width, height); //resets the canvas with black bg
-        display.getCanvas().getContext2d().drawImage(currentImage, 0, 0, width, height);
+        display.getCanvas().setWidth(String.valueOf(actualWidth) + "px");
+        display.getCanvas().setHeight(String.valueOf(actualHeight) + "px");
+        display.getCanvas().getContext2d().fillRect(0, 0, actualWidth, actualHeight); //resets the canvas with black bg
 
-        final ImageData id = display.getCanvas().getContext2d().getImageData(0, 0, width, height);
+        display.getCanvas().getContext2d().drawImage(currentImage, 0, 0, actualWidth, actualHeight);
+        final int xOff = actualWidth * left / TOTAL_PERCENT;
+        final int yOff = actualHeight * top / TOTAL_PERCENT;
+        final ImageData id = display.getCanvas().getContext2d().getImageData(xOff, yOff, width, height);
 
         final String presetName = display.getPresetListBox().getItemText(display.getPresetListBox().getSelectedIndex());
         final CharacterSet preset = CharacterSet.valueOf(presetName);
