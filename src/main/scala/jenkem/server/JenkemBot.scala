@@ -33,8 +33,8 @@ class JenkemBot extends PircBot {
   }
 
   val engine = new ServerAsciiEngine
-  var botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected, BotStatus.SendStatus.NotSending, "", "", "")
   var lastChan = ""
+  var botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected, BotStatus.SendStatus.NotSending, "", "", "")
   var stopSwitch = false
   var isPlaying = false
 
@@ -57,9 +57,9 @@ class JenkemBot extends PircBot {
     }
     try {
       super.setName(nick)
+      lastChan = channel
       connect(network, port)
       joinChannel(channel)
-      lastChan = channel
       "Joining " + channel + "..."
     } catch {
       case nie: NickAlreadyInUseException => handleConnectionException("Fail: Nick is already in use.", network, channel, nick)
