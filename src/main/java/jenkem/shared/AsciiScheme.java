@@ -19,8 +19,8 @@ public class AsciiScheme {
     private String down = "_";
     private String hline = "-";
     private String vline = "|";
-    private String upDown = "\\";
-    private String downUp = "/";
+    private String upDown = "\\\\";
+    private String downUp = "//";
     private String leftDown = "L";
     private String rightDown = "J";
     private String leftUp = "F";

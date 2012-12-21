@@ -32,6 +32,27 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
         assertEquals("##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##", output);
     }
 
+    public final void testMixedPostProcession() throws Exception {
+        final String input = "##" + down + down + down + "##" + up + up + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
+        assertEquals("##" + down + hLine + down + "##" + up + hLine + up + "##", output);
+    }
+
+    public final void testMoreMixedPostProcession() throws Exception {
+        final String input = "##" + down + down + down + down + down + "##" + up + up + up + up + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
+        assertEquals("##" + down + hLine + hLine + hLine + down + "##" + up + hLine + hLine + hLine + up + "##", output);
+    }
+
+    public final void testMinPostProcession() throws Exception {
+        final String input = "##" + down + down + "##" + up + up + "##";
+        final Object[] parameters = {input};
+        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
+        assertEquals(input, output); //no change
+    }
+
     public final void testPostProcessRowWithColor() throws Exception {
         final String input = ColorUtil.CC + "##" + down + down + down + down + "##" + up + up + up + up + "##";
         final String expect = ColorUtil.CC + "##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##";
