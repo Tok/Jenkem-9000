@@ -233,13 +233,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Shows the proxified image.
      * @param url to the image
      */
-    private void doShow(final String proxifiedUrl) {
+    private synchronized void doShow(final String proxifiedUrl) {
         Image.prefetch(proxifiedUrl);
         if (!"".equals(proxifiedUrl)) { makeBusy(true); }
         image = new Image(proxifiedUrl);
-        final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
-        final int height = image.getHeight() * width / image.getWidth();
-        image.setPixelSize(width, height);
         image.setVisible(false);
         image.addErrorHandler(new ErrorHandler() {
             @Override public void onError(final ErrorEvent event) {
@@ -248,9 +245,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             }});
         image.addLoadHandler(new LoadHandler() {
             @Override public void onLoad(final LoadEvent event) {
+                final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
+                final int height = image.getHeight() * width / image.getWidth();
+                image.setPixelSize(width, height);
+                display.getUrlSetter().addImage(image, width);
                 display.getUrlSetter().setStatus("Image loaded.");
-                display.getUrlSetter().addImage(image, width, height);
-                startOrRestartConversion();
+                //startOrRestartConversion();
+                doConversion();
             }});
         // Image must be added to dom in order for load event to fire.
         RootPanel.get("invisible").clear();
@@ -345,7 +346,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         if (restartConversion) {
             restartConversion = false;
             isConversionRunnung = false;
-            ircOutput.clear();
             doConversion();
         } else if (isConversionRunnung) {
             updateProgress(index);

@@ -36,9 +36,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     private final GalleryView galleryView = new GalleryView();
     private final InfoView infoView = new InfoView();
 
-    private MainPresenter mainPresenter;
-    private Presenter galleryPresenter;
-    private Presenter infoPresenter;
+    private MainPresenter mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
+    private Presenter galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, galleryView);
+    private Presenter infoPresenter = new InfoPresenter(eventBus, tabPanel, infoView);
 
     private boolean doConvert = true;
 
@@ -123,11 +123,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
             prepareMainTab(token);
         } else if (token.startsWith("gallery/")) {
             tabPanel.selectTab(1);
-            galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, galleryView);
             galleryPresenter.go(container);
         } else if (token.startsWith("info/")) {
             tabPanel.selectTab(2);
-            infoPresenter = new InfoPresenter(eventBus, tabPanel, infoView);
             infoPresenter.go(container);
         } else {
             prepareMainTab("main/");
@@ -139,7 +137,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
      * @param token
      */
     private void prepareMainTab(final String token) {
-        mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
         tabPanel.selectTab(0);
         String imageUrl = "";
         if (token.split("/", 2).length > 1) {

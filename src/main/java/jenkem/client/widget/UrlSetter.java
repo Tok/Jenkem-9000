@@ -7,8 +7,6 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
@@ -20,7 +18,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -111,17 +108,10 @@ public class UrlSetter extends Composite {
     public final TextBox getInputTextBox() { return inputTextBox; }
     public final void setStatus(final String status) { statusLabel.setText(status); }
 
-    public final void addImage(final Image image, final int width, final int height) {
+    public final void addImage(final Image image, final int width) {
         imagePanel.clear();
-        final Image visibleCopy = new Image();
-        visibleCopy.setPixelSize(width, height);
-        visibleCopy.addLoadHandler(new LoadHandler() {
-            @Override public void onLoad(final LoadEvent event) {
-                imagePanel.add(visibleCopy); //doesn't work in chrome
-            }});
-        RootPanel.get("visibleCopy").clear();
-        RootPanel.get("visibleCopy").setVisible(false);
-        RootPanel.get("visibleCopy").add(visibleCopy);
-        visibleCopy.setUrl(image.getUrl());
+        final Image visibleCopy = new Image(image.getUrl());
+        visibleCopy.setWidth(width + "px");
+        imagePanel.add(visibleCopy);
     }
 }
