@@ -95,10 +95,10 @@ public class IrcColorSetter extends Composite {
         }
     }
 
-    public final Map<String, Integer> getColorMap() {
-        final Map<String, Integer> colorMap = new HashMap<String, Integer>();
+    public final Map<IrcColor, Integer> getColorMap() {
+        final Map<IrcColor, Integer> colorMap = new HashMap<IrcColor, Integer>();
         for (final IrcColor ic : IrcColor.values()) {
-            colorMap.put(ic.name(), getValue(ic));
+            colorMap.put(ic, getValue(ic));
         }
         return colorMap;
     }

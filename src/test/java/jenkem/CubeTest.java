@@ -14,6 +14,7 @@ public class CubeTest extends AbstractReflectionTestCase {
     private static final double AREA_DIAGONAL_DISTANCE = 360.62445840513925;
     private static final double SPACE_DIAGONAL_DISTANCE = 441.6729559300637;
 
+    private final Map<IrcColor, Integer> colorMap = new HashMap<IrcColor, Integer>();
     private final Cube cube = new Cube();
 
     public final void testSamePointDistance() throws Exception {
@@ -100,9 +101,8 @@ public class CubeTest extends AbstractReflectionTestCase {
 
     public final void testColorCharBlack() throws Exception {
         for (final ColorScheme scheme : ColorScheme.values()) {
-            final Map<String, Integer> colorMap = new HashMap<String, Integer>();
             for (final IrcColor ic : IrcColor.values()) {
-                colorMap.put(ic.name(), ic.getOrder(scheme));
+                colorMap.put(ic, ic.getOrder(scheme));
             }
             for (final CharacterSet set : CharacterSet.values()) {
                 final int[] black = {0, 0, 0};
@@ -122,9 +122,8 @@ public class CubeTest extends AbstractReflectionTestCase {
         for (final ColorScheme scheme : ColorScheme.values()) {
             // exclude schemes without red
             if (!scheme.equals(ColorScheme.Bw) && !scheme.equals(ColorScheme.Bwg)) {
-                final Map<String, Integer> colorMap = new HashMap<String, Integer>();
                 for (final IrcColor ic : IrcColor.values()) {
-                    colorMap.put(ic.name(), ic.getOrder(scheme));
+                    colorMap.put(ic, ic.getOrder(scheme));
                 }
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] red = {255, 0, 0};
@@ -146,9 +145,8 @@ public class CubeTest extends AbstractReflectionTestCase {
         for (final ColorScheme scheme : ColorScheme.values()) {
             // exclude schemes without yellow
             if (!scheme.equals(ColorScheme.Bw) && !scheme.equals(ColorScheme.Bwg)) {
-                final Map<String, Integer> colorMap = new HashMap<String, Integer>();
                 for (final IrcColor ic : IrcColor.values()) {
-                    colorMap.put(ic.name(), ic.getOrder(scheme));
+                    colorMap.put(ic, ic.getOrder(scheme));
                 }
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] yellow = {255, 255, 0};
@@ -173,9 +171,8 @@ public class CubeTest extends AbstractReflectionTestCase {
             if (!scheme.equals(ColorScheme.Bw)
                     && !scheme.equals(ColorScheme.Bwg)
                     && !scheme.equals(ColorScheme.Mono)) {
-                final Map<String, Integer> colorMap = new HashMap<String, Integer>();
                 for (final IrcColor ic : IrcColor.values()) {
-                    colorMap.put(ic.name(), ic.getOrder(scheme));
+                    colorMap.put(ic, ic.getOrder(scheme));
                 }
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] purple = {156, 0, 156};
@@ -198,9 +195,8 @@ public class CubeTest extends AbstractReflectionTestCase {
             if (!scheme.equals(ColorScheme.Bw)
                     && !scheme.equals(ColorScheme.Mono)
                     && !scheme.equals(ColorScheme.Lsd)) { // exclude schemes with no or almost no gray
-                final Map<String, Integer> colorMap = new HashMap<String, Integer>();
                 for (final IrcColor ic : IrcColor.values()) {
-                    colorMap.put(ic.name(), ic.getOrder(scheme));
+                    colorMap.put(ic, ic.getOrder(scheme));
                 }
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] gray = {127, 127, 127};
@@ -216,5 +212,4 @@ public class CubeTest extends AbstractReflectionTestCase {
             }
         }
     }
-
 }

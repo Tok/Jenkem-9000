@@ -79,8 +79,8 @@ class ServerAsciiEngine {
     val actualContrast: Int = ((contrast * sensitivity) + Sample.HALF_RGB).asInstanceOf[Int]
     engine.setParams(id, preset, kick, contrast, brightness)
     if (!method.equals(ConversionMethod.Plain)) {
-      val colorMap: java.util.Map[String, java.lang.Integer] = new HashMap[String, java.lang.Integer];
-      IrcColor.values.map(ic => colorMap.put(ic.name(), 100)); //TODO implement
+      val colorMap: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer];
+      IrcColor.values.map(ic => colorMap.put(ic, 100)); //TODO implement
       engine.prepareEngine(colorMap, Power.Linear);
     }
     id.getHeight

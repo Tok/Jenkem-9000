@@ -4,7 +4,7 @@ package jenkem.shared.color;
  * Represents a color for irc etc.
  */
 public class Color {
-    private int[] rgb; // only used for phpbbCode and full-hd html
+    private int[] rgb;
     private String fg; // foreground color
     private int[] fgRgb; // internal
     private String bg; // background color

@@ -66,6 +66,10 @@ public enum IrcColor {
         return value;
     }
 
+    public String getValueString() {
+        return String.valueOf(value);
+    }
+
     public void setOrder(final ColorScheme cs, final Integer order) {
         orders.put(cs, order);
     }

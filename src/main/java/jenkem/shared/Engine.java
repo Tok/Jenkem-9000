@@ -4,6 +4,7 @@ import java.util.Map;
 import jenkem.shared.color.Color;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.Cube;
+import jenkem.shared.color.IrcColor;
 import jenkem.shared.color.Sample;
 import com.google.gwt.canvas.dom.client.ImageData;
 
@@ -17,7 +18,7 @@ public class Engine {
     private final AsciiScheme asciiScheme = new AsciiScheme();
     private final ColorUtil colorUtil = new ColorUtil();
 
-    private Map<String, Integer> colorMap; //TODO change to <IrcColor, Integer>
+    private Map<IrcColor, Integer> colorMap;
     private ImageData id;
     private CharacterSet preset;
     private int contrast;
@@ -486,7 +487,7 @@ public class Engine {
         return startY;
     }
 
-    public final void prepareEngine(final Map<String, Integer> colorMap, final Power power) {
+    public final void prepareEngine(final Map<IrcColor, Integer> colorMap, final Power power) {
         this.colorMap = colorMap;
         cube.setPower(power);
     }

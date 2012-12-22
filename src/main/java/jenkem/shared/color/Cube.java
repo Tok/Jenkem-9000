@@ -35,7 +35,7 @@ public class Cube {
      * @param enforceBlackFg true if foreground color should be enforced to be black
      * @return a String with the IRC-color codes and the character to display in IRC
      */
-    private String getColorChar(final Map<String, Integer> colorMap,
+    private String getColorChar(final Map<IrcColor, Integer> colorMap,
             final CharacterSet preset, final int red, final int green,
             final int blue, final boolean enforceBlackFg) {
         final int[] col = {red, green, blue};
@@ -55,34 +55,33 @@ public class Cube {
         return result.toString();
     }
 
-    public final String getColorChar(final Map<String, Integer> colorMap,
+    public final String getColorChar(final Map<IrcColor, Integer> colorMap,
             final CharacterSet preset, final int[] rgb,
             final boolean enforceBlackFg) {
         return getColorChar(colorMap, preset, rgb[0], rgb[1], rgb[2], enforceBlackFg);
     }
 
-    public final String getColorChar(final Map<String, Integer> colorMap,
+    public final String getColorChar(final Map<IrcColor, Integer> colorMap,
             final CharacterSet preset, final int[] rgb) {
         return getColorChar(colorMap, preset, rgb[0], rgb[1], rgb[2], false);
     }
 
-    public final String getColorChar(final Map<String, Integer> colorMap,
+    public final String getColorChar(final Map<IrcColor, Integer> colorMap,
             final CharacterSet preset, final int red, final int green,
             final int blue) {
         return getColorChar(colorMap, preset, red, green, blue, false);
     }
 
-    public final String getColorChar(final Map<String, Integer> colorMap,
+    public final String getColorChar(final Map<IrcColor, Integer> colorMap,
             final CharacterSet preset, final Sample sample,
             final Sample.Xdir xDir) {
         return getColorChar(colorMap, preset, sample.getRgbValues(xDir));
     }
 
-    private WeightedColor createWc(final Map<String, Integer> colorMap,
-            final int[] col, final String name) {
-        final int[] coords = IrcColor.valueOf(name).getRgb();
-        final double weight = calcStrength(col, coords, colorMap.get(name));
-        final WeightedColor wc = WeightedColor.getInstance(name, coords, weight);
+    private WeightedColor createWc(final Map<IrcColor, Integer> colorMap,
+            final int[] col, final IrcColor ic) {
+        final double weight = calcStrength(col, ic.getRgb(), colorMap.get(ic));
+        final WeightedColor wc = WeightedColor.getInstance(ic, weight);
         return wc;
     }
 
@@ -96,11 +95,11 @@ public class Cube {
      * @param col an array with three RGB values representing the pixel to translate.
      * @return a Color object with info to represent the same color in irc
      */
-    public final Color getTwoNearestColors(final Map<String, Integer> colorMap,
+    public final Color getTwoNearestColors(final Map<IrcColor, Integer> colorMap,
             final int[] col) {
-        final ArrayList<WeightedColor> list = new ArrayList<WeightedColor>();
+        final List<WeightedColor> list = new ArrayList<WeightedColor>();
         for (final IrcColor ic : IrcColor.values()) {
-            list.add(createWc(colorMap, col, ic.name()));
+            list.add(createWc(colorMap, col, ic));
         }
 
         // if the list isn't shuffled the following occurs:
@@ -132,13 +131,13 @@ public class Cube {
 
         final Color c = new Color();
         c.setRgb(col);
-        c.setBg(strongest.getValue().getColor());
+        c.setBg(strongest.getValue().getColor().getValueString());
         c.setBgRgb(strongest.getValue().getCoords());
-        c.setFg(second.getValue().getColor());
+        c.setFg(second.getValue().getColor().getValueString());
         c.setFgRgb(second.getValue().getCoords());
 
         // strength is used to calculate which character to return.
-        // TODO XXX FIXME tune and explain this, #math suggested Vorni diagrams.
+        // TODO XXX FIXME tune and explain this, #math suggested Voronoi diagrams.
         // ..using a variable for power and the formula applied in calcStrength
         // is just an approximative workaround. instead there should be a
         // mathematically provable correct way on how to weigh two colors
@@ -147,18 +146,16 @@ public class Cube {
 
         final double p = power.getValue();
         final double strongestStrength =
-                Math.pow(calcStrength(col, strongest.getValue().getCoords(),
-                        colorMap.get(strongest.getValue().getName())), p);
+                Math.pow(calcStrength(col, strongest.getValue().getCoords(), colorMap.get(strongest.getValue().getColor())), p);
         final double secondStrength =
-                Math.pow(calcStrength(col, second.getValue().getCoords(),
-                        colorMap.get(second.getValue().getName())), p);
+                Math.pow(calcStrength(col, second.getValue().getCoords(), colorMap.get(second.getValue().getColor())), p);
         final double strength = strongestStrength / secondStrength;
         c.setBgStrength(strength);
 
         return c;
     }
 
-    public final Color getTwoNearestColors(final Map<String, Integer> colorMap,
+    public final Color getTwoNearestColors(final Map<IrcColor, Integer> colorMap,
             final int red, final int green, final int blue) {
         final int[] col = {red, green, blue};
         return getTwoNearestColors(colorMap, col);

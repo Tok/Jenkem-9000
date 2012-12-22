@@ -1,34 +1,24 @@
 package jenkem.shared.color;
 
 public final class WeightedColor {
-    private final String color;
-    private final int[] coords;
-    private final String name;
+    private final IrcColor color;
     private final Double weight;
 
-    public static WeightedColor getInstance(final String name,
-            final int[] coords, final double weight) {
-        return new WeightedColor(name, CopyUtil.makeCopy(coords), weight);
+    public static WeightedColor getInstance(final IrcColor color, final double weight) {
+        return new WeightedColor(color, weight);
     }
 
-    private WeightedColor(final String name, final int[] coords,
-            final double weight) {
-        this.name = name;
-        this.color = IrcColor.valueOf(name).getValue().toString();
-        this.coords = coords;
+    private WeightedColor(final IrcColor color, final double weight) {
+        this.color = color;
         this.weight = weight;
     }
 
-    public String getColor() {
+    public IrcColor getColor() {
         return color;
     }
 
     public int[] getCoords() {
-        return CopyUtil.makeCopy(coords);
-    }
-
-    public String getName() {
-        return name;
+        return CopyUtil.makeCopy(color.getRgb());
     }
 
     public Double getWeight() {
