@@ -43,6 +43,13 @@ public enum IrcColor {
         }
     }
 
+    public static IrcColor getFor(final int irc) {
+        for (final IrcColor ircColor : IrcColor.values()) {
+            if (irc == ircColor.getValue()) { return ircColor; }
+        }
+        throw new IllegalArgumentException("Fail: Unknown color.");
+    }
+
     public void setRgb(final int[] rgb) {
         this.rgb = CopyUtil.makeCopy(rgb);
     }

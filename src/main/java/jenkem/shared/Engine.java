@@ -339,29 +339,28 @@ public class Engine {
      */
     public final String generatePlainLine(final int index) {
         final StringBuilder line = new StringBuilder();
-        for (int x = startX; x < id.getWidth() - 1; x = x + 2) {
-            int topLeft = 0, bottomLeft = 0, topRight = 0, bottomRight = 0;
-            topLeft = Sample.keepInRange((int) (getDarkFromImage(id, x, index) * contrast) + brightness);
-            bottomLeft = Sample.keepInRange((int) (getDarkFromImage(id, x, index + 1) * contrast) + brightness);
-            topRight = Sample.keepInRange((int) (getDarkFromImage(id, x + 1, index) * contrast) + brightness);
-            bottomRight = Sample.keepInRange((int) (getDarkFromImage(id, x + 1, index + 1) * contrast) + brightness);
-
+        for (int x = startX; x < id.getWidth() - 1; x += ConversionMethod.Plain.getStep()) {
+            final int topLeft = Sample.calculateColor(getMeanRgbFromImage(id, x, index), contrast, brightness);
+            final int bottomLeft = Sample.calculateColor(getMeanRgbFromImage(id, x, index + 1), contrast, brightness);
+            final int topRight = Sample.calculateColor(getMeanRgbFromImage(id, x + 1, index), contrast, brightness);
+            final int bottomRight = Sample.calculateColor(getMeanRgbFromImage(id, x + 1, index + 1), contrast, brightness);
             String charPixel = "";
+
             // 1st char
             if (topLeft <= CENTER && bottomLeft > CENTER) {
                 charPixel = asciiScheme.getUp();
             } else if (topLeft > CENTER && bottomLeft <= CENTER) {
                 charPixel = asciiScheme.getDown();
             } else {
-                charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2D, preset, true);
+                charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2D, preset, AsciiScheme.StrengthType.ABSOLUTE);
             }
             // 2nd char
             if (topRight <= CENTER && bottomRight > CENTER) {
-                charPixel = charPixel + asciiScheme.getUp();
+                charPixel += asciiScheme.getUp();
             } else if (topRight > CENTER && bottomRight <= CENTER) {
-                charPixel = charPixel + asciiScheme.getDown();
+                charPixel += asciiScheme.getDown();
             } else {
-                charPixel = charPixel + asciiScheme.getChar((topRight + bottomRight) / 2D, preset, true);
+                charPixel += asciiScheme.getChar((topRight + bottomRight) / 2D, preset, AsciiScheme.StrengthType.ABSOLUTE);
             }
 
             // replace chars
@@ -404,11 +403,7 @@ public class Engine {
      * @return corrected width.
      */
     private int getEvenWidth() {
-        if (id.getWidth() % 2 == 0) { // even
-            return id.getWidth();
-        } else {
-            return id.getWidth() - 1;
-        }
+        return id.getWidth() - ((id.getWidth() % 2 == 0) ? 0 : 1);
     }
 
     /**
@@ -418,11 +413,9 @@ public class Engine {
      * @param y vertical coordinate
      * @return darkness of the selected pixel
      */
-    private static int getDarkFromImage(final ImageData id, final int x,
-            final int y) {
-        final double d = id.getRedAt(x, y) + id.getGreenAt(x, y) + id.getBlueAt(x, y);
-        final int dark = Double.valueOf(Math.round(d / 3)).intValue();
-        return dark;
+    private static int getMeanRgbFromImage(final ImageData id, final int x, final int y) {
+        final double sum = id.getRedAt(x, y) + id.getGreenAt(x, y) + id.getBlueAt(x, y);
+        return Double.valueOf(Math.round(sum / 3D)).intValue();
     }
 
     /**

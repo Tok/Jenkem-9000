@@ -334,12 +334,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
 
         lastIndex = id.getHeight();
-        if (!method.equals(ConversionMethod.Plain)) { //FIXME ugly workaround
-            engine.setParams(id, preset, getSelectedKick(), contrast, brightness);
+        engine.setParams(id, preset, getSelectedKick(), contrast, brightness);
+        if (!method.equals(ConversionMethod.Plain)) {
             engine.prepareEngine(display.getIrcColorSetter().getColorMap(), getSelectedPower());
-        } else {
-            engine.setParams(id, preset, getSelectedKick(), contrast + 1, brightness);
         }
+
         ircOutput.clear();
         engine.generate(method);
     }

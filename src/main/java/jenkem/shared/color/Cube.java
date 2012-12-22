@@ -50,7 +50,7 @@ public class Cube {
         }
         result.append(",");
         result.append(c.getBg()); // append the background color
-        final String character = asciiScheme.getChar(c.getBgStrength(), preset, false);
+        final String character = asciiScheme.getChar(c.getBgStrength(), preset, AsciiScheme.StrengthType.RELATIVE);
         result.append(character); // append the selected ASCII character
         return result.toString();
     }

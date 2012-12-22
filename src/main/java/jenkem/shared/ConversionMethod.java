@@ -35,6 +35,10 @@ public enum ConversionMethod {
         return hasKick;
     }
 
+    public int getStep() {
+        return hasKick ? 2 : 1;
+    }
+
     @Override
     public String toString() {
         return name;

@@ -34,15 +34,11 @@ public final class Sample {
             this.xdir = xdir;
         }
 
-        public static String getKey(final Col col, final Ydir ydir,
-                final Xdir xdir) {
+        public static String getKey(final Col col, final Ydir ydir, final Xdir xdir) {
             return new SampleKey(col, ydir, xdir).toString();
         }
 
-        @Override
-        public String toString() {
-            return col.name() + ydir.name() + xdir.name();
-        }
+        @Override public String toString() { return col.name() + ydir.name() + xdir.name(); }
     }
 
     public static Sample getInstance(final ImageData img, final int x,
@@ -156,11 +152,11 @@ public final class Sample {
      * Applies the contrast and brightness to the provided value and makes sure
      * that the result is kept in range.
      * @param input the rgb value
-     * @param contrast is multiplied with rgb value of the pixel
+     * @param contrast relative contrast between -100 and +100
      * @param brightness is added to the rgb value of the pixel
      * @return int the correted value
      */
-    private static int calculateColor(final int input, final int contrast, final int brightness) {
+    public static int calculateColor(final int input, final int contrast, final int brightness) {
         return keepInRange(correctDistance(input, contrast) + brightness);
     }
 

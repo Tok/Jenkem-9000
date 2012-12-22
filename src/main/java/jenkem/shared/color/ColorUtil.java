@@ -11,12 +11,9 @@ import com.google.gwt.regexp.shared.RegExp;
  * Just some constants and stuff.
  */
 public class ColorUtil {
-    private final AsciiScheme asciiScheme = new AsciiScheme();
-    // conventional color codes according to mIRC
-    public static final String BC = String.valueOf('\u0002'); // bold character
-                                                              // for IRC
-    public static final String CC = String.valueOf('\u0003'); // color character
-                                                              // for IRC
+    private final AsciiScheme asciiScheme = new AsciiScheme(); // conventional color codes according to mIRC
+    public static final String BC = String.valueOf('\u0002'); // bold character for IRC
+    public static final String CC = String.valueOf('\u0003'); // color character for IRC
     public static final int MAX_RGB = 255;
     private static final String CC_MATCHER = "[" + CC + "][0-9][0-9]?[,][0-9][0-9]?";
     private static final String CC_BLOCK_MATCHER = CC_MATCHER + "[^" + CC + ",[0-9]]+";
@@ -29,18 +26,8 @@ public class ColorUtil {
      * @return coloredMessage
      */
     public final String colorConfig(final Integer col, final String input) {
-        for (final IrcColor ircColor : IrcColor.values()) {
-            if (col.equals(ircColor.getValue())) {
-                // color found. return provided String with black or white
-                // background
-                if (ircColor.isDark()) {
-                    return concatColorConfig(IrcColor.white.getValue(), col, input + "% ");
-                } else {
-                    return concatColorConfig(IrcColor.black.getValue(), col, input + "% ");
-                }
-            }
-        }
-        throw new IllegalArgumentException("Unknown color!");
+        final IrcColor ic = IrcColor.getFor(col);
+        return concatColorConfig(ic.isDark() ? IrcColor.white.getValue() : IrcColor.black.getValue(), col, input + "% ");
     }
 
     /**
@@ -83,15 +70,7 @@ public class ColorUtil {
      * @return cssColor
      */
     public final String ircToCss(final int ircColor) {
-        final Integer ircString = Integer.valueOf(ircColor);
-        String css = "#000000"; // assume default black
-        for (final IrcColor ircCol : IrcColor.values()) {
-            if (ircString.equals(ircCol.getValue())) {
-                css = rgbToCss(ircCol.getRgb());
-                break;
-            }
-        }
-        return css;
+        return rgbToCss(IrcColor.getFor(ircColor).getRgb());
     }
 
     /**
@@ -109,11 +88,8 @@ public class ColorUtil {
      * @return hex
      */
     public static String toHex(final int i) {
-        String ret = Integer.toHexString(i);
-        if (ret.length() == 1) {
-            ret = "0" + ret;
-        }
-        return ret;
+        final String ret = Integer.toHexString(i);
+        return ret.length() == 1 ? "0" + ret : ret;
     }
 
     /**
@@ -158,12 +134,10 @@ public class ColorUtil {
         for (final String block : splitted) {
             if (block.isEmpty()) {
                 continue; // ignore
-            } else if (block.substring(0, 1).matches("[^0-9]")) {
-                result.append(block); // remove CC
-            } else {
-                result.append(CC);
-                result.append(block);
+            } else if (!block.substring(0, 1).matches("[^0-9]")) {
+                result.append(CC); // preserve CC
             }
+            result.append(block);
         }
         return result.toString();
     }
@@ -182,9 +156,8 @@ public class ColorUtil {
                 continue;
             }
             final String blockInfo = returnBlockInfo(block);
-            if (blockInfo.equals(lastInfo)) {
-                result.append(block.substring(blockInfo.length(), block.length())); // remove
-                                                                                    // blockinfo
+            if (blockInfo.equals(lastInfo)) { // remove blockinfo
+                result.append(block.substring(blockInfo.length(), block.length()));
             } else { // leave untouched
                 result.append(CC);
                 result.append(block);

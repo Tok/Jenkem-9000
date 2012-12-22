@@ -6,6 +6,7 @@ import java.util.Random;
  * Settings for the ASCII conversion.
  */
 public class AsciiScheme {
+    public enum StrengthType { RELATIVE, ABSOLUTE }
     private static final double BARRIER = 0.3d;
     private static final int MAX_RGB = 255;
 
@@ -35,9 +36,8 @@ public class AsciiScheme {
      * @param isAbsolute
      * @return characterString
      */
-    public final String getChar(final double strength,
-            final CharacterSet preset, final boolean isAbsolute) {
-        if (isAbsolute) {
+    public final String getChar(final double strength, final CharacterSet preset, final StrengthType type) {
+        if (type.equals(StrengthType.ABSOLUTE)) {
             return getChar((MAX_RGB - strength) / MAX_RGB, preset);
         } else {
             return getChar(strength, preset);
