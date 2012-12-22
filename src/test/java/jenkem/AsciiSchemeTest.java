@@ -61,33 +61,34 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
     public final void testIsCharacterBright() throws Exception {
         for (final CharacterSet set : CharacterSet.values()) {
             final String trueResult = set.getCharacters().substring(0, 1);
-            assertTrue(scheme.isCharacterBright(trueResult, set));
+            assertTrue(scheme.isCharacterBright(trueResult, set.getCharacters()));
             final String secondTrueResult = set.getCharacters().substring(1, 2);
-            assertTrue(scheme.isCharacterBright(secondTrueResult, set));
+            assertTrue(scheme.isCharacterBright(secondTrueResult, set.getCharacters()));
             // XXX ANSI character sets omitted
-            if (!set.equals(CharacterSet.Ansi)
-                    && !set.equals(CharacterSet.DoubleAnsi)
-                    && !set.equals(CharacterSet.HalfAnsi)) {
+            if (!set.equals(CharacterSet.Ansi) && !set.equals(CharacterSet.XAnsi)) {
                 final String falseResult =
                         set.getCharacters().substring(
                         set.getCharacters().length() - 1,
                         set.getCharacters().length());
-                assertFalse(scheme.isCharacterBright(falseResult, set));
+                assertFalse(scheme.isCharacterBright(falseResult, set.getCharacters()));
             }
         }
     }
 
     public final void testIsCharacterDark() throws Exception {
         for (final CharacterSet set : CharacterSet.values()) {
+            if (set.equals(CharacterSet.Ansi) || set.equals(CharacterSet.XAnsi)) {
+                continue;
+            }
             final String trueResult =
                     set.getCharacters().substring(
                     set.getCharacters().length() - 1,
                     set.getCharacters().length());
-            assertTrue(scheme.isCharacterDark(trueResult, set));
+            assertTrue(scheme.isCharacterDark(trueResult, set.getCharacters()));
             final String falseResult = set.getCharacters().substring(0, 1);
-            assertFalse(scheme.isCharacterDark(falseResult, set));
+            assertFalse(scheme.isCharacterDark(falseResult, set.getCharacters()));
             final String secondFalseResult = set.getCharacters().substring(1, 2);
-            assertFalse(scheme.isCharacterDark(secondFalseResult, set));
+            assertFalse(scheme.isCharacterDark(secondFalseResult, set.getCharacters()));
         }
     }
 
@@ -97,7 +98,7 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
                     set.getCharacters().substring(
                     set.getCharacters().length() - 1,
                     set.getCharacters().length());
-            final String result = scheme.getDarkestCharacters(set, 1);
+            final String result = scheme.getDarkestCharacters(set.getCharacters(), 1);
             assertEquals(expected, result);
             assertEquals(1, result.length());
         }
@@ -105,7 +106,7 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
 
     public final void testDarkestGetChar() throws Exception {
         for (final CharacterSet set : CharacterSet.values()) {
-            final Object[] parameters = {1.0d, set};
+            final Object[] parameters = {1.0d, set.getCharacters()};
             final String output = (String) invokePrivateMethod(scheme, "getChar", parameters);
             final String expected =
                     set.getCharacters().substring(
@@ -118,7 +119,7 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
 
     public final void testBrightestGetChar() throws Exception {
         for (final CharacterSet set : CharacterSet.values()) {
-            final Object[] parameters = {0.0d, set};
+            final Object[] parameters = {0.0d, set.getCharacters()};
             final String output = (String) invokePrivateMethod(scheme, "getChar", parameters);
             final String expected = set.getCharacters().substring(0, 1);
             assertEquals(expected, output);

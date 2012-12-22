@@ -54,6 +54,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
 import com.kiouri.sliderbar.client.event.BarValueChangedHandler;
@@ -90,8 +91,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         IrcConnector getIrcConnector();
         ListBox getMethodListBox();
         ListBox getWidthListBox();
-        ListBox getPresetListBox();
         ListBox getPowerListBox();
+        ListBox getPresetListBox();
+        TextBox getPresetTextBox();
         Button getResetButton();
         Button getSubmitButton();
         SliderBarSimpleHorizontal getContrastSlider();
@@ -148,9 +150,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 method = getCurrentConversionMethod();
                 setKicksEnabled(!method.equals(ConversionMethod.FullHd));
                 display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
-                if (!method.equals(ConversionMethod.Pwntari)) {
-                    display.getPresetListBox().setEnabled(true);
-                }
+                display.getPresetListBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
+                display.getPresetTextBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
                 display.enableProcession(method.equals(ConversionMethod.SuperHybrid)
                         || method.equals(ConversionMethod.Hybrid)
                         || method.equals(ConversionMethod.Plain));
@@ -161,8 +162,26 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             @Override public void onChange(final ChangeEvent event) {
                 startOrRestartConversion();
             }});
-        this.display.getPresetListBox().addChangeHandler(makeConversionChangeHandler());
-        this.display.getPowerListBox().addChangeHandler(makeConversionChangeHandler());
+        this.display.getPresetListBox().addChangeHandler(new ChangeHandler() {
+            @Override public void onChange(final ChangeEvent event) {
+                final String presetName = display.getPresetListBox().getItemText(display.getPresetListBox().getSelectedIndex());
+                final CharacterSet preset = CharacterSet.valueOf(presetName);
+                display.getPresetTextBox().setText(preset.getCharacters());
+                startOrRestartConversion();
+            }});
+        this.display.getPresetTextBox().addChangeHandler(new ChangeHandler() {
+            @Override public void onChange(final ChangeEvent event) {
+                final String charset = display.getPresetTextBox().getText();
+                final String fixed = charset.replaceAll("[,0-9]", ""); //remove numeric and comma.
+                if (!fixed.equals(charset)) {
+                    display.getPresetTextBox().setText(fixed);
+                }
+                startOrRestartConversion();
+            }});
+        this.display.getPowerListBox().addChangeHandler(new ChangeHandler() {
+            @Override public void onChange(final ChangeEvent event) {
+                startOrRestartConversion();
+            }});
         this.display.getResetButton().addClickHandler(new ClickHandler() {
             @Override public void onClick(final ClickEvent event) {
                 doReset();
@@ -198,10 +217,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                     });
                 }
             }});
-    }
-
-    private ChangeHandler makeConversionChangeHandler() {
-        return new ChangeHandler() { @Override public void onChange(final ChangeEvent event) { startOrRestartConversion(); }};
     }
 
     /**
@@ -333,16 +348,14 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final int xOff = actualWidth * left / TOTAL_PERCENT;
         final int yOff = actualHeight * top / TOTAL_PERCENT;
         final ImageData id = display.getCanvas().getContext2d().getImageData(xOff, yOff, width, height);
-
-        final String presetName = display.getPresetListBox().getItemText(display.getPresetListBox().getSelectedIndex());
-        final CharacterSet preset = CharacterSet.valueOf(presetName);
+        final String charset = display.getPresetTextBox().getText().replaceAll("[,0-9]", "");
 
         final int contrast = Integer.valueOf(display.getContrastLabel().getText());
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
 
         lastIndex = id.getHeight();
         final ProcessionSettings settings = display.getProcessionSettings();
-        engine.setParams(id, preset, getSelectedKick(), contrast, brightness, settings);
+        engine.setParams(id, charset, getSelectedKick(), contrast, brightness, settings);
         if (!method.equals(ConversionMethod.Plain)) {
             engine.prepareEngine(display.getIrcColorSetter().getColorMap(), getSelectedPower());
         }
@@ -434,6 +447,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         display.getUrlSetter().makeBusy(isBusy);
         display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
         display.getPresetListBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
+        display.getPresetTextBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
         if (!isBusy) {
             display.getUrlSetter().setStatus("Enter URL to an image: ");
         }

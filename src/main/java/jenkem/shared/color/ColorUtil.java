@@ -188,7 +188,7 @@ public class ColorUtil {
      * @param settings
      * @return the processed line
      */
-    public final String postProcessColoredRow(final String row, final CharacterSet preset, final ProcessionSettings settings) {
+    public final String postProcessColoredRow(final String row, final String charset, final ProcessionSettings settings) {
         final String valid = ColorUtil.makeBlocksValid(row); //make valid
         // separate CCs and content:
         final List<String> ccs = new ArrayList<String>(Arrays.asList(valid.split("[^" + CC + "0-9,]")));
@@ -203,7 +203,7 @@ public class ColorUtil {
             plainRow.append(noCc);
         }
         // process plain
-        final String processed = postProcessRow(plainRow.toString(), preset, settings);
+        final String processed = postProcessRow(plainRow.toString(), charset, settings);
         // reassemble processed conten and CCs
         final StringBuilder result = new StringBuilder();
         int beginIndex = 0;
@@ -222,8 +222,8 @@ public class ColorUtil {
      * @param settings
      * @return the processed line
      */
-    public final String postProcessRow(final String row, final CharacterSet preset, final ProcessionSettings settings) {
-        final String replaced = postReplacements(row, preset, settings);
+    public final String postProcessRow(final String row, final String charset, final ProcessionSettings settings) {
+        final String replaced = postReplacements(row, charset, settings);
         // 1st procession for the upper part of the characters (true case)
         // 2nd one for the lower parts (false case)
         return settings.isDoHline() ? postProcessHor(postProcessHor(replaced, true), false) : replaced;
@@ -272,14 +272,14 @@ public class ColorUtil {
         return buf.toString();
     }
 
-    public final String postReplacements(final String row, final CharacterSet preset,
+    public final String postReplacements(final String row, final String charset,
             final ProcessionSettings settings) {
-        return postReplacements(postReplacements(row, preset, settings, 0), preset, settings, 1);
+        return postReplacements(postReplacements(row, charset, settings, 0), charset, settings, 1);
     }
 
-    private String postReplacements(final String row, final CharacterSet preset,
+    private String postReplacements(final String row, final String charset,
             final ProcessionSettings settings, final int offset) {
-        final int rep = preset.getRepSensitivity(); //replacement sensitivity character count
+        final int rep = CharacterSet.getRepSensitivity(charset); //replacement sensitivity character count
         final StringBuilder result = new StringBuilder();
         final char[] chars = row.toCharArray();
         if (offset == 1) {
@@ -296,33 +296,33 @@ public class ColorUtil {
                     && second.equals(asciiScheme.getUp())) {
                 // "_"" --> "//"
                 result.append(asciiScheme.getDownUp(ConversionMethod.Plain));
-            } else if (settings.isDoEdge() && asciiScheme.isCharacterDark(first, preset)
+            } else if (settings.isDoEdge() && asciiScheme.isCharacterDark(first, charset)
                     && second.equals(asciiScheme.getDown())) {
                 // "#_" --> "#L"
                 result.append(first);
                 result.append(asciiScheme.selectLeftDown());
             } else if (settings.isDoEdge() && first.equals(asciiScheme.getDown())
-                    && asciiScheme.isCharacterDark(second, preset)) {
+                    && asciiScheme.isCharacterDark(second, charset)) {
                 // "_#" --> "J#"
                 result.append(asciiScheme.selectRightDown());
                 result.append(second);
-            } else if (settings.isDoEdge() && asciiScheme.isCharacterDark(first, preset)
+            } else if (settings.isDoEdge() && asciiScheme.isCharacterDark(first, charset)
                     && second.equals(asciiScheme.getUp())) {
                 // "#"" --> "#F"
                 result.append(first);
                 result.append(asciiScheme.selectLeftUp());
             } else if (settings.isDoEdge() && first.equals(asciiScheme.getUp())
-                    && asciiScheme.isCharacterDark(second, preset)) {
+                    && asciiScheme.isCharacterDark(second, charset)) {
                 // ""#" --> "q#"
                 result.append(asciiScheme.selectRightUp());
                 result.append(second);
-            } else if (settings.isDoVline() && asciiScheme.getDarkestCharacters(preset, rep).contains(first)
-                    && asciiScheme.getBrightestCharacters(preset, rep).contains(second)) {
+            } else if (settings.isDoVline() && asciiScheme.getDarkestCharacters(charset, rep).contains(first)
+                    && asciiScheme.getBrightestCharacters(charset, rep).contains(second)) {
                 // "# " --> "| "
                 result.append(asciiScheme.getVline());
                 result.append(second);
-            } else if (settings.isDoVline() && asciiScheme.getBrightestCharacters(preset, rep).contains(first)
-                    && asciiScheme.getDarkestCharacters(preset, rep).contains(second)) {
+            } else if (settings.isDoVline() && asciiScheme.getBrightestCharacters(charset, rep).contains(first)
+                    && asciiScheme.getDarkestCharacters(charset, rep).contains(second)) {
                 // " #" --> " |"
                 result.append(first);
                 result.append(asciiScheme.getVline());

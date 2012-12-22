@@ -20,7 +20,7 @@ public class Engine {
 
     private Map<IrcColor, Integer> colorMap;
     private ImageData id;
-    private CharacterSet preset;
+    private String charset;
     private ProcessionSettings settings = new ProcessionSettings();
     private int contrast;
     private int brightness;
@@ -36,10 +36,10 @@ public class Engine {
      * @param brightness value will be added to the rgb of each pixel
      * @param settings
      */
-    public final void setParams(final ImageData id, final CharacterSet preset, final Kick kick,
+    public final void setParams(final ImageData id, final String charset, final Kick kick,
             final int contrast, final int brightness, final ProcessionSettings settings) {
         this.id = id;
-        this.preset = preset;
+        this.charset = charset;
         this.contrast = contrast;
         this.brightness = brightness;
         this.settings = settings;
@@ -58,7 +58,7 @@ public class Engine {
         for (int x = 0; x < id.getWidth(); x++) { // this method can handle uneven image widths
             final int[] rgb = Sample.calculateRgb(id, x, index, contrast, brightness);
             oldPix = newPix;
-            newPix = cube.getColorChar(colorMap, preset, rgb, false);
+            newPix = cube.getColorChar(colorMap, charset, rgb, false);
             if (newPix.equals(oldPix)) { // don't change color, add char only
                 line.append(newPix.substring(newPix.length() - 1, newPix.length()));
             } else { // do color change
@@ -86,8 +86,8 @@ public class Engine {
             final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
 
             oldLeft = newLeft;
-            newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
-            newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
+            newLeft = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.LEFT);
+            newRight = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.RIGHT);
 
             final int[] leftRgb = sample.getRgbValues(Sample.Xdir.LEFT);
             final int[] rightRgb = sample.getRgbValues(Sample.Xdir.RIGHT);
@@ -127,7 +127,7 @@ public class Engine {
             }
         }
         row.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(row.toString(), preset, settings);
+        return colorUtil.postProcessColoredRow(row.toString(), charset, settings);
     }
 
     /**
@@ -148,14 +148,14 @@ public class Engine {
             @SuppressWarnings("unused")
             // TODO reimplement foreground enforcement
             final boolean isEnforceBlackFg = false;
-            newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
-            newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
-            if (asciiScheme.isCharacterBright(newLeft, preset)
-                    && asciiScheme.isCharacterDark(newRight, preset)) {
+            newLeft = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.LEFT);
+            newRight = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.RIGHT);
+            if (asciiScheme.isCharacterBright(newLeft, charset)
+                    && asciiScheme.isCharacterDark(newRight, charset)) {
                 newLeft = asciiScheme.replace(newLeft, asciiScheme.selectVline());
             }
-            if (asciiScheme.isCharacterDark(newLeft, preset)
-                    && asciiScheme.isCharacterBright(newRight, preset)) {
+            if (asciiScheme.isCharacterDark(newLeft, charset)
+                    && asciiScheme.isCharacterBright(newRight, charset)) {
                 newRight = asciiScheme.replace(newRight, asciiScheme.selectVline());
             }
             // XXX tune this
@@ -168,7 +168,7 @@ public class Engine {
             final int[] topRgb = sample.getRgbValues(Sample.Ydir.TOP);
             final int[] botRgb = sample.getRgbValues(Sample.Ydir.BOT);
             if (isUp(topRgb, botRgb, upOffset)) {
-                if (asciiScheme.isCharacterDark(newRight, preset)) {
+                if (asciiScheme.isCharacterDark(newRight, charset)) {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
                             + asciiScheme.selectRightUp(); // y7
                 } else {
@@ -176,7 +176,7 @@ public class Engine {
                             + asciiScheme.selectUp(); // "
                 }
             } else if (isDown(topRgb, botRgb, downOffset)) {
-                if (asciiScheme.isCharacterDark(newRight, preset)) {
+                if (asciiScheme.isCharacterDark(newRight, charset)) {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
                             + asciiScheme.selectRightDown(); // j
                 } else {
@@ -185,7 +185,7 @@ public class Engine {
                 }
             }
             if (isUp(topRgb, botRgb, upOffset)) {
-                if (asciiScheme.isCharacterDark(newLeft, preset)) {
+                if (asciiScheme.isCharacterDark(newLeft, charset)) {
                     newRight = newRight.substring(0, newRight.length() - 1)
                             + asciiScheme.selectLeftUp(); // F
                 } else {
@@ -193,7 +193,7 @@ public class Engine {
                             + asciiScheme.selectUp(); // "
                 }
             } else if (isDown(topRgb, botRgb, downOffset)) {
-                if (asciiScheme.isCharacterDark(newLeft, preset)) {
+                if (asciiScheme.isCharacterDark(newLeft, charset)) {
                     newRight = newRight.substring(0, newRight.length() - 1)
                             + asciiScheme.selectLeftDown(); // L
                 } else {
@@ -243,7 +243,7 @@ public class Engine {
             }
         }
         line.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(line.toString(), preset, settings);
+        return colorUtil.postProcessColoredRow(line.toString(), charset, settings);
     }
 
     /**
@@ -259,8 +259,8 @@ public class Engine {
         for (int x = startX; x < id.getWidth() - 1; x = x + 2) {
             final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
             oldLeft = newLeft;
-            newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
-            newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
+            newLeft = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.LEFT);
+            newRight = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.RIGHT);
             newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
             newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
             if (newLeft.equals(oldLeft)) {
@@ -300,7 +300,7 @@ public class Engine {
             } else if (topLeft > CENTER && bottomLeft <= CENTER) {
                 charPixel = asciiScheme.getDown();
             } else {
-                charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2D, preset, AsciiScheme.StrengthType.ABSOLUTE);
+                charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2D, charset, AsciiScheme.StrengthType.ABSOLUTE);
             }
             // 2nd char
             if (topRight <= CENTER && bottomRight > CENTER) {
@@ -308,11 +308,11 @@ public class Engine {
             } else if (topRight > CENTER && bottomRight <= CENTER) {
                 charPixel += asciiScheme.getDown();
             } else {
-                charPixel += asciiScheme.getChar((topRight + bottomRight) / 2D, preset, AsciiScheme.StrengthType.ABSOLUTE);
+                charPixel += asciiScheme.getChar((topRight + bottomRight) / 2D, charset, AsciiScheme.StrengthType.ABSOLUTE);
             }
             line.append(charPixel);
         }
-        return colorUtil.postProcessRow(line.toString(), preset, settings);
+        return colorUtil.postProcessRow(line.toString(), charset, settings);
     }
 
     /**

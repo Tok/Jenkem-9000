@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHorizontal;
@@ -47,8 +48,9 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final Map<Kick, RadioButton> kickButtons = new HashMap<Kick, RadioButton>();
     private final ListBox methodListBox = new ListBox();
     private final ListBox widthListBox = new ListBox();
-    private final ListBox presetListBox = new ListBox();
     private final ListBox powerListBox = new ListBox();
+    private final ListBox presetListBox = new ListBox();
+    private final TextBox presetTextBox = new TextBox();
 
     private final Label contrastLabel = new Label();
     private final Label brightnessLabel = new Label();
@@ -90,6 +92,7 @@ public class MainView extends Composite implements MainPresenter.Display {
         widthListBox.setWidth("200px");
         resetButton.setWidth("200px");
         presetListBox.setWidth("200px");
+        presetTextBox.setWidth("190px");
         powerListBox.setWidth("200px");
         submitButton.setWidth("200px");
         contrastLabel.setWidth("25px");
@@ -128,6 +131,12 @@ public class MainView extends Composite implements MainPresenter.Display {
         for (final CharacterSet preset : CharacterSet.values()) { presetListBox.addItem(preset.name()); }
         settingsTable.setText(settingsRow, 0, "Character Set:");
         settingsTable.setWidget(settingsRow, 1, presetListBox);
+        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+        settingsRow++;
+
+        presetTextBox.setText(CharacterSet.Hard.getCharacters()); //default
+        presetTextBox.setTitle("For best results, the characters must be arranged from bright to dark. Numbers and commas are not allowed.");
+        settingsTable.setWidget(settingsRow, 1, presetTextBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
@@ -225,6 +234,7 @@ public class MainView extends Composite implements MainPresenter.Display {
     @Override public final ListBox getMethodListBox() { return methodListBox; }
     @Override public final ListBox getWidthListBox() { return widthListBox; }
     @Override public final ListBox getPresetListBox() { return presetListBox; }
+    @Override public final TextBox getPresetTextBox() { return presetTextBox; }
     @Override public final ListBox getPowerListBox() { return powerListBox; }
     @Override public final Button getResetButton() { return resetButton; }
     @Override public final SliderBarSimpleHorizontal getContrastSlider() { return contrastSlider; }

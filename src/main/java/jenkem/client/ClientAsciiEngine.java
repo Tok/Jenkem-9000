@@ -2,7 +2,6 @@ package jenkem.client;
 
 import java.util.Map;
 import jenkem.client.presenter.MainPresenter;
-import jenkem.shared.CharacterSet;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.Kick;
@@ -52,10 +51,10 @@ public class ClientAsciiEngine {
         presenter.addIrcOutputLine(nextLine, index);
     }
 
-    public final void setParams(final ImageData id, final CharacterSet preset,
+    public final void setParams(final ImageData id, final String charset,
             final Kick selectedKick, final int contrast, final int brightness,
             final ProcessionSettings settings) {
-        engine.setParams(id, preset, selectedKick, contrast, brightness, settings);
+        engine.setParams(id, charset, selectedKick, contrast, brightness, settings);
     }
 
     public final void prepareEngine(final Map<IrcColor, Integer> colorMap, final Power power) {

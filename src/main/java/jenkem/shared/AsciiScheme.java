@@ -36,11 +36,11 @@ public class AsciiScheme {
      * @param type
      * @return characterString
      */
-    public final String getChar(final double strength, final CharacterSet preset, final StrengthType type) {
+    public final String getChar(final double strength, final String charset, final StrengthType type) {
         if (type.equals(StrengthType.ABSOLUTE)) {
-            return getChar((MAX_RGB - strength) / MAX_RGB, preset);
+            return getChar((MAX_RGB - strength) / MAX_RGB, charset);
         } else {
-            return getChar(strength, preset);
+            return getChar(strength, charset);
         }
     }
 
@@ -52,7 +52,7 @@ public class AsciiScheme {
      * @param preset the character set to use
      * @return String with the character to use. (assuming bg > fg)
      */
-    private String getChar(final double relStrength, final CharacterSet preset) {
+    private String getChar(final double relStrength, final String charset) {
         double strength = relStrength;
         if (relStrength > 1) {
             strength = 1.0D;
@@ -60,11 +60,11 @@ public class AsciiScheme {
         if (relStrength < 0) {
             strength = 0.0D;
         }
-        final double th = 1.0 / preset.getCharacters().length();
+        final double th = 1.0 / charset.length();
         String ret = "";
-        for (int i = 0; i < preset.getCharacters().length(); i++) {
+        for (int i = 0; i < charset.length(); i++) {
             if (strength <= (i + 1) * th) {
-                ret = Character.toString(preset.getCharacters().toCharArray()[i]);
+                ret = Character.toString(charset.toCharArray()[i]);
                 break; // we have a winrar
             }
         }
@@ -121,13 +121,11 @@ public class AsciiScheme {
      * @param preset
      * @return isCharacterDark
      */
-    public final boolean isCharacterDark(final String character,
-            final CharacterSet preset) {
-        final int halfLength = (preset.getCharacters().length() + 3) / 2;
+    public final boolean isCharacterDark(final String character, final String charset) {
+        final int halfLength = (charset.length() + 3) / 2;
         // cutting off the decimals in OK here
         for (int i = 0; i <= halfLength; i++) {
-            final String compare = preset.getCharacters().substring(
-                    preset.getCharacters().length() - i - 1);
+            final String compare = charset.substring(charset.length() - i - 1);
             if (unFormat(character).equals(compare)) {
                 return true;
             }
@@ -141,11 +139,10 @@ public class AsciiScheme {
      * @param preset
      * @return isCharacterBright
      */
-    public final boolean isCharacterBright(final String character,
-            final CharacterSet preset) {
-        // cutting off the decimals in OK here
-        for (int i = 0; i <= preset.getSensitivity(); i++) {
-            final String compare = preset.getCharacters().substring(i, i + 1);
+    public final boolean isCharacterBright(final String character, final String charset) {
+        // cutting off the decimals is OK here
+        for (int i = 0; i <= CharacterSet.getSensitivity(charset); i++) {
+            final String compare = charset.substring(i, i + 1);
             if (unFormat(character).equals(compare)) {
                 return true;
             }
@@ -357,13 +354,11 @@ public class AsciiScheme {
      * @param preset
      * @return darkestCharacter
      */
-    public final String getDarkestCharacters(final CharacterSet preset, final int count) {
-        return preset.getCharacters().substring(
-                preset.getCharacters().length() - count,
-                preset.getCharacters().length());
+    public final String getDarkestCharacters(final String charset, final int count) {
+        return charset.substring(charset.length() - count, charset.length());
     }
 
-    public final String getBrightestCharacters(final CharacterSet preset, final int count) {
-        return preset.getCharacters().substring(0, count);
+    public final String getBrightestCharacters(final String charset, final int count) {
+        return charset.substring(0, count);
     }
 }

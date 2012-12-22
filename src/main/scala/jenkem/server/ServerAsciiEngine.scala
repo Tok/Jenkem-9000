@@ -25,7 +25,7 @@ class ServerAsciiEngine {
   var contrast = 0
   var brightness = 0
   var scheme = ColorScheme.Full
-  var preset = CharacterSet.Hard
+  var charset = CharacterSet.Hard.getCharacters()
   var method = ConversionMethod.SuperHybrid
   var kick = Kick.Off
 
@@ -79,7 +79,7 @@ class ServerAsciiEngine {
     val sensitivity: Double = Sample.HALF_RGB / TOTAL_PERCENT
     val actualContrast: Int = ((contrast * sensitivity) + Sample.HALF_RGB).asInstanceOf[Int]
     val settings: ProcessionSettings = new ProcessionSettings(32, true, true, true, true);
-    engine.setParams(id, preset, kick, contrast, brightness, settings)
+    engine.setParams(id, charset, kick, contrast, brightness, settings)
     if (!method.equals(ConversionMethod.Plain)) {
       val colorMap: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer];
       IrcColor.values.map(ic => colorMap.put(ic, 100)); //TODO implement
@@ -90,7 +90,7 @@ class ServerAsciiEngine {
 
   def setMethod(method: ConversionMethod) = this.method = method
   def setKick(kick: Kick) = this.kick = kick
-  def setCharacterSet(preset: CharacterSet) = this.preset = preset
+  def setCharacterSet(charset: String) = this.charset = charset
   def setColorScheme(scheme: ColorScheme) = this.scheme = scheme
   def setContrast(contrast: Int) = this.contrast = contrast
   def setBrightness(brightness: Int) = this.brightness = brightness
