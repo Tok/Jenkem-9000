@@ -20,7 +20,7 @@ public class AsciiScheme {
     private String down = "_";
     private String hline = "-";
     private String vline = "|";
-    private String upDown = "\\";
+    private String upDown = "\\"; //has length() == 1
     private String downUp = "/";
     private String leftDown = "L";
     private String rightDown = "J";
@@ -82,7 +82,7 @@ public class AsciiScheme {
     private String randomize(final String input) {
         if (randomized) {
             final char[] c = input.toCharArray();
-            return String.valueOf(c[new Random().nextInt(c.length)]);
+            return String.valueOf(c[random.nextInt(c.length)]);
         } else {
             return input.substring(0, 1);
         }
@@ -145,7 +145,6 @@ public class AsciiScheme {
             final CharacterSet preset) {
         // cutting off the decimals in OK here
         for (int i = 0; i <= preset.getSensitivity(); i++) {
-            // String compare = preset.getCharacters().substring(i);
             final String compare = preset.getCharacters().substring(i, i + 1);
             if (unFormat(character).equals(compare)) {
                 return true;

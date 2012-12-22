@@ -76,11 +76,10 @@ public class CubeTest extends AbstractReflectionTestCase {
         final int[] second = {255, 255, 255}; // white
         final int[] compare = {127, 127, 127}; // gray
         assertTrue(cube.isFirstCloserTo(first, second, compare));
+        assertTrue(cube.isFirstCloserTo(first, second, compare, 0D));
         assertTrue(cube.isFirstCloserTo(first, second, compare, Cube.NO_OFFSET));
-        assertTrue(cube.isFirstCloserTo(first, second, compare,
-                Cube.NEGATIVE_OFFSET));
-        assertFalse(cube.isFirstCloserTo(first, second, compare,
-                Cube.POSITIVE_OFFSET));
+        assertTrue(cube.isFirstCloserTo(first, second, compare, Cube.NEGATIVE_OFFSET));
+        assertFalse(cube.isFirstCloserTo(first, second, compare, Cube.POSITIVE_OFFSET));
     }
 
     public final void testRedCloserToBlackThanWhite() throws Exception {
@@ -88,7 +87,7 @@ public class CubeTest extends AbstractReflectionTestCase {
         final int[] black = {0, 0, 0};
         final int[] white = {255, 255, 255};
         assertTrue(cube.isFirstCloserTo(red, black, white));
-        assertTrue(cube.isFirstCloserTo(red, black, white, 0));
+        assertTrue(cube.isFirstCloserTo(red, black, white, 0D));
     }
 
     public final void testYellowCloserToWhiteThanBlack() throws Exception {
@@ -96,7 +95,7 @@ public class CubeTest extends AbstractReflectionTestCase {
         final int[] black = {0, 0, 0};
         final int[] white = {255, 255, 255};
         assertTrue(cube.isFirstCloserTo(yellow, white, black));
-        assertTrue(cube.isFirstCloserTo(yellow, white, black, 0));
+        assertTrue(cube.isFirstCloserTo(yellow, white, black, 0D));
     }
 
     public final void testColorCharBlack() throws Exception {

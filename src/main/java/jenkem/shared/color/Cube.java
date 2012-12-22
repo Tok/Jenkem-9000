@@ -181,6 +181,15 @@ public class Cube {
         return distance;
     }
 
+    /**
+     * Compares two colors to a third and returns true if the first one is
+     * closer to the third than the second.
+     * @param first rgb values of the first color to compare
+     * @param second rgb values of the second color to compare
+     * @param compare rgb values of the color to compare the others to
+     * @param offset for comparison
+     * @return boolean that is true if the first color is closer to the compared value.
+     */
     public final boolean isFirstCloserTo(final int[] first, final int[] second,
             final int[] compare, final double offset) {
         final double firstDist = calcDistance(first, compare);
@@ -188,21 +197,9 @@ public class Cube {
         return ((firstDist + offset) < secondDist);
     }
 
-    /**
-     * Compares two colors to a third and returns true if the first one is
-     * closer to the third than the second.
-     * @param first rgb values of the first color to compare
-     * @param second rgb values of the second color to compare
-     * @param compare rgb values of the color to compare the others to
-     * @return boolean that is true if the first color is closer to the comparation
-     */
     public final boolean isFirstCloserTo(final int[] first, final int[] second,
             final int[] compare) {
-        // TODO this is awkward. replace this method with a method
-        // returning an int that is negative, 0 or positive
-        final double firstDist = calcDistance(first, compare);
-        final double secondDist = calcDistance(second, compare);
-        return (firstDist < secondDist);
+        return isFirstCloserTo(first, second, compare, 0D);
     }
 
     /**

@@ -285,12 +285,11 @@ public class ColorUtil {
         for (int i = offset; i < chars.length - 1; i += 2) {
             final String first = String.valueOf(chars[i]);
             final String second = String.valueOf(chars[i+1]);
-
             if (first.equals(asciiScheme.getUp()) && second.equals(asciiScheme.getDown())) {
-                // "_"" --> "//"
-                result.append(asciiScheme.getUpDown(ConversionMethod.Plain));
-            } else if (first.equals(asciiScheme.getDown()) && second.equals(asciiScheme.getUp())) {
                 // ""_" --> "\\"
+                result.append(asciiScheme.getUpDown(ConversionMethod.Plain)); //XXX?
+            } else if (first.equals(asciiScheme.getDown()) && second.equals(asciiScheme.getUp())) {
+                // "_"" --> "//"
                 result.append(asciiScheme.getDownUp(ConversionMethod.Plain));
             } else if (asciiScheme.isCharacterDark(first, preset)
                     && second.equals(asciiScheme.getDown())) {
@@ -312,14 +311,12 @@ public class ColorUtil {
                 // ""#" --> "q#"
                 result.append(asciiScheme.selectRightUp());
                 result.append(second);
-            } else if (!method.equals(ConversionMethod.SuperHybrid)
-                    && asciiScheme.getDarkestCharacters(preset, rep).contains(first)
+            } else if (asciiScheme.getDarkestCharacters(preset, rep).contains(first)
                     && asciiScheme.getBrightestCharacters(preset, rep).contains(second)) {
                 // "# " --> "| "
                 result.append(asciiScheme.getVline());
                 result.append(second);
-            } else if (!method.equals(ConversionMethod.SuperHybrid)
-                    && asciiScheme.getBrightestCharacters(preset, rep).contains(first)
+            } else if (asciiScheme.getBrightestCharacters(preset, rep).contains(first)
                     && asciiScheme.getDarkestCharacters(preset, rep).contains(second)) {
                 // " #" --> " |"
                 result.append(first);

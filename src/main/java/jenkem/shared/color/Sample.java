@@ -75,29 +75,21 @@ public final class Sample {
     public int get(final Col col, final Xdir xDir) {
         final String firstKey = SampleKey.getKey(col, Ydir.TOP, xDir);
         final String secondKey = SampleKey.getKey(col, Ydir.BOT, xDir);
-        if (values.containsKey(firstKey)) {
-            if (values.containsKey(secondKey)) {
-                // TODO test to make sure no other cases can be true
-                return values.get(firstKey) + values.get(secondKey) / 2;
-            } else {
-                return values.get(firstKey) / 2;
-            }
-        } else {
-            return values.containsKey(secondKey) ? (values.get(secondKey) / 2) : 0;
-        }
+        return getVal(firstKey, secondKey);
     }
 
     public int get(final Col col, final Ydir yDir) {
         final String firstKey = SampleKey.getKey(col, yDir, Xdir.LEFT);
         final String secondKey = SampleKey.getKey(col, yDir, Xdir.RIGHT);
+        return getVal(firstKey, secondKey);
+    }
+
+    private int getVal(final String firstKey, final String secondKey) {
         if (values.containsKey(firstKey)) {
-            if (values.containsKey(secondKey)) {
-                return values.get(firstKey) + values.get(secondKey) / 2;
-            } else {
-                return values.get(firstKey) / 2;
-            }
+            return Double.valueOf(values.get(firstKey)
+                    + (values.containsKey(secondKey) ? values.get(secondKey) : 0) / 2D).intValue();
         } else {
-            return values.containsKey(secondKey) ? (values.get(secondKey) / 2) : 0;
+            return values.containsKey(secondKey) ? Double.valueOf(values.get(secondKey) / 2D).intValue() : 0;
         }
     }
 
@@ -112,7 +104,7 @@ public final class Sample {
     }
 
     public int[] getRgbValues(final Ydir yDir, final Xdir xDir) {
-        final int[] rgb = {get(Col.RED, xDir), get(Col.GREEN, xDir), get(Col.BLUE, xDir)};
+        final int[] rgb = {get(Col.RED, yDir, xDir), get(Col.GREEN, yDir, xDir), get(Col.BLUE, yDir, xDir)};
         return rgb;
     }
 
