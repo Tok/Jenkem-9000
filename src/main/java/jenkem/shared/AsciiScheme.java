@@ -143,9 +143,8 @@ public class AsciiScheme {
      */
     public final boolean isCharacterBright(final String character,
             final CharacterSet preset) {
-        final int halfLength = (preset.getCharacters().length() + 3) / 2;
         // cutting off the decimals in OK here
-        for (int i = 0; i <= halfLength; i++) {
+        for (int i = 0; i <= preset.getSensitivity(); i++) {
             // String compare = preset.getCharacters().substring(i);
             final String compare = preset.getCharacters().substring(i, i + 1);
             if (unFormat(character).equals(compare)) {
@@ -359,10 +358,13 @@ public class AsciiScheme {
      * @param preset
      * @return darkestCharacter
      */
-    public final String getDarkestCharacter(final CharacterSet preset) {
+    public final String getDarkestCharacters(final CharacterSet preset, final int count) {
         return preset.getCharacters().substring(
-                preset.getCharacters().length() - 1,
+                preset.getCharacters().length() - count,
                 preset.getCharacters().length());
     }
 
+    public final String getBrightestCharacters(final CharacterSet preset, final int count) {
+        return preset.getCharacters().substring(0, count);
+    }
 }

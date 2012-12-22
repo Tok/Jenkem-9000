@@ -25,6 +25,10 @@ public enum CharacterSet {
         return characters;
     }
 
+    public int getSensitivity() {
+        return Double.valueOf((characters.length() + 3) / 2D).intValue();
+    }
+
     @Override
     public String toString() {
         return characters;

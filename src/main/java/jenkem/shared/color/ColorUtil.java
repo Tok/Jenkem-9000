@@ -263,4 +263,11 @@ public class ColorUtil {
         }
         return buf.toString();
     }
+
+    //TODO implement and use
+    @SuppressWarnings("unused")
+    private String postReplacements(final String row) {
+        final char[] chars = row.toCharArray();
+        return row;
+    }
 }

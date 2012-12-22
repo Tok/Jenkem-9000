@@ -97,13 +97,12 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
                     set.getCharacters().substring(
                     set.getCharacters().length() - 1,
                     set.getCharacters().length());
-            final String result = scheme.getDarkestCharacter(set);
+            final String result = scheme.getDarkestCharacters(set, 1);
             assertEquals(expected, result);
             assertEquals(1, result.length());
         }
     }
 
-    /*
     public final void testDarkestGetChar() throws Exception {
         for (final CharacterSet set : CharacterSet.values()) {
             final Object[] parameters = {1.0d, set};
@@ -116,9 +115,7 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
             assertNotSame("!", output);
         }
     }
-    */
 
-    /*
     public final void testBrightestGetChar() throws Exception {
         for (final CharacterSet set : CharacterSet.values()) {
             final Object[] parameters = {0.0d, set};
@@ -128,5 +125,4 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
             assertNotSame("!", output);
         }
     }
-    */
 }

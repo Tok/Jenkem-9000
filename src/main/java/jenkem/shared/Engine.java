@@ -340,6 +340,7 @@ public class Engine {
      */
     public final String generatePlainLine(final int index) {
         final StringBuilder line = new StringBuilder();
+        final int rep = preset.getSensitivity(); //replacement sensitivity character count
         for (int x = startX; x < id.getWidth() - 1; x += ConversionMethod.Plain.getStep()) {
             final int topLeft = Sample.calculateColor(getMeanRgbFromImage(id, x, index), contrast, brightness);
             final int bottomLeft = Sample.calculateColor(getMeanRgbFromImage(id, x, index + 1), contrast, brightness);
@@ -365,12 +366,14 @@ public class Engine {
             }
 
             // replace chars
+            //TODO move to post procession -> ColorUtil.postReplacements
             if (charPixel.equals(asciiScheme.getUp() + asciiScheme.getDown())) {
                 charPixel = asciiScheme.getUpDown(ConversionMethod.Plain);
             }
             if (charPixel.equals(asciiScheme.getDown() + asciiScheme.getUp())) {
                 charPixel = asciiScheme.getDownUp(ConversionMethod.Plain);
             }
+
             if (asciiScheme.isCharacterDark(charPixel.substring(0, 1), preset)
                     && charPixel.substring(1, 2).equals(asciiScheme.getDown())) {
                 charPixel = charPixel.substring(0, 1) + asciiScheme.selectLeftDown();
@@ -387,11 +390,17 @@ public class Engine {
                     && asciiScheme.isCharacterDark(charPixel.substring(1, 2), preset)) {
                 charPixel = asciiScheme.selectRightUp() + charPixel.substring(1, 2);
             }
-            if (charPixel.equals(asciiScheme.getDarkestCharacter(preset) + " ")) {
-                charPixel = asciiScheme.getVline() + " ";
+
+            //TODO move to post procession -> ColorUtil.postReplacements
+            if (asciiScheme.getDarkestCharacters(preset, rep).contains(charPixel.substring(0, 1))
+                    && asciiScheme.getBrightestCharacters(preset, rep).contains(charPixel.substring(1, 2))) {
+                // "# " --> "| "
+                charPixel = asciiScheme.getVline() + asciiScheme.getBrightestCharacters(preset, 1);
             }
-            if (charPixel.equals(" " + asciiScheme.getDarkestCharacter(preset))) {
-                charPixel = " " + asciiScheme.getVline();
+            if (asciiScheme.getBrightestCharacters(preset, rep).contains(charPixel.substring(0, 1))
+                    && asciiScheme.getDarkestCharacters(preset, rep).contains(charPixel.substring(1, 2))) {
+                // " #" --> " |"
+                charPixel = asciiScheme.getBrightestCharacters(preset, 1) + asciiScheme.getVline();
             }
             line.append(charPixel);
         }
