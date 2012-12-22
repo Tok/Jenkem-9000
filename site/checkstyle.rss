@@ -8,7 +8,7 @@
     <language>en-us</language>
     <copyright>&#169;2012</copyright>
     <item>
-      <title>File: 47,
+      <title>File: 54,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -29,21 +29,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.event.DoConversionEventHandler.java">jenkem/client/event/DoConversionEventHandler.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.data.ImagePartIfc.java">jenkem/shared/data/ImagePartIfc.java</a>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.ProcessionSettings.java">jenkem/shared/ProcessionSettings.java</a>
                 </td>
                 <td>
                   0
@@ -71,63 +57,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.color.CopyUtil.java">jenkem/shared/color/CopyUtil.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.event.SendToIrcEvent.java">jenkem/client/event/SendToIrcEvent.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.data.ImageCss.java">jenkem/shared/data/ImageCss.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#jenkem.client.service.JenkemService.java">jenkem/client/service/JenkemService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.widget.IrcColorSetter.java">jenkem/client/widget/IrcColorSetter.java</a>
                 </td>
                 <td>
                   0
@@ -155,7 +85,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.event.CancelledEvent.java">jenkem/client/event/CancelledEvent.java</a>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.service.IrcServiceAsync.java">jenkem/client/service/IrcServiceAsync.java</a>
                 </td>
                 <td>
                   0
@@ -169,7 +99,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.service.IrcServiceAsync.java">jenkem/client/service/IrcServiceAsync.java</a>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.event.CancelledEvent.java">jenkem/client/event/CancelledEvent.java</a>
                 </td>
                 <td>
                   0
@@ -225,20 +155,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.data.ImageHtml.java">jenkem/shared/data/ImageHtml.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#jenkem.shared.data.ImageInfo.java">jenkem/shared/data/ImageInfo.java</a>
                 </td>
                 <td>
@@ -254,6 +170,398 @@
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#jenkem.client.presenter.Presenter.java">jenkem/client/presenter/Presenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.widget.ProcessionSettingsPanel.java">jenkem/client/widget/ProcessionSettingsPanel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.presenter.InfoPresenter.java">jenkem/client/presenter/InfoPresenter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.event.BotStatusChangeEvent.java">jenkem/client/event/BotStatusChangeEvent.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.widget.ExtendedTextBox.java">jenkem/client/widget/ExtendedTextBox.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.HtmlUtil.java">jenkem/shared/HtmlUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.event.CancelledEventHandler.java">jenkem/client/event/CancelledEventHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.widget.UrlSetter.java">jenkem/client/widget/UrlSetter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.service.IrcService.java">jenkem/client/service/IrcService.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.AsciiScheme.java">jenkem/shared/AsciiScheme.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.AppController.java">jenkem/client/AppController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.color.ColorUtil.java">jenkem/shared/color/ColorUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.Power.java">jenkem/shared/Power.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.event.BotStatusChangeEventHandler.java">jenkem/client/event/BotStatusChangeEventHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.color.Sample.java">jenkem/shared/color/Sample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.ClientAsciiEngine.java">jenkem/client/ClientAsciiEngine.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.data.JenkemImage.java">jenkem/shared/data/JenkemImage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.ColorScheme.java">jenkem/shared/ColorScheme.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.Engine.java">jenkem/shared/Engine.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.CharacterSet.java">jenkem/shared/CharacterSet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.event.DoConversionEventHandler.java">jenkem/client/event/DoConversionEventHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.BotStatus.java">jenkem/shared/BotStatus.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.data.ImagePartIfc.java">jenkem/shared/data/ImagePartIfc.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.event.SendToIrcEvent.java">jenkem/client/event/SendToIrcEvent.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.color.CopyUtil.java">jenkem/shared/color/CopyUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.data.ImageCss.java">jenkem/shared/data/ImageCss.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.widget.IrcColorSetter.java">jenkem/client/widget/IrcColorSetter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.client.widget.CropPanel.java">jenkem/client/widget/CropPanel.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.data.ImageHtml.java">jenkem/shared/data/ImageHtml.java</a>
                 </td>
                 <td>
                   0
@@ -351,91 +659,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.presenter.InfoPresenter.java">jenkem/client/presenter/InfoPresenter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.widget.ExtendedTextBox.java">jenkem/client/widget/ExtendedTextBox.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.HtmlUtil.java">jenkem/shared/HtmlUtil.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.event.CancelledEventHandler.java">jenkem/client/event/CancelledEventHandler.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#jenkem.shared.color.IrcColor.java">jenkem/shared/color/IrcColor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.service.IrcService.java">jenkem/client/service/IrcService.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.AsciiScheme.java">jenkem/shared/AsciiScheme.java</a>
                 </td>
                 <td>
                   0
@@ -463,20 +687,6 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.ConversionMethod.java">jenkem/shared/ConversionMethod.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#jenkem.client.view.GalleryView.java">jenkem/client/view/GalleryView.java</a>
                 </td>
                 <td>
@@ -491,49 +701,21 @@
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#jenkem.shared.ConversionMethod.java">jenkem/shared/ConversionMethod.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#jenkem.client.event.DoConversionEvent.java">jenkem/client/event/DoConversionEvent.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.AppController.java">jenkem/client/AppController.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.color.ColorUtil.java">jenkem/shared/color/ColorUtil.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.Power.java">jenkem/shared/Power.java</a>
                 </td>
                 <td>
                   0
@@ -589,91 +771,7 @@
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.color.Sample.java">jenkem/shared/color/Sample.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.client.ClientAsciiEngine.java">jenkem/client/ClientAsciiEngine.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.data.JenkemImage.java">jenkem/shared/data/JenkemImage.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.Engine.java">jenkem/shared/Engine.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.ColorScheme.java">jenkem/shared/ColorScheme.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#jenkem.shared.color.Color.java">jenkem/shared/color/Color.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#jenkem.shared.CharacterSet.java">jenkem/shared/CharacterSet.java</a>
                 </td>
                 <td>
                   0

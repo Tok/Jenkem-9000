@@ -14,9 +14,9 @@
         </head>
         <body onload="sh_highlightDocument('../lib/', '.min.js');" class="type">
       <div id="definition">
-        <img src="../../lib/class_big.png" />
+        <a title="Go to companion" href="AsciiScheme$.html"><img src="../../lib/class_to_object_big.png" /></a>
         <p id="owner"><a name="jenkem" class="extype" href="../package.html">jenkem</a>.<a name="jenkem.shared" class="extype" href="package.html">shared</a></p>
-        <h1>AsciiScheme</h1>
+        <h1><a title="Go to companion" href="AsciiScheme$.html">AsciiScheme</a></h1>
       </div>
 
       <h4 class="signature" id="signature">
@@ -204,15 +204,27 @@
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li visbl="pub" name="jenkem.shared.AsciiScheme#getChar" data-isabs="false">
-      <a id="getChar(Double,CharacterSet,Boolean):String"></a>
+    </li><li visbl="pub" name="jenkem.shared.AsciiScheme#getBrightestCharacters" data-isabs="false">
+      <a id="getBrightestCharacters(CharacterSet,Int):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getChar</span><span class="params">(<span name="strength">strength: <span name="scala.Double" class="extype">Double</span></span>, <span name="preset">preset: <a name="jenkem.shared.CharacterSet" class="extype" href="CharacterSet.html">CharacterSet</a></span>, <span name="isAbsolute">isAbsolute: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+        <span class="name">getBrightestCharacters</span><span class="params">(<span name="preset">preset: <a name="jenkem.shared.CharacterSet" class="extype" href="CharacterSet.html">CharacterSet</a></span>, <span name="count">count: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="jenkem.shared.AsciiScheme#getChar" data-isabs="false">
+      <a id="getChar(Double,CharacterSet,StrengthType):String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getChar</span><span class="params">(<span name="strength">strength: <span name="scala.Double" class="extype">Double</span></span>, <span name="preset">preset: <a name="jenkem.shared.CharacterSet" class="extype" href="CharacterSet.html">CharacterSet</a></span>, <span name="type">type: <a name="jenkem.shared.AsciiScheme.StrengthType" class="extype" href="AsciiScheme$$StrengthType.html">StrengthType</a></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
       </span>
       </h4>
       
@@ -228,15 +240,15 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li visbl="pub" name="jenkem.shared.AsciiScheme#getDarkestCharacter" data-isabs="false">
-      <a id="getDarkestCharacter(CharacterSet):String"></a>
+    </li><li visbl="pub" name="jenkem.shared.AsciiScheme#getDarkestCharacters" data-isabs="false">
+      <a id="getDarkestCharacters(CharacterSet,Int):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getDarkestCharacter</span><span class="params">(<span name="preset">preset: <a name="jenkem.shared.CharacterSet" class="extype" href="CharacterSet.html">CharacterSet</a></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+        <span class="name">getDarkestCharacters</span><span class="params">(<span name="preset">preset: <a name="jenkem.shared.CharacterSet" class="extype" href="CharacterSet.html">CharacterSet</a></span>, <span name="count">count: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
       </span>
       </h4>
       
@@ -253,14 +265,14 @@
       </h4>
       
     </li><li visbl="pub" name="jenkem.shared.AsciiScheme#getDownUp" data-isabs="false">
-      <a id="getDownUp():String"></a>
+      <a id="getDownUp(ConversionMethod):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getDownUp</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+        <span class="name">getDownUp</span><span class="params">(<span name="method">method: <a name="jenkem.shared.ConversionMethod" class="extype" href="ConversionMethod.html">ConversionMethod</a></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
       </span>
       </h4>
       
@@ -361,14 +373,14 @@
       </h4>
       
     </li><li visbl="pub" name="jenkem.shared.AsciiScheme#getUpDown" data-isabs="false">
-      <a id="getUpDown():String"></a>
+      <a id="getUpDown(ConversionMethod):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getUpDown</span><span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+        <span class="name">getUpDown</span><span class="params">(<span name="method">method: <a name="jenkem.shared.ConversionMethod" class="extype" href="ConversionMethod.html">ConversionMethod</a></span>)</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
       </span>
       </h4>
       
