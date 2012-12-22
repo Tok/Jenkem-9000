@@ -18,6 +18,7 @@ import jenkem.shared.ConversionMethod;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.Kick;
 import jenkem.shared.Power;
+import jenkem.shared.ProcessionSettings;
 import jenkem.shared.data.ImageCss;
 import jenkem.shared.data.ImageHtml;
 import jenkem.shared.data.ImageInfo;
@@ -97,11 +98,14 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         SliderBarSimpleHorizontal getBrightnessSlider();
         Label getContrastLabel();
         Label getBrightnessLabel();
+        ProcessionSettings getProcessionSettings();
         int getInitialContrast();
         int getInitialBrightness();
         RadioButton getKickButton(Kick kick);
         Canvas getCanvas();
         Widget asWidget();
+        void resetProcession();
+        void enableProcession(boolean enable);
     }
 
     /**
@@ -147,6 +151,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 if (!method.equals(ConversionMethod.Pwntari)) {
                     display.getPresetListBox().setEnabled(true);
                 }
+                display.enableProcession(method.equals(ConversionMethod.SuperHybrid)
+                        || method.equals(ConversionMethod.Hybrid)
+                        || method.equals(ConversionMethod.Plain));
                 resetContrastAndBrightness();
                 startOrRestartConversion();
             }});
@@ -334,7 +341,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
 
         lastIndex = id.getHeight();
-        engine.setParams(id, preset, getSelectedKick(), contrast, brightness);
+        final ProcessionSettings settings = display.getProcessionSettings();
+        engine.setParams(id, preset, getSelectedKick(), contrast, brightness, settings);
         if (!method.equals(ConversionMethod.Plain)) {
             engine.prepareEngine(display.getIrcColorSetter().getColorMap(), getSelectedPower());
         }
@@ -463,6 +471,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         display.getPowerListBox().setSelectedIndex(2); //cubic
         resetContrastAndBrightness();
         display.getKickButton(Kick.Off).setValue(true);
+        display.resetProcession();
     }
 
     /**

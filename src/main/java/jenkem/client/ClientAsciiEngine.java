@@ -7,6 +7,7 @@ import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
 import jenkem.shared.Kick;
 import jenkem.shared.Power;
+import jenkem.shared.ProcessionSettings;
 import jenkem.shared.color.IrcColor;
 import com.google.gwt.canvas.dom.client.ImageData;
 
@@ -52,8 +53,9 @@ public class ClientAsciiEngine {
     }
 
     public final void setParams(final ImageData id, final CharacterSet preset,
-            final Kick selectedKick, final int contrast, final int brightness) {
-        engine.setParams(id, preset, selectedKick, contrast, brightness);
+            final Kick selectedKick, final int contrast, final int brightness,
+            final ProcessionSettings settings) {
+        engine.setParams(id, preset, selectedKick, contrast, brightness, settings);
     }
 
     public final void prepareEngine(final Map<IrcColor, Integer> colorMap, final Power power) {

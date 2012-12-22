@@ -13,6 +13,7 @@ import jenkem.shared.Power
 import jenkem.shared.color.Sample
 import jenkem.shared.color.IrcColor
 import java.util.HashMap
+import jenkem.shared.ProcessionSettings
 
 /**
  * Converts images to colored ASCII on server.
@@ -77,7 +78,8 @@ class ServerAsciiEngine {
 
     val sensitivity: Double = Sample.HALF_RGB / TOTAL_PERCENT
     val actualContrast: Int = ((contrast * sensitivity) + Sample.HALF_RGB).asInstanceOf[Int]
-    engine.setParams(id, preset, kick, contrast, brightness)
+    val settings: ProcessionSettings = new ProcessionSettings(32, true, true, true, true);
+    engine.setParams(id, preset, kick, contrast, brightness, settings)
     if (!method.equals(ConversionMethod.Plain)) {
       val colorMap: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer];
       IrcColor.values.map(ic => colorMap.put(ic, 100)); //TODO implement

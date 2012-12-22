@@ -5,12 +5,14 @@ import java.util.Map;
 import jenkem.client.presenter.MainPresenter;
 import jenkem.client.widget.IrcColorSetter;
 import jenkem.client.widget.IrcConnector;
+import jenkem.client.widget.ProcessionSettingsPanel;
 import jenkem.client.widget.UrlSetter;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Kick;
 import jenkem.shared.LineWidth;
 import jenkem.shared.Power;
+import jenkem.shared.ProcessionSettings;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.HasDirection.Direction;
@@ -58,6 +60,7 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final Canvas canvas = Canvas.createIfSupported();
     private final InlineHTML inline = new InlineHTML();
     private final TextArea ircText = new TextArea();
+    private final ProcessionSettingsPanel processingPanel;
     private final UrlSetter urlSetter;
     private final IrcColorSetter ircColorSetter;
     private final IrcConnector ircConnector;
@@ -69,6 +72,7 @@ public class MainView extends Composite implements MainPresenter.Display {
      */
     public MainView(final HandlerManager eventBus) {
         urlSetter = new UrlSetter(eventBus);
+        processingPanel = new ProcessionSettingsPanel(eventBus);
         ircColorSetter = new IrcColorSetter(eventBus);
         ircConnector = new IrcConnector(eventBus);
 
@@ -125,6 +129,11 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.setText(settingsRow, 0, "Character Set:");
         settingsTable.setWidget(settingsRow, 1, presetListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+        settingsRow++;
+
+        settingsTable.setText(settingsRow, 0, "Processing:");
+        settingsTable.setWidget(settingsRow, 1, processingPanel);
+        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
         settingsRow++;
 
         settingsTable.setText(settingsRow, 0, "Kick:");
@@ -230,4 +239,7 @@ public class MainView extends Composite implements MainPresenter.Display {
     @Override public final Button getSubmitButton() { return submitButton; }
     @Override public final int getInitialContrast() { return INITIAL_CONTRAST_DEFAULT; }
     @Override public final int getInitialBrightness() { return INITIAL_BRIGHTNESS_DEFAULT; }
+    @Override public final ProcessionSettings getProcessionSettings() { return processingPanel.getSettings(); }
+    @Override public final void resetProcession() { processingPanel.reset(); }
+    @Override public final void enableProcession(final boolean enable) { processingPanel.setEnabled(enable); }
 }

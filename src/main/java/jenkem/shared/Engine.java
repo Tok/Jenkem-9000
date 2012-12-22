@@ -21,6 +21,7 @@ public class Engine {
     private Map<IrcColor, Integer> colorMap;
     private ImageData id;
     private CharacterSet preset;
+    private ProcessionSettings settings;
     private int contrast;
     private int brightness;
 
@@ -35,13 +36,15 @@ public class Engine {
      * @param preset the CharacterSet to use
      * @param contrast value will be multiplied with the rgb of each pixel
      * @param brightness value will be added to the rgb of each pixel
+     * @param settings
      */
     public final void setParams(final ImageData id, final CharacterSet preset, final Kick kick,
-            final int contrast, final int brightness) {
+            final int contrast, final int brightness, final ProcessionSettings settings) {
         this.id = id;
         this.preset = preset;
         this.contrast = contrast;
         this.brightness = brightness;
+        this.settings = settings;
         applyKicks(kick);
     }
 
@@ -54,20 +57,13 @@ public class Engine {
         final StringBuilder line = new StringBuilder();
         String oldPix;
         String newPix = null;
-        for (int x = 0; x < id.getWidth(); x++) { // this method can handle
-                                                  // uneven image widths
+        for (int x = 0; x < id.getWidth(); x++) { // this method can handle uneven image widths
             final int[] rgb = Sample.calculateRgb(id, x, index, contrast, brightness);
             oldPix = newPix;
-            // the cube is used here.
             newPix = cube.getColorChar(colorMap, preset, rgb, false);
-            if (newPix.equals(oldPix)) { // don't change color
-                final String charOnly = newPix.substring(newPix.length() - 1,
-                        newPix.length());
-                line.append(charOnly);
+            if (newPix.equals(oldPix)) { // don't change color, add char only
+                line.append(newPix.substring(newPix.length() - 1, newPix.length()));
             } else { // do color change
-                if (line.length() > 0) {
-                    line.append(ColorUtil.CC); // closes the last CC used
-                }
                 line.append(ColorUtil.CC); // adds the new CC
                 line.append(newPix); // and the new character
             }
@@ -107,7 +103,7 @@ public class Engine {
             final Color leftBottomCol = cube.getTwoNearestColors(colorMap, leftBottomRgb);
             final Color rightTopCol = cube.getTwoNearestColors(colorMap, rightTopRgb);
             final Color rightBottomCol = cube.getTwoNearestColors(colorMap, rightBottomRgb);
-            final double offset = 16.0D; //TODO create options for procession
+            final int offset = settings.getOffset();
             if (cube.isFirstCloserTo(leftBottomCol.getRgb(), leftTopCol.getRgb(), leftCol.getFgRgb(), offset)) {
                 newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
             } else if (cube.isFirstCloserTo(leftTopCol.getRgb(), leftBottomCol.getRgb(), leftCol.getFgRgb(), offset)) {
@@ -133,7 +129,7 @@ public class Engine {
             }
         }
         row.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(row.toString(), preset, ConversionMethod.SuperHybrid);
+        return colorUtil.postProcessColoredRow(row.toString(), preset, settings);
     }
 
     /**
@@ -142,6 +138,7 @@ public class Engine {
      * @param index row of pixels in the ImageData to convert
      */
     public final String generateHybridLine(final int index) {
+        final double offsetModifier = 16D;
         final StringBuilder line = new StringBuilder();
         String oldLeft;
         String newLeft = null;
@@ -164,11 +161,12 @@ public class Engine {
                 newRight = asciiScheme.replace(newRight, asciiScheme.selectVline());
             }
             // XXX tune this
-            final int downOffset = 21;
-            final int upOffset = 13;
-            final int genUpDownOffset = 3;
-            final int downUpOffset = 1;
-            final int upDownOffset = 2;
+            final int offset = settings.getOffset();
+            final int downOffset = Double.valueOf(offset * 2D / 3D).intValue();
+            final int upOffset = Double.valueOf(offset * 2D / 3D).intValue();
+            final int genUpDownOffset = Double.valueOf(offset / 8D).intValue();
+            final int downUpOffset = Double.valueOf(offset / offsetModifier).intValue();
+            final int upDownOffset = Double.valueOf(offset / offsetModifier).intValue();
             final int[] topRgb = sample.getRgbValues(Sample.Ydir.TOP);
             final int[] botRgb = sample.getRgbValues(Sample.Ydir.BOT);
             if (isUp(topRgb, botRgb, upOffset)) {
@@ -233,28 +231,21 @@ public class Engine {
                             + asciiScheme.selectDownUp().substring(1, 2); // //_".'
                 }
             }
-            if (newLeft.equals(oldLeft)) {
-                final String charOnly = newLeft.substring(newLeft.length() - 1,
-                        newLeft.length());
-                line.append(charOnly);
+            if (newLeft.equals(oldLeft)) { // char only
+                line.append(newLeft.substring(newLeft.length() - 1, newLeft.length()));
             } else {
-                if (line.length() > 0) {
-                    line.append(ColorUtil.CC);
-                }
                 line.append(ColorUtil.CC);
                 line.append(newLeft);
             }
-            if (newRight.equals(newLeft)) {
-                final String charOnly = newRight.substring(
-                        newRight.length() - 1, newRight.length());
-                line.append(charOnly);
+            if (newRight.equals(newLeft)) { // char only
+                line.append(newRight.substring(newRight.length() - 1, newRight.length()));
             } else {
                 line.append(ColorUtil.CC);
                 line.append(newRight);
             }
         }
         line.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(line.toString(), preset, ConversionMethod.Hybrid);
+        return colorUtil.postProcessColoredRow(line.toString(), preset, settings);
     }
 
     /**
@@ -275,19 +266,13 @@ public class Engine {
             newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
             newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
             if (newLeft.equals(oldLeft)) {
-                final String charOnly = newLeft.substring(newLeft.length() - 1, newLeft.length());
-                line.append(charOnly);
+                line.append(newLeft.substring(newLeft.length() - 1, newLeft.length()));
             } else {
-                if (line.length() > 0) {
-                    line.append(ColorUtil.CC);
-                }
                 line.append(ColorUtil.CC);
                 line.append(newLeft);
             }
             if (newRight.equals(newLeft)) {
-                final String charOnly = newRight.substring(
-                        newRight.length() - 1, newRight.length());
-                line.append(charOnly);
+                line.append(newRight.substring(newRight.length() - 1, newRight.length()));
             } else {
                 line.append(ColorUtil.CC);
                 line.append(newRight);
@@ -329,7 +314,7 @@ public class Engine {
             }
             line.append(charPixel);
         }
-        return colorUtil.postProcessRow(line.toString(), preset, ConversionMethod.Plain);
+        return colorUtil.postProcessRow(line.toString(), preset, settings);
     }
 
     /**

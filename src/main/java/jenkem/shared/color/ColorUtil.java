@@ -6,6 +6,7 @@ import java.util.List;
 import jenkem.shared.AsciiScheme;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ConversionMethod;
+import jenkem.shared.ProcessionSettings;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
@@ -187,7 +188,7 @@ public class ColorUtil {
      * @param method
      * @return the processed line
      */
-    public final String postProcessColoredRow(final String row, final CharacterSet preset, final ConversionMethod method) {
+    public final String postProcessColoredRow(final String row, final CharacterSet preset, final ProcessionSettings settings) {
         final String valid = ColorUtil.makeBlocksValid(row); //make valid
         // separate CCs and content:
         final List<String> ccs = new ArrayList<String>(Arrays.asList(valid.split("[^" + CC + "0-9,]")));
@@ -202,7 +203,7 @@ public class ColorUtil {
             plainRow.append(noCc);
         }
         // process plain
-        final String processed = postProcessRow(plainRow.toString(), preset, method);
+        final String processed = postProcessRow(plainRow.toString(), preset, settings);
         // reassemble processed conten and CCs
         final StringBuilder result = new StringBuilder();
         int beginIndex = 0;
@@ -221,13 +222,13 @@ public class ColorUtil {
      * @param method
      * @return the processed line
      */
-    public final String postProcessRow(final String row, final CharacterSet preset, final ConversionMethod method) {
-        final String replaced = postReplacements(row, preset, method);
+    public final String postProcessRow(final String row, final CharacterSet preset, final ProcessionSettings settings) {
+        final String replaced = postReplacements(row, preset, settings);
         // 1st procession for the upper part of the characters (true case)
         // 2nd one for the lower parts (false case)
-        return postProcessHor(postProcessHor(replaced, true), false);
+        return settings.isDoHline() ? postProcessHor(postProcessHor(replaced, true), false) : replaced;
     }
-    //TODO implement vertical procession
+    //TODO implement vertical procession?
 
     /**
      * Makes plain ASCII smooth.
@@ -271,11 +272,13 @@ public class ColorUtil {
         return buf.toString();
     }
 
-    public final String postReplacements(final String row, final CharacterSet preset, final ConversionMethod method) {
-        return postReplacements(postReplacements(row, preset, method, 0), preset, method, 1);
+    public final String postReplacements(final String row, final CharacterSet preset,
+            final ProcessionSettings settings) {
+        return postReplacements(postReplacements(row, preset, settings, 0), preset, settings, 1);
     }
 
-    private String postReplacements(final String row, final CharacterSet preset, final ConversionMethod method, final int offset) {
+    private String postReplacements(final String row, final CharacterSet preset,
+            final ProcessionSettings settings, final int offset) {
         final int rep = preset.getRepSensitivity(); //replacement sensitivity character count
         final StringBuilder result = new StringBuilder();
         final char[] chars = row.toCharArray();
@@ -285,38 +288,40 @@ public class ColorUtil {
         for (int i = offset; i < chars.length - 1; i += 2) {
             final String first = String.valueOf(chars[i]);
             final String second = String.valueOf(chars[i+1]);
-            if (first.equals(asciiScheme.getUp()) && second.equals(asciiScheme.getDown())) {
+            if (settings.isDoDiagonal() && first.equals(asciiScheme.getUp())
+                    && second.equals(asciiScheme.getDown())) {
                 // ""_" --> "\\"
                 result.append(asciiScheme.getUpDown(ConversionMethod.Plain)); //XXX?
-            } else if (first.equals(asciiScheme.getDown()) && second.equals(asciiScheme.getUp())) {
+            } else if (settings.isDoDiagonal() && first.equals(asciiScheme.getDown())
+                    && second.equals(asciiScheme.getUp())) {
                 // "_"" --> "//"
                 result.append(asciiScheme.getDownUp(ConversionMethod.Plain));
-            } else if (asciiScheme.isCharacterDark(first, preset)
+            } else if (settings.isDoEdge() && asciiScheme.isCharacterDark(first, preset)
                     && second.equals(asciiScheme.getDown())) {
                 // "#_" --> "#L"
                 result.append(first);
                 result.append(asciiScheme.selectLeftDown());
-            } else if (first.equals(asciiScheme.getDown())
+            } else if (settings.isDoEdge() && first.equals(asciiScheme.getDown())
                     && asciiScheme.isCharacterDark(second, preset)) {
                 // "_#" --> "J#"
                 result.append(asciiScheme.selectRightDown());
                 result.append(second);
-            } else if (asciiScheme.isCharacterDark(first, preset)
+            } else if (settings.isDoEdge() && asciiScheme.isCharacterDark(first, preset)
                     && second.equals(asciiScheme.getUp())) {
                 // "#"" --> "#F"
                 result.append(first);
                 result.append(asciiScheme.selectLeftUp());
-            } else if (first.equals(asciiScheme.getUp())
+            } else if (settings.isDoEdge() && first.equals(asciiScheme.getUp())
                     && asciiScheme.isCharacterDark(second, preset)) {
                 // ""#" --> "q#"
                 result.append(asciiScheme.selectRightUp());
                 result.append(second);
-            } else if (asciiScheme.getDarkestCharacters(preset, rep).contains(first)
+            } else if (settings.isDoVline() && asciiScheme.getDarkestCharacters(preset, rep).contains(first)
                     && asciiScheme.getBrightestCharacters(preset, rep).contains(second)) {
                 // "# " --> "| "
                 result.append(asciiScheme.getVline());
                 result.append(second);
-            } else if (asciiScheme.getBrightestCharacters(preset, rep).contains(first)
+            } else if (settings.isDoVline() && asciiScheme.getBrightestCharacters(preset, rep).contains(first)
                     && asciiScheme.getDarkestCharacters(preset, rep).contains(second)) {
                 // " #" --> " |"
                 result.append(first);

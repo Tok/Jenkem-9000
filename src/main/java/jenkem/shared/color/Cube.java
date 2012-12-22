@@ -41,13 +41,7 @@ public class Cube {
         final int[] col = {red, green, blue};
         final Color c = getTwoNearestColors(colorMap, col);
         final StringBuilder result = new StringBuilder();
-        if (!enforceBlackFg) {
-            result.append(c.getFg()); // append the foreground color
-        } else {
-            result.append("1"); // ignore the actual foreground color and use a
-                                // black (=1) characters
-            // XXX why not use black or white again?
-        }
+        result.append(enforceBlackFg ? "1" : c.getFg());
         result.append(",");
         result.append(c.getBg()); // append the background color
         final String character = asciiScheme.getChar(c.getBgStrength(), preset, AsciiScheme.StrengthType.RELATIVE);
@@ -145,10 +139,12 @@ public class Cube {
         // center of the cube 127,127,127
 
         final double p = power.getValue();
-        final double strongestStrength =
-                Math.pow(calcStrength(col, strongest.getValue().getCoords(), colorMap.get(strongest.getValue().getColor())), p);
-        final double secondStrength =
-                Math.pow(calcStrength(col, second.getValue().getCoords(), colorMap.get(second.getValue().getColor())), p);
+        final double strongestStrength = Math.pow(calcStrength(
+                col, strongest.getValue().getCoords(),
+                colorMap.get(strongest.getValue().getColor())), p);
+        final double secondStrength = Math.pow(calcStrength(
+                col, second.getValue().getCoords(),
+                colorMap.get(second.getValue().getColor())), p);
         final double strength = strongestStrength / secondStrength;
         c.setBgStrength(strength);
 
@@ -176,8 +172,8 @@ public class Cube {
         final double toGreen = to[1];
         final double toBlue = to[2];
         final double distance = Math.sqrt((Math.pow(toRed - fromRed, 2.0)
-                + Math.pow(toGreen - fromGreen, 2.0) + Math.pow(toBlue
-                - fromBlue, 2.0)));
+                + Math.pow(toGreen - fromGreen, 2.0)
+                + Math.pow(toBlue - fromBlue, 2.0)));
         return distance;
     }
 
@@ -191,7 +187,7 @@ public class Cube {
      * @return boolean that is true if the first color is closer to the compared value.
      */
     public final boolean isFirstCloserTo(final int[] first, final int[] second,
-            final int[] compare, final double offset) {
+            final int[] compare, final int offset) {
         final double firstDist = calcDistance(first, compare);
         final double secondDist = calcDistance(second, compare);
         return ((firstDist + offset) < secondDist);
@@ -199,7 +195,7 @@ public class Cube {
 
     public final boolean isFirstCloserTo(final int[] first, final int[] second,
             final int[] compare) {
-        return isFirstCloserTo(first, second, compare, 0D);
+        return isFirstCloserTo(first, second, compare, 0);
     }
 
     /**
