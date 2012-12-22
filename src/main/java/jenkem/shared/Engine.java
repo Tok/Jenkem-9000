@@ -21,14 +21,12 @@ public class Engine {
     private Map<IrcColor, Integer> colorMap;
     private ImageData id;
     private CharacterSet preset;
-    private ProcessionSettings settings;
+    private ProcessionSettings settings = new ProcessionSettings();
     private int contrast;
     private int brightness;
 
     private int startX;
     private int startY;
-
-    public Engine() { }
 
     /**
      * Prepares Engine.

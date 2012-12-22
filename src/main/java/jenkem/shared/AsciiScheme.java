@@ -33,7 +33,7 @@ public class AsciiScheme {
      * Returns a String with the character according to the provided parameters.
      * @param strength
      * @param preset
-     * @param isAbsolute
+     * @param type
      * @return characterString
      */
     public final String getChar(final double strength, final CharacterSet preset, final StrengthType type) {

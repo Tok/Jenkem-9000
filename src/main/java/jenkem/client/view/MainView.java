@@ -202,7 +202,7 @@ public class MainView extends Composite implements MainPresenter.Display {
         flex.setWidget(0, 1, settingsTable);
         flex.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
 
-        contentTable.setWidget(row++, 0, flex);
+        contentTable.setWidget(row, 0, flex);
         contentTableDecorator.add(contentTable);
         initWidget(contentTableDecorator);
     }

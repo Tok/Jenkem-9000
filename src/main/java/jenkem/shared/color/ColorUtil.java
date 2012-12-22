@@ -185,7 +185,7 @@ public class ColorUtil {
      * the Colors are added again.
      * @param row to process
      * @param preset
-     * @param method
+     * @param settings
      * @return the processed line
      */
     public final String postProcessColoredRow(final String row, final CharacterSet preset, final ProcessionSettings settings) {
@@ -219,7 +219,7 @@ public class ColorUtil {
      * Makes plain ASCII output smooth.
      * @param row to process
      * @param preset
-     * @param method
+     * @param settings
      * @return the processed line
      */
     public final String postProcessRow(final String row, final CharacterSet preset, final ProcessionSettings settings) {

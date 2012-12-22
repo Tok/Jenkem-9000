@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.TextBox;
  * Widget to send messages to IRC.
  */
 public class IrcConnector extends Composite {
-    private final int REFRESH_INTERVAL = 2000; //poll bot status every two seconds
+    private static final int REFRESH_INTERVAL = 2000; //poll bot status every two seconds
     private final Timer refreshTimer = new Timer() { @Override public void run() { getBotStatus(); }};
     private final HandlerManager eventBus;
     private final IrcSettings ircSettings = GWT.create(IrcSettings.class);

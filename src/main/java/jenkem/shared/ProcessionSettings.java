@@ -2,11 +2,20 @@ package jenkem.shared;
 
 
 public class ProcessionSettings {
+    private static final int DEFAULT_OFFSET = 32;
     private int offset;
     private boolean doVline;
     private boolean doHline;
     private boolean doEdge;
     private boolean doDiagonal;
+
+    public ProcessionSettings() {
+        this.offset = DEFAULT_OFFSET;
+        this.doVline = true;
+        this.doHline = false;
+        this.doEdge = true;
+        this.doDiagonal = true;
+    }
 
     public ProcessionSettings(final int offset, final boolean doVline, final boolean doHline,
             final boolean doEdge, final boolean doDiagonal) {

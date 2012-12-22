@@ -208,7 +208,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Shows submission message and enables submission button.
      * @param result
      */
-    private void handleSubmissionResult(final String result) {
+    private synchronized void handleSubmissionResult(final String result) {
         display.getUrlSetter().setStatus(result);
         display.getSubmitButton().setEnabled(true);
     }
@@ -286,7 +286,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Returns the selected conversion method.
      * @return conversionMethod
      */
-    private ConversionMethod getCurrentConversionMethod() {
+    private synchronized ConversionMethod getCurrentConversionMethod() {
         final String methodName = display.getMethodListBox().getItemText(
                 display.getMethodListBox().getSelectedIndex());
         return ConversionMethod.getValueByName(methodName);
@@ -296,7 +296,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Returns the selected line width as int.
      * @return lineWidth
      */
-    private int getCurrentLineWidth(final int imgWidth) {
+    private synchronized int getCurrentLineWidth(final int imgWidth) {
       final String widthString = display.getWidthListBox().getItemText(
               display.getWidthListBox().getSelectedIndex());
       return Math.min(Integer.parseInt(widthString), imgWidth);
@@ -355,7 +355,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Refreshes the progress display.
      * @param index
      */
-    private void updateProgress(final int index) {
+    private synchronized void updateProgress(final int index) {
         final double percentDone = index * TOTAL_PERCENT / Integer.valueOf(lastIndex).doubleValue();
         display.getUrlSetter().setStatus("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");
     }
@@ -395,7 +395,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Adds the finished output to the view.
      */
-    private void addOutput() {
+    private synchronized void addOutput() {
         final String[] htmlAndCss = updatePreview(ircOutput);
 
         //create and wrap image parts
@@ -422,7 +422,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @param css
      * @return
      */
-    private String[] updatePreview(final List<String> ircOutput) {
+    private synchronized String[] updatePreview(final List<String> ircOutput) {
         final String[] htmlAndCss = htmlUtil.generateHtml(ircOutput, currentName, method);
         final String inlineCss = htmlUtil.prepareCssForInline(htmlAndCss[1]);
         final String inlineHtml = htmlUtil.prepareHtmlForInline(htmlAndCss[0], inlineCss);
@@ -443,7 +443,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Returns the selected Kick.
      * @return kick
      */
-    private Kick getSelectedKick() {
+    private synchronized Kick getSelectedKick() {
         for (final Kick kick : Kick.values()) {
             if (this.display.getKickButton(kick).getValue()) {
                 return kick;
@@ -456,7 +456,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Returns the selected Power.
      * @return power
      */
-    private Power getSelectedPower() {
+    private synchronized Power getSelectedPower() {
         final String powerName = display.getPowerListBox().getItemText(
                 display.getPowerListBox().getSelectedIndex());
         return Power.valueOf(powerName);
@@ -465,7 +465,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Resets the view.
      */
-    private void doReset() {
+    private synchronized void doReset() {
         display.getIrcColorSetter().reset();
         display.getPresetListBox().setSelectedIndex(0); //hard
         display.getPowerListBox().setSelectedIndex(2); //cubic
@@ -477,7 +477,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Resets the constrast and the brightness.
      */
-    private void resetContrastAndBrightness() {
+    private synchronized void resetContrastAndBrightness() {
         method = getCurrentConversionMethod();
         display.getContrastSlider().setValue(display.getInitialContrast());
         updateContrast();
@@ -488,7 +488,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     /**
      * Enables or disables the Kick RadionButtons.
      */
-    private void setKicksEnabled(final boolean enabled) {
+    private synchronized void setKicksEnabled(final boolean enabled) {
         if (!enabled || !method.equals(ConversionMethod.FullHd)) {
             for (final Kick kick : Kick.values()) {
                 display.getKickButton(kick).setEnabled(enabled);
@@ -500,7 +500,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Updates the contrast with the provided value.
      * @param value
      */
-    private void updateContrast() {
+    private synchronized void updateContrast() {
         final int value = display.getContrastSlider().getValue() - display.getInitialContrast();
         display.getContrastLabel().setText(String.valueOf(value));
     }
@@ -509,7 +509,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Updates the brightness with the provided value.
      * @param value
      */
-    private void updateBrightness() {
+    private synchronized void updateBrightness() {
         final int value = display.getBrightnessSlider().getValue() - display.getInitialBrightness();
         display.getBrightnessLabel().setText(String.valueOf(value));
     }
