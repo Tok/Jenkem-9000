@@ -13,4 +13,12 @@ public enum Kick {
     public String toString() {
         return this.name();
     }
+
+    public boolean hasX() {
+        return this.equals(X) || this.equals(XY);
+    }
+
+    public boolean hasY() {
+        return this.equals(Y) || this.equals(XY);
+    }
 }

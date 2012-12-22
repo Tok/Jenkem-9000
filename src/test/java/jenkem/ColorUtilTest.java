@@ -1,10 +1,13 @@
 package jenkem;
 
 import jenkem.shared.AsciiScheme;
+import jenkem.shared.CharacterSet;
+import jenkem.shared.ConversionMethod;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.IrcColor;
 
 public class ColorUtilTest extends AbstractReflectionTestCase {
+    private final CharacterSet preset = CharacterSet.Hard;
     private final ColorUtil util = new ColorUtil();
     private final AsciiScheme scheme = new AsciiScheme();
     private final String up = scheme.getUp();
@@ -27,44 +30,45 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
 
     public final void testPostProcession() throws Exception {
         final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
-        final Object[] parameters = {input};
+        final Object[] parameters = {input, preset, ConversionMethod.SuperHybrid};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals("##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##", output);
+        assertEquals("##L" + down + down + "J##F" + up + up + "q##", output);
     }
 
     public final void testMixedPostProcession() throws Exception {
         final String input = "##" + down + down + down + "##" + up + up + up + "##";
-        final Object[] parameters = {input};
+        final Object[] parameters = {input, preset, ConversionMethod.SuperHybrid};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals("##" + down + hLine + down + "##" + up + hLine + up + "##", output);
+        assertEquals("##L" + down + "J##F" + up + "q##", output);
     }
 
     public final void testMoreMixedPostProcession() throws Exception {
         final String input = "##" + down + down + down + down + down + "##" + up + up + up + up + up + "##";
-        final Object[] parameters = {input};
+        final Object[] parameters = {input, preset, ConversionMethod.SuperHybrid};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals("##" + down + hLine + hLine + hLine + down + "##" + up + hLine + hLine + hLine + up + "##", output);
+        assertEquals("##L" + down + hLine + down + "J##F" + up + hLine + up + "q##", output);
     }
 
     public final void testMinPostProcession() throws Exception {
         final String input = "##" + down + down + "##" + up + up + "##";
-        final Object[] parameters = {input};
+        final Object[] parameters = {input, preset, ConversionMethod.SuperHybrid};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals(input, output); //no change
+        //assertEquals(input, output); //no change TODO rethink this
+        assertEquals("##LJ##Fq##", output);
     }
 
     public final void testPostProcessRowWithColor() throws Exception {
         final String input = ColorUtil.CC + "##" + down + down + down + down + "##" + up + up + up + up + "##";
-        final String expect = ColorUtil.CC + "##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##";
-        final Object[] parameters = {input};
+        final String expect = ColorUtil.CC + "##L" + down + down + "J##F" + up + up + "q##";
+        final Object[] parameters = {input, preset, ConversionMethod.SuperHybrid};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
         assertEquals(expect, output);
     }
 
     public final void testPostProcessRowWithhoutColor() throws Exception {
         final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
-        final String expect = "##" + down + hLine + hLine + down + "##" + up + hLine + hLine + up + "##";
-        final Object[] parameters = {input};
+        final String expect = "##L" + down + down + "J##F" + up + up + "q##";
+        final Object[] parameters = {input, preset, ConversionMethod.SuperHybrid};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
         assertEquals(expect, output);
     }
@@ -72,7 +76,7 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
     public final void testColorPostProcessionWithColorRedundancies() throws Exception {
         final String input = ColorUtil.CC + "1,1##" + ColorUtil.CC + "1,1XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
         final String expect = ColorUtil.CC + "1,1##XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
-        final Object[] parameters = {input};
+        final Object[] parameters = {input, preset, ConversionMethod.SuperHybrid};
         final String output = (String) invokePrivateMethod(util, "postProcessColoredRow", parameters);
         assertEquals(expect, output);
     }
@@ -80,9 +84,9 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
     public final void testColorPostProcessionWithoutColor() throws Exception {
         final String input = ColorUtil.CC + "1,1##" + down + ColorUtil.CC + "2,2"
                 + down + down + down + "##" + up + up + ColorUtil.CC + "3,3" + up + up + "##";
-        final String expect = ColorUtil.CC + "1,1##" + down + ColorUtil.CC + "2,2"
-                + hLine + hLine + down + "##" + up + hLine + ColorUtil.CC + "3,3" + hLine + up + "##";
-        final Object[] parameters = {input};
+        final String expect = ColorUtil.CC + "1,1##L" + ColorUtil.CC + "2,2"
+                + down + down + "J##F" + up + ColorUtil.CC + "3,3" + up + "q##";
+        final Object[] parameters = {input, preset, ConversionMethod.SuperHybrid};
         final String output = (String) invokePrivateMethod(util, "postProcessColoredRow", parameters);
         assertEquals(expect, output);
     }
@@ -215,6 +219,28 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
         final String input = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1 " + ColorUtil.CC + ColorUtil.CC + "  ";
         final String expected = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1   ";
         final String result = ColorUtil.makeBlocksValid(input);
+        assertEquals(expected, result);
+    }
+
+    public final void testPostReplacementsVline() throws Exception {
+        final String input = " ### ###  ###";
+        final String expected = " |#| |#|  |##";
+        final String result = util.postReplacements(input, preset, ConversionMethod.Plain);
+        assertEquals(expected.length(), result.length());
+        assertEquals(expected, result);
+    }
+
+    public final void testPostReplacementsDownUp() throws Exception {
+        final String input = " _\" \"_ ";
+        final String expected = " // \\\\ ";
+        final String result = util.postReplacements(input, preset, ConversionMethod.Plain);
+        assertEquals(expected, result);
+    }
+
+    public final void testPostReplacementsLeftRight() throws Exception {
+        final String input = " \"#\" _#_ ";
+        final String expected = " q#F J#L ";
+        final String result = util.postReplacements(input, preset, ConversionMethod.Plain);
         assertEquals(expected, result);
     }
 }

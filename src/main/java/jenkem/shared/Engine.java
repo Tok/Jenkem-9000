@@ -95,17 +95,18 @@ public class Engine {
             oldLeft = newLeft;
             newLeft = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.LEFT);
             newRight = cube.getColorChar(colorMap, preset, sample, Sample.Xdir.RIGHT);
+
             final int[] leftRgb = sample.getRgbValues(Sample.Xdir.LEFT);
-            final Color leftCol = cube.getTwoNearestColors(colorMap, leftRgb);
             final int[] rightRgb = sample.getRgbValues(Sample.Xdir.RIGHT);
-            final Color rightCol = cube.getTwoNearestColors(colorMap, rightRgb);
             final int[] leftTopRgb = sample.getRgbValues(Sample.Ydir.TOP, Sample.Xdir.LEFT);
-            final Color leftTopCol = cube.getTwoNearestColors(colorMap, leftTopRgb);
             final int[] leftBottomRgb = sample.getRgbValues(Sample.Ydir.BOT, Sample.Xdir.LEFT);
-            final Color leftBottomCol = cube.getTwoNearestColors(colorMap, leftBottomRgb);
             final int[] rightTopRgb = sample.getRgbValues(Sample.Ydir.TOP, Sample.Xdir.RIGHT);
-            final Color rightTopCol = cube.getTwoNearestColors(colorMap, rightTopRgb);
             final int[] rightBottomRgb = sample.getRgbValues(Sample.Ydir.BOT, Sample.Xdir.RIGHT);
+            final Color leftCol = cube.getTwoNearestColors(colorMap, leftRgb);
+            final Color rightCol = cube.getTwoNearestColors(colorMap, rightRgb);
+            final Color leftTopCol = cube.getTwoNearestColors(colorMap, leftTopRgb);
+            final Color leftBottomCol = cube.getTwoNearestColors(colorMap, leftBottomRgb);
+            final Color rightTopCol = cube.getTwoNearestColors(colorMap, rightTopRgb);
             final Color rightBottomCol = cube.getTwoNearestColors(colorMap, rightBottomRgb);
             final double offset = +32.0D;
             if (cube.isFirstCloserTo(leftBottomCol.getRgb(),
@@ -147,6 +148,7 @@ public class Engine {
                             + asciiScheme.selectUp(); // "
                 }
             }
+
             if (newLeft.equals(oldLeft)) {
                 final String charOnly = newLeft.substring(newLeft.length() - 1,
                         newLeft.length());
@@ -168,7 +170,7 @@ public class Engine {
             }
         }
         row.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(row.toString());
+        return colorUtil.postProcessColoredRow(row.toString(), preset, ConversionMethod.SuperHybrid);
     }
 
     /**
@@ -289,7 +291,7 @@ public class Engine {
             }
         }
         line.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(line.toString());
+        return colorUtil.postProcessColoredRow(line.toString(), preset, ConversionMethod.Hybrid);
     }
 
     /**
@@ -340,14 +342,12 @@ public class Engine {
      */
     public final String generatePlainLine(final int index) {
         final StringBuilder line = new StringBuilder();
-        final int rep = preset.getSensitivity(); //replacement sensitivity character count
         for (int x = startX; x < id.getWidth() - 1; x += ConversionMethod.Plain.getStep()) {
             final int topLeft = Sample.calculateColor(getMeanRgbFromImage(id, x, index), contrast, brightness);
             final int bottomLeft = Sample.calculateColor(getMeanRgbFromImage(id, x, index + 1), contrast, brightness);
             final int topRight = Sample.calculateColor(getMeanRgbFromImage(id, x + 1, index), contrast, brightness);
             final int bottomRight = Sample.calculateColor(getMeanRgbFromImage(id, x + 1, index + 1), contrast, brightness);
             String charPixel = "";
-
             // 1st char
             if (topLeft <= CENTER && bottomLeft > CENTER) {
                 charPixel = asciiScheme.getUp();
@@ -364,47 +364,9 @@ public class Engine {
             } else {
                 charPixel += asciiScheme.getChar((topRight + bottomRight) / 2D, preset, AsciiScheme.StrengthType.ABSOLUTE);
             }
-
-            // replace chars
-            //TODO move to post procession -> ColorUtil.postReplacements
-            if (charPixel.equals(asciiScheme.getUp() + asciiScheme.getDown())) {
-                charPixel = asciiScheme.getUpDown(ConversionMethod.Plain);
-            }
-            if (charPixel.equals(asciiScheme.getDown() + asciiScheme.getUp())) {
-                charPixel = asciiScheme.getDownUp(ConversionMethod.Plain);
-            }
-
-            if (asciiScheme.isCharacterDark(charPixel.substring(0, 1), preset)
-                    && charPixel.substring(1, 2).equals(asciiScheme.getDown())) {
-                charPixel = charPixel.substring(0, 1) + asciiScheme.selectLeftDown();
-            }
-            if (charPixel.substring(0, 1).equals(asciiScheme.getDown())
-                    && asciiScheme.isCharacterDark(charPixel.substring(1, 2), preset)) {
-                charPixel = asciiScheme.selectRightDown() + charPixel.substring(1, 2);
-            }
-            if (asciiScheme.isCharacterDark(charPixel.substring(0, 1), preset)
-                    && charPixel.substring(1, 2).equals(asciiScheme.getUp())) {
-                charPixel = charPixel.substring(0, 1) + asciiScheme.selectLeftUp();
-            }
-            if (charPixel.substring(0, 1).equals(asciiScheme.getUp())
-                    && asciiScheme.isCharacterDark(charPixel.substring(1, 2), preset)) {
-                charPixel = asciiScheme.selectRightUp() + charPixel.substring(1, 2);
-            }
-
-            //TODO move to post procession -> ColorUtil.postReplacements
-            if (asciiScheme.getDarkestCharacters(preset, rep).contains(charPixel.substring(0, 1))
-                    && asciiScheme.getBrightestCharacters(preset, rep).contains(charPixel.substring(1, 2))) {
-                // "# " --> "| "
-                charPixel = asciiScheme.getVline() + asciiScheme.getBrightestCharacters(preset, 1);
-            }
-            if (asciiScheme.getBrightestCharacters(preset, rep).contains(charPixel.substring(0, 1))
-                    && asciiScheme.getDarkestCharacters(preset, rep).contains(charPixel.substring(1, 2))) {
-                // " #" --> " |"
-                charPixel = asciiScheme.getBrightestCharacters(preset, 1) + asciiScheme.getVline();
-            }
             line.append(charPixel);
         }
-        return colorUtil.postProcessRow(line.toString());
+        return colorUtil.postProcessRow(line.toString(), preset, ConversionMethod.SuperHybrid);
     }
 
     /**

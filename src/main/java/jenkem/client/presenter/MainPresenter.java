@@ -369,7 +369,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                     if (ircLine != null && !ircLine.isEmpty() && index < lastIndex) {
                         ircOutput.add(ircLine + "\n");
                     }
-                    if (index >= lastIndex - 1) {
+                    if (index >= lastIndex - (getSelectedKick().hasY() ? 3 : 1)) {
                         addOutput();
                     } else {
                         engine.generateLine(method, method.hasKick() ? index + 2 : index + 1);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import jenkem.shared.AsciiScheme;
+import jenkem.shared.CharacterSet;
+import jenkem.shared.ConversionMethod;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
@@ -181,9 +183,11 @@ public class ColorUtil {
      * were plain (without CC's) Color Codes are removed, row is processed and
      * the Colors are added again.
      * @param row to process
+     * @param preset
+     * @param method
      * @return the processed line
      */
-    public final String postProcessColoredRow(final String row) {
+    public final String postProcessColoredRow(final String row, final CharacterSet preset, final ConversionMethod method) {
         final String valid = ColorUtil.makeBlocksValid(row); //make valid
         // separate CCs and content:
         final List<String> ccs = new ArrayList<String>(Arrays.asList(valid.split("[^" + CC + "0-9,]")));
@@ -198,7 +202,7 @@ public class ColorUtil {
             plainRow.append(noCc);
         }
         // process plain
-        final String processed = postProcessRow(plainRow.toString());
+        final String processed = postProcessRow(plainRow.toString(), preset, method);
         // reassemble processed conten and CCs
         final StringBuilder result = new StringBuilder();
         int beginIndex = 0;
@@ -213,12 +217,15 @@ public class ColorUtil {
     /**
      * Makes plain ASCII output smooth.
      * @param row to process
+     * @param preset
+     * @param method
      * @return the processed line
      */
-    public final String postProcessRow(final String row) {
+    public final String postProcessRow(final String row, final CharacterSet preset, final ConversionMethod method) {
+        final String replaced = postReplacements(row, preset, method);
         // 1st procession for the upper part of the characters (true case)
         // 2nd one for the lower parts (false case)
-        return postProcessHor(postProcessHor(row, true), false);
+        return postProcessHor(postProcessHor(replaced, true), false);
     }
     //TODO implement vertical procession
 
@@ -264,10 +271,67 @@ public class ColorUtil {
         return buf.toString();
     }
 
-    //TODO implement and use
-    @SuppressWarnings("unused")
-    private String postReplacements(final String row) {
+    public final String postReplacements(final String row, final CharacterSet preset, final ConversionMethod method) {
+        return postReplacements(postReplacements(row, preset, method, 0), preset, method, 1);
+    }
+
+    private String postReplacements(final String row, final CharacterSet preset, final ConversionMethod method, final int offset) {
+        final int rep = preset.getRepSensitivity(); //replacement sensitivity character count
+        final StringBuilder result = new StringBuilder();
         final char[] chars = row.toCharArray();
-        return row;
+        if (offset == 1) {
+            result.append(String.valueOf(chars[0]));
+        }
+        for (int i = offset; i < chars.length - 1; i += 2) {
+            final String first = String.valueOf(chars[i]);
+            final String second = String.valueOf(chars[i+1]);
+
+            if (first.equals(asciiScheme.getUp()) && second.equals(asciiScheme.getDown())) {
+                // "_"" --> "//"
+                result.append(asciiScheme.getUpDown(ConversionMethod.Plain));
+            } else if (first.equals(asciiScheme.getDown()) && second.equals(asciiScheme.getUp())) {
+                // ""_" --> "\\"
+                result.append(asciiScheme.getDownUp(ConversionMethod.Plain));
+            } else if (asciiScheme.isCharacterDark(first, preset)
+                    && second.equals(asciiScheme.getDown())) {
+                // "#_" --> "#L"
+                result.append(first);
+                result.append(asciiScheme.selectLeftDown());
+            } else if (first.equals(asciiScheme.getDown())
+                    && asciiScheme.isCharacterDark(second, preset)) {
+                // "_#" --> "J#"
+                result.append(asciiScheme.selectRightDown());
+                result.append(second);
+            } else if (asciiScheme.isCharacterDark(first, preset)
+                    && second.equals(asciiScheme.getUp())) {
+                // "#"" --> "#F"
+                result.append(first);
+                result.append(asciiScheme.selectLeftUp());
+            } else if (first.equals(asciiScheme.getUp())
+                    && asciiScheme.isCharacterDark(second, preset)) {
+                // ""#" --> "q#"
+                result.append(asciiScheme.selectRightUp());
+                result.append(second);
+            } else if (!method.equals(ConversionMethod.SuperHybrid)
+                    && asciiScheme.getDarkestCharacters(preset, rep).contains(first)
+                    && asciiScheme.getBrightestCharacters(preset, rep).contains(second)) {
+                // "# " --> "| "
+                result.append(asciiScheme.getVline());
+                result.append(second);
+            } else if (!method.equals(ConversionMethod.SuperHybrid)
+                    && asciiScheme.getBrightestCharacters(preset, rep).contains(first)
+                    && asciiScheme.getDarkestCharacters(preset, rep).contains(second)) {
+                // " #" --> " |"
+                result.append(first);
+                result.append(asciiScheme.getVline());
+            } else {
+                result.append(first);
+                result.append(second);
+            }
+        }
+        if (result.toString().length() < row.length()) {
+            result.append(String.valueOf(chars[chars.length-1]));
+        }
+        return result.toString();
     }
 }
