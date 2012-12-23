@@ -14,6 +14,7 @@ import jenkem.client.widget.IrcColorSetter;
 import jenkem.client.widget.IrcConnector;
 import jenkem.client.widget.UrlSetter;
 import jenkem.shared.CharacterSet;
+import jenkem.shared.ColorScheme;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.HtmlUtil;
 import jenkem.shared.ImageUtil;
@@ -381,6 +382,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 final int defaultBrightness = ImageUtil.getDefaultBrightness(id);
                 display.getBrightnessSlider().setValue(defaultBrightness);
             }
+            // select default color scheme
+            final ColorScheme defaultScheme = ImageUtil.getDefaultColorScheme(id);
+            display.getIrcColorSetter().setSelectedScheme(defaultScheme);
         }
         makeInitsForImage = false;
 

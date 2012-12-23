@@ -6,16 +6,18 @@ import com.google.gwt.canvas.dom.client.ImageData;
  * Utility class for getting Information on image content.
  */
 public final class ImageUtil {
+    private static final double MAX_PERCENT = 100D;
     private static final int MAX_RGB = 255;
     private static final int AVERAGE_RGB = 127;
-    private static final int BW_TOLERANCE = 25; //arbitrary value
-    private static final int BW_THRESHOLD = 95; //arbitrary value
-    private static final double MAX_PERCENT = 100D;
     private static final int BRIGHTNESS_SLIDER_ZERO_POS = 100;
     private static final int MIN_BRIGHTNESS = -100;
     private static final int MAX_BRIGHTNESS = 100;
-    private static final double BRIGHTNESS_FACTOR = 0.78D; // ~100/128
-    private static final int BRIGHTNESS_OFFSET = -40; //arbitrary value
+    private static final int BW_TOLERANCE = 25; //arbitrary value (absolute RGB * 3)
+    private static final int BW_THRESHOLD = 95; //arbitrary value (relative %)
+    private static final int COLOR_TOLERANCE = 20; //arbitrary value (absolute RGB)
+    private static final int COLOR_THRESHOLD = 5; //arbitrary value (relative %)
+    private static final double BRIGHTNESS_FACTOR = 0.78D; // ~100/128 (relative)
+    private static final int BRIGHTNESS_OFFSET = -40; //arbitrary value (relative %)
 
     private ImageUtil() { }
 
@@ -36,7 +38,7 @@ public final class ImageUtil {
     /**
      * Returns the default Brightness
      * @param id image data
-     * @return default brightness
+     * @return default conversion method
      */
     public static ConversionMethod getDefaultMethod(final ImageData id) {
         final int pixelCount = id.getHeight() * id.getWidth();
@@ -48,6 +50,24 @@ public final class ImageUtil {
         }
         final int bwRatio = Double.valueOf(countBw * MAX_PERCENT / pixelCount).intValue();
         return bwRatio < BW_THRESHOLD ? ConversionMethod.SuperHybrid : ConversionMethod.Plain;
+    }
+
+    /**
+     * Returns the default ColorScheme based on how colorful
+     * the provided image is.
+     * @param id image data
+     * @return default color scheme
+     */
+    public static ColorScheme getDefaultColorScheme(final ImageData id) {
+        final int pixelCount = id.getHeight() * id.getWidth();
+        int countColorful = 0;
+        for (int y = 0; y < id.getHeight(); y++) {
+            for (int x = 0; x < id.getWidth(); x++) {
+                if (isPixelColorful(id, x, y)) { countColorful++; }
+            }
+        }
+        final int colorRatio = Double.valueOf(countColorful * MAX_PERCENT / pixelCount).intValue();
+        return colorRatio > COLOR_THRESHOLD ? ColorScheme.Default : ColorScheme.Bwg;
     }
 
     /**
@@ -84,6 +104,24 @@ public final class ImageUtil {
         return id.getRedAt(x, y) + id.getGreenAt(x, y) + id.getBlueAt(x, y);
     }
 
+    /**
+     * Returns true if the pixel at the provided coordinates is
+     * relatively colorful.
+     * @param id ImageData image with the pixel to calculate
+     * @param x horizontal coordinate
+     * @param y vertical coordinate
+     * @return isPixelColorful
+     */
+    private static boolean isPixelColorful(final ImageData id, final int x, final int y) {
+        final int r = id.getRedAt(x, y);
+        final int g = id.getGreenAt(x, y);
+        final int b = id.getBlueAt(x, y);
+        return Math.abs(r - g) > COLOR_TOLERANCE
+                || Math.abs(r - b) > COLOR_TOLERANCE
+                || Math.abs(g - b) > COLOR_TOLERANCE;
+    }
+
+    //may be used to select default contrast
     @SuppressWarnings("unused")
     private static int getRgbDeviationFromPixel(final ImageData id, final int x, final int y) {
         final int mean = getMeanRgbFromPixel(id, x, y);

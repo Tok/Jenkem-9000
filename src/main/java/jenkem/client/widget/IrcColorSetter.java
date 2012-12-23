@@ -109,4 +109,13 @@ public class IrcColorSetter extends Composite {
         setScheme(ColorScheme.valueOf(schemeName));
     }
 
+    public final void setSelectedScheme(final ColorScheme defaultScheme) {
+        for (int i = 0; i < schemeListBox.getItemCount(); i++) {
+            if (schemeListBox.getItemText(i).equals(defaultScheme.toString())) {
+                schemeListBox.setSelectedIndex(i);
+                setScheme(defaultScheme);
+                return;
+            }
+        }
+    }
 }
