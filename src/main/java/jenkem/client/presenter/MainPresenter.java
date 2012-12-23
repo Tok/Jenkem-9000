@@ -351,7 +351,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
         currentImage = ImageElement.as(image.getElement());
 
-        method = getCurrentConversionMethod();
         final int width = getCurrentLineWidth(currentImage.getWidth());
         final int height = ((width / divisor) * currentImage.getHeight()) / currentImage.getWidth();
         display.getCanvas().setWidth(String.valueOf(actualWidth) + "px");
@@ -361,12 +360,27 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         display.getCanvas().getContext2d().drawImage(currentImage, 0, 0, actualWidth, actualHeight);
         final int xOff = actualWidth * left / TOTAL_PERCENT;
         final int yOff = actualHeight * top / TOTAL_PERCENT;
-        final ImageData id = display.getCanvas().getContext2d().getImageData(xOff, yOff, width, height);
         final String charset = display.getPresetTextBox().getText().replaceAll("[,0-9]", "");
 
+        final ImageData id = display.getCanvas().getContext2d().getImageData(xOff, yOff, width, height);
         if (makeInitsForImage) {
-            final int defaultBrightness = ImageUtil.getDefaultBrightness(id);
-            display.getBrightnessSlider().setValue(defaultBrightness);
+            // select default method
+            final ConversionMethod defaultMethod = ImageUtil.getDefaultMethod(id);
+            if (defaultMethod != method) {
+                for (int i = 0; i < display.getMethodListBox().getItemCount(); i++) {
+                    if (display.getMethodListBox().getItemText(i).equals(defaultMethod.getName())) {
+                        display.getMethodListBox().setSelectedIndex(i);
+                        method = getCurrentConversionMethod();
+                        doDeferredConversion(); // go again
+                        return;
+                    }
+                }
+            }
+            // select default brightness
+            if (!method.equals(ConversionMethod.Plain)) {
+                final int defaultBrightness = ImageUtil.getDefaultBrightness(id);
+                display.getBrightnessSlider().setValue(defaultBrightness);
+            }
         }
         makeInitsForImage = false;
 
@@ -376,7 +390,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         lastIndex = id.getHeight();
         final ProcessionSettings settings = display.getProcessionSettings();
         engine.setParams(id, charset, getSelectedKick(), contrast, brightness, settings);
-        if (!method.equals(ConversionMethod.Plain)) {
+        if (!getCurrentConversionMethod().equals(ConversionMethod.Plain)) {
             engine.prepareEngine(display.getIrcColorSetter().getColorMap(), getSelectedPower());
         }
 
