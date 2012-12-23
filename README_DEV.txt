@@ -26,3 +26,9 @@ Then restart the app using "rhc app restart --app [appname]" or ssh into the she
 
 delete logs and temp files by:
 rhc app tidy -a [appname]
+
+get random images -> http://lorempixel.com/
+http://lorempixel.com/72/100/   (random with 72 width)
+http://lorempixel.com/g/72/100/    (random gray)
+http://lorempixel.com/72/100/abstract
+http://lorempixel.com/72/100/nature ....

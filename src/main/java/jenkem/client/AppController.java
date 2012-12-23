@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 * Controls the views and the presenters in relation to the tabs.
 */
 public class AppController implements Presenter, ValueChangeHandler<String> {
+    private static final String DEFAULT_URL = "http://lorempixel.com/72/100/";
     private final JenkemServiceAsync jenkemService = GWT.create(JenkemService.class);
     private final HandlerManager eventBus = new HandlerManager(null);
     private HasWidgets container;
@@ -106,7 +107,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     public final void go(final HasWidgets container) {
         this.container = container;
         if ("".equals(History.getToken())) {
-            History.newItem("main/");
+            History.newItem("main/" + DEFAULT_URL);
         } else {
             History.fireCurrentHistoryState();
         }
