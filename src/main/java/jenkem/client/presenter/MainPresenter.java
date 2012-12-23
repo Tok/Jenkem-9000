@@ -78,7 +78,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private int lastIndex;
 
     private Image image;
-    private ImageElement currentImage;
+    private ImageData id;
     private String currentName;
     private static JenkemImage jenkemImage;
 
@@ -190,10 +190,12 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             }});
         this.display.getBlackBgButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                makeInitsForImage = true;
                 startOrRestartConversion();
             }});
         this.display.getWhiteBgButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                makeInitsForImage = true;
                 startOrRestartConversion();
             }});
         this.display.getResetButton().addClickHandler(new ClickHandler() {
@@ -350,7 +352,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         image.setPixelSize(actualWidth, actualHeight);
         image.setVisible(true);
 
-        currentImage = ImageElement.as(image.getElement());
+        final ImageElement currentImage = ImageElement.as(image.getElement());
 
         final int width = getCurrentLineWidth(currentImage.getWidth());
         final int height = ((width / divisor) * currentImage.getHeight()) / currentImage.getWidth();
@@ -363,30 +365,12 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final int yOff = actualHeight * top / TOTAL_PERCENT;
         final String charset = display.getPresetTextBox().getText().replaceAll("[,0-9]", "");
 
-        final ImageData id = display.getCanvas().getContext2d().getImageData(xOff, yOff, width, height);
+        id = display.getCanvas().getContext2d().getImageData(xOff, yOff, width, height);
         if (makeInitsForImage) {
-            // select default method
-            final ConversionMethod defaultMethod = ImageUtil.getDefaultMethod(id);
-            if (defaultMethod != method) {
-                for (int i = 0; i < display.getMethodListBox().getItemCount(); i++) {
-                    if (display.getMethodListBox().getItemText(i).equals(defaultMethod.getName())) {
-                        display.getMethodListBox().setSelectedIndex(i);
-                        method = getCurrentConversionMethod();
-                        doDeferredConversion(); // go again
-                        return;
-                    }
-                }
-            }
-            // select default brightness
-            if (!method.equals(ConversionMethod.Plain)) {
-                final int defaultBrightness = ImageUtil.getDefaultBrightness(id);
-                display.getBrightnessSlider().setValue(defaultBrightness);
-            }
-            // select default color scheme
-            final ColorScheme defaultScheme = ImageUtil.getDefaultColorScheme(id);
-            display.getIrcColorSetter().setSelectedScheme(defaultScheme);
+          final boolean restart = determineDefaultsForImage(id);
+          if (restart) { doDeferredConversion(); return; }
+          makeInitsForImage = false;
         }
-        makeInitsForImage = false;
 
         final int contrast = Integer.valueOf(display.getContrastLabel().getText());
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
@@ -400,6 +384,41 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
         ircOutput.clear();
         engine.generate(method);
+    }
+
+    /**
+     * determines default values for the current image and returns true
+     * if the deferred Conversions should be restarted. When this method is called
+     * from elsewhere, the return value can be ignored.
+     * @param id
+     * @return
+     */
+    private synchronized boolean determineDefaultsForImage(final ImageData id) {
+        boolean restartConversion = false;
+        // select default method
+        final ConversionMethod defaultMethod = ImageUtil.getDefaultMethod(id);
+        if (defaultMethod != method) {
+            for (int i = 0; i < display.getMethodListBox().getItemCount(); i++) {
+                if (display.getMethodListBox().getItemText(i).equals(defaultMethod.getName())) {
+                    display.getMethodListBox().setSelectedIndex(i);
+                    method = getCurrentConversionMethod();
+                    restartConversion = true;
+                    break;
+                }
+            }
+        }
+        if (!method.equals(ConversionMethod.Plain)) {
+            // select default brightness
+            final int defaultBrightness = ImageUtil.getDefaultBrightness(id);
+            display.getBrightnessSlider().setValue(defaultBrightness);
+            // select default contrast
+            final int defaultContrast = ImageUtil.getDefaultContrast(id);
+            display.getContrastSlider().setValue(defaultContrast);
+        }
+        // select default color scheme
+        final ColorScheme defaultScheme = ImageUtil.getDefaultColorScheme(id);
+        display.getIrcColorSetter().setSelectedScheme(defaultScheme);
+        return restartConversion;
     }
 
     /**
@@ -452,7 +471,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         //create and wrap image parts
         final Date now = new Date();
         final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss");
-        final ImageInfo jenkemImageInfo = new ImageInfo(currentName, ircOutput.size(), getCurrentLineWidth(currentImage.getWidth()), format.format(now));
+        final ImageInfo jenkemImageInfo = new ImageInfo(currentName, ircOutput.size(), getCurrentLineWidth(id.getWidth()), format.format(now));
         final ImageHtml jenkemImageHtml = new ImageHtml(currentName, htmlAndCss[0]);
         final ImageCss jenkemImageCss = new ImageCss(currentName, htmlAndCss[1]);
         final StringBuilder irc = new StringBuilder();
@@ -520,10 +539,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private synchronized void doReset() {
         display.getIrcColorSetter().reset();
         display.getPresetListBox().setSelectedIndex(0); //hard
-        display.getPowerListBox().setSelectedIndex(2); //cubic
+        display.getPowerListBox().setSelectedIndex(1); //quadratic
         resetContrastAndBrightness();
         display.getKickButton(Kick.Off).setValue(true);
         display.resetProcession();
+        determineDefaultsForImage(id);
     }
 
     /**

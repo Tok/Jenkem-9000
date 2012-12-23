@@ -156,7 +156,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 
         settingsTable.setText(settingsRow, 0, "Power:");
         for (final Power power : Power.values()) { powerListBox.addItem(power.toString()); }
-        powerListBox.setSelectedIndex(2); //Cubic
+        powerListBox.setSelectedIndex(1); //quadratic
         settingsTable.setWidget(settingsRow, 1, powerListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
