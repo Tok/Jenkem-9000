@@ -16,6 +16,7 @@ import jenkem.client.widget.UrlSetter;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.HtmlUtil;
+import jenkem.shared.ImageUtil;
 import jenkem.shared.Kick;
 import jenkem.shared.Power;
 import jenkem.shared.ProcessionSettings;
@@ -80,6 +81,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private String currentName;
     private static JenkemImage jenkemImage;
 
+    private boolean makeInitsForImage = true;
     private boolean isConversionRunnung = false;
     private boolean restartConversion = false;
 
@@ -98,6 +100,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         Button getSubmitButton();
         SliderBarSimpleHorizontal getContrastSlider();
         SliderBarSimpleHorizontal getBrightnessSlider();
+        boolean isDefaultBgBlack();
+        RadioButton getBlackBgButton();
+        RadioButton getWhiteBgButton();
         Label getContrastLabel();
         Label getBrightnessLabel();
         ProcessionSettings getProcessionSettings();
@@ -182,6 +187,14 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             @Override public void onChange(final ChangeEvent event) {
                 startOrRestartConversion();
             }});
+        this.display.getBlackBgButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                startOrRestartConversion();
+            }});
+        this.display.getWhiteBgButton().addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                startOrRestartConversion();
+            }});
         this.display.getResetButton().addClickHandler(new ClickHandler() {
             @Override public void onClick(final ClickEvent event) {
                 doReset();
@@ -249,6 +262,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         display.getUrlSetter().setStatus("Proxifying image.");
         final String[] split = urlString.split("/");
         currentName = split[split.length - 1];
+        makeInitsForImage = true;
         return ("".equals(urlString)) ? "" : "http://" + Window.Location.getHost() + "/jenkem/image?url=" + urlString;
     }
 
@@ -342,13 +356,19 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final int height = ((width / divisor) * currentImage.getHeight()) / currentImage.getWidth();
         display.getCanvas().setWidth(String.valueOf(actualWidth) + "px");
         display.getCanvas().setHeight(String.valueOf(actualHeight) + "px");
-        display.getCanvas().getContext2d().fillRect(0, 0, actualWidth, actualHeight); //resets the canvas with black bg
-
+        display.getCanvas().getContext2d().setFillStyle((display.isDefaultBgBlack() ? "#000000" : "#FFFFFF"));
+        display.getCanvas().getContext2d().fillRect(0, 0, actualWidth, actualHeight);
         display.getCanvas().getContext2d().drawImage(currentImage, 0, 0, actualWidth, actualHeight);
         final int xOff = actualWidth * left / TOTAL_PERCENT;
         final int yOff = actualHeight * top / TOTAL_PERCENT;
         final ImageData id = display.getCanvas().getContext2d().getImageData(xOff, yOff, width, height);
         final String charset = display.getPresetTextBox().getText().replaceAll("[,0-9]", "");
+
+        if (makeInitsForImage) {
+            final int defaultBrightness = ImageUtil.getDefaultBrightness(id);
+            display.getBrightnessSlider().setValue(defaultBrightness);
+        }
+        makeInitsForImage = false;
 
         final int contrast = Integer.valueOf(display.getContrastLabel().getText());
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());

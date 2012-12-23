@@ -51,13 +51,16 @@ public class MainView extends Composite implements MainPresenter.Display {
     private final ListBox powerListBox = new ListBox();
     private final ListBox presetListBox = new ListBox();
     private final TextBox presetTextBox = new TextBox();
-
+    private final HorizontalPanel kickPanel = new HorizontalPanel();
+    private final HorizontalPanel backgroundPanel = new HorizontalPanel();
     private final Label contrastLabel = new Label();
     private final Label brightnessLabel = new Label();
     private final Button submitButton = new Button("Submit to Gallery");
     private final Button resetButton = new Button("Reset");
     private final SliderBarSimpleHorizontal contrastSlider = new SliderBarSimpleHorizontal(100, "100px", false);
     private final SliderBarSimpleHorizontal brightnessSlider = new SliderBarSimpleHorizontal(100, "100px", false);
+    private final RadioButton blackBgButton = new RadioButton("bg", "Black");
+    private final RadioButton whiteBgButton = new RadioButton("bg", "White");
     private final Panel previewPanel = new VerticalPanel();
     private final Canvas canvas = Canvas.createIfSupported();
     private final InlineHTML inline = new InlineHTML();
@@ -146,7 +149,6 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsRow++;
 
         settingsTable.setText(settingsRow, 0, "Kick:");
-        final HorizontalPanel kickPanel = new HorizontalPanel();
         initKicks(kickPanel);
         settingsTable.setWidget(settingsRow, 1, kickPanel);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
@@ -156,6 +158,14 @@ public class MainView extends Composite implements MainPresenter.Display {
         for (final Power power : Power.values()) { powerListBox.addItem(power.toString()); }
         powerListBox.setSelectedIndex(2); //Cubic
         settingsTable.setWidget(settingsRow, 1, powerListBox);
+        settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
+        settingsRow++;
+
+        settingsTable.setText(settingsRow, 0, "Default Background:");
+        blackBgButton.setValue(true);
+        backgroundPanel.add(blackBgButton);
+        backgroundPanel.add(whiteBgButton);
+        settingsTable.setWidget(settingsRow, 1, backgroundPanel);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
         settingsRow++;
 
@@ -252,4 +262,7 @@ public class MainView extends Composite implements MainPresenter.Display {
     @Override public final ProcessionSettings getProcessionSettings() { return processingPanel.getSettings(); }
     @Override public final void resetProcession() { processingPanel.reset(); }
     @Override public final void enableProcession(final boolean enable) { processingPanel.setEnabled(enable); }
+    @Override public final boolean isDefaultBgBlack() { return blackBgButton.getValue().booleanValue(); }
+    @Override public final RadioButton getBlackBgButton() { return blackBgButton; }
+    @Override public final RadioButton getWhiteBgButton() { return whiteBgButton; }
 }
