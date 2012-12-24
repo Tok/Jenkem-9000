@@ -3,8 +3,6 @@ package jenkem.shared.color;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.canvas.dom.client.ImageData;
-
 /**
  * Represents the RGBcolors of four pixels from the provided image.
  * TL | TR
@@ -41,28 +39,28 @@ public final class Sample {
         @Override public String toString() { return col.name() + ydir.name() + xdir.name(); }
     }
 
-    public static Sample getInstance(final ImageData img, final int x,
-            final int y, final int contrast, final int brightness) {
-        return new Sample(img, x, y, contrast, brightness);
+    public static Sample getInstance(final Map<String, Integer[]> imageRgb, final int x,
+            final int y, final int contrast, final int brightness, final int width) {
+        return new Sample(imageRgb, x, y, contrast, brightness, width);
     }
 
-    private Sample(final ImageData img, final int x, final int y,
-            final int contrast, final int brightness) {
+    private Sample(final Map<String, Integer[]> imageRgb, final int x, final int y,
+            final int contrast, final int brightness, final int width) {
         for (final Col col : Col.values()) {
             values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.LEFT),
-                    takeColor(img, col, x, y, contrast, brightness));
+                    takeColor(imageRgb, col, x, y, contrast, brightness));
             values.put(SampleKey.getKey(col, Ydir.BOT, Xdir.LEFT),
-                    takeColor(img, col, x, y + 1, contrast, brightness));
-            if (img.getWidth() >= x + 1) {
+                    takeColor(imageRgb, col, x, y + 1, contrast, brightness));
+            if (width >= x + 1) {
                 values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.RIGHT),
-                        takeColor(img, col, x + 1, y, contrast, brightness));
+                        takeColor(imageRgb, col, x + 1, y, contrast, brightness));
                 values.put(SampleKey.getKey(col, Ydir.BOT, Xdir.RIGHT),
-                        takeColor(img, col, x + 1, y + 1, contrast, brightness));
+                        takeColor(imageRgb, col, x + 1, y + 1, contrast, brightness));
             } else { // fallback by using the pixel to the left
                 values.put(SampleKey.getKey(col, Ydir.TOP, Xdir.RIGHT),
-                        takeColor(img, col, x, y, contrast, brightness));
+                        takeColor(imageRgb, col, x, y, contrast, brightness));
                 values.put(SampleKey.getKey(col, Ydir.BOT, Xdir.RIGHT),
-                        takeColor(img, col, x, y + 1, contrast, brightness));
+                        takeColor(imageRgb, col, x, y + 1, contrast, brightness));
             }
         }
     }
@@ -109,33 +107,35 @@ public final class Sample {
     }
 
     /**
-     * Calculates the RGB values of the pixel in the provided imageData at
+     * Calculates the RGB values of the pixel in the provided imageRgb at
      * position x, y and applies the provided contrast and brightness.
-     * @param id ImageData
+     * @param id imageRgb
      * @param x the target pixel column
      * @param y the target pixel row
      * @param contrast is multiplied with the result
      * @param brightness is added to the result
      * @return an int[] of size 3 with the values for red, green and blue.
      */
-    public static int[] calculateRgb(final ImageData id, final int x,
+    public static int[] calculateRgb(final Map<String, Integer[]> imageRgb, final int x,
             final int y, final int contrast, final int brightness) {
+        final Integer[] rgb = imageRgb.get(y + ":" + x);
         final int[] result = {
-                calculateColor(id.getRedAt(x, y), contrast, brightness),
-                calculateColor(id.getGreenAt(x, y), contrast, brightness),
-                calculateColor(id.getBlueAt(x, y), contrast, brightness) };
+                calculateColor(rgb[0], contrast, brightness),
+                calculateColor(rgb[1], contrast, brightness),
+                calculateColor(rgb[2], contrast, brightness) };
         return result;
     }
 
-    private static int takeColor(final ImageData id, final Col col,
+    private static int takeColor(final Map<String, Integer[]> imageRgb, final Col col,
             final int x, final int y, final int contrast,
             final int brightness) {
+        final Integer[] rgb = imageRgb.get(y + ":" + x);
         if (col.equals(Col.RED)) {
-            return calculateColor(id.getRedAt(x, y), contrast, brightness);
+            return calculateColor(rgb[0], contrast, brightness);
         } else if (col.equals(Col.GREEN)) {
-            return calculateColor(id.getGreenAt(x, y), contrast, brightness);
+            return calculateColor(rgb[1], contrast, brightness);
         } else if (col.equals(Col.BLUE)) {
-            return calculateColor(id.getBlueAt(x, y), contrast, brightness);
+            return calculateColor(rgb[2], contrast, brightness);
         }
         throw new IllegalArgumentException("Illegal color.");
     }

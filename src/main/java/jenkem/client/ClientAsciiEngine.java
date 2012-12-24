@@ -4,11 +4,9 @@ import java.util.Map;
 import jenkem.client.presenter.MainPresenter;
 import jenkem.shared.ConversionMethod;
 import jenkem.shared.Engine;
-import jenkem.shared.Kick;
 import jenkem.shared.Power;
 import jenkem.shared.ProcessionSettings;
 import jenkem.shared.color.IrcColor;
-import com.google.gwt.canvas.dom.client.ImageData;
 
 /**
  * Converts images to colored ASCII in client.
@@ -29,8 +27,7 @@ public class ClientAsciiEngine {
      * The conversion is triggered by starting the conversion of the 1st line.
      */
     public final void generate(final ConversionMethod method) {
-        int startLine = method.hasKick() ? engine.getStartY() : 0;
-        generateLine(method, startLine);
+        generateLine(method, 0);
     }
 
     public final void generateLine(final ConversionMethod method, final int index) {
@@ -51,10 +48,10 @@ public class ClientAsciiEngine {
         presenter.addIrcOutputLine(nextLine, index);
     }
 
-    public final void setParams(final ImageData id, final String charset,
-            final Kick selectedKick, final int contrast, final int brightness,
+    public final void setParams(final Map<String, Integer[]> imageRgb, final int width,
+            final String charset, final int contrast, final int brightness,
             final ProcessionSettings settings) {
-        engine.setParams(id, charset, selectedKick, contrast, brightness, settings);
+        engine.setParams(imageRgb, width, charset, contrast, brightness, settings);
     }
 
     public final void prepareEngine(final Map<IrcColor, Integer> colorMap, final Power power) {

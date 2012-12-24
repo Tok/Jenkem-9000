@@ -1,6 +1,6 @@
 package jenkem.shared;
 
-import com.google.gwt.canvas.dom.client.ImageData;
+import java.util.Map;
 
 /**
  * Utility class for getting Information on image content.
@@ -33,8 +33,9 @@ public final class ImageUtil {
      * @param id image data
      * @return default brightness
      */
-    public static int getDefaultBrightness(final ImageData id) {
-        final int mean = getMeanRgb(id);
+    public static int getDefaultBrightness(final Map<String, Integer[]> imageRgb,
+            final int width, final int height) {
+        final int mean = getMeanRgb(imageRgb, width, height);
         final int factoredDifference = Double.valueOf((AVERAGE_RGB - mean) * BRIGHTNESS_FACTOR).intValue();
         final int differenceWithOffset = factoredDifference + BRIGHTNESS_OFFSET;
         final int result = Math.max(MIN_BRIGHTNESS, Math.min(MAX_BRIGHTNESS, differenceWithOffset));
@@ -47,9 +48,10 @@ public final class ImageUtil {
      * @param id image data
      * @return default contrast
      */
-    public static int getDefaultContrast(final ImageData id) {
+    public static int getDefaultContrast(final Map<String, Integer[]> imageRgb,
+            final int width, final int height) {
         //bigger value --> the more contrast --> reduce
-        final int dev = getMeanDev(id); // 0 < dev < 127 --> 64 ==> 0
+        final int dev = getMeanDev(imageRgb, width, height); // 0 < dev < 127 --> 64 ==> 0
         final int fixedDev = Double.valueOf(AVERAGE_RGB / 2D).intValue() - dev;
         final int factoredDev = Double.valueOf(fixedDev * CONTRAST_FACTOR).intValue();
         final int devWithOffset = factoredDev + CONTRAST_OFFSET;
@@ -62,12 +64,13 @@ public final class ImageUtil {
      * @param id image data
      * @return default conversion method
      */
-    public static ConversionMethod getDefaultMethod(final ImageData id) {
-        final int pixelCount = id.getHeight() * id.getWidth();
+    public static ConversionMethod getDefaultMethod(final Map<String, Integer[]> imageRgb,
+            final int width, final int height) {
+        final int pixelCount = width * height;
         int countBw = 0;
-        for (int y = 0; y < id.getHeight(); y++) {
-            for (int x = 0; x < id.getWidth(); x++) {
-                if (isBlackOrWhitePixel(id, x, y)) { countBw++; }
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (isBlackOrWhitePixel(imageRgb, x, y)) { countBw++; }
             }
         }
         final int bwRatio = Double.valueOf(countBw * MAX_PERCENT / pixelCount).intValue();
@@ -80,12 +83,13 @@ public final class ImageUtil {
      * @param id image data
      * @return default color scheme
      */
-    public static ColorScheme getDefaultColorScheme(final ImageData id) {
-        final int pixelCount = id.getHeight() * id.getWidth();
+    public static ColorScheme getDefaultColorScheme(final Map<String, Integer[]> imageRgb,
+            final int width, final int height) {
+        final int pixelCount = height * width;
         int countColorful = 0;
-        for (int y = 0; y < id.getHeight(); y++) {
-            for (int x = 0; x < id.getWidth(); x++) {
-                if (isPixelColorful(id, x, y)) { countColorful++; }
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (isPixelColorful(imageRgb, x, y)) { countColorful++; }
             }
         }
         final int colorRatio = Double.valueOf(countColorful * MAX_PERCENT / pixelCount).intValue();
@@ -97,23 +101,24 @@ public final class ImageUtil {
      * @param id image data
      * @return mean RGB of all pixels in the provided image
      */
-    private static int getMeanRgb(final ImageData id) {
-        final long pixelCount = id.getHeight() * id.getWidth();
+    private static int getMeanRgb(final Map<String, Integer[]> imageRgb, final int width, final int height) {
+        final long pixelCount = width * height;
         long sum = 0L;
-        for (int y = 0; y < id.getHeight(); y++) {
-            for (int x = 0; x < id.getWidth(); x++) {
-                sum += getMeanRgbFromPixel(id, x, y);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                sum += getMeanRgbFromPixel(imageRgb, x, y);
             }
         }
         return Double.valueOf(sum / pixelCount).intValue();
     }
 
-    private static int getMeanDev(final ImageData id) {
-        final long pixelCount = id.getHeight() * id.getWidth();
+    private static int getMeanDev(final Map<String, Integer[]> imageRgb,
+            final int width, final int height) {
+        final long pixelCount = width * height;
         long sum = 0L;
-        for (int y = 0; y < id.getHeight(); y++) {
-            for (int x = 0; x < id.getWidth(); x++) {
-                sum += getRgbDeviationFromPixel(id, x, y);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                sum += getRgbDeviationFromPixel(imageRgb, x, y);
             }
         }
         return Double.valueOf(sum / pixelCount).intValue();
@@ -121,47 +126,54 @@ public final class ImageUtil {
 
     /**
      * Calculates the average darkness of a pixel.
-     * @param id ImageData image with the pixel to calculate
+     * @param imageRgb pixels to calculate
      * @param x horizontal coordinate
      * @param y vertical coordinate
      * @return darkness of the selected pixel
      */
-    public static int getMeanRgbFromPixel(final ImageData id, final int x, final int y) {
-        final int sum = getPixelRgbSum(id, x, y);
+    public static int getMeanRgbFromPixel(final Map<String, Integer[]> imageRgb,
+            final int x, final int y) {
+        final int sum = getPixelRgbSum(imageRgb, x, y);
         return Double.valueOf(Math.round(sum / 3D)).intValue();
     }
 
-    private static int getPixelRgbSum(final ImageData id, final int x, final int y) {
-        return id.getRedAt(x, y) + id.getGreenAt(x, y) + id.getBlueAt(x, y);
+    private static int getPixelRgbSum(final Map<String, Integer[]> imageRgb, final int x, final int y) {
+        final Integer[] rgb = imageRgb.get(y + ":" + x);
+        return rgb[0].intValue() + rgb[1].intValue() + rgb[2].intValue();
     }
 
     /**
      * Returns true if the pixel at the provided coordinates is
      * relatively colorful.
-     * @param id ImageData image with the pixel to calculate
+     * @param imageRgb pixels to calculate
      * @param x horizontal coordinate
      * @param y vertical coordinate
      * @return isPixelColorful
      */
-    private static boolean isPixelColorful(final ImageData id, final int x, final int y) {
-        final int r = id.getRedAt(x, y);
-        final int g = id.getGreenAt(x, y);
-        final int b = id.getBlueAt(x, y);
+    private static boolean isPixelColorful(final Map<String, Integer[]> imageRgb,
+            final int x, final int y) {
+        final Integer[] rgb = imageRgb.get(y + ":" + x);
+        final int r = rgb[0].intValue();
+        final int g = rgb[1].intValue();
+        final int b = rgb[2].intValue();
         return Math.abs(r - g) > COLOR_TOLERANCE
                 || Math.abs(r - b) > COLOR_TOLERANCE
                 || Math.abs(g - b) > COLOR_TOLERANCE;
     }
 
-    private static int getRgbDeviationFromPixel(final ImageData id, final int x, final int y) {
+    private static int getRgbDeviationFromPixel(final Map<String, Integer[]> imageRgb,
+            final int x, final int y) {
+        final Integer[] rgb = imageRgb.get(y + ":" + x);
         final int deviations =
-                  Math.abs(id.getRedAt(x, y) - AVERAGE_RGB)
-                + Math.abs(id.getGreenAt(x, y) - AVERAGE_RGB)
-                + Math.abs(id.getBlueAt(x, y) - AVERAGE_RGB);
+                  Math.abs(rgb[0].intValue() - AVERAGE_RGB)
+                + Math.abs(rgb[1].intValue() - AVERAGE_RGB)
+                + Math.abs(rgb[2].intValue() - AVERAGE_RGB);
         return Double.valueOf(Math.round(deviations / 3D)).intValue();
     }
 
-    private static boolean isBlackOrWhitePixel(final ImageData id, final int x, final int y) {
-        final int sum = getPixelRgbSum(id, x, y);
+    private static boolean isBlackOrWhitePixel(final Map<String, Integer[]> imageRgb,
+            final int x, final int y) {
+        final int sum = getPixelRgbSum(imageRgb, x, y);
         return sum > (MAX_RGB * 3) - BW_TOLERANCE || sum < BW_TOLERANCE;
     }
 }

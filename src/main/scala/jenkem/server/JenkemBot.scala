@@ -2,23 +2,24 @@ package jenkem.server
 
 import java.io.IOException
 import java.lang.InterruptedException
-import com.google.gwt.event.shared.HandlerManager
 import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
-import jenkem.client.event.BotStatusChangeEvent
 import jenkem.shared.BotStatus
+import java.net.MalformedURLException
 
 class JenkemBot extends PircBot {
   object Command extends Enumeration {
     type Command = Value
     val QUIT, GTFO, STOP, STFU, HELP, CONFIG, ASCII, COLORS, SET = Value
   }
+  import Command._
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY = Value
+    val DELAY = Value("DELAY")
   }
+  import ConfigItem._
 
   object IntExtractor {
     def unapply(s: String): Option[Int] = try {
@@ -52,7 +53,7 @@ class JenkemBot extends PircBot {
   def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {
     def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
       botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected,
-         BotStatus.SendStatus.NotSending, network, channel, nick)
+        BotStatus.SendStatus.NotSending, network, channel, nick)
       message
     }
     try {
@@ -68,14 +69,14 @@ class JenkemBot extends PircBot {
     }
   }
 
-  override def onConnect() {
+  override def onConnect = {
     botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected,
-        BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
+      BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
   }
 
   override def onDisconnect = {
-    this.botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected,
-        BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
+    botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected,
+      BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
   }
 
   /**
@@ -112,7 +113,7 @@ class JenkemBot extends PircBot {
         case ConfigItem.DELAY => setMessageDelay(sender, value)
       }
     } catch {
-      case nsee: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
+      case nse: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
     }
   }
 
@@ -131,7 +132,7 @@ class JenkemBot extends PircBot {
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
     val m = message.split(" ")
-    if (channel.equals(lastChan)) {
+    if (channel.equalsIgnoreCase(lastChan)) {
       if (m.head.equalsIgnoreCase("Jenkem") || m.head.equalsIgnoreCase(getLogin) || m.head.equalsIgnoreCase(getNick)) {
         try {
           Command.withName(m.tail.head.toUpperCase) match {
@@ -152,9 +153,12 @@ class JenkemBot extends PircBot {
 
   def convertAndPlay(channel: String, url: String) {
     //TODO use channel
-    new java.net.URL(url) match {
-      case UrlExtractor(protocol, host, port, path) => playImage(engine.generate(url))
-      case _ => sendMessage(channel, "Command unknown: " + url)
+    try {
+      new java.net.URL(url) match {
+        case UrlExtractor(protocol, host, port, path) => playImage(engine.generate(url))
+      }
+    } catch {
+      case murle: MalformedURLException => sendMessage(channel, "Command unknown: " + url)
     }
   }
 
@@ -166,7 +170,7 @@ class JenkemBot extends PircBot {
         case Command.CONFIG => showConfig(sender)
       }
     } catch {
-        case nsee: NoSuchElementException => sendMessage(sender, "Command unknown: " + message)
+      case nsee: NoSuchElementException => sendMessage(sender, "Command unknown: " + message)
     }
   }
 

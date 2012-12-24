@@ -6,7 +6,6 @@ import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.Cube;
 import jenkem.shared.color.IrcColor;
 import jenkem.shared.color.Sample;
-import com.google.gwt.canvas.dom.client.ImageData;
 
 /**
  * Makes the conversion to ASCII.
@@ -19,44 +18,46 @@ public class Engine {
     private final ColorUtil colorUtil = new ColorUtil();
 
     private Map<IrcColor, Integer> colorMap;
-    private ImageData id;
+    private Map<String, Integer[]> imageRgb; // ("row:column", rgb[])
+    //TODO width should be inferred instead of passed.
+    //perhaps also check and enforce that width is even.
+    private int width; //number or columns (should be even)
+
     private String charset;
     private ProcessionSettings settings = new ProcessionSettings();
     private int contrast;
     private int brightness;
 
-    private int startX;
-    private int startY;
-
     /**
      * Prepares Engine.
-     * @param id the ImageData
+     * @param imageRgb
      * @param preset the CharacterSet to use
      * @param contrast value will be multiplied with the rgb of each pixel
      * @param brightness value will be added to the rgb of each pixel
      * @param settings
      */
-    public final void setParams(final ImageData id, final String charset, final Kick kick,
-            final int contrast, final int brightness, final ProcessionSettings settings) {
-        this.id = id;
+    public final void setParams(final Map<String, Integer[]> imageRgb, final int width,
+            final String charset, final int contrast, final int brightness,
+            final ProcessionSettings settings) {
+        this.imageRgb = imageRgb;
+        this.width = width;
         this.charset = charset;
         this.contrast = contrast;
         this.brightness = brightness;
         this.settings = settings;
-        applyKicks(kick);
     }
 
     /**
      * Generates a line in HD mode and adds it to the presenter, which will
      * recall this method again with an increased y until all data is converted.
-     * @param index row of pixels in the ImageData to convert
+     * @param index row of pixels in the imageRgb to convert
      */
     public final String generateHighDefLine(final int index) {
         final StringBuilder line = new StringBuilder();
         String oldPix;
         String newPix = null;
-        for (int x = 0; x < id.getWidth(); x++) { // this method can handle uneven image widths
-            final int[] rgb = Sample.calculateRgb(id, x, index, contrast, brightness);
+        for (int x = 0; x < width; x += ConversionMethod.FullHd.getStep()) {
+            final int[] rgb = Sample.calculateRgb(imageRgb, x, index, contrast, brightness);
             oldPix = newPix;
             newPix = cube.getColorChar(colorMap, charset, rgb, false);
             if (newPix.equals(oldPix)) { // don't change color, add char only
@@ -74,16 +75,15 @@ public class Engine {
      * Generates a line in super hybrid mode and adds it to the presenter, which
      * will recall this method again with an increased y until all data is
      * converted.
-     * @param index row of pixels in the ImageData to convert
+     * @param index row of pixels in the imageRgb to convert
      */
     public final String generateSuperHybridLine(final int index) {
-        final StringBuilder row = new StringBuilder();
+        final StringBuilder line = new StringBuilder();
         String oldLeft;
         String newLeft = null;
         String newRight = null;
-        for (int x = startX; x < getEvenWidth(); x = x + 2) {
-            // this method can handle uneven image widths
-            final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
+        for (int x = 0; x < width; x += ConversionMethod.SuperHybrid.getStep()) {
+            final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
 
             oldLeft = newLeft;
             newLeft = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.LEFT);
@@ -114,26 +114,26 @@ public class Engine {
             }
 
             if (newLeft.equals(oldLeft)) { //char only
-                row.append(newLeft.substring(newLeft.length() - 1, newLeft.length()));
+                line.append(newLeft.substring(newLeft.length() - 1, newLeft.length()));
             } else {
-                row.append(ColorUtil.CC);
-                row.append(newLeft);
+                line.append(ColorUtil.CC);
+                line.append(newLeft);
             }
             if (newRight.equals(newLeft)) { //char only
-                row.append(newRight.substring(newRight.length() - 1, newRight.length()));
+                line.append(newRight.substring(newRight.length() - 1, newRight.length()));
             } else {
-                row.append(ColorUtil.CC);
-                row.append(newRight);
+                line.append(ColorUtil.CC);
+                line.append(newRight);
             }
         }
-        row.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(row.toString(), charset, settings);
+        line.append(ColorUtil.CC);
+        return colorUtil.postProcessColoredRow(line.toString(), charset, settings);
     }
 
     /**
      * Generates a line in hybrid mode and adds it to the presenter, wich will
      * recall this method again with an increased y until all data is converted.
-     * @param index row of pixels in the ImageData to convert
+     * @param index row of pixels in the imageRgb to convert
      */
     public final String generateHybridLine(final int index) {
         final double offsetModifier = 16D;
@@ -141,8 +141,8 @@ public class Engine {
         String oldLeft;
         String newLeft = null;
         String newRight = null;
-        for (int x = startX; x < id.getWidth() - 1; x = x + 2) {
-            final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
+        for (int x = 0; x < width; x += ConversionMethod.Hybrid.getStep()) {
+            final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
 
             oldLeft = newLeft;
             @SuppressWarnings("unused")
@@ -249,15 +249,15 @@ public class Engine {
     /**
      * Generates a line in Pwntari mode and adds it to the presenter, which will
      * recall this method again with an increased y until all data is converted.
-     * @param index row of pixels in the ImageData to convert
+     * @param index row of pixels in the imageRgb to convert
      */
     public final String generatePwntariLine(final int index) {
         final StringBuilder line = new StringBuilder();
         String oldLeft;
         String newLeft = null;
         String newRight = null;
-        for (int x = startX; x < id.getWidth() - 1; x = x + 2) {
-            final Sample sample = Sample.getInstance(id, x, index, contrast, brightness);
+        for (int x = 0; x < width; x += ConversionMethod.Pwntari.getStep()) {
+            final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
             oldLeft = newLeft;
             newLeft = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.LEFT);
             newRight = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.RIGHT);
@@ -284,15 +284,15 @@ public class Engine {
     /**
      * Generates a line in Plain mode and adds it to the presenter, which will
      * recall this method again with an increased y until all data is converted.
-     * @param index row of pixels in the ImageData to convert
+     * @param index row of pixels in the imageRgb to convert
      */
     public final String generatePlainLine(final int index) {
         final StringBuilder line = new StringBuilder();
-        for (int x = startX; x < id.getWidth() - 1; x += ConversionMethod.Plain.getStep()) {
-            final int topLeft = Sample.calculateColor(ImageUtil.getMeanRgbFromPixel(id, x, index), contrast, brightness);
-            final int bottomLeft = Sample.calculateColor(ImageUtil.getMeanRgbFromPixel(id, x, index + 1), contrast, brightness);
-            final int topRight = Sample.calculateColor(ImageUtil.getMeanRgbFromPixel(id, x + 1, index), contrast, brightness);
-            final int bottomRight = Sample.calculateColor(ImageUtil.getMeanRgbFromPixel(id, x + 1, index + 1), contrast, brightness);
+        for (int x = 0; x < width; x += ConversionMethod.Plain.getStep()) {
+            final int topLeft = Sample.calculateColor(ImageUtil.getMeanRgbFromPixel(imageRgb, x, index), contrast, brightness);
+            final int bottomLeft = Sample.calculateColor(ImageUtil.getMeanRgbFromPixel(imageRgb, x, index + 1), contrast, brightness);
+            final int topRight = Sample.calculateColor(ImageUtil.getMeanRgbFromPixel(imageRgb, x + 1, index), contrast, brightness);
+            final int bottomRight = Sample.calculateColor(ImageUtil.getMeanRgbFromPixel(imageRgb, x + 1, index + 1), contrast, brightness);
             String charPixel = "";
             // 1st char
             if (topLeft <= CENTER && bottomLeft > CENTER) {
@@ -316,16 +316,6 @@ public class Engine {
     }
 
     /**
-     * Returns the width of the imageData or 1 less if it isn't even. This is
-     * done because some conversion methods cannot handle uneven numbers.
-     * @return corrected width.
-     */
-    private int getEvenWidth() {
-        return id.getWidth() - ((id.getWidth() % 2 == 0) ? 0 : 1);
-    }
-
-
-    /**
      * Decides if top is darker than bottom.
      * @param top rgb values of the top pixels
      * @param bottom rgb values of the bottom pixels
@@ -347,50 +337,6 @@ public class Engine {
     private boolean isDown(final int[] top, final int[] bottom, final int offset) {
         return ((top[0] + top[1] + top[2]) / 3) > (CENTER - offset)
                 && ((bottom[0] + bottom[1] + bottom[2]) / 3) <= (CENTER + offset);
-    }
-
-    /**
-     * Applies kick for modes with a kick-option. the loop-counters are
-     * initialized according to the 4 possible kicks. The image is looped 2 rows
-     * and 2 columns at a time giving 4 pixels (compare Sample class) to examine
-     * inside the loop. everything is generated by examining the relations of
-     * the color values between those 4 pixels which is why the kick option even
-     * works. (a good anti-aliasing algorithm on the ASCII level would defeat
-     * this purpose)
-     *   X
-     * Y +------------>
-     *   | ## ## ##
-     *   | ## ## ##
-     *   | ## ## ##
-     *   | ## ## ##
-     *   v
-     * @param kick the selected Kick
-     */
-    private void applyKicks(final Kick kick) {
-        this.startX = getKickedX(kick);
-        this.startY = getKickedY(kick);
-    }
-
-    /**
-     * Decides if x is kicked.
-     * @param kick the selected Kick
-     * @return 1 or 0
-     */
-    private int getKickedX(final Kick kick) {
-        return (kick.equals(Kick.X) || kick.equals(Kick.XY)) ? 1 : 0;
-    }
-
-    /**
-     * Decides if y is kicked.
-     * @param kick the selected Kick
-     * @return 1 or 0
-     */
-    private int getKickedY(final Kick kick) {
-        return (kick.equals(Kick.Y) || kick.equals(Kick.XY)) ? 1 : 0;
-    }
-
-    public final int getStartY() {
-        return startY;
     }
 
     public final void prepareEngine(final Map<IrcColor, Integer> colorMap, final Power power) {

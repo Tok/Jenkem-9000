@@ -2,7 +2,9 @@ package jenkem.client.presenter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import jenkem.client.ClientAsciiEngine;
 import jenkem.client.event.DoConversionEvent;
 import jenkem.client.event.DoConversionEventHandler;
@@ -75,10 +77,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
     private ConversionMethod method;
     private final List<String> ircOutput = new ArrayList<String>();
-    private int lastIndex;
 
     private Image image;
-    private ImageData id;
+    private Map<String, Integer[]> imageRgb;
+    private int width;
+    private int height; //=lastIndex
     private String currentName;
     private static JenkemImage jenkemImage;
 
@@ -354,8 +357,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
         final ImageElement currentImage = ImageElement.as(image.getElement());
 
-        final int width = getCurrentLineWidth(currentImage.getWidth());
-        final int height = ((width / divisor) * currentImage.getHeight()) / currentImage.getWidth();
+        final int widthQ = getCurrentLineWidth(currentImage.getWidth());
+        final int heightQ = Double.valueOf(((widthQ / divisor) * currentImage.getHeight()) / currentImage.getWidth()).intValue();
+
         display.getCanvas().setWidth(String.valueOf(actualWidth) + "px");
         display.getCanvas().setHeight(String.valueOf(actualHeight) + "px");
         display.getCanvas().getContext2d().setFillStyle((display.isDefaultBgBlack() ? "#000000" : "#FFFFFF"));
@@ -365,19 +369,37 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final int yOff = actualHeight * top / TOTAL_PERCENT;
         final String charset = display.getPresetTextBox().getText().replaceAll("[,0-9]", "");
 
-        id = display.getCanvas().getContext2d().getImageData(xOff, yOff, width, height);
+        final Kick kick = getSelectedKick();
+        final ImageData id = display.getCanvas().getContext2d().getImageData(
+                xOff + kick.getXOffset(), yOff + kick.getYOffset(),
+                widthQ - (2 * kick.getXOffset()), heightQ - (2 * kick.getYOffset()));
+        height = id.getHeight();
+        width = id.getWidth();
+        final double hashMapLoadFactor = 0.75D;
+        final int initialCapacity = Double.valueOf((height * width) / hashMapLoadFactor).intValue();
+        imageRgb = new HashMap<String, Integer[]>(initialCapacity);
+        for (int row = 0; row < height; row++) { //TODO move this elsewhere.
+            for (int col = 0; col < width; col++) {
+                final Integer[] rgb = {
+                    id.getRedAt(col, row),
+                    id.getGreenAt(col, row),
+                    id.getBlueAt(col, row)
+                };
+                imageRgb.put(row + ":" + col, rgb);
+            }
+        }
+
         if (makeInitsForImage) {
-          final boolean restart = determineDefaultsForImage(id);
-          if (restart) { doDeferredConversion(); return; }
-          makeInitsForImage = false;
+            final boolean restart = determineDefaultsForImage(imageRgb, width, height);
+            if (restart) { doDeferredConversion(); return; }
+            makeInitsForImage = false;
         }
 
         final int contrast = Integer.valueOf(display.getContrastLabel().getText());
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
 
-        lastIndex = id.getHeight();
         final ProcessionSettings settings = display.getProcessionSettings();
-        engine.setParams(id, charset, getSelectedKick(), contrast, brightness, settings);
+        engine.setParams(imageRgb, width, charset, contrast, brightness, settings);
         if (!getCurrentConversionMethod().equals(ConversionMethod.Plain)) {
             engine.prepareEngine(display.getIrcColorSetter().getColorMap(), getSelectedPower());
         }
@@ -387,16 +409,19 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     }
 
     /**
-     * determines default values for the current image and returns true
+     * Determines default values for the current image and returns true
      * if the deferred Conversions should be restarted. When this method is called
      * from elsewhere, the return value can be ignored.
-     * @param id
-     * @return
+     * @param imageRgb
+     * @param width
+     * @param height
+     * @return restartConversion
      */
-    private synchronized boolean determineDefaultsForImage(final ImageData id) {
+    private synchronized boolean determineDefaultsForImage(final Map<String, Integer[]> imageRgb,
+            final int width, final int height) {
         boolean restartConversion = false;
         // select default method
-        final ConversionMethod defaultMethod = ImageUtil.getDefaultMethod(id);
+        final ConversionMethod defaultMethod = ImageUtil.getDefaultMethod(imageRgb, width, height);
         if (defaultMethod != method) {
             for (int i = 0; i < display.getMethodListBox().getItemCount(); i++) {
                 if (display.getMethodListBox().getItemText(i).equals(defaultMethod.getName())) {
@@ -409,14 +434,14 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         }
         if (!method.equals(ConversionMethod.Plain)) {
             // select default brightness
-            final int defaultBrightness = ImageUtil.getDefaultBrightness(id);
+            final int defaultBrightness = ImageUtil.getDefaultBrightness(imageRgb, width, height);
             display.getBrightnessSlider().setValue(defaultBrightness);
             // select default contrast
-            final int defaultContrast = ImageUtil.getDefaultContrast(id);
+            final int defaultContrast = ImageUtil.getDefaultContrast(imageRgb, width, height);
             display.getContrastSlider().setValue(defaultContrast);
         }
         // select default color scheme
-        final ColorScheme defaultScheme = ImageUtil.getDefaultColorScheme(id);
+        final ColorScheme defaultScheme = ImageUtil.getDefaultColorScheme(imageRgb, width, height);
         display.getIrcColorSetter().setSelectedScheme(defaultScheme);
         return restartConversion;
     }
@@ -426,7 +451,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @param index
      */
     private synchronized void updateProgress(final int index) {
-        final double percentDone = index * TOTAL_PERCENT / Integer.valueOf(lastIndex).doubleValue();
+        final double percentDone = index * TOTAL_PERCENT / Integer.valueOf(height).doubleValue();
         display.getUrlSetter().setStatus("Converting image: " + NumberFormat.getFormat("##0").format(percentDone) + "%");
     }
 
@@ -444,14 +469,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             updateProgress(index);
             Scheduler.get().scheduleDeferred(new ScheduledCommand() {
                 @Override public void execute() {
-                    if (ircLine != null && !ircLine.isEmpty() && index < lastIndex) {
-                        ircOutput.add(ircLine + "\n");
-                    }
-                    if (index >= lastIndex - (getSelectedKick().hasY() ? 3 : 1)) {
+                    ircOutput.add(ircLine + "\n");
+                    updatePreview(ircOutput);
+                    final int nextIndex = index + method.getStep();
+                    if (nextIndex < height) {
+                        engine.generateLine(method, nextIndex);
+                    } else { // end conversion
                         addOutput();
-                    } else {
-                        engine.generateLine(method, method.hasKick() ? index + 2 : index + 1);
-                        updatePreview(ircOutput);
                     }
                 }
             });
@@ -471,7 +495,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         //create and wrap image parts
         final Date now = new Date();
         final DateTimeFormat format = DateTimeFormat.getFormat("yyyy.MM.dd HH:mm:ss");
-        final ImageInfo jenkemImageInfo = new ImageInfo(currentName, ircOutput.size(), getCurrentLineWidth(id.getWidth()), format.format(now));
+        final ImageInfo jenkemImageInfo = new ImageInfo(currentName, ircOutput.size(), getCurrentLineWidth(width), format.format(now));
         final ImageHtml jenkemImageHtml = new ImageHtml(currentName, htmlAndCss[0]);
         final ImageCss jenkemImageCss = new ImageCss(currentName, htmlAndCss[1]);
         final StringBuilder irc = new StringBuilder();
@@ -543,7 +567,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         resetContrastAndBrightness();
         display.getKickButton(Kick.Off).setValue(true);
         display.resetProcession();
-        determineDefaultsForImage(id);
+        determineDefaultsForImage(imageRgb, width, height);
     }
 
     /**

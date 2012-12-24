@@ -10,7 +10,7 @@ public enum CharacterSet {
     Ansi(" ░▒"), //"▓" makes FG > BG and should not be used
     XAnsi(" ░"),
     Mixed("  .-:+oxOX@#"),
-    Chaos("  .'-~+ox*OX&%$@#"),
+    Chaos("  .'-:;~+=ox*OX&%$@#"),
     Letters("  ivozaxIVOAHZSXWM"),
     HalfHard("      -----++++xxxXX#"),
     DoubleHard(" --+++xxxxXXXXX######"),

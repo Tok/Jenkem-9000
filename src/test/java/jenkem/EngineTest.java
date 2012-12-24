@@ -1,46 +1,9 @@
 package jenkem;
 
 import jenkem.shared.Engine;
-import jenkem.shared.Kick;
 
 public class EngineTest extends AbstractReflectionTestCase {
     private final Engine engine = new Engine();
-
-    public final void testNoKick() throws Exception {
-        final Object[] parameters = {Kick.Off};
-        invokePrivateMethod(engine, "applyKicks", parameters);
-        final Integer x = (Integer) retrievePrivateField(engine, "startX");
-        final Integer y = (Integer) retrievePrivateField(engine, "startY");
-        assertEquals(x.intValue(), 0);
-        assertEquals(y.intValue(), 0);
-    }
-
-    public final void testXKick() throws Exception {
-        final Object[] parameters = {Kick.X};
-        invokePrivateMethod(engine, "applyKicks", parameters);
-        final Integer x = (Integer) retrievePrivateField(engine, "startX");
-        final Integer y = (Integer) retrievePrivateField(engine, "startY");
-        assertEquals(x.intValue(), 1);
-        assertEquals(y.intValue(), 0);
-    }
-
-    public final void testYKick() throws Exception {
-        final Object[] parameters = {Kick.Y};
-        invokePrivateMethod(engine, "applyKicks", parameters);
-        final Integer x = (Integer) retrievePrivateField(engine, "startX");
-        final Integer y = (Integer) retrievePrivateField(engine, "startY");
-        assertEquals(x.intValue(), 0);
-        assertEquals(y.intValue(), 1);
-    }
-
-    public final void testXyKick() throws Exception {
-        final Object[] parameters = {Kick.XY};
-        invokePrivateMethod(engine, "applyKicks", parameters);
-        final Integer x = (Integer) retrievePrivateField(engine, "startX");
-        final Integer y = (Integer) retrievePrivateField(engine, "startY");
-        assertEquals(x.intValue(), 1);
-        assertEquals(y.intValue(), 1);
-    }
 
     public final void testIsUpOrDownExtremeValues() throws Exception {
         final int offset = 0;
