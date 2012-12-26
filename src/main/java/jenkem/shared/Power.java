@@ -12,6 +12,15 @@ public enum Power {
         this.value = value;
     }
 
+    public static Power getValueByName(final String name) {
+        for (final Power p : Power.values()) {
+            if (p.name().equalsIgnoreCase(name)) {
+                return p;
+            }
+        }
+        throw new IllegalArgumentException("Power must be \"Linear\", \"Quadratic\", \"Cubic\" or \"Quartic\".");
+    }
+
     public double getValue() {
         return value;
     }

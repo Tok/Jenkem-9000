@@ -26,6 +26,25 @@ public enum CharacterSet {
         this.characters = ascii;
     }
 
+    public static CharacterSet getValueByName(final String name) {
+        for (final CharacterSet set : CharacterSet.values()) {
+            if (set.name().equalsIgnoreCase(name)) {
+                return set;
+            }
+        }
+        throw new IllegalArgumentException("CharSet must be one of: " + getNames());
+    }
+
+    private static String getNames() {
+        final StringBuilder result = new StringBuilder();
+        for (final CharacterSet cs : values()) {
+            result.append("\"");
+            result.append(cs);
+            result.append("\" ");
+        }
+        return result.toString();
+    }
+
     public String getCharacters() {
         return characters;
     }

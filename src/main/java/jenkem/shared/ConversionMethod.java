@@ -5,7 +5,7 @@ package jenkem.shared;
  */
 public enum ConversionMethod {
     SuperHybrid("Super-Hybrid", true),
-    FullHd("Full HD", false),
+    FullHd("Full-HD", false),
     Pwntari("Pwntari", true),
     Hybrid("Hybrid", true),
     Plain("Plain", true);
@@ -24,7 +24,17 @@ public enum ConversionMethod {
                 return method;
             }
         }
-        throw new IllegalArgumentException("Unknown name for ConversionMethod.");
+        throw new IllegalArgumentException("Method must be one of: " + getNames());
+    }
+
+    private static String getNames() {
+        final StringBuilder result = new StringBuilder();
+        for (final ConversionMethod cm : values()) {
+            result.append("\"");
+            result.append(cm);
+            result.append("\" ");
+        }
+        return result.toString();
     }
 
     public String getName() {

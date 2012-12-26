@@ -47,6 +47,20 @@ public class Engine {
         this.settings = settings;
     }
 
+    public final String generateLine(final ConversionMethod method, final int index) {
+        if (method.equals(ConversionMethod.FullHd)) {
+            return generateHighDefLine(index);
+        } else if (method.equals(ConversionMethod.SuperHybrid)) {
+            return generateSuperHybridLine(index);
+        } else if (method.equals(ConversionMethod.Pwntari)) {
+            return generatePwntariLine(index);
+        } else if (method.equals(ConversionMethod.Hybrid)) {
+            return generateHybridLine(index);
+        } else if (method.equals(ConversionMethod.Plain)) {
+            return generatePlainLine(index);
+        } else { throw new IllegalArgumentException("Method unknown: " + method); }
+    }
+
     /**
      * Generates a line in HD mode and adds it to the presenter, which will
      * recall this method again with an increased y until all data is converted.

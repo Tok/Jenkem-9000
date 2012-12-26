@@ -7,17 +7,22 @@ import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
 import jenkem.shared.BotStatus
 import java.net.MalformedURLException
+import jenkem.shared.ConversionMethod
+import jenkem.shared.CharacterSet
+import jenkem.shared.Kick
+import jenkem.shared.ColorScheme
+import jenkem.shared.Power
 
 class JenkemBot extends PircBot {
   object Command extends Enumeration {
     type Command = Value
-    val QUIT, GTFO, STOP, STFU, HELP, CONFIG, ASCII, COLORS, SET = Value
+    val QUIT, GTFO, STOP, STFU, HELP, CONFIG, ASCII, COLORS, SET, RESET = Value
   }
   import Command._
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY = Value("DELAY")
+    val DELAY, WIDTH, METHOD, SCHEME, CHARSET, POWER, KICK = Value
   }
   import ConfigItem._
 
@@ -34,6 +39,7 @@ class JenkemBot extends PircBot {
   }
 
   val engine = new ServerAsciiEngine
+  var settings = new ConversionSettings
   var lastChan = ""
   var botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected, BotStatus.SendStatus.NotSending, "", "", "")
   var stopSwitch = false
@@ -84,10 +90,10 @@ class JenkemBot extends PircBot {
    * @param target channel name or name of the receiver.
    */
   def showHelp(target: String) {
-    //sendMessage(target, "Play image from url: [url]")
-    sendMessage(target, "Show configuration: CONFIG")
-    //sendMessage(target, "Commands that change the state of this bot can only be used in a channel and must start with " + getLogin)
+    sendMessage(target, "Play image from url: JENKEM [url]")
+    sendMessage(target, "Show config: JENKEM CONFIG")
     sendMessage(target, "Change config: JENKEM [ConfigItem] [Value]")
+    sendMessage(target, "Reset config: JENKEM RESET")
   }
 
   /**
@@ -95,7 +101,11 @@ class JenkemBot extends PircBot {
    * @param target channel name or name of the receiver.
    */
   def showConfig(target: String) {
-    sendMessage(target, "Message Delay (ms): " + getMessageDelay)
+    sendMessage(target, "Delay (ms): " + getMessageDelay + ", Width (chars): " + settings.width
+        //+ ", Kick: " + settings.kick //TODO implement
+        + ", Power: " + settings.power)
+    sendMessage(target, "Method: " + settings.method + ", Scheme: " + settings.scheme
+        + ", Charset: " + settings.charset)
   }
 
   /**
@@ -111,6 +121,12 @@ class JenkemBot extends PircBot {
     try {
       ConfigItem.withName(item.toUpperCase) match {
         case ConfigItem.DELAY => setMessageDelay(sender, value)
+        case ConfigItem.WIDTH => setWidth(sender, value)
+        case ConfigItem.METHOD => setMethod(sender, value)
+        case ConfigItem.SCHEME => setScheme(sender, value)
+        case ConfigItem.CHARSET => setCharset(sender, value)
+        case ConfigItem.POWER => setPower(sender, value)
+        case ConfigItem.KICK => setKick(sender, value)
       }
     } catch {
       case nse: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
@@ -130,6 +146,84 @@ class JenkemBot extends PircBot {
     }
   }
 
+  def reset(target: String) {
+    settings = new ConversionSettings
+    sendMessage(target, "Conversion settings have been resetted.")
+  }
+
+  def setWidth(target: String, value: String) {
+    val min = 16
+    val max = 72
+    val between = " between " + min + " and " + max + "."
+    value match {
+      case IntExtractor(v) if min to max contains v =>
+        if (v % 2 == 0) {
+          settings.width = v
+          sendMessage(target, ConfigItem.WIDTH + " set to " + v)
+        } else {
+          sendMessage(target, ConfigItem.WIDTH + " must be even.")
+        }
+      case IntExtractor(v) => sendMessage(target, ConfigItem.WIDTH + " must be" + between)
+      case _ => sendMessage(target, ConfigItem.WIDTH + " must be an even numeric value" + between)
+    }
+  }
+
+  def setMethod(target: String, value: String) {
+    try {
+      val method = ConversionMethod.getValueByName(value)
+      settings.method = method
+      sendMessage(target, ConfigItem.METHOD + " set to " + value)
+    } catch {
+      case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
+    }
+  }
+
+  def setScheme(target: String, value: String) {
+    try {
+      val scheme = ColorScheme.getValueByName(value)
+      settings.scheme = scheme
+      sendMessage(target, ConfigItem.SCHEME + " set to " + value)
+    } catch {
+      case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
+    }
+  }
+
+  def setCharset(target: String, value: String) {
+    if (value.length() < 3) sendMessage(target, ConfigItem.CHARSET + " must have at least 3 characters.")
+    else {
+      try {
+        val charset = CharacterSet.getValueByName(value)
+        settings.charset = charset.getCharacters
+        sendMessage(target, ConfigItem.CHARSET + " set to " + charset.getCharacters)
+      } catch {
+        case iae: IllegalArgumentException =>
+            val clean = value.replaceAll("[0-9],", "")
+            settings.charset = " " + clean
+            sendMessage(target, ConfigItem.CHARSET + " set to " + clean)
+      }
+    }
+  }
+
+  def setPower(target: String, value: String) {
+    try {
+      val power = Power.getValueByName(value)
+      settings.power = power
+      sendMessage(target, ConfigItem.POWER + " set to " + power.name)
+    } catch {
+      case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
+    }
+  }
+
+  def setKick(target: String, value: String) {
+    try {
+      val kick = Kick.getValueByName(value)
+      settings.kick = kick
+      sendMessage(target, ConfigItem.KICK + " set to " + kick.name)
+    } catch {
+      case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
+    }
+  }
+
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
     val m = message.split(" ")
     if (channel.equalsIgnoreCase(lastChan)) {
@@ -143,6 +237,7 @@ class JenkemBot extends PircBot {
             case Command.HELP => showHelp(channel)
             case Command.CONFIG => showConfig(channel)
             case Command.SET => changeConfig(channel, m(2), m(3))
+            case Command.RESET => reset(channel)
           }
         } catch {
           case nsee: NoSuchElementException => convertAndPlay(channel, m.tail.head)
@@ -152,10 +247,9 @@ class JenkemBot extends PircBot {
   }
 
   def convertAndPlay(channel: String, url: String) {
-    //TODO use channel
     try {
       new java.net.URL(url) match {
-        case UrlExtractor(protocol, host, port, path) => playImage(engine.generate(url))
+        case UrlExtractor(protocol, host, port, path) => playImage(engine.generate(url, settings))
       }
     } catch {
       case murle: MalformedURLException => sendMessage(channel, "Command unknown: " + url)
@@ -182,11 +276,9 @@ class JenkemBot extends PircBot {
   @throws(classOf[InterruptedException])
   def playImage(out: List[String]): String = {
     this.synchronized {
-      if (isPlaying) {
-        "Bot is busy."
-      } else if (getChannels.isEmpty) {
-        "Bot is not in any channel."
-      } else {
+      if (isPlaying) "Bot is busy."
+      else if (getChannels.isEmpty) "Bot is not in any channel."
+      else {
         new Thread(new IrcSender(out)).start
         "Playing image..."
       }

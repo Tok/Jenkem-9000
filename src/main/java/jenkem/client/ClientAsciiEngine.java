@@ -31,20 +31,7 @@ public class ClientAsciiEngine {
     }
 
     public final void generateLine(final ConversionMethod method, final int index) {
-        String nextLine = null;
-        if (method.equals(ConversionMethod.FullHd)) {
-            nextLine = engine.generateHighDefLine(index);
-        } else if (method.equals(ConversionMethod.SuperHybrid)) {
-            nextLine = engine.generateSuperHybridLine(index);
-        } else if (method.equals(ConversionMethod.Pwntari)) {
-            nextLine = engine.generatePwntariLine(index);
-        } else if (method.equals(ConversionMethod.Hybrid)) {
-            nextLine = engine.generateHybridLine(index);
-        } else if (method.equals(ConversionMethod.Plain)) {
-            nextLine = engine.generatePlainLine(index);
-        } else {
-            throw new IllegalArgumentException("Method unknown: " + method);
-        }
+        final String nextLine = engine.generateLine(method, index);
         presenter.addIrcOutputLine(nextLine, index);
     }
 
