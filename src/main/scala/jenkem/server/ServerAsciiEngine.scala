@@ -28,14 +28,14 @@ class ServerAsciiEngine {
   def generate(url: String, cs: ConversionSettings): List[String] = {
     val lastIndex = prepare(url, cs)
     val ircOutput = List[String]()
-    val step = overrideMethod.getStep
+    val step = cs.method.getStep
     def generate0(index: Int, accu: List[String]): List[String] = {
       if (index + step <= lastIndex) {
-        generate0(index + step, engine.generateLine(overrideMethod, index) :: accu)
+        generate0(index + step, engine.generateLine(cs.method, index) :: accu)
       } else accu.reverse
     }
     val message = if (!cs.method.equals(ConversionMethod.Plain)) {
-      List("Method: " + overrideMethod + ", Scheme: " + overrideScheme
+      List("Mode: " + cs.method + ", Scheme: " + cs.scheme
           + ", Brightness: " + (brightness - 100) + ", Contrast: " + (contrast - 100))
     } else Nil
     message ::: generate0(0, Nil)
@@ -60,27 +60,23 @@ class ServerAsciiEngine {
     contrast = jenkem.shared.ImageUtil.getDefaultContrast(imageRgb, actualWidth, actualHeight)
     brightness = jenkem.shared.ImageUtil.getDefaultBrightness(imageRgb, actualWidth, actualHeight)
     overrideMethod = jenkem.shared.ImageUtil.getDefaultMethod(imageRgb, actualWidth, actualHeight)
-    if (!cs.method.name.equalsIgnoreCase(overrideMethod.name) && overrideMethod.name.equalsIgnoreCase(ConversionMethod.Plain.name)) {
-      val meth = cs.method
-      cs.method = overrideMethod
-      prepare(url, cs) //restart
-      cs.method = meth //reset
-    } else overrideMethod = cs.method
     overrideScheme = jenkem.shared.ImageUtil.getDefaultColorScheme(imageRgb, actualWidth, actualHeight)
-    if (!cs.scheme.name.equalsIgnoreCase(overrideScheme.name) && overrideScheme.name.equalsIgnoreCase(ColorScheme.Bwg.name)) {
-      val sch = cs.scheme
+
+    if (!overrideScheme.name.equalsIgnoreCase(cs.scheme.name) && overrideScheme.name.equalsIgnoreCase(ColorScheme.Bwg.name)) {
       cs.scheme = overrideScheme
       prepare(url, cs) //restart
-      cs.scheme = sch //reset
-    } else overrideScheme = cs.scheme
-
-    engine.setParams(imageRgb, actualWidth, cs.charset, contrast, brightness, ps)
-    if (!overrideMethod.equals(ConversionMethod.Plain)) {
-      val colorMap: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer]
-      IrcColor.values.map(ic => colorMap.put(ic, ic.getOrder(overrideScheme)))
-      engine.prepareEngine(colorMap, cs.power)
+    } else if (!overrideMethod.name.equalsIgnoreCase(cs.method.name) && overrideMethod.name.equalsIgnoreCase(ConversionMethod.Plain.name)) {
+      cs.method = overrideMethod
+      prepare(url, cs) //restart
+    } else {
+      engine.setParams(imageRgb, actualWidth, cs.charset, contrast, brightness, ps)
+      if (!overrideMethod.equals(ConversionMethod.Plain)) {
+        val colorMap: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer]
+        IrcColor.values.map(ic => colorMap.put(ic, ic.getOrder(cs.scheme)))
+        engine.prepareEngine(colorMap, cs.power)
+      }
+      actualHeight
     }
-    actualHeight
   }
 
   def getRgb(img: BufferedImage, x: Int, y: Int): Array[java.lang.Integer] = {

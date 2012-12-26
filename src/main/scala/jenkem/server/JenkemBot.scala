@@ -22,7 +22,7 @@ class JenkemBot extends PircBot {
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY, WIDTH, METHOD, SCHEME, CHARSET, POWER, KICK = Value
+    val DELAY, WIDTH, MODE, SCHEME, CHARSET, POWER, KICK = Value
   }
   import ConfigItem._
 
@@ -122,7 +122,7 @@ class JenkemBot extends PircBot {
       ConfigItem.withName(item.toUpperCase) match {
         case ConfigItem.DELAY => setMessageDelay(sender, value)
         case ConfigItem.WIDTH => setWidth(sender, value)
-        case ConfigItem.METHOD => setMethod(sender, value)
+        case ConfigItem.MODE => setMethod(sender, value)
         case ConfigItem.SCHEME => setScheme(sender, value)
         case ConfigItem.CHARSET => setCharset(sender, value)
         case ConfigItem.POWER => setPower(sender, value)
@@ -172,7 +172,7 @@ class JenkemBot extends PircBot {
     try {
       val method = ConversionMethod.getValueByName(value)
       settings.method = method
-      sendMessage(target, ConfigItem.METHOD + " set to " + value)
+      sendMessage(target, ConfigItem.MODE + " set to " + value)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
     }
