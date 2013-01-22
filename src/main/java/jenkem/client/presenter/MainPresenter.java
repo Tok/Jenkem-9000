@@ -358,7 +358,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final ImageElement currentImage = ImageElement.as(image.getElement());
 
         final int widthQ = getCurrentLineWidth(currentImage.getWidth());
-        final int heightQ = Double.valueOf(((widthQ / divisor) * currentImage.getHeight()) / currentImage.getWidth()).intValue();
+        final int heightQ = Double.valueOf(((widthQ / divisor) * currentImage.getHeight()) / Double.valueOf(currentImage.getWidth())).intValue();
 
         display.getCanvas().setWidth(String.valueOf(actualWidth) + "px");
         display.getCanvas().setHeight(String.valueOf(actualHeight) + "px");

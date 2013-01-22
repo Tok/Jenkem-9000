@@ -102,26 +102,28 @@ public final class ImageUtil {
      * @return mean RGB of all pixels in the provided image
      */
     private static int getMeanRgb(final Map<String, Integer[]> imageRgb, final int width, final int height) {
-        final long pixelCount = width * height;
         long sum = 0L;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 sum += getMeanRgbFromPixel(imageRgb, x, y);
             }
         }
-        return Double.valueOf(sum / pixelCount).intValue();
+        return Double.valueOf(sum / getPixelCount(width, height)).intValue();
     }
 
     private static int getMeanDev(final Map<String, Integer[]> imageRgb,
             final int width, final int height) {
-        final long pixelCount = width * height;
         long sum = 0L;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 sum += getRgbDeviationFromPixel(imageRgb, x, y);
             }
         }
-        return Double.valueOf(sum / pixelCount).intValue();
+        return Double.valueOf(sum / getPixelCount(width, height)).intValue();
+    }
+
+    private static double getPixelCount(final int width, final int height) {
+        return Double.valueOf(Long.valueOf(width) * Long.valueOf(height)).doubleValue();
     }
 
     /**
