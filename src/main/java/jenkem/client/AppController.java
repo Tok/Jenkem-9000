@@ -1,7 +1,6 @@
 package jenkem.client;
 
 import jenkem.client.event.CancelledEvent;
-
 import jenkem.client.event.CancelledEventHandler;
 import jenkem.client.presenter.GalleryPresenter;
 import jenkem.client.presenter.InfoPresenter;
@@ -12,7 +11,6 @@ import jenkem.client.service.JenkemServiceAsync;
 import jenkem.client.view.GalleryView;
 import jenkem.client.view.InfoView;
 import jenkem.client.view.MainView;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -37,9 +35,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     private final GalleryView galleryView = new GalleryView();
     private final InfoView infoView = new InfoView();
 
-    private MainPresenter mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
-    private Presenter galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, galleryView);
-    private Presenter infoPresenter = new InfoPresenter(eventBus, tabPanel, infoView);
+    private final MainPresenter mainPresenter = new MainPresenter(jenkemService, eventBus, tabPanel, mainView);
+    private final Presenter galleryPresenter = new GalleryPresenter(jenkemService, eventBus, tabPanel, galleryView);
+    private final Presenter infoPresenter = new InfoPresenter(eventBus, tabPanel, infoView);
 
     private boolean doConvert = true;
 
@@ -140,6 +138,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
     private void prepareMainTab(final String token) {
         tabPanel.selectTab(0);
         String imageUrl = "";
+        mainPresenter.go(container);
         if (token.split("/", 2).length > 1) {
             imageUrl = token.split("/", 2)[1];
             if (!"".equals(imageUrl)) {
@@ -149,7 +148,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
                 }
             }
         }
-        mainPresenter.go(container);
     }
 }
 

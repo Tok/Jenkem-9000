@@ -117,6 +117,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         Widget asWidget();
         void resetProcession();
         void enableProcession(boolean enable);
+        void makeWidgetsReady();
     }
 
     /**
@@ -152,6 +153,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         });
         getEventBus().addHandler(DoConversionEvent.TYPE, new DoConversionEventHandler() {
             @Override public void onDoConversion(final DoConversionEvent event) {
+                //Window.alert("DoConversionEvent"); //TODO remove
                 if (event.proxify()) { proxifyAndConvert(); } else { startOrRestartConversion(); }
             }});
         this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
@@ -253,9 +255,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     public final synchronized void proxifyAndConvert() {
         final String urlString = display.getUrlSetter().getUrl();
         final String proxifiedUrl = proxify(urlString);
-        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override public void execute() { doShow(proxifiedUrl); }
-        });
+        //Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            //@Override public void execute() {
+                doShow(proxifiedUrl);
+            //}
+        //});
     }
 
     /**
@@ -281,8 +285,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         if (!"".equals(proxifiedUrl)) { makeBusy(true); }
 
         image = new Image(proxifiedUrl);
-
         image.setVisible(false);
+
+        // Image must be added to dom in order for load event to fire.
+        RootPanel.get("invisible").clear();
+        RootPanel.get("invisible").setVisible(false);
+        RootPanel.get("invisible").add(image);
+
         image.addErrorHandler(new ErrorHandler() {
             @Override public void onError(final ErrorEvent event) {
                 display.getUrlSetter().setStatus("Proxifying this image failed.");
@@ -293,23 +302,21 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
                 display.getUrlSetter().addImage(proxifiedUrl, width);
                 display.getUrlSetter().setStatus("Image loaded.");
+                //Window.alert("doShow: " + proxifiedUrl); //TODO remove 1x
                 doConversion();
             }});
-        // Image must be added to dom in order for load event to fire.
-        RootPanel.get("invisible").clear();
-        RootPanel.get("invisible").setVisible(false);
-        RootPanel.get("invisible").add(image);
     }
 
     /**
      * Defers the conversion.
      */
     private synchronized void doConversion() {
-        if (image == null) { return; }
+        if (image == null || !image.isAttached()) { return; }
         if (!isConversionRunnung || restartConversion) {
             isConversionRunnung = true;
             restartConversion = false;
             makeBusy(true);
+            //Window.alert("doConversion: " + image.getTitle()); //TODO remove 3x
             Scheduler.get().scheduleDeferred(new ScheduledCommand() {
                 @Override public void execute() {
                     doDeferredConversion();
@@ -406,6 +413,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
         ircOutput.clear();
         engine.generate(method);
+
+        display.makeWidgetsReady(); //XXX
     }
 
     /**

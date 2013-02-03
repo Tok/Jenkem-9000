@@ -28,6 +28,7 @@ public class CropPanel extends Composite {
     private final Map<Type, TextBox> boxes = new HashMap<Type, TextBox>();
     private final Button cropButton = new Button("Crop and Stretch");
     private final Button resetButton = new Button("Reset Crops");
+    private boolean isReady = false;
 
     public CropPanel(final HandlerManager eventBus, final Label statusLabel) {
         this.eventBus = eventBus;
@@ -101,10 +102,14 @@ public class CropPanel extends Composite {
             boxes.get(Type.Top).setFocus(true);
             return;
         }
-        eventBus.fireEvent(new DoConversionEvent(true));
+        if (isReady) {
+            eventBus.fireEvent(new DoConversionEvent(true));
+        }
     }
 
     public final int getCrop(final Type type) {
         return Integer.valueOf(boxes.get(type).getValue());
     }
+
+    public final void setReady() { isReady = true; }
 }

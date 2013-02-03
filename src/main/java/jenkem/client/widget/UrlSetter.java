@@ -35,6 +35,7 @@ public class UrlSetter extends Composite {
     private final Button showButton = new Button("Convert Image");
     private final ExtendedTextBox inputTextBox = new ExtendedTextBox();
     private final CropPanel cropPanel;
+    private boolean isReady = false;
 
     public UrlSetter(final HandlerManager eventBus) {
         this.eventBus = eventBus;
@@ -84,7 +85,9 @@ public class UrlSetter extends Composite {
         if (!currentToken.endsWith(currentUrl)) {
             History.newItem("main/" + inputTextBox.getValue());
         } else {
-            eventBus.fireEvent(new DoConversionEvent(false));
+            if (isReady) {
+                eventBus.fireEvent(new DoConversionEvent(false));
+            }
         }
     }
 
@@ -116,4 +119,6 @@ public class UrlSetter extends Composite {
         visibleCopy.setWidth(width + "px");
         imagePanel.add(visibleCopy);
     }
+
+    public final void setReady() { isReady = true; cropPanel.setReady(); }
 }

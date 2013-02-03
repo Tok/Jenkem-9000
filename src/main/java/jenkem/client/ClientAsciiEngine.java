@@ -27,6 +27,7 @@ public class ClientAsciiEngine {
      * The conversion is triggered by starting the conversion of the 1st line.
      */
     public final void generate(final ConversionMethod method) {
+        //Window.alert("generate"); //TODO remove 2x
         generateLine(method, 0);
     }
 

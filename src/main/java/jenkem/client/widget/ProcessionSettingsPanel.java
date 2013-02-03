@@ -32,6 +32,7 @@ public class ProcessionSettingsPanel extends Composite {
     private final CheckBox doHlineBox = new CheckBox("--");
     private final CheckBox doEdgeBox = new CheckBox("Edge");
     private final CheckBox doDiagonalBox = new CheckBox("/ \\");
+    private boolean isReady = false;
 
     public ProcessionSettingsPanel(final HandlerManager eventBus) {
         this.eventBus = eventBus;
@@ -59,24 +60,24 @@ public class ProcessionSettingsPanel extends Composite {
     private void bind() {
         doVlineBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
-                eventBus.fireEvent(new DoConversionEvent(false));
+                if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
             }});
         doHlineBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
-                eventBus.fireEvent(new DoConversionEvent(false));
+                if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
             }});
         doEdgeBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
-                eventBus.fireEvent(new DoConversionEvent(false));
+                if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
             }});
         doDiagonalBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
-                eventBus.fireEvent(new DoConversionEvent(false));
+                if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
             }});
         offsetSlider.addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
                 offsetLabel.setText(String.valueOf(offsetSlider.getValue() / 2));
-                eventBus.fireEvent(new DoConversionEvent(false));
+                if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
             }});
     }
 
@@ -100,4 +101,6 @@ public class ProcessionSettingsPanel extends Composite {
                 doVlineBox.getValue(), doHlineBox.getValue(),
                 doEdgeBox.getValue(), doDiagonalBox.getValue());
     }
+
+    public final void setReady() { isReady = true; }
 }

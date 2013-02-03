@@ -142,6 +142,7 @@
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-core</artifactId>
 			<version>${datanucleusVersion}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.datanucleus</groupId>

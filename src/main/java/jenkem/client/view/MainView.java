@@ -265,4 +265,5 @@ public class MainView extends Composite implements MainPresenter.Display {
     @Override public final boolean isDefaultBgBlack() { return blackBgButton.getValue().booleanValue(); }
     @Override public final RadioButton getBlackBgButton() { return blackBgButton; }
     @Override public final RadioButton getWhiteBgButton() { return whiteBgButton; }
+    @Override public final void makeWidgetsReady() { ircColorSetter.setReady(); urlSetter.setReady(); processingPanel.setReady(); }
 }

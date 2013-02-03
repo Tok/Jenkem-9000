@@ -27,6 +27,7 @@ public class IrcColorSetter extends Composite {
     private final ListBox schemeListBox = new ListBox();
     private final Map<IrcColor, SliderBarSimpleVertical> sliders = new HashMap<IrcColor, SliderBarSimpleVertical>();
     private final Map<IrcColor, Label> labels = new HashMap<IrcColor, Label>();
+    private boolean isReady = false;
 
     public IrcColorSetter(final HandlerManager eventBus) {
         this.eventBus = eventBus;
@@ -67,7 +68,9 @@ public class IrcColorSetter extends Composite {
         colorSlider.addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
                 colorLabel.setText(String.valueOf(MAX_PERCENT - colorSlider.getValue()));
-                eventBus.fireEvent(new DoConversionEvent(false));
+                if (isReady) {
+                    eventBus.fireEvent(new DoConversionEvent(false));
+                }
             }});
     }
 
@@ -118,4 +121,6 @@ public class IrcColorSetter extends Composite {
             }
         }
     }
+
+    public final void setReady() { isReady = true; }
 }
