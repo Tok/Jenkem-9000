@@ -41,7 +41,7 @@ class ServerAsciiEngine {
     }
     val message = if (!cs.method.equals(ConversionMethod.Plain)) {
       List("Mode: " + cs.method + ", Scheme: " + cs.scheme
-          + ", Brightness: " + (brightness - 100) + ", Contrast: " + (contrast - 100))
+          + ", Brightness: " + brightness + ", Contrast: " + contrast)
     } else Nil
     message ::: generate0(0, Nil)
   }
@@ -62,8 +62,8 @@ class ServerAsciiEngine {
       x <- 0 until actualWidth
     } yield imageRgb.put(y + ":" + x, getRgb(scaled, x, y))
 
-    contrast = jenkem.shared.ImageUtil.getDefaultContrast(imageRgb, actualWidth, actualHeight)
-    brightness = jenkem.shared.ImageUtil.getDefaultBrightness(imageRgb, actualWidth, actualHeight)
+    contrast = jenkem.shared.ImageUtil.getDefaultContrast(imageRgb, actualWidth, actualHeight) - 100
+    brightness = jenkem.shared.ImageUtil.getDefaultBrightness(imageRgb, actualWidth, actualHeight) - 100
     overrideMethod = jenkem.shared.ImageUtil.getDefaultMethod(imageRgb, actualWidth, actualHeight)
     overrideScheme = jenkem.shared.ImageUtil.getDefaultColorScheme(imageRgb, actualWidth, actualHeight)
 
