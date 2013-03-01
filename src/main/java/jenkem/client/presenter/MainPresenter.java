@@ -153,7 +153,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         });
         getEventBus().addHandler(DoConversionEvent.TYPE, new DoConversionEventHandler() {
             @Override public void onDoConversion(final DoConversionEvent event) {
-                //Window.alert("DoConversionEvent"); //TODO remove
                 if (event.proxify()) { proxifyAndConvert(); } else { startOrRestartConversion(); }
             }});
         this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
@@ -255,11 +254,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     public final synchronized void proxifyAndConvert() {
         final String urlString = display.getUrlSetter().getUrl();
         final String proxifiedUrl = proxify(urlString);
-        //Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            //@Override public void execute() {
-                doShow(proxifiedUrl);
-            //}
-        //});
+        doShow(proxifiedUrl);
     }
 
     /**
@@ -302,7 +297,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
                 display.getUrlSetter().addImage(proxifiedUrl, width);
                 display.getUrlSetter().setStatus("Image loaded.");
-                //Window.alert("doShow: " + proxifiedUrl); //TODO remove 1x
                 doConversion();
             }});
     }
@@ -316,7 +310,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             isConversionRunnung = true;
             restartConversion = false;
             makeBusy(true);
-            //Window.alert("doConversion: " + image.getTitle()); //TODO remove 3x
             Scheduler.get().scheduleDeferred(new ScheduledCommand() {
                 @Override public void execute() {
                     doDeferredConversion();

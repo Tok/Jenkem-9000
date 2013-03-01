@@ -31,8 +31,13 @@ class ServerAsciiEngine {
     val step = cs.method.getStep
     def generate0(index: Int, accu: List[String]): List[String] = {
       if (index + step <= lastIndex) {
-        generate0(index + step, engine.generateLine(cs.method, index) :: accu)
-      } else accu.reverse
+        val line = engine.generateLine(cs.method, index)
+        if (line != null) {
+          generate0(index + step, line :: accu)
+        } else {
+          Nil
+        }
+      } else accu.reverse.filter(line => line != Nil)
     }
     val message = if (!cs.method.equals(ConversionMethod.Plain)) {
       List("Mode: " + cs.method + ", Scheme: " + cs.scheme
