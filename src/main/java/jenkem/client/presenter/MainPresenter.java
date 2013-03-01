@@ -478,13 +478,17 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             updateProgress(index);
             Scheduler.get().scheduleDeferred(new ScheduledCommand() {
                 @Override public void execute() {
-                    ircOutput.add(ircLine + "\n");
-                    updatePreview(ircOutput);
-                    final int nextIndex = index + method.getStep();
-                    if (nextIndex < height) {
-                        engine.generateLine(method, nextIndex);
-                    } else { // end conversion
+                    if (ircLine == null) {
                         addOutput();
+                    } else {
+                        ircOutput.add(ircLine + "\n");
+                        updatePreview(ircOutput);
+                        final int nextIndex = index + method.getStep();
+                        if (nextIndex < height) {
+                            engine.generateLine(method, nextIndex);
+                        } else { // end conversion
+                            addOutput();
+                        }
                     }
                 }
             });
