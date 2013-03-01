@@ -165,7 +165,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 display.enableProcession(method.equals(ConversionMethod.SuperHybrid)
                         || method.equals(ConversionMethod.Hybrid)
                         || method.equals(ConversionMethod.Plain));
-                resetContrastAndBrightness();
+                //resetContrastAndBrightness();
                 startOrRestartConversion();
             }});
         this.display.getWidthListBox().addChangeHandler(new ChangeHandler() {
@@ -397,7 +397,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
         final int contrast = Integer.valueOf(display.getContrastLabel().getText());
         final int brightness = Integer.valueOf(display.getBrightnessLabel().getText());
-
         final ProcessionSettings settings = display.getProcessionSettings();
         engine.setParams(imageRgb, width, charset, contrast, brightness, settings);
         if (!getCurrentConversionMethod().equals(ConversionMethod.Plain)) {

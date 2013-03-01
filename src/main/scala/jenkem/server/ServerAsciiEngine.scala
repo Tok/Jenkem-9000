@@ -37,7 +37,7 @@ class ServerAsciiEngine {
         } else {
           Nil
         }
-      } else accu.reverse.filter(line => line != Nil)
+      } else accu.reverse //.filter(line => line != Nil)
     }
     val message = if (!cs.method.equals(ConversionMethod.Plain)) {
       List("Mode: " + cs.method + ", Scheme: " + cs.scheme
@@ -62,8 +62,6 @@ class ServerAsciiEngine {
       x <- 0 until actualWidth
     } yield imageRgb.put(y + ":" + x, getRgb(scaled, x, y))
 
-    contrast = jenkem.shared.ImageUtil.getDefaultContrast(imageRgb, actualWidth, actualHeight) - 100
-    brightness = jenkem.shared.ImageUtil.getDefaultBrightness(imageRgb, actualWidth, actualHeight) - 100
     overrideMethod = jenkem.shared.ImageUtil.getDefaultMethod(imageRgb, actualWidth, actualHeight)
     overrideScheme = jenkem.shared.ImageUtil.getDefaultColorScheme(imageRgb, actualWidth, actualHeight)
 
@@ -74,6 +72,8 @@ class ServerAsciiEngine {
       cs.method = overrideMethod
       prepare(url, cs) //restart
     } else {
+      contrast = jenkem.shared.ImageUtil.getDefaultContrast(imageRgb, actualWidth, actualHeight) - 100
+      brightness = jenkem.shared.ImageUtil.getDefaultBrightness(imageRgb, actualWidth, actualHeight) - 100
       engine.setParams(imageRgb, actualWidth, cs.charset, contrast, brightness, ps)
       if (!overrideMethod.equals(ConversionMethod.Plain)) {
         val colorMap: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer]

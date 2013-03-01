@@ -11,10 +11,12 @@ public final class ImageUtil {
     private static final int AVERAGE_RGB = 127;
     private static final int BRIGHTNESS_SLIDER_ZERO_POS = 100;
     private static final int CONTRAST_SLIDER_ZERO_POS = 100;
-    private static final int MIN_BRIGHTNESS = -100;
-    private static final int MAX_BRIGHTNESS = 100;
-    private static final int MIN_CONTRAST = -100;
-    private static final int MAX_CONTRAST = 100;
+
+    private static final int MIN_BRIGHTNESS = -32;
+    private static final int MAX_BRIGHTNESS = 32;
+    private static final int MIN_CONTRAST = -16;
+    private static final int MAX_CONTRAST = 32;
+
     private static final int BW_TOLERANCE = 25; //arbitrary value (absolute RGB * 3)
     private static final int BW_THRESHOLD = 95; //arbitrary value (relative %)
     private static final int COLOR_TOLERANCE = 20; //arbitrary value (absolute RGB)

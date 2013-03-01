@@ -44,6 +44,7 @@ class JenkemBot extends PircBot {
   var botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected, BotStatus.SendStatus.NotSending, "", "", "")
   var stopSwitch = false
   var isPlaying = false
+  var playThread = new Thread
 
   def Bot {
     super.setEncoding("UTF-8")
@@ -279,7 +280,8 @@ class JenkemBot extends PircBot {
       if (isPlaying) "Bot is busy."
       else if (getChannels.isEmpty) "Bot is not in any channel."
       else {
-        new Thread(new IrcSender(out)).start
+        playThread = new Thread(new IrcSender(out))
+        playThread.start
         "Playing image..."
       }
     }
@@ -315,12 +317,13 @@ class JenkemBot extends PircBot {
     if (isPlaying) {
       stopSwitch = true
       isPlaying = false
+      playThread = null
     }
   }
 
   def resetStop() {
-    stopSwitch = false;
-    isPlaying = false;
+    stopSwitch = false
+    isPlaying = false
     botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected, BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
   }
 
