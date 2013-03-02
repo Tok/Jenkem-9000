@@ -5,25 +5,29 @@ package jenkem.shared;
  */
 public enum CharacterSet {
     //<-- brighter --- darker -->
-    Hard(" -+xX#"),
-    Soft(" .:oO@"),
-    Ansi(" ░▒"), //"▓" makes FG > BG and should not be used
-    XAnsi(" ░"),
-    Mixed("  .-:+oxOX@#"),
-    Chaos("  .'-:;~+=ox*OX&%$@#"),
-    Letters("  ivozaxIVOAHZSXWM"),
-    HalfHard("      -----++++xxxXX#"),
-    DoubleHard(" --+++xxxxXXXXX######"),
-    HalfSoft("      .....::::oooOO@"),
-    DoubleSoft(" ..:::ooooOOOOO@@@@@@");
+    Hard(" -+xX#", false),
+    Soft(" .:oO@", false),
+    Ansi(" ░▒", true), //"▓" makes FG > BG and should not be used
+    XAnsi(" ░", true),
+    Mixed("  .-:+oxOX@#", false),
+    Chaos("  .'-:;~+=ox*OX&%$@#", false),
+    Letters("  ivozaxIVOAHZSXWM", false),
+    HalfHard("      -----++++xxxXX#", false),
+    DoubleHard(" --+++xxxxXXXXX######", false),
+    HalfSoft("      .....::::oooOO@", false),
+    DoubleSoft(" ..:::ooooOOOOO@@@@@@", false);
     // Numbers and comma cannot be used!
     // "*" is very dependent on the font and may lead to bad results.
     // for best results, the characters should be more or less symmetric.
 
     private String characters;
+    private boolean isAnsi;
 
-    private CharacterSet(final String ascii) {
+    private static final String ALL_ANSI_CHARS = Ansi.getCharacters();
+
+    private CharacterSet(final String ascii, final boolean isAnsi) {
         this.characters = ascii;
+        this.isAnsi = isAnsi;
     }
 
     public static CharacterSet getValueByName(final String name) {
@@ -49,12 +53,23 @@ public enum CharacterSet {
         return characters;
     }
 
+    public boolean hasAnsi() {
+        return isAnsi;
+    }
+
     public static int getSensitivity(final String charset) {
         return Double.valueOf((charset.length() + 3) / 2D).intValue();
     }
 
     public static int getRepSensitivity(final String charset) {
         return Double.valueOf(charset.length() / 4D).intValue();
+    }
+
+    public static boolean hasAnsi(final String s) {
+        for (final char c : ALL_ANSI_CHARS.toCharArray()) {
+            if (s.indexOf(c) > 0) { return true; }
+        }
+        return false;
     }
 
     @Override

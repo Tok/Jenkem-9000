@@ -14,7 +14,6 @@ public class Engine {
     private static final int CENTER = 127;
 
     private final Cube cube = new Cube();
-    private final AsciiScheme asciiScheme = new AsciiScheme();
     private final ColorUtil colorUtil = new ColorUtil();
 
     private Map<IrcColor, Integer> colorMap;
@@ -24,6 +23,7 @@ public class Engine {
     private int width; //number or columns (should be even)
 
     private String charset;
+    private Scheme scheme;
     private ProcessionSettings settings = new ProcessionSettings();
     private int contrast;
     private int brightness;
@@ -42,6 +42,11 @@ public class Engine {
         this.imageRgb = imageRgb;
         this.width = width;
         this.charset = charset;
+        if (CharacterSet.hasAnsi(charset)) {
+            this.scheme = new Scheme(Scheme.Type.ANSI);
+        } else {
+            this.scheme = new Scheme(Scheme.Type.ASCII);
+        }
         this.contrast = contrast;
         this.brightness = brightness;
         this.settings = settings;
@@ -79,7 +84,7 @@ public class Engine {
         for (int x = 0; x < width; x += ConversionMethod.FullHd.getStep()) {
             final int[] rgb = Sample.calculateRgb(imageRgb, x, index, contrast, brightness);
             oldPix = newPix;
-            newPix = cube.getColorChar(colorMap, charset, rgb, false);
+            newPix = cube.getColorChar(colorMap, scheme, charset, rgb, false);
             if (newPix.equals(oldPix)) { // don't change color, add char only
                 line.append(newPix.substring(newPix.length() - 1, newPix.length()));
             } else { // do color change
@@ -106,8 +111,8 @@ public class Engine {
             final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
 
             oldLeft = newLeft;
-            newLeft = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.LEFT);
-            newRight = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.RIGHT);
+            newLeft = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.LEFT);
+            newRight = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.RIGHT);
 
             final int[] leftRgb = sample.getRgbValues(Sample.Xdir.LEFT);
             final int[] rightRgb = sample.getRgbValues(Sample.Xdir.RIGHT);
@@ -123,14 +128,14 @@ public class Engine {
             final Color rightBottomCol = cube.getTwoNearestColors(colorMap, rightBottomRgb);
             final int offset = settings.getOffset();
             if (cube.isFirstCloserTo(leftBottomCol.getRgb(), leftTopCol.getRgb(), leftCol.getFgRgb(), offset)) {
-                newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
+                newLeft = newLeft.substring(0, newLeft.length() - 1) + scheme.selectDown(); // _
             } else if (cube.isFirstCloserTo(leftTopCol.getRgb(), leftBottomCol.getRgb(), leftCol.getFgRgb(), offset)) {
-                newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectUp(); // "
+                newLeft = newLeft.substring(0, newLeft.length() - 1) + scheme.selectUp(); // "
             }
             if (cube.isFirstCloserTo(rightBottomCol.getRgb(), rightTopCol.getRgb(), rightCol.getFgRgb(), offset)) {
-                newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
+                newRight = newRight.substring(0, newRight.length() - 1) + scheme.selectDown(); // _
             } else if (cube.isFirstCloserTo(rightTopCol.getRgb(), rightBottomCol.getRgb(), rightCol.getFgRgb(), offset)) {
-                newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectUp(); // "
+                newRight = newRight.substring(0, newRight.length() - 1) + scheme.selectUp(); // "
             }
 
             if (newLeft.equals(oldLeft)) { //char only
@@ -147,7 +152,7 @@ public class Engine {
             }
         }
         line.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(line.toString(), charset, settings);
+        return colorUtil.postProcessColoredRow(scheme, line.toString(), charset, settings);
     }
 
     /**
@@ -168,15 +173,15 @@ public class Engine {
             @SuppressWarnings("unused")
             // TODO reimplement foreground enforcement
             final boolean isEnforceBlackFg = false;
-            newLeft = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.LEFT);
-            newRight = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.RIGHT);
-            if (asciiScheme.isCharacterBright(newLeft, charset)
-                    && asciiScheme.isCharacterDark(newRight, charset)) {
-                newLeft = asciiScheme.replace(newLeft, asciiScheme.selectVline());
+            newLeft = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.LEFT);
+            newRight = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.RIGHT);
+            if (scheme.isCharacterBright(newLeft, charset)
+                    && scheme.isCharacterDark(newRight, charset)) {
+                newLeft = scheme.replace(newLeft, scheme.selectVline());
             }
-            if (asciiScheme.isCharacterDark(newLeft, charset)
-                    && asciiScheme.isCharacterBright(newRight, charset)) {
-                newRight = asciiScheme.replace(newRight, asciiScheme.selectVline());
+            if (scheme.isCharacterDark(newLeft, charset)
+                    && scheme.isCharacterBright(newRight, charset)) {
+                newRight = scheme.replace(newRight, scheme.selectVline());
             }
             // XXX tune this
             final int offset = settings.getOffset();
@@ -188,37 +193,37 @@ public class Engine {
             final int[] topRgb = sample.getRgbValues(Sample.Ydir.TOP);
             final int[] botRgb = sample.getRgbValues(Sample.Ydir.BOT);
             if (isUp(topRgb, botRgb, upOffset)) {
-                if (asciiScheme.isCharacterDark(newRight, charset)) {
+                if (scheme.isCharacterDark(newRight, charset)) {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
-                            + asciiScheme.selectRightUp(); // y7
+                            + scheme.selectRightUp(); // y7
                 } else {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
-                            + asciiScheme.selectUp(); // "
+                            + scheme.selectUp(); // "
                 }
             } else if (isDown(topRgb, botRgb, downOffset)) {
-                if (asciiScheme.isCharacterDark(newRight, charset)) {
+                if (scheme.isCharacterDark(newRight, charset)) {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
-                            + asciiScheme.selectRightDown(); // j
+                            + scheme.selectRightDown(); // j
                 } else {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
-                            + asciiScheme.selectDown(); // _
+                            + scheme.selectDown(); // _
                 }
             }
             if (isUp(topRgb, botRgb, upOffset)) {
-                if (asciiScheme.isCharacterDark(newLeft, charset)) {
+                if (scheme.isCharacterDark(newLeft, charset)) {
                     newRight = newRight.substring(0, newRight.length() - 1)
-                            + asciiScheme.selectLeftUp(); // F
+                            + scheme.selectLeftUp(); // F
                 } else {
                     newRight = newRight.substring(0, newRight.length() - 1)
-                            + asciiScheme.selectUp(); // "
+                            + scheme.selectUp(); // "
                 }
             } else if (isDown(topRgb, botRgb, downOffset)) {
-                if (asciiScheme.isCharacterDark(newLeft, charset)) {
+                if (scheme.isCharacterDark(newLeft, charset)) {
                     newRight = newRight.substring(0, newRight.length() - 1)
-                            + asciiScheme.selectLeftDown(); // L
+                            + scheme.selectLeftDown(); // L
                 } else {
                     newRight = newRight.substring(0, newRight.length() - 1)
-                            + asciiScheme.selectDown(); // _
+                            + scheme.selectDown(); // _
                 }
             }
             final int[] leftTopRgb = sample.getRgbValues(Sample.Ydir.TOP, Sample.Xdir.LEFT);
@@ -230,23 +235,23 @@ public class Engine {
                     && isDown(leftTopRgb, leftBottomRgb, genUpDownOffset)
                     && isUp(rightTopRgb, rightBottomRgb, genUpDownOffset)) {
                 newLeft = newLeft.substring(0, newLeft.length() - 1)
-                        + asciiScheme.selectLeft(); // <[(
+                        + scheme.selectLeft(); // <[(
                 newRight = newRight.substring(0, newRight.length() - 1)
-                        + asciiScheme.selectRight(); // >])
+                        + scheme.selectRight(); // >])
             } else {
                 if (isUp(rightTopRgb, leftBottomRgb, upDownOffset)
                         && isDown(rightTopRgb, rightBottomRgb, upDownOffset)) {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
-                            + asciiScheme.selectUpDown().substring(0, 1); // \\"_',
+                            + scheme.selectUpDown().substring(0, 1); // \\"_',
                     newRight = newRight.substring(0, newRight.length() - 1)
-                            + asciiScheme.selectUpDown().substring(1, 2); // \\"_',
+                            + scheme.selectUpDown().substring(1, 2); // \\"_',
                 }
                 if (isDown(leftTopRgb, leftBottomRgb, downUpOffset)
                         && isUp(rightTopRgb, rightBottomRgb, downUpOffset)) {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
-                            + asciiScheme.selectDownUp().substring(0, 1); // //_".'
+                            + scheme.selectDownUp().substring(0, 1); // //_".'
                     newRight = newRight.substring(0, newRight.length() - 1)
-                            + asciiScheme.selectDownUp().substring(1, 2); // //_".'
+                            + scheme.selectDownUp().substring(1, 2); // //_".'
                 }
             }
             if (newLeft.equals(oldLeft)) { // char only
@@ -263,7 +268,7 @@ public class Engine {
             }
         }
         line.append(ColorUtil.CC);
-        return colorUtil.postProcessColoredRow(line.toString(), charset, settings);
+        return colorUtil.postProcessColoredRow(scheme, line.toString(), charset, settings);
     }
 
     /**
@@ -279,10 +284,10 @@ public class Engine {
         for (int x = 0; x < width; x += ConversionMethod.Pwntari.getStep()) {
             final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
             oldLeft = newLeft;
-            newLeft = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.LEFT);
-            newRight = cube.getColorChar(colorMap, charset, sample, Sample.Xdir.RIGHT);
-            newLeft = newLeft.substring(0, newLeft.length() - 1) + asciiScheme.selectDown(); // _
-            newRight = newRight.substring(0, newRight.length() - 1) + asciiScheme.selectDown(); // _
+            newLeft = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.LEFT);
+            newRight = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.RIGHT);
+            newLeft = newLeft.substring(0, newLeft.length() - 1) + scheme.selectDown(); // _
+            newRight = newRight.substring(0, newRight.length() - 1) + scheme.selectDown(); // _
             if (newLeft.equals(oldLeft)) {
                 line.append(newLeft.substring(newLeft.length() - 1, newLeft.length()));
             } else {
@@ -316,23 +321,23 @@ public class Engine {
             String charPixel = "";
             // 1st char
             if (topLeft <= CENTER && bottomLeft > CENTER) {
-                charPixel = asciiScheme.getUp();
+                charPixel = scheme.getUp();
             } else if (topLeft > CENTER && bottomLeft <= CENTER) {
-                charPixel = asciiScheme.getDown();
+                charPixel = scheme.getDown();
             } else {
-                charPixel = asciiScheme.getChar((topLeft + bottomLeft) / 2D, charset, AsciiScheme.StrengthType.ABSOLUTE);
+                charPixel = scheme.getChar((topLeft + bottomLeft) / 2D, charset, Scheme.StrengthType.ABSOLUTE);
             }
             // 2nd char
             if (topRight <= CENTER && bottomRight > CENTER) {
-                charPixel += asciiScheme.getUp();
+                charPixel += scheme.getUp();
             } else if (topRight > CENTER && bottomRight <= CENTER) {
-                charPixel += asciiScheme.getDown();
+                charPixel += scheme.getDown();
             } else {
-                charPixel += asciiScheme.getChar((topRight + bottomRight) / 2D, charset, AsciiScheme.StrengthType.ABSOLUTE);
+                charPixel += scheme.getChar((topRight + bottomRight) / 2D, charset, Scheme.StrengthType.ABSOLUTE);
             }
             line.append(charPixel);
         }
-        return colorUtil.postProcessRow(line.toString(), charset, settings);
+        return colorUtil.postProcessRow(scheme, line.toString(), charset, settings);
     }
 
     /**

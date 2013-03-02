@@ -1,8 +1,8 @@
 package jenkem;
 
-import jenkem.shared.AsciiScheme;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ProcessionSettings;
+import jenkem.shared.Scheme;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.IrcColor;
 
@@ -10,49 +10,49 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
     private final ProcessionSettings settings = new ProcessionSettings(32, true, true, true, true);
     private final CharacterSet preset = CharacterSet.Hard;
     private final ColorUtil util = new ColorUtil();
-    private final AsciiScheme scheme = new AsciiScheme();
+    private final Scheme scheme = new Scheme(Scheme.Type.ASCII);
     private final String up = scheme.getUp();
     private final String down = scheme.getDown();
     private final String hLine = scheme.getHline();
 
     public final void testUpPostProcession() throws Exception {
         final String upInput = "##" + up + up + up + up + "##";
-        final Object[] upParameters = {upInput, true};
+        final Object[] upParameters = {scheme, upInput, true};
         final String upOutput = (String) invokePrivateMethod(util, "postProcessHor", upParameters);
         assertEquals("##" + up + hLine + hLine + up + "##", upOutput);
     }
 
     public final void testDownPostProcession() throws Exception {
         final String downInput = "##" + down + down + down + down + "##";
-        final Object[] downParameters = {downInput, false};
+        final Object[] downParameters = {scheme, downInput, false};
         final String downOutput = (String) invokePrivateMethod(util, "postProcessHor", downParameters);
         assertEquals("##" + down + hLine + hLine + down + "##", downOutput);
     }
 
     public final void testPostProcession() throws Exception {
         final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
-        final Object[] parameters = {input, preset.getCharacters(), settings};
+        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
         assertEquals("##L" + down + down + "J##F" + up + up + "q##", output);
     }
 
     public final void testMixedPostProcession() throws Exception {
         final String input = "##" + down + down + down + "##" + up + up + up + "##";
-        final Object[] parameters = {input, preset.getCharacters(), settings};
+        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
         assertEquals("##L" + down + "J##F" + up + "q##", output);
     }
 
     public final void testMoreMixedPostProcession() throws Exception {
         final String input = "##" + down + down + down + down + down + "##" + up + up + up + up + up + "##";
-        final Object[] parameters = {input, preset.getCharacters(), settings};
+        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
         assertEquals("##L" + down + hLine + down + "J##F" + up + hLine + up + "q##", output);
     }
 
     public final void testMinPostProcession() throws Exception {
         final String input = "##" + down + down + "##" + up + up + "##";
-        final Object[] parameters = {input, preset.getCharacters(), settings};
+        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
         //assertEquals(input, output); //no change TODO rethink this
         assertEquals("##LJ##Fq##", output);
@@ -61,7 +61,7 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
     public final void testPostProcessRowWithColor() throws Exception {
         final String input = ColorUtil.CC + "##" + down + down + down + down + "##" + up + up + up + up + "##";
         final String expect = ColorUtil.CC + "##L" + down + down + "J##F" + up + up + "q##";
-        final Object[] parameters = {input, preset.getCharacters(), settings};
+        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
         assertEquals(expect, output);
     }
@@ -69,7 +69,7 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
     public final void testPostProcessRowWithhoutColor() throws Exception {
         final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
         final String expect = "##L" + down + down + "J##F" + up + up + "q##";
-        final Object[] parameters = {input, preset.getCharacters(), settings};
+        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
         final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
         assertEquals(expect, output);
     }
@@ -77,7 +77,7 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
     public final void testColorPostProcessionWithColorRedundancies() throws Exception {
         final String input = ColorUtil.CC + "1,1##" + ColorUtil.CC + "1,1XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
         final String expect = ColorUtil.CC + "1,1##XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
-        final Object[] parameters = {input, preset.getCharacters(), settings};
+        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
         final String output = (String) invokePrivateMethod(util, "postProcessColoredRow", parameters);
         assertEquals(expect, output);
     }
@@ -87,7 +87,7 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
                 + down + down + down + "##" + up + up + ColorUtil.CC + "3,3" + up + up + "##";
         final String expect = ColorUtil.CC + "1,1##L" + ColorUtil.CC + "2,2"
                 + down + down + "J##F" + up + ColorUtil.CC + "3,3" + up + "q##";
-        final Object[] parameters = {input, preset.getCharacters(), settings};
+        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
         final String output = (String) invokePrivateMethod(util, "postProcessColoredRow", parameters);
         assertEquals(expect, output);
     }
@@ -227,7 +227,7 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
         final ProcessionSettings settings = new ProcessionSettings(32, true, true, true, true);
         final String input = " ### ###  ###";
         final String expected = " |#| |#|  |##";
-        final String result = util.postReplacements(input, preset.getCharacters(), settings);
+        final String result = util.postReplacements(scheme, input, preset.getCharacters(), settings);
         assertEquals(expected.length(), result.length());
         assertEquals(expected, result);
     }
@@ -235,14 +235,14 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
     public final void testPostReplacementsDownUp() throws Exception {
         final String input = " _\" \"_ ";
         final String expected = " // \\\\ ";
-        final String result = util.postReplacements(input, preset.getCharacters(), settings);
+        final String result = util.postReplacements(scheme, input, preset.getCharacters(), settings);
         assertEquals(expected, result);
     }
 
     public final void testPostReplacementsLeftRight() throws Exception {
         final String input = " \"#\" _#_ ";
         final String expected = " q#F J#L ";
-        final String result = util.postReplacements(input, preset.getCharacters(), settings);
+        final String result = util.postReplacements(scheme, input, preset.getCharacters(), settings);
         assertEquals(expected, result);
     }
 }

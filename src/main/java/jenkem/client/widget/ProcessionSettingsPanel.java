@@ -89,6 +89,13 @@ public class ProcessionSettingsPanel extends Composite {
         doDiagonalBox.setValue(true);
     }
 
+    public final void setForAnsi() {
+        doVlineBox.setValue(false);
+        doHlineBox.setValue(false);
+        doEdgeBox.setValue(false);
+        doDiagonalBox.setValue(false);
+    }
+
     public final void setEnabled(final boolean enabled) {
         doVlineBox.setEnabled(enabled);
         doHlineBox.setEnabled(enabled);

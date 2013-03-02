@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import jenkem.shared.AsciiScheme;
 import jenkem.shared.Power;
+import jenkem.shared.Scheme;
 
 /**
  * This Class is used to manipulate a Cube made of colors. X, Y, Z ---> Red,
@@ -16,7 +16,6 @@ import jenkem.shared.Power;
  * http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_farbwuerfel.jpg
  */
 public class Cube {
-    private final AsciiScheme asciiScheme = new AsciiScheme();
     private final Random random = new Random();
     public static final int NO_OFFSET = 0;
     public static final int NEGATIVE_OFFSET = -10;
@@ -34,6 +33,7 @@ public class Cube {
      * @return a String with the IRC-color codes and the character to display in IRC
      */
     private String getColorChar(final Map<IrcColor, Integer> colorMap,
+            final Scheme scheme,
             final String charset, final int red, final int green,
             final int blue, final boolean enforceBlackFg) {
         final int[] col = {red, green, blue};
@@ -42,32 +42,36 @@ public class Cube {
         result.append(enforceBlackFg ? "1" : c.getFg());
         result.append(",");
         result.append(c.getBg()); // append the background color
-        final String character = asciiScheme.getChar(c.getBgStrength(), charset, AsciiScheme.StrengthType.RELATIVE);
+        final String character = scheme.getChar(c.getBgStrength(), charset, Scheme.StrengthType.RELATIVE);
         result.append(character); // append the selected ASCII character
         return result.toString();
     }
 
     public final String getColorChar(final Map<IrcColor, Integer> colorMap,
+            final Scheme scheme,
             final String charset, final int[] rgb,
             final boolean enforceBlackFg) {
-        return getColorChar(colorMap, charset, rgb[0], rgb[1], rgb[2], enforceBlackFg);
+        return getColorChar(colorMap, scheme, charset, rgb[0], rgb[1], rgb[2], enforceBlackFg);
     }
 
     public final String getColorChar(final Map<IrcColor, Integer> colorMap,
+            final Scheme scheme,
             final String charset, final int[] rgb) {
-        return getColorChar(colorMap, charset, rgb[0], rgb[1], rgb[2], false);
+        return getColorChar(colorMap, scheme, charset, rgb[0], rgb[1], rgb[2], false);
     }
 
     public final String getColorChar(final Map<IrcColor, Integer> colorMap,
+            final Scheme scheme,
             final String charset, final int red, final int green,
             final int blue) {
-        return getColorChar(colorMap, charset, red, green, blue, false);
+        return getColorChar(colorMap, scheme, charset, red, green, blue, false);
     }
 
     public final String getColorChar(final Map<IrcColor, Integer> colorMap,
+            final Scheme scheme,
             final String charset, final Sample sample,
             final Sample.Xdir xDir) {
-        return getColorChar(colorMap, charset, sample.getRgbValues(xDir));
+        return getColorChar(colorMap, scheme, charset, sample.getRgbValues(xDir));
     }
 
     private WeightedColor createWc(final Map<IrcColor, Integer> colorMap,

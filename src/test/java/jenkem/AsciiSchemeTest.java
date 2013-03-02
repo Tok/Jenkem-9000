@@ -1,13 +1,13 @@
 package jenkem;
 
-import jenkem.shared.AsciiScheme;
 import jenkem.shared.CharacterSet;
+import jenkem.shared.Scheme;
 
 public class AsciiSchemeTest extends AbstractReflectionTestCase {
-    private final AsciiScheme scheme = new AsciiScheme();
+    private final Scheme scheme = new Scheme(Scheme.Type.ASCII);
 
     public final void testNonRandomization() throws Exception {
-        final AsciiScheme changedScheme = (AsciiScheme) changePrivateBooleanField(scheme, "randomized", false);
+        final Scheme changedScheme = (Scheme) changePrivateBooleanField(scheme, "randomized", false);
         final String input = "ABC";
         final Object[] parameters = {input};
         final String output = (String) invokePrivateMethod(changedScheme, "randomize", parameters);
@@ -16,7 +16,7 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
     }
 
     public final void testRandomizerLength() throws Exception {
-        final AsciiScheme changedScheme = (AsciiScheme) changePrivateBooleanField(scheme, "randomized", true);
+        final Scheme changedScheme = (Scheme) changePrivateBooleanField(scheme, "randomized", true);
         final String input = "ABC";
         final Object[] parameters = {input};
         final String output = (String) invokePrivateMethod(changedScheme, "randomize", parameters);
@@ -24,7 +24,7 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
     }
 
     public final void testNotRandomizeSix() throws Exception {
-        final AsciiScheme changedScheme = (AsciiScheme) changePrivateBooleanField(scheme, "randomized", false);
+        final Scheme changedScheme = (Scheme) changePrivateBooleanField(scheme, "randomized", false);
         final String input = "\\\\\"_',";
         final Object[] parameters = {input};
         final String output = (String) invokePrivateMethod(changedScheme, "randomizeSix", parameters);
@@ -33,7 +33,7 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
     }
 
     public final void testRandomizeSixLength() throws Exception {
-        final AsciiScheme changedScheme = (AsciiScheme) changePrivateBooleanField(scheme, "randomized", true);
+        final Scheme changedScheme = (Scheme) changePrivateBooleanField(scheme, "randomized", true);
         final String input = "\\\\\"_',";
         final Object[] parameters = {input};
         final String output = (String) invokePrivateMethod(changedScheme, "randomizeSix", parameters);

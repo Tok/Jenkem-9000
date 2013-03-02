@@ -260,6 +260,7 @@ public class MainView extends Composite implements MainPresenter.Display {
     @Override public final int getInitialContrast() { return INITIAL_CONTRAST_DEFAULT; }
     @Override public final int getInitialBrightness() { return INITIAL_BRIGHTNESS_DEFAULT; }
     @Override public final ProcessionSettings getProcessionSettings() { return processingPanel.getSettings(); }
+    @Override public final ProcessionSettingsPanel getProcessionSettingsPanel() { return processingPanel; }
     @Override public final void resetProcession() { processingPanel.reset(); }
     @Override public final void enableProcession(final boolean enable) { processingPanel.setEnabled(enable); }
     @Override public final boolean isDefaultBgBlack() { return blackBgButton.getValue().booleanValue(); }

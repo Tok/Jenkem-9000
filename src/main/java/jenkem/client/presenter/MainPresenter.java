@@ -14,6 +14,7 @@ import jenkem.client.service.JenkemServiceAsync;
 import jenkem.client.widget.CropPanel;
 import jenkem.client.widget.IrcColorSetter;
 import jenkem.client.widget.IrcConnector;
+import jenkem.client.widget.ProcessionSettingsPanel;
 import jenkem.client.widget.UrlSetter;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
@@ -113,6 +114,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         Label getContrastLabel();
         Label getBrightnessLabel();
         ProcessionSettings getProcessionSettings();
+        ProcessionSettingsPanel getProcessionSettingsPanel();
         int getInitialContrast();
         int getInitialBrightness();
         RadioButton getKickButton(Kick kick);
@@ -179,6 +181,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 final String presetName = display.getPresetListBox().getItemText(display.getPresetListBox().getSelectedIndex());
                 final CharacterSet preset = CharacterSet.valueOf(presetName);
                 display.getPresetTextBox().setText(preset.getCharacters());
+                if (preset.hasAnsi()) {
+                    display.getProcessionSettingsPanel().setForAnsi();
+                } else {
+                    display.getProcessionSettingsPanel().reset();
+                }
                 startOrRestartConversion();
             }});
         this.display.getPresetTextBox().addChangeHandler(new ChangeHandler() {

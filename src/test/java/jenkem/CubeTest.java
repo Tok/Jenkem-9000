@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import jenkem.shared.CharacterSet;
 import jenkem.shared.ColorScheme;
+import jenkem.shared.Scheme;
 import jenkem.shared.color.Cube;
 import jenkem.shared.color.IrcColor;
 
@@ -14,6 +15,7 @@ public class CubeTest extends AbstractReflectionTestCase {
     private static final double AREA_DIAGONAL_DISTANCE = 360.62445840513925;
     private static final double SPACE_DIAGONAL_DISTANCE = 441.6729559300637;
 
+    private final Scheme asciiScheme = new Scheme(Scheme.Type.ASCII);
     private final Map<IrcColor, Integer> colorMap = new HashMap<IrcColor, Integer>();
     private final Cube cube = new Cube();
 
@@ -105,7 +107,7 @@ public class CubeTest extends AbstractReflectionTestCase {
             }
             for (final CharacterSet set : CharacterSet.values()) {
                 final int[] black = {0, 0, 0};
-                final String result = cube.getColorChar(colorMap, set.getCharacters(), black, false);
+                final String result = cube.getColorChar(colorMap, asciiScheme, set.getCharacters(), black, false);
                 final String[] splitted = result.split(",");
                 final String backgroundAndChar = splitted[splitted.length - 1];
                 final String background = backgroundAndChar.substring(
@@ -126,7 +128,7 @@ public class CubeTest extends AbstractReflectionTestCase {
                 }
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] red = {255, 0, 0};
-                    final String result = cube.getColorChar(colorMap, set.getCharacters(), red, false);
+                    final String result = cube.getColorChar(colorMap, asciiScheme, set.getCharacters(), red, false);
                     final String[] splitted = result.split(",");
                     final String backgroundAndChar = splitted[splitted.length - 1];
                     final String background =
@@ -149,7 +151,7 @@ public class CubeTest extends AbstractReflectionTestCase {
                 }
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] yellow = {255, 255, 0};
-                    final String result = cube.getColorChar(colorMap, set.getCharacters(), yellow, false);
+                    final String result = cube.getColorChar(colorMap, asciiScheme, set.getCharacters(), yellow, false);
                     final String[] splitted = result.split(",");
                     final String backgroundAndChar = splitted[splitted.length - 1];
                     final String background =
@@ -174,7 +176,7 @@ public class CubeTest extends AbstractReflectionTestCase {
                 }
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] purple = {156, 0, 156};
-                    final String result = cube.getColorChar(colorMap, set.getCharacters(), purple, false);
+                    final String result = cube.getColorChar(colorMap, asciiScheme, set.getCharacters(), purple, false);
                     final String[] splitted = result.split(",");
                     final String backgroundAndChar = splitted[splitted.length - 1];
                     final String background =
@@ -198,7 +200,7 @@ public class CubeTest extends AbstractReflectionTestCase {
                 }
                 for (final CharacterSet set : CharacterSet.values()) {
                     final int[] gray = {127, 127, 127};
-                    final String result = cube.getColorChar(colorMap, set.getCharacters(), gray, false);
+                    final String result = cube.getColorChar(colorMap, asciiScheme, set.getCharacters(), gray, false);
                     final String[] splitted = result.split(",");
                     final String backgroundAndChar = splitted[splitted.length - 1];
                     final String background =

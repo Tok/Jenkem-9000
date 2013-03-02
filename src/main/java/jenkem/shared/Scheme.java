@@ -5,29 +5,45 @@ import java.util.Random;
 /**
  * Settings for the ASCII conversion.
  */
-public class AsciiScheme {
+public class Scheme {
     public enum StrengthType { RELATIVE, ABSOLUTE }
+    public enum Type { ASCII, ANSI }
     private static final double BARRIER = 0.3d;
     private static final int MAX_RGB = 255;
 
     private final Random random = new Random();
+    private final Type type;
 
     private boolean postProcessed = true;
     private boolean processed = true;
     private boolean randomized = true;
 
     private String up = "\"";
+    private String ansiUp = "▀";
     private String down = "_";
+    private String ansiDown = "▄";
     private String hline = "-";
+    private String ansiHline = "▬";
     private String vline = "|";
+    private String ansiVline = "│";
     private String upDown = "\\"; //has length() == 1
     private String downUp = "/";
     private String leftDown = "L";
     private String rightDown = "J";
     private String leftUp = "F";
     private String rightUp = "q";
+    private String ansiLeftDown = "╗";
+    private String ansiRightDown = "╔";
+    private String ansiLeftUp = "╝";
+    private String ansiRightUp = "╚";
     private String left = "[";
     private String right = "]";
+    private String ansiLeft = "▌";
+    private String ansiRight = "▐";
+
+    public Scheme(final Type type) {
+        this.type = type;
+    }
 
     /**
      * Returns a String with the character according to the provided parameters.
@@ -198,11 +214,11 @@ public class AsciiScheme {
     }
 
     public final String getUp() {
-        return up;
+        return type.equals(Type.ASCII) ? up : ansiUp;
     }
 
     public final String selectUp() {
-        return randomize(up);
+        return randomize(getUp());
     }
 
     public final void setUp(final String up) {
@@ -210,11 +226,11 @@ public class AsciiScheme {
     }
 
     public final String getDown() {
-        return down;
+        return type.equals(Type.ASCII) ? down : ansiDown;
     }
 
     public final String selectDown() {
-        return randomize(down);
+        return randomize(getDown());
     }
 
     public final void setDown(final String down) {
@@ -222,11 +238,11 @@ public class AsciiScheme {
     }
 
     public final String getHline() {
-        return hline;
+        return type.equals(Type.ASCII) ? hline : ansiHline;
     }
 
     public final String selectHline() {
-        return randomize(hline);
+        return randomize(getHline());
     }
 
     public final void setHline(final String hline) {
@@ -234,11 +250,11 @@ public class AsciiScheme {
     }
 
     public final String getVline() {
-        return vline;
+        return type.equals(Type.ASCII) ? vline : ansiVline;
     }
 
     public final String selectVline() {
-        return randomize(vline);
+        return randomize(getVline());
     }
 
     public final void setVline(final String vline) {
@@ -278,11 +294,11 @@ public class AsciiScheme {
     }
 
     public final String getLeftDown() {
-        return leftDown;
+        return type.equals(Type.ASCII) ? leftDown : ansiLeftDown;
     }
 
     public final String selectLeftDown() {
-        return randomize(leftDown);
+        return randomize(getLeftDown());
     }
 
     public final void setLeftDown(final String leftDown) {
@@ -290,11 +306,11 @@ public class AsciiScheme {
     }
 
     public final String getRightDown() {
-        return rightDown;
+        return type.equals(Type.ASCII) ? rightDown : ansiRightDown;
     }
 
     public final String selectRightDown() {
-        return randomize(rightDown);
+        return randomize(getRightDown());
     }
 
     public final void setRightDown(final String rightDown) {
@@ -302,11 +318,11 @@ public class AsciiScheme {
     }
 
     public final String getLeftUp() {
-        return leftUp;
+        return type.equals(Type.ASCII) ? leftUp : ansiLeftUp;
     }
 
     public final String selectLeftUp() {
-        return randomize(leftUp);
+        return randomize(getLeftUp());
     }
 
     public final void setLeftUp(final String leftUp) {
@@ -318,19 +334,19 @@ public class AsciiScheme {
     }
 
     public final String getRightUp() {
-        return rightUp;
+        return type.equals(Type.ASCII) ? rightUp : ansiRightUp;
     }
 
     public final String selectRightUp() {
-        return randomize(rightUp);
+        return randomize(getRightUp());
     }
 
     public final String getLeft() {
-        return left;
+        return type.equals(Type.ASCII) ? left : ansiLeft;
     }
 
     public final String selectLeft() {
-        return randomize(left);
+        return randomize(getLeft());
     }
 
     public final void setLeft(final String left) {
@@ -338,11 +354,11 @@ public class AsciiScheme {
     }
 
     public final String getRight() {
-        return right;
+        return type.equals(Type.ASCII) ? right : ansiRight;
     }
 
     public final String selectRight() {
-        return randomize(right);
+        return randomize(getRight());
     }
 
     public final void setRight(final String right) {
