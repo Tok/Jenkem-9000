@@ -113,9 +113,9 @@ public class UrlSetter extends Composite {
     public final void setStatus(final String status) { statusLabel.setText(status); }
     public final int getCrop(final CropPanel.Type type) { return cropPanel.getCrop(type); }
 
-    public final void addImage(final String proxifiedUrl, final int width) {
+    public final void addImage(final Image image, final int width) {
         imagePanel.clear();
-        final Image visibleCopy = new Image(proxifiedUrl);
+        final Image visibleCopy = image;
         visibleCopy.setWidth(width + "px");
         imagePanel.add(visibleCopy);
     }

@@ -211,15 +211,15 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             }});
         this.display.getContrastSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
+                updateContrast();
                 if (isReady) {
-                    updateContrast();
                     startOrRestartConversion();
                 }
             }});
         this.display.getBrightnessSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
+                updateBrightness();
                 if (isReady) {
-                    updateBrightness();
                     startOrRestartConversion();
                 }
             }});
@@ -301,7 +301,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         image.addLoadHandler(new LoadHandler() {
             @Override public void onLoad(final LoadEvent event) {
                 final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
-                display.getUrlSetter().addImage(proxifiedUrl, width);
+                display.getUrlSetter().addImage(image, width);
                 display.getUrlSetter().setStatus("Image loaded.");
                 doConversion();
             }});
