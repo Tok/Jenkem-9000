@@ -69,6 +69,8 @@ import com.kiouri.sliderbar.client.solution.simplehorizontal.SliderBarSimpleHori
  */
 public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private static final int TOTAL_PERCENT = 100;
+    private static final String INVISIBLE = "invisible";
+    //private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     private final JenkemServiceAsync jenkemService;
     private final HtmlUtil htmlUtil = new HtmlUtil();
@@ -88,6 +90,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private boolean makeInitsForImage = true;
     private boolean isConversionRunnung = false;
     private boolean restartConversion = false;
+    private boolean isReady = false;
 
     public interface Display {
         UrlSetter getUrlSetter();
@@ -165,7 +168,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 display.enableProcession(method.equals(ConversionMethod.SuperHybrid)
                         || method.equals(ConversionMethod.Hybrid)
                         || method.equals(ConversionMethod.Plain));
-                //resetContrastAndBrightness();
                 startOrRestartConversion();
             }});
         this.display.getWidthListBox().addChangeHandler(new ChangeHandler() {
@@ -209,13 +211,17 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             }});
         this.display.getContrastSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
-                updateContrast();
-                startOrRestartConversion();
+                if (isReady) {
+                    updateContrast();
+                    startOrRestartConversion();
+                }
             }});
         this.display.getBrightnessSlider().addBarValueChangedHandler(new BarValueChangedHandler() {
             @Override public void onBarValueChanged(final BarValueChangedEvent event) {
-                updateBrightness();
-                startOrRestartConversion();
+                if (isReady) {
+                    updateBrightness();
+                    startOrRestartConversion();
+                }
             }});
         for (final Kick kick : Kick.values()) {
             this.display.getKickButton(kick).addValueChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -283,9 +289,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         image.setVisible(false);
 
         // Image must be added to dom in order for load event to fire.
-        RootPanel.get("invisible").clear();
-        RootPanel.get("invisible").setVisible(false);
-        RootPanel.get("invisible").add(image);
+        RootPanel.get(INVISIBLE).clear();
+        RootPanel.get(INVISIBLE).setVisible(false);
+        RootPanel.get(INVISIBLE).add(image);
 
         image.addErrorHandler(new ErrorHandler() {
             @Override public void onError(final ErrorEvent event) {
@@ -305,15 +311,13 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Defers the conversion.
      */
     private synchronized void doConversion() {
+        isReady = false;
         if (image == null || !image.isAttached()) { return; }
         if (!isConversionRunnung || restartConversion) {
             isConversionRunnung = true;
             restartConversion = false;
             makeBusy(true);
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-                @Override public void execute() {
-                    doDeferredConversion();
-                }});
+            doDeferredConversion();
         }
     }
 
@@ -406,6 +410,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         ircOutput.clear();
         engine.generate(method);
 
+        isReady = true;
         display.makeWidgetsReady(); //XXX
     }
 
@@ -466,6 +471,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             restartConversion = false;
             isConversionRunnung = false;
             doConversion();
+            return;
         } else if (isConversionRunnung) {
             updateProgress(index);
             Scheduler.get().scheduleDeferred(new ScheduledCommand() {
