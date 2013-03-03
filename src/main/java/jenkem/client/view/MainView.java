@@ -117,6 +117,7 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsRow++;
 
         for (final LineWidth lw : LineWidth.values()) { widthListBox.addItem(lw.getValueString()); }
+        widthListBox.setItemSelected(1, true);
         settingsTable.setText(settingsRow, 0, "Max Line Width:");
         settingsTable.setWidget(settingsRow, 1, widthListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
@@ -188,11 +189,9 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
         settingsRow++;
-
         settingsTable.setWidget(settingsRow, 0, ircColorSetter);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 0, 3);
         settingsRow++;
-
         settingsTable.setWidget(settingsRow, 0, new HTML("&nbsp;"));
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 3);
         settingsRow++;
@@ -200,7 +199,6 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsTable.setText(settingsRow, 0, "Submit Conversion:");
         settingsTable.setWidget(settingsRow, 1, submitButton);
         settingsRow++;
-
         settingsTable.setText(settingsRow, 0, "Binary Output for IRC:");
         settingsRow++;
 

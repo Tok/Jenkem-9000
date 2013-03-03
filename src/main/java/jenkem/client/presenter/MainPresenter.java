@@ -310,6 +310,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
                 display.getUrlSetter().addImage(image, width);
                 display.getUrlSetter().setStatus("Image loaded.");
+                display.getUrlSetter().focusShowButton();
+                //doDeferredConversion();
                 doConversion();
             }});
     }
@@ -319,13 +321,12 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      */
     private synchronized void doConversion() {
         isReady = false;
-        if (image == null || !image.isAttached()) { return; }
-        if (!isConversionRunnung || restartConversion) {
+        //if (image == null || !image.isAttached()) { return; }
+        //if (!isConversionRunnung || restartConversion) {
             isConversionRunnung = true;
             restartConversion = false;
-            makeBusy(true);
             doDeferredConversion();
-        }
+        //}
     }
 
     /**
@@ -352,6 +353,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * Processes the conversion.
      */
     private synchronized void doDeferredConversion() {
+        makeBusy(true);
         final int left = display.getUrlSetter().getCrop(CropPanel.Type.Left);
         final int top = display.getUrlSetter().getCrop(CropPanel.Type.Top);
         final int right = display.getUrlSetter().getCrop(CropPanel.Type.Right);

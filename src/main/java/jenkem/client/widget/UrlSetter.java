@@ -106,6 +106,10 @@ public class UrlSetter extends Composite {
         }
     }
 
+    public final void focusShowButton() {
+        showButton.setFocus(true);
+    }
+
     public final String getUrl() { return inputTextBox.getText(); }
     public final HasClickHandlers getShowButton() { return showButton; }
     public final Panel getBusyPanel() { return busyPanel; }
