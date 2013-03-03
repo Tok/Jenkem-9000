@@ -115,7 +115,7 @@ public class UrlSetter extends Composite {
 
     public final void addImage(final Image image, final int width) {
         imagePanel.clear();
-        final Image visibleCopy = image;
+        final Image visibleCopy = new Image(image.getUrl());
         visibleCopy.setWidth(width + "px");
         imagePanel.add(visibleCopy);
     }
