@@ -4,7 +4,7 @@ package jenkem.shared;
  * Enum for different line Widths.
  */
 public enum LineWidth {
-    Huge(72), Default(68), Large(64), Medium(56), Small(48), Mini(40), Icon(32), Tiny(16);
+    GigaHuge(80), MegaHuge(76), Huge(72), Default(68), Large(64), Medium(56), Small(48), Mini(40), Icon(32), Tiny(16);
 
     private int value;
 

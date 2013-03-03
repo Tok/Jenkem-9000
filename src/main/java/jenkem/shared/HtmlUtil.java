@@ -178,7 +178,7 @@ public class HtmlUtil {
         newInlineCss.append("<style type=\"text/css\">\n");
         for (final String line : cssLines) {
             if (line.startsWith("div {")) {
-                newInlineCss.append(".jenkem { font-family: monospace; font-weight: bold; }");
+                newInlineCss.append(".jenkem { font-family: monospace; font-weight: bold; font-size: x-small }");
             } else if (!line.startsWith("form {")
                     && !line.startsWith("body {")
                     && !line.startsWith("html {")) {

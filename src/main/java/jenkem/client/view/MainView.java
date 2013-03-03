@@ -117,7 +117,7 @@ public class MainView extends Composite implements MainPresenter.Display {
         settingsRow++;
 
         for (final LineWidth lw : LineWidth.values()) { widthListBox.addItem(lw.getValueString()); }
-        widthListBox.setItemSelected(1, true);
+        widthListBox.setItemSelected(3, true);
         settingsTable.setText(settingsRow, 0, "Max Line Width:");
         settingsTable.setWidget(settingsRow, 1, widthListBox);
         settingsTable.getFlexCellFormatter().setColSpan(settingsRow, 1, 2);
