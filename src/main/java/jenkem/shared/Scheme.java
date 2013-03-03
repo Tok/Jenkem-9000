@@ -138,8 +138,11 @@ public class Scheme {
      * @return isCharacterDark
      */
     public final boolean isCharacterDark(final String character, final String charset) {
+        if (type.equals(Type.ANSI)) {
+            return false;
+        }
         final int halfLength = (charset.length() + 3) / 2;
-        // cutting off the decimals in OK here
+        // cutting off the decimals is OK here
         for (int i = 0; i <= halfLength; i++) {
             final String compare = charset.substring(charset.length() - i - 1);
             if (unFormat(character).equals(compare)) {

@@ -295,6 +295,7 @@ class JenkemBot extends PircBot {
    */
   class IrcSender(fullImage: List[String]) extends Runnable {
     override def run {
+      stopSwitch = false
       isPlaying = true;
       botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected, BotStatus.SendStatus.Sending, getServer, lastChan, getNick)
       val sendMe = "PRIVMSG " + getChannels.head + " :"
@@ -317,7 +318,6 @@ class JenkemBot extends PircBot {
     if (isPlaying) {
       stopSwitch = true
       isPlaying = false
-      playThread = null
     }
   }
 

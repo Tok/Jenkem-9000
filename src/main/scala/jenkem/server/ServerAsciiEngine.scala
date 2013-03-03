@@ -29,21 +29,15 @@ class ServerAsciiEngine {
     val lastIndex = prepare(url, cs)
     val ircOutput = List[String]()
     val step = cs.method.getStep
-    def generate0(index: Int, accu: List[String]): List[String] = {
-      if (index + step <= lastIndex) {
-        val line = engine.generateLine(cs.method, index)
-        if (line != null) {
-          generate0(index + step, line :: accu)
-        } else {
-          Nil
-        }
-      } else accu.reverse //.filter(line => line != Nil)
+    def generate0(index: Int): List[String] = {
+      if (index + step > lastIndex) Nil
+      else engine.generateLine(cs.method, index) :: generate0(index + step)
     }
     val message = if (!cs.method.equals(ConversionMethod.Plain)) {
       List("Mode: " + cs.method + ", Scheme: " + cs.scheme
           + ", Brightness: " + brightness + ", Contrast: " + contrast)
     } else Nil
-    message ::: generate0(0, Nil)
+    message ::: generate0(0)
   }
 
   def prepare(url: String, cs: ConversionSettings): Int = {
