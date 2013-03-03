@@ -202,14 +202,26 @@ public class ColorUtil {
             plainRow.append(noCc);
         }
         // process plain
-        final String processed = postProcessRow(scheme, plainRow.toString(), charset, settings);
+        String processed = postProcessRow(scheme, plainRow.toString(), charset, settings);
+
+        // XXX ugly fix to ensure processed length
+        if (processed.length() < plainRow.toString().length()) {
+            final int len = plainRow.toString().length();
+            final int diff = len - processed.length();
+            processed = processed + plainRow.toString().substring(len - diff, len);
+        }
+
         // reassemble processed conten and CCs
         final StringBuilder result = new StringBuilder();
         int beginIndex = 0;
-        for (int i = 0; i < lengths.size(); i++) {
-            result.append(ccs.get(i));
-            result.append(processed.substring(beginIndex, beginIndex + lengths.get(i)));
-            beginIndex += lengths.get(i);
+        try {
+            for (int i = 0; i < lengths.size(); i++) {
+                result.append(ccs.get(i));
+                result.append(processed.substring(beginIndex, beginIndex + lengths.get(i)));
+                beginIndex += lengths.get(i);
+            }
+        } catch (StringIndexOutOfBoundsException sioobe) {
+            assert true; //ignore
         }
         return result.toString();
     }
