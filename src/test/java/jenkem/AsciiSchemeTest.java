@@ -61,34 +61,34 @@ public class AsciiSchemeTest extends AbstractReflectionTestCase {
     public final void testIsCharacterBright() throws Exception {
         for (final CharacterSet set : CharacterSet.values()) {
             final String trueResult = set.getCharacters().substring(0, 1);
-            assertTrue(scheme.isCharacterBright(trueResult, set.getCharacters()));
+            assertTrue(scheme.isCharacterBright(trueResult, set.getCharacters(), false));
             final String secondTrueResult = set.getCharacters().substring(1, 2);
-            assertTrue(scheme.isCharacterBright(secondTrueResult, set.getCharacters()));
+            assertTrue(scheme.isCharacterBright(secondTrueResult, set.getCharacters(), false));
             // XXX ANSI character sets omitted
-            if (!set.equals(CharacterSet.Ansi) && !set.equals(CharacterSet.XAnsi)) {
+            if (!set.hasAnsi()) {
                 final String falseResult =
                         set.getCharacters().substring(
                         set.getCharacters().length() - 1,
                         set.getCharacters().length());
-                assertFalse(scheme.isCharacterBright(falseResult, set.getCharacters()));
+                assertFalse(scheme.isCharacterBright(falseResult, set.getCharacters(), false));
             }
         }
     }
 
     public final void testIsCharacterDark() throws Exception {
         for (final CharacterSet set : CharacterSet.values()) {
-            if (set.equals(CharacterSet.Ansi) || set.equals(CharacterSet.XAnsi)) {
+            if (set.hasAnsi()) {
                 continue;
             }
             final String trueResult =
                     set.getCharacters().substring(
                     set.getCharacters().length() - 1,
                     set.getCharacters().length());
-            assertTrue(scheme.isCharacterDark(trueResult, set.getCharacters()));
+            assertTrue(scheme.isCharacterDark(trueResult, set.getCharacters(), false));
             final String falseResult = set.getCharacters().substring(0, 1);
-            assertFalse(scheme.isCharacterDark(falseResult, set.getCharacters()));
+            assertFalse(scheme.isCharacterDark(falseResult, set.getCharacters(), false));
             final String secondFalseResult = set.getCharacters().substring(1, 2);
-            assertFalse(scheme.isCharacterDark(secondFalseResult, set.getCharacters()));
+            assertFalse(scheme.isCharacterDark(secondFalseResult, set.getCharacters(), false));
         }
     }
 

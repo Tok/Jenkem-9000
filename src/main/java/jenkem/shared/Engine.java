@@ -175,12 +175,12 @@ public class Engine {
             final boolean isEnforceBlackFg = false;
             newLeft = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.LEFT);
             newRight = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.RIGHT);
-            if (scheme.isCharacterBright(newLeft, charset)
-                    && scheme.isCharacterDark(newRight, charset)) {
+            if (scheme.isCharacterBright(newLeft, charset, settings.isMakeEdgy())
+                    && scheme.isCharacterDark(newRight, charset, settings.isMakeEdgy())) {
                 newLeft = scheme.replace(newLeft, scheme.selectVline());
             }
-            if (scheme.isCharacterDark(newLeft, charset)
-                    && scheme.isCharacterBright(newRight, charset)) {
+            if (scheme.isCharacterDark(newLeft, charset, settings.isMakeEdgy())
+                    && scheme.isCharacterBright(newRight, charset, settings.isMakeEdgy())) {
                 newRight = scheme.replace(newRight, scheme.selectVline());
             }
             // XXX tune this
@@ -193,7 +193,7 @@ public class Engine {
             final int[] topRgb = sample.getRgbValues(Sample.Ydir.TOP);
             final int[] botRgb = sample.getRgbValues(Sample.Ydir.BOT);
             if (isUp(topRgb, botRgb, upOffset)) {
-                if (scheme.isCharacterDark(newRight, charset)) {
+                if (scheme.isCharacterDark(newRight, charset, settings.isMakeEdgy())) {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
                             + scheme.selectRightUp(); // y7
                 } else {
@@ -201,7 +201,7 @@ public class Engine {
                             + scheme.selectUp(); // "
                 }
             } else if (isDown(topRgb, botRgb, downOffset)) {
-                if (scheme.isCharacterDark(newRight, charset)) {
+                if (scheme.isCharacterDark(newRight, charset, settings.isMakeEdgy())) {
                     newLeft = newLeft.substring(0, newLeft.length() - 1)
                             + scheme.selectRightDown(); // j
                 } else {
@@ -210,7 +210,7 @@ public class Engine {
                 }
             }
             if (isUp(topRgb, botRgb, upOffset)) {
-                if (scheme.isCharacterDark(newLeft, charset)) {
+                if (scheme.isCharacterDark(newLeft, charset, settings.isMakeEdgy())) {
                     newRight = newRight.substring(0, newRight.length() - 1)
                             + scheme.selectLeftUp(); // F
                 } else {
@@ -218,7 +218,7 @@ public class Engine {
                             + scheme.selectUp(); // "
                 }
             } else if (isDown(topRgb, botRgb, downOffset)) {
-                if (scheme.isCharacterDark(newLeft, charset)) {
+                if (scheme.isCharacterDark(newLeft, charset, settings.isMakeEdgy())) {
                     newRight = newRight.substring(0, newRight.length() - 1)
                             + scheme.selectLeftDown(); // L
                 } else {

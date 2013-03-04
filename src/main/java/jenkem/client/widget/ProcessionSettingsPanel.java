@@ -25,32 +25,38 @@ public class ProcessionSettingsPanel extends Composite {
     private final HandlerManager eventBus;
     private final VerticalPanel mainPan = new VerticalPanel();
     private final HorizontalPanel pan = new HorizontalPanel();
+    private final HorizontalPanel edgePan = new HorizontalPanel();
     private final HorizontalPanel sliderPan = new HorizontalPanel();
     private final SliderBarSimpleHorizontal offsetSlider = new SliderBarSimpleHorizontal(MAX_OFFSET, MAX_OFFSET + "px", false);
     private final Label offsetLabel = new Label();
     private final CheckBox doVlineBox = new CheckBox("|");
     private final CheckBox doHlineBox = new CheckBox("--");
-    private final CheckBox doEdgeBox = new CheckBox("Edge");
+    private final CheckBox doDbqpBox = new CheckBox("dbqp");
     private final CheckBox doDiagonalBox = new CheckBox("/ \\");
+    private final CheckBox makeEdgyBox = new CheckBox("Make Edgy");
     private boolean isReady = false;
 
     public ProcessionSettingsPanel(final HandlerManager eventBus) {
         this.eventBus = eventBus;
-
         offsetLabel.setWidth("25px");
 
         sliderPan.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         sliderPan.setSpacing(SPACING);
-        sliderPan.add(offsetSlider);
-        sliderPan.add(offsetLabel);
         pan.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         pan.setSpacing(SPACING);
+        edgePan.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+        edgePan.setSpacing(SPACING);
+
+        sliderPan.add(offsetSlider);
+        sliderPan.add(offsetLabel);
         pan.add(doVlineBox);
         pan.add(doHlineBox);
-        pan.add(doEdgeBox);
+        pan.add(doDbqpBox);
         pan.add(doDiagonalBox);
+        edgePan.add(makeEdgyBox);
         mainPan.add(sliderPan);
         mainPan.add(pan);
+        mainPan.add(edgePan);
 
         reset();
         bind();
@@ -66,12 +72,18 @@ public class ProcessionSettingsPanel extends Composite {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
                 if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
             }});
-        doEdgeBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+        doDbqpBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                if (!doDbqpBox.getValue()) { makeEdgyBox.setValue(false); }
                 if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
             }});
         doDiagonalBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
             @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
+            }});
+        makeEdgyBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+            @Override public void onValueChange(final ValueChangeEvent<Boolean> event) {
+                if (makeEdgyBox.getValue()) { doDbqpBox.setValue(true); }
                 if (isReady) { eventBus.fireEvent(new DoConversionEvent(false)); }
             }});
         offsetSlider.addBarValueChangedHandler(new BarValueChangedHandler() {
@@ -84,29 +96,32 @@ public class ProcessionSettingsPanel extends Composite {
     public final void reset() {
         offsetSlider.setValue(DEFAULT_OFFSET);
         doVlineBox.setValue(true);
-        doHlineBox.setValue(false);
-        doEdgeBox.setValue(true);
-        doDiagonalBox.setValue(true);
+        doHlineBox.setValue(true);
+        doDbqpBox.setValue(true);
+        doDiagonalBox.setValue(false);
+        makeEdgyBox.setValue(false);
     }
 
     public final void setForAnsi() {
         doVlineBox.setValue(false);
-        doHlineBox.setValue(false);
-        doEdgeBox.setValue(false);
+        doHlineBox.setValue(true);
+        doDbqpBox.setValue(false);
         doDiagonalBox.setValue(false);
+        makeEdgyBox.setValue(false);
     }
 
     public final void setEnabled(final boolean enabled) {
         doVlineBox.setEnabled(enabled);
         doHlineBox.setEnabled(enabled);
-        doEdgeBox.setEnabled(enabled);
+        doDbqpBox.setEnabled(enabled);
         doDiagonalBox.setEnabled(enabled);
+        makeEdgyBox.setEnabled(enabled);
     }
 
     public final ProcessionSettings getSettings() {
         return new ProcessionSettings(DEFAULT_OFFSET - Integer.valueOf(offsetLabel.getText()),
                 doVlineBox.getValue(), doHlineBox.getValue(),
-                doEdgeBox.getValue(), doDiagonalBox.getValue());
+                doDbqpBox.getValue(), doDiagonalBox.getValue(), makeEdgyBox.getValue());
     }
 
     public final void setReady() { isReady = true; }

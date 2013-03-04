@@ -28,9 +28,9 @@ public class Scheme {
     private String ansiVline = "│";
     private String upDown = "\\"; //has length() == 1
     private String downUp = "/";
-    private String leftDown = "L";
-    private String rightDown = "J";
-    private String leftUp = "F";
+    private String leftDown = "b"; //L
+    private String rightDown = "d"; //J
+    private String leftUp = "p"; //F
     private String rightUp = "q";
     private String ansiLeftDown = "╗";
     private String ansiRightDown = "╔";
@@ -137,17 +137,20 @@ public class Scheme {
      * @param preset
      * @return isCharacterDark
      */
-    public final boolean isCharacterDark(final String character, final String charset) {
-        if (type.equals(Type.ANSI)) {
-            return false;
-        }
-        final int halfLength = (charset.length() + 3) / 2;
-        // cutting off the decimals is OK here
-        for (int i = 0; i <= halfLength; i++) {
-            final String compare = charset.substring(charset.length() - i - 1);
-            if (unFormat(character).equals(compare)) {
-                return true;
+    public final boolean isCharacterDark(final String character, final String charset,
+            final boolean makeEdgy) {
+        if (makeEdgy) { return true; }
+        try {
+            final int halfLength = (charset.length() + 3) / 2;
+            // cutting off the decimals is OK here
+            for (int i = 0; i <= halfLength; i++) {
+                final String compare = charset.substring(charset.length() - i - 1);
+                if (unFormat(character).equals(compare)) {
+                    return true;
+                }
             }
+        } catch (final StringIndexOutOfBoundsException sioobe) {
+            return makeEdgy;
         }
         return false;
     }
@@ -158,13 +161,19 @@ public class Scheme {
      * @param preset
      * @return isCharacterBright
      */
-    public final boolean isCharacterBright(final String character, final String charset) {
-        // cutting off the decimals is OK here
-        for (int i = 0; i <= CharacterSet.getSensitivity(charset); i++) {
-            final String compare = charset.substring(i, i + 1);
-            if (unFormat(character).equals(compare)) {
-                return true;
+    public final boolean isCharacterBright(final String character, final String charset,
+            final boolean makeEdgy) {
+        if (makeEdgy) { return false; }
+        try {
+            // cutting off the decimals is OK here
+            for (int i = 0; i <= CharacterSet.getSensitivity(charset); i++) {
+                final String compare = charset.substring(i, i + 1);
+                if (unFormat(character).equals(compare)) {
+                    return true;
+                }
             }
+        } catch (final StringIndexOutOfBoundsException sioobe) {
+            return !makeEdgy;
         }
         return false;
     }

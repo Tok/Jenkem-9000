@@ -48,7 +48,7 @@ class ServerAsciiEngine {
     val scaled = resize(img, actualWidth, actualHeight)
 
     //TODO make changeable from bot
-    val ps: ProcessionSettings = new ProcessionSettings(32, true, true, true, true);
+    val ps: ProcessionSettings = new ProcessionSettings(32, true, true, true, true, false);
 
     val imageRgb: java.util.Map[String, Array[java.lang.Integer]] = new HashMap[String, Array[java.lang.Integer]]()
     for {

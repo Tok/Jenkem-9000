@@ -307,23 +307,23 @@ public class ColorUtil {
                     && second.equals(scheme.getUp())) {
                 // "_"" --> "//"
                 result.append(scheme.getDownUp(ConversionMethod.Plain));
-            } else if (settings.isDoEdge() && scheme.isCharacterDark(first, charset)
+            } else if (settings.isDoEdge() && scheme.isCharacterDark(first, charset, settings.isMakeEdgy())
                     && second.equals(scheme.getDown())) {
                 // "#_" --> "#L"
                 result.append(first);
                 result.append(scheme.selectLeftDown());
             } else if (settings.isDoEdge() && first.equals(scheme.getDown())
-                    && scheme.isCharacterDark(second, charset)) {
+                    && scheme.isCharacterDark(second, charset, settings.isMakeEdgy())) {
                 // "_#" --> "J#"
                 result.append(scheme.selectRightDown());
                 result.append(second);
-            } else if (settings.isDoEdge() && scheme.isCharacterDark(first, charset)
+            } else if (settings.isDoEdge() && scheme.isCharacterDark(first, charset, settings.isMakeEdgy())
                     && second.equals(scheme.getUp())) {
                 // "#"" --> "#F"
                 result.append(first);
                 result.append(scheme.selectLeftUp());
             } else if (settings.isDoEdge() && first.equals(scheme.getUp())
-                    && scheme.isCharacterDark(second, charset)) {
+                    && scheme.isCharacterDark(second, charset, settings.isMakeEdgy())) {
                 // ""#" --> "q#"
                 result.append(scheme.selectRightUp());
                 result.append(second);

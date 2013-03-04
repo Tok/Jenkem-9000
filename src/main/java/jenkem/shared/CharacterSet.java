@@ -9,6 +9,8 @@ public enum CharacterSet {
     Soft(" .:oO@", false),
     Ansi(" ░▒", true), //"▓" makes FG > BG and should not be used
     XAnsi(" ░", true),
+    DoubleAnsi(" ░░▒▒▒", true),
+    DoubleXAnsi(" ░░", true),
     Mixed("  .-:+oxOX@#", false),
     Chaos("  .'-:;~+=ox*OX&%$@#", false),
     Letters("  ivozaxIVOAHZSXWM", false),
