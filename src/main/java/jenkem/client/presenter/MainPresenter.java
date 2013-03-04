@@ -311,7 +311,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 display.getUrlSetter().addImage(image, width);
                 display.getUrlSetter().setStatus("Image loaded.");
                 display.getUrlSetter().focusShowButton();
-                //doDeferredConversion();
                 doConversion();
             }});
     }

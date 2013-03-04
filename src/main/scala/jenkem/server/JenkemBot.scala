@@ -154,7 +154,7 @@ class JenkemBot extends PircBot {
 
   def setWidth(target: String, value: String) {
     val min = 16
-    val max = 72
+    val max = 80
     val between = " between " + min + " and " + max + "."
     value match {
       case IntExtractor(v) if min to max contains v =>

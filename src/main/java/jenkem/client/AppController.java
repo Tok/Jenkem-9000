@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 * Controls the views and the presenters in relation to the tabs.
 */
 public class AppController implements Presenter, ValueChangeHandler<String> {
-    //private static final String DEFAULT_URL = "http://lorempixel.com/72/100/";
+    //private static final String DEFAULT_URL = "http://lorempixel.com/68/100/";
     private static final String DEFAULT_URL = "http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png";
 
     private final JenkemServiceAsync jenkemService = GWT.create(JenkemService.class);

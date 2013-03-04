@@ -41,9 +41,9 @@ public class UrlSetter extends Composite {
         this.eventBus = eventBus;
         cropPanel = new CropPanel(eventBus, statusLabel);
         flex.setWidth("800px");
-        imagePanel.setWidth("72px");
+        imagePanel.setWidth("80px");
         imagePanel.setHeight("100px");
-        inputTextBox.setWidth("724px");
+        inputTextBox.setWidth("716px");
         showButton.setWidth("128px");
 
         inputTextBox.setFocus(true);
