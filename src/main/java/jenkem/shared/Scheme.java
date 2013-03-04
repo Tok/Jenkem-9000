@@ -32,10 +32,10 @@ public class Scheme {
     private String rightDown = "d"; //J
     private String leftUp = "p"; //F
     private String rightUp = "q";
-    private String ansiLeftDown = "╗";
-    private String ansiRightDown = "╔";
-    private String ansiLeftUp = "╝";
-    private String ansiRightUp = "╚";
+    private String ansiLeftDown = "╚";
+    private String ansiRightDown = "╝";
+    private String ansiLeftUp = "╔";
+    private String ansiRightUp = "╗";
     private String left = "[";
     private String right = "]";
     private String ansiLeft = "▌";
