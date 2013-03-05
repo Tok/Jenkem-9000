@@ -4,6 +4,7 @@ package jenkem.shared;
  * Enum for different ASCII-conversion methods.
  */
 public enum ConversionMethod {
+    Vortacular("Vortacular", true),
     SuperHybrid("Super-Hybrid", true),
     FullHd("Full-HD", false),
     Hybrid("Hybrid", true),

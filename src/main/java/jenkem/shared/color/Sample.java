@@ -106,6 +106,19 @@ public final class Sample {
         return rgb;
     }
 
+    public int[] getAllRgbValues() {
+        final int[] topLeft = getRgbValues(Ydir.TOP, Xdir.LEFT);
+        final int[] topRight = getRgbValues(Ydir.TOP, Xdir.RIGHT);
+        final int[] botLeft = getRgbValues(Ydir.BOT, Xdir.LEFT);
+        final int[] botRight = getRgbValues(Ydir.BOT, Xdir.RIGHT);
+        final int[] result = {
+            ((topLeft[0] + topRight[0] + botLeft[0] + botRight[0]) / 4),
+            ((topLeft[1] + topRight[1] + botLeft[1] + botRight[1]) / 4),
+            ((topLeft[2] + topRight[2] + botLeft[2] + botRight[2]) / 4)
+        };
+        return result;
+    }
+
     /**
      * Calculates the RGB values of the pixel in the provided imageRgb at
      * position x, y and applies the provided contrast and brightness.
@@ -173,4 +186,23 @@ public final class Sample {
         return Math.max(0, Math.min(colorComponent, MAX_RGB));
     }
 
+    public int calculateVrgbDiff(final Ydir ydir) {
+        final int[] yLeft = getRgbValues(ydir, Sample.Xdir.LEFT);
+        final int[] yRight = getRgbValues(ydir, Sample.Xdir.RIGHT);
+        return calcDiff(yLeft, yRight);
+    }
+
+    public int calculateHrgbDiff(final Xdir xdir) {
+        final int[] xTop = getRgbValues(Sample.Ydir.TOP, xdir);
+        final int[] xBot = getRgbValues(Sample.Ydir.BOT, xdir);
+        return calcDiff(xTop, xBot);
+    }
+
+    private int calcDiff(final int[] first, final int[] second) {
+        int diff = 0;
+        for (int i = 0; i <= 2; i++) {
+            diff += Math.abs(first[i] - second[i]);
+        }
+        return diff / 3;
+    }
 }

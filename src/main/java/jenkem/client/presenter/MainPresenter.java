@@ -307,7 +307,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
             }});
         image.addLoadHandler(new LoadHandler() {
             @Override public void onLoad(final LoadEvent event) {
-                final int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
+                int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
+                //if (getCurrentConversionMethod().equals(ConversionMethod.Vortacular)) {
+                //    width = width * 2;
+                //}
                 display.getUrlSetter().addImage(image, width);
                 display.getUrlSetter().setStatus("Image loaded.");
                 display.getUrlSetter().focusShowButton();
@@ -362,15 +365,21 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         final int divisor = method.hasKick() ? 1 : 2;
         final int h = ((w / divisor) * image.getHeight()) / image.getWidth();
 
-        final int actualWidth = w * TOTAL_PERCENT / ((TOTAL_PERCENT - right) - left);
+        int actualWidth = w * TOTAL_PERCENT / ((TOTAL_PERCENT - right) - left);
+        if (getCurrentConversionMethod().equals(ConversionMethod.Vortacular)) {
+            actualWidth = actualWidth * 2;
+        }
         final int actualHeight = h * TOTAL_PERCENT / ((TOTAL_PERCENT - top) - bottom);
         image.setPixelSize(actualWidth, actualHeight);
         image.setVisible(true);
 
         final ImageElement currentImage = ImageElement.as(image.getElement());
 
-        final int widthQ = getCurrentLineWidth(currentImage.getWidth());
+        int widthQ = getCurrentLineWidth(currentImage.getWidth());
         final int heightQ = Double.valueOf(((widthQ / divisor) * currentImage.getHeight()) / Double.valueOf(currentImage.getWidth())).intValue();
+        if (getCurrentConversionMethod().equals(ConversionMethod.Vortacular)) {
+            widthQ = widthQ * 2;
+        }
 
         display.getCanvas().setWidth(String.valueOf(actualWidth) + "px");
         display.getCanvas().setHeight(String.valueOf(actualHeight) + "px");

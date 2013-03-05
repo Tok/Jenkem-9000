@@ -42,8 +42,13 @@ class ServerAsciiEngine {
 
   def prepare(url: String, cs: ConversionSettings): Int = {
     val img = ImageIO.read(new URL(url))
-    val actualWidth = math.min(cs.width, img.getWidth)
-    val divisor = if (cs.method.hasKick) { 1 } else { 2 }
+    var actualWidth = 0;
+    if (cs.method.equals(ConversionMethod.Vortacular)) {
+        actualWidth = math.min(cs.width * 2, img.getWidth)
+    } else {
+        actualWidth = math.min(cs.width, img.getWidth)
+    }
+    val divisor = if (cs.method.hasKick || cs.method.equals(ConversionMethod.Vortacular)) { 1 } else { 2 }
     val actualHeight = ((cs.width / divisor) * img.getHeight) / img.getWidth
     val scaled = resize(img, actualWidth, actualHeight)
 

@@ -74,6 +74,11 @@ public class Cube {
         return getColorChar(colorMap, scheme, charset, sample.getRgbValues(xDir));
     }
 
+    public final String getColorChar(final Map<IrcColor, Integer> colorMap,
+            final Scheme scheme, final String charset, final Sample sample) {
+        return getColorChar(colorMap, scheme, charset, sample.getAllRgbValues());
+    }
+
     private WeightedColor createWc(final Map<IrcColor, Integer> colorMap,
             final int[] col, final IrcColor ic) {
         final double weight = calcStrength(col, ic.getRgb(), colorMap.get(ic));
@@ -222,8 +227,12 @@ public class Cube {
         list.set(ii, s);
     }
 
-
     public final void setPower(final Power power) {
         this.power = power;
+    }
+
+    public static final String getBgCode(final String ircChar) {
+        final String[] split = ircChar.split(",");
+        return split[1].substring(0, split[1].length() - 1);
     }
 }

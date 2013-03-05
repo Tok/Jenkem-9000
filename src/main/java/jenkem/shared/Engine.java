@@ -11,8 +11,8 @@ import jenkem.shared.color.Sample;
  * Makes the conversion to ASCII.
  */
 public class Engine {
+    //private final Logger logger = Logger.getLogger(this.getClass().getName());
     private static final int CENTER = 127;
-
     private final Cube cube = new Cube();
     private final ColorUtil colorUtil = new ColorUtil();
 
@@ -56,6 +56,8 @@ public class Engine {
         try {
             if (method.equals(ConversionMethod.FullHd)) {
                 return generateHighDefLine(index);
+            } else if (method.equals(ConversionMethod.Vortacular)) {
+                return generateVortacularLine(index);
             } else if (method.equals(ConversionMethod.SuperHybrid)) {
                 return generateSuperHybridLine(index);
             } else if (method.equals(ConversionMethod.Hybrid)) {
@@ -95,6 +97,91 @@ public class Engine {
     }
 
     /**
+     * Generates a line in vortacular mode and adds it to the presenter, which
+     * will recall this method again with an increased y until all data is
+     * converted.
+     * @param index row of pixels in the imageRgb to convert
+     */
+    public final String generateVortacularLine(final int index) {
+        final StringBuilder line = new StringBuilder();
+        final int divisor = 2;
+        final int offset = Math.abs(settings.getOffset() * -1) / divisor;
+        //logger.log(Level.INFO, "offset: " + offset);
+        String oldChar;
+        String newChar = null;
+        final String ansiUp = "▀";
+        final String ansiDown = "▄";
+        final String ansiLeft = "▌";
+        final String ansiRight = "▐";
+        for (int x = 0; x < width; x += ConversionMethod.Vortacular.getStep()) {
+            final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
+            oldChar = newChar;
+            newChar = cube.getColorChar(colorMap, scheme, " ░▒", sample);
+            final int leftDiff = sample.calculateHrgbDiff(Sample.Xdir.LEFT);
+            final int rightDiff = sample.calculateHrgbDiff(Sample.Xdir.RIGHT);
+            final int topDiff = sample.calculateVrgbDiff(Sample.Ydir.TOP);
+            final int botDiff = sample.calculateVrgbDiff(Sample.Ydir.BOT);
+            final int[] leftRgb = sample.getRgbValues(Sample.Xdir.LEFT);
+            final int[] rightRgb = sample.getRgbValues(Sample.Xdir.RIGHT);
+            final int[] topRgb = sample.getRgbValues(Sample.Ydir.TOP);
+            final int[] botRgb = sample.getRgbValues(Sample.Ydir.BOT);
+            final Color left = cube.getTwoNearestColors(colorMap, leftRgb);
+            final Color right = cube.getTwoNearestColors(colorMap, rightRgb);
+            final Color top = cube.getTwoNearestColors(colorMap, topRgb);
+            final Color bot = cube.getTwoNearestColors(colorMap, botRgb);
+            final String totalBg = Cube.getBgCode(newChar);
+            if (leftDiff + offset < rightDiff && leftDiff + offset < topDiff && leftDiff + offset < botDiff) {
+                newChar = ColorUtil.CC + left.getBg() + ",";
+                if (left.getBg() != right.getBg()) {
+                    newChar = newChar + right.getBg() + ansiLeft;
+                } else if (left.getBg() != totalBg) {
+                    newChar = newChar + totalBg + ansiLeft;
+                } else {
+                    newChar = newChar + right.getFg() + ansiLeft;
+                }
+            }
+            if (rightDiff + offset < leftDiff && rightDiff + offset < topDiff && rightDiff + offset < botDiff) {
+                newChar = ColorUtil.CC + right.getBg() + ",";
+                if (right.getBg() != left.getBg()) {
+                    newChar = newChar + left.getBg() + ansiRight;
+                } else if (right.getBg() != totalBg) {
+                    newChar = newChar + totalBg + ansiRight;
+                } else {
+                    newChar = newChar + left.getFg() + ansiRight;
+                }
+            }
+            if (topDiff + offset < botDiff && topDiff + offset < leftDiff && topDiff + offset < rightDiff) {
+                newChar = ColorUtil.CC + top.getBg() + ",";
+                if (top.getBg() != bot.getBg()) {
+                    newChar = newChar + bot.getBg() + ansiUp;
+                } else if (top.getBg() != totalBg) {
+                    newChar = newChar + totalBg + ansiUp;
+                } else {
+                    newChar = newChar + bot.getFg() + ansiUp;
+                }
+            }
+            if (botDiff + offset < topDiff && botDiff + offset < leftDiff && botDiff + offset < rightDiff) {
+                newChar = ColorUtil.CC + bot.getBg() + ",";
+                if (bot.getBg() != top.getBg()) {
+                    newChar = newChar + top.getBg() + ansiDown;
+                } else if (bot.getBg() != totalBg) {
+                    newChar = newChar + totalBg + ansiDown;
+                } else {
+                    newChar = newChar + top.getFg() + ansiDown;
+                }
+            }
+            if (newChar.equals(oldChar)) { //char only
+                line.append(newChar.substring(newChar.length() - 1, newChar.length()));
+            } else {
+                line.append(ColorUtil.CC);
+                line.append(newChar);
+            }
+        }
+        line.append(ColorUtil.CC);
+        return ColorUtil.makeBlocksValid(line.toString());
+    }
+
+    /**
      * Generates a line in super hybrid mode and adds it to the presenter, which
      * will recall this method again with an increased y until all data is
      * converted.
@@ -105,6 +192,7 @@ public class Engine {
         String oldLeft;
         String newLeft = null;
         String newRight = null;
+        final int offset = settings.getOffset();
         for (int x = 0; x < width; x += ConversionMethod.SuperHybrid.getStep()) {
             final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
 
@@ -124,7 +212,7 @@ public class Engine {
             final Color leftBottomCol = cube.getTwoNearestColors(colorMap, leftBottomRgb);
             final Color rightTopCol = cube.getTwoNearestColors(colorMap, rightTopRgb);
             final Color rightBottomCol = cube.getTwoNearestColors(colorMap, rightBottomRgb);
-            final int offset = settings.getOffset();
+
             if (cube.isFirstCloserTo(leftBottomCol.getRgb(), leftTopCol.getRgb(), leftCol.getFgRgb(), offset)) {
                 newLeft = newLeft.substring(0, newLeft.length() - 1) + scheme.selectDown(); // _
             } else if (cube.isFirstCloserTo(leftTopCol.getRgb(), leftBottomCol.getRgb(), leftCol.getFgRgb(), offset)) {
