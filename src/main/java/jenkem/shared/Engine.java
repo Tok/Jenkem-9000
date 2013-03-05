@@ -58,8 +58,6 @@ public class Engine {
                 return generateHighDefLine(index);
             } else if (method.equals(ConversionMethod.SuperHybrid)) {
                 return generateSuperHybridLine(index);
-            } else if (method.equals(ConversionMethod.Pwntari)) {
-                return generatePwntariLine(index);
             } else if (method.equals(ConversionMethod.Hybrid)) {
                 return generateHybridLine(index);
             } else if (method.equals(ConversionMethod.Plain)) {
@@ -269,41 +267,6 @@ public class Engine {
         }
         line.append(ColorUtil.CC);
         return colorUtil.postProcessColoredRow(scheme, line.toString(), charset, settings);
-    }
-
-    /**
-     * Generates a line in Pwntari mode and adds it to the presenter, which will
-     * recall this method again with an increased y until all data is converted.
-     * @param index row of pixels in the imageRgb to convert
-     */
-    public final String generatePwntariLine(final int index) {
-        final StringBuilder line = new StringBuilder();
-        String oldLeft;
-        String newLeft = null;
-        String newRight = null;
-        for (int x = 0; x < width; x += ConversionMethod.Pwntari.getStep()) {
-            final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
-            oldLeft = newLeft;
-            newLeft = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.LEFT);
-            newRight = cube.getColorChar(colorMap, scheme, charset, sample, Sample.Xdir.RIGHT);
-            newLeft = newLeft.substring(0, newLeft.length() - 1) + scheme.selectDown(); // _
-            newRight = newRight.substring(0, newRight.length() - 1) + scheme.selectDown(); // _
-            if (newLeft.equals(oldLeft)) {
-                line.append(newLeft.substring(newLeft.length() - 1, newLeft.length()));
-            } else {
-                line.append(ColorUtil.CC);
-                line.append(newLeft);
-            }
-            if (newRight.equals(newLeft)) {
-                line.append(newRight.substring(newRight.length() - 1, newRight.length()));
-            } else {
-                line.append(ColorUtil.CC);
-                line.append(newRight);
-            }
-        }
-        line.append(ColorUtil.CC);
-        // postProcession is pointless for Pwntari mode.
-        return ColorUtil.makeBlocksValid(line.toString());
     }
 
     /**

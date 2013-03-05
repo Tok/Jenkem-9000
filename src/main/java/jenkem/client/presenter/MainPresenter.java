@@ -165,8 +165,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
                 method = getCurrentConversionMethod();
                 setKicksEnabled(!method.equals(ConversionMethod.FullHd));
                 display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
-                display.getPresetListBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
-                display.getPresetTextBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
+                display.getPresetListBox().setEnabled(true);
+                display.getPresetTextBox().setEnabled(true);
                 display.enableProcession(method.equals(ConversionMethod.SuperHybrid)
                         || method.equals(ConversionMethod.Hybrid)
                         || method.equals(ConversionMethod.Plain));
@@ -546,8 +546,8 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
     private void makeBusy(final boolean isBusy) {
         display.getUrlSetter().makeBusy(isBusy);
         display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
-        display.getPresetListBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
-        display.getPresetTextBox().setEnabled(!method.equals(ConversionMethod.Pwntari));
+        display.getPresetListBox().setEnabled(isBusy);
+        display.getPresetTextBox().setEnabled(isBusy);
         if (!isBusy) {
             display.getUrlSetter().setStatus("Enter URL to an image: ");
         }

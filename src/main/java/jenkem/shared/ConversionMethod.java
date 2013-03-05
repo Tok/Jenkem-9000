@@ -6,7 +6,6 @@ package jenkem.shared;
 public enum ConversionMethod {
     SuperHybrid("Super-Hybrid", true),
     FullHd("Full-HD", false),
-    Pwntari("Pwntari", true),
     Hybrid("Hybrid", true),
     Plain("Plain", true);
 
