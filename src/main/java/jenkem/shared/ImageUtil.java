@@ -12,7 +12,7 @@ public final class ImageUtil {
     private static final int BRIGHTNESS_SLIDER_ZERO_POS = 100;
     private static final int CONTRAST_SLIDER_ZERO_POS = 100;
 
-    private static final int MIN_BRIGHTNESS = -32;
+    private static final int MIN_BRIGHTNESS = -40;
     private static final int MAX_BRIGHTNESS = 32;
     private static final int MIN_CONTRAST = -16;
     private static final int MAX_CONTRAST = 32;
@@ -67,6 +67,7 @@ public final class ImageUtil {
      * @return default conversion method
      */
     public static ConversionMethod getDefaultMethod(final Map<String, Integer[]> imageRgb,
+            final boolean hasAnsi,
             final int width, final int height) {
         final int pixelCount = width * height;
         int countBw = 0;
@@ -76,7 +77,11 @@ public final class ImageUtil {
             }
         }
         final int bwRatio = Double.valueOf(countBw * MAX_PERCENT / pixelCount).intValue();
-        return bwRatio < BW_THRESHOLD ? ConversionMethod.SuperHybrid : ConversionMethod.Plain;
+        if (hasAnsi) { //don't use Plain.
+            return bwRatio < BW_THRESHOLD ? ConversionMethod.Vortacular : ConversionMethod.SuperHybrid;
+        } else {
+            return bwRatio < BW_THRESHOLD ? ConversionMethod.Vortacular : ConversionMethod.Plain;
+        }
     }
 
     /**

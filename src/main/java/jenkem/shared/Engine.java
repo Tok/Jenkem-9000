@@ -109,14 +109,14 @@ public class Engine {
         //logger.log(Level.INFO, "offset: " + offset);
         String oldChar;
         String newChar = null;
-        final String ansiUp = "▀";
-        final String ansiDown = "▄";
-        final String ansiLeft = "▌";
-        final String ansiRight = "▐";
+        final String upChar = scheme.getUp();
+        final String downChar = scheme.getDown();
+        final String leftChar = scheme.getLeft();
+        final String rightChar = scheme.getRight();
         for (int x = 0; x < width; x += ConversionMethod.Vortacular.getStep()) {
             final Sample sample = Sample.getInstance(imageRgb, x, index, contrast, brightness, width);
             oldChar = newChar;
-            newChar = cube.getColorChar(colorMap, scheme, " ░▒", sample);
+            newChar = cube.getColorChar(colorMap, scheme, charset, sample);
             final int leftDiff = sample.calculateHrgbDiff(Sample.Xdir.LEFT);
             final int rightDiff = sample.calculateHrgbDiff(Sample.Xdir.RIGHT);
             final int topDiff = sample.calculateVrgbDiff(Sample.Ydir.TOP);
@@ -133,41 +133,41 @@ public class Engine {
             if (leftDiff + offset < rightDiff && leftDiff + offset < topDiff && leftDiff + offset < botDiff) {
                 newChar = ColorUtil.CC + left.getBg() + ",";
                 if (left.getBg() != right.getBg()) {
-                    newChar = newChar + right.getBg() + ansiLeft;
+                    newChar = newChar + right.getBg() + leftChar;
                 } else if (left.getBg() != totalBg) {
-                    newChar = newChar + totalBg + ansiLeft;
+                    newChar = newChar + totalBg + leftChar;
                 } else {
-                    newChar = newChar + right.getFg() + ansiLeft;
+                    newChar = newChar + right.getFg() + leftChar;
                 }
             }
             if (rightDiff + offset < leftDiff && rightDiff + offset < topDiff && rightDiff + offset < botDiff) {
                 newChar = ColorUtil.CC + right.getBg() + ",";
                 if (right.getBg() != left.getBg()) {
-                    newChar = newChar + left.getBg() + ansiRight;
+                    newChar = newChar + left.getBg() + rightChar;
                 } else if (right.getBg() != totalBg) {
-                    newChar = newChar + totalBg + ansiRight;
+                    newChar = newChar + totalBg + rightChar;
                 } else {
-                    newChar = newChar + left.getFg() + ansiRight;
+                    newChar = newChar + left.getFg() + rightChar;
                 }
             }
             if (topDiff + offset < botDiff && topDiff + offset < leftDiff && topDiff + offset < rightDiff) {
                 newChar = ColorUtil.CC + top.getBg() + ",";
                 if (top.getBg() != bot.getBg()) {
-                    newChar = newChar + bot.getBg() + ansiUp;
+                    newChar = newChar + bot.getBg() + upChar;
                 } else if (top.getBg() != totalBg) {
-                    newChar = newChar + totalBg + ansiUp;
+                    newChar = newChar + totalBg + upChar;
                 } else {
-                    newChar = newChar + bot.getFg() + ansiUp;
+                    newChar = newChar + bot.getFg() + upChar;
                 }
             }
             if (botDiff + offset < topDiff && botDiff + offset < leftDiff && botDiff + offset < rightDiff) {
                 newChar = ColorUtil.CC + bot.getBg() + ",";
                 if (bot.getBg() != top.getBg()) {
-                    newChar = newChar + top.getBg() + ansiDown;
+                    newChar = newChar + top.getBg() + downChar;
                 } else if (bot.getBg() != totalBg) {
-                    newChar = newChar + totalBg + ansiDown;
+                    newChar = newChar + totalBg + downChar;
                 } else {
-                    newChar = newChar + top.getFg() + ansiDown;
+                    newChar = newChar + top.getFg() + downChar;
                 }
             }
             if (newChar.equals(oldChar)) { //char only

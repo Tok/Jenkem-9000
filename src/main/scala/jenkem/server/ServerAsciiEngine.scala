@@ -11,6 +11,7 @@ import jenkem.shared.Engine
 import jenkem.shared.ProcessionSettings
 import jenkem.shared.color.IrcColor
 import jenkem.shared.ColorScheme
+import jenkem.shared.CharacterSet
 
 /**
  * Converts images to colored ASCII on server.
@@ -61,7 +62,8 @@ class ServerAsciiEngine {
       x <- 0 until actualWidth
     } yield imageRgb.put(y + ":" + x, getRgb(scaled, x, y))
 
-    overrideMethod = jenkem.shared.ImageUtil.getDefaultMethod(imageRgb, actualWidth, actualHeight)
+    val chars = cs.charset.replaceAll("[,0-9]", "")
+    overrideMethod = jenkem.shared.ImageUtil.getDefaultMethod(imageRgb, CharacterSet.hasAnsi(chars), actualWidth, actualHeight)
     overrideScheme = jenkem.shared.ImageUtil.getDefaultColorScheme(imageRgb, actualWidth, actualHeight)
 
     if (!overrideScheme.name.equalsIgnoreCase(cs.scheme.name) && overrideScheme.name.equalsIgnoreCase(ColorScheme.Bwg.name)) {
@@ -73,7 +75,7 @@ class ServerAsciiEngine {
     } else {
       contrast = jenkem.shared.ImageUtil.getDefaultContrast(imageRgb, actualWidth, actualHeight) - 100
       brightness = jenkem.shared.ImageUtil.getDefaultBrightness(imageRgb, actualWidth, actualHeight) - 100
-      engine.setParams(imageRgb, actualWidth, cs.charset, contrast, brightness, ps)
+      engine.setParams(imageRgb, actualWidth, chars, contrast, brightness, ps)
       if (!overrideMethod.equals(ConversionMethod.Plain)) {
         val colorMap: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer]
         IrcColor.values.map(ic => colorMap.put(ic, ic.getOrder(cs.scheme)))

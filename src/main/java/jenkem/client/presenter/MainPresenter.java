@@ -118,11 +118,11 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         int getInitialContrast();
         int getInitialBrightness();
         RadioButton getKickButton(Kick kick);
-        Canvas getCanvas();
-        Widget asWidget();
         void resetProcession();
         void enableProcession(boolean enable);
         void makeWidgetsReady();
+        Canvas getCanvas();
+        Widget asWidget();
     }
 
     /**
@@ -163,13 +163,21 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         this.display.getMethodListBox().addChangeHandler(new ChangeHandler() {
             @Override public void onChange(final ChangeEvent event) {
                 method = getCurrentConversionMethod();
-                setKicksEnabled(!method.equals(ConversionMethod.FullHd));
+                setKicksEnabled(method.hasKick());
                 display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
                 display.getPresetListBox().setEnabled(true);
                 display.getPresetTextBox().setEnabled(true);
                 display.enableProcession(method.equals(ConversionMethod.SuperHybrid)
                         || method.equals(ConversionMethod.Hybrid)
                         || method.equals(ConversionMethod.Plain));
+
+                final String charset = display.getPresetTextBox().getText().replaceAll("[,0-9]", "");
+                if ((method.equals(ConversionMethod.Plain) || method.equals(ConversionMethod.SuperHybrid))
+                    && CharacterSet.hasAnsi(charset)) {
+                    //if charset has ANSI, set preset to hard for Plain and SuperHybrid
+                    display.getPresetListBox().setSelectedIndex(0); //hard
+                    display.getPresetTextBox().setText(CharacterSet.Hard.getCharacters());
+                }
                 startOrRestartConversion();
             }});
         this.display.getWidthListBox().addChangeHandler(new ChangeHandler() {
@@ -308,9 +316,6 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         image.addLoadHandler(new LoadHandler() {
             @Override public void onLoad(final LoadEvent event) {
                 int width = Integer.parseInt(display.getWidthListBox().getItemText(display.getWidthListBox().getSelectedIndex()));
-                //if (getCurrentConversionMethod().equals(ConversionMethod.Vortacular)) {
-                //    width = width * 2;
-                //}
                 display.getUrlSetter().addImage(image, width);
                 display.getUrlSetter().setStatus("Image loaded.");
                 display.getUrlSetter().focusShowButton();
@@ -323,12 +328,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      */
     private synchronized void doConversion() {
         isReady = false;
-        //if (image == null || !image.isAttached()) { return; }
-        //if (!isConversionRunnung || restartConversion) {
-            isConversionRunnung = true;
-            restartConversion = false;
-            doDeferredConversion();
-        //}
+        isConversionRunnung = true;
+        restartConversion = false;
+        doDeferredConversion();
     }
 
     /**
@@ -411,7 +413,7 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
         }
 
         if (makeInitsForImage) {
-            final boolean restart = determineDefaultsForImage(imageRgb, width, height);
+            final boolean restart = determineDefaultsForImage(imageRgb, CharacterSet.hasAnsi(charset), width, height);
             if (restart) { doDeferredConversion(); return; }
             makeInitsForImage = false;
         }
@@ -441,10 +443,10 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      * @return restartConversion
      */
     private synchronized boolean determineDefaultsForImage(final Map<String, Integer[]> imageRgb,
-            final int width, final int height) {
+            final boolean hasAnsi, final int width, final int height) {
         boolean restartConversion = false;
         // select default method
-        final ConversionMethod defaultMethod = ImageUtil.getDefaultMethod(imageRgb, width, height);
+        final ConversionMethod defaultMethod = ImageUtil.getDefaultMethod(imageRgb, hasAnsi, width, height);
         if (defaultMethod != method) {
             for (int i = 0; i < display.getMethodListBox().getItemCount(); i++) {
                 if (display.getMethodListBox().getItemText(i).equals(defaultMethod.getName())) {
@@ -554,9 +556,9 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
 
     private void makeBusy(final boolean isBusy) {
         display.getUrlSetter().makeBusy(isBusy);
-        display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
-        display.getPresetListBox().setEnabled(isBusy);
-        display.getPresetTextBox().setEnabled(isBusy);
+        //display.getIrcColorSetter().setEnabled(!method.equals(ConversionMethod.Plain));
+        //display.getPresetListBox().setEnabled(!isBusy);
+        //display.getPresetTextBox().setEnabled(!isBusy);
         if (!isBusy) {
             display.getUrlSetter().setStatus("Enter URL to an image: ");
         }
@@ -590,16 +592,21 @@ public class MainPresenter extends AbstractTabPresenter implements Presenter {
      */
     private synchronized void doReset() {
         display.getIrcColorSetter().reset();
-        display.getPresetListBox().setSelectedIndex(0); //hard
+        display.getPresetListBox().setSelectedIndex(2); //ansi
+        display.getPresetTextBox().setText(CharacterSet.Ansi.getCharacters());
+        display.getPresetListBox().setEnabled(true);
+        display.getPresetTextBox().setEnabled(true);
+        display.getProcessionSettingsPanel().setEnabled(false);
         display.getPowerListBox().setSelectedIndex(1); //quadratic
         resetContrastAndBrightness();
         display.getKickButton(Kick.Off).setValue(true);
         display.resetProcession();
-        determineDefaultsForImage(imageRgb, width, height);
+        final String charset = display.getPresetTextBox().getText().replaceAll("[,0-9]", "");
+        determineDefaultsForImage(imageRgb, CharacterSet.hasAnsi(charset), width, height);
     }
 
     /**
-     * Resets the constrast and the brightness.
+     * Resets the contrast and the brightness.
      */
     private synchronized void resetContrastAndBrightness() {
         method = getCurrentConversionMethod();

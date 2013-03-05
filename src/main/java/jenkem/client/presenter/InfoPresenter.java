@@ -81,14 +81,14 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
         display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
         row++;
 
+        display.getInfoList().setText(row, 0, "Vortacular:");
+        display.getInfoList().setText(row, 1, "This is the default method. It works best with ANSI characters. Will push four pixels into one character.");
+        row++;
         display.getInfoList().setText(row, 0, "Super-Hybrid:");
-        display.getInfoList().setText(row, 1, "This is the default method and combines the best of all other methods. The output is anti aliased on the ASCII level, taking a sample of four Pixels.");
+        display.getInfoList().setText(row, 1, "Combines the best of all other methods. Puts four pixels into two characters and the output is anti aliased on the ASCII level, taking a sample of four Pixels.");
         row++;
         display.getInfoList().setText(row, 0, "Full HD:");
-        display.getInfoList().setText(row, 1, "Tanslates the image pixel by pixel. It doesn't have any anti aliasing on the ASCII level. This mode is best suited for use with an ANSII character set.");
-        row++;
-        display.getInfoList().setText(row, 0, "Pwntari:");
-        display.getInfoList().setText(row, 1, "Doesn't use any ASCII palette. The output is only using the character \"_\" and creates the image by combining background- and foreground colors.");
+        display.getInfoList().setText(row, 1, "Tanslates the image pixel by pixel. It doesn't have any anti aliasing on the ASCII level.");
         row++;
         display.getInfoList().setText(row, 0, "Hybrid:");
         display.getInfoList().setText(row, 1, "Combines the plain method with the Full HD method. But uses anti aliasing on the ASCII level.");
@@ -135,6 +135,21 @@ public class InfoPresenter extends AbstractTabPresenter implements Presenter {
         display.getInfoList().setText(row, 0, "Bw:");
         display.getInfoList().setText(row, 1, "Only uses black and white. Works best for black & white images like stencils.");
         row++;
+
+        display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
+
+        addRest(row);
+    }
+
+    private void addRest(final int r) {
+        int row = r;
+        display.getInfoList().setText(row, 0, "Processing:");
+        display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+        row++;
+        display.getInfoList().setText(row, 0, "A higher value should yield a better resolution, but at the expense of noise.");
+        display.getInfoList().getFlexCellFormatter().setColSpan(row, 0, 2);
+        row++;
+
         display.getInfoList().setWidget(row++, 0, new HTML("&nbsp;"));
 
         display.getInfoList().setText(row, 0, "Contrast:");
