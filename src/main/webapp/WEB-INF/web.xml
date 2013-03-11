@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <display-name>Jenkem</display-name>
+    <context-param>
+        <description>Vaadin production mode</description>
+        <param-name>productionMode</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
     <servlet>
-        <servlet-name>jenkemService</servlet-name>
-        <servlet-class>jenkem.server.JenkemServiceImpl</servlet-class>
+        <servlet-name>Jenkem Application</servlet-name>
+        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+        <init-param>
+            <param-name>UI</param-name>
+            <param-value>jenkem.JenkemInit</param-value>
+        </init-param>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>Jenkem Application</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
-        <servlet-name>ircService</servlet-name>
-        <servlet-class>jenkem.server.IrcServiceImpl</servlet-class>
+        <servlet-name>htmlOutputServlet</servlet-name>
+        <servlet-class>jenkem.server.servlet.HtmlOutputServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>outputServlet</servlet-name>
-        <servlet-class>jenkem.server.servlet.OutputServlet</servlet-class>
-    </servlet>
+    <servlet-mapping>
+        <servlet-name>htmlOutputServlet</servlet-name>
+        <url-pattern>/jenkem/output</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>cssOutputServlet</servlet-name>
         <servlet-class>jenkem.server.servlet.CssOutputServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>ircOutputServlet</servlet-name>
-        <servlet-class>jenkem.server.servlet.IrcOutputServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>imageServlet</servlet-name>
-        <servlet-class>jenkem.server.servlet.ImageServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>jenkemService</servlet-name>
-        <url-pattern>/jenkem/jenkem</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ircService</servlet-name>
-        <url-pattern>/jenkem/ircService</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>outputServlet</servlet-name>
-        <url-pattern>/jenkem/output</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>cssOutputServlet</servlet-name>
         <url-pattern>/jenkem/cssOutput</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ircOutputServlet</servlet-name>
+        <servlet-class>jenkem.server.servlet.IrcOutputServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ircOutputServlet</servlet-name>
         <url-pattern>/jenkem/irc</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>imageServlet</servlet-name>
-        <url-pattern>/jenkem/image</url-pattern>
-    </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>Jenkem.html</welcome-file>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

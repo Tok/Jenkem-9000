@@ -2,7 +2,8 @@ package jenkem.server.servlet
 
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
-import jenkem.server.JenkemServiceImpl
+import jenkem.server.PersistenceService
+import jenkem.server.PersistenceService
 
 /**
  * Abstract Servlet for output
@@ -10,7 +11,7 @@ import jenkem.server.JenkemServiceImpl
 @SerialVersionUID(1111111111111111111L)
 abstract class AbstractOutputServlet extends HttpServlet {
   val encoding = "UTF-8"
-  val jenkemService: JenkemServiceImpl = new JenkemServiceImpl
+  val jenkemService = PersistenceService
 
   def obtainName(request: HttpServletRequest): String = {
     val extendedName = request.getParameter("name")

@@ -131,44 +131,16 @@ public class Engine {
             final Color bot = cube.getTwoNearestColors(colorMap, botRgb);
             final String totalBg = Cube.getBgCode(newChar);
             if (leftDiff + offset < rightDiff && leftDiff + offset < topDiff && leftDiff + offset < botDiff) {
-                newChar = ColorUtil.CC + left.getBg() + ",";
-                if (left.getBg() != right.getBg()) {
-                    newChar = newChar + right.getBg() + leftChar;
-                } else if (left.getBg() != totalBg) {
-                    newChar = newChar + totalBg + leftChar;
-                } else {
-                    newChar = newChar + right.getFg() + leftChar;
-                }
+                newChar = selectAppropriate(newChar, left.getBg(), right.getBg(), totalBg, right.getFg(), leftChar);
             }
             if (rightDiff + offset < leftDiff && rightDiff + offset < topDiff && rightDiff + offset < botDiff) {
-                newChar = ColorUtil.CC + right.getBg() + ",";
-                if (right.getBg() != left.getBg()) {
-                    newChar = newChar + left.getBg() + rightChar;
-                } else if (right.getBg() != totalBg) {
-                    newChar = newChar + totalBg + rightChar;
-                } else {
-                    newChar = newChar + left.getFg() + rightChar;
-                }
+                newChar = selectAppropriate(newChar, right.getBg(), left.getBg(), totalBg, left.getFg(), rightChar);
             }
             if (topDiff + offset < botDiff && topDiff + offset < leftDiff && topDiff + offset < rightDiff) {
-                newChar = ColorUtil.CC + top.getBg() + ",";
-                if (top.getBg() != bot.getBg()) {
-                    newChar = newChar + bot.getBg() + upChar;
-                } else if (top.getBg() != totalBg) {
-                    newChar = newChar + totalBg + upChar;
-                } else {
-                    newChar = newChar + bot.getFg() + upChar;
-                }
+                newChar = selectAppropriate(newChar, top.getBg(), bot.getBg(), totalBg, bot.getFg(), upChar);
             }
             if (botDiff + offset < topDiff && botDiff + offset < leftDiff && botDiff + offset < rightDiff) {
-                newChar = ColorUtil.CC + bot.getBg() + ",";
-                if (bot.getBg() != top.getBg()) {
-                    newChar = newChar + top.getBg() + downChar;
-                } else if (bot.getBg() != totalBg) {
-                    newChar = newChar + totalBg + downChar;
-                } else {
-                    newChar = newChar + top.getFg() + downChar;
-                }
+                newChar = selectAppropriate(newChar, bot.getBg(), top.getBg(), totalBg, top.getFg(), downChar);
             }
             if (newChar.equals(oldChar)) { //char only
                 line.append(newChar.substring(newChar.length() - 1, newChar.length()));
@@ -179,6 +151,21 @@ public class Engine {
         }
         line.append(ColorUtil.CC);
         return ColorUtil.makeBlocksValid(line.toString());
+    }
+
+    private String selectAppropriate(final String old, final String fix,
+            final String first, final String second, final String third,
+            final String character) {
+        final String prefix = ColorUtil.CC + fix + ",";
+        if (!fix.equals(first)) {
+            return prefix + first + character;
+        } else if (!fix.equals(second)) {
+            return prefix + second + character;
+        } else if (!fix.equals(third)) {
+            return prefix + third + character;
+        } else {
+            return old;
+        }
     }
 
     /**

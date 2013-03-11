@@ -16,6 +16,10 @@ public enum LineWidth {
         return String.valueOf(value);
     }
 
+    public int getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return name();

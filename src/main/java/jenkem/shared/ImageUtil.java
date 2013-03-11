@@ -12,13 +12,13 @@ public final class ImageUtil {
     private static final int BRIGHTNESS_SLIDER_ZERO_POS = 100;
     private static final int CONTRAST_SLIDER_ZERO_POS = 100;
 
-    private static final int MIN_BRIGHTNESS = -40;
+    private static final int MIN_BRIGHTNESS = -36;
     private static final int MAX_BRIGHTNESS = 32;
     private static final int MIN_CONTRAST = -16;
     private static final int MAX_CONTRAST = 32;
 
     private static final int BW_TOLERANCE = 25; //arbitrary value (absolute RGB * 3)
-    private static final int BW_THRESHOLD = 95; //arbitrary value (relative %)
+    private static final int BW_THRESHOLD = 50; //arbitrary value (relative %)
     private static final int COLOR_TOLERANCE = 20; //arbitrary value (absolute RGB)
     private static final int COLOR_THRESHOLD = 5; //arbitrary value (relative %)
     private static final double BRIGHTNESS_FACTOR = 0.78D; // ~100/128 (relative)
@@ -66,19 +66,21 @@ public final class ImageUtil {
      * @param id image data
      * @return default conversion method
      */
+    @Deprecated
     public static ConversionMethod getDefaultMethod(final Map<String, Integer[]> imageRgb,
             final boolean hasAnsi,
             final int width, final int height) {
+        //Doesn't make any sense like this when ANSI is set as default.
         final int pixelCount = width * height;
         int countBw = 0;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height - 1; y++) {
+            for (int x = 0; x < width - 1; x++) {
                 if (isBlackOrWhitePixel(imageRgb, x, y)) { countBw++; }
             }
         }
         final int bwRatio = Double.valueOf(countBw * MAX_PERCENT / pixelCount).intValue();
         if (hasAnsi) { //don't use Plain.
-            return bwRatio < BW_THRESHOLD ? ConversionMethod.Vortacular : ConversionMethod.SuperHybrid;
+            return ConversionMethod.Vortacular;
         } else {
             return bwRatio < BW_THRESHOLD ? ConversionMethod.Vortacular : ConversionMethod.Plain;
         }
@@ -94,8 +96,8 @@ public final class ImageUtil {
             final int width, final int height) {
         final int pixelCount = height * width;
         int countColorful = 0;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height - 2; y++) {
+            for (int x = 0; x < width - 2; x++) {
                 if (isPixelColorful(imageRgb, x, y)) { countColorful++; }
             }
         }
@@ -110,8 +112,8 @@ public final class ImageUtil {
      */
     private static int getMeanRgb(final Map<String, Integer[]> imageRgb, final int width, final int height) {
         long sum = 0L;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height - 2; y++) {
+            for (int x = 0; x < width - 2; x++) {
                 sum += getMeanRgbFromPixel(imageRgb, x, y);
             }
         }
@@ -121,8 +123,8 @@ public final class ImageUtil {
     private static int getMeanDev(final Map<String, Integer[]> imageRgb,
             final int width, final int height) {
         long sum = 0L;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height - 2; y++) {
+            for (int x = 0; x < width - 2; x++) {
                 sum += getRgbDeviationFromPixel(imageRgb, x, y);
             }
         }

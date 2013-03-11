@@ -34,10 +34,6 @@ class JenkemBot extends PircBot {
     }
   }
 
-  object UrlExtractor {
-    def unapply(u: java.net.URL) = Some((u.getProtocol, u.getHost, u.getPort, u.getPath))
-  }
-
   val engine = new ServerAsciiEngine
   var settings = new ConversionSettings
   var lastChan = ""
@@ -58,6 +54,7 @@ class JenkemBot extends PircBot {
    * Connects the jenkem bot to IRC and joins the selected channel.
    */
   def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {
+    settings.reset
     def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
       botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected,
         BotStatus.SendStatus.NotSending, network, channel, nick)
@@ -105,8 +102,8 @@ class JenkemBot extends PircBot {
     sendMessage(target, "Delay (ms): " + getMessageDelay + ", Width (chars): " + settings.width
         //+ ", Kick: " + settings.kick //TODO implement
         + ", Power: " + settings.power)
-    sendMessage(target, "Method: " + settings.method + ", Scheme: " + settings.scheme
-        + ", Charset: " + settings.charset)
+    sendMessage(target, "Method: " + settings.method + ", Scheme: " + settings.schemeName
+        + ", Charset: " + settings.chars)
   }
 
   /**
@@ -148,7 +145,7 @@ class JenkemBot extends PircBot {
   }
 
   def reset(target: String) {
-    settings = new ConversionSettings
+    settings.reset
     sendMessage(target, "Conversion settings have been resetted.")
   }
 
@@ -182,7 +179,7 @@ class JenkemBot extends PircBot {
   def setScheme(target: String, value: String) {
     try {
       val scheme = ColorScheme.getValueByName(value)
-      settings.scheme = scheme
+      settings.createColorMap(scheme)
       sendMessage(target, ConfigItem.SCHEME + " set to " + value)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
@@ -194,12 +191,12 @@ class JenkemBot extends PircBot {
     else {
       try {
         val charset = CharacterSet.getValueByName(value)
-        settings.charset = charset.getCharacters
+        settings.chars = charset.getCharacters
         sendMessage(target, ConfigItem.CHARSET + " set to " + charset.getCharacters)
       } catch {
         case iae: IllegalArgumentException =>
             val clean = value.replaceAll("[0-9],", "")
-            settings.charset = " " + clean
+            settings.chars = " " + clean
             sendMessage(target, ConfigItem.CHARSET + " set to " + clean)
       }
     }
@@ -248,12 +245,9 @@ class JenkemBot extends PircBot {
   }
 
   def convertAndPlay(channel: String, url: String) {
-    try {
-      new java.net.URL(url) match {
-        case UrlExtractor(protocol, host, port, path) => playImage(engine.generate(url, settings))
-      }
-    } catch {
-      case murle: MalformedURLException => sendMessage(channel, "Command unknown: " + url)
+    jenkem.UrlOptionizer.extract(url) match {
+      case Some(u) => playImage(engine.generate(url, settings))
+      case None => sendMessage(channel, "Command unknown: " + url)
     }
   }
 

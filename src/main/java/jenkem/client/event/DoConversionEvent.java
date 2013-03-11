@@ -7,10 +7,12 @@ import com.google.gwt.event.shared.GwtEvent;
  */
 public class DoConversionEvent extends GwtEvent<DoConversionEventHandler> {
     public static final Type<DoConversionEventHandler> TYPE = new Type<DoConversionEventHandler>();
-    private boolean proxify;
+    private boolean prepareImage;
+    private boolean resize;
 
-    public DoConversionEvent(final boolean proxify) {
-        this.proxify = proxify;
+    public DoConversionEvent(final boolean prepareImage, final boolean resize) {
+        this.prepareImage = prepareImage;
+        this.resize = resize;
     }
 
     @Override
@@ -23,11 +25,6 @@ public class DoConversionEvent extends GwtEvent<DoConversionEventHandler> {
         handler.onDoConversion(this);
     }
 
-    /**
-     * If true, the image must be proxyfied before conversion.
-     * @return proxify
-     */
-    public final boolean proxify() {
-        return proxify;
-    }
+    public final boolean prepareImage() { return prepareImage; }
+    public final boolean resize() { return resize; }
 }

@@ -1,0 +1,73 @@
+/* @import "../runo/runo.scss"; */
+@import "../reindeer/reindeer.scss";
+/* @import "../chameleon/chameleon.scss"; */
+
+@mixin jenkemtheme {
+/* @include runo; */
+   @include reindeer;
+/* @include chameleon; */
+
+  .v-select-optiongroup-horizontal { white-space: nowrap; }
+  .v-select-optiongroup-horizontal .v-select-option { display: inline-block; }
+  .v-select-optiongroup-horizontal .v-select-option .v-radiobutton { padding-right: 10px; }
+
+  .v-tabsheet-tabitem-selected { color: #464f52; }
+  .v-tabsheet-tabitem-selected:hover { color: #000000; }
+
+  .v-loading-indicator, .v-loading-indicator-delay, .v-loading-indicator-wait {
+    width: 100%;
+    height: 300%;
+    margin: 0;
+    background-position: 50%;
+    background-color: gray;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: .7;
+    -ms-filter: alpha(opacity=70);
+    filter: alpha(opacity=70);
+  }
+
+  .asciiLabel {
+    color: #000000;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 15px;
+  }
+  .sliderLabel { width: 30px; padding-right: 2px; text-align: right; }
+  .colorLabel { width: 25px; padding-right: 2px; text-align: right; }
+
+  .white { color: #000000; background: #ffffff; }
+  .white .v-slider-base { color: #000000; background: #ffffff; }
+  .black { color: #ffffff; background: #000000; }
+  .black .v-slider-base { color: #ffffff; background: #000000; }
+  .darkBlue { color: #ffffff; background: #00007f; }
+  .darkBlue .v-slider-base { color: #ffffff; background: #00007f; }
+  .darkGreen { color: #ffffff; background: #009300; }
+  .darkGreen .v-slider-base { color: #ffffff; background: #009300; }
+  .red { color: #ffffff; background: #ff0000; }
+  .red .v-slider-base { color: #ffffff; background: #ff0000; }
+  .brown { color: #ffffff; background: #7f0000; }
+  .brown .v-slider-base { color: #ffffff; background: #7f0000; }
+  .purple { color: #ffffff; background: #9c009c; }
+  .purple .v-slider-base { color: #ffffff; background: #9c009c; }
+  .orange { color: #000000; background: #fc7f00; }
+  .orange .v-slider-base { color: #000000; background: #fc7f00; }
+  .yellow { color: #000000; background: #ffff00; }
+  .yellow .v-slider-base { color: #000000; background: #ffff00; }
+  .green { color: #000000; background: #00ff00; }
+  .green .v-slider-base { color: #000000; background: #00ff00; }
+  .teal { color: #ffffff; background: #009393; }
+  .teal .v-slider-base { color: #ffffff; background: #009393; }
+  .cyan { color: #000000; background: #00ffff; }
+  .cyan .v-slider-base { color: #000000; background: #00ffff; }
+  .blue { color: #ffffff; background: #0000ff; }
+  .blue .v-slider-base { color: #ffffff; background: #0000ff; }
+  .magenta { color: #000000; background: #ff00ff; }
+  .magenta .v-slider-base { color: #000000; background: #ff00ff; }
+  .gray { color: #ffffff; background: #7f7f7f; }
+  .gray .v-slider-base { color: #ffffff; background: #7f7f7f; }
+  .lightGray { color: #000000; background: #d2d2d2; }
+  .lightGray .v-slider-base { color: #000000; background: #d2d2d2; }
+
+}

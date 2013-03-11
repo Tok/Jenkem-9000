@@ -9,24 +9,26 @@
 	<name>Jenkem</name>
 
 	<properties>
-		<scalaVersion>2.9.2</scalaVersion>
-		<javaVersion>1.6</javaVersion><!-- not used by gwt plugin -->
-		<gwtVersion>2.5.0</gwtVersion>
+		<scalaVersion>2.10.0</scalaVersion>
+		<javaVersion>1.6</javaVersion>
+        <vaadinVersion>7.0.1</vaadinVersion>
 		<pircbotVersion>1.5.0</pircbotVersion>
-		<datanucleusVersion>3.2.0-m1</datanucleusVersion>
+		<datanucleusVersion>3.1.3</datanucleusVersion>
 		<datanucleusEnhancerVersion>3.1.1</datanucleusEnhancerVersion>
-		<junitVersion>4.10</junitVersion>
+		<junitVersion>4.11</junitVersion>
 		<validationApiVersion>1.0.0.GA</validationApiVersion>
+        <!-- -->
 		<openshiftNamespace>9000</openshiftNamespace>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- http://maven.apache.org/plugins/index.html -->
 		<!-- building -->
 		<mavenDependencyPluginVersion>2.6</mavenDependencyPluginVersion>
 		<mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
 		<mavenCompilerPluginVersion>3.0</mavenCompilerPluginVersion>
 		<mavenDatanucleusPluginVersion>${datanucleusVersion}</mavenDatanucleusPluginVersion>
-		<mavenGwtPluginVersion>${gwtVersion}</mavenGwtPluginVersion>
 		<mavenWarPluginVersion>2.3</mavenWarPluginVersion>
-		<mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
+        <mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
+        <jbossAsMavenPluginVersion>7.4.Final</jbossAsMavenPluginVersion>
 		<!-- reporting -->
 		<mavenCheckstylePluginVersion>2.9.1</mavenCheckstylePluginVersion>
 		<mavenSurefirePluginVersion>2.12.4</mavenSurefirePluginVersion>
@@ -36,8 +38,6 @@
 		<mavenTaglistPluginVersion>2.4</mavenTaglistPluginVersion>
 		<mavenProjectInfoReportsPluginVersion>2.6</mavenProjectInfoReportsPluginVersion>
 		<mavenSitePluginVersion>3.2</mavenSitePluginVersion>
-		<!-- -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<repositories>
@@ -59,6 +59,10 @@
 			<id>DN_M2_Repo</id>
 			<url>http://www.datanucleus.org/downloads/maven2/</url>
 		</repository>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -75,14 +79,40 @@
 	</pluginRepositories>
 
 	<dependencies>
+	    <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client-compiled</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-shared</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-themes</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>3.0.0.Final-redhat-1</version>
+			<version>3.0.1.Final-redhat-1</version>
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+ 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>${scalaVersion}</version>
@@ -96,18 +126,6 @@
 			<groupId>pircbot</groupId>
 			<artifactId>pircbot</artifactId>
 			<version>${pircbotVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-servlet</artifactId>
-			<version>${gwtVersion}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-			<version>${gwtVersion}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -131,12 +149,12 @@
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>2.9.3</version>
+			<version>2.10.1</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.jdo</groupId>
 			<artifactId>jdo-api</artifactId>
-			<version>3.0</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.datanucleus</groupId>
@@ -159,13 +177,6 @@
 			<artifactId>datanucleus-enhancer</artifactId>
 			<version>${datanucleusEnhancerVersion}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.kiouri.sliderbar</groupId>
-			<artifactId>gwt-slider-bar</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/gwt-slider-bar-1.0.jar</systemPath>
 		</dependency>
 	</dependencies>
 
@@ -284,6 +295,7 @@
 						<include>**/*.scala</include>
 					</includes>
 					<verbose>true</verbose>
+        			<scalaVersion>${scalaVersion}</scalaVersion>					
 				</configuration>
 			</plugin>
 			<plugin>
@@ -314,21 +326,11 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<version>${mavenGwtPluginVersion}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadinVersion}</version>
+            </plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>${mavenWarPluginVersion}</version>
@@ -336,7 +338,7 @@
 			<plugin>
 				<groupId>org.jboss.as.plugins</groupId>
 				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>7.1.0.Final</version>
+				<version>${jbossAsMavenPluginVersion}</version>
 				<configuration>
 					<hostname>localhost</hostname>
 					<port>9999</port>

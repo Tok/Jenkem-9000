@@ -70,12 +70,8 @@ public class Scheme {
      */
     private String getChar(final double relStrength, final String charset) {
         double strength = relStrength;
-        if (relStrength > 1) {
-            strength = 1.0D;
-        }
-        if (relStrength < 0) {
-            strength = 0.0D;
-        }
+        if (relStrength > 1) { strength = 1.0D; }
+        if (relStrength < 0) { strength = 0.0D; }
         final double th = 1.0 / charset.length();
         String ret = "";
         for (int i = 0; i < charset.length(); i++) {

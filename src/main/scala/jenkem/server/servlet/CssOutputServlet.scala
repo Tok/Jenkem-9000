@@ -2,7 +2,6 @@ package jenkem.server.servlet
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import jenkem.server.JenkemServiceImpl
 
 /**
  * Servlet to retrieve and return stored CSS.

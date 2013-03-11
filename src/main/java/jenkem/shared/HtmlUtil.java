@@ -1,13 +1,14 @@
 package jenkem.shared;
 
 import java.util.List;
+import com.vaadin.server.Page;
 import jenkem.shared.color.ColorUtil;
-import com.google.gwt.user.client.Window;
 
 /**
  * Utility class to turn conversions into their HTML representation.
  */
 public class HtmlUtil {
+    private static final String HOST = "https://jenkem-9000.rhcloud.com";
     private static final String SEP = "\n";
     private static final String CHARSET = "UTF-8";
     private static final String DOCTYPE = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\""
@@ -148,12 +149,14 @@ public class HtmlUtil {
         appendLineToBuilder(html, "</div>");
 
         html.append("<div class=\"validator\">");
-        html.append("<a href=\"http://validator.w3.org/check?uri=" + getHtmlUrl(name) + "\">");
-        html.append("<img src=\"/images/valid-html401.png\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
+        html.append("<a href=\"http://validator.w3.org/check?uri="
+            + HOST + getHtmlUrl(name) + "\">");
+        html.append("<img src=\"/VAADIN/images/valid-html.png\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\">");
         html.append("</a>");
         if (!method.equals(ConversionMethod.Plain)) {
-            html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=" + getCssUrl(name) + "&amp;profile=css3\">");
-            html.append("<img src=\"/images/vcss.gif\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
+            html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri="
+                + HOST + getCssUrl(name) + "&amp;profile=css3\">");
+            html.append("<img src=\"/VAADIN/images/valid-css.png\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\">");
             html.append("</a>");
         }
         appendLineToBuilder(html, "</div>");
@@ -178,7 +181,7 @@ public class HtmlUtil {
         newInlineCss.append("<style type=\"text/css\">\n");
         for (final String line : cssLines) {
             if (line.startsWith("div {")) {
-                newInlineCss.append(".jenkem { font-family: monospace; font-weight: bold; font-size: x-small }");
+                newInlineCss.append(".jenkem { font-family: monospace; font-weight: bold; font-size: 10px; line-height: 12px; }");
             } else if (!line.startsWith("form {")
                     && !line.startsWith("body {")
                     && !line.startsWith("html {")) {
@@ -215,7 +218,7 @@ public class HtmlUtil {
      * @return url
      */
     public static String getHtmlUrl(final String name) {
-        return obtainProtocolAndHost() + "/jenkem/output?name=" + name + ".html";
+        return "/jenkem/output?name=" + name + ".html";
     }
 
     /**
@@ -224,7 +227,7 @@ public class HtmlUtil {
      * @return url
      */
     public static String getCssUrl(final String name) {
-        return obtainProtocolAndHost() + "/jenkem/cssOutput?name=" + name + ".css";
+        return "/jenkem/cssOutput?name=" + name + ".css";
     }
 
     /**
@@ -233,24 +236,33 @@ public class HtmlUtil {
      * @return url
      */
     public static String getIrcUrl(final String name) {
-        return obtainProtocolAndHost() + "/jenkem/irc?name=" + name + ".txt";
+        return "/jenkem/irc?name=" + name + ".txt";
     }
 
     /**
      * Returns protocol and host. insecure for local os ssl for production mode.
      * @return protocol string
      */
+    @SuppressWarnings("unused")
+    @Deprecated
     private static String obtainProtocolAndHost() {
         final String protocol = isLocal() ? "http://" : "https://";
-        return protocol + Window.Location.getHost();
+        final String host = Page.getCurrent().getLocation().getHost();
+        final int port = Page.getCurrent().getLocation().getPort();
+        return protocol + host + ":" + port;
+        //return protocol + Window.Location.getHost(); //GWT
     }
 
     /**
      * Decides if app runs on localhost.
      * @return isLocal
      */
+    @Deprecated
     private static boolean isLocal() {
-        return Window.Location.getHost().equals("127.0.0.1:8080");
+        final String host = Page.getCurrent().getLocation().getHost();
+        final int port = Page.getCurrent().getLocation().getPort();
+        return (host + ":" + port).equals("127.0.0.1:8080");
+        //return Window.Location.getHost().equals("127.0.0.1:8080"); //GWT
     }
 
     /**

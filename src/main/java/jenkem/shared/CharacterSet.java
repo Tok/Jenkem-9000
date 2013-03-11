@@ -76,6 +76,6 @@ public enum CharacterSet {
 
     @Override
     public String toString() {
-        return characters;
+        return name();
     }
 }
