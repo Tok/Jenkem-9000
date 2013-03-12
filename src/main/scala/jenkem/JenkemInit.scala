@@ -11,6 +11,8 @@ import com.vaadin.ui.Image
 import com.vaadin.ui.Label
 import com.vaadin.ui.UI
 import com.vaadin.ui.VerticalLayout
+import com.vaadin.event.EventRouter
+import jenkem.ui.TabController
 
 @Theme("jenkemtheme")
 class JenkemInit extends UI {
@@ -18,6 +20,8 @@ class JenkemInit extends UI {
     val titleLayout = new HorizontalLayout
     val layout = new VerticalLayout
     layout.setSpacing(true)
+
+    val eventRouter = new EventRouter
 
     val asciiLabel = new Label(
       "      __           _                             ________  _______  _______  _______ \n"
@@ -39,7 +43,7 @@ class JenkemInit extends UI {
     layout.addComponent(titleLayout)
     layout.setComponentAlignment(titleLayout, Alignment.TOP_CENTER)
 
-    val tc = new jenkem.ui.TabController
+    val tc = new TabController(eventRouter)
 
     val tabSheet = tc.getTabSheet(Page.getCurrent)
     layout.addComponent(tabSheet)

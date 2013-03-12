@@ -48,7 +48,7 @@ import jenkem.ui.IrcColorSetter
 import jenkem.ui.IrcConnector
 import jenkem.ui.OutputDisplay
 
-class MainTab extends VerticalLayout {
+class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val engine = new Engine
   val htmlUtil = new HtmlUtil
 
@@ -76,8 +76,6 @@ class MainTab extends VerticalLayout {
   mainLayout.setSpacing(true)
   val settingsLayout = new VerticalLayout
   settingsLayout.setSpacing(true)
-
-  val eventRouter = new EventRouter
 
   val imagePreparer = new ImagePreparer(eventRouter)
   imagePreparer.enableSubmission(false)
@@ -184,8 +182,6 @@ class MainTab extends VerticalLayout {
     }}, "convert")
   eventRouter.addListener(classOf[SendToIrcEvent],
       new { def send { ircConnector.sendToIrc(ircOutput) }}, "send")
-  eventRouter.addListener(classOf[SaveImageEvent],
-      new { def save { saveImage }}, "save")
 
   doReset
 

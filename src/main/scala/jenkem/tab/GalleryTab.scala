@@ -1,19 +1,18 @@
 package jenkem.tab
 
 import scala.collection.JavaConversions.asScalaBuffer
-
 import com.vaadin.data.util.BeanItemContainer
 import com.vaadin.server.ExternalResource
 import com.vaadin.ui.Link
 import com.vaadin.ui.Table
 import com.vaadin.ui.VerticalLayout
-
 import jenkem.AwtImageUtil
 import jenkem.server.PersistenceService
 import jenkem.shared.HtmlUtil
 import jenkem.shared.data.ImageInfo
+import com.vaadin.event.EventRouter
 
-class GalleryTab extends VerticalLayout {
+class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   setCaption("Gallery")
   setSizeFull
   setMargin(true)
@@ -65,8 +64,6 @@ class GalleryTab extends VerticalLayout {
   table.addContainerProperty("creation", classOf[String], null)
 
   val bic = new BeanItemContainer[ImageInfoBean](classOf[ImageInfoBean])
-  val info: java.util.ArrayList[ImageInfo] = PersistenceService.getAllImageInfo
-  info.toList.map(info => bic.addItem(new ImageInfoBean(info)))
   table.setContainerDataSource(bic)
 
   table.setVisibleColumns(Array[Object](
@@ -92,4 +89,12 @@ class GalleryTab extends VerticalLayout {
   table.setColumnHeader("creation", "Creation Date")
 
   addComponent(table)
+
+  update
+
+  def update {
+    bic.removeAllItems
+    val info: java.util.ArrayList[ImageInfo] = PersistenceService.getAllImageInfo
+    info.toList.map(info => bic.addItem(new ImageInfoBean(info)))
+  }
 }

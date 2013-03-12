@@ -1,21 +1,21 @@
 package jenkem.ui
 
 import scala.collection.immutable.ListMap
-
 import com.vaadin.server.Page
 import com.vaadin.ui.TabSheet
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent
-
 import jenkem.tab.GalleryTab
 import jenkem.tab.InfoTab
 import jenkem.tab.MainTab
+import com.vaadin.event.EventRouter
+import jenkem.event.SaveImageEvent
 
-class TabController {
+class TabController(val eventRouter: EventRouter) {
   var isReady = false
   val defaultUrl = "http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png"
   val tabSheet = new TabSheet
-  val mainTab = new MainTab
-  val galleryTab = new GalleryTab
+  val mainTab = new MainTab(eventRouter)
+  val galleryTab = new GalleryTab(eventRouter)
   val infoTab = new InfoTab
   val tabs = ListMap(
     mainTab.getCaption.toLowerCase -> mainTab,
@@ -56,4 +56,11 @@ class TabController {
       mainTab.setLink(defaultUrl)
     }
   }
+
+  eventRouter.addListener(classOf[SaveImageEvent],
+    new { def save {
+      mainTab.saveImage
+      galleryTab.update
+    }}, "save")
+
 }
