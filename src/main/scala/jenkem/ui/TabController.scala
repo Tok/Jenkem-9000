@@ -31,7 +31,14 @@ class TabController(val eventRouter: EventRouter) {
         if (isReady) {
           val tabsheet = event.getTabSheet
           val tab = tabsheet.getTab(tabsheet.getSelectedTab)
-          if (tab != null) { page.setUriFragment(tab.getCaption.toLowerCase) }
+          if (tab != null) {
+            if (tab.getCaption.toLowerCase.equals("main") && !mainTab.hasLink) {
+              page.setUriFragment(tab.getCaption.toLowerCase + "/" + defaultUrl)
+              mainTab.setLink(defaultUrl)
+            } else {
+              page.setUriFragment(tab.getCaption.toLowerCase)
+            }
+          }
         }
       }
     })
@@ -64,5 +71,4 @@ class TabController(val eventRouter: EventRouter) {
       mainTab.saveImage
       galleryTab.update
     }}, "save")
-
 }

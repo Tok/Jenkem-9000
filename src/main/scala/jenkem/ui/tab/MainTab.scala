@@ -185,6 +185,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   doReset
 
   def setLink(link: String) = imagePreparer.setLink(link)
+  def hasLink = imagePreparer.hasLink
   def makeComboBox(caption: String): NativeSelect = {
     val box = new NativeSelect
     box.setNullSelectionAllowed(false)

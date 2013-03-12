@@ -108,6 +108,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   }
 
   def replaceImage(url: URL) = stupidCrop.replaceImage(url)
+  def hasLink = inputTextField.getValue != null && !inputTextField.getValue.equals("")
   def setLink(link: String) {
     UrlOptionizer.extract(link) match {
       case Some(u) =>
