@@ -22,7 +22,7 @@
 
     <servlet>
         <servlet-name>htmlOutputServlet</servlet-name>
-        <servlet-class>jenkem.server.servlet.HtmlOutputServlet</servlet-class>
+        <servlet-class>jenkem.servlet.HtmlOutputServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>htmlOutputServlet</servlet-name>
@@ -31,7 +31,7 @@
 
     <servlet>
         <servlet-name>cssOutputServlet</servlet-name>
-        <servlet-class>jenkem.server.servlet.CssOutputServlet</servlet-class>
+        <servlet-class>jenkem.servlet.CssOutputServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>cssOutputServlet</servlet-name>
@@ -40,7 +40,7 @@
 
     <servlet>
         <servlet-name>ircOutputServlet</servlet-name>
-        <servlet-class>jenkem.server.servlet.IrcOutputServlet</servlet-class>
+        <servlet-class>jenkem.servlet.IrcOutputServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ircOutputServlet</servlet-name>
