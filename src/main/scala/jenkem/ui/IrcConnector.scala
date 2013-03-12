@@ -32,17 +32,17 @@ class IrcConnector(eventBus: HandlerManager) extends GridLayout {
   //4 [Label ][Status][Button]
 
   val networkCaption = new Label("IRC Network: ")
-  networkCaption.setWidth("100px")
+  networkCaption.setWidth("150px")
   val networkBox = new TextField
-  networkBox.setWidth("260px")
+  networkBox.setWidth("210px")
   val portBox = new TextField
   portBox.setWidth("40px")
   val channelCaption = new Label("Channel: ")
   val channelBox = new TextField
-  channelBox.setWidth("300px")
+  channelBox.setWidth("250px")
   val nickCaption = new Label("Nick: ")
   val nickBox = new TextField
-  nickBox.setWidth("300px")
+  nickBox.setWidth("250px")
   val actionCaption = new Label("Actions: ")
   val buttonLayout = new GridLayout
   val connectButton = new Button("Connect")
@@ -51,7 +51,7 @@ class IrcConnector(eventBus: HandlerManager) extends GridLayout {
   val statusCaption = new Label("Status: ")
   val statusLayout = new VerticalLayout
   val statusLabel = new Label("")
-  statusLabel.setWidth("300px")
+  statusLabel.setWidth("250px")
   val refreshButton = new Button("Refresh Bot Status")
 
   //addComponent(component, column1, row1, column2, row2)

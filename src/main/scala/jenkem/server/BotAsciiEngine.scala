@@ -40,9 +40,11 @@ class ServerAsciiEngine {
   }
 
   def prepare(url: String, cs: ConversionSettings): Int = {
-    val (originalWidth, originalHeight) = AwtImageUtil.getImageSize(url, "black")
+    val originalImage = AwtImageUtil.bufferImage(url, "black")
+    val originalWidth = originalImage.getWidth
+    val originalHeight = originalImage.getHeight
     val (width, height) = AwtImageUtil.calculateNewSize(cs.method, cs.width, originalWidth, originalHeight)
-    val imageRgb = AwtImageUtil.getImageRgb(url, "black", width, height, cs.kick)
+    val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, cs.kick)
 
     //TODO make changeable from bot
     val ps: ProcessionSettings = new ProcessionSettings(32, true, true, true, true, false)

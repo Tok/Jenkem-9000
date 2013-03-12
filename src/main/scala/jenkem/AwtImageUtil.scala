@@ -18,32 +18,40 @@ import sun.misc.BASE64Decoder
 import sun.misc.BASE64Encoder
 
 object AwtImageUtil {
+  val defaultCrops = (0, 100, 0, 100) //xs, xe, ys, ye
+  val colorWhite = new Color(255, 255, 255)
+  val colorBlack = new Color(0, 0, 0)
+
   def bufferImage(url: String, bg: String): BufferedImage = {
+    bufferImage(url, bg, defaultCrops)
+  }
+  def bufferImage(url: String, bg: String, crops: (Int, Int, Int, Int)): BufferedImage = {
     val image = ImageIO.read(new URL(url))
-    val color = if (bg.equalsIgnoreCase("white")) {
-      new Color(255, 255, 255)
-    } else {
-      new Color(0, 0, 0)
-    }
-    val buffered = new BufferedImage(image.getWidth, image.getHeight, BufferedImage.TYPE_INT_ARGB)
+    val color = if (bg.equalsIgnoreCase("white")) { colorWhite } else { colorBlack }
+    val xs = crops._1
+    val xe = crops._2
+    val ys = 100 - crops._4 //switched to translate..
+    val ye = 100 - crops._3 //..from bottom left to top left
+    val cropX = (image.getWidth * xs) / 100
+    val cropY = (image.getHeight * ys) / 100
+    val cropW = (image.getWidth * (xe - xs)) / 100
+    val cropH = (image.getHeight * (ye - ys)) / 100
+    val buffered = new BufferedImage(cropW, cropH, BufferedImage.TYPE_INT_ARGB)
     buffered.getGraphics match {
-        case g2d:Graphics2D =>
-            g2d.setBackground(color)
-            g2d.clearRect(0, 0, image.getWidth, image.getHeight)
-            g2d.drawImage(image, null, null)
+      case g2d:Graphics2D =>
+        g2d.setBackground(color)
+        g2d.clearRect(0, 0, cropW, cropH)
+        val subimage = image.getSubimage(cropX, cropY, cropW, cropH)
+        g2d.drawImage(subimage, null, null)
     }
     buffered
   }
-  def getImageSize(url: String, bg: String): (Int, Int) = {
-    val image = bufferImage(url, bg)
-    (image.getWidth, image.getHeight)
-  }
-  def getImageRgb(url: String, bg: String, width: Int, height: Int, kick: Kick): java.util.Map[String, Array[java.lang.Integer]] = {
+  def getImageRgb(img: BufferedImage, width: Int, height: Int, kick: Kick): java.util.Map[String, Array[java.lang.Integer]] = {
     def getRgb(img: BufferedImage, x: Int, y: Int): Array[java.lang.Integer] = {
       val argb = img.getRGB(x, y)
       Array((argb >> 16) & 0xff, (argb >> 8) & 0xff, (argb) & 0xff)
     }
-    val scaled = resize(bufferImage(url, bg), width, height)
+    val scaled = resize(img, width, height)
     val imageRgb = new java.util.HashMap[String, Array[java.lang.Integer]]()
     for {
       y <- 0 until height - (2 * kick.getYOffset)
@@ -54,7 +62,7 @@ object AwtImageUtil {
   def calculateNewSize(method: ConversionMethod, lineWidth: Int,
           originalWidth: Int, originalHeight: Int): (Int, Int) = {
       val factor = if (method.equals(ConversionMethod.Vortacular)) { 2 } else { 1 }
-      val width = math.min(lineWidth * factor, originalWidth)
+      val width = lineWidth * factor
       val divisor = if (method.hasKick || method.equals(ConversionMethod.Vortacular)) { 1 } else { 2 }
       val height = ((lineWidth / divisor) * originalHeight) / originalWidth
       (width, height)
@@ -67,14 +75,12 @@ object AwtImageUtil {
       g.dispose
       resized
     }
-  def makeIcon(url: String, bg: String) = {
-    val buffered = bufferImage(url, bg)
+  def makeIcon(url: String, bg: String, crops: (Int, Int, Int, Int)) = {
+    val buffered = bufferImage(url, bg, crops)
     resize(buffered, 32, 32)
   }
   def makeVaadinResource(img: BufferedImage, name: String) = {
     class IconSource extends StreamResource.StreamSource {
-      //val imagebuffer: ByteArrayOutputStream = null
-      //val reloads = 0
       def getStream(): InputStream = {
         try {
           val imagebuffer = new ByteArrayOutputStream

@@ -2,7 +2,9 @@ package jenkem.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
+
 import scala.collection.JavaConversions.seqAsJavaList
+
 import com.google.gwt.event.shared.HandlerManager
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
@@ -20,12 +22,20 @@ import com.vaadin.ui.OptionGroup
 import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
+
 import jenkem.AwtImageUtil
+import jenkem.client.event.DoConversionEvent
+import jenkem.client.event.DoConversionEventHandler
+import jenkem.client.event.SaveImageEvent
+import jenkem.client.event.SaveImageEventHandler
+import jenkem.client.event.SendToIrcEvent
+import jenkem.client.event.SendToIrcEventHandler
 import jenkem.server.PersistenceService
 import jenkem.shared.CharacterSet
 import jenkem.shared.ConversionMethod
 import jenkem.shared.Engine
 import jenkem.shared.HtmlUtil
+import jenkem.shared.ImageUtil
 import jenkem.shared.Kick
 import jenkem.shared.LineWidth
 import jenkem.shared.Power
@@ -35,22 +45,11 @@ import jenkem.shared.data.ImageHtml
 import jenkem.shared.data.ImageInfo
 import jenkem.shared.data.ImageIrc
 import jenkem.shared.data.JenkemImage
+import jenkem.ui.ImagePreparer
 import jenkem.ui.Inline
 import jenkem.ui.IrcColorSetter
 import jenkem.ui.IrcConnector
-import jenkem.ui.OutputHandler
-import jenkem.client.event.DoConversionEvent
-import jenkem.client.event.SendToIrcEvent
-import jenkem.client.event.SaveImageEvent
-import jenkem.client.event.DoConversionEventHandler
-import jenkem.client.event.SendToIrcEventHandler
-import jenkem.client.event.SaveImageEventHandler
-import java.net.MalformedURLException
-import com.vaadin.ui.Window
-import com.vaadin.ui.PopupView
-import com.vaadin.server.Page
-import com.vaadin.ui.Notification
-import jenkem.shared.ImageUtil
+import jenkem.ui.OutputDisplay
 
 class MainTab extends VerticalLayout {
   val engine = new Engine
@@ -82,8 +81,9 @@ class MainTab extends VerticalLayout {
   settingsLayout.setSpacing(true)
 
   val eventBus = new HandlerManager(null)
-  val urlSetter = new jenkem.ui.UrlSetter(eventBus)
-  addComponent(urlSetter)
+  val imagePreparer = new ImagePreparer(eventBus)
+  imagePreparer.enableSubmission(false)
+  addComponent(imagePreparer)
   addComponent(mainLayout)
 
   val inline = new Inline
@@ -129,8 +129,8 @@ class MainTab extends VerticalLayout {
   val ircColorSetter = new IrcColorSetter(eventBus)
   settingsLayout.addComponent(ircColorSetter)
   settingsLayout.addComponent(new Label("&nbsp;", ContentMode.HTML))
-  val outputHandler = new OutputHandler(eventBus)
-  settingsLayout.addComponent(outputHandler)
+  val outputDisplay = new OutputDisplay
+  settingsLayout.addComponent(outputDisplay)
   settingsLayout.addComponent(new Label("&nbsp;", ContentMode.HTML))
   val ircConnector = new IrcConnector(eventBus)
   settingsLayout.addComponent(ircConnector)
@@ -194,8 +194,7 @@ class MainTab extends VerticalLayout {
 
   doReset
 
-  def setLink(link: String) = urlSetter.setLink(link)
-
+  def setLink(link: String) = imagePreparer.setLink(link)
   def makeComboBox(caption: String): NativeSelect = {
     val box = new NativeSelect
     box.setNullSelectionAllowed(false)
@@ -267,19 +266,24 @@ class MainTab extends VerticalLayout {
   }
 
   def doPrepareImage(url: String) {
-    val icon = AwtImageUtil.makeIcon(url, bgSelect.getValue.toString)
-    outputHandler.addIcon(icon)
-    outputHandler.setName(url.split("/").last)
-    imagePrep = new ImagePreparationData(icon, outputHandler.getName)
+    val crops = imagePreparer.getCrops
+    val icon = AwtImageUtil.makeIcon(url, bgSelect.getValue.toString, crops)
+    imagePreparer.addIcon(icon)
+    imagePreparer.setName(url.split("/").last)
+    imagePreparer.enableSubmission(true)
+    imagePrep = new ImagePreparationData(icon, imagePreparer.getName)
   }
 
   def doPrepareImageData(url: String) {
     val kick = Kick.valueOf(kickSelect.getValue.toString)
-    val (originalWidth, originalHeight) = AwtImageUtil.getImageSize(url, bgSelect.getValue.toString)
+    val crops = imagePreparer.getCrops
+    val originalImage = AwtImageUtil.bufferImage(url, bgSelect.getValue.toString, crops)
+    val originalWidth = originalImage.getWidth
+    val originalHeight = originalImage.getHeight
     val lineWidth = widthBox.getValue.toString.toInt
     val method = ConversionMethod.getValueByName(methodBox.getValue.toString)
     val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
-    val imageRgb = AwtImageUtil.getImageRgb(url, bgSelect.getValue.toString, width, height, kick)
+    val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
     val dataWidth = width - (2 * kick.getXOffset)
     val dataHeight = height - (2 * kick.getYOffset)
     imageData = new ImageData(imageRgb, dataWidth, dataHeight, lineWidth, kick, method)
@@ -287,7 +291,7 @@ class MainTab extends VerticalLayout {
 
   def doConversion(prepareImage: Boolean, resize: Boolean) {
     if (conversionDisabled) { return }
-    val url = urlSetter.getUrl match {
+    val url = imagePreparer.getUrl match {
       case Some(s) => s
       case None => return
     }
@@ -311,14 +315,14 @@ class MainTab extends VerticalLayout {
           Power.valueOf(powerBox.getValue.toString))
 
       ircOutput = generateIrcOutput(imageData.method, imageData.height)
-      outputHandler.addIrcOutput(ircOutput)
-      updateInline(imageData.method, ircOutput, outputHandler.getName)
-      urlSetter.setStatus("Ready...")
+      outputDisplay.addIrcOutput(ircOutput)
+      updateInline(imageData.method, ircOutput, imagePreparer.getName)
+      imagePreparer.setStatus("Ready...")
       ircConnector.refresh
     } catch {
-      case iioe: javax.imageio.IIOException => urlSetter.setError("Cannot read image from URL.")
-      case iae: IllegalArgumentException => urlSetter.setError(iae.getMessage)
-      case e: Exception => urlSetter.setError(e.getMessage)
+      case iioe: javax.imageio.IIOException => imagePreparer.setError("Cannot read image from URL.")
+      case iae: IllegalArgumentException => imagePreparer.setError(iae.getMessage)
+      case e: Exception => imagePreparer.setError(e.getMessage)
     }
   }
 
@@ -381,7 +385,7 @@ class MainTab extends VerticalLayout {
   }
 
   def saveImage() {
-    val name = outputHandler.getName
+    val name = imagePreparer.getName
     val htmlAndCss = htmlUtil.generateHtml(ircOutput, name, imageData.method)
     val now = new Date
     val format = new java.text.SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
@@ -397,7 +401,7 @@ class MainTab extends VerticalLayout {
     val jenkemImageIrc = new ImageIrc(name, irc.toString);
     val jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc)
     PersistenceService.saveJenkemImage(jenkemImage)
-    urlSetter.setStatus("Image submitted to gallery.")
+    imagePreparer.setStatus("Image submitted to gallery.")
   }
 
 }
