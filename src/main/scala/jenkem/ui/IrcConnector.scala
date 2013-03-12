@@ -8,9 +8,9 @@ import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 
-import jenkem.event.SendToIrcEvent
+import jenkem.bot.BotStatus
 import jenkem.bot.IrcService
-import jenkem.shared.BotStatus
+import jenkem.event.SendToIrcEvent
 
 class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   //TODO move defaults to properties file
@@ -120,11 +120,11 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
     if (botStatus.isConnected || botStatus.isSending) {
       if (botStatus.isSending) { statusLabel.setValue("Bot is busy...") }
       else { statusLabel.setValue("Bot is connected.") }
-      networkBox.setValue(botStatus.getNetwork)
+      networkBox.setValue(botStatus.network)
       networkBox.setEnabled(false)
-      channelBox.setValue(botStatus.getChannel)
+      channelBox.setValue(botStatus.channel)
       channelBox.setEnabled(false)
-      nickBox.setValue(botStatus.getName)
+      nickBox.setValue(botStatus.name)
       nickBox.setEnabled(false)
       connectButton.setEnabled(false)
       disconnectButton.setEnabled(true)

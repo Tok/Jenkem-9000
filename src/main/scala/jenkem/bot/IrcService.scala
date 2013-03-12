@@ -2,8 +2,6 @@ package jenkem.bot
 
 import scala.collection.JavaConverters.asScalaBufferConverter
 
-import jenkem.shared.BotStatus
-
 /**
  * Implementation of service to handle messages for IRC.
  */

@@ -2,9 +2,7 @@ package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
-
 import scala.collection.JavaConversions.seqAsJavaList
-
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.data.Property.ValueChangeListener
@@ -22,7 +20,6 @@ import com.vaadin.ui.OptionGroup
 import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
-
 import jenkem.event.DoConversionEvent
 import jenkem.event.SendToIrcEvent
 import jenkem.persistence.PersistenceService
@@ -31,7 +28,6 @@ import jenkem.shared.ConversionMethod
 import jenkem.shared.Engine
 import jenkem.shared.HtmlUtil
 import jenkem.shared.ImageUtil
-import jenkem.shared.Kick
 import jenkem.shared.LineWidth
 import jenkem.shared.Power
 import jenkem.shared.ProcessionSettings
@@ -46,6 +42,7 @@ import jenkem.ui.IrcColorSetter
 import jenkem.ui.IrcConnector
 import jenkem.ui.OutputDisplay
 import jenkem.util.AwtImageUtil
+import jenkem.engine.Kick
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val engine = new Engine
@@ -60,7 +57,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   class ImagePreparationData(val icon: BufferedImage, val originalName: String) { }
   class ImageData(val imageRgb: java.util.Map[String, Array[java.lang.Integer]],
-      val width: Int, val height: Int, val lineWidth: Int, val kick: Kick,
+      val width: Int, val height: Int, val lineWidth: Int, val kick: Kick.Value,
       val method: ConversionMethod) { }
   class ConversionData(val contrast: Int, val brightness: Int,
       val characters: String) { }
@@ -111,7 +108,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val doDiaglineBox = makeCheckBox("/ \\")
   processingLayout.addComponent(doDiaglineBox)
   settingsLayout.addComponent(makeLabeled("Options: ", processingLayout))
-  val kickSelect = new OptionGroup(null, Kick.values.toList)
+  val kickSelect = new OptionGroup(null, Kick.getAll)
   settingsLayout.addComponent(makeLabeled("Kick: ", kickSelect))
   val powerBox = makeComboBox("Power: ")
   val bgOptions = List("white", "black")
@@ -247,7 +244,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     doHlineBox.setValue(false)
     doDbqplineBox.setValue(false)
     doDiaglineBox.setValue(false)
-    kickSelect.select(Kick.Off)
+    kickSelect.select(Kick.default)
     powerBox.select(Power.Quadratic)
     bgSelect.select(bgOptions(0))
     contrastSlider.setValue(0)
@@ -275,8 +272,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val method = ConversionMethod.getValueByName(methodBox.getValue.toString)
     val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
-    val dataWidth = width - (2 * kick.getXOffset)
-    val dataHeight = height - (2 * kick.getYOffset)
+    val dataWidth = width - (2 * kick.xOffset)
+    val dataHeight = height - (2 * kick.yOffset)
     imageData = new ImageData(imageRgb, dataWidth, dataHeight, lineWidth, kick, method)
   }
 

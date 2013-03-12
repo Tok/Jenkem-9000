@@ -2,17 +2,14 @@ package jenkem.bot
 
 import java.io.IOException
 import java.lang.InterruptedException
-
 import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
-
-import jenkem.shared.BotStatus
 import jenkem.shared.CharacterSet
 import jenkem.shared.ColorScheme
 import jenkem.shared.ConversionMethod
-import jenkem.shared.Kick
 import jenkem.shared.Power
+import jenkem.engine.Kick
 
 class JenkemBot extends PircBot {
   object Command extends Enumeration {
@@ -38,7 +35,7 @@ class JenkemBot extends PircBot {
   val engine = new ServerAsciiEngine
   var settings = new ConversionSettings
   var lastChan = ""
-  var botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected, BotStatus.SendStatus.NotSending, "", "", "")
+  var botStatus = new BotStatus(Disconnected, NotSending, "", "", "")
   var stopSwitch = false
   var isPlaying = false
   var playThread = new Thread
@@ -57,8 +54,7 @@ class JenkemBot extends PircBot {
   def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {
     settings.reset
     def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
-      botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected,
-        BotStatus.SendStatus.NotSending, network, channel, nick)
+      botStatus = new BotStatus(Disconnected, NotSending, network, channel, nick)
       message
     }
     try {
@@ -75,13 +71,11 @@ class JenkemBot extends PircBot {
   }
 
   override def onConnect = {
-    botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected,
-      BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
+    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick)
   }
 
   override def onDisconnect = {
-    botStatus = new BotStatus(BotStatus.ConnectionStatus.Disconnected,
-      BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
+    botStatus = new BotStatus(Disconnected, NotSending, getServer, lastChan, getNick)
   }
 
   /**
@@ -215,9 +209,8 @@ class JenkemBot extends PircBot {
 
   def setKick(target: String, value: String) {
     try {
-      val kick = Kick.getValueByName(value)
-      settings.kick = kick
-      sendMessage(target, ConfigItem.KICK + " set to " + kick.name)
+      settings.kick = Kick.valueOf(value)
+      sendMessage(target, ConfigItem.KICK + " set to " + settings.kick)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
     }
@@ -292,7 +285,7 @@ class JenkemBot extends PircBot {
     override def run {
       stopSwitch = false
       isPlaying = true;
-      botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected, BotStatus.SendStatus.Sending, getServer, lastChan, getNick)
+      botStatus = new BotStatus(Connected, Sending, getServer, lastChan, getNick)
       val sendMe = "PRIVMSG " + getChannels.head + " :"
       sendImageLine(fullImage)
       def sendImageLine(image: List[String]) {
@@ -319,7 +312,7 @@ class JenkemBot extends PircBot {
   def resetStop() {
     stopSwitch = false
     isPlaying = false
-    botStatus = new BotStatus(BotStatus.ConnectionStatus.Connected, BotStatus.SendStatus.NotSending, getServer, lastChan, getNick)
+    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick)
   }
 
 }

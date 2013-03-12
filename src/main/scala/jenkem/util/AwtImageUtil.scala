@@ -9,16 +9,13 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
-
 import scala.Array.canBuildFrom
-
 import com.vaadin.server.StreamResource
-
 import javax.imageio.ImageIO
 import jenkem.shared.ConversionMethod
-import jenkem.shared.Kick
 import sun.misc.BASE64Decoder
 import sun.misc.BASE64Encoder
+import jenkem.engine.Kick
 
 object AwtImageUtil {
   val defaultCrops = (0, 100, 0, 100) //xs, xe, ys, ye
@@ -49,7 +46,7 @@ object AwtImageUtil {
     }
     buffered
   }
-  def getImageRgb(img: BufferedImage, width: Int, height: Int, kick: Kick): java.util.Map[String, Array[java.lang.Integer]] = {
+  def getImageRgb(img: BufferedImage, width: Int, height: Int, kick: Kick.Value): java.util.Map[String, Array[java.lang.Integer]] = {
     def getRgb(img: BufferedImage, x: Int, y: Int): Array[java.lang.Integer] = {
       val argb = img.getRGB(x, y)
       Array((argb >> 16) & 0xff, (argb >> 8) & 0xff, (argb) & 0xff)
@@ -57,9 +54,9 @@ object AwtImageUtil {
     val scaled = resize(img, width, height)
     val imageRgb = new java.util.HashMap[String, Array[java.lang.Integer]]()
     for {
-      y <- 0 until height - (2 * kick.getYOffset)
-      x <- 0 until width - (2 * kick.getXOffset)
-    } yield imageRgb.put(y + ":" + x, getRgb(scaled, x + kick.getXOffset, y + kick.getYOffset))
+      y <- 0 until height - (2 * kick.yOffset)
+      x <- 0 until width - (2 * kick.xOffset)
+    } yield imageRgb.put(y + ":" + x, getRgb(scaled, x + kick.xOffset, y + kick.yOffset))
     imageRgb //TODO use immutable Map
   }
   def calculateNewSize(method: ConversionMethod, lineWidth: Int,
