@@ -1,4 +1,4 @@
-package jenkem.server
+package jenkem.bot
 
 import java.util.HashMap
 
@@ -18,13 +18,9 @@ class ConversionSettings {
   @BeanProperty var colorMap: java.util.Map[IrcColor, java.lang.Integer] = _
   @BeanProperty var schemeName: String = _
   @BeanProperty var chars: String = _
-  /*
-  var characters: String = ""
-  def chars: String = characters
-  def chars = (c: String) { characters = c.replaceAll("[,0-9]", "") }
-  */
   @BeanProperty var kick: Kick = _
   @BeanProperty var power: Power = _
+
   def createColorMap(cs: ColorScheme) {
     val map: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer]
     IrcColor.values.map(ic => map.put(ic, ic.getOrder(cs)))

@@ -1,4 +1,4 @@
-package jenkem.tab
+package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
@@ -23,11 +23,9 @@ import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 
-import jenkem.AwtImageUtil
 import jenkem.event.DoConversionEvent
-import jenkem.event.SaveImageEvent
 import jenkem.event.SendToIrcEvent
-import jenkem.server.PersistenceService
+import jenkem.persistence.PersistenceService
 import jenkem.shared.CharacterSet
 import jenkem.shared.ConversionMethod
 import jenkem.shared.Engine
@@ -47,6 +45,7 @@ import jenkem.ui.Inline
 import jenkem.ui.IrcColorSetter
 import jenkem.ui.IrcConnector
 import jenkem.ui.OutputDisplay
+import jenkem.util.AwtImageUtil
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val engine = new Engine

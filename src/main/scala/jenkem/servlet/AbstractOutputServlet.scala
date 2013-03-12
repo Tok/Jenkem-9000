@@ -1,9 +1,8 @@
-package jenkem.server.servlet
+package jenkem.servlet
 
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
-import jenkem.server.PersistenceService
-import jenkem.server.PersistenceService
+import jenkem.persistence.PersistenceService
 
 /**
  * Abstract Servlet for output

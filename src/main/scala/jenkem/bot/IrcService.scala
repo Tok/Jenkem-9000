@@ -1,4 +1,4 @@
-package jenkem.server
+package jenkem.bot
 
 import scala.collection.JavaConverters.asScalaBufferConverter
 

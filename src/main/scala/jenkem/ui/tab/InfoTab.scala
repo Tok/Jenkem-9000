@@ -1,4 +1,4 @@
-package jenkem.tab
+package jenkem.ui.tab
 
 import com.vaadin.server.ExternalResource
 import com.vaadin.shared.ui.label.ContentMode

@@ -9,7 +9,7 @@ import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 
 import jenkem.event.SendToIrcEvent
-import jenkem.server.IrcService
+import jenkem.bot.IrcService
 import jenkem.shared.BotStatus
 
 class IrcConnector(val eventRouter: EventRouter) extends GridLayout {

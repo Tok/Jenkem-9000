@@ -1,4 +1,4 @@
-package jenkem.server.servlet
+package jenkem.servlet
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse

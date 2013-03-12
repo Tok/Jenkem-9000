@@ -1,16 +1,17 @@
-package jenkem.server
+package jenkem.bot
 
 import java.io.IOException
 import java.lang.InterruptedException
+
 import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
+
 import jenkem.shared.BotStatus
-import java.net.MalformedURLException
-import jenkem.shared.ConversionMethod
 import jenkem.shared.CharacterSet
-import jenkem.shared.Kick
 import jenkem.shared.ColorScheme
+import jenkem.shared.ConversionMethod
+import jenkem.shared.Kick
 import jenkem.shared.Power
 
 class JenkemBot extends PircBot {
@@ -245,7 +246,7 @@ class JenkemBot extends PircBot {
   }
 
   def convertAndPlay(channel: String, url: String) {
-    jenkem.UrlOptionizer.extract(url) match {
+    jenkem.util.UrlOptionizer.extract(url) match {
       case Some(u) => playImage(engine.generate(url, settings))
       case None => sendMessage(channel, "Command unknown: " + url)
     }

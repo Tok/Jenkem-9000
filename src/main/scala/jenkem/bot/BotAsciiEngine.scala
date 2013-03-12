@@ -1,17 +1,9 @@
-package jenkem.server
+package jenkem.bot
 
-import java.awt.image.BufferedImage
-import java.util.HashMap
-
-import scala.Array.canBuildFrom
-
-import jenkem.AwtImageUtil
-import jenkem.shared.CharacterSet
-import jenkem.shared.ColorScheme
 import jenkem.shared.ConversionMethod
 import jenkem.shared.Engine
 import jenkem.shared.ProcessionSettings
-import jenkem.shared.color.IrcColor
+import jenkem.util.AwtImageUtil
 
 /**
  * Converts images to colored ASCII on server.

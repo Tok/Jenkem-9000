@@ -18,8 +18,8 @@ import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
 
-import jenkem.UrlOptionizer
 import jenkem.event.DoConversionEvent
+import jenkem.util.UrlOptionizer
 
 class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   val captionWidth = "80px"
@@ -109,7 +109,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
 
   def replaceImage(url: URL) = stupidCrop.replaceImage(url)
   def setLink(link: String) {
-    jenkem.UrlOptionizer.extract(link) match {
+    UrlOptionizer.extract(link) match {
       case Some(u) =>
         inputTextField.setValue(link)
         replaceImage(u)
@@ -122,7 +122,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
     val currentFrag = Page.getCurrent.getUriFragment
     val currentUrl = inputTextField.getValue
     if (currentFrag != null && !currentFrag.endsWith(currentUrl)) {
-      jenkem.UrlOptionizer.extract(currentUrl) match {
+      UrlOptionizer.extract(currentUrl) match {
         case Some(u) =>
           Page.getCurrent.setUriFragment("main/" + currentUrl)
           replaceImage(u)

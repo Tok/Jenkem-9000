@@ -1,13 +1,13 @@
-package jenkem.server
+package jenkem.persistence
 
 import scala.Array.canBuildFrom
+
 import javax.jdo.Transaction
 import jenkem.shared.data.ImageCss
 import jenkem.shared.data.ImageHtml
 import jenkem.shared.data.ImageInfo
 import jenkem.shared.data.ImageIrc
 import jenkem.shared.data.JenkemImage
-import scala.collection.mutable.HashMap
 
 /**
  * Implementation of service to handle the persistence of reports.

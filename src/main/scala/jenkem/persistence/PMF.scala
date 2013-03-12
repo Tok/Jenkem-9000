@@ -1,10 +1,9 @@
-package jenkem.server
+package jenkem.persistence
 
 import java.util.Properties
+
 import javax.jdo.JDOHelper
 import javax.jdo.PersistenceManagerFactory
-import org.datanucleus.api.jdo.JDOPersistenceManagerFactory
-import javax.jdo.PersistenceManager
 
 /**
  * Holds a single instance of the PersistenceManagerFactory.

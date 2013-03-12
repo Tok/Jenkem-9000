@@ -24,7 +24,7 @@ Frameworks and Technologies:
 -- Maven (build and reporting)
 
 Important Classes:
-Jenkem Bot: /src/main/scala/jenkem/server/JenkemBot.scala
+Jenkem Bot: /src/main/scala/jenkem/bot/JenkemBot.scala
 ASCII Engine: /src/main/java/jenkem/shared/Engine.java
 HTML-Util: /src/main/java/jenkem/shared/HtmlUtil.java
 

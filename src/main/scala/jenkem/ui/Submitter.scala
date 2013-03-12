@@ -15,7 +15,7 @@ import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Image
 import com.vaadin.ui.TextField
 
-import jenkem.AwtImageUtil
+import jenkem.util.AwtImageUtil
 import jenkem.event.SaveImageEvent
 
 class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {

@@ -1,4 +1,4 @@
-package jenkem
+package jenkem.util
 
 import java.net.MalformedURLException
 
