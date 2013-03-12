@@ -28,7 +28,6 @@ import jenkem.shared.ConversionMethod
 import jenkem.shared.Engine
 import jenkem.shared.HtmlUtil
 import jenkem.shared.ImageUtil
-import jenkem.shared.LineWidth
 import jenkem.shared.Power
 import jenkem.shared.ProcessionSettings
 import jenkem.shared.data.ImageCss
@@ -43,6 +42,7 @@ import jenkem.ui.IrcConnector
 import jenkem.ui.OutputDisplay
 import jenkem.util.AwtImageUtil
 import jenkem.engine.Kick
+import jenkem.engine.LineWidth
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val engine = new Engine
@@ -135,7 +135,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     }
   })
 
-  LineWidth.values.foreach(lw => widthBox.addItem(lw.getValue))
+  LineWidth.getAll.map(lw => widthBox.addItem(lw.value))
   widthBox.addValueChangeListener(resizeValueChangeListener)
 
   resetButton.addClickListener(new Button.ClickListener {
@@ -236,7 +236,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   def doReset() {
     conversionDisabled = true
     methodBox.select(ConversionMethod.Vortacular)
-    widthBox.select(LineWidth.Default.getValue)
+    widthBox.select(LineWidth.default.value)
     charsetBox.select(CharacterSet.Ansi)
     charTextField.setValue(CharacterSet.Ansi.getCharacters)
     processingSlider.setValue(32)
