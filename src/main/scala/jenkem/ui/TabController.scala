@@ -1,12 +1,14 @@
 package jenkem.ui
 
 import scala.collection.immutable.ListMap
+
 import com.vaadin.server.Page
 import com.vaadin.ui.TabSheet
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent
-import jenkem.tab.MainTab
+
 import jenkem.tab.GalleryTab
 import jenkem.tab.InfoTab
+import jenkem.tab.MainTab
 
 class TabController {
   var isReady = false

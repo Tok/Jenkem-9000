@@ -1,17 +1,18 @@
 package jenkem.ui
 
-import com.google.gwt.event.shared.HandlerManager
+import com.vaadin.event.EventRouter
 import com.vaadin.ui.Button
 import com.vaadin.ui.Button.ClickEvent
 import com.vaadin.ui.GridLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
-import jenkem.client.event.SendToIrcEvent
-import jenkem.server.IrcService
-import jenkem.shared.BotStatus
 import com.vaadin.ui.VerticalLayout
 
-class IrcConnector(eventBus: HandlerManager) extends GridLayout {
+import jenkem.event.SendToIrcEvent
+import jenkem.server.IrcService
+import jenkem.shared.BotStatus
+
+class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   //TODO move defaults to properties file
   //For deployments on OpenShift, the servers must listen on port 8001
   val defaultNetwork = "irc.freenode.net"
@@ -105,7 +106,7 @@ class IrcConnector(eventBus: HandlerManager) extends GridLayout {
     override def buttonClick(event: ClickEvent) {
       sendButton.setEnabled(false)
       statusLabel.setValue("Sending...")
-      eventBus.fireEvent(new SendToIrcEvent)
+      eventRouter.fireEvent(new SendToIrcEvent)
     }
   })
 

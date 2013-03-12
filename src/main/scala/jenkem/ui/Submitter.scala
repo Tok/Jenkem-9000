@@ -1,23 +1,24 @@
 package jenkem.ui
 
 import java.awt.image.BufferedImage
-import com.vaadin.ui.HorizontalLayout
-import com.vaadin.ui.GridLayout
-import com.vaadin.ui.Button
-import com.vaadin.ui.Label
-import com.vaadin.ui.Image
-import com.vaadin.ui.TextField
-import jenkem.AwtImageUtil
-import com.vaadin.event.FieldEvents.FocusListener
-import com.vaadin.ui.Alignment
-import com.vaadin.ui.Button.ClickEvent
+
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
+import com.vaadin.event.EventRouter
 import com.vaadin.event.FieldEvents.FocusEvent
-import com.google.gwt.event.shared.HandlerManager
-import jenkem.client.event.SaveImageEvent
+import com.vaadin.event.FieldEvents.FocusListener
+import com.vaadin.ui.Alignment
+import com.vaadin.ui.Button
+import com.vaadin.ui.Button.ClickEvent
+import com.vaadin.ui.GridLayout
+import com.vaadin.ui.HorizontalLayout
+import com.vaadin.ui.Image
+import com.vaadin.ui.TextField
 
-class Submitter(val eventBus: HandlerManager) extends HorizontalLayout {
+import jenkem.AwtImageUtil
+import jenkem.event.SaveImageEvent
+
+class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   val maxNameLength = 40
   var disable = false
 
@@ -46,7 +47,7 @@ class Submitter(val eventBus: HandlerManager) extends HorizontalLayout {
   val submitButton = new Button("Submit To Gallery")
   submitButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent) {
-      eventBus.fireEvent(new SaveImageEvent)
+      eventRouter.fireEvent(new SaveImageEvent)
     }
   })
   addComponent(submitButton)

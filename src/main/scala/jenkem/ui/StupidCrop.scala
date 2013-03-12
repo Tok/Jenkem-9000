@@ -1,24 +1,21 @@
 package jenkem.ui
 
-import com.google.gwt.user.client.ui.HorizontalSplitPanel
-import com.vaadin.ui.Slider
+import java.net.URL
+
+import com.vaadin.data.Property
+import com.vaadin.data.Property.ValueChangeEvent
+import com.vaadin.event.EventRouter
+import com.vaadin.server.ExternalResource
+import com.vaadin.shared.ui.slider.SliderOrientation
 import com.vaadin.ui.GridLayout
 import com.vaadin.ui.Image
 import com.vaadin.ui.Label
-import java.net.URL
-import com.vaadin.server.ExternalResource
-import com.vaadin.shared.ui.slider.SliderOrientation
-import com.vaadin.data.Property
-import com.vaadin.data.Property.ValueChangeEvent
-import com.google.gwt.event.shared.HandlerManager
-import jenkem.client.event.DoConversionEvent
-import jenkem.client.event.CropChangeEvent
-import jenkem.client.event.ResetCropsEventHandler
-import jenkem.client.event.ResetCropsEvent
-import com.vaadin.ui.Alignment
-import com.vaadin.ui.Component
+import com.vaadin.ui.Slider
 
-class StupidCrop(val eventBus: HandlerManager) extends GridLayout {
+import jenkem.event.CropsChangeEvent
+import jenkem.event.ResetCropsEvent
+
+class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
   val width = "100px"
   val difference = 20 //minimal crop in % in any direction
   val min = 0
@@ -70,9 +67,9 @@ class StupidCrop(val eventBus: HandlerManager) extends GridLayout {
   setColumns(3)
   setRows(3)
 
-  eventBus.addHandler(ResetCropsEvent.TYPE, new ResetCropsEventHandler {
-    override def onReset(event: ResetCropsEvent) { reset }
-  })
+  eventRouter.addListener(classOf[ResetCropsEvent], new {
+    def resetCrop = reset
+  }, "resetCrop")
 
   def makeSlider(orientation: SliderOrientation) = {
     val slider = new Slider
@@ -131,7 +128,7 @@ class StupidCrop(val eventBus: HandlerManager) extends GridLayout {
   def xe = xEndSlider.getValue.intValue
   def ys = yStartSlider.getValue.intValue
   def ye = yEndSlider.getValue.intValue
-  def fireChange = eventBus.fireEvent(new CropChangeEvent(xs, xe, ys, ye))
+  def fireChange = eventRouter.fireEvent(new CropsChangeEvent(xs, xe, ys, ye))
   def parseIntFromEvent(e: ValueChangeEvent) = {
     try {
       e.getProperty.getValue.toString.toDouble.intValue

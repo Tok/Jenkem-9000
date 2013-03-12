@@ -5,10 +5,10 @@ import java.util.Date
 
 import scala.collection.JavaConversions.seqAsJavaList
 
-import com.google.gwt.event.shared.HandlerManager
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.data.Property.ValueChangeListener
+import com.vaadin.event.EventRouter
 import com.vaadin.shared.ui.label.ContentMode
 import com.vaadin.ui.AbsoluteLayout
 import com.vaadin.ui.Button
@@ -24,12 +24,9 @@ import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 
 import jenkem.AwtImageUtil
-import jenkem.client.event.DoConversionEvent
-import jenkem.client.event.DoConversionEventHandler
-import jenkem.client.event.SaveImageEvent
-import jenkem.client.event.SaveImageEventHandler
-import jenkem.client.event.SendToIrcEvent
-import jenkem.client.event.SendToIrcEventHandler
+import jenkem.event.DoConversionEvent
+import jenkem.event.SaveImageEvent
+import jenkem.event.SendToIrcEvent
 import jenkem.server.PersistenceService
 import jenkem.shared.CharacterSet
 import jenkem.shared.ConversionMethod
@@ -80,8 +77,9 @@ class MainTab extends VerticalLayout {
   val settingsLayout = new VerticalLayout
   settingsLayout.setSpacing(true)
 
-  val eventBus = new HandlerManager(null)
-  val imagePreparer = new ImagePreparer(eventBus)
+  val eventRouter = new EventRouter
+
+  val imagePreparer = new ImagePreparer(eventRouter)
   imagePreparer.enableSubmission(false)
   addComponent(imagePreparer)
   addComponent(mainLayout)
@@ -126,13 +124,13 @@ class MainTab extends VerticalLayout {
   val (contrastSlider, contrastLabel) = makeSliderAndLabel("Contrast: ", -100, 100, 0)
   val (brightnessSlider, brightnessLabel) = makeSliderAndLabel("Brightness: ", -100, 100, 0)
   settingsLayout.addComponent(new Label("&nbsp;", ContentMode.HTML))
-  val ircColorSetter = new IrcColorSetter(eventBus)
+  val ircColorSetter = new IrcColorSetter(eventRouter)
   settingsLayout.addComponent(ircColorSetter)
   settingsLayout.addComponent(new Label("&nbsp;", ContentMode.HTML))
   val outputDisplay = new OutputDisplay
   settingsLayout.addComponent(outputDisplay)
   settingsLayout.addComponent(new Label("&nbsp;", ContentMode.HTML))
-  val ircConnector = new IrcConnector(eventBus)
+  val ircConnector = new IrcConnector(eventRouter)
   settingsLayout.addComponent(ircConnector)
 
   ConversionMethod.values.foreach(m => methodBox.addItem(m))
@@ -180,17 +178,14 @@ class MainTab extends VerticalLayout {
     override def valueChange(event: ValueChangeEvent) { doConversion(true, true) }
   })
 
-  eventBus.addHandler(DoConversionEvent.TYPE, new DoConversionEventHandler {
-    override def onDoConversion(event: DoConversionEvent) {
-      doConversion(event.prepareImage, event.resize)
-    }
-  })
-  eventBus.addHandler(SendToIrcEvent.TYPE, new SendToIrcEventHandler {
-    override def onSend(event: SendToIrcEvent) { ircConnector.sendToIrc(ircOutput) }
-  })
-  eventBus.addHandler(SaveImageEvent.TYPE, new SaveImageEventHandler {
-    override def onSave(event: SaveImageEvent) { saveImage }
-  })
+  eventRouter.addListener(classOf[DoConversionEvent], new {
+    def convert(e: DoConversionEvent) {
+      doConversion(e.prepareImage, e.resize)
+    }}, "convert")
+  eventRouter.addListener(classOf[SendToIrcEvent],
+      new { def send { ircConnector.sendToIrc(ircOutput) }}, "send")
+  eventRouter.addListener(classOf[SaveImageEvent],
+      new { def save { saveImage }}, "save")
 
   doReset
 

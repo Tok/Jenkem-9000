@@ -1,20 +1,17 @@
 package jenkem.tab
-import com.vaadin.ui.Label
-import com.vaadin.ui.VerticalLayout
-import com.vaadin.ui.Table
-import jenkem.server.PersistenceService
-import jenkem.shared.data.ImageInfo
+
+import scala.collection.JavaConversions.asScalaBuffer
+
 import com.vaadin.data.util.BeanItemContainer
-import scala.collection.JavaConversions._
-import com.google.gwt.user.client.ui.Anchor
-import jenkem.shared.HtmlUtil
-import com.vaadin.ui.Link
 import com.vaadin.server.ExternalResource
+import com.vaadin.ui.Link
+import com.vaadin.ui.Table
+import com.vaadin.ui.VerticalLayout
+
 import jenkem.AwtImageUtil
-import com.vaadin.ui.Image
-import com.vaadin.ui.Button
-import com.google.gwt.user.client.ui.ClickListener
-import com.vaadin.ui.Button.ClickEvent
+import jenkem.server.PersistenceService
+import jenkem.shared.HtmlUtil
+import jenkem.shared.data.ImageInfo
 
 class GalleryTab extends VerticalLayout {
   setCaption("Gallery")

@@ -9,8 +9,11 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
-import scala.collection.JavaConversions._
+
+import scala.Array.canBuildFrom
+
 import com.vaadin.server.StreamResource
+
 import javax.imageio.ImageIO
 import jenkem.shared.ConversionMethod
 import jenkem.shared.Kick

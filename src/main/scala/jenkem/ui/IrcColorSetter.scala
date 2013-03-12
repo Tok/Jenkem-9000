@@ -3,9 +3,9 @@ package jenkem.ui
 import scala.collection.JavaConversions.mapAsJavaMap
 import scala.collection.immutable.HashMap
 
-import com.google.gwt.event.shared.HandlerManager
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
+import com.vaadin.event.EventRouter
 import com.vaadin.shared.ui.slider.SliderOrientation
 import com.vaadin.ui.Alignment
 import com.vaadin.ui.HorizontalLayout
@@ -14,11 +14,11 @@ import com.vaadin.ui.NativeSelect
 import com.vaadin.ui.Slider
 import com.vaadin.ui.VerticalLayout
 
-import jenkem.client.event.DoConversionEvent
+import jenkem.event.DoConversionEvent
 import jenkem.shared.ColorScheme
 import jenkem.shared.color.IrcColor
 
-class IrcColorSetter(val eventBus: HandlerManager) extends VerticalLayout {
+class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   setSpacing(true)
   setWidth("400px")
   val labels = makeLabelMap
@@ -34,7 +34,7 @@ class IrcColorSetter(val eventBus: HandlerManager) extends VerticalLayout {
     override def valueChange(event: ValueChangeEvent) {
       val s = ColorScheme.valueOf(event.getProperty.getValue.toString)
       updatePreset(s)
-      eventBus.fireEvent(new DoConversionEvent(false, false))
+      eventRouter.fireEvent(new DoConversionEvent(false, false))
     }
   })
   val layout = new HorizontalLayout
@@ -83,7 +83,7 @@ class IrcColorSetter(val eventBus: HandlerManager) extends VerticalLayout {
     slider.addValueChangeListener(new Property.ValueChangeListener {
       override def valueChange(event: ValueChangeEvent) {
         label.setValue("%1.0f".format(event.getProperty.getValue))
-        eventBus.fireEvent(new DoConversionEvent(false, false))
+        eventRouter.fireEvent(new DoConversionEvent(false, false))
       }
     })
     val layout = new VerticalLayout

@@ -1,42 +1,30 @@
 package jenkem.ui
 
-import java.awt.image.BufferedImage
-import com.vaadin.ui.HorizontalLayout
-import com.vaadin.ui.GridLayout
-import com.vaadin.ui.Button
-import com.vaadin.ui.Label
-import com.vaadin.ui.Image
-import com.vaadin.ui.TextField
-import jenkem.AwtImageUtil
-import com.vaadin.event.FieldEvents.FocusListener
+import com.vaadin.event.EventRouter
 import com.vaadin.ui.Alignment
+import com.vaadin.ui.Button
 import com.vaadin.ui.Button.ClickEvent
-import com.vaadin.data.Property
-import com.vaadin.data.Property.ValueChangeEvent
-import com.vaadin.event.FieldEvents.FocusEvent
-import com.google.gwt.event.shared.HandlerManager
-import jenkem.client.event.SaveImageEvent
-import jenkem.client.event.CropChangeEvent
-import jenkem.client.event.CropChangeEventHandler
-import jenkem.client.event.ResetCropsEvent
-import jenkem.client.event.DoConversionEvent
+import com.vaadin.ui.HorizontalLayout
+import com.vaadin.ui.Label
 
-class CropStatus(val eventBus: HandlerManager) extends HorizontalLayout {
+import jenkem.event.CropsChangeEvent
+import jenkem.event.DoConversionEvent
+
+class CropStatus(val eventRouter: EventRouter) extends HorizontalLayout {
   setSpacing(true)
 
-  eventBus.addHandler(CropChangeEvent.TYPE, new CropChangeEventHandler {
-    override def onChangeCrop(e: CropChangeEvent) {
-      setCropStatus(e.getXStart, e.getXEnd, e.getYStart, e.getYEnd)
-      eventBus.fireEvent(new DoConversionEvent(true, true))
-    }
-  })
+  eventRouter.addListener(classOf[CropsChangeEvent], new {
+    def changeCrops(e: CropsChangeEvent) {
+      setCropStatus(e.xs, e.xe, e.ys, e.ye)
+      eventRouter.fireEvent(new DoConversionEvent(true, true))
+    }}, "changeCrops")
 
   val resetButton = new Button("Reset Crops")
   resetButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent) {
-      eventBus.fireEvent(new ResetCropsEvent)
+      eventRouter.fireEvent(new jenkem.event.ResetCropsEvent)
       reset
-      eventBus.fireEvent(new DoConversionEvent(true, true))
+      eventRouter.fireEvent(new DoConversionEvent(true, true))
     }
   })
   addComponent(resetButton)

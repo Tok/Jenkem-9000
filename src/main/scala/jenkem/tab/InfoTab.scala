@@ -1,9 +1,10 @@
 package jenkem.tab
-import com.vaadin.ui.Label
-import com.vaadin.shared.ui.label.ContentMode
-import com.vaadin.ui.VerticalLayout
-import com.vaadin.ui.Link
+
 import com.vaadin.server.ExternalResource
+import com.vaadin.shared.ui.label.ContentMode
+import com.vaadin.ui.Label
+import com.vaadin.ui.Link
+import com.vaadin.ui.VerticalLayout
 
 class InfoTab extends VerticalLayout {
   setCaption("Info")

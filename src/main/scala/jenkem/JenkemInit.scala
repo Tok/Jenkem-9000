@@ -4,18 +4,13 @@ import com.vaadin.annotations.Theme
 import com.vaadin.server.Page
 import com.vaadin.server.ThemeResource
 import com.vaadin.server.VaadinRequest
+import com.vaadin.shared.ui.label.ContentMode
 import com.vaadin.ui.Alignment
+import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Image
+import com.vaadin.ui.Label
 import com.vaadin.ui.UI
 import com.vaadin.ui.VerticalLayout
-import com.vaadin.ui.Label
-import com.vaadin.shared.ui.label.ContentMode
-import com.vaadin.ui.HorizontalLayout
-import com.vaadin.server.Resource
-import com.vaadin.server.FileResource
-import java.io.File
-import com.vaadin.server.ClassResource
-import com.vaadin.server.ExternalResource
 
 @Theme("jenkemtheme")
 class JenkemInit extends UI {

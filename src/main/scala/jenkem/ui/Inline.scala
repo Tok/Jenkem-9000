@@ -1,13 +1,11 @@
 package jenkem.ui
 
 import com.vaadin.shared.ui.label.ContentMode
+import com.vaadin.ui.Alignment
 import com.vaadin.ui.Label
 import com.vaadin.ui.VerticalLayout
-import com.vaadin.ui.Alignment
 
 class Inline extends VerticalLayout {
-  //setSizeFull
-
   val spacer = new Label
   spacer.setWidth(500 + "px")
   spacer.setHeight(0 + "px")

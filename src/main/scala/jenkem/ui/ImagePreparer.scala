@@ -1,31 +1,30 @@
 package jenkem.ui
 
+import java.awt.image.BufferedImage
 import java.net.URL
-import com.google.gwt.event.shared.HandlerManager
+
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
+import com.vaadin.event.EventRouter
 import com.vaadin.event.FieldEvents.FocusEvent
 import com.vaadin.event.FieldEvents.FocusListener
-import com.vaadin.server.ExternalResource
 import com.vaadin.server.Page
 import com.vaadin.server.UserError
 import com.vaadin.ui.Alignment
 import com.vaadin.ui.Button
 import com.vaadin.ui.Button.ClickEvent
 import com.vaadin.ui.GridLayout
-import com.vaadin.ui.Image
+import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
-import jenkem.UrlOptionizer
-import jenkem.client.event.DoConversionEvent
-import java.awt.image.BufferedImage
-import sun.awt.HorizBagLayout
-import com.vaadin.ui.HorizontalLayout
 
-class ImagePreparer(val eventBus: HandlerManager) extends GridLayout {
+import jenkem.UrlOptionizer
+import jenkem.event.DoConversionEvent
+
+class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   val captionWidth = "80px"
 
-  val stupidCrop = new StupidCrop(eventBus)
+  val stupidCrop = new StupidCrop(eventRouter)
 
   val statusLayout = new HorizontalLayout
   val statusCaptionLabel = new Label("Status: ")
@@ -56,7 +55,7 @@ class ImagePreparer(val eventBus: HandlerManager) extends GridLayout {
   val submissionLayout = new HorizontalLayout
   val submissionCaptionLabel = new Label("Name: ")
   submissionCaptionLabel.setWidth(captionWidth)
-  val submitter = new Submitter(eventBus)
+  val submitter = new Submitter(eventRouter)
   submissionLayout.setSpacing(true)
   submissionLayout.addComponent(submissionCaptionLabel)
   submissionLayout.setComponentAlignment(submissionCaptionLabel, Alignment.MIDDLE_LEFT)
@@ -66,7 +65,7 @@ class ImagePreparer(val eventBus: HandlerManager) extends GridLayout {
   val cropLayout = new HorizontalLayout
   val cropCaptionLabel = new Label("Cropping: ")
   cropCaptionLabel.setWidth(captionWidth)
-  val cropStatus = new CropStatus(eventBus)
+  val cropStatus = new CropStatus(eventRouter)
   cropLayout.setSpacing(true)
   cropLayout.addComponent(cropCaptionLabel)
   cropLayout.setComponentAlignment(cropCaptionLabel, Alignment.MIDDLE_LEFT)
@@ -98,13 +97,13 @@ class ImagePreparer(val eventBus: HandlerManager) extends GridLayout {
 
   def bind() {
     inputTextField.addValueChangeListener(new Property.ValueChangeListener {
-      override def valueChange(event: ValueChangeEvent) = replaceUrl(eventBus)
+      override def valueChange(event: ValueChangeEvent) = replaceUrl
     })
     inputTextField.addFocusListener(new FocusListener {
       override def focus(event: FocusEvent) = inputTextField.selectAll
     })
     convButton.addClickListener(new Button.ClickListener {
-      override def buttonClick(event: ClickEvent) = replaceUrl(eventBus)
+      override def buttonClick(event: ClickEvent) = replaceUrl
     })
   }
 
@@ -119,7 +118,7 @@ class ImagePreparer(val eventBus: HandlerManager) extends GridLayout {
     }
   }
 
-  def replaceUrl(eventBus: HandlerManager) {
+  def replaceUrl {
     val currentFrag = Page.getCurrent.getUriFragment
     val currentUrl = inputTextField.getValue
     if (currentFrag != null && !currentFrag.endsWith(currentUrl)) {
@@ -127,11 +126,11 @@ class ImagePreparer(val eventBus: HandlerManager) extends GridLayout {
         case Some(u) =>
           Page.getCurrent.setUriFragment("main/" + currentUrl)
           replaceImage(u)
-          eventBus.fireEvent(new DoConversionEvent(true, true))
+          eventRouter.fireEvent(new DoConversionEvent(true, true))
         case None => statusLabel.setValue(currentUrl + " is not a valid URL. Please enter URL to an image: ")
       }
     } else {
-      eventBus.fireEvent(new DoConversionEvent(true, true))
+      eventRouter.fireEvent(new DoConversionEvent(true, true))
     }
   }
 
