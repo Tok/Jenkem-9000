@@ -16,7 +16,7 @@ class OutputDisplay extends VerticalLayout {
   ircText.setWordwrap(false)
   //ircText.setReadOnly(true)
   ircText.addFocusListener(new FocusListener {
-    override def focus(event: FocusEvent) = ircText.selectAll
+    override def focus(event: FocusEvent) { ircText.selectAll }
   })
   addComponent(outputCaptionLabel)
   addComponent(ircText)

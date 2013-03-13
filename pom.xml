@@ -22,7 +22,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- http://maven.apache.org/plugins/index.html -->
 		<!-- building -->
-		<mavenDependencyPluginVersion>2.6</mavenDependencyPluginVersion>
+        <scalastyleMavenPluginVersion>0.2.0</scalastyleMavenPluginVersion>
+        <mavenDependencyPluginVersion>2.6</mavenDependencyPluginVersion>
 		<mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
 		<mavenCompilerPluginVersion>3.0</mavenCompilerPluginVersion>
 		<mavenDatanucleusPluginVersion>${datanucleusVersion}</mavenDatanucleusPluginVersion>
@@ -75,6 +76,10 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+            <id>scala-style</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/org/scalastyle/scalastyle-maven-plugin</url>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -279,6 +284,29 @@
 
 	<build>
 		<plugins>
+		    <plugin>
+                <groupId>org.scalastyle</groupId>
+                <artifactId>scalastyle-maven-plugin</artifactId>
+                <version>${scalastyleMavenPluginVersion}</version>
+                <configuration>
+                    <verbose>false</verbose>
+                    <failOnViolation>true</failOnViolation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <failOnWarning>false</failOnWarning>
+                    <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
+                    <testSourceDirectory>${basedir}/src/test/scala</testSourceDirectory>
+                    <configLocation>${basedir}/scalastyle_config.xml</configLocation>
+                    <outputFile>${basedir}/target/scalastyle-output.xml</outputFile>
+                    <outputEncoding>UTF-8</outputEncoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 				<groupId>org.scala-tools</groupId>
 				<artifactId>maven-scala-plugin</artifactId>

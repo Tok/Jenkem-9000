@@ -49,9 +49,9 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   setSelectedScheme(ColorScheme.Default)
   updatePreset(ColorScheme.Default)
 
-  def makeLabelMap(): HashMap[IrcColor, Label] = {
+  private def makeLabelMap(): HashMap[IrcColor, Label] = {
     def makeLabelMap0(hm: HashMap[IrcColor, Label], ic: List[IrcColor]): HashMap[IrcColor, Label] = {
-      if (ic.isEmpty) hm
+      if (ic.isEmpty) { hm }
       else {
         val label = new Label
         label.setStyleName("colorLabel " + ic.head.name)
@@ -60,9 +60,9 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     }
     makeLabelMap0(new HashMap[IrcColor, Label], IrcColor.values.toList)
   }
-  def makeSliderMap(): HashMap[IrcColor, Slider] = {
+  private def makeSliderMap(): HashMap[IrcColor, Slider] = {
     def makeSliderMap0(hm: HashMap[IrcColor, Slider], ic: List[IrcColor]): HashMap[IrcColor, Slider] = {
-      if (ic.isEmpty) hm
+      if (ic.isEmpty) { hm }
       else {
         val slider = new Slider
         slider.setHeight("100px")
@@ -77,7 +77,7 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     }
     makeSliderMap0(new HashMap[IrcColor, Slider], IrcColor.values.toList)
   }
-  def makeSliderLayout(ic: IrcColor) = {
+  private def makeSliderLayout(ic: IrcColor) = {
     val label = getLabel(ic)
     val slider = getSlider(ic)
     slider.addValueChangeListener(new Property.ValueChangeListener {
@@ -93,34 +93,35 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     layout.addComponent(label)
     layout
   }
-  def getLabel(ic: IrcColor): Label = labels.get(ic) match {
+  private def getLabel(ic: IrcColor): Label = labels.get(ic) match {
     case Some(label) => label
-    case None => println("Label for " + ic + " not found!"); new Label
+    case None => new Label
   }
-  def getSlider(ic: IrcColor): Slider = sliders.get(ic) match {
+  private def getSlider(ic: IrcColor): Slider = sliders.get(ic) match {
     case Some(slider) => slider
-    case None => println("Slider for " + ic + " not found!"); new Slider
+    case None => new Slider
   }
-  def updatePreset(cs: ColorScheme) = {
+  private def updatePreset(cs: ColorScheme) {
     IrcColor.values.foreach(ic => getSlider(ic).setValue(ic.getOrder(cs).intValue))
   }
-  def getValue(ic: IrcColor) = Integer.valueOf(getLabel(ic).getValue)
-  def setSelectedScheme(scheme: ColorScheme) = presetBox.select(scheme)
-  def reset = {
-    if (presetBox.getValue.equals(ColorScheme.Default)) {
-        updatePreset(ColorScheme.getValueByName(presetBox.getValue.toString))
-    } else presetBox.select(ColorScheme.Default)
-  }
+  private def getValue(ic: IrcColor) = Integer.valueOf(getLabel(ic).getValue)
+
   def getColorMap(): java.util.Map[IrcColor, java.lang.Integer] = {
     def getColorMap0(hm: HashMap[IrcColor, java.lang.Integer], ic: List[IrcColor]):
         HashMap[IrcColor, java.lang.Integer] = {
-      if (ic.isEmpty) hm
-      else getColorMap0(hm + ((ic.head, new java.lang.Integer(getValue(ic.head)))), ic.tail)
+      if (ic.isEmpty) { hm }
+      else { getColorMap0(hm + ((ic.head, new java.lang.Integer(getValue(ic.head)))), ic.tail) }
     }
     getColorMap0(new HashMap[IrcColor, java.lang.Integer], IrcColor.values.toList)
   }
+  def setSelectedScheme(scheme: ColorScheme) { presetBox.select(scheme) }
   def makeEnabled(enabled: Boolean) {
     presetBox.setEnabled(enabled)
     sliders.values.foreach(s => s.setEnabled(enabled))
+  }
+  def reset {
+    if (presetBox.getValue.equals(ColorScheme.Default)) {
+        updatePreset(ColorScheme.getValueByName(presetBox.getValue.toString))
+    } else { presetBox.select(ColorScheme.Default) }
   }
 }

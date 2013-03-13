@@ -19,8 +19,8 @@ object Kick {
   case object Y extends Value(false, true, 0, 1)
   case object XY extends Value(true, true, 1, 1)
 
-  def default = OFF
-  def getAll = List(OFF, X, Y, XY)
+  def default: Value = OFF
+  def getAll: List[Value] = List(OFF, X, Y, XY)
   def valueOf(name: String): Value = {
     name.toUpperCase match {
       case "OFF" | "0" => OFF

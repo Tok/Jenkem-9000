@@ -95,20 +95,58 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   addComponent(cropLayout, 1, 3)
   setComponentAlignment(cropLayout, Alignment.MIDDLE_LEFT)
 
-  def bind() {
+  private def bind() {
     inputTextField.addValueChangeListener(new Property.ValueChangeListener {
-      override def valueChange(event: ValueChangeEvent) = replaceUrl
+      override def valueChange(event: ValueChangeEvent) { replaceUrl }
     })
     inputTextField.addFocusListener(new FocusListener {
-      override def focus(event: FocusEvent) = inputTextField.selectAll
+      override def focus(event: FocusEvent) { inputTextField.selectAll }
     })
     convButton.addClickListener(new Button.ClickListener {
-      override def buttonClick(event: ClickEvent) = replaceUrl
+      override def buttonClick(event: ClickEvent) { replaceUrl }
     })
   }
-
-  def replaceImage(url: URL) = stupidCrop.replaceImage(url)
-  def hasLink = inputTextField.getValue != null && !inputTextField.getValue.equals("")
+  private def focusShowButton { inputTextField.focus }
+  private def replaceImage(url: URL) { stupidCrop.replaceImage(url) }
+  private def replaceUrl {
+    val currentFrag = Page.getCurrent.getUriFragment
+    val currentUrl = inputTextField.getValue
+    Option(currentFrag) match {
+      case Some(frag) =>
+        if (!currentFrag.endsWith(currentUrl)) {
+          UrlOptionizer.extract(currentUrl) match {
+            case Some(u) =>
+              Page.getCurrent.setUriFragment("main/" + currentUrl)
+              replaceImage(u)
+              eventRouter.fireEvent(new DoConversionEvent(true, true))
+            case None => statusLabel.setValue(currentUrl + " is not a valid URL. Please enter URL to an image: ")
+          }
+        } else { trigger }
+      case None => { trigger }
+    }
+  }
+  private def trigger { eventRouter.fireEvent(new DoConversionEvent(true, true)) }
+  private def updateLabel(status: String, error: String) {
+    Option(error) match {
+      case Some(error) => statusLabel.setComponentError(new UserError(error))
+      case None => statusLabel.setComponentError(null)
+    }
+    statusLabel.setValue(status)
+    inputTextField.focus
+  }
+  def setStatus(status: String) { updateLabel(status, null) }
+  def setError(error: String) { updateLabel(error, error) }
+  def addIcon(img: BufferedImage) { submitter.addIcon(img) }
+  def setName(name: String) { submitter.setName(name) }
+  def getName: String = submitter.getName
+  def enableSubmission(enabled: Boolean) { submitter.enableSubmission(enabled) }
+  def getCrops: (Int, Int, Int, Int) = cropStatus.getCrops
+  def hasLink: Boolean = {
+    Option(inputTextField.getValue) match {
+      case Some(value) => !value.equals("")
+      case None => false
+    }
+  }
   def setLink(link: String) {
     UrlOptionizer.extract(link) match {
       case Some(u) =>
@@ -118,41 +156,10 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       case None => statusLabel.setValue("URL is not valid. Please enter URL to an image: ")
     }
   }
-
-  def replaceUrl {
-    val currentFrag = Page.getCurrent.getUriFragment
-    val currentUrl = inputTextField.getValue
-    if (currentFrag != null && !currentFrag.endsWith(currentUrl)) {
-      UrlOptionizer.extract(currentUrl) match {
-        case Some(u) =>
-          Page.getCurrent.setUriFragment("main/" + currentUrl)
-          replaceImage(u)
-          eventRouter.fireEvent(new DoConversionEvent(true, true))
-        case None => statusLabel.setValue(currentUrl + " is not a valid URL. Please enter URL to an image: ")
-      }
-    } else {
-      eventRouter.fireEvent(new DoConversionEvent(true, true))
-    }
-  }
-
-  def focusShowButton = inputTextField.focus
   def getUrl: Option[String] = {
     UrlOptionizer.extract(inputTextField.getValue) match {
       case Some(u) => Option(u.toString)
       case None => setError("URL is not Valid. Please enter URL to an image: "); None
     }
   }
-  def setStatus(status: String) = updateLabel(status, null)
-  def setError(error: String) = updateLabel(error, error)
-  def updateLabel(status: String, error: String) = {
-    if (error == null) { statusLabel.setComponentError(null) }
-    else { statusLabel.setComponentError(new UserError(error)) }
-    statusLabel.setValue(status)
-    inputTextField.focus
-  }
-  def addIcon(img: BufferedImage) = submitter.addIcon(img)
-  def setName(name: String) = submitter.setName(name)
-  def getName = submitter.getName
-  def enableSubmission(enabled: Boolean) = submitter.enableSubmission(enabled)
-  def getCrops = cropStatus.getCrops
 }

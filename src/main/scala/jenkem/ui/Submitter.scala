@@ -28,7 +28,7 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   nameTextField.setWidth(250 + "px")
   nameTextField.setImmediate(true)
   nameTextField.addFocusListener(new FocusListener {
-    override def focus(event: FocusEvent) = nameTextField.selectAll
+    override def focus(event: FocusEvent) { nameTextField.selectAll }
   })
   nameTextField.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
@@ -59,7 +59,7 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   addComponent(imageLayout)
   setComponentAlignment(imageLayout, Alignment.MIDDLE_LEFT)
 
-  def addIcon(img: BufferedImage) = {
+  def addIcon(img: BufferedImage) {
     val image = new Image
     image.setSource(AwtImageUtil.makeVaadinResource(img, "Icon"))
     image.setWidth("32px")
@@ -67,13 +67,13 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
     imageLayout.removeAllComponents
     imageLayout.addComponent(image, 0, 0)
   }
-  def setName(name: String) = {
+  def setName(name: String) {
     if (name.size > maxNameLength) {
       nameTextField.setValue(name.substring(0, maxNameLength))
     } else {
       nameTextField.setValue(name)
     }
   }
-  def getName = nameTextField.getValue
-  def enableSubmission(enabled: Boolean) = submitButton.setEnabled(enabled)
+  def getName: String = nameTextField.getValue
+  def enableSubmission(enabled: Boolean) { submitButton.setEnabled(enabled) }
 }

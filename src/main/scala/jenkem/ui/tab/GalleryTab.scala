@@ -11,12 +11,26 @@ import jenkem.persistence.PersistenceService
 import jenkem.shared.data.ImageInfo
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
+import com.vaadin.ui.Table.Align
 
 class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   setCaption("Gallery")
   setSizeFull
   setMargin(true)
   setSpacing(true)
+
+  sealed abstract class Column(val name: String, val c: Class[_], val align: Align)
+  case object ICON extends Column("Icon", classOf[Link], Table.Align.CENTER)
+  case object NAME extends Column("Name", classOf[Link], Table.Align.LEFT)
+  case object METHOD extends Column("Method", classOf[String], Table.Align.LEFT)
+  case object CHARS extends Column("Characters", classOf[String], Table.Align.LEFT)
+  case object CONT extends Column("Contrast", classOf[Int], Table.Align.RIGHT)
+  case object BRIGHT extends Column("Brightness", classOf[Int], Table.Align.RIGHT)
+  case object LINES extends Column("Lines", classOf[Int], Table.Align.RIGHT)
+  case object WIDTH extends Column("Width", classOf[Int], Table.Align.RIGHT)
+  case object CREATION extends Column("Creation", classOf[String], Table.Align.LEFT)
+  val cols = Array(ICON, NAME, METHOD, CHARS, CONT, BRIGHT, LINES, WIDTH, CREATION)
+  val names: Array[Object] = cols.map(_.name.toLowerCase)
 
   val table = new Table
   table.setWidth("100%")
@@ -28,7 +42,7 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   table.setColumnCollapsingAllowed(true)
 
   class ImageInfoBean(info: ImageInfo) {
-    def getIcon = {
+    def getIcon: Link = {
       val link = new Link
       link.setTargetName("_blank")
       val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.getName))
@@ -38,55 +52,27 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
       link.setIcon(resource)
       link
     }
-    def getName = {
+    def getName: Link = {
       val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.getName))
       val link = new Link(info.getName, ex)
       link.setTargetName("_blank")
       link
     }
-    def getMethod = info.getMethod
-    def getCharacters = info.getCharacters
-    def getContrast = info.getContrast
-    def getBrightness = info.getBrightness
-    def getLines = info.getLines
-    def getWidth = info.getLineWidth
-    def getCreation = info.getCreation
+    def getMethod: String = info.getMethod
+    def getCharacters: String = info.getCharacters
+    def getContrast: Integer = info.getContrast
+    def getBrightness: Integer = info.getBrightness
+    def getLines: Integer = info.getLines
+    def getWidth: Integer = info.getLineWidth
+    def getCreation: String = info.getCreation
   }
 
-  table.addContainerProperty("icon", classOf[Link], null)
-  table.addContainerProperty("name", classOf[Link], null)
-  table.addContainerProperty("method", classOf[String], null)
-  table.addContainerProperty("characters", classOf[String], null)
-  table.addContainerProperty("contrast", classOf[Integer], null)
-  table.addContainerProperty("brightness", classOf[Integer], null)
-  table.addContainerProperty("lines", classOf[Integer], null)
-  table.addContainerProperty("width", classOf[Integer], null)
-  table.addContainerProperty("creation", classOf[String], null)
-
+  cols.foreach(col => table.addContainerProperty(col.name.toLowerCase, col.c, classOf[String]))
   val bic = new BeanItemContainer[ImageInfoBean](classOf[ImageInfoBean])
   table.setContainerDataSource(bic)
-
-  table.setVisibleColumns(Array[Object](
-      "icon", "name", "method",
-      "characters", "contrast", "brightness",
-      "lines", "width", "creation"
-  ))
-
-  table.setColumnAlignment("icon", Table.Align.CENTER)
-  table.setColumnAlignment("contrast", Table.Align.RIGHT)
-  table.setColumnAlignment("brightness", Table.Align.RIGHT)
-  table.setColumnAlignment("lines", Table.Align.RIGHT)
-  table.setColumnAlignment("width", Table.Align.RIGHT)
-
-  table.setColumnHeader("icon", "Icon")
-  table.setColumnHeader("name", "Name")
-  table.setColumnHeader("method", "Method")
-  table.setColumnHeader("characters", "Characters")
-  table.setColumnHeader("contrast", "Contrast")
-  table.setColumnHeader("brightness", "Brightness")
-  table.setColumnHeader("lines", "Lines")
-  table.setColumnHeader("width", "Width")
-  table.setColumnHeader("creation", "Creation Date")
+  table.setVisibleColumns(names)
+  cols.foreach(col => table.setColumnAlignment(col.name.toLowerCase, col.align))
+  cols.foreach(col => table.setColumnHeader(col.name.toLowerCase, col.name))
 
   addComponent(table)
 
@@ -95,6 +81,6 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   def update {
     bic.removeAllItems
     val info: java.util.ArrayList[ImageInfo] = PersistenceService.getAllImageInfo
-    info.toList.map(info => bic.addItem(new ImageInfoBean(info)))
+    info.toList.foreach(info => bic.addItem(new ImageInfoBean(info)))
   }
 }

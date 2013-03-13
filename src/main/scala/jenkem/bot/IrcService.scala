@@ -5,7 +5,6 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 /**
  * Implementation of service to handle messages for IRC.
  */
-@SerialVersionUID(-1111111111111111111L)
 object IrcService {
   val bot = new JenkemBot
 

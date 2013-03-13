@@ -31,13 +31,15 @@ class TabController(val eventRouter: EventRouter) {
         if (isReady) {
           val tabsheet = event.getTabSheet
           val tab = tabsheet.getTab(tabsheet.getSelectedTab)
-          if (tab != null) {
-            if (tab.getCaption.toLowerCase.equals("main") && !mainTab.hasLink) {
-              page.setUriFragment(tab.getCaption.toLowerCase + "/" + defaultUrl)
-              mainTab.setLink(defaultUrl)
-            } else {
-              page.setUriFragment(tab.getCaption.toLowerCase)
-            }
+          Option(tab) match {
+            case Some(tab) =>
+              if (tab.getCaption.toLowerCase.equals("main") && !mainTab.hasLink) {
+                page.setUriFragment(tab.getCaption.toLowerCase + "/" + defaultUrl)
+                mainTab.setLink(defaultUrl)
+              } else {
+                page.setUriFragment(tab.getCaption.toLowerCase)
+              }
+            case None => { }
           }
         }
       }
@@ -47,28 +49,31 @@ class TabController(val eventRouter: EventRouter) {
   }
 
   def selectTab(frag: String) {
-    if (frag == null) { selectMainWithDefault }
-    else {
-      val split = frag.split("/", 2)
-      tabs.get(split(0)) match {
-        case None => selectMainWithDefault
-        case Some(tab) =>
-          tabSheet.setSelectedTab(tab)
-          if (tab.equals(mainTab)) {
-            if (split.length > 1) mainTab.setLink(split(1))
-            else mainTab.setLink(defaultUrl)
-          }
-      }
-    }
     def selectMainWithDefault() {
       tabSheet.setSelectedTab(mainTab)
       mainTab.setLink(defaultUrl)
     }
+    Option(frag) match {
+      case Some(frag) =>
+        val split = frag.split("/", 2)
+        tabs.get(split(0)) match {
+          case None => selectMainWithDefault
+          case Some(tab) =>
+            tabSheet.setSelectedTab(tab)
+            if (tab.equals(mainTab)) {
+              if (split.length > 1) { mainTab.setLink(split(1)) }
+              else { mainTab.setLink(defaultUrl) }
+            }
+        }
+      case None => selectMainWithDefault
+    }
   }
 
   eventRouter.addListener(classOf[SaveImageEvent],
-    new { def save {
-      mainTab.saveImage
-      galleryTab.update
-    }}, "save")
+    new {
+      def save {
+        mainTab.saveImage
+        galleryTab.update
+      }
+    }, "save")
 }

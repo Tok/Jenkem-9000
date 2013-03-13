@@ -16,8 +16,13 @@ import jenkem.shared.ConversionMethod
 import sun.misc.BASE64Decoder
 import sun.misc.BASE64Encoder
 import jenkem.engine.Kick
+import com.vaadin.server.Resource
 
 object AwtImageUtil {
+  //scalastyle: NullChecker and IllegalImportsChecker warnings
+  //may be ignored for this object because awt is used.
+
+  val iconSize = 32
   val defaultCrops = (0, 100, 0, 100) //xs, xe, ys, ye
   val colorWhite = new Color(255, 255, 255)
   val colorBlack = new Color(0, 0, 0)
@@ -38,7 +43,7 @@ object AwtImageUtil {
     val cropH = (image.getHeight * (ye - ys)) / 100
     val buffered = new BufferedImage(cropW, cropH, BufferedImage.TYPE_INT_ARGB)
     buffered.getGraphics match {
-      case g2d:Graphics2D =>
+      case g2d: Graphics2D =>
         g2d.setBackground(color)
         g2d.clearRect(0, 0, cropW, cropH)
         val subimage = image.getSubimage(cropX, cropY, cropW, cropH)
@@ -60,26 +65,18 @@ object AwtImageUtil {
     imageRgb //TODO use immutable Map
   }
   def calculateNewSize(method: ConversionMethod, lineWidth: Int,
-          originalWidth: Int, originalHeight: Int): (Int, Int) = {
-      val factor = if (method.equals(ConversionMethod.Vortacular)) { 2 } else { 1 }
-      val width = lineWidth * factor
-      val divisor = if (method.hasKick || method.equals(ConversionMethod.Vortacular)) { 1 } else { 2 }
-      val height = ((lineWidth / divisor) * originalHeight) / originalWidth
-      (width, height)
+    originalWidth: Int, originalHeight: Int): (Int, Int) = {
+    val factor = if (method.equals(ConversionMethod.Vortacular)) { 2 } else { 1 }
+    val width = lineWidth * factor
+    val divisor = if (method.hasKick || method.equals(ConversionMethod.Vortacular)) { 1 } else { 2 }
+    val height = ((lineWidth / divisor) * originalHeight) / originalWidth
+    (width, height)
   }
-  def resize(img: BufferedImage, width: Int, height: Int) = {
-      val resized = new BufferedImage(width, height, img.getType)
-      val g = resized.createGraphics
-      g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
-      g.drawImage(img, 0, 0, width, height, 0, 0, img.getWidth, img.getHeight, null);
-      g.dispose
-      resized
-    }
-  def makeIcon(url: String, bg: String, crops: (Int, Int, Int, Int)) = {
+  def makeIcon(url: String, bg: String, crops: (Int, Int, Int, Int)): BufferedImage = {
     val buffered = bufferImage(url, bg, crops)
-    resize(buffered, 32, 32)
+    resize(buffered, iconSize, iconSize)
   }
-  def makeVaadinResource(img: BufferedImage, name: String) = {
+  def makeVaadinResource(img: BufferedImage, name: String): Resource = {
     class IconSource extends StreamResource.StreamSource {
       def getStream(): InputStream = {
         try {
@@ -104,5 +101,13 @@ object AwtImageUtil {
     val bytes = decoder.decodeBuffer(base64)
     val scalaBytes: Array[Byte] = bytes.map(b => b.byteValue)
     ImageIO.read(new ByteArrayInputStream(scalaBytes))
+  }
+  private def resize(img: BufferedImage, width: Int, height: Int) = {
+    val resized = new BufferedImage(width, height, img.getType)
+    val g = resized.createGraphics
+    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
+    g.drawImage(img, 0, 0, width, height, 0, 0, img.getWidth, img.getHeight, null);
+    g.dispose
+    resized
   }
 }

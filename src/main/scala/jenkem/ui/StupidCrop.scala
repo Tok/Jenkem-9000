@@ -31,7 +31,7 @@ class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
       val xEnd: Int = xEndSlider.getValue.intValue
       if (parseIntFromEvent(event) + difference > xEnd) {
         xStartSlider.setValue(xEnd - difference)
-      } else fireChange
+      } else { fireChange }
     }
   }
   val xEndListener = new Property.ValueChangeListener {
@@ -39,7 +39,7 @@ class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
       val xStart: Int = xStartSlider.getValue.intValue
       if (parseIntFromEvent(event) - difference < xStart) {
         xEndSlider.setValue(xStart + difference)
-      } else fireChange
+      } else { fireChange }
     }
   }
   val yStartListener = new Property.ValueChangeListener {
@@ -47,7 +47,7 @@ class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
       val yEnd: Int = yEndSlider.getValue.intValue
       if (parseIntFromEvent(event) + difference > yEnd) {
         yStartSlider.setValue(yEnd - difference)
-      } else fireChange
+      } else { fireChange }
     }
   }
   val yEndListener = new Property.ValueChangeListener {
@@ -55,7 +55,7 @@ class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
       val yStart: Int = yStartSlider.getValue.intValue
       if (parseIntFromEvent(event) - difference < yStart) {
         yEndSlider.setValue(yStart + difference)
-      } else fireChange
+      } else { fireChange }
     }
   }
 
@@ -68,10 +68,10 @@ class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
   setRows(3)
 
   eventRouter.addListener(classOf[ResetCropsEvent], new {
-    def resetCrop = reset
+    def resetCrop: Unit = reset
   }, "resetCrop")
 
-  def makeSlider(orientation: SliderOrientation) = {
+  private def makeSlider(orientation: SliderOrientation) = {
     val slider = new Slider
     slider.setOrientation(orientation)
     slider.setSizeFull
@@ -80,13 +80,13 @@ class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
     slider
   }
 
-  def makeTinyLabel(text: String) = {
+  private def makeTinyLabel(text: String) = {
     val label = new Label(text)
     label.setStyleName("tinyLabel")
     label
   }
 
-  def reset {
+  private def reset {
     xStartSlider = makeSlider(SliderOrientation.HORIZONTAL)
     xEndSlider = makeSlider(SliderOrientation.HORIZONTAL)
     yStartSlider = makeSlider(SliderOrientation.VERTICAL)
@@ -115,7 +115,20 @@ class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
     yEndSlider.addValueChangeListener(yEndListener)
   }
 
-  def replaceImage(url: URL) {
+  private def xs = xStartSlider.getValue.intValue
+  private def xe = xEndSlider.getValue.intValue
+  private def ys = yStartSlider.getValue.intValue
+  private def ye = yEndSlider.getValue.intValue
+  private def fireChange = eventRouter.fireEvent(new CropsChangeEvent(xs, xe, ys, ye))
+  private def parseIntFromEvent(e: ValueChangeEvent) = {
+    try {
+      e.getProperty.getValue.toString.toDouble.intValue
+    } catch {
+      case _:Throwable => 0
+    }
+  }
+
+  def replaceImage(url: URL): Unit = {
     val newImage = new Image
     newImage.setSource(new ExternalResource(url))
     newImage.setWidth(width)
@@ -124,16 +137,4 @@ class StupidCrop(val eventRouter: EventRouter) extends GridLayout {
     reset
   }
 
-  def xs = xStartSlider.getValue.intValue
-  def xe = xEndSlider.getValue.intValue
-  def ys = yStartSlider.getValue.intValue
-  def ye = yEndSlider.getValue.intValue
-  def fireChange = eventRouter.fireEvent(new CropsChangeEvent(xs, xe, ys, ye))
-  def parseIntFromEvent(e: ValueChangeEvent) = {
-    try {
-      e.getProperty.getValue.toString.toDouble.intValue
-    } catch {
-      case _:Throwable => 0
-    }
-  }
 }

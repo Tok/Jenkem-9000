@@ -19,6 +19,8 @@ class ConversionSettings {
   @BeanProperty var kick: Kick.Value = _
   @BeanProperty var power: Power = _
 
+  val defaultWidth = 68
+
   def createColorMap(cs: ColorScheme) {
     val map: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer]
     IrcColor.values.foreach(ic => map.put(ic, ic.getOrder(cs)))
@@ -27,7 +29,7 @@ class ConversionSettings {
   }
 
   def reset {
-    width = 68
+    width = defaultWidth
     method = ConversionMethod.Vortacular
     createColorMap(ColorScheme.Default)
     chars = CharacterSet.Ansi.getCharacters

@@ -12,6 +12,6 @@ case object UnknownSendStatus extends SendStatus
 
 class BotStatus(val connectionStatus: ConnectionStatus, val sendStatus: SendStatus,
   val network: String, val channel: String, val name: String) {
-  def isConnected = connectionStatus == Connected
-  def isSending = sendStatus == Sending
+  def isConnected: Boolean = connectionStatus == Connected
+  def isSending: Boolean = sendStatus == Sending
 }

@@ -20,7 +20,10 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   val defaultChannel = "#Jenkem"
   val defaultNick = "J_"
 
-  setWidth("400px")
+  val width = "400px"
+  val compWidth = "250px"
+
+  setWidth(width)
 
   setRows(5)
   setColumns(3)
@@ -40,10 +43,10 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   portBox.setWidth("40px")
   val channelCaption = new Label("Channel: ")
   val channelBox = new TextField
-  channelBox.setWidth("250px")
+  channelBox.setWidth(compWidth)
   val nickCaption = new Label("Nick: ")
   val nickBox = new TextField
-  nickBox.setWidth("250px")
+  nickBox.setWidth(compWidth)
   val actionCaption = new Label("Actions: ")
   val buttonLayout = new GridLayout
   val connectButton = new Button("Connect")
@@ -52,7 +55,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   val statusCaption = new Label("Status: ")
   val statusLayout = new VerticalLayout
   val statusLabel = new Label("")
-  statusLabel.setWidth("250px")
+  statusLabel.setWidth(compWidth)
   val refreshButton = new Button("Refresh Bot Status")
 
   //addComponent(component, column1, row1, column2, row2)
@@ -114,9 +117,14 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
     override def buttonClick(event: ClickEvent) { refresh }
   })
 
-  def sendToIrc(message: java.util.List[String]) = IrcService.sendMessage(message); refresh
-  def refresh = showBotStatus(IrcService.getBotStatus)
-  def showBotStatus(botStatus: BotStatus) {
+  def sendToIrc(message: java.util.List[String]) {
+    IrcService.sendMessage(message)
+    refresh
+  }
+
+  def refresh { showBotStatus(IrcService.getBotStatus) }
+
+  private def showBotStatus(botStatus: BotStatus) {
     if (botStatus.isConnected || botStatus.isSending) {
       if (botStatus.isSending) { statusLabel.setValue("Bot is busy...") }
       else { statusLabel.setValue("Bot is connected.") }

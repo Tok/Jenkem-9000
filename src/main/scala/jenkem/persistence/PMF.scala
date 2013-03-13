@@ -19,12 +19,14 @@ object PMF {
   //properties.setProperty("datanucleus.cache.level2.type", "xmemcached")
   properties.setProperty("javax.jdo.PersistenceManagerFactoryClass", "org.datanucleus.api.jdo.JDOPersistenceManagerFactory")
   properties.setProperty("javax.jdo.option.Mapping", "mongodb")
-  if (dbHost != null) { //configure for openshift
-    properties.setProperty("javax.jdo.option.ConnectionURL", "mongodb:" + dbHost + ":" + dbPort + "/" + dbName)
-    properties.setProperty("javax.jdo.option.ConnectionUserName", dbUser)
-    properties.setProperty("javax.jdo.option.ConnectionPassword", dbPass)
-  } else { //use local config
-    properties.setProperty("javax.jdo.option.ConnectionURL", "mongodb:/jenkem" )
+
+  Option(dbHost) match {
+    case Some(v) if (!v.isEmpty) =>
+      properties.setProperty("javax.jdo.option.ConnectionURL", "mongodb:" + v + ":" + dbPort + "/" + dbName)
+      properties.setProperty("javax.jdo.option.ConnectionUserName", dbUser)
+      properties.setProperty("javax.jdo.option.ConnectionPassword", dbPass)
+    case None =>
+      properties.setProperty("javax.jdo.option.ConnectionURL", "mongodb:/jenkem")
   }
 
   final val pmf: PersistenceManagerFactory = JDOHelper.getPersistenceManagerFactory(properties)

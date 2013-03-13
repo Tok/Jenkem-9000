@@ -15,6 +15,6 @@ object LineWidth {
   case object Icon extends Value(32)
   case object Tiny extends Value(16)
 
-  def default = Default
-  def getAll = List(Huge, Default, Large, Medium, Small, Mini, Icon, Tiny)
+  def default: Value = Default
+  def getAll: List[Value] = List(Huge, Default, Large, Medium, Small, Mini, Icon, Tiny)
 }

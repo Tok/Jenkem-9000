@@ -4,7 +4,8 @@ import java.net.MalformedURLException
 
 object UrlOptionizer {
   object UrlExtractor {
-    def unapply(u: java.net.URL) = Some((u.getProtocol, u.getHost, u.getPort, u.getPath))
+    def unapply(u: java.net.URL): Some[(String, String, Int, String)] =
+      Some((u.getProtocol, u.getHost, u.getPort, u.getPath))
   }
   def extract(link: String): Option[java.net.URL] = {
     try {

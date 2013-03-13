@@ -12,17 +12,25 @@ import jenkem.shared.Power
 import jenkem.engine.Kick
 
 class JenkemBot extends PircBot {
+  val defaultDelay = 1000
+  def init {
+    super.setEncoding("UTF-8")
+    super.setLogin("jenkem")
+    super.setVersion("Jenkem-9000")
+    super.setAutoNickChange(false)
+    super.setMessageDelay(defaultDelay)
+  }
+  init
+
   object Command extends Enumeration {
     type Command = Value
     val QUIT, GTFO, STOP, STFU, HELP, CONFIG, ASCII, COLORS, SET, RESET = Value
   }
-  import Command._
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
     val DELAY, WIDTH, MODE, SCHEME, CHARSET, POWER, KICK = Value
   }
-  import ConfigItem._
 
   object IntExtractor {
     def unapply(s: String): Option[Int] = try {
@@ -32,49 +40,62 @@ class JenkemBot extends PircBot {
     }
   }
 
+  val emp = ""
+  val sep = " "
+  val setTo = " set to "
+
   val engine = new ServerAsciiEngine
+
   var settings = new ConversionSettings
-  var lastChan = ""
-  var botStatus = new BotStatus(Disconnected, NotSending, "", "", "")
+  var lastChan = emp
+  var botStatus = new BotStatus(Disconnected, NotSending, emp, emp, emp)
   var stopSwitch = false
   var isPlaying = false
   var playThread = new Thread
 
-  def Bot {
-    super.setEncoding("UTF-8")
-    super.setLogin("jenkem")
-    super.setVersion("Jenkem-9000")
-    super.setAutoNickChange(false)
-    super.setMessageDelay(1000)
+  override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
+    val m = message.split(sep)
+    if (channel.equalsIgnoreCase(lastChan)) {
+      try {
+        executeCommand(channel, m)
+      } catch {
+        case nsee: NoSuchElementException => convertAndPlay(channel, m.tail.head)
+      }
+    }
   }
 
-  /**
-   * Connects the jenkem bot to IRC and joins the selected channel.
-   */
-  def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {
-    settings.reset
-    def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
-      botStatus = new BotStatus(Disconnected, NotSending, network, channel, nick)
-      message
+  def executeCommand(channel: String, message: Array[String]) {
+    if (message.head.equalsIgnoreCase("Jenkem") ||
+        message.head.equalsIgnoreCase(getLogin) ||
+        message.head.equalsIgnoreCase(getNick)) {
+      Command.withName(message.tail.head.toUpperCase) match {
+        case Command.GTFO | Command.QUIT => disconnect
+        case Command.STFU | Command.STOP => makeStop
+        case Command.HELP => showHelp(channel)
+        case Command.CONFIG => showConfig(channel)
+        case Command.SET => changeConfig(channel, message(2), message(3))
+        case Command.RESET => reset(channel)
+      }
     }
+  }
+
+  override def onPrivateMessage(sender: String, login: String, hostname: String, message: String) {
+    val m = message.split(sep)
     try {
-      super.setName(nick)
-      lastChan = channel
-      connect(network, port)
-      joinChannel(channel)
-      "Joining " + channel + "..."
+      Command.withName(m.head.toUpperCase) match {
+        case Command.HELP => showHelp(sender)
+        case Command.CONFIG => showConfig(sender)
+      }
     } catch {
-      case nie: NickAlreadyInUseException => handleConnectionException("Fail: Nick is already in use.", network, channel, nick)
-      case ioe: IOException => handleConnectionException("Fail: IOException: " + ioe, network, channel, nick)
-      case ie: IrcException => handleConnectionException("Fail: IrcException: " + ie, network, channel, nick)
+      case nsee: NoSuchElementException => sendMessage(sender, "Command unknown: " + message)
     }
   }
 
-  override def onConnect = {
+  override def onConnect: Unit = {
     botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick)
   }
 
-  override def onDisconnect = {
+  override def onDisconnect: Unit = {
     botStatus = new BotStatus(Disconnected, NotSending, getServer, lastChan, getNick)
   }
 
@@ -82,7 +103,7 @@ class JenkemBot extends PircBot {
    * Shows the help-text.
    * @param target channel name or name of the receiver.
    */
-  def showHelp(target: String) {
+  private def showHelp(target: String) {
     sendMessage(target, "Play image from url: JENKEM [url]")
     sendMessage(target, "Show config: JENKEM CONFIG")
     sendMessage(target, "Change config: JENKEM [ConfigItem] [Value]")
@@ -93,7 +114,7 @@ class JenkemBot extends PircBot {
    * Shows the configuration.
    * @param target channel name or name of the receiver.
    */
-  def showConfig(target: String) {
+  private def showConfig(target: String) {
     sendMessage(target, "Delay (ms): " + getMessageDelay + ", Width (chars): " + settings.width
         //+ ", Kick: " + settings.kick //TODO implement
         + ", Power: " + settings.power)
@@ -106,11 +127,11 @@ class JenkemBot extends PircBot {
    * @param target name of the sender or channel
    * @param e the Exception to handle
    */
-  def showException(target: String, t: Throwable) {
+  private def showException(target: String, t: Throwable) {
     sendMessage(target, "FAIL: " + t.toString)
   }
 
-  def changeConfig(sender: String, item: String, value: String) = {
+  private def changeConfig(sender: String, item: String, value: String) {
     try {
       ConfigItem.withName(item.toUpperCase) match {
         case ConfigItem.DELAY => setMessageDelay(sender, value)
@@ -126,7 +147,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  def setMessageDelay(target: String, value: String) {
+  private def setMessageDelay(target: String, value: String) {
     val min = 100
     val max = 3000
     val between = " between " + min + " and " + max + "."
@@ -139,12 +160,12 @@ class JenkemBot extends PircBot {
     }
   }
 
-  def reset(target: String) {
+  private def reset(target: String) {
     settings.reset
     sendMessage(target, "Conversion settings have been resetted.")
   }
 
-  def setWidth(target: String, value: String) {
+  private def setWidth(target: String, value: String) {
     val min = 16
     val max = 80
     val between = " between " + min + " and " + max + "."
@@ -152,7 +173,7 @@ class JenkemBot extends PircBot {
       case IntExtractor(v) if min to max contains v =>
         if (v % 2 == 0) {
           settings.width = v
-          sendMessage(target, ConfigItem.WIDTH + " set to " + v)
+          sendMessage(target, ConfigItem.WIDTH + setTo + v)
         } else {
           sendMessage(target, ConfigItem.WIDTH + " must be even.")
         }
@@ -161,118 +182,79 @@ class JenkemBot extends PircBot {
     }
   }
 
-  def setMethod(target: String, value: String) {
+  private def setMethod(target: String, value: String) {
     try {
       val method = ConversionMethod.getValueByName(value)
       settings.method = method
-      sendMessage(target, ConfigItem.MODE + " set to " + value)
+      sendMessage(target, ConfigItem.MODE + setTo + value)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
     }
   }
 
-  def setScheme(target: String, value: String) {
+  private def setScheme(target: String, value: String) {
     try {
       val scheme = ColorScheme.getValueByName(value)
       settings.createColorMap(scheme)
-      sendMessage(target, ConfigItem.SCHEME + " set to " + value)
+      sendMessage(target, ConfigItem.SCHEME + setTo + value)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
     }
   }
 
-  def setCharset(target: String, value: String) {
-    if (value.length() < 3) sendMessage(target, ConfigItem.CHARSET + " must have at least 3 characters.")
+  private def setCharset(target: String, value: String) {
+    if (value.length() < 3) { sendMessage(target, ConfigItem.CHARSET + " must have at least 3 characters.") }
     else {
       try {
         val charset = CharacterSet.getValueByName(value)
         settings.chars = charset.getCharacters
-        sendMessage(target, ConfigItem.CHARSET + " set to " + charset.getCharacters)
+        sendMessage(target, ConfigItem.CHARSET + setTo + charset.getCharacters)
       } catch {
         case iae: IllegalArgumentException =>
-            val clean = value.replaceAll("[0-9],", "")
+            val clean = value.replaceAll("[0-9],", emp)
             settings.chars = " " + clean
-            sendMessage(target, ConfigItem.CHARSET + " set to " + clean)
+            sendMessage(target, ConfigItem.CHARSET + setTo + clean)
       }
     }
   }
 
-  def setPower(target: String, value: String) {
+  private def setPower(target: String, value: String) {
     try {
       val power = Power.getValueByName(value)
       settings.power = power
-      sendMessage(target, ConfigItem.POWER + " set to " + power.name)
+      sendMessage(target, ConfigItem.POWER + setTo + power.name)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
     }
   }
 
-  def setKick(target: String, value: String) {
+  private def setKick(target: String, value: String) {
     try {
       settings.kick = Kick.valueOf(value)
-      sendMessage(target, ConfigItem.KICK + " set to " + settings.kick)
+      sendMessage(target, ConfigItem.KICK + setTo + settings.kick)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
     }
   }
 
-  override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
-    val m = message.split(" ")
-    if (channel.equalsIgnoreCase(lastChan)) {
-      if (m.head.equalsIgnoreCase("Jenkem") || m.head.equalsIgnoreCase(getLogin) || m.head.equalsIgnoreCase(getNick)) {
-        try {
-          Command.withName(m.tail.head.toUpperCase) match {
-            case Command.GTFO => disconnect
-            case Command.QUIT => disconnect
-            case Command.STFU => makeStop
-            case Command.STOP => makeStop
-            case Command.HELP => showHelp(channel)
-            case Command.CONFIG => showConfig(channel)
-            case Command.SET => changeConfig(channel, m(2), m(3))
-            case Command.RESET => reset(channel)
-          }
-        } catch {
-          case nsee: NoSuchElementException => convertAndPlay(channel, m.tail.head)
-        }
-      }
-    }
-  }
-
-  def convertAndPlay(channel: String, url: String) {
+  private def convertAndPlay(channel: String, url: String) {
     jenkem.util.UrlOptionizer.extract(url) match {
       case Some(u) => playImage(engine.generate(url, settings))
       case None => sendMessage(channel, "Command unknown: " + url)
     }
   }
 
-  override def onPrivateMessage(sender: String, login: String, hostname: String, message: String) {
-    val m = message.split(" ")
-    try {
-      Command.withName(m.head.toUpperCase) match {
-        case Command.HELP => showHelp(sender)
-        case Command.CONFIG => showConfig(sender)
-      }
-    } catch {
-      case nsee: NoSuchElementException => sendMessage(sender, "Command unknown: " + message)
+  private def makeStop() {
+    if (isPlaying) {
+      stopSwitch = true
+      isPlaying = false
     }
   }
 
-  /**
-   * Takes a String[] and floods it to IRC by using a new Thread.
-   * @param channel name of the channel
-   * @param out a String[] with the image as ASCII for IRC.
-   */
-  @throws(classOf[InterruptedException])
-  def playImage(out: List[String]): String = {
-    this.synchronized {
-      if (isPlaying) "Bot is busy."
-      else if (getChannels.isEmpty) "Bot is not in any channel."
-      else {
-        playThread = new Thread(new IrcSender(out))
-        playThread.start
-        "Playing image..."
-      }
-    }
+  private def resetStop() {
+    stopSwitch = false
+    isPlaying = false
+    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick)
   }
 
   /**
@@ -302,17 +284,43 @@ class JenkemBot extends PircBot {
     }
   }
 
-  def makeStop() {
-    if (isPlaying) {
-      stopSwitch = true
-      isPlaying = false
+  /**
+   * Connects the jenkem bot to IRC and joins the selected channel.
+   */
+  def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {
+    settings.reset
+    def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
+      botStatus = new BotStatus(Disconnected, NotSending, network, channel, nick)
+      message
+    }
+    try {
+      super.setName(nick)
+      lastChan = channel
+      connect(network, port)
+      joinChannel(channel)
+      "Joining " + channel + "..."
+    } catch {
+      case nie: NickAlreadyInUseException => handleConnectionException("Fail: Nick is already in use.", network, channel, nick)
+      case ioe: IOException => handleConnectionException("Fail: IOException: " + ioe, network, channel, nick)
+      case ie: IrcException => handleConnectionException("Fail: IrcException: " + ie, network, channel, nick)
     }
   }
 
-  def resetStop() {
-    stopSwitch = false
-    isPlaying = false
-    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick)
+  /**
+   * Takes a String[] and floods it to IRC by using a new Thread.
+   * @param channel name of the channel
+   * @param out a String[] with the image as ASCII for IRC.
+   */
+  @throws(classOf[InterruptedException])
+  def playImage(out: List[String]): String = {
+    this.synchronized {
+      if (isPlaying) { "Bot is busy." }
+      else if (getChannels.isEmpty) { "Bot is not in any channel." }
+      else {
+        playThread = new Thread(new IrcSender(out))
+        playThread.start
+        "Playing image..."
+      }
+    }
   }
-
 }

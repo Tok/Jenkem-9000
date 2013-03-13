@@ -40,9 +40,7 @@ class CropStatus(val eventRouter: EventRouter) extends HorizontalLayout {
   var yEnd = 100
   reset
 
-  def getCrops: (Int, Int, Int, Int) = (xStart, xEnd, yStart, yEnd)
-  def reset = setCropStatus(0, 100, 0, 100)
-  def setCropStatus(xs: Int, xe: Int, ys: Int, ye: Int) {
+  private def setCropStatus(xs: Int, xe: Int, ys: Int, ye: Int) {
     xStart = xs
     xEnd = xe
     yStart = ys
@@ -59,4 +57,6 @@ class CropStatus(val eventRouter: EventRouter) extends HorizontalLayout {
     builder.append("%")
     statusLabel.setValue(builder.toString)
   }
+  def getCrops: (Int, Int, Int, Int) = (xStart, xEnd, yStart, yEnd)
+  def reset { setCropStatus(0, 100, 0, 100) }
 }

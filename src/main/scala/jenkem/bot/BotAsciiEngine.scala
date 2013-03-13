@@ -13,25 +13,24 @@ class ServerAsciiEngine {
   val engine = new Engine
   var contrast = 0
   var brightness = 0
-
-  def ServerAsciiEngine() {}
+  val defaultProcessing = 32
 
   def generate(url: String, cs: ConversionSettings): List[String] = {
     val lastIndex = prepare(url, cs)
     val ircOutput = List[String]()
     val step = cs.method.getStep
     def generate0(index: Int): List[String] = {
-      if (index + step > lastIndex) Nil
-      else engine.generateLine(cs.method, index) :: generate0(index + step)
+      if (index + step > lastIndex) { Nil }
+      else { engine.generateLine(cs.method, index) :: generate0(index + step) }
     }
     val message = if (!cs.method.equals(ConversionMethod.Plain)) {
       List("Mode: " + cs.method + ", Scheme: " + cs.schemeName
         + ", Brightness: " + brightness + ", Contrast: " + contrast)
-    } else Nil
+    } else { Nil }
     message ::: generate0(0)
   }
 
-  def prepare(url: String, cs: ConversionSettings): Int = {
+  private def prepare(url: String, cs: ConversionSettings): Int = {
     val originalImage = AwtImageUtil.bufferImage(url, "black")
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
@@ -39,7 +38,7 @@ class ServerAsciiEngine {
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, cs.kick)
 
     //TODO make changeable from bot
-    val ps: ProcessionSettings = new ProcessionSettings(32, true, true, true, true, false)
+    val ps: ProcessionSettings = new ProcessionSettings(defaultProcessing, true, true, true, true, false)
     val chars = cs.chars.replaceAll("[,0-9]", "")
 
     //TODO reimplement method and scheme overriding

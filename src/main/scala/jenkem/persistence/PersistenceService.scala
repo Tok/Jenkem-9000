@@ -12,7 +12,6 @@ import jenkem.shared.data.JenkemImage
 /**
  * Implementation of service to handle the persistence of reports.
  */
-@SerialVersionUID(-3333333333333333333L)
 object PersistenceService {
   val QUERY_RANGE = 200L
 
@@ -25,11 +24,12 @@ object PersistenceService {
       val tx: Transaction = pm.currentTransaction
       try {
         val name = jenkemImage.getInfo.getName
-        val exists: Boolean = getByName[ImageInfo](name, classOf[ImageInfo]) != null
-        if (exists) {
-          tx.begin
-          JenkemImage.Part.values.foreach(part => pm.deletePersistent(pm.getObjectById(part.obtainClass, name)))
-          tx.commit
+        Option(getByName[ImageInfo](name, classOf[ImageInfo])) match {
+          case Some(t) =>
+            tx.begin
+            JenkemImage.Part.values.foreach(part => pm.deletePersistent(pm.getObjectById(part.obtainClass, name)))
+            tx.commit
+          case None => { }
         }
         tx.begin
         JenkemImage.Part.values.foreach(part => pm.makePersistent(jenkemImage.getComponents.get(part)))
@@ -62,26 +62,27 @@ object PersistenceService {
    */
   def getImageIrcByName(name: String): ImageIrc = getByName[ImageIrc](name, classOf[ImageIrc])
 
-   /**
+  /**
    * Returns the representation of the stored type corresponding to the provided name.
    * @param name
    * @param type
    * @return type
    */
-  def getByName[T](name: String, c: java.lang.Class[T]): T = {
-    if (name == null) { null.asInstanceOf[T] }
-    else {
-      val pm = PMF.get.getPersistenceManager
-      try {
-        val query = pm.newQuery(c)
-        query.setUnique(true)
-        query.setFilter("name == n")
-        query.declareParameters("String n")
-        val result = query.execute(name).asInstanceOf[T]
-        result
-      } finally {
-        pm.close
-      }
+  private def getByName[T](name: String, c: java.lang.Class[T]): T = {
+    Option(name) match {
+      case Some(name) =>
+        val pm = PMF.get.getPersistenceManager
+        try {
+          val query = pm.newQuery(c)
+          query.setUnique(true)
+          query.setFilter("name == n")
+          query.declareParameters("String n")
+          val result = query.execute(name).asInstanceOf[T]
+          result
+        } finally {
+          pm.close
+        }
+      case None => throw new IllegalArgumentException("No Name.")
     }
   }
 

@@ -8,16 +8,14 @@ import jenkem.util.HtmlUtil
 /**
  * Servlet to retrieve and return stored HTML.
  */
-@SerialVersionUID(-999999999L)
 class HtmlOutputServlet extends AbstractOutputServlet {
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
     response.setCharacterEncoding(encoding)
     response.setContentType("text/html")
     val imageHtml: ImageHtml = jenkemService.getImageHtmlByName(obtainName(request))
-    if (imageHtml != null && imageHtml.getHtml != null) {
-      response.getWriter.println(imageHtml.getHtml)
-    } else {
-      response.getWriter.println(HtmlUtil.generateEmpty)
+    Option(imageHtml.getHtml) match {
+      case Some(html) => response.getWriter.write(html)
+      case None => response.getWriter.write(HtmlUtil.generateEmpty)
     }
   }
 }
