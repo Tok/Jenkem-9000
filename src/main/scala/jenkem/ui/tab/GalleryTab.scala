@@ -1,18 +1,16 @@
 package jenkem.ui.tab
 
 import scala.collection.JavaConversions.asScalaBuffer
-
 import com.vaadin.data.util.BeanItemContainer
 import com.vaadin.event.EventRouter
 import com.vaadin.server.ExternalResource
 import com.vaadin.ui.Link
 import com.vaadin.ui.Table
 import com.vaadin.ui.VerticalLayout
-
 import jenkem.persistence.PersistenceService
-import jenkem.shared.HtmlUtil
 import jenkem.shared.data.ImageInfo
 import jenkem.util.AwtImageUtil
+import jenkem.util.HtmlUtil
 
 class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   setCaption("Gallery")

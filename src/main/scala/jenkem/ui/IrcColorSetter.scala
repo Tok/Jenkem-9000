@@ -121,6 +121,6 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   }
   def makeEnabled(enabled: Boolean) {
     presetBox.setEnabled(enabled)
-    sliders.values.map(s => s.setEnabled(enabled))
+    sliders.values.foreach(s => s.setEnabled(enabled))
   }
 }

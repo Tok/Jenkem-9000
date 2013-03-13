@@ -23,7 +23,7 @@ class OutputDisplay extends VerticalLayout {
 
   def addIrcOutput(ircOutput: List[String]) {
     val lines = new StringBuilder(ircOutput.size)
-    ircOutput.map(line => lines.append(line))
+    ircOutput.foreach(line => lines.append(line))
     ircText.setValue(lines.toString)
   }
 }

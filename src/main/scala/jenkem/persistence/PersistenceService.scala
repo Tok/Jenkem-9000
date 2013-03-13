@@ -28,11 +28,11 @@ object PersistenceService {
         val exists: Boolean = getByName[ImageInfo](name, classOf[ImageInfo]) != null
         if (exists) {
           tx.begin
-          JenkemImage.Part.values.map(part => pm.deletePersistent(pm.getObjectById(part.obtainClass, name)))
+          JenkemImage.Part.values.foreach(part => pm.deletePersistent(pm.getObjectById(part.obtainClass, name)))
           tx.commit
         }
         tx.begin
-        JenkemImage.Part.values.map(part => pm.makePersistent(jenkemImage.getComponents.get(part)))
+        JenkemImage.Part.values.foreach(part => pm.makePersistent(jenkemImage.getComponents.get(part)))
         tx.commit
       } finally {
         if (tx.isActive) { tx.rollback }

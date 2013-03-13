@@ -21,7 +21,7 @@ class ConversionSettings {
 
   def createColorMap(cs: ColorScheme) {
     val map: java.util.Map[IrcColor, java.lang.Integer] = new HashMap[IrcColor, java.lang.Integer]
-    IrcColor.values.map(ic => map.put(ic, ic.getOrder(cs)))
+    IrcColor.values.foreach(ic => map.put(ic, ic.getOrder(cs)))
     colorMap = map
     schemeName = cs.name
   }

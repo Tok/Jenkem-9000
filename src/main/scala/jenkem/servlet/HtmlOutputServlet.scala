@@ -2,8 +2,8 @@ package jenkem.servlet
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import jenkem.shared.HtmlUtil
 import jenkem.shared.data.ImageHtml
+import jenkem.util.HtmlUtil
 
 /**
  * Servlet to retrieve and return stored HTML.

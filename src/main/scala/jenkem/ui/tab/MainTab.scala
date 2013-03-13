@@ -26,7 +26,6 @@ import jenkem.persistence.PersistenceService
 import jenkem.shared.CharacterSet
 import jenkem.shared.ConversionMethod
 import jenkem.shared.Engine
-import jenkem.shared.HtmlUtil
 import jenkem.shared.ImageUtil
 import jenkem.shared.Power
 import jenkem.shared.ProcessionSettings
@@ -43,10 +42,10 @@ import jenkem.ui.OutputDisplay
 import jenkem.util.AwtImageUtil
 import jenkem.engine.Kick
 import jenkem.engine.LineWidth
+import jenkem.util.HtmlUtil
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val engine = new Engine
-  val htmlUtil = new HtmlUtil
 
   val width = 400
   var conversionDisabled = true
@@ -303,7 +302,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
           Power.valueOf(powerBox.getValue.toString))
 
       ircOutput = generateIrcOutput(imageData.method, imageData.height)
-      outputDisplay.addIrcOutput(ircOutput)
+      outputDisplay.addIrcOutput(ircOutput.map(_ + "\n"))
       updateInline(imageData.method, ircOutput, imagePreparer.getName)
       imagePreparer.setStatus("Ready...")
       ircConnector.refresh
@@ -317,15 +316,15 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   def generateIrcOutput(method: ConversionMethod, lastIndex: Int): List[String] = {
     def generate0(index: Int): List[String] = {
       if (index + method.getStep > lastIndex) Nil
-      else engine.generateLine(method, index) + "\n" :: generate0(index + method.getStep)
+      else engine.generateLine(method, index) :: generate0(index + method.getStep)
     }
     generate0(0)
   }
 
   def updateInline(method: ConversionMethod, ircOutput: List[String], name: String) {
-    val htmlAndCss = htmlUtil.generateHtml(ircOutput, name, method)
-    val inlineCss = htmlUtil.prepareCssForInline(htmlAndCss(1))
-    val inlineHtml = htmlUtil.prepareHtmlForInline(htmlAndCss(0), inlineCss)
+    val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, method)
+    val inlineCss = HtmlUtil.prepareCssForInline(htmlAndCss._2)
+    val inlineHtml = HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)
     inline.setValue(inlineHtml)
   }
 
@@ -374,7 +373,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   def saveImage() {
     val name = imagePreparer.getName
-    val htmlAndCss = htmlUtil.generateHtml(ircOutput, name, imageData.method)
+    val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, imageData.method)
     val now = new Date
     val format = new java.text.SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
     val base64Icon = AwtImageUtil.encodeToBase64(imagePrep.icon)
@@ -382,11 +381,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val jenkemImageInfo = new ImageInfo(
         name, base64Icon, imageData.method.getName, convData.characters, ints, format.format(now)
     )
-    val jenkemImageHtml = new ImageHtml(name, htmlAndCss(0))
-    val jenkemImageCss = new ImageCss(name, htmlAndCss(1))
-    val irc = new StringBuilder
-    ircOutput.map(line => irc.append(line))
-    val jenkemImageIrc = new ImageIrc(name, irc.toString);
+    val jenkemImageHtml = new ImageHtml(name, htmlAndCss._1)
+    val jenkemImageCss = new ImageCss(name, htmlAndCss._2)
+    val jenkemImageIrc = new ImageIrc(name, ircOutput.map(_ + "\n").mkString)
     val jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc)
     PersistenceService.saveJenkemImage(jenkemImage)
     imagePreparer.setStatus("Image submitted to gallery.")
