@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter> 
+    <!-- Exclude scala classes: -->
 	<Match>
-		<!-- Exclude scala classes: -->
-		<Package name="~jenkem.server.*" />
+        <Package name="~jenkem.JenkemInit" />
+    </Match>
+    <Match>
+        <Package name="~jenkem.bot.*" />
+    </Match>
+    <Match>
+        <Package name="~jenkem.engine.*" />
+    </Match>
+    <Match>
+        <Package name="~jenkem.event.*" />
+    </Match>
+    <Match>
+        <Package name="~jenkem.persistence.*" />
+    </Match>
+    <Match>
+        <Package name="~jenkem.servlet.*" />
+    </Match>
+    <Match>
+        <Package name="~jenkem.ui.*" />
+    </Match>
+    <Match>
+        <Package name="~jenkem.util.*" />
 	</Match>
+    <!-- Excludes jdo-enhanced classes: -->
 	<Match>
-		<!-- Excludes jdo-enhanced classes: -->
 		<Package name="~jenkem.shared.data.*" />
 	</Match>
 </FindBugsFilter>
