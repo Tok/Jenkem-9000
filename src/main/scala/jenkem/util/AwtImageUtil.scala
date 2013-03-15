@@ -38,7 +38,7 @@ object AwtImageUtil {
     } else {
       if (invert) { colorWhite } else { colorBlack }
     }
-    val buffered = doBuffer(url, bg, color, defaultCrops)
+    val buffered = doBuffer(url, bg, color, crops)
     if (invert) { new RescaleOp(-1F, 255F, null).filter(buffered, null) }
     else { buffered }
   }
