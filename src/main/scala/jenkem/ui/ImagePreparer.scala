@@ -132,13 +132,14 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       case None => statusLabel.setComponentError(null)
     }
     statusLabel.setValue(status)
-    inputTextField.focus
   }
   def setStatus(status: String) { updateLabel(status, null) }
   def setError(error: String) { updateLabel(error, error) }
   def addIcon(img: BufferedImage) { submitter.addIcon(img) }
   def setName(name: String) { submitter.setName(name) }
   def getName: String = submitter.getName
+  def isInvert: Boolean = submitter.isInvert
+  def getBg: String = submitter.getBg
   def enableSubmission(enabled: Boolean) { submitter.enableSubmission(enabled) }
   def getCrops: (Int, Int, Int, Int) = cropStatus.getCrops
   def hasLink: Boolean = {
@@ -162,4 +163,5 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       case None => setError("URL is not Valid. Please enter URL to an image: "); None
     }
   }
+  def reset = submitter.reset
 }

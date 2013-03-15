@@ -1,11 +1,9 @@
 package jenkem.util
 
-import jenkem.shared.color.ColorUtil
 import jenkem.shared.ConversionMethod
 import org.apache.xalan.xsltc.compiler.ForEach
 
 object HtmlUtil {
-  val colorUtil = new ColorUtil
   val SEP = "\n"
   val CLOSE = "\">"
   val HOST = "https://jenkem-9000.rhcloud.com"
@@ -32,7 +30,7 @@ object HtmlUtil {
     css.append("div { float: left; width: auto; clear: both; }\n")
     css.append("span { float: left; width: auto; }\n")
     val lines = ircOutput.filterNot(_.equals(""))
-    if (method.equals(ConversionMethod.Plain)) {
+    if (!method.equals(ConversionMethod.Vortacular)) {
       (0 until lines.length).foreach(i => generatePlain(html, css, lines(i), i))
     } else { (0 until lines.length).foreach(i => generateColored(html, css, lines(i), i)) }
     html.append("</div>\n<div class=\"ircBinary\"><a href=\"")
@@ -42,7 +40,7 @@ object HtmlUtil {
     html.append(HOST)
     html.append(getHtmlUrl(name))
     html.append("\"><img src=\"/VAADIN/images/valid-html.png\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\"></a>")
-    if (!method.equals(ConversionMethod.Plain)) {
+    if (method.equals(ConversionMethod.Vortacular)) {
       html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=")
       html.append(HOST)
       html.append("&amp;profile=css3\"><img src=\"/VAADIN/images/valid-css.png\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\"></a>")
@@ -106,9 +104,9 @@ object HtmlUtil {
       css.append("_")
       css.append(id)
       css.append(" { color: ")
-      css.append(colorUtil.ircToCss(fg(id))) //fg
+      css.append(ColorUtil.ircToCss(fg(id))) //fg
       css.append("; background-color: ")
-      css.append(colorUtil.ircToCss(bg(id)))
+      css.append(ColorUtil.ircToCss(bg(id)))
       css.append("; }\n")
     }
     html.append("</div>\n")

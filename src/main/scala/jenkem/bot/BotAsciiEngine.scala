@@ -1,8 +1,9 @@
 package jenkem.bot
 
+import jenkem.engine.Engine
+import jenkem.engine.ProcSettings
+import jenkem.shared.CharacterSet
 import jenkem.shared.ConversionMethod
-import jenkem.shared.Engine
-import jenkem.shared.ProcessionSettings
 import jenkem.util.AwtImageUtil
 
 /**
@@ -18,12 +19,11 @@ class ServerAsciiEngine {
   def generate(url: String, cs: ConversionSettings): List[String] = {
     val lastIndex = prepare(url, cs)
     val ircOutput = List[String]()
-    val step = cs.method.getStep
     def generate0(index: Int): List[String] = {
-      if (index + step > lastIndex) { Nil }
-      else { engine.generateLine(cs.method, index) :: generate0(index + step) }
+      if (index + 2 > lastIndex) { Nil }
+      else { engine.generateLine(cs.method, index) :: generate0(index + 2) }
     }
-    val message = if (!cs.method.equals(ConversionMethod.Plain)) {
+    val message = if (cs.method.equals(ConversionMethod.Vortacular)) {
       List("Mode: " + cs.method + ", Scheme: " + cs.schemeName
         + ", Brightness: " + brightness + ", Contrast: " + contrast)
     } else { Nil }
@@ -31,25 +31,30 @@ class ServerAsciiEngine {
   }
 
   private def prepare(url: String, cs: ConversionSettings): Int = {
-    val originalImage = AwtImageUtil.bufferImage(url, "black")
+    val invert = false
+    val originalImage = AwtImageUtil.bufferImage(url, "black", invert)
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
-    val (width, height) = AwtImageUtil.calculateNewSize(cs.method, cs.width, originalWidth, originalHeight)
+    //val (width, height) = AwtImageUtil.calculateNewSize(cs.method, cs.width, originalWidth, originalHeight)
+    val (width, height) = AwtImageUtil.calculateNewSize(cs.width, originalWidth, originalHeight)
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, cs.kick)
 
     //TODO make changeable from bot
-    val ps: ProcessionSettings = new ProcessionSettings(defaultProcessing, true, true, true, true, false)
     val chars = cs.chars.replaceAll("[,0-9]", "")
+    val ps = ProcSettings.getInitial(CharacterSet.hasAnsi(chars))
 
     //TODO reimplement method and scheme overriding
     //val method = jenkem.shared.ImageUtil.getDefaultMethod(imageRgb, CharacterSet.hasAnsi(chars), width, height)
     //val scheme = jenkem.shared.ImageUtil.getDefaultColorScheme(imageRgb, width, height)
 
-    val contrast = jenkem.shared.ImageUtil.getDefaultContrast(imageRgb, width, height) - 100
-    val brightness = jenkem.shared.ImageUtil.getDefaultBrightness(imageRgb, width, height) - 100
+    //FIXME replace this and use imageRgb directly!!!
+    val legacyImageRgb = engine.makeLegacy(imageRgb)
+    val contrast = jenkem.shared.ImageUtil.getDefaultContrast(legacyImageRgb, width, height) - 100
+    val brightness = jenkem.shared.ImageUtil.getDefaultBrightness(legacyImageRgb, width, height) - 100
+    //////////////////
 
     engine.setParams(imageRgb, width, chars, contrast, brightness, ps)
-    if (!cs.method.equals(ConversionMethod.Plain)) {
+    if (cs.method.equals(ConversionMethod.Vortacular)) {
       engine.prepareEngine(cs.colorMap, cs.power)
     }
     height

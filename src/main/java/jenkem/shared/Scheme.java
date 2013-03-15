@@ -40,6 +40,10 @@ public class Scheme {
     private String right = "]";
     private String ansiLeft = "▌";
     private String ansiRight = "▐";
+    //private String antiLeftDown = ",";
+    //private String antiRightDown = ".";
+    //private String antiLeftUp = "'";
+    //private String antiRightUp = "`";
 
     public Scheme(final Type type) {
         this.type = type;
@@ -269,12 +273,8 @@ public class Scheme {
         this.vline = vline;
     }
 
-    public final String getUpDown(final ConversionMethod method) {
-        if (method.equals(ConversionMethod.Plain)) {
-            return upDown + upDown;
-        } else {
-            return upDown;
-        }
+    public final String getUpDown() {
+        return upDown;
     }
 
     public final String selectUpDown() {
@@ -285,12 +285,8 @@ public class Scheme {
         this.upDown = upDown;
     }
 
-    public final String getDownUp(final ConversionMethod method) {
-        if (method.equals(ConversionMethod.Plain)) {
-            return downUp + downUp;
-        } else {
-            return downUp;
-        }
+    public final String getDownUp() {
+        return downUp;
     }
 
     public final String selectDownUp() {

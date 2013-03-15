@@ -4,19 +4,9 @@ package jenkem.shared;
  * Enum for different ASCII-conversion methods.
  */
 public enum ConversionMethod {
-    Vortacular("Vortacular", true),
-    SuperHybrid("Super-Hybrid", true),
-    FullHd("Full-HD", false),
-    Hybrid("Hybrid", true),
-    Plain("Plain", true);
+    Vortacular, Plain, Stencil;
 
-    private String name;
-    private boolean hasKick;
-
-    private ConversionMethod(final String name, final boolean hasKick) {
-        this.name = name;
-        this.hasKick = hasKick;
-    }
+    private ConversionMethod() { }
 
     public static ConversionMethod getValueByName(final String name) {
         for (final ConversionMethod method : ConversionMethod.values()) {
@@ -38,19 +28,11 @@ public enum ConversionMethod {
     }
 
     public String getName() {
-        return name;
-    }
-
-    public boolean hasKick() {
-        return hasKick;
-    }
-
-    public int getStep() {
-        return hasKick ? 2 : 1;
+        return name();
     }
 
     @Override
     public String toString() {
-        return name;
+        return name();
     }
 }

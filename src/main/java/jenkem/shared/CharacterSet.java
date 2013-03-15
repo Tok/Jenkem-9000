@@ -5,6 +5,8 @@ package jenkem.shared;
  */
 public enum CharacterSet {
     //<-- brighter --- darker -->
+    HCrude(" #", false),
+    SCrude(" @", false),
     Hard(" -+xX#", false),
     Soft(" .:oO@", false),
     Ansi(" ░▒", true), //"▓" makes FG > BG and should not be used

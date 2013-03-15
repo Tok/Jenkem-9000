@@ -37,9 +37,8 @@ class JenkemInit extends UI {
     titleLayout.setComponentAlignment(asciiLabel, Alignment.MIDDLE_CENTER)
 
     val image = new Image("", new ThemeResource("j.png"))
-
     titleLayout.addComponent(image)
-    titleLayout.setComponentAlignment(image, Alignment.MIDDLE_CENTER)
+    titleLayout.setComponentAlignment(image, Alignment.TOP_CENTER)
 
     layout.addComponent(titleLayout)
     layout.setComponentAlignment(titleLayout, Alignment.TOP_CENTER)

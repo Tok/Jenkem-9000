@@ -2,33 +2,39 @@ package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
+
+import scala.Array.canBuildFrom
 import scala.collection.JavaConversions.seqAsJavaList
+
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.data.Property.ValueChangeListener
 import com.vaadin.event.EventRouter
 import com.vaadin.shared.ui.label.ContentMode
 import com.vaadin.ui.AbsoluteLayout
+import com.vaadin.ui.Alignment
 import com.vaadin.ui.Button
 import com.vaadin.ui.Button.ClickEvent
 import com.vaadin.ui.CheckBox
 import com.vaadin.ui.Component
 import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
+import com.vaadin.ui.ListSelect
 import com.vaadin.ui.NativeSelect
 import com.vaadin.ui.OptionGroup
 import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
+
+import jenkem.engine.Engine
+import jenkem.engine.Kick
 import jenkem.event.DoConversionEvent
 import jenkem.event.SendToIrcEvent
 import jenkem.persistence.PersistenceService
 import jenkem.shared.CharacterSet
 import jenkem.shared.ConversionMethod
-import jenkem.shared.Engine
 import jenkem.shared.ImageUtil
 import jenkem.shared.Power
-import jenkem.shared.ProcessionSettings
 import jenkem.shared.data.ImageCss
 import jenkem.shared.data.ImageHtml
 import jenkem.shared.data.ImageInfo
@@ -39,14 +45,18 @@ import jenkem.ui.Inline
 import jenkem.ui.IrcColorSetter
 import jenkem.ui.IrcConnector
 import jenkem.ui.OutputDisplay
+import jenkem.ui.ProcSetter
 import jenkem.util.AwtImageUtil
-import jenkem.engine.Kick
-import jenkem.engine.LineWidth
 import jenkem.util.HtmlUtil
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val engine = new Engine
   val nbsp = "&nbsp;"
+
+  val capW = 150
+  val defaultWidth = 68
+  val minWidth = 16
+  val maxWidth = 74
 
   var conversionDisabled = true
   var ircOutput: List[String] = Nil
@@ -55,11 +65,19 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   var convData: ConversionData = _
 
   class ImagePreparationData(val icon: BufferedImage, val originalName: String)
-  class ImageData(val imageRgb: java.util.Map[String, Array[java.lang.Integer]],
+  class ImageData(val imageRgb: Map[(Int, Int), (Short, Short, Short)],
       val width: Int, val height: Int, val lineWidth: Int, val kick: Kick.Value,
       val method: ConversionMethod)
   class ConversionData(val contrast: Int, val brightness: Int,
       val characters: String)
+
+  val resizeValueChangeListener = new Property.ValueChangeListener {
+    override def valueChange(event: ValueChangeEvent) { startConversion(false, true) }
+  }
+
+  val noResizeValueChangeListener = new Property.ValueChangeListener {
+    override def valueChange(event: ValueChangeEvent) { startConversion(false, false) }
+  }
 
   setCaption("Main")
   setSizeFull
@@ -72,51 +90,65 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val settingsLayout = new VerticalLayout
   settingsLayout.setSpacing(true)
 
+  val inline = new Inline
+  val inlineLayout = new VerticalLayout
+
+  val kickLayout = new HorizontalLayout
+  val kickLabel = new Label("Kick: ")
+  kickLabel.setWidth("88px")
+  val kickSelect = new OptionGroup(null, Kick.getAll)
+  kickSelect.addStyleName("horizontal");
+  kickSelect.setNullSelectionAllowed(false)
+  kickSelect.setImmediate(true)
+  kickSelect.addValueChangeListener(resizeValueChangeListener)
+  kickLayout.addComponent(kickLabel)
+  kickLayout.addComponent(kickSelect)
+  inlineLayout.addComponent(kickLayout)
+
   val imagePreparer = new ImagePreparer(eventRouter)
   imagePreparer.enableSubmission(false)
   addComponent(imagePreparer)
   addComponent(mainLayout)
 
-  val inline = new Inline
-  mainLayout.addComponent(inline)
+  val lwLayout = new HorizontalLayout
+  val lwCaptionLabel = new Label("Line Width: ")
+  lwCaptionLabel.setWidth("88px")
+  lwLayout.addComponent(lwCaptionLabel)
+  lwLayout.setComponentAlignment(lwCaptionLabel, Alignment.MIDDLE_LEFT)
+  val widthSlider = new Slider
+  widthSlider.setMin(minWidth)
+  widthSlider.setValue(defaultWidth)
+  widthSlider.setMax(maxWidth)
+  widthSlider.addValueChangeListener(resizeValueChangeListener)
+  widthSlider.setWidth("350px")
+  lwLayout.addComponent(widthSlider)
+  lwLayout.setComponentAlignment(widthSlider, Alignment.MIDDLE_LEFT)
+  inlineLayout.addComponent(lwLayout)
+  inlineLayout.addComponent(inline)
+  mainLayout.addComponent(inlineLayout)
+
   mainLayout.addComponent(settingsLayout)
 
-  val resizeValueChangeListener = new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) { startConversion(false, true) }
-  }
-
-  val noResizeValueChangeListener = new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) { startConversion(false, false) }
-  }
-
-  val methodBox = makeNativeSelect("Conversion Method: ")
-  val widthBox = makeNativeSelect("Max Line Width: ")
+  val methodBox = makeListMethodSelect("Conversion Method: ")
   val resetButton = new Button("Reset")
-  settingsLayout.addComponent(makeLabeled("Reset All Settings: ", resetButton))
-  val charsetBox = makeNativeSelect("Character Set: ")
-  val charTextField = new TextField
-  settingsLayout.addComponent(makeLabeled("Characters: ", charTextField))
-  val (processingSlider, processingLabel) = makeSliderAndLabel("Processing: ", 0, 64, 32)
-  val processingLayout = new HorizontalLayout
-  val doVlineBox = makeCheckBox("|")
-  processingLayout.addComponent(doVlineBox)
-  val doHlineBox = makeCheckBox("-")
-  processingLayout.addComponent(doHlineBox)
-  val doDbqplineBox = makeCheckBox("dbqp")
-  processingLayout.addComponent(doDbqplineBox)
-  val doDiaglineBox = makeCheckBox("/ \\")
-  processingLayout.addComponent(doDiaglineBox)
-  settingsLayout.addComponent(makeLabeled("Options: ", processingLayout))
-  val kickSelect = new OptionGroup("", Kick.getAll)
-  settingsLayout.addComponent(makeLabeled("Kick: ", kickSelect))
-  val powerBox = makeNativeSelect("Power: ")
-  val bgOptions = List("white", "black")
-  val bgSelect = new OptionGroup("", bgOptions)
-  bgSelect.setDescription("Only relvant for images with transparency.")
-  settingsLayout.addComponent(makeLabeled("Background: ", bgSelect))
+  settingsLayout.addComponent(makeLabeled("Reset All Settings: ", capW, resetButton))
   val (contrastSlider, contrastLabel) = makeSliderAndLabel("Contrast: ", -100, 100, 0)
   val (brightnessSlider, brightnessLabel) = makeSliderAndLabel("Brightness: ", -100, 100, 0)
+
+  val charsetLayout = new HorizontalLayout
+  val charsetBox = new NativeSelect
+  charsetBox.setNullSelectionAllowed(false)
+  charsetBox.setImmediate(true)
+  charsetBox.setWidth("120px")
+  val charTextField = new TextField
+  charTextField.setWidth("125px")
+  charsetLayout.addComponent(charsetBox)
+  charsetLayout.addComponent(charTextField)
+  settingsLayout.addComponent(makeLabeled("Characters: ", capW, charsetLayout))
+  val procSetter = new ProcSetter(eventRouter)
+  settingsLayout.addComponent(makeLabeled("Processing: ", capW, procSetter))
   settingsLayout.addComponent(new Label(nbsp, ContentMode.HTML))
+  val powerBox = makeNativeSelect("Power: ")
   val ircColorSetter = new IrcColorSetter(eventRouter)
   settingsLayout.addComponent(ircColorSetter)
   settingsLayout.addComponent(new Label(nbsp, ContentMode.HTML))
@@ -125,17 +157,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   settingsLayout.addComponent(new Label(nbsp, ContentMode.HTML))
   val ircConnector = new IrcConnector(eventRouter)
   settingsLayout.addComponent(ircConnector)
-
-  ConversionMethod.values.foreach(m => methodBox.addItem(m))
-  methodBox.addValueChangeListener(new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) {
-      makeInitsForMethod
-      startConversion(false, true)
-    }
-  })
-
-  LineWidth.getAll.map(lw => widthBox.addItem(lw.value))
-  widthBox.addValueChangeListener(resizeValueChangeListener)
 
   resetButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent) {
@@ -156,20 +177,10 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   charTextField.setImmediate(true)
   charTextField.addValueChangeListener(noResizeValueChangeListener)
 
-  kickSelect.addStyleName("horizontal");
-  kickSelect.setNullSelectionAllowed(false)
-  kickSelect.setImmediate(true)
-  kickSelect.addValueChangeListener(resizeValueChangeListener)
+
 
   Power.values.foreach(p => powerBox.addItem(p))
   powerBox.addValueChangeListener(noResizeValueChangeListener)
-
-  bgSelect.addStyleName("horizontal");
-  bgSelect.setNullSelectionAllowed(false)
-  bgSelect.setImmediate(true)
-  bgSelect.addValueChangeListener(new ValueChangeListener() {
-    override def valueChange(event: ValueChangeEvent) { startConversion(true, true) }
-  })
 
   eventRouter.addListener(classOf[DoConversionEvent], new {
     def convert(e: DoConversionEvent) {
@@ -184,15 +195,32 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val box = new NativeSelect
     box.setNullSelectionAllowed(false)
     box.setImmediate(true)
-    val layout = makeLabeled(caption, box)
+    val layout = makeLabeled(caption, capW, box)
     settingsLayout.addComponent(layout)
     box
   }
 
-  private def makeLabeled(caption: String, component: Component) = {
+  private def makeListMethodSelect(caption: String): ListSelect = {
+    val settings = new ListSelect
+    settings.addValueChangeListener(new Property.ValueChangeListener {
+      override def valueChange(event: ValueChangeEvent) {
+        makeInitsForMethod
+        startConversion(false, true)
+      }
+    })
+    settings.setRows(ConversionMethod.values.length)
+    ConversionMethod.values.map(settings.addItem(_))
+    settings.setNullSelectionAllowed(false)
+    settings.setImmediate(true)
+    val layout = makeLabeled(caption, capW, settings)
+    settingsLayout.addComponent(layout)
+    settings
+  }
+
+  private def makeLabeled(caption: String, width: Int, component: Component) = {
     val layout = new HorizontalLayout
     val captionLabel = new Label(caption)
-    captionLabel.setWidth("150px")
+    captionLabel.setWidth(width + "px")
     component.setWidth("250px")
     layout.addComponent(captionLabel)
     layout.addComponent(component)
@@ -226,24 +254,19 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     layout.setWidth("100%")
     layout.addComponent(slider, "left:0px")
     layout.addComponent(label, "left:220px")
-    settingsLayout.addComponent(makeLabeled(caption, layout))
+    settingsLayout.addComponent(makeLabeled(caption, capW, layout))
     (slider, label)
   }
 
   private def doReset() {
     conversionDisabled = true
     methodBox.select(ConversionMethod.Vortacular)
-    widthBox.select(LineWidth.default.value)
+    widthSlider.setValue(defaultWidth)
     charsetBox.select(CharacterSet.Ansi)
     charTextField.setValue(CharacterSet.Ansi.getCharacters)
-    processingSlider.setValue(32)
-    doVlineBox.setValue(false)
-    doHlineBox.setValue(false)
-    doDbqplineBox.setValue(false)
-    doDiaglineBox.setValue(false)
+    procSetter.reset(true)
     kickSelect.select(Kick.default)
     powerBox.select(Power.Quadratic)
-    bgSelect.select(bgOptions(0))
     contrastSlider.setValue(0)
     brightnessSlider.setValue(0)
     ircColorSetter.reset
@@ -252,7 +275,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def doPrepareImage(url: String) {
     val crops = imagePreparer.getCrops
-    val icon = AwtImageUtil.makeIcon(url, bgSelect.getValue.toString, crops)
+    val invert = imagePreparer.isInvert
+    val bg = imagePreparer.getBg
+    val icon = AwtImageUtil.makeIcon(url, bg, invert, crops)
     imagePreparer.addIcon(icon)
     imagePreparer.setName(url.split("/").last)
     imagePreparer.enableSubmission(true)
@@ -262,12 +287,15 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   private def doPrepareImageData(url: String) {
     val kick = Kick.valueOf(kickSelect.getValue.toString)
     val crops = imagePreparer.getCrops
-    val originalImage = AwtImageUtil.bufferImage(url, bgSelect.getValue.toString, crops)
+    val invert = imagePreparer.isInvert
+    val bg = imagePreparer.getBg
+    val originalImage = AwtImageUtil.bufferImage(url, bg, invert, crops)
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
-    val lineWidth = widthBox.getValue.toString.toInt
+    val lineWidth = widthSlider.getValue.intValue
     val method = ConversionMethod.getValueByName(methodBox.getValue.toString)
-    val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
+    //val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
+    val (width, height) = AwtImageUtil.calculateNewSize(lineWidth, originalWidth, originalHeight)
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
     val dataWidth = width - (2 * kick.xOffset)
     val dataHeight = height - (2 * kick.yOffset)
@@ -293,17 +321,11 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       val contrast = contrastLabel.getValue.toInt
       val brightness = brightnessLabel.getValue.toInt
       convData = new ConversionData(contrast, brightness, chars)
-
-      val ps = new ProcessionSettings(
-        64 - processingLabel.getValue.toInt,
-        doVlineBox.getValue, doHlineBox.getValue,
-        doDbqplineBox.getValue, doDiaglineBox.getValue, false) //TODO remove edgy setting
-
+      val ps = procSetter.getSettings
       engine.setParams(imageData.imageRgb, imageData.width, chars,
           convData.contrast, convData.brightness , ps)
       engine.prepareEngine(ircColorSetter.getColorMap,
           Power.valueOf(powerBox.getValue.toString))
-
       ircOutput = generateIrcOutput(imageData.method, imageData.height)
       outputDisplay.addIrcOutput(ircOutput.map(_ + "\n"))
       updateInline(imageData.method, ircOutput, imagePreparer.getName)
@@ -318,8 +340,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def generateIrcOutput(method: ConversionMethod, lastIndex: Int) = {
     def generate0(index: Int): List[String] = {
-      if (index + method.getStep > lastIndex) { Nil }
-      else { engine.generateLine(method, index) :: generate0(index + method.getStep) }
+      if (index + 2 > lastIndex) { Nil }
+      else { engine.generateLine(method, index) :: generate0(index + 2) }
     }
     generate0(0)
   }
@@ -337,11 +359,16 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val width = imageData.width
     val height = imageData.height
     val chars = charTextField.getValue.replaceAll("[,0-9]", "")
-    val defaultScheme = ImageUtil.getDefaultColorScheme(imageRgb, width, height)
+
+    //FIXME replace this and use imageRgb directly!!!
+    val legacyImageRgb = engine.makeLegacy(imageRgb)
+    //////////////////
+
+    val defaultScheme = ImageUtil.getDefaultColorScheme(legacyImageRgb, width, height)
     ircColorSetter.setSelectedScheme(defaultScheme)
-    val con = jenkem.shared.ImageUtil.getDefaultContrast(imageRgb, width, height) - 100
+    val con = jenkem.shared.ImageUtil.getDefaultContrast(legacyImageRgb, width, height) - 100
     contrastSlider.setValue(con)
-    val bri = jenkem.shared.ImageUtil.getDefaultBrightness(imageRgb, width, height) - 100
+    val bri = jenkem.shared.ImageUtil.getDefaultBrightness(legacyImageRgb, width, height) - 100
     brightnessSlider.setValue(bri)
     conversionDisabled = false
   }
@@ -349,28 +376,23 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   private def makeInitsForMethod() {
     conversionDisabled = true
     val method = ConversionMethod.getValueByName(methodBox.getValue.toString)
-    kickSelect.setEnabled(method.hasKick)
-    ircColorSetter.makeEnabled(!method.equals(ConversionMethod.Plain))
-    powerBox.setEnabled(!method.equals(ConversionMethod.Plain))
+    ircColorSetter.makeEnabled(method.equals(ConversionMethod.Vortacular))
+    powerBox.setEnabled(method.equals(ConversionMethod.Vortacular))
     if (method.equals(ConversionMethod.Plain)) {
       charsetBox.setValue(CharacterSet.Hard)
+    } else if (method.equals(ConversionMethod.Stencil)) {
+      charsetBox.setValue(CharacterSet.HCrude)
     } else {
       charsetBox.setValue(CharacterSet.Ansi)
     }
-    doVlineBox.setValue(!method.equals(ConversionMethod.Vortacular))
-    doHlineBox.setValue(!method.equals(ConversionMethod.Vortacular))
-    doDbqplineBox.setValue(!method.equals(ConversionMethod.Vortacular))
-    doDiaglineBox.setValue(!method.equals(ConversionMethod.Vortacular))
+    procSetter.reset(CharacterSet.hasAnsi(charTextField.getValue))
     conversionDisabled = false
   }
 
   private def makeInitsForCharset() {
     conversionDisabled = true
     val chars = charTextField.getValue
-    doVlineBox.setValue(!CharacterSet.hasAnsi(chars))
-    doHlineBox.setValue(!CharacterSet.hasAnsi(chars))
-    doDbqplineBox.setValue(!CharacterSet.hasAnsi(chars))
-    doDiaglineBox.setValue(!CharacterSet.hasAnsi(chars))
+    procSetter.reset(CharacterSet.hasAnsi(charTextField.getValue))
     conversionDisabled = false
   }
 

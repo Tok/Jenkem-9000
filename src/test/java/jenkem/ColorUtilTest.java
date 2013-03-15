@@ -1,96 +1,10 @@
 package jenkem;
 
-import jenkem.shared.CharacterSet;
-import jenkem.shared.ProcessionSettings;
-import jenkem.shared.Scheme;
 import jenkem.shared.color.ColorUtil;
 import jenkem.shared.color.IrcColor;
 
 public class ColorUtilTest extends AbstractReflectionTestCase {
-    private final ProcessionSettings settings = new ProcessionSettings(32, true, true, true, true, false);
-    private final CharacterSet preset = CharacterSet.Hard;
     private final ColorUtil util = new ColorUtil();
-    private final Scheme scheme = new Scheme(Scheme.Type.ASCII);
-    private final String up = scheme.getUp();
-    private final String down = scheme.getDown();
-    private final String hLine = scheme.getHline();
-
-    public final void testUpPostProcession() throws Exception {
-        final String upInput = "##" + up + up + up + up + "##";
-        final Object[] upParameters = {scheme, upInput, true};
-        final String upOutput = (String) invokePrivateMethod(util, "postProcessHor", upParameters);
-        assertEquals("##" + up + hLine + hLine + up + "##", upOutput);
-    }
-
-    public final void testDownPostProcession() throws Exception {
-        final String downInput = "##" + down + down + down + down + "##";
-        final Object[] downParameters = {scheme, downInput, false};
-        final String downOutput = (String) invokePrivateMethod(util, "postProcessHor", downParameters);
-        assertEquals("##" + down + hLine + hLine + down + "##", downOutput);
-    }
-
-    public final void testPostProcession() throws Exception {
-        final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
-        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
-        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals("##b" + down + down + "d##p" + up + up + "q##", output);
-    }
-
-    public final void testMixedPostProcession() throws Exception {
-        final String input = "##" + down + down + down + "##" + up + up + up + "##";
-        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
-        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals("##b" + down + "d##p" + up + "q##", output);
-    }
-
-    public final void testMoreMixedPostProcession() throws Exception {
-        final String input = "##" + down + down + down + down + down + "##" + up + up + up + up + up + "##";
-        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
-        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals("##b" + down + hLine + down + "d##p" + up + hLine + up + "q##", output);
-    }
-
-    public final void testMinPostProcession() throws Exception {
-        final String input = "##" + down + down + "##" + up + up + "##";
-        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
-        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        //assertEquals(input, output); //no change TODO rethink this
-        assertEquals("##bd##pq##", output);
-    }
-
-    public final void testPostProcessRowWithColor() throws Exception {
-        final String input = ColorUtil.CC + "##" + down + down + down + down + "##" + up + up + up + up + "##";
-        final String expect = ColorUtil.CC + "##b" + down + down + "d##p" + up + up + "q##";
-        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
-        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals(expect, output);
-    }
-
-    public final void testPostProcessRowWithhoutColor() throws Exception {
-        final String input = "##" + down + down + down + down + "##" + up + up + up + up + "##";
-        final String expect = "##b" + down + down + "d##p" + up + up + "q##";
-        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
-        final String output = (String) invokePrivateMethod(util, "postProcessRow", parameters);
-        assertEquals(expect, output);
-    }
-
-    public final void testColorPostProcessionWithColorRedundancies() throws Exception {
-        final String input = ColorUtil.CC + "1,1##" + ColorUtil.CC + "1,1XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
-        final String expect = ColorUtil.CC + "1,1##XX" + ColorUtil.CC + "11,11xx" + ColorUtil.CC + "1,1@@";
-        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
-        final String output = (String) invokePrivateMethod(util, "postProcessColoredRow", parameters);
-        assertEquals(expect, output);
-    }
-
-    public final void testColorPostProcessionWithoutColor() throws Exception {
-        final String input = ColorUtil.CC + "1,1##" + down + ColorUtil.CC + "2,2"
-                + down + down + down + "##" + up + up + ColorUtil.CC + "3,3" + up + up + "##";
-        final String expect = ColorUtil.CC + "1,1##b" + ColorUtil.CC + "2,2"
-                + down + down + "d##p" + up + ColorUtil.CC + "3,3" + up + "q##";
-        final Object[] parameters = {scheme, input, preset.getCharacters(), settings};
-        final String output = (String) invokePrivateMethod(util, "postProcessColoredRow", parameters);
-        assertEquals(expect, output);
-    }
 
     public final void testColorConfig() throws Exception {
         final String whiteResult = util.colorConfig(IrcColor.white.getValue(), "###");
@@ -141,13 +55,6 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
         assertEquals("#00ff00", util.ircToCss(IrcColor.green.getValue()));
         assertEquals("#0000ff", util.ircToCss(IrcColor.blue.getValue()));
         assertEquals("#ffffff", util.ircToCss(IrcColor.white.getValue()));
-        /* prepare css entries:
-        for (IrcColor ic : IrcColor.values()) {
-            System.out.println("." + ic + " {");
-            System.out.println("    color: " + util.ircToCss(ic.getValue()));
-            System.out.println("}");
-            System.out.println("");
-        } */
     }
 
     public final void testIsColorInfo() throws Exception {
@@ -220,29 +127,6 @@ public class ColorUtilTest extends AbstractReflectionTestCase {
         final String input = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1 " + ColorUtil.CC + ColorUtil.CC + "  ";
         final String expected = ColorUtil.CC + "2,1  " + ColorUtil.CC + "1,2#" + ColorUtil.CC + "2,1   ";
         final String result = ColorUtil.makeBlocksValid(input);
-        assertEquals(expected, result);
-    }
-
-    public final void testPostReplacementsVline() throws Exception {
-        final ProcessionSettings settings = new ProcessionSettings(32, true, true, true, true, false);
-        final String input = " ### ###  ###";
-        final String expected = " |#| |#|  |##";
-        final String result = util.postReplacements(scheme, input, preset.getCharacters(), settings);
-        assertEquals(expected.length(), result.length());
-        assertEquals(expected, result);
-    }
-
-    public final void testPostReplacementsDownUp() throws Exception {
-        final String input = " _\" \"_ ";
-        final String expected = " // \\\\ ";
-        final String result = util.postReplacements(scheme, input, preset.getCharacters(), settings);
-        assertEquals(expected, result);
-    }
-
-    public final void testPostReplacementsLeftRight() throws Exception {
-        final String input = " \"#\" _#_ ";
-        final String expected = " q#p d#b ";
-        final String result = util.postReplacements(scheme, input, preset.getCharacters(), settings);
         assertEquals(expected, result);
     }
 }
