@@ -177,8 +177,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   charTextField.setImmediate(true)
   charTextField.addValueChangeListener(noResizeValueChangeListener)
 
-
-
   Power.values.foreach(p => powerBox.addItem(p))
   powerBox.addValueChangeListener(noResizeValueChangeListener)
 

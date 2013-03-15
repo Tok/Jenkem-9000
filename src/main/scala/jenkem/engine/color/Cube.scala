@@ -1,8 +1,6 @@
 package jenkem.engine.color
 
-import jenkem.shared.color.Color
 import jenkem.shared.color.IrcColor
-import jenkem.shared.color.WeightedColor
 import jenkem.shared.Power
 import jenkem.shared.Scheme
 
@@ -13,7 +11,7 @@ object Cube {
       else { makeWeightedList(createWc(colorMap, col, ic.head) :: wl, ic.tail) }
     }
     def calcPoweredStrength(col: (Short, Short, Short), wc: WeightedColor, p: Double): Double = {
-      Math.pow(calcStrength(col, wc.getCoords, colorMap.get(wc.getColor).doubleValue), p)
+      Math.pow(calcStrength(col, wc.getCoords, colorMap.get(wc.ircColor).doubleValue), p)
     }
 
     val list: List[WeightedColor] = makeWeightedList(Nil, IrcColor.values.toList)
@@ -33,7 +31,7 @@ object Cube {
     // the same distance to all the 3 RGB and the 3 CMY edges).
 
     val shuffled: List[WeightedColor] = util.Random.shuffle(list)
-    val ordered: List[WeightedColor] = shuffled.sortBy(_.getWeight)
+    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)
     val strongest: WeightedColor = ordered.head
     val second: WeightedColor = ordered.tail.head
 
@@ -50,40 +48,37 @@ object Cube {
     val secondStrength = calcPoweredStrength(col, second, p)
     val strength: Double = strongestStrength / secondStrength
 
-    val c: Color = new Color
-    c.setRgb(Array(col._1, col._2, col._3))
-    c.setBg(strongest.getColor.getValueString)
-    c.setBgRgb(strongest.getCoords)
-    c.setFg(second.getColor.getValueString)
-    c.setFgRgb(second.getCoords)
-    c.setBgStrength(strength)
-
-    c
+    new Color(
+        second.ircColor.getValue.toString, second.getCoords,
+        strongest.ircColor.getValue.toString, strongest.getCoords,
+        strength
+    )
   }
 
   def getColorChar(colorMap: java.util.Map[IrcColor, Integer],
             scheme: Scheme, charset: String, p: Power, rgb: (Short, Short, Short)): String = {
     val c: Color = getTwoNearestColors(rgb, colorMap, p)
-    c.getFg + "," + c.getBg() + scheme.getChar(c.getBgStrength, charset, Scheme.StrengthType.RELATIVE)
+    c.fg.toString + "," + c.bg.toString + scheme.getChar(c.strength, charset, Scheme.StrengthType.RELATIVE)
   }
 
   private def createWc(colorMap: java.util.Map[IrcColor, Integer],
     col: (Short, Short, Short), ic: IrcColor): WeightedColor = {
-    val weight = calcStrength(col, ic.getRgb, colorMap.get(ic).doubleValue)
-    WeightedColor.getInstance(ic, weight)
+    val icRgb = ic.getRgb.map(_.shortValue)
+    val weight = calcStrength(col, (icRgb(0),icRgb(1),icRgb(2)) , colorMap.get(ic).doubleValue)
+    new WeightedColor(ic, weight)
   }
 
-  private def calcStrength(col: (Short, Short, Short), comp: Array[Int], factor: Double): Double = {
+  private def calcStrength(col: (Short, Short, Short), comp: (Short, Short, Short), factor: Double): Double = {
     calcDistance(col, comp) / factor
   }
 
-  private def calcDistance(from: (Short, Short, Short), to: Array[Int]): Double = {
+  private def calcDistance(from: (Short, Short, Short), to: (Short, Short, Short)): Double = {
     val fromRed = from._1
     val fromGreen = from._2
     val fromBlue = from._3
-    val toRed = to(0)
-    val toGreen = to(1)
-    val toBlue = to(2)
+    val toRed = to._1
+    val toGreen = to._2
+    val toBlue = to._3
     Math.sqrt((Math.pow(toRed - fromRed, 2D)
       + Math.pow(toGreen - fromGreen, 2D)
       + Math.pow(toBlue - fromBlue, 2D)))

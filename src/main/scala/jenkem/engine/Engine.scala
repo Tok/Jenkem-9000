@@ -101,10 +101,10 @@ class Engine {
         if (settings.has(ProcSettings.UPDOWN)) {
           val td = topDiff(i)
           val bd = botDiff(i)
-          val topBg = top(i).getBg
-          val botBg = bot(i).getBg
-          val topFg = top(i).getFg
-          val botFg = bot(i).getFg
+          val topBg = top(i).bg
+          val botBg = bot(i).bg
+          val topFg = top(i).fg
+          val botFg = bot(i).fg
           val offset = ((settings.get(ProcSettings.UPDOWN) * -1) + 100) / 5
           if (td + offset < bd) {
             selectAppropriate(old, topBg, botBg, totalBgs(i), botFg, scheme.getUp)
@@ -117,10 +117,10 @@ class Engine {
         if (settings.has(ProcSettings.LEFTRIGHT)) {
           val ld = leftDiff(i)
           val rd = rightDiff(i)
-          val leftBg = left(i).getBg
-          val rightBg = right(i).getBg
-          val leftFg = left(i).getFg
-          val rightFg = right(i).getFg
+          val leftBg = left(i).bg
+          val rightBg = right(i).bg
+          val leftFg = left(i).fg
+          val rightFg = right(i).fg
           val offset = ((settings.get(ProcSettings.LEFTRIGHT) * -1) + 100) / 5
           if (ld + offset < rd) {
             selectAppropriate(old, leftBg, rightBg, totalBgs(i), rightFg, scheme.getLeft)
