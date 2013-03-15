@@ -1,23 +1,24 @@
 package jenkem.bot
 
 import java.util.HashMap
-import scala.Array.canBuildFrom
+
 import scala.reflect.BeanProperty
+
+import jenkem.engine.ConversionMethod
+import jenkem.engine.Kick
+import jenkem.engine.color.Power
 import jenkem.shared.CharacterSet
 import jenkem.shared.ColorScheme
-import jenkem.shared.ConversionMethod
-import jenkem.shared.Power
 import jenkem.shared.color.IrcColor
-import jenkem.engine.Kick
 
 class ConversionSettings {
   @BeanProperty var width: Int = _
-  @BeanProperty var method: ConversionMethod = _
+  @BeanProperty var method: ConversionMethod.Value = _
   @BeanProperty var colorMap: java.util.Map[IrcColor, java.lang.Integer] = _
   @BeanProperty var schemeName: String = _
   @BeanProperty var chars: String = _
   @BeanProperty var kick: Kick.Value = _
-  @BeanProperty var power: Power = _
+  @BeanProperty var power: Power.Value = _
 
   val defaultWidth = 68
 

@@ -4,21 +4,22 @@ import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
+import java.awt.image.RescaleOp
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
+
 import scala.Array.canBuildFrom
+
+import com.vaadin.server.Resource
 import com.vaadin.server.StreamResource
+
 import javax.imageio.ImageIO
-import jenkem.shared.ConversionMethod
+import jenkem.engine.Kick
 import sun.misc.BASE64Decoder
 import sun.misc.BASE64Encoder
-import jenkem.engine.Kick
-import com.vaadin.server.Resource
-import java.awt.geom.AffineTransform
-import java.awt.image.RescaleOp
 
 object AwtImageUtil {
   //scalastyle: NullChecker and IllegalImportsChecker warnings

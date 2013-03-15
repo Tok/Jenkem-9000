@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public final class ImageUtil {
     private static final double MAX_PERCENT = 100D;
-    private static final int MAX_RGB = 255;
+    //private static final int MAX_RGB = 255;
     private static final int AVERAGE_RGB = 127;
     private static final int BRIGHTNESS_SLIDER_ZERO_POS = 100;
     private static final int CONTRAST_SLIDER_ZERO_POS = 100;
@@ -17,8 +17,8 @@ public final class ImageUtil {
     private static final int MIN_CONTRAST = -16;
     private static final int MAX_CONTRAST = 32;
 
-    private static final int BW_TOLERANCE = 25; //arbitrary value (absolute RGB * 3)
-    private static final int BW_THRESHOLD = 50; //arbitrary value (relative %)
+    //private static final int BW_TOLERANCE = 25; //arbitrary value (absolute RGB * 3)
+    //private static final int BW_THRESHOLD = 50; //arbitrary value (relative %)
     private static final int COLOR_TOLERANCE = 20; //arbitrary value (absolute RGB)
     private static final int COLOR_THRESHOLD = 5; //arbitrary value (relative %)
     private static final double BRIGHTNESS_FACTOR = 0.78D; // ~100/128 (relative)
@@ -61,12 +61,13 @@ public final class ImageUtil {
         return result + CONTRAST_SLIDER_ZERO_POS;
     }
 
+
     /**
      * Returns the default Brightness
      * @param id image data
      * @return default conversion method
      */
-    @Deprecated
+    /*    @Deprecated
     public static ConversionMethod getDefaultMethod(final Map<String, Integer[]> imageRgb,
             final boolean hasAnsi,
             final int width, final int height) {
@@ -84,7 +85,7 @@ public final class ImageUtil {
         } else {
             return bwRatio < BW_THRESHOLD ? ConversionMethod.Vortacular : ConversionMethod.Plain;
         }
-    }
+    }*/
 
     /**
      * Returns the default ColorScheme based on how colorful
@@ -182,9 +183,10 @@ public final class ImageUtil {
         return Double.valueOf(Math.round(deviations / 3D)).intValue();
     }
 
+    /*
     private static boolean isBlackOrWhitePixel(final Map<String, Integer[]> imageRgb,
             final int x, final int y) {
         final int sum = getPixelRgbSum(imageRgb, x, y);
         return sum > (MAX_RGB * 3) - BW_TOLERANCE || sum < BW_TOLERANCE;
-    }
+    }*/
 }

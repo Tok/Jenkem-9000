@@ -3,12 +3,10 @@ package jenkem.ui.tab
 import java.awt.image.BufferedImage
 import java.util.Date
 
-import scala.Array.canBuildFrom
 import scala.collection.JavaConversions.seqAsJavaList
 
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
-import com.vaadin.data.Property.ValueChangeListener
 import com.vaadin.event.EventRouter
 import com.vaadin.shared.ui.label.ContentMode
 import com.vaadin.ui.AbsoluteLayout
@@ -26,15 +24,15 @@ import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 
+import jenkem.engine.ConversionMethod
 import jenkem.engine.Engine
 import jenkem.engine.Kick
+import jenkem.engine.color.Power
 import jenkem.event.DoConversionEvent
 import jenkem.event.SendToIrcEvent
 import jenkem.persistence.PersistenceService
 import jenkem.shared.CharacterSet
-import jenkem.shared.ConversionMethod
 import jenkem.shared.ImageUtil
-import jenkem.shared.Power
 import jenkem.shared.data.ImageCss
 import jenkem.shared.data.ImageHtml
 import jenkem.shared.data.ImageInfo
@@ -67,7 +65,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   class ImagePreparationData(val icon: BufferedImage, val originalName: String)
   class ImageData(val imageRgb: Map[(Int, Int), (Short, Short, Short)],
       val width: Int, val height: Int, val lineWidth: Int, val kick: Kick.Value,
-      val method: ConversionMethod)
+      val method: ConversionMethod.Value)
   class ConversionData(val contrast: Int, val brightness: Int,
       val characters: String)
 
@@ -291,7 +289,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
     val lineWidth = widthSlider.getValue.intValue
-    val method = ConversionMethod.getValueByName(methodBox.getValue.toString)
+    val method = ConversionMethod.valueOf(methodBox.getValue.toString)
     //val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
     val (width, height) = AwtImageUtil.calculateNewSize(lineWidth, originalWidth, originalHeight)
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
@@ -320,10 +318,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       val brightness = brightnessLabel.getValue.toInt
       convData = new ConversionData(contrast, brightness, chars)
       val ps = procSetter.getSettings
-      engine.setParams(imageData.imageRgb, imageData.width, chars,
-          convData.contrast, convData.brightness , ps)
-      engine.prepareEngine(ircColorSetter.getColorMap,
-          Power.valueOf(powerBox.getValue.toString))
+      engine.setParams(imageData.imageRgb, imageData.width, chars, convData.contrast, convData.brightness , ps)
+      engine.prepareEngine(ircColorSetter.getColorMap, Power.valueOf(powerBox.getValue.toString))
       ircOutput = generateIrcOutput(imageData.method, imageData.height)
       outputDisplay.addIrcOutput(ircOutput.map(_ + "\n"))
       updateInline(imageData.method, ircOutput, imagePreparer.getName)
@@ -336,7 +332,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     }
   }
 
-  private def generateIrcOutput(method: ConversionMethod, lastIndex: Int) = {
+  private def generateIrcOutput(method: ConversionMethod.Value, lastIndex: Int) = {
     def generate0(index: Int): List[String] = {
       if (index + 2 > lastIndex) { Nil }
       else { engine.generateLine(method, index) :: generate0(index + 2) }
@@ -344,7 +340,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     generate0(0)
   }
 
-  private def updateInline(method: ConversionMethod, ircOutput: List[String], name: String) {
+  private def updateInline(method: ConversionMethod.Value, ircOutput: List[String], name: String) {
     val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, method)
     val inlineCss = HtmlUtil.prepareCssForInline(htmlAndCss._2)
     val inlineHtml = HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)
@@ -373,7 +369,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def makeInitsForMethod() {
     conversionDisabled = true
-    val method = ConversionMethod.getValueByName(methodBox.getValue.toString)
+    val method = ConversionMethod.valueOf(methodBox.getValue.toString)
     ircColorSetter.makeEnabled(method.equals(ConversionMethod.Vortacular))
     powerBox.setEnabled(method.equals(ConversionMethod.Vortacular))
     if (method.equals(ConversionMethod.Plain)) {
@@ -401,7 +397,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val base64Icon = AwtImageUtil.encodeToBase64(imagePrep.icon)
     val ints = Array(convData.contrast, convData.brightness, ircOutput.size, imageData.lineWidth)
     val jenkemImageInfo = new ImageInfo(
-        name, base64Icon, imageData.method.getName, convData.characters, ints, format.format(new Date)
+        name, base64Icon, imageData.method.name, convData.characters, ints, format.format(new Date)
     )
     val jenkemImageHtml = new ImageHtml(name, htmlAndCss._1)
     val jenkemImageCss = new ImageCss(name, htmlAndCss._2)

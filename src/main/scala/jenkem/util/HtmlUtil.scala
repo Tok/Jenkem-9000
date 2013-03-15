@@ -1,7 +1,8 @@
 package jenkem.util
 
-import jenkem.shared.ConversionMethod
-import org.apache.xalan.xsltc.compiler.ForEach
+import scala.Array.canBuildFrom
+
+import jenkem.engine.ConversionMethod
 
 object HtmlUtil {
   val SEP = "\n"
@@ -13,7 +14,7 @@ object HtmlUtil {
 
   def generateEmpty: String = DOCTYPE + "\n<html>\n<head>\n" + META + "\n<title></title>\n</head>\n" + "<body class=\"jenkemBody\"></body>\n</html>\n"
 
-  def generateHtml(ircOutput: List[String], name: String, method: ConversionMethod): (String, String) = {
+  def generateHtml(ircOutput: List[String], name: String, method: ConversionMethod.Value): (String, String) = {
     val html = new StringBuilder
     val css = new StringBuilder
     html.append(DOCTYPE)

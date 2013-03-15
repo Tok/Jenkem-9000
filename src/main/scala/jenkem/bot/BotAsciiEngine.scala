@@ -1,9 +1,9 @@
 package jenkem.bot
 
+import jenkem.engine.ConversionMethod
 import jenkem.engine.Engine
 import jenkem.engine.ProcSettings
 import jenkem.shared.CharacterSet
-import jenkem.shared.ConversionMethod
 import jenkem.util.AwtImageUtil
 
 /**

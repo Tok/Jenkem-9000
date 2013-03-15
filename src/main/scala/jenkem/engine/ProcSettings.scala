@@ -1,7 +1,5 @@
 package jenkem.engine
 
-import jenkem.shared.ConversionMethod
-
 object ProcSettings {
   sealed abstract class Setting(val caption: String)
   case object UPDOWN extends Setting("\"_")

@@ -1,11 +1,12 @@
 package jenkem.engine.color
 
-import jenkem.shared.color.IrcColor
-import jenkem.shared.Power
+import scala.Array.canBuildFrom
+
 import jenkem.shared.Scheme
+import jenkem.shared.color.IrcColor
 
 object Cube {
-  def getTwoNearestColors(col: (Short, Short, Short), colorMap: java.util.Map[IrcColor, Integer], power: Power): Color = {
+  def getTwoNearestColors(col: (Short, Short, Short), colorMap: java.util.Map[IrcColor, Integer], power: Power.Value): Color = {
     def makeWeightedList(wl: List[WeightedColor], ic: List[IrcColor]): List[WeightedColor] = {
       if (ic.isEmpty) { wl }
       else { makeWeightedList(createWc(colorMap, col, ic.head) :: wl, ic.tail) }
@@ -43,7 +44,7 @@ object Cube {
     // against each other in regard to their distance to the
     // center of the cube 127,127,127
 
-    val p: Double = power.getValue
+    val p: Double = power.exponent
     val strongestStrength = calcPoweredStrength(col, strongest, p)
     val secondStrength = calcPoweredStrength(col, second, p)
     val strength: Double = strongestStrength / secondStrength
@@ -56,7 +57,7 @@ object Cube {
   }
 
   def getColorChar(colorMap: java.util.Map[IrcColor, Integer],
-            scheme: Scheme, charset: String, p: Power, rgb: (Short, Short, Short)): String = {
+            scheme: Scheme, charset: String, p: Power.Value, rgb: (Short, Short, Short)): String = {
     val c: Color = getTwoNearestColors(rgb, colorMap, p)
     c.fg.toString + "," + c.bg.toString + scheme.getChar(c.strength, charset, Scheme.StrengthType.RELATIVE)
   }

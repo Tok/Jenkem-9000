@@ -1,21 +1,20 @@
 package jenkem.ui
 
-import com.vaadin.event.EventRouter
-import com.vaadin.ui.HorizontalLayout
-import com.vaadin.ui.Component
-import com.vaadin.ui.VerticalLayout
-import com.vaadin.ui.GridLayout
-import com.vaadin.ui.CheckBox
-import jenkem.event.DoConversionEvent
+import scala.collection.immutable.HashMap
+
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
-import com.vaadin.ui.Slider
-import com.vaadin.ui.AbsoluteLayout
-import com.vaadin.ui.Label
-import scala.collection.immutable.HashMap
-import jenkem.shared.ConversionMethod
-import jenkem.engine.ProcSettings
+import com.vaadin.event.EventRouter
 import com.vaadin.ui.Alignment
+import com.vaadin.ui.CheckBox
+import com.vaadin.ui.Component
+import com.vaadin.ui.GridLayout
+import com.vaadin.ui.HorizontalLayout
+import com.vaadin.ui.Label
+import com.vaadin.ui.Slider
+
+import jenkem.engine.ProcSettings
+import jenkem.event.DoConversionEvent
 
 class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   setWidth("250px")

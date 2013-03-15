@@ -2,14 +2,16 @@ package jenkem.bot
 
 import java.io.IOException
 import java.lang.InterruptedException
+
 import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
+
+import jenkem.engine.ConversionMethod
+import jenkem.engine.Kick
+import jenkem.engine.color.Power
 import jenkem.shared.CharacterSet
 import jenkem.shared.ColorScheme
-import jenkem.shared.ConversionMethod
-import jenkem.shared.Power
-import jenkem.engine.Kick
 
 class JenkemBot extends PircBot {
   val defaultDelay = 1000
@@ -184,7 +186,7 @@ class JenkemBot extends PircBot {
 
   private def setMethod(target: String, value: String) {
     try {
-      val method = ConversionMethod.getValueByName(value)
+      val method = ConversionMethod.valueOf(value)
       settings.method = method
       sendMessage(target, ConfigItem.MODE + setTo + value)
     } catch {
@@ -220,7 +222,7 @@ class JenkemBot extends PircBot {
 
   private def setPower(target: String, value: String) {
     try {
-      val power = Power.getValueByName(value)
+      val power = Power.valueOf(value)
       settings.power = power
       sendMessage(target, ConfigItem.POWER + setTo + power.name)
     } catch {

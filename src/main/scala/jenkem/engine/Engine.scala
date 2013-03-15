@@ -1,12 +1,12 @@
 package jenkem.engine
 
+import scala.Array.canBuildFrom
 import scala.util.Random
 
 import jenkem.engine.color.Cube
+import jenkem.engine.color.Power
 import jenkem.engine.color.Sample
 import jenkem.shared.CharacterSet
-import jenkem.shared.ConversionMethod
-import jenkem.shared.Power
 import jenkem.shared.Scheme
 import jenkem.shared.color.IrcColor
 import jenkem.util.ColorUtil
@@ -27,7 +27,7 @@ class Engine {
   var contrast: Int = _
   var brightness: Int = _
   var charset: String = _
-  var power: Power = _
+  var power: Power.Value = _
 
   def setParams(imageRgb: Map[(Int, Int), (Short, Short, Short)], width: Int,
     charset: String, contrast: Int, brightness: Int,
@@ -46,13 +46,13 @@ class Engine {
   }
 
   //def prepareEngine(colorMap: Map[IrcColor, Int], power: Power) {
-  def prepareEngine(colorMap: java.util.Map[IrcColor, Integer], power: Power) {
+  def prepareEngine(colorMap: java.util.Map[IrcColor, Integer], power: Power.Value) {
     this.colorMap = colorMap
     this.power = power
     //cube.setPower(power)
   }
 
-  def generateLine(method: ConversionMethod, index: Int): String = {
+  def generateLine(method: ConversionMethod.Value, index: Int): String = {
     if (method.equals(ConversionMethod.Vortacular)) { generateVortacularLine(index) }
     else { generatePlainLine(index) }
   }
