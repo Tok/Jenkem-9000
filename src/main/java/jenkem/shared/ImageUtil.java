@@ -93,6 +93,7 @@ public final class ImageUtil {
      * @param id image data
      * @return default color scheme
      */
+    /*
     public static ColorScheme getDefaultColorScheme(final Map<String, Integer[]> imageRgb,
             final int width, final int height) {
         final int pixelCount = height * width;
@@ -104,7 +105,7 @@ public final class ImageUtil {
         }
         final int colorRatio = Double.valueOf(countColorful * MAX_PERCENT / pixelCount).intValue();
         return colorRatio > COLOR_THRESHOLD ? ColorScheme.Default : ColorScheme.Bwg;
-    }
+    }*/
 
     /**
      * Returns the mean RGB value of all pixels in the image.

@@ -351,16 +351,14 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val height = imageData.height
     val chars = charTextField.getValue.replaceAll("[,0-9]", "")
 
-    //FIXME replace this and use imageRgb directly!!!
-    val legacyImageRgb = engine.makeLegacy(imageRgb)
-    //////////////////
+    //FIXME reimplement
+    //val defaultScheme = ImageUtil.getDefaultColorScheme(legacyImageRgb, width, height)
+    //ircColorSetter.setSelectedScheme(defaultScheme)
+    //val con = jenkem.shared.ImageUtil.getDefaultContrast(legacyImageRgb, width, height) - 100
+    //contrastSlider.setValue(con)
+    //val bri = jenkem.shared.ImageUtil.getDefaultBrightness(legacyImageRgb, width, height) - 100
+    //brightnessSlider.setValue(bri)
 
-    val defaultScheme = ImageUtil.getDefaultColorScheme(legacyImageRgb, width, height)
-    ircColorSetter.setSelectedScheme(defaultScheme)
-    val con = jenkem.shared.ImageUtil.getDefaultContrast(legacyImageRgb, width, height) - 100
-    contrastSlider.setValue(con)
-    val bri = jenkem.shared.ImageUtil.getDefaultBrightness(legacyImageRgb, width, height) - 100
-    brightnessSlider.setValue(bri)
     conversionDisabled = false
   }
 

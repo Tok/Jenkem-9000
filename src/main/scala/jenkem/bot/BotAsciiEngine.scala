@@ -48,9 +48,8 @@ class ServerAsciiEngine {
     //val scheme = jenkem.shared.ImageUtil.getDefaultColorScheme(imageRgb, width, height)
 
     //FIXME replace this and use imageRgb directly!!!
-    val legacyImageRgb = engine.makeLegacy(imageRgb)
-    val contrast = jenkem.shared.ImageUtil.getDefaultContrast(legacyImageRgb, width, height) - 100
-    val brightness = jenkem.shared.ImageUtil.getDefaultBrightness(legacyImageRgb, width, height) - 100
+    //val contrast = jenkem.shared.ImageUtil.getDefaultContrast(legacyImageRgb, width, height) - 100
+    //val brightness = jenkem.shared.ImageUtil.getDefaultBrightness(legacyImageRgb, width, height) - 100
     //////////////////
 
     engine.setParams(imageRgb, width, chars, contrast, brightness, ps)

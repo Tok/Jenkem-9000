@@ -2,21 +2,19 @@ package jenkem.engine
 
 import scala.Array.canBuildFrom
 import scala.util.Random
-
 import jenkem.engine.color.Cube
 import jenkem.engine.color.Power
 import jenkem.engine.color.Sample
-import jenkem.shared.color.IrcColor
 import jenkem.util.ColorUtil
+import jenkem.engine.color.Scheme
 
 class Engine {
   val MAX = 255
   val CENTER = 127
   val MIN = 0
 
-  //var colorMap: Map[IrcColor, Int] = _
-  var colorMap: java.util.Map[IrcColor, Integer] = _
-  var imageRgb: Map[(Int, Int), (Short, Short, Short)] = Map() // ("row:column", rgb[])
+  var colorMap: Map[Scheme.IrcColor, Short] = _
+  var imageRgb: Map[(Int, Int), (Short, Short, Short)] = _ // ("row:column", rgb[])
   var settings: ProcSettings.Instance = _
   var hasAnsi: Boolean = _
 
@@ -39,7 +37,7 @@ class Engine {
     this.settings = settings
   }
 
-  def prepareEngine(colorMap: java.util.Map[IrcColor, Integer], power: Power.Value) {
+  def prepareEngine(colorMap: Map[Scheme.IrcColor, Short], power: Power.Value) {
     this.colorMap = colorMap
     this.power = power
   }
@@ -127,7 +125,25 @@ class Engine {
     val switched = range.map(ColorUtil.CC + getSwitched(_)).toList
     val charsOnly = switched.map(_.last.toString)
     val pp = postProcess(charsOnly.mkString).toCharArray.map(_.toString).toList
-    val finalLine = range.map(i => switched(i).init + pp(i)).toList
+
+    lazy val du = Pal.get(Pal.DOWN_UP, hasAnsi)
+    lazy val ud = Pal.get(Pal.UP_DOWN, hasAnsi)
+    lazy val lu = Pal.get(Pal.LEFT_UP, hasAnsi)
+    lazy val ld = Pal.get(Pal.LEFT_DOWN, hasAnsi)
+    lazy val ru = Pal.get(Pal.RIGHT_UP, hasAnsi)
+    lazy val rd = Pal.get(Pal.RIGHT_DOWN, hasAnsi)
+    def change(c: String): String = {
+      if (c.equals(du)) { ud }
+      else if (c.equals(ud)) { du }
+      else if (c.equals(lu)) { ru }
+      else if (c.equals(ru)) { lu }
+      else if (c.equals(ld)) { rd }
+      else if (c.equals(rd)) { ld }
+      else { c }
+    }
+    val changed = pp.map(change(_))
+
+    val finalLine = range.map(i => switched(i).init + changed(i)).toList
 
     def makeValid(i: Int, list: List[String]): String = {
       val thisOne = list(i)
@@ -178,26 +194,6 @@ class Engine {
         else if (sCond) { secondChar }
         else { "" }
       }
-      /*
-      if (settings.has(ProcSettings.DBQP)) {
-        val dbqpOffset = (100 - settings.get(ProcSettings.DBQP)) / 3
-        val tl = sam(i)._1 - dbqpOffset < (sam(i)._2 + sam(i)._3 + sam(i)._4) / 3
-        val tr = sam(i)._2 - dbqpOffset < (sam(i)._1 + sam(i)._3 + sam(i)._4) / 3
-        val bl = sam(i)._3 - dbqpOffset < (sam(i)._1 + sam(i)._2 + sam(i)._4) / 3
-        val br = sam(i)._4 - dbqpOffset < (sam(i)._1 + sam(i)._2 + sam(i)._3) / 3
-        if ( tl && !tr && !bl && !br) { return scheme.getLeftUp }
-        if (!tl &&  tr && !bl && !br) { return scheme.getRightUp }
-        if (!tl && !tr &&  bl && !br) { return scheme.getLeftDown }
-        if (!tl && !tr && !bl &&  br) { return scheme.getRightDown }
-      }
-      */
-      /*
-      if (settings.has(ProcSettings.DIAGONAL)) {
-        val bltr = (sam(i)._3 + sam(i)._2) / 2
-        val brtl = (sam(i)._4 + sam(i)._1) / 2
-        val diag = getFor(settings.get(ProcSettings.DIAGONAL), bltr, brtl, scheme.getUpDown, scheme.getDownUp)
-        if (!diag.equals("")) { return diag }
-      }*/
       if (settings.has(ProcSettings.UPDOWN)) {
         val u = Pal.get(Pal.UP, hasAnsi)
         val d = Pal.get(Pal.DOWN, hasAnsi)
@@ -296,14 +292,4 @@ class Engine {
 
   private def darkest: String = charset.last.toString
   private def brightest: String = charset.head.toString
-
-  @Deprecated
-  def makeLegacy(imageRgb: Map[(Int, Int), (Short, Short, Short)]): java.util.Map[String, Array[Integer]] = {
-    val legacyImageRgb: java.util.Map[String, Array[Integer]] =
-      new java.util.HashMap[String, Array[Integer]]()
-    imageRgb.foreach(p => legacyImageRgb.put(
-        (p._1)._1 + ":" + (p._1)._2,
-        Array(new Integer(p._2._1), new Integer(p._2._2), new Integer(p._2._3))))
-    legacyImageRgb
-  }
 }

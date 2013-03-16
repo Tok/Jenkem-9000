@@ -1,7 +1,6 @@
 package jenkem.util
 
-import jenkem.engine.ProcSettings
-import jenkem.shared.color.IrcColor
+import jenkem.engine.color.Scheme
 
 object ColorUtil {
   def BC = String.valueOf('\u0002') // bold character for IRC
@@ -12,22 +11,22 @@ object ColorUtil {
    * @param ircColor
    * @return cssColor
    */
-  def ircToCss(ircColor: String): String = ircToCss(Integer.valueOf(ircColor))
+  def ircToCss(ircColor: String): String = ircToCss(ircColor.toShort)
 
   /**
    * Converts an IRC color to a CSS color.
    * @param ircColor
    * @return cssColor
    */
-  def ircToCss(ircColor: Int): String = rgbToCss(IrcColor.getFor(ircColor).getRgb)
+  def ircToCss(ircColor: Short): String = rgbToCss(Scheme.valuOfIrcColor(ircColor).rgb)
 
   /**
    * Converts an RGB color to a CSS color.
    * @param rgb
    * @return cssColor
    */
-  private def rgbToCss(rgb: Array[Int]): String = {
-    "#" + toHex(rgb(0)) + toHex(rgb(1)) + toHex(rgb(2))
+  private def rgbToCss(rgb: (Short, Short, Short)): String = {
+    "#" + toHex(rgb._1) + toHex(rgb._2) + toHex(rgb._3)
   }
 
   /**

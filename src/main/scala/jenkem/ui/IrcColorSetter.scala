@@ -2,7 +2,6 @@ package jenkem.ui
 
 import scala.collection.JavaConversions.mapAsJavaMap
 import scala.collection.immutable.HashMap
-
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -13,10 +12,8 @@ import com.vaadin.ui.Label
 import com.vaadin.ui.NativeSelect
 import com.vaadin.ui.Slider
 import com.vaadin.ui.VerticalLayout
-
 import jenkem.event.DoConversionEvent
-import jenkem.shared.ColorScheme
-import jenkem.shared.color.IrcColor
+import jenkem.engine.color.Scheme
 
 class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   setSpacing(true)
@@ -26,13 +23,13 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   val presetBox = new NativeSelect
   val captionLabel = new Label("Preset: ")
   captionLabel.setWidth("150px")
-  ColorScheme.values.foreach(cs => presetBox.addItem(cs))
+  Scheme.values.foreach(cs => presetBox.addItem(cs))
   presetBox.setWidth("250px")
   presetBox.setNullSelectionAllowed(false)
   presetBox.setImmediate(true)
   presetBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
-      val s = ColorScheme.valueOf(event.getProperty.getValue.toString)
+      val s = Scheme.valueOf(event.getProperty.getValue.toString)
       updatePreset(s)
       eventRouter.fireEvent(new DoConversionEvent(false, false))
     }
@@ -43,14 +40,14 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   addComponent(layout)
 
   val sliderLayout = new HorizontalLayout
-  IrcColor.values.foreach(ic => sliderLayout.addComponent(makeSliderLayout(ic)))
+  Scheme.ircColors.foreach(ic => sliderLayout.addComponent(makeSliderLayout(ic)))
   addComponent(sliderLayout)
 
-  setSelectedScheme(ColorScheme.Default)
-  updatePreset(ColorScheme.Default)
+  setSelectedScheme(Scheme.Default)
+  updatePreset(Scheme.Default)
 
-  private def makeLabelMap(): HashMap[IrcColor, Label] = {
-    def makeLabelMap0(hm: HashMap[IrcColor, Label], ic: List[IrcColor]): HashMap[IrcColor, Label] = {
+  private def makeLabelMap(): HashMap[Scheme.IrcColor, Label] = {
+    def makeLabelMap0(hm: HashMap[Scheme.IrcColor, Label], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Label] = {
       if (ic.isEmpty) { hm }
       else {
         val label = new Label
@@ -58,10 +55,10 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
         makeLabelMap0(hm + ((ic.head, label)), ic.tail)
       }
     }
-    makeLabelMap0(new HashMap[IrcColor, Label], IrcColor.values.toList)
+    makeLabelMap0(new HashMap[Scheme.IrcColor, Label], Scheme.ircColors)
   }
-  private def makeSliderMap(): HashMap[IrcColor, Slider] = {
-    def makeSliderMap0(hm: HashMap[IrcColor, Slider], ic: List[IrcColor]): HashMap[IrcColor, Slider] = {
+  private def makeSliderMap(): HashMap[Scheme.IrcColor, Slider] = {
+    def makeSliderMap0(hm: HashMap[Scheme.IrcColor, Slider], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Slider] = {
       if (ic.isEmpty) { hm }
       else {
         val slider = new Slider
@@ -75,9 +72,9 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
         makeSliderMap0(hm + ((ic.head, slider)), ic.tail)
       }
     }
-    makeSliderMap0(new HashMap[IrcColor, Slider], IrcColor.values.toList)
+    makeSliderMap0(new HashMap[Scheme.IrcColor, Slider], Scheme.ircColors)
   }
-  private def makeSliderLayout(ic: IrcColor) = {
+  private def makeSliderLayout(ic: Scheme.IrcColor) = {
     val label = getLabel(ic)
     val slider = getSlider(ic)
     slider.addValueChangeListener(new Property.ValueChangeListener {
@@ -93,35 +90,35 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     layout.addComponent(label)
     layout
   }
-  private def getLabel(ic: IrcColor): Label = labels.get(ic) match {
+  private def getLabel(ic: Scheme.IrcColor): Label = labels.get(ic) match {
     case Some(label) => label
     case None => new Label
   }
-  private def getSlider(ic: IrcColor): Slider = sliders.get(ic) match {
+  private def getSlider(ic: Scheme.IrcColor): Slider = sliders.get(ic) match {
     case Some(slider) => slider
     case None => new Slider
   }
-  private def updatePreset(cs: ColorScheme) {
-    IrcColor.values.foreach(ic => getSlider(ic).setValue(ic.getOrder(cs).intValue))
+  private def updatePreset(cs: Scheme.Value) {
+    Scheme.ircColors.foreach(ic => getSlider(ic).setValue(ic.scheme(cs.order)))
   }
-  private def getValue(ic: IrcColor) = Integer.valueOf(getLabel(ic).getValue)
+  private def getValue(ic: Scheme.IrcColor) = Integer.valueOf(getLabel(ic).getValue).shortValue
 
-  def getColorMap(): java.util.Map[IrcColor, java.lang.Integer] = {
-    def getColorMap0(hm: HashMap[IrcColor, java.lang.Integer], ic: List[IrcColor]):
-        HashMap[IrcColor, java.lang.Integer] = {
+  def getColorMap: Map[Scheme.IrcColor, Short] = {
+    def getColorMap0(hm: HashMap[Scheme.IrcColor, Short], ic: List[Scheme.IrcColor]):
+        HashMap[Scheme.IrcColor, Short] = {
       if (ic.isEmpty) { hm }
-      else { getColorMap0(hm + ((ic.head, new java.lang.Integer(getValue(ic.head)))), ic.tail) }
+      else { getColorMap0(hm + ((ic.head, getValue(ic.head))), ic.tail) }
     }
-    getColorMap0(new HashMap[IrcColor, java.lang.Integer], IrcColor.values.toList)
+    getColorMap0(new HashMap[Scheme.IrcColor, Short], Scheme.ircColors)
   }
-  def setSelectedScheme(scheme: ColorScheme) { presetBox.select(scheme) }
+  def setSelectedScheme(scheme: Scheme.Value) { presetBox.select(scheme) }
   def makeEnabled(enabled: Boolean) {
     presetBox.setEnabled(enabled)
     sliders.values.foreach(s => s.setEnabled(enabled))
   }
   def reset {
-    if (presetBox.getValue.equals(ColorScheme.Default)) {
-        updatePreset(ColorScheme.getValueByName(presetBox.getValue.toString))
-    } else { presetBox.select(ColorScheme.Default) }
+    if (presetBox.getValue.equals(Scheme.Default)) {
+        updatePreset(Scheme.valueOf(presetBox.getValue.toString))
+    } else { presetBox.select(Scheme.Default) }
   }
 }

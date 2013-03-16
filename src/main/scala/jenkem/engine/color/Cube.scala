@@ -3,19 +3,18 @@ package jenkem.engine.color
 import scala.Array.canBuildFrom
 
 import jenkem.engine.Pal
-import jenkem.shared.color.IrcColor
 
 object Cube {
-  def getTwoNearestColors(col: (Short, Short, Short), colorMap: java.util.Map[IrcColor, Integer], power: Power.Value): Color = {
-    def makeWeightedList(wl: List[WeightedColor], ic: List[IrcColor]): List[WeightedColor] = {
+  def getTwoNearestColors(col: (Short, Short, Short), colorMap: Map[Scheme.IrcColor, Short], power: Power.Value): Color = {
+    def makeWeightedList(wl: List[WeightedColor], ic: List[Scheme.IrcColor]): List[WeightedColor] = {
       if (ic.isEmpty) { wl }
       else { makeWeightedList(createWc(colorMap, col, ic.head) :: wl, ic.tail) }
     }
     def calcPoweredStrength(col: (Short, Short, Short), wc: WeightedColor, p: Double): Double = {
-      Math.pow(calcStrength(col, wc.getCoords, colorMap.get(wc.ircColor).doubleValue), p)
+      Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.doubleValue), p)
     }
 
-    val list: List[WeightedColor] = makeWeightedList(Nil, IrcColor.values.toList)
+    val list: List[WeightedColor] = makeWeightedList(Nil, Scheme.ircColors)
     // if the list isn't shuffled the following occurs:
     // the color that happens to be the 1st in the collection is used in
     // favor of the others,
@@ -50,22 +49,21 @@ object Cube {
     val strength: Double = strongestStrength / secondStrength
 
     new Color(
-        second.ircColor.getValue.toString, second.getCoords,
-        strongest.ircColor.getValue.toString, strongest.getCoords,
+        second.ircColor.irc.toString, second.ircColor.rgb,
+        strongest.ircColor.irc.toString, strongest.ircColor.rgb,
         strength
     )
   }
 
-  def getColorChar(colorMap: java.util.Map[IrcColor, Integer],
+  def getColorChar(colorMap: Map[Scheme.IrcColor, Short],
             charset: String, p: Power.Value, rgb: (Short, Short, Short)): String = {
     val c: Color = getTwoNearestColors(rgb, colorMap, p)
     c.fg.toString + "," + c.bg.toString + Pal.getChar(charset, c.strength)
   }
 
-  private def createWc(colorMap: java.util.Map[IrcColor, Integer],
-    col: (Short, Short, Short), ic: IrcColor): WeightedColor = {
-    val icRgb = ic.getRgb.map(_.shortValue)
-    val weight = calcStrength(col, (icRgb(0),icRgb(1),icRgb(2)) , colorMap.get(ic).doubleValue)
+  private def createWc(colorMap: Map[Scheme.IrcColor, Short],
+    col: (Short, Short, Short), ic: Scheme.IrcColor): WeightedColor = {
+    val weight = calcStrength(col, (ic.rgb._1,ic.rgb._2,ic.rgb._3) , colorMap.get(ic).get.doubleValue)
     new WeightedColor(ic, weight)
   }
 

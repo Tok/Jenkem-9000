@@ -8,8 +8,8 @@ import org.jibble.pircbot.PircBot
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Kick
 import jenkem.engine.color.Power
-import jenkem.shared.ColorScheme
 import jenkem.engine.Pal
+import jenkem.engine.color.Scheme
 
 class JenkemBot extends PircBot {
   val defaultDelay = 1000
@@ -194,8 +194,9 @@ class JenkemBot extends PircBot {
 
   private def setScheme(target: String, value: String) {
     try {
-      val scheme = ColorScheme.getValueByName(value)
-      settings.createColorMap(scheme)
+      val scheme = Scheme.valueOf(value)
+      settings.colorMap = Scheme.createColorMap(scheme)
+      settings.setSchemeName(scheme.name)
       sendMessage(target, ConfigItem.SCHEME + setTo + value)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
