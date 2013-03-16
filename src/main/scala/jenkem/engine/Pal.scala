@@ -79,4 +79,10 @@ object Pal {
     val index = charset.indexOf(compare)
     index >= 0 && index <= (charset.length / 2)
   }
+
+  def getForMethod(method: ConversionMethod.Value): Charset = {
+    if (method.equals(ConversionMethod.Plain)) { Soft }
+    else if (method.equals(ConversionMethod.Stencil)) { HCrude }
+    else { Pal.Ansi }
+  }
 }

@@ -340,6 +340,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       if (index + 2 > lastIndex) { Nil }
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
+    println("generate: " + params.method)
     generate0(0)
   }
 
@@ -373,13 +374,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val method = ConversionMethod.valueOf(methodBox.getValue.toString)
     ircColorSetter.makeEnabled(method.equals(ConversionMethod.Vortacular))
     powerBox.setEnabled(method.equals(ConversionMethod.Vortacular))
-    if (method.equals(ConversionMethod.Plain)) {
-      charsetBox.setValue(Pal.Hard)
-    } else if (method.equals(ConversionMethod.Stencil)) {
-      charsetBox.setValue(Pal.HCrude)
-    } else {
-      charsetBox.setValue(Pal.Ansi)
-    }
+    charsetBox.setValue(Pal.getForMethod(method))
     procSetter.reset(Pal.hasAnsi(charTextField.getValue))
     conversionDisabled = false
   }

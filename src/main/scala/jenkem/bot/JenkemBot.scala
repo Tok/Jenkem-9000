@@ -168,17 +168,13 @@ class JenkemBot extends PircBot {
   private def setWidth(target: String, value: String) {
     val min = 16
     val max = 80
-    val between = " between " + min + " and " + max + "."
+    val between = ConfigItem.WIDTH + " must be between " + min + " and " + max + "."
     value match {
       case IntExtractor(v) if min to max contains v =>
-        if (v % 2 == 0) {
-          settings.width = v
-          sendMessage(target, ConfigItem.WIDTH + setTo + v)
-        } else {
-          sendMessage(target, ConfigItem.WIDTH + " must be even.")
-        }
-      case IntExtractor(v) => sendMessage(target, ConfigItem.WIDTH + " must be" + between)
-      case _ => sendMessage(target, ConfigItem.WIDTH + " must be an even numeric value" + between)
+        settings.width = v
+        sendMessage(target, ConfigItem.WIDTH + setTo + v)
+      case IntExtractor(v) => sendMessage(target, between)
+      case _ => sendMessage(target, between)
     }
   }
 
@@ -186,7 +182,10 @@ class JenkemBot extends PircBot {
     try {
       val method = ConversionMethod.valueOf(value)
       settings.method = method
-      sendMessage(target, ConfigItem.MODE + setTo + value)
+      val charset = Pal.getForMethod(method)
+      settings.chars = charset.chars
+      val msg = ConfigItem.MODE + setTo + "\"" + value + "\" with default charset \"" + charset + "\"."
+      sendMessage(target, msg)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
     }
