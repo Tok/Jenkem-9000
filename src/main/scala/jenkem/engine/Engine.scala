@@ -6,7 +6,6 @@ import scala.util.Random
 import jenkem.engine.color.Cube
 import jenkem.engine.color.Power
 import jenkem.engine.color.Sample
-import jenkem.shared.CharacterSet
 import jenkem.shared.color.IrcColor
 import jenkem.util.ColorUtil
 
@@ -34,7 +33,7 @@ class Engine {
     this.imageRgb = imageRgb
     this.width = width
     this.charset = charset
-    this.hasAnsi = CharacterSet.hasAnsi(charset)
+    this.hasAnsi = Pal.hasAnsi(charset)
     this.contrast = contrast
     this.brightness = brightness
     this.settings = settings
@@ -46,12 +45,8 @@ class Engine {
   }
 
   def generateLine(method: ConversionMethod.Value, index: Int): String = {
-    //try {
-      if (method.equals(ConversionMethod.Vortacular)) { generateVortacularLine(index) }
-      else { generatePlainLine(index) }
-    //} catch {
-    //  case t: Throwable => println(t.getStackTraceString); ""
-    //}
+    if (method.equals(ConversionMethod.Vortacular)) { generateVortacularLine(index) }
+    else { generatePlainLine(index) }
   }
 
   private def generateVortacularLine(index: Int): String = {
@@ -104,9 +99,9 @@ class Engine {
           lazy val botFg = bot(i).fg
           lazy val offset = ((settings.get(ProcSettings.UPDOWN) * -1) + 100) / 5
           if (td + offset < bd) {
-            selectAppropriate(old, topBg, botBg, totalBgs(i), botFg, Scheme.get(Scheme.UP, hasAnsi))
+            selectAppropriate(old, topBg, botBg, totalBgs(i), botFg, Pal.get(Pal.UP, hasAnsi))
           } else if (bd + offset < td) {
-            selectAppropriate(old, botBg, topBg, totalBgs(i), topFg, Scheme.get(Scheme.DOWN, hasAnsi))
+            selectAppropriate(old, botBg, topBg, totalBgs(i), topFg, Pal.get(Pal.DOWN, hasAnsi))
           } else { old }
         } else { old }
       }
@@ -120,9 +115,9 @@ class Engine {
           lazy val rightFg = right(i).fg
           lazy val offset = ((settings.get(ProcSettings.LEFTRIGHT) * -1) + 100) / 5
           if (ld + offset < rd) {
-            selectAppropriate(old, leftBg, rightBg, totalBgs(i), rightFg, Scheme.get(Scheme.LEFT, hasAnsi))
+            selectAppropriate(old, leftBg, rightBg, totalBgs(i), rightFg, Pal.get(Pal.LEFT, hasAnsi))
           } else if (rd + offset < ld) {
-            selectAppropriate(old, rightBg, leftBg, totalBgs(i), leftFg, Scheme.get(Scheme.RIGHT, hasAnsi))
+            selectAppropriate(old, rightBg, leftBg, totalBgs(i), leftFg, Pal.get(Pal.RIGHT, hasAnsi))
           } else { old }
         } else { old }
       }
@@ -132,20 +127,6 @@ class Engine {
     val switched = range.map(ColorUtil.CC + getSwitched(_)).toList
     val charsOnly = switched.map(_.last.toString)
     val pp = postProcess(charsOnly.mkString).toCharArray.map(_.toString).toList
-
-    /*
-    def change(c: String): String = {
-      if (Scheme.get(Scheme.DOWN_UP, hasAnsi).contains(c)) { Scheme.get(Scheme.UP_DOWN, hasAnsi) }
-      if (Scheme.get(Scheme.UP_DOWN, hasAnsi).contains(c)) { Scheme.get(Scheme.DOWN_UP, hasAnsi) }
-      if (Scheme.get(Scheme.LEFT_UP, hasAnsi).contains(c)) { Scheme.get(Scheme.RIGHT_UP, hasAnsi) }
-      if (Scheme.get(Scheme.LEFT_DOWN, hasAnsi).contains(c)) { Scheme.get(Scheme.RIGHT_DOWN, hasAnsi) }
-      if (Scheme.get(Scheme.RIGHT_UP, hasAnsi).contains(c)) { Scheme.get(Scheme.LEFT_UP, hasAnsi) }
-      if (Scheme.get(Scheme.RIGHT_DOWN, hasAnsi).contains(c)) { Scheme.get(Scheme.LEFT_DOWN, hasAnsi) }
-      else { c }
-    }*/
-
-    //val changed = pp.map(change(_))
-    //val finalLine = range.map(i => switched(i).init + changed(i)).toList
     val finalLine = range.map(i => switched(i).init + pp(i)).toList
 
     def makeValid(i: Int, list: List[String]): String = {
@@ -188,7 +169,7 @@ class Engine {
         Sample.getGrey(s, Sample.LEFT, Sample.BOT) +
         Sample.getGrey(s, Sample.RIGHT, Sample.BOT)) / 4).toList
     def getChar(i: Int): String = {
-      val default = Scheme.getCharAbs(charset, allGrey(i))
+      val default = Pal.getCharAbs(charset, allGrey(i))
       def getFor(offset: Int, first: Int, second: Int, firstChar: String, secondChar: String): String = {
         val fCond = first <= CENTER + offset && second > CENTER - offset
         val sCond = first > CENTER - offset && second <= CENTER + offset
@@ -218,14 +199,14 @@ class Engine {
         if (!diag.equals("")) { return diag }
       }*/
       if (settings.has(ProcSettings.UPDOWN)) {
-        val u = Scheme.get(Scheme.UP, hasAnsi)
-        val d = Scheme.get(Scheme.DOWN, hasAnsi)
+        val u = Pal.get(Pal.UP, hasAnsi)
+        val d = Pal.get(Pal.DOWN, hasAnsi)
         val ud = getFor(settings.get(ProcSettings.UPDOWN), top(i), bot(i), u, d)
         if (!ud.equals("")) { return ud }
       }
       if (settings.has(ProcSettings.LEFTRIGHT)) {
-        val l = Scheme.get(Scheme.LEFT, hasAnsi)
-        val r = Scheme.get(Scheme.RIGHT, hasAnsi)
+        val l = Pal.get(Pal.LEFT, hasAnsi)
+        val r = Pal.get(Pal.RIGHT, hasAnsi)
         val lr = getFor(settings.get(ProcSettings.LEFTRIGHT), left(i), right(i), l, r)
         if (!lr.equals("")) { return lr }
       }
@@ -237,18 +218,18 @@ class Engine {
   }
 
   private def postProcess(line: String): String = {
-    lazy val down = Scheme.get(Scheme.DOWN, hasAnsi)
-    lazy val up = Scheme.get(Scheme.UP, hasAnsi)
-    lazy val left = Scheme.get(Scheme.LEFT, hasAnsi)
-    lazy val right = Scheme.get(Scheme.RIGHT, hasAnsi)
-    lazy val du = Scheme.get(Scheme.DOWN_UP, hasAnsi)
-    lazy val ud = Scheme.get(Scheme.UP_DOWN, hasAnsi)
-    lazy val lu = Scheme.get(Scheme.LEFT_UP, hasAnsi)
-    lazy val ld = Scheme.get(Scheme.LEFT_DOWN, hasAnsi)
-    lazy val ru = Scheme.get(Scheme.RIGHT_UP, hasAnsi)
-    lazy val rd = Scheme.get(Scheme.RIGHT_DOWN, hasAnsi)
-    lazy val hl = Scheme.get(Scheme.H_LINE, hasAnsi)
-    lazy val vl = Scheme.get(Scheme.V_LINE, hasAnsi)
+    lazy val down = Pal.get(Pal.DOWN, hasAnsi)
+    lazy val up = Pal.get(Pal.UP, hasAnsi)
+    lazy val left = Pal.get(Pal.LEFT, hasAnsi)
+    lazy val right = Pal.get(Pal.RIGHT, hasAnsi)
+    lazy val du = Pal.get(Pal.DOWN_UP, hasAnsi)
+    lazy val ud = Pal.get(Pal.UP_DOWN, hasAnsi)
+    lazy val lu = Pal.get(Pal.LEFT_UP, hasAnsi)
+    lazy val ld = Pal.get(Pal.LEFT_DOWN, hasAnsi)
+    lazy val ru = Pal.get(Pal.RIGHT_UP, hasAnsi)
+    lazy val rd = Pal.get(Pal.RIGHT_DOWN, hasAnsi)
+    lazy val hl = Pal.get(Pal.H_LINE, hasAnsi)
+    lazy val vl = Pal.get(Pal.V_LINE, hasAnsi)
     val sels = List("DBQP", "DIAG", "HOR", "VERT")
     val range = (0 until line.length)
     def postProcess0(in: List[String], sel: String): String = {
@@ -257,11 +238,11 @@ class Engine {
           def changeDbqp(list: List[String], i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {
             if (i == 0 || i == range.last) { list(i) }
             else if (darkLeft
-                && Scheme.isDark(charset, list(i-1)) && list(i).equals(thisOne)
-                && (Scheme.isBright(charset, list(i+1)) || list(i+1).equals(thisOne))) { to }
+                && Pal.isDark(charset, list(i-1)) && list(i).equals(thisOne)
+                && (Pal.isBright(charset, list(i+1)) || list(i+1).equals(thisOne))) { to }
             else if (!darkLeft
-                && (Scheme.isBright(charset, list(i-1)) || list(i-1).equals(thisOne))
-                && list(i).equals(thisOne) && Scheme.isDark(charset, list(i+1))) { to }
+                && (Pal.isBright(charset, list(i-1)) || list(i-1).equals(thisOne))
+                && list(i).equals(thisOne) && Pal.isDark(charset, list(i+1))) { to }
             else { list(i) }
           }
           val d = range.map(changeDbqp(in.toList, _, down, rd, false))

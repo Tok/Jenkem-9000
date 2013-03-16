@@ -2,8 +2,8 @@ package jenkem.bot
 
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Engine
+import jenkem.engine.Pal
 import jenkem.engine.ProcSettings
-import jenkem.shared.CharacterSet
 import jenkem.util.AwtImageUtil
 
 /**
@@ -41,7 +41,7 @@ class ServerAsciiEngine {
 
     //TODO make changeable from bot
     val chars = cs.chars.replaceAll("[,0-9]", "")
-    val ps = ProcSettings.getInitial(CharacterSet.hasAnsi(chars))
+    val ps = ProcSettings.getInitial(Pal.hasAnsi(chars))
 
     //TODO reimplement method and scheme overriding
     //val method = jenkem.shared.ImageUtil.getDefaultMethod(imageRgb, CharacterSet.hasAnsi(chars), width, height)

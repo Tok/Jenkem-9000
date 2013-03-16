@@ -1,8 +1,9 @@
 package jenkem.engine.color
 
 import scala.Array.canBuildFrom
+
+import jenkem.engine.Pal
 import jenkem.shared.color.IrcColor
-import jenkem.engine.Scheme
 
 object Cube {
   def getTwoNearestColors(col: (Short, Short, Short), colorMap: java.util.Map[IrcColor, Integer], power: Power.Value): Color = {
@@ -58,7 +59,7 @@ object Cube {
   def getColorChar(colorMap: java.util.Map[IrcColor, Integer],
             charset: String, p: Power.Value, rgb: (Short, Short, Short)): String = {
     val c: Color = getTwoNearestColors(rgb, colorMap, p)
-    c.fg.toString + "," + c.bg.toString + Scheme.getChar(charset, c.strength)
+    c.fg.toString + "," + c.bg.toString + Pal.getChar(charset, c.strength)
   }
 
   private def createWc(colorMap: java.util.Map[IrcColor, Integer],

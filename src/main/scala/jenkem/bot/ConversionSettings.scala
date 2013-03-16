@@ -1,15 +1,13 @@
 package jenkem.bot
 
 import java.util.HashMap
-
 import scala.reflect.BeanProperty
-
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Kick
 import jenkem.engine.color.Power
-import jenkem.shared.CharacterSet
 import jenkem.shared.ColorScheme
 import jenkem.shared.color.IrcColor
+import jenkem.engine.Pal
 
 class ConversionSettings {
   @BeanProperty var width: Int = _
@@ -33,7 +31,7 @@ class ConversionSettings {
     width = defaultWidth
     method = ConversionMethod.Vortacular
     createColorMap(ColorScheme.Default)
-    chars = CharacterSet.Ansi.getCharacters
+    chars = Pal.Ansi.chars
     kick = Kick.OFF
     power = Power.Quadratic
   }

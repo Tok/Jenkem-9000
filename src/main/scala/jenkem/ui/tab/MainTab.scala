@@ -2,9 +2,7 @@ package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
-
 import scala.collection.JavaConversions.seqAsJavaList
-
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -23,7 +21,6 @@ import com.vaadin.ui.OptionGroup
 import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
-
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Engine
 import jenkem.engine.Kick
@@ -31,7 +28,6 @@ import jenkem.engine.color.Power
 import jenkem.event.DoConversionEvent
 import jenkem.event.SendToIrcEvent
 import jenkem.persistence.PersistenceService
-import jenkem.shared.CharacterSet
 import jenkem.shared.ImageUtil
 import jenkem.shared.data.ImageCss
 import jenkem.shared.data.ImageHtml
@@ -46,6 +42,7 @@ import jenkem.ui.OutputDisplay
 import jenkem.ui.ProcSetter
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
+import jenkem.engine.Pal
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val engine = new Engine
@@ -162,11 +159,11 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     }
   })
 
-  CharacterSet.values.foreach(cb => charsetBox.addItem(cb))
+  Pal.charsets.foreach(cb => charsetBox.addItem(cb))
   charsetBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
-      val charset = event.getProperty.getValue.toString
-      charTextField.setValue(CharacterSet.getValueByName(charset).getCharacters)
+      val charsetName = event.getProperty.getValue.toString
+      charTextField.setValue(Pal.valueOf(charsetName).chars)
       makeInitsForCharset
       startConversion(false, false)
     }
@@ -258,8 +255,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     conversionDisabled = true
     methodBox.select(ConversionMethod.Vortacular)
     widthSlider.setValue(defaultWidth)
-    charsetBox.select(CharacterSet.Ansi)
-    charTextField.setValue(CharacterSet.Ansi.getCharacters)
+    charsetBox.select(Pal.Ansi)
+    charTextField.setValue(Pal.Ansi.chars)
     procSetter.reset(true)
     kickSelect.select(Kick.default)
     powerBox.select(Power.Linear)
@@ -313,8 +310,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def makeConversion() {
     try {
-      println("method: " + imageData.method)
-
       val chars = charTextField.getValue.replaceAll("[,0-9]", "")
       val contrast = contrastLabel.getValue.toInt
       val brightness = brightnessLabel.getValue.toInt
@@ -375,20 +370,20 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     ircColorSetter.makeEnabled(method.equals(ConversionMethod.Vortacular))
     powerBox.setEnabled(method.equals(ConversionMethod.Vortacular))
     if (method.equals(ConversionMethod.Plain)) {
-      charsetBox.setValue(CharacterSet.Hard)
+      charsetBox.setValue(Pal.Hard)
     } else if (method.equals(ConversionMethod.Stencil)) {
-      charsetBox.setValue(CharacterSet.HCrude)
+      charsetBox.setValue(Pal.HCrude)
     } else {
-      charsetBox.setValue(CharacterSet.Ansi)
+      charsetBox.setValue(Pal.Ansi)
     }
-    procSetter.reset(CharacterSet.hasAnsi(charTextField.getValue))
+    procSetter.reset(Pal.hasAnsi(charTextField.getValue))
     conversionDisabled = false
   }
 
   private def makeInitsForCharset() {
     conversionDisabled = true
     val chars = charTextField.getValue
-    procSetter.reset(CharacterSet.hasAnsi(charTextField.getValue))
+    procSetter.reset(Pal.hasAnsi(charTextField.getValue))
     conversionDisabled = false
   }
 

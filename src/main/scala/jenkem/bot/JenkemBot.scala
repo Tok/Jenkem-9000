@@ -2,16 +2,14 @@ package jenkem.bot
 
 import java.io.IOException
 import java.lang.InterruptedException
-
 import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
-
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Kick
 import jenkem.engine.color.Power
-import jenkem.shared.CharacterSet
 import jenkem.shared.ColorScheme
+import jenkem.engine.Pal
 
 class JenkemBot extends PircBot {
   val defaultDelay = 1000
@@ -208,9 +206,9 @@ class JenkemBot extends PircBot {
     if (value.length() < 3) { sendMessage(target, ConfigItem.CHARSET + " must have at least 3 characters.") }
     else {
       try {
-        val charset = CharacterSet.getValueByName(value)
-        settings.chars = charset.getCharacters
-        sendMessage(target, ConfigItem.CHARSET + setTo + charset.getCharacters)
+        val scheme = Pal.valueOf(value)
+        settings.chars = scheme.chars
+        sendMessage(target, ConfigItem.CHARSET + setTo + scheme.chars)
       } catch {
         case iae: IllegalArgumentException =>
             val clean = value.replaceAll("[0-9],", emp)
