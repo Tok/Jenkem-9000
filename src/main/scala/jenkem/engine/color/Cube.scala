@@ -1,9 +1,8 @@
 package jenkem.engine.color
 
 import scala.Array.canBuildFrom
-
-import jenkem.shared.Scheme
 import jenkem.shared.color.IrcColor
+import jenkem.engine.Scheme
 
 object Cube {
   def getTwoNearestColors(col: (Short, Short, Short), colorMap: java.util.Map[IrcColor, Integer], power: Power.Value): Color = {
@@ -57,9 +56,9 @@ object Cube {
   }
 
   def getColorChar(colorMap: java.util.Map[IrcColor, Integer],
-            scheme: Scheme, charset: String, p: Power.Value, rgb: (Short, Short, Short)): String = {
+            charset: String, p: Power.Value, rgb: (Short, Short, Short)): String = {
     val c: Color = getTwoNearestColors(rgb, colorMap, p)
-    c.fg.toString + "," + c.bg.toString + scheme.getChar(c.strength, charset, Scheme.StrengthType.RELATIVE)
+    c.fg.toString + "," + c.bg.toString + Scheme.getChar(charset, c.strength)
   }
 
   private def createWc(colorMap: java.util.Map[IrcColor, Integer],
@@ -74,15 +73,9 @@ object Cube {
   }
 
   private def calcDistance(from: (Short, Short, Short), to: (Short, Short, Short)): Double = {
-    val fromRed = from._1
-    val fromGreen = from._2
-    val fromBlue = from._3
-    val toRed = to._1
-    val toGreen = to._2
-    val toBlue = to._3
-    Math.sqrt((Math.pow(toRed - fromRed, 2D)
-      + Math.pow(toGreen - fromGreen, 2D)
-      + Math.pow(toBlue - fromBlue, 2D)))
+    Math.sqrt((Math.pow(to._1 - from._1, 2D)
+      + Math.pow(to._2 - from._2, 2D)
+      + Math.pow(to._3 - from._3, 2D)))
   }
 
   //XXX move elsewhere

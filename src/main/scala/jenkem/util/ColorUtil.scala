@@ -1,7 +1,6 @@
 package jenkem.util
 
 import jenkem.engine.ProcSettings
-import jenkem.shared.Scheme
 import jenkem.shared.color.IrcColor
 
 object ColorUtil {

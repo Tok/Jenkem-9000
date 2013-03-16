@@ -61,13 +61,13 @@ public enum CharacterSet {
         return isAnsi;
     }
 
-    public static int getSensitivity(final String charset) {
-        return Double.valueOf((charset.length() + 3) / 2D).intValue();
-    }
+    //public static int getSensitivity(final String charset) {
+    //    return Double.valueOf((charset.length() + 3) / 2D).intValue();
+    //}
 
-    public static int getRepSensitivity(final String charset) {
-        return Double.valueOf(charset.length() / 4D).intValue();
-    }
+    //public static int getRepSensitivity(final String charset) {
+    //    return Double.valueOf(charset.length() / 4D).intValue();
+    //}
 
     public static boolean hasAnsi(final String s) {
         for (final char c : ALL_ANSI_CHARS.toCharArray()) {

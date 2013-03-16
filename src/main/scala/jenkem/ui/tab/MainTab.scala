@@ -262,7 +262,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     charTextField.setValue(CharacterSet.Ansi.getCharacters)
     procSetter.reset(true)
     kickSelect.select(Kick.default)
-    powerBox.select(Power.Quadratic)
+    powerBox.select(Power.Linear)
     contrastSlider.setValue(0)
     brightnessSlider.setValue(0)
     ircColorSetter.reset
@@ -305,7 +305,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
           if (prepareImage) { doPrepareImage(url) }
           if (resize) { doPrepareImageData(url) }
           if (prepareImage) { makeInits; startConversion(false, false) }
-          makeConversion
+          else { makeConversion }
         case None => { }
       }
     }
@@ -313,6 +313,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def makeConversion() {
     try {
+      println("method: " + imageData.method)
+
       val chars = charTextField.getValue.replaceAll("[,0-9]", "")
       val contrast = contrastLabel.getValue.toInt
       val brightness = brightnessLabel.getValue.toInt
