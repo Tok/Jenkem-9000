@@ -63,8 +63,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   class ImageData(val imageRgb: Map[(Int, Int), (Short, Short, Short)],
       val width: Int, val height: Int, val lineWidth: Int, val kick: Kick.Value,
       val method: ConversionMethod.Value)
-  class ConversionData(val contrast: Int, val brightness: Int,
-      val characters: String)
+  class ConversionData(val contrast: Int, val brightness: Int, val characters: String)
 
   val resizeValueChangeListener = new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) { startConversion(false, true) }
@@ -315,7 +314,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       val brightness = brightnessLabel.getValue.toInt
       convData = new ConversionData(contrast, brightness, chars)
       val ps = procSetter.getSettings
-      engine.setParams(imageData.imageRgb, imageData.width, chars, convData.contrast, convData.brightness , ps)
+      engine.setParams(imageData.imageRgb, chars, convData.contrast, convData.brightness , ps)
       engine.prepareEngine(ircColorSetter.getColorMap, Power.valueOf(powerBox.getValue.toString))
       ircOutput = generateIrcOutput(imageData.method, imageData.height)
       outputDisplay.addIrcOutput(ircOutput.map(_ + "\n"))

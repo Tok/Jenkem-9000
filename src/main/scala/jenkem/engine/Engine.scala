@@ -14,22 +14,18 @@ class Engine {
   val MIN = 0
 
   var colorMap: Map[Scheme.IrcColor, Short] = _
-  var imageRgb: Map[(Int, Int), (Short, Short, Short)] = _ // ("row:column", rgb[])
+  var imageRgb: Map[(Int, Int), (Short, Short, Short)] = _
   var settings: ProcSettings.Instance = _
   var hasAnsi: Boolean = _
-
-  //TODO width should be inferred instead of passed.
-  var width: Int = _ //number or columns (should be even)
   var contrast: Int = _
   var brightness: Int = _
   var charset: String = _
   var power: Power.Value = _
 
-  def setParams(imageRgb: Map[(Int, Int), (Short, Short, Short)], width: Int,
-    charset: String, contrast: Int, brightness: Int,
+  def setParams(imageRgb: Map[(Int, Int), (Short, Short, Short)],
+      charset: String, contrast: Int, brightness: Int,
     settings: ProcSettings.Instance) {
     this.imageRgb = imageRgb
-    this.width = width
     this.charset = charset
     this.hasAnsi = Pal.hasAnsi(charset)
     this.contrast = contrast
@@ -52,7 +48,7 @@ class Engine {
         (Short, Short, Short), (Short, Short, Short)) = {
       Sample.makeColorSample(imageRgb, x, index, contrast, brightness)
     }
-    val indices = (0 until width).filter(_ % 2 == 0)
+    val indices = (0 until inferWidth).filter(_ % 2 == 0)
     val sam = indices.map(makeColorSample(_)).toList
     val range = (0 until sam.length)
 
@@ -164,7 +160,7 @@ class Engine {
     def makeGreySample(x: Int): (Short, Short, Short, Short) = {
       Sample.makeGreySample(imageRgb, x, index, contrast, brightness)
     }
-    val indices = (0 until width).filter(_ % 2 == 0)
+    val indices = (0 until inferWidth).filter(_ % 2 == 0)
     val sam = indices.map(makeGreySample(_)).toList
     val range = (0 until sam.length)
     lazy val left = sam.map(s =>
@@ -290,6 +286,7 @@ class Engine {
     postProcess0(line.map(_.toString).toList, sels.head)
   }
 
+  private def inferWidth: Short = (imageRgb.keys.toList.map(t => t._2).max).shortValue
   private def darkest: String = charset.last.toString
   private def brightest: String = charset.head.toString
 }

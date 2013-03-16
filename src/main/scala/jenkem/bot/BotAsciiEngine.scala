@@ -52,7 +52,7 @@ class ServerAsciiEngine {
     //val brightness = jenkem.shared.ImageUtil.getDefaultBrightness(legacyImageRgb, width, height) - 100
     //////////////////
 
-    engine.setParams(imageRgb, width, chars, contrast, brightness, ps)
+    engine.setParams(imageRgb, chars, contrast, brightness, ps)
     if (cs.method.equals(ConversionMethod.Vortacular)) {
       engine.prepareEngine(cs.colorMap, cs.power)
     }
