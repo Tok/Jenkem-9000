@@ -7,6 +7,8 @@ import jenkem.engine.Kick
 import jenkem.engine.color.Power
 import jenkem.engine.Pal
 import jenkem.engine.color.Scheme
+import jenkem.engine.Engine
+import jenkem.engine.ProcSettings
 
 class ConversionSettings {
   @BeanProperty var width: Int = _
@@ -27,5 +29,19 @@ class ConversionSettings {
     chars = Pal.Ansi.chars
     kick = Kick.OFF
     power = Power.Quadratic
+  }
+
+  def getParams(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Engine.Params = {
+    //TODO reimplement method and colorMap overriding
+    new Engine.Params(
+        method,
+        imageRgb,
+        colorMap,
+        chars.replaceAll("[,0-9]", ""),
+        ProcSettings.getInitial(Pal.hasAnsi(chars)),
+        0,
+        0,
+        power
+    )
   }
 }

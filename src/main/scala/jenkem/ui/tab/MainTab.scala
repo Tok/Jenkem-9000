@@ -45,7 +45,6 @@ import jenkem.util.HtmlUtil
 import jenkem.engine.Pal
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
-  val engine = new Engine
   val nbsp = "&nbsp;"
 
   val capW = 150
@@ -314,9 +313,17 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       val brightness = brightnessLabel.getValue.toInt
       convData = new ConversionData(contrast, brightness, chars)
       val ps = procSetter.getSettings
-      engine.setParams(imageData.imageRgb, chars, convData.contrast, convData.brightness , ps)
-      engine.prepareEngine(ircColorSetter.getColorMap, Power.valueOf(powerBox.getValue.toString))
-      ircOutput = generateIrcOutput(imageData.method, imageData.height)
+      val params = new Engine.Params(
+        imageData.method,
+        imageData.imageRgb,
+        ircColorSetter.getColorMap,
+        chars,
+        ps,
+        contrast,
+        brightness,
+        Power.valueOf(powerBox.getValue.toString)
+      )
+      ircOutput = generateIrcOutput(params, imageData.height)
       outputDisplay.addIrcOutput(ircOutput.map(_ + "\n"))
       updateInline(imageData.method, ircOutput, imagePreparer.getName)
       imagePreparer.setStatus("Ready...")
@@ -328,10 +335,10 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     }
   }
 
-  private def generateIrcOutput(method: ConversionMethod.Value, lastIndex: Int) = {
+  private def generateIrcOutput(params: Engine.Params, lastIndex: Int) = {
     def generate0(index: Int): List[String] = {
       if (index + 2 > lastIndex) { Nil }
-      else { engine.generateLine(method, index) :: generate0(index + 2) }
+      else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
     generate0(0)
   }

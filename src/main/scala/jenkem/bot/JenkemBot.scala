@@ -10,6 +10,8 @@ import jenkem.engine.Kick
 import jenkem.engine.color.Power
 import jenkem.engine.Pal
 import jenkem.engine.color.Scheme
+import jenkem.util.AwtImageUtil
+import jenkem.engine.Engine
 
 class JenkemBot extends PircBot {
   val defaultDelay = 1000
@@ -43,10 +45,8 @@ class JenkemBot extends PircBot {
   val emp = ""
   val sep = " "
   val setTo = " set to "
+  val settings = new ConversionSettings
 
-  val engine = new ServerAsciiEngine
-
-  var settings = new ConversionSettings
   var lastChan = emp
   var botStatus = new BotStatus(Disconnected, NotSending, emp, emp, emp)
   var stopSwitch = false
@@ -240,7 +240,7 @@ class JenkemBot extends PircBot {
 
   private def convertAndPlay(channel: String, url: String) {
     jenkem.util.UrlOptionizer.extract(url) match {
-      case Some(u) => playImage(engine.generate(url, settings))
+      case Some(u) => playImage(generate(url, settings))
       case None => sendMessage(channel, "Command unknown: " + url)
     }
   }
@@ -323,5 +323,24 @@ class JenkemBot extends PircBot {
         "Playing image..."
       }
     }
+  }
+
+  def generate(url: String, cs: ConversionSettings): List[String] = {
+    val invert = false
+    val originalImage = AwtImageUtil.bufferImage(url, "black", invert)
+    val originalWidth = originalImage.getWidth
+    val originalHeight = originalImage.getHeight
+    val (width, height) = AwtImageUtil.calculateNewSize(cs.width, originalWidth, originalHeight)
+    val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, cs.kick)
+    val lastIndex = height
+    val params = cs.getParams(imageRgb)
+    val ircOutput = List[String]()
+    def generate0(index: Int): List[String] = {
+      if (index + 2 > lastIndex) { Nil }
+      else { Engine.generateLine(params, index) :: generate0(index + 2) }
+    }
+    val message = List("Mode: " + params.method + ", Scheme: " + cs.schemeName
+        + ", Brightness: " + params.brightness + ", Contrast: " + params.contrast)
+    message ::: generate0(0)
   }
 }
