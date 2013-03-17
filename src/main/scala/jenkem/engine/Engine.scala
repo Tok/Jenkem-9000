@@ -81,9 +81,9 @@ object Engine {
           lazy val botFg = bot(i).fg
           lazy val offset = ((par.settings.get(ProcSettings.UPDOWN) * -1) + 100) / 5
           if (td + offset < bd) {
-            selectAppropriate(old, topBg, botBg, totalBgs(i), botFg, Pal.get(Pal.UP, par.hasAnsi))
+            selectAppropriate(old, topBg, botBg, totalBgs(i), botFg, Pal.get(Pal.UP, par.hasAnsi, par.charset))
           } else if (bd + offset < td) {
-            selectAppropriate(old, botBg, topBg, totalBgs(i), topFg, Pal.get(Pal.DOWN, par.hasAnsi))
+            selectAppropriate(old, botBg, topBg, totalBgs(i), topFg, Pal.get(Pal.DOWN, par.hasAnsi, par.charset))
           } else { old }
         } else { old }
       }
@@ -97,9 +97,9 @@ object Engine {
           lazy val rightFg = right(i).fg
           lazy val offset = ((par.settings.get(ProcSettings.LEFTRIGHT) * -1) + 100) / 5
           if (ld + offset < rd) {
-            selectAppropriate(old, leftBg, rightBg, totalBgs(i), rightFg, Pal.get(Pal.LEFT, par.hasAnsi))
+            selectAppropriate(old, leftBg, rightBg, totalBgs(i), rightFg, Pal.get(Pal.LEFT, par.hasAnsi, par.charset))
           } else if (rd + offset < ld) {
-            selectAppropriate(old, rightBg, leftBg, totalBgs(i), leftFg, Pal.get(Pal.RIGHT, par.hasAnsi))
+            selectAppropriate(old, rightBg, leftBg, totalBgs(i), leftFg, Pal.get(Pal.RIGHT, par.hasAnsi, par.charset))
           } else { old }
         } else { old }
       }
@@ -110,19 +110,19 @@ object Engine {
     val charsOnly = switched.map(_.last.toString)
     val pp = postProcess(par, charsOnly.mkString).toCharArray.map(_.toString).toList
 
-    lazy val du = Pal.get(Pal.DOWN_UP, par.hasAnsi)
-    lazy val ud = Pal.get(Pal.UP_DOWN, par.hasAnsi)
-    lazy val lu = Pal.get(Pal.LEFT_UP, par.hasAnsi)
-    lazy val ld = Pal.get(Pal.LEFT_DOWN, par.hasAnsi)
-    lazy val ru = Pal.get(Pal.RIGHT_UP, par.hasAnsi)
-    lazy val rd = Pal.get(Pal.RIGHT_DOWN, par.hasAnsi)
+    lazy val du = Pal.getValChars(Pal.DOWN_UP, par.hasAnsi)
+    lazy val ud = Pal.getValChars(Pal.UP_DOWN, par.hasAnsi)
+    lazy val lu = Pal.getValChars(Pal.LEFT_UP, par.hasAnsi)
+    lazy val ld = Pal.getValChars(Pal.LEFT_DOWN, par.hasAnsi)
+    lazy val ru = Pal.getValChars(Pal.RIGHT_UP, par.hasAnsi)
+    lazy val rd = Pal.getValChars(Pal.RIGHT_DOWN, par.hasAnsi)
     def change(c: String): String = {
-      if (c.equals(du)) { ud }
-      else if (c.equals(ud)) { du }
-      else if (c.equals(lu)) { ru }
-      else if (c.equals(ru)) { lu }
-      else if (c.equals(ld)) { rd }
-      else if (c.equals(rd)) { ld }
+      if (du.contains(c)) { Pal.get(Pal.UP_DOWN, par.hasAnsi, par.charset) }
+      else if (ud.contains(c)) { Pal.get(Pal.DOWN_UP, par.hasAnsi, par.charset) }
+      else if (lu.contains(c)) { Pal.get(Pal.RIGHT_UP, par.hasAnsi, par.charset) }
+      else if (ru.contains(c)) { Pal.get(Pal.LEFT_UP, par.hasAnsi, par.charset) }
+      else if (ld.contains(c)) { Pal.get(Pal.RIGHT_DOWN, par.hasAnsi, par.charset) }
+      else if (rd.contains(c)) { Pal.get(Pal.LEFT_DOWN, par.hasAnsi, par.charset) }
       else { c }
     }
     val changed = pp.map(change(_))
@@ -179,13 +179,13 @@ object Engine {
         else { "" }
       }
       if (par.settings.has(ProcSettings.UPDOWN)) {
-        val u = Pal.get(Pal.UP, par.hasAnsi)
-        val d = Pal.get(Pal.DOWN, par.hasAnsi)
+        val u = Pal.get(Pal.UP, par.hasAnsi, par.charset)
+        val d = Pal.get(Pal.DOWN, par.hasAnsi, par.charset)
         val ud = getFor(par.settings.get(ProcSettings.UPDOWN), top(i), bot(i), u, d)
         if (!ud.equals("")) { return ud }
       } else if (par.settings.has(ProcSettings.LEFTRIGHT)) {
-        val l = Pal.get(Pal.LEFT, par.hasAnsi)
-        val r = Pal.get(Pal.RIGHT, par.hasAnsi)
+        val l = Pal.get(Pal.LEFT, par.hasAnsi, par.charset)
+        val r = Pal.get(Pal.RIGHT, par.hasAnsi, par.charset)
         val lr = getFor(par.settings.get(ProcSettings.LEFTRIGHT), left(i), right(i), l, r)
         if (!lr.equals("")) { return lr }
       }
@@ -197,18 +197,18 @@ object Engine {
   }
 
   private def postProcess(par: Params, line: String): String = {
-    lazy val down = Pal.get(Pal.DOWN, par.hasAnsi)
-    lazy val up = Pal.get(Pal.UP, par.hasAnsi)
-    lazy val left = Pal.get(Pal.LEFT, par.hasAnsi)
-    lazy val right = Pal.get(Pal.RIGHT, par.hasAnsi)
-    lazy val du = Pal.get(Pal.DOWN_UP, par.hasAnsi)
-    lazy val ud = Pal.get(Pal.UP_DOWN, par.hasAnsi)
-    lazy val lu = Pal.get(Pal.LEFT_UP, par.hasAnsi)
-    lazy val ld = Pal.get(Pal.LEFT_DOWN, par.hasAnsi)
-    lazy val ru = Pal.get(Pal.RIGHT_UP, par.hasAnsi)
-    lazy val rd = Pal.get(Pal.RIGHT_DOWN, par.hasAnsi)
-    lazy val hl = Pal.get(Pal.H_LINE, par.hasAnsi)
-    lazy val vl = Pal.get(Pal.V_LINE, par.hasAnsi)
+    lazy val down = Pal.get(Pal.DOWN, par.hasAnsi, par.charset)
+    lazy val up = Pal.get(Pal.UP, par.hasAnsi, par.charset)
+    lazy val left = Pal.get(Pal.LEFT, par.hasAnsi, par.charset)
+    lazy val right = Pal.get(Pal.RIGHT, par.hasAnsi, par.charset)
+    lazy val du = Pal.get(Pal.DOWN_UP, par.hasAnsi, par.charset)
+    lazy val ud = Pal.get(Pal.UP_DOWN, par.hasAnsi, par.charset)
+    lazy val lu = Pal.get(Pal.LEFT_UP, par.hasAnsi, par.charset)
+    lazy val ld = Pal.get(Pal.LEFT_DOWN, par.hasAnsi, par.charset)
+    lazy val ru = Pal.get(Pal.RIGHT_UP, par.hasAnsi, par.charset)
+    lazy val rd = Pal.get(Pal.RIGHT_DOWN, par.hasAnsi, par.charset)
+    lazy val hl = Pal.get(Pal.H_LINE, par.hasAnsi, par.charset)
+    lazy val vl = Pal.get(Pal.V_LINE, par.hasAnsi, par.charset)
     val sels = List("DBQP", "DIAG", "HOR", "VERT")
     val range = (0 until line.length)
     def postProcess0(in: List[String], sel: String): String = {

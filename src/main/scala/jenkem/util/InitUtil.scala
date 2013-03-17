@@ -39,8 +39,8 @@ object InitUtil {
     val gRatio: Double = grey.filter(_ == true).length.doubleValue / grey.length.doubleValue
     val bwRatio: Double = bw.filter(_ == true).length.doubleValue / bw.length.doubleValue
     val scheme = if (gRatio > 0.9D) { Scheme.Bwg } else { Scheme.Default }
-    if (bwRatio > 0.9D) { (ConversionMethod.Stencil, scheme, Pal.HCrude) }
-    else { (ConversionMethod.Vortacular, scheme, Pal.Ansi) }
+    if (bwRatio > 0.9D) { (ConversionMethod.Stencil, scheme, Pal.HCRUDE) }
+    else { (ConversionMethod.Vortacular, scheme, Pal.ANSI) }
   }
 
   private def isPixelGrey(rgb: (Short, Short, Short)): Boolean = {

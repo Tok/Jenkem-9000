@@ -27,7 +27,7 @@ class ConversionSettings {
     method = ConversionMethod.Vortacular
     colorMap = Scheme.createColorMap(Scheme.Default)
     schemeName = Scheme.Default.name
-    chars = Pal.Ansi.chars
+    chars = Pal.ANSI.chars
     kick = Kick.OFF
     power = Power.Linear
   }

@@ -269,14 +269,14 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     methodBox.select(ConversionMethod.Vortacular)
     conversionDisabled = true
     widthSlider.setValue(defaultWidth)
-    charTextField.setValue(Pal.Ansi.chars)
+    charTextField.setValue(Pal.ANSI.chars)
     procSetter.reset(true)
     kickSelect.select(Kick.default)
     powerBox.select(Power.Linear)
     contrastSlider.setValue(0)
     brightnessSlider.setValue(0)
     ircColorSetter.reset
-    charsetBox.select(Pal.Ansi) //unsets conversionDisabled!
+    charsetBox.select(Pal.ANSI) //unsets conversionDisabled!
     conversionDisabled = false
   }
 
