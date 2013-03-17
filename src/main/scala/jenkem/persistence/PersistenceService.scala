@@ -25,7 +25,7 @@ object PersistenceService {
       val tx: Transaction = pm.currentTransaction
       try {
         val name = jenkemImage.info.name
-        Option(getByName[ImageInfo](name, classOf[ImageInfo])) match {
+        getByName[ImageInfo](name, classOf[ImageInfo]) match {
           case Some(t) =>
             tx.begin
             jenkemImage.values.foreach(part => pm.deletePersistent(pm.getObjectById(part.c, name)))
