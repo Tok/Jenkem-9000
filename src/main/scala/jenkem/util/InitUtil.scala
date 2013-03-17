@@ -6,7 +6,7 @@ import jenkem.engine.color.Scheme
 
 object InitUtil {
   val AVERAGE_RGB = 127
-  val COLOR_TOLERANCE = 20 //arbitrary value (absolute RGB)
+  val COLOR_TOLERANCE = 15 //arbitrary value (absolute RGB)
   val MIN_BRIGHTNESS = -20
   val MAX_BRIGHTNESS = 30
   val MIN_CONTRAST = -5
@@ -34,17 +34,24 @@ object InitUtil {
 
   def getDefaults(imageRgb: Map[(Int, Int), (Short, Short, Short)]):
       (ConversionMethod.Value, Scheme.Value, Pal.Charset) = {
-    val bOrW = imageRgb.map(pixel => isPixelColorful(pixel._2)).toList
-    val bwRatio = bOrW.filter(_ == true) //throws scala-style warning
-    val ratio: Double = bwRatio.length.doubleValue / bOrW.length.doubleValue
-    if (ratio > 0.05D) { (ConversionMethod.Vortacular, Scheme.Default, Pal.Ansi) }
-    else { (ConversionMethod.Stencil, Scheme.Bwg, Pal.HCrude) }
+    val grey = imageRgb.map(pixel => isPixelGrey(pixel._2)).toList
+    val bw = imageRgb.map(pixel => isPixelBlackOrWhite(pixel._2)).toList
+    val gRatio: Double = grey.filter(_ == true).length.doubleValue / grey.length.doubleValue
+    val bwRatio: Double = bw.filter(_ == true).length.doubleValue / bw.length.doubleValue
+    val scheme = if (gRatio > 0.9D) { Scheme.Bwg } else { Scheme.Default }
+    if (bwRatio > 0.9D) { (ConversionMethod.Stencil, scheme, Pal.HCrude) }
+    else { (ConversionMethod.Vortacular, scheme, Pal.Ansi) }
   }
 
-  private def isPixelColorful(rgb: (Short, Short, Short)): Boolean = {
-      ((Math.abs(rgb._1 - rgb._2) > COLOR_TOLERANCE)
-    || (Math.abs(rgb._2 - rgb._3) > COLOR_TOLERANCE)
-    || (Math.abs(rgb._3 - rgb._1) > COLOR_TOLERANCE))
+  private def isPixelGrey(rgb: (Short, Short, Short)): Boolean = {
+      (!(Math.abs(rgb._1 - rgb._2) > COLOR_TOLERANCE)
+    && !(Math.abs(rgb._2 - rgb._3) > COLOR_TOLERANCE)
+    && !(Math.abs(rgb._3 - rgb._1) > COLOR_TOLERANCE))
+  }
+
+  private def isPixelBlackOrWhite(rgb: (Short, Short, Short)): Boolean = {
+    val mean = (rgb._1 + rgb._2 + rgb._3).doubleValue / 3
+    mean < 30 || mean > 225
   }
 
   /**

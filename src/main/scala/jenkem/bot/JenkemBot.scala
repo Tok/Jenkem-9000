@@ -32,15 +32,12 @@ class JenkemBot extends PircBot {
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER = Value
+    val DELAY, WIDTH, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER = Value
   }
 
   object IntExtractor {
-    def unapply(s: String): Option[Int] = try {
-      Some(s.toInt)
-    } catch {
-      case _: java.lang.NumberFormatException => None
-    }
+    def unapply(s: String): Option[Int] = try { Some(s.toInt) }
+    catch { case _: java.lang.NumberFormatException => None }
   }
 
   val emp = ""
@@ -57,9 +54,8 @@ class JenkemBot extends PircBot {
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
     val m = message.split(sep)
     if (channel.equalsIgnoreCase(lastChan)) {
-      try {
-        executeCommand(channel, m)
-      } catch {
+      try { executeCommand(channel, m) }
+      catch {
         case nsee: NoSuchElementException => convertAndPlay(channel, m.tail.head)
       }
     }
@@ -92,11 +88,11 @@ class JenkemBot extends PircBot {
     }
   }
 
-  override def onConnect: Unit = {
+  override def onConnect {
     botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick)
   }
 
-  override def onDisconnect: Unit = {
+  override def onDisconnect {
     botStatus = new BotStatus(Disconnected, NotSending, getServer, lastChan, getNick)
   }
 
@@ -106,8 +102,9 @@ class JenkemBot extends PircBot {
    */
   private def showHelp(target: String) {
     sendMessage(target, "Play image from url: JENKEM [url]")
-    sendMessage(target, "Show config: JENKEM CONFIG")
     sendMessage(target, "Change config: JENKEM [ConfigItem] [Value]")
+    sendMessage(target, "  ConfigItems are: DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER")
+    sendMessage(target, "Show config: JENKEM CONFIG")
     sendMessage(target, "Reset config: JENKEM RESET")
   }
 
@@ -139,7 +136,7 @@ class JenkemBot extends PircBot {
         case ConfigItem.WIDTH => setWidth(sender, value)
         case ConfigItem.SCHEME => setScheme(sender, value)
         case ConfigItem.CHARSET => setCharset(sender, value)
-        case ConfigItem.CHARS => setChars(sender, value)
+        case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI => setChars(sender, value)
         case ConfigItem.POWER => setPower(sender, value)
       }
     } catch {
