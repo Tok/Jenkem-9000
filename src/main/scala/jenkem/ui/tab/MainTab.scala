@@ -65,12 +65,12 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   class ConversionData(val contrast: Int, val brightness: Int, val characters: String)
 
   val resizeValueChangeListener = new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) { startConversion(false, true) }
-  }
+    override def valueChange(event: ValueChangeEvent) {
+      if(!conversionDisabled) { startConversion(false, true) }}}
 
   val noResizeValueChangeListener = new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) { startConversion(false, false) }
-  }
+    override def valueChange(event: ValueChangeEvent) {
+      if(!conversionDisabled) { startConversion(false, false) }}}
 
   setCaption("Main")
   setSizeFull
@@ -153,7 +153,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   resetButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent) {
-      doReset; startConversion(true, true)
+      doReset //triggers conversion
     }
   })
 
@@ -161,9 +161,12 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   charsetBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
       val charsetName = event.getProperty.getValue.toString
-      charTextField.setValue(Pal.valueOf(charsetName).chars)
-      makeInitsForCharset
-      startConversion(false, false)
+      val chars = Pal.valueOf(charsetName).chars
+      makeInitsForCharset(chars)
+      if (!chars.equals(charTextField.getValue)) {
+        //triggers conversion
+        charTextField.setValue(Pal.valueOf(charsetName).chars)
+      }
     }
   })
 
@@ -177,8 +180,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     def convert(e: DoConversionEvent) {
       startConversion(e.prepareImage, e.resize)
     }}, "convert")
-  eventRouter.addListener(classOf[SendToIrcEvent],
-      new { def send { ircConnector.sendToIrc(ircOutput) }}, "send")
+  eventRouter.addListener(classOf[SendToIrcEvent], new {
+    def send { ircConnector.sendToIrc(ircOutput) }}, "send")
 
   doReset
 
@@ -195,7 +198,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val settings = new ListSelect
     settings.addValueChangeListener(new Property.ValueChangeListener {
       override def valueChange(event: ValueChangeEvent) {
+        conversionDisabled = true
         makeInitsForMethod
+        conversionDisabled = false
         startConversion(false, true)
       }
     })
@@ -252,8 +257,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   private def doReset() {
     conversionDisabled = true
     methodBox.select(ConversionMethod.Vortacular)
+    conversionDisabled = true
     widthSlider.setValue(defaultWidth)
-    charsetBox.select(Pal.Ansi)
     charTextField.setValue(Pal.Ansi.chars)
     procSetter.reset(true)
     kickSelect.select(Kick.default)
@@ -261,6 +266,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     contrastSlider.setValue(0)
     brightnessSlider.setValue(0)
     ircColorSetter.reset
+    charsetBox.select(Pal.Ansi) //unsets conversionDisabled!
     conversionDisabled = false
   }
 
@@ -285,7 +291,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val originalHeight = originalImage.getHeight
     val lineWidth = widthSlider.getValue.intValue
     val method = ConversionMethod.valueOf(methodBox.getValue.toString)
-    //val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
     val (width, height) = AwtImageUtil.calculateNewSize(lineWidth, originalWidth, originalHeight)
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
     val dataWidth = width - (2 * kick.xOffset)
@@ -295,12 +300,16 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def startConversion(prepareImage: Boolean, resize: Boolean) {
     if (!conversionDisabled) {
+      conversionDisabled = true
       imagePreparer.getUrl match {
         case Some(url) =>
           if (prepareImage) { doPrepareImage(url) }
           if (resize) { doPrepareImageData(url) }
-          if (prepareImage) { makeInits; startConversion(false, false) }
-          else { makeConversion }
+          if (prepareImage) {
+            makeInits
+            conversionDisabled = false
+            startConversion(false, false)
+          } else { makeConversion }
         case None => { }
       }
     }
@@ -328,6 +337,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       updateInline(imageData.method, ircOutput, imagePreparer.getName)
       imagePreparer.setStatus("Ready...")
       ircConnector.refresh
+      conversionDisabled = false
     } catch {
       case iioe: javax.imageio.IIOException => imagePreparer.setError("Cannot read image from URL.")
       case iae: IllegalArgumentException => imagePreparer.setError(iae.getMessage)
@@ -340,7 +350,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       if (index + 2 > lastIndex) { Nil }
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
-    println("generate: " + params.method)
     generate0(0)
   }
 
@@ -374,16 +383,13 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val method = ConversionMethod.valueOf(methodBox.getValue.toString)
     ircColorSetter.makeEnabled(method.equals(ConversionMethod.Vortacular))
     powerBox.setEnabled(method.equals(ConversionMethod.Vortacular))
-    charsetBox.setValue(Pal.getForMethod(method))
     procSetter.reset(Pal.hasAnsi(charTextField.getValue))
+    charsetBox.setValue(Pal.getForMethod(method)) //unsets conversionDisabled!
     conversionDisabled = false
   }
 
-  private def makeInitsForCharset() {
-    conversionDisabled = true
-    val chars = charTextField.getValue
-    procSetter.reset(Pal.hasAnsi(charTextField.getValue))
-    conversionDisabled = false
+  private def makeInitsForCharset(chars: String) {
+    procSetter.reset(Pal.hasAnsi(chars))
   }
 
   def saveImage() {

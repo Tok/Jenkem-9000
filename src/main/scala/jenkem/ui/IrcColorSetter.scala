@@ -1,7 +1,8 @@
 package jenkem.ui
 
-import scala.collection.JavaConversions.mapAsJavaMap
+import scala.annotation.migration
 import scala.collection.immutable.HashMap
+
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -12,10 +13,12 @@ import com.vaadin.ui.Label
 import com.vaadin.ui.NativeSelect
 import com.vaadin.ui.Slider
 import com.vaadin.ui.VerticalLayout
-import jenkem.event.DoConversionEvent
+
 import jenkem.engine.color.Scheme
+import jenkem.event.DoConversionEvent
 
 class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
+  var isTriggeringDisabled = false
   setSpacing(true)
   setWidth("400px")
   val labels = makeLabelMap
@@ -31,7 +34,9 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     override def valueChange(event: ValueChangeEvent) {
       val s = Scheme.valueOf(event.getProperty.getValue.toString)
       updatePreset(s)
-      eventRouter.fireEvent(new DoConversionEvent(false, false))
+      if (!isTriggeringDisabled) {
+        eventRouter.fireEvent(new DoConversionEvent(false, false))
+      }
     }
   })
   val layout = new HorizontalLayout
@@ -80,7 +85,9 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     slider.addValueChangeListener(new Property.ValueChangeListener {
       override def valueChange(event: ValueChangeEvent) {
         label.setValue("%1.0f".format(event.getProperty.getValue))
-        eventRouter.fireEvent(new DoConversionEvent(false, false))
+        if (!isTriggeringDisabled) {
+          eventRouter.fireEvent(new DoConversionEvent(false, false))
+        }
       }
     })
     val layout = new VerticalLayout
@@ -99,7 +106,9 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     case None => new Slider
   }
   private def updatePreset(cs: Scheme.Value) {
+    isTriggeringDisabled = true
     Scheme.ircColors.foreach(ic => getSlider(ic).setValue(ic.scheme(cs.order)))
+    isTriggeringDisabled = false
   }
   private def getValue(ic: Scheme.IrcColor) = Integer.valueOf(getLabel(ic).getValue).shortValue
 
@@ -117,8 +126,11 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     sliders.values.foreach(s => s.setEnabled(enabled))
   }
   def reset {
+    isTriggeringDisabled = true
     if (presetBox.getValue.equals(Scheme.Default)) {
         updatePreset(Scheme.valueOf(presetBox.getValue.toString))
     } else { presetBox.select(Scheme.Default) }
+    isTriggeringDisabled = false
+    eventRouter.fireEvent(new DoConversionEvent(false, false))
   }
 }

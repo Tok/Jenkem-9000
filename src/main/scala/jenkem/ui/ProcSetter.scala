@@ -17,11 +17,14 @@ import jenkem.engine.ProcSettings
 import jenkem.event.DoConversionEvent
 
 class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
+  var triggeringDisabled = true
   setWidth("250px")
 
   val vcl = new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
-      eventRouter.fireEvent(new DoConversionEvent(false, false))
+      if (!triggeringDisabled) {
+        eventRouter.fireEvent(new DoConversionEvent(false, false))
+      }
     }
   }
 
@@ -38,6 +41,8 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   val layout = new HorizontalLayout
   (2 to 5).foreach(i => layout.addComponent(boxes.get(settings(i)).get))
   addComponent(layout, 0, 2, 2, 2)
+
+  triggeringDisabled = false
 
   private def makeComponentMap[T](sets: List[PS], f: PS => Component): HashMap[PS, T] = {
     def makeComponentMap0(hm: HashMap[PS, T], s: List[PS]): HashMap[PS, T] = {
@@ -74,7 +79,9 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
     slider.addValueChangeListener(new Property.ValueChangeListener {
       override def valueChange(event: ValueChangeEvent) {
         labels.get(setting).get.setValue("%1.0f".format(event.getProperty.getValue))
-        eventRouter.fireEvent(new DoConversionEvent(false, false))
+        if (!triggeringDisabled) {
+          eventRouter.fireEvent(new DoConversionEvent(false, false))
+        }
       }
     })
     slider
@@ -93,6 +100,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   }
 
   def reset(hasAnsi: Boolean) {
+    triggeringDisabled = true
     val vals = ProcSettings.getInitial(hasAnsi)
     settings.foreach(set(_))
     def set(setting: PS) {
@@ -102,6 +110,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
         case None => { }
       }
     }
+    triggeringDisabled = false
   }
 
   def getSettings: ProcSettings.Instance = {
