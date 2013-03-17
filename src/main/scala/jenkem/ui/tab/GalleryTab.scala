@@ -1,17 +1,21 @@
 package jenkem.ui.tab
 
+import scala.Array.canBuildFrom
 import scala.collection.JavaConversions.asScalaBuffer
+
 import com.vaadin.data.util.BeanItemContainer
 import com.vaadin.event.EventRouter
 import com.vaadin.server.ExternalResource
 import com.vaadin.ui.Link
 import com.vaadin.ui.Table
+import com.vaadin.ui.Table.Align
 import com.vaadin.ui.VerticalLayout
+
+import jenkem.persistence.data.ImageInfo
+import javax.jdo.annotations.PersistenceCapable
 import jenkem.persistence.PersistenceService
-import jenkem.shared.data.ImageInfo
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
-import com.vaadin.ui.Table.Align
 
 class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   setCaption("Gallery")
@@ -45,26 +49,26 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
     def getIcon: Link = {
       val link = new Link
       link.setTargetName("_blank")
-      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.getName))
+      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.name))
       link.setResource(ex)
-      val buffered = AwtImageUtil.decodeFromBase64(info.getIcon)
-      val resource = AwtImageUtil.makeVaadinResource(buffered, info.getName)
+      val buffered = AwtImageUtil.decodeFromBase64(info.icon)
+      val resource = AwtImageUtil.makeVaadinResource(buffered, info.name)
       link.setIcon(resource)
       link
     }
     def getName: Link = {
-      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.getName))
-      val link = new Link(info.getName, ex)
+      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.name))
+      val link = new Link(info.name, ex)
       link.setTargetName("_blank")
       link
     }
-    def getMethod: String = info.getMethod
-    def getCharacters: String = info.getCharacters
-    def getContrast: Integer = info.getContrast
-    def getBrightness: Integer = info.getBrightness
-    def getLines: Integer = info.getLines
-    def getWidth: Integer = info.getLineWidth
-    def getCreation: String = info.getCreation
+    def getMethod: String = info.method
+    def getCharacters: String = info.characters
+    def getContrast: Integer = info.contrast
+    def getBrightness: Integer = info.brightness
+    def getLines: Integer = info.lines
+    def getWidth: Integer = info.lineWidth
+    def getCreation: String = info.creation
   }
 
   cols.foreach(col => table.addContainerProperty(col.name.toLowerCase, col.c, classOf[String]))

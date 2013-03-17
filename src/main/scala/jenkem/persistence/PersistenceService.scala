@@ -1,13 +1,14 @@
 package jenkem.persistence
 
 import scala.Array.canBuildFrom
-
 import javax.jdo.Transaction
-import jenkem.shared.data.ImageCss
-import jenkem.shared.data.ImageHtml
-import jenkem.shared.data.ImageInfo
-import jenkem.shared.data.ImageIrc
-import jenkem.shared.data.JenkemImage
+import data.JenkemImage
+import data.ImageInfo
+import data.ImageHtml
+import data.JenkemImage
+import data.ImageIrc
+import data.ImageCss
+
 
 /**
  * Implementation of service to handle the persistence of reports.
@@ -23,16 +24,19 @@ object PersistenceService {
       val pm = PMF.get.getPersistenceManager
       val tx: Transaction = pm.currentTransaction
       try {
-        val name = jenkemImage.getInfo.getName
+        val name = jenkemImage.info.name
         Option(getByName[ImageInfo](name, classOf[ImageInfo])) match {
           case Some(t) =>
             tx.begin
-            JenkemImage.Part.values.foreach(part => pm.deletePersistent(pm.getObjectById(part.obtainClass, name)))
+            jenkemImage.values.foreach(part => pm.deletePersistent(pm.getObjectById(part.c, name)))
             tx.commit
           case None => { }
         }
         tx.begin
-        JenkemImage.Part.values.foreach(part => pm.makePersistent(jenkemImage.getComponents.get(part)))
+        pm.makePersistent(jenkemImage.info)
+        pm.makePersistent(jenkemImage.html)
+        pm.makePersistent(jenkemImage.css)
+        pm.makePersistent(jenkemImage.irc)
         tx.commit
       } finally {
         if (tx.isActive) { tx.rollback }

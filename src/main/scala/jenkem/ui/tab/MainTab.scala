@@ -24,6 +24,7 @@ import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 
+import javax.jdo.annotations.PersistenceCapable
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Engine
 import jenkem.engine.Kick
@@ -32,11 +33,11 @@ import jenkem.engine.color.Power
 import jenkem.event.DoConversionEvent
 import jenkem.event.SendToIrcEvent
 import jenkem.persistence.PersistenceService
-import jenkem.shared.data.ImageCss
-import jenkem.shared.data.ImageHtml
-import jenkem.shared.data.ImageInfo
-import jenkem.shared.data.ImageIrc
-import jenkem.shared.data.JenkemImage
+import jenkem.persistence.data.ImageCss
+import jenkem.persistence.data.ImageHtml
+import jenkem.persistence.data.ImageInfo
+import jenkem.persistence.data.ImageIrc
+import jenkem.persistence.data.JenkemImage
 import jenkem.ui.ImagePreparer
 import jenkem.ui.Inline
 import jenkem.ui.IrcColorSetter
@@ -63,9 +64,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   class ImagePreparationData(val icon: BufferedImage, val originalName: String)
   class ImageData(val imageRgb: Map[(Int, Int), (Short, Short, Short)],
-      val width: Int, val height: Int, val lineWidth: Int, val kick: Kick.Value,
+      val width: Short, val height: Short, val lineWidth: Short, val kick: Kick.Value,
       val method: ConversionMethod.Value)
-  class ConversionData(val contrast: Int, val brightness: Int, val characters: String)
+  class ConversionData(val contrast: Short, val brightness: Short, val characters: String)
 
   val resizeValueChangeListener = new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
@@ -293,12 +294,12 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val originalImage = AwtImageUtil.bufferImage(url, bg, invert, crops)
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
-    val lineWidth = widthSlider.getValue.intValue
+    val lineWidth = widthSlider.getValue.shortValue
     val method = ConversionMethod.valueOf(methodBox.getValue.toString)
     val (width, height) = AwtImageUtil.calculateNewSize(lineWidth, originalWidth, originalHeight)
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
-    val dataWidth = width - (2 * kick.xOffset)
-    val dataHeight = height - (2 * kick.yOffset)
+    val dataWidth = (width - (2 * kick.xOffset)).shortValue
+    val dataHeight = (height - (2 * kick.yOffset)).shortValue
     imageData = new ImageData(imageRgb, dataWidth, dataHeight, lineWidth, kick, method)
   }
 
@@ -322,8 +323,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   private def makeConversion() {
     try {
       val chars = charTextField.getValue.replaceAll("[,0-9]", "")
-      val contrast = contrastLabel.getValue.toInt
-      val brightness = brightnessLabel.getValue.toInt
+      val contrast = contrastLabel.getValue.toShort
+      val brightness = brightnessLabel.getValue.toShort
       convData = new ConversionData(contrast, brightness, chars)
       val ps = procSetter.getSettings
       val params = new Engine.Params(
@@ -401,9 +402,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, imageData.method)
     val format = new java.text.SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
     val base64Icon = AwtImageUtil.encodeToBase64(imagePrep.icon)
-    val ints = Array(convData.contrast, convData.brightness, ircOutput.size, imageData.lineWidth)
-    val jenkemImageInfo = new ImageInfo(
-        name, base64Icon, imageData.method.name, convData.characters, ints, format.format(new Date)
+    val jenkemImageInfo = new ImageInfo(name, base64Icon, imageData.method.name, convData.characters,
+        convData.contrast.shortValue, convData.brightness.shortValue, ircOutput.size.shortValue,
+        imageData.lineWidth.shortValue, format.format(new Date)
     )
     val jenkemImageHtml = new ImageHtml(name, htmlAndCss._1)
     val jenkemImageCss = new ImageCss(name, htmlAndCss._2)
