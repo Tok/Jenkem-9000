@@ -1,0 +1,2847 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>MainTab - Jenkem 1.0 API - jenkem.ui.tab.MainTab</title>
+          <meta name="description" content="MainTab - Jenkem 1.0 API - jenkem.ui.tab.MainTab" />
+          <meta name="keywords" content="MainTab Jenkem 1.0 API jenkem.ui.tab.MainTab" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'jenkem.ui.tab.MainTab';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img src="../../../lib/class_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="jenkem">jenkem</a>.<a href="../package.html" class="extype" name="jenkem.ui">ui</a>.<a href="package.html" class="extype" name="jenkem.ui.tab">tab</a></p>
+        <h1>MainTab</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MainTab</span><span class="result"> extends <span class="extype" name="com.vaadin.ui.VerticalLayout">VerticalLayout</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="com.vaadin.ui.VerticalLayout">VerticalLayout</span>, <span class="extype" name="com.vaadin.ui.AbstractOrderedLayout">AbstractOrderedLayout</span>, <span class="extype" name="com.vaadin.ui.Layout.MarginHandler">MarginHandler</span>, <span class="extype" name="com.vaadin.event.LayoutEvents.LayoutClickNotifier">LayoutClickNotifier</span>, <span class="extype" name="com.vaadin.ui.Layout.SpacingHandler">SpacingHandler</span>, <span class="extype" name="com.vaadin.ui.Layout.AlignmentHandler">AlignmentHandler</span>, <span class="extype" name="com.vaadin.ui.AbstractLayout">AbstractLayout</span>, <span class="extype" name="com.vaadin.ui.Layout">Layout</span>, <span class="extype" name="com.vaadin.ui.AbstractComponentContainer">AbstractComponentContainer</span>, <span class="extype" name="com.vaadin.ui.ComponentContainer">ComponentContainer</span>, <span class="extype" name="com.vaadin.ui.HasComponents.ComponentAttachDetachNotifier">ComponentAttachDetachNotifier</span>, <span class="extype" name="com.vaadin.ui.HasComponents">HasComponents</span>, <span class="extype" name="java.lang.Iterable">Iterable</span>[<span class="extype" name="com.vaadin.ui.Component">Component</span>], <span class="extype" name="com.vaadin.ui.AbstractComponent">AbstractComponent</span>, <span class="extype" name="com.vaadin.ui.Component">Component</span>, <span class="extype" name="com.vaadin.server.Sizeable">Sizeable</span>, <span class="extype" name="com.vaadin.server.AbstractClientConnector">AbstractClientConnector</span>, <span class="extype" name="com.vaadin.event.MethodEventSource">MethodEventSource</span>, <span class="extype" name="com.vaadin.server.ClientConnector">ClientConnector</span>, <span class="extype" name="com.vaadin.shared.Connector">Connector</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="jenkem.ui.tab.MainTab"><span>MainTab</span></li><li class="in" name="com.vaadin.ui.VerticalLayout"><span>VerticalLayout</span></li><li class="in" name="com.vaadin.ui.AbstractOrderedLayout"><span>AbstractOrderedLayout</span></li><li class="in" name="com.vaadin.ui.Layout.MarginHandler"><span>MarginHandler</span></li><li class="in" name="com.vaadin.event.LayoutEvents.LayoutClickNotifier"><span>LayoutClickNotifier</span></li><li class="in" name="com.vaadin.ui.Layout.SpacingHandler"><span>SpacingHandler</span></li><li class="in" name="com.vaadin.ui.Layout.AlignmentHandler"><span>AlignmentHandler</span></li><li class="in" name="com.vaadin.ui.AbstractLayout"><span>AbstractLayout</span></li><li class="in" name="com.vaadin.ui.Layout"><span>Layout</span></li><li class="in" name="com.vaadin.ui.AbstractComponentContainer"><span>AbstractComponentContainer</span></li><li class="in" name="com.vaadin.ui.ComponentContainer"><span>ComponentContainer</span></li><li class="in" name="com.vaadin.ui.HasComponents.ComponentAttachDetachNotifier"><span>ComponentAttachDetachNotifier</span></li><li class="in" name="com.vaadin.ui.HasComponents"><span>HasComponents</span></li><li class="in" name="java.lang.Iterable"><span>Iterable</span></li><li class="in" name="com.vaadin.ui.AbstractComponent"><span>AbstractComponent</span></li><li class="in" name="com.vaadin.ui.Component"><span>Component</span></li><li class="in" name="com.vaadin.server.Sizeable"><span>Sizeable</span></li><li class="in" name="com.vaadin.server.AbstractClientConnector"><span>AbstractClientConnector</span></li><li class="in" name="com.vaadin.event.MethodEventSource"><span>MethodEventSource</span></li><li class="in" name="com.vaadin.server.ClientConnector"><span>ClientConnector</span></li><li class="in" name="com.vaadin.shared.Connector"><span>Connector</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="jenkem.ui.tab.MainTab#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(eventRouter:com.vaadin.event.EventRouter):jenkem.ui.tab.MainTab"></a>
+      <a id="&lt;init&gt;:MainTab"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MainTab</span><span class="params">(<span name="eventRouter">eventRouter: <span class="extype" name="com.vaadin.event.EventRouter">EventRouter</span></span>)</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="jenkem.ui.tab.MainTab.ConversionData" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ConversionDataextendsObject"></a>
+      <a id="ConversionData:ConversionData"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="MainTab$ConversionData.html"><span class="name">ConversionData</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab.ImageData" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ImageDataextendsObject"></a>
+      <a id="ImageData:ImageData"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="MainTab$ImageData.html"><span class="name">ImageData</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab.ImagePreparationData" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ImagePreparationDataextendsObject"></a>
+      <a id="ImagePreparationData:ImagePreparationData"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="MainTab$ImagePreparationData.html"><span class="name">ImagePreparationData</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:AnyRef):Boolean"></a>
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.Any#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:AnyRef):Boolean"></a>
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.Any#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#addAttachListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addAttachListener(x$1:com.vaadin.server.ClientConnector.AttachListener):Unit"></a>
+      <a id="addAttachListener(AttachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addAttachListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.ClientConnector.AttachListener">AttachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#addComponent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addComponent(x$1:com.vaadin.ui.Component,x$2:Int):Unit"></a>
+      <a id="addComponent(Component,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addComponent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#addComponent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addComponent(x$1:com.vaadin.ui.Component):Unit"></a>
+      <a id="addComponent(Component):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addComponent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → AbstractComponentContainer → ComponentContainer</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#addComponentAsFirst" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addComponentAsFirst(x$1:com.vaadin.ui.Component):Unit"></a>
+      <a id="addComponentAsFirst(Component):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addComponentAsFirst</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#addComponentAttachListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addComponentAttachListener(x$1:com.vaadin.ui.HasComponents.ComponentAttachListener):Unit"></a>
+      <a id="addComponentAttachListener(ComponentAttachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addComponentAttachListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.HasComponents.ComponentAttachListener">ComponentAttachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentAttachDetachNotifier</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#addComponentDetachListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addComponentDetachListener(x$1:com.vaadin.ui.HasComponents.ComponentDetachListener):Unit"></a>
+      <a id="addComponentDetachListener(ComponentDetachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addComponentDetachListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.HasComponents.ComponentDetachListener">ComponentDetachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentAttachDetachNotifier</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#addComponents" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addComponents(x$1:&lt;repeated...&gt;[com.vaadin.ui.Component]):Unit"></a>
+      <a id="addComponents(&lt;repeated...&gt;[Component]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addComponents</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.&lt;repeated...&gt;">&lt;repeated...&gt;</span>[<span class="extype" name="com.vaadin.ui.Component">Component</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentContainer</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#addDetachListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addDetachListener(x$1:com.vaadin.server.ClientConnector.DetachListener):Unit"></a>
+      <a id="addDetachListener(DetachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addDetachListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.ClientConnector.DetachListener">DetachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#addExtension" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addExtension(x$1:com.vaadin.server.Extension):Unit"></a>
+      <a id="addExtension(Extension):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addExtension</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.Extension">Extension</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#addLayoutClickListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addLayoutClickListener(x$1:com.vaadin.event.LayoutEvents.LayoutClickListener):Unit"></a>
+      <a id="addLayoutClickListener(LayoutClickListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addLayoutClickListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.event.LayoutEvents.LayoutClickListener">LayoutClickListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → LayoutClickNotifier</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#addListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addListener(x$1:com.vaadin.ui.Component.Listener):Unit"></a>
+      <a id="addListener(Listener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component.Listener">Listener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#addListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addListener(x$1:Class[_],x$2:Any,x$3:java.lang.reflect.Method):Unit"></a>
+      <a id="addListener(Class[_],Any,Method):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[_]</span>, <span name="arg1">arg1: <span class="extype" name="scala.Any">Any</span></span>, <span name="arg2">arg2: <span class="extype" name="java.lang.reflect.Method">Method</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → MethodEventSource</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#addListener" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addListener(x$1:String,x$2:Class[_],x$3:Any,x$4:java.lang.reflect.Method):Unit"></a>
+      <a id="addListener(String,Class[_],Any,Method):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>, <span name="arg1">arg1: <span class="extype" name="java.lang.Class">Class</span>[_]</span>, <span name="arg2">arg2: <span class="extype" name="scala.Any">Any</span></span>, <span name="arg3">arg3: <span class="extype" name="java.lang.reflect.Method">Method</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#addMethodInvocationToQueue" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addMethodInvocationToQueue(x$1:String,x$2:java.lang.reflect.Method,x$3:Array[Object]):Unit"></a>
+      <a id="addMethodInvocationToQueue(String,Method,Array[AnyRef]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addMethodInvocationToQueue</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>, <span name="arg1">arg1: <span class="extype" name="java.lang.reflect.Method">Method</span></span>, <span name="arg2">arg2: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.AnyRef">AnyRef</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#addShortcutListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addShortcutListener(x$1:com.vaadin.event.ShortcutListener):Unit"></a>
+      <a id="addShortcutListener(ShortcutListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addShortcutListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.event.ShortcutListener">ShortcutListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#addStyleName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addStyleName(x$1:String):Unit"></a>
+      <a id="addStyleName(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addStyleName</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#attach" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="attach():Unit"></a>
+      <a id="attach():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">attach</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component → AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#beforeClientResponse" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="beforeClientResponse(x$1:Boolean):Unit"></a>
+      <a id="beforeClientResponse(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">beforeClientResponse</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#brightnessLabel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="brightnessLabel:com.vaadin.ui.Label"></a>
+      <a id="brightnessLabel:Label"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">brightnessLabel</span><span class="result">: <span class="extype" name="com.vaadin.ui.Label">Label</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#brightnessSlider" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="brightnessSlider:com.vaadin.ui.Slider"></a>
+      <a id="brightnessSlider:Slider"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">brightnessSlider</span><span class="result">: <span class="extype" name="com.vaadin.ui.Slider">Slider</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#capW" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="capW:Int"></a>
+      <a id="capW:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">capW</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#charTextField" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="charTextField:com.vaadin.ui.TextField"></a>
+      <a id="charTextField:TextField"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">charTextField</span><span class="result">: <span class="extype" name="com.vaadin.ui.TextField">TextField</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#charsetBox" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="charsetBox:com.vaadin.ui.NativeSelect"></a>
+      <a id="charsetBox:NativeSelect"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">charsetBox</span><span class="result">: <span class="extype" name="com.vaadin.ui.NativeSelect">NativeSelect</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#charsetLayout" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="charsetLayout:com.vaadin.ui.HorizontalLayout"></a>
+      <a id="charsetLayout:HorizontalLayout"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">charsetLayout</span><span class="result">: <span class="extype" name="com.vaadin.ui.HorizontalLayout">HorizontalLayout</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#contrastLabel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="contrastLabel:com.vaadin.ui.Label"></a>
+      <a id="contrastLabel:Label"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">contrastLabel</span><span class="result">: <span class="extype" name="com.vaadin.ui.Label">Label</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#contrastSlider" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="contrastSlider:com.vaadin.ui.Slider"></a>
+      <a id="contrastSlider:Slider"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">contrastSlider</span><span class="result">: <span class="extype" name="com.vaadin.ui.Slider">Slider</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#convData" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="convData:MainTab.this.ConversionData"></a>
+      <a id="convData:ConversionData"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">convData</span><span class="result">: <a href="MainTab$ConversionData.html" class="extype" name="jenkem.ui.tab.MainTab.ConversionData">ConversionData</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#conversionDisabled" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="conversionDisabled:Boolean"></a>
+      <a id="conversionDisabled:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">conversionDisabled</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.server.AbstractClientConnector#createState" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="createState():com.vaadin.shared.communication.SharedState"></a>
+      <a id="createState():SharedState"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">createState</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.shared.communication.SharedState">SharedState</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#defaultWidth" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="defaultWidth:Int"></a>
+      <a id="defaultWidth:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultWidth</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.ui.AbstractComponent#detach" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="detach():Unit"></a>
+      <a id="detach():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">detach</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#encodeState" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="encodeState():org.json.JSONObject"></a>
+      <a id="encodeState():JSONObject"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encodeState</span><span class="params">()</span><span class="result">: <span class="extype" name="org.json.JSONObject">JSONObject</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#eventRouter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="eventRouter:com.vaadin.event.EventRouter"></a>
+      <a id="eventRouter:EventRouter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eventRouter</span><span class="result">: <span class="extype" name="com.vaadin.event.EventRouter">EventRouter</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#findAncestor" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="findAncestor[T&lt;:com.vaadin.ui.HasComponents](x$1:Class[T]):T"></a>
+      <a id="findAncestor[T&lt;:HasComponents](Class[T]):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">findAncestor</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="com.vaadin.ui.HasComponents">HasComponents</span></span>]</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[<span class="extype" name="com.vaadin.ui.AbstractComponent.findAncestor.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="com.vaadin.ui.AbstractComponent.findAncestor.T">T</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#fireComponentAttachEvent" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fireComponentAttachEvent(x$1:com.vaadin.ui.Component):Unit"></a>
+      <a id="fireComponentAttachEvent(Component):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fireComponentAttachEvent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.ui">com.vaadin.ui</span>] </dd><dt>Definition Classes</dt><dd>AbstractComponentContainer</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#fireComponentDetachEvent" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fireComponentDetachEvent(x$1:com.vaadin.ui.Component):Unit"></a>
+      <a id="fireComponentDetachEvent(Component):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fireComponentDetachEvent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.ui">com.vaadin.ui</span>] </dd><dt>Definition Classes</dt><dd>AbstractComponentContainer</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#fireComponentErrorEvent" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fireComponentErrorEvent():Unit"></a>
+      <a id="fireComponentErrorEvent():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fireComponentErrorEvent</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.ui">com.vaadin.ui</span>] </dd><dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#fireComponentEvent" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fireComponentEvent():Unit"></a>
+      <a id="fireComponentEvent():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fireComponentEvent</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.ui">com.vaadin.ui</span>] </dd><dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#fireEvent" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fireEvent(x$1:java.util.EventObject):Unit"></a>
+      <a id="fireEvent(EventObject):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fireEvent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.util.EventObject">EventObject</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#focus" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="focus():Unit"></a>
+      <a id="focus():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">focus</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.ui">com.vaadin.ui</span>] </dd><dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getActionManager" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getActionManager():com.vaadin.event.ActionManager"></a>
+      <a id="getActionManager():ActionManager"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getActionManager</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.event.ActionManager">ActionManager</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.ui">com.vaadin.ui</span>] </dd><dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getCaption" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getCaption():String"></a>
+      <a id="getCaption():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCaption</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#getComponent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getComponent(x$1:Int):com.vaadin.ui.Component"></a>
+      <a id="getComponent(Int):Component"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getComponent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#getComponentAlignment" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getComponentAlignment(x$1:com.vaadin.ui.Component):com.vaadin.ui.Alignment"></a>
+      <a id="getComponentAlignment(Component):Alignment"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getComponentAlignment</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="com.vaadin.ui.Alignment">Alignment</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → AlignmentHandler</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#getComponentCount" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getComponentCount():Int"></a>
+      <a id="getComponentCount():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getComponentCount</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → ComponentContainer</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getComponentError" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getComponentError():com.vaadin.server.ErrorMessage"></a>
+      <a id="getComponentError():ErrorMessage"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getComponentError</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.server.ErrorMessage">ErrorMessage</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#getComponentIndex" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getComponentIndex(x$1:com.vaadin.ui.Component):Int"></a>
+      <a id="getComponentIndex(Component):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getComponentIndex</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#getComponentIterator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getComponentIterator():java.util.Iterator[com.vaadin.ui.Component]"></a>
+      <a id="getComponentIterator():Iterator[Component]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getComponentIterator</span><span class="params">()</span><span class="result">: <span class="extype" name="java.util.Iterator">Iterator</span>[<span class="extype" name="com.vaadin.ui.Component">Component</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentContainer</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getConnectorId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getConnectorId():String"></a>
+      <a id="getConnectorId():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getConnectorId</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → Connector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getData" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getData():Object"></a>
+      <a id="getData():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getData</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getDescription" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDescription():String"></a>
+      <a id="getDescription():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDescription</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getErrorHandler" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getErrorHandler():com.vaadin.server.ErrorHandler"></a>
+      <a id="getErrorHandler():ErrorHandler"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getErrorHandler</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.server.ErrorHandler">ErrorHandler</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getErrorMessage" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getErrorMessage():com.vaadin.server.ErrorMessage"></a>
+      <a id="getErrorMessage():ErrorMessage"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getErrorMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.server.ErrorMessage">ErrorMessage</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#getExpandRatio" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getExpandRatio(x$1:com.vaadin.ui.Component):Float"></a>
+      <a id="getExpandRatio(Component):Float"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getExpandRatio</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="scala.Float">Float</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getExtensions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getExtensions():java.util.Collection[com.vaadin.server.Extension]"></a>
+      <a id="getExtensions():Collection[Extension]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getExtensions</span><span class="params">()</span><span class="result">: <span class="extype" name="java.util.Collection">Collection</span>[<span class="extype" name="com.vaadin.server.Extension">Extension</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getHeight" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getHeight():Float"></a>
+      <a id="getHeight():Float"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getHeight</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Float">Float</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getHeightUnits" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getHeightUnits():com.vaadin.server.Sizeable.Unit"></a>
+      <a id="getHeightUnits():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getHeightUnits</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.server.Sizeable.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getIcon" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getIcon():com.vaadin.server.Resource"></a>
+      <a id="getIcon():Resource"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getIcon</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.server.Resource">Resource</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getId():String"></a>
+      <a id="getId():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getId</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getListeners" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getListeners(x$1:Class[_]):java.util.Collection[_]"></a>
+      <a id="getListeners(Class[_]):Collection[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getListeners</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[_]</span>)</span><span class="result">: <span class="extype" name="java.util.Collection">Collection</span>[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getLocale" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getLocale():java.util.Locale"></a>
+      <a id="getLocale():Locale"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLocale</span><span class="params">()</span><span class="result">: <span class="extype" name="java.util.Locale">Locale</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#getMargin" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getMargin():com.vaadin.shared.ui.MarginInfo"></a>
+      <a id="getMargin():MarginInfo"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMargin</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.shared.ui.MarginInfo">MarginInfo</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → MarginHandler</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getParent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getParent():com.vaadin.ui.HasComponents"></a>
+      <a id="getParent():HasComponents"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getParent</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.ui.HasComponents">HasComponents</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component → AbstractClientConnector → ClientConnector → Connector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getPrimaryStyleName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getPrimaryStyleName():String"></a>
+      <a id="getPrimaryStyleName():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPrimaryStyleName</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getResource" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getResource(x$1:String):com.vaadin.server.Resource"></a>
+      <a id="getResource(String):Resource"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getResource</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="com.vaadin.server.Resource">Resource</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getRpcManager" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRpcManager(x$1:String):com.vaadin.server.ServerRpcManager[_]"></a>
+      <a id="getRpcManager(String):ServerRpcManager[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRpcManager</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="com.vaadin.server.ServerRpcManager">ServerRpcManager</span>[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getRpcProxy" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getRpcProxy[T&lt;:com.vaadin.shared.communication.ClientRpc](x$1:Class[T]):T"></a>
+      <a id="getRpcProxy[T&lt;:ClientRpc](Class[T]):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRpcProxy</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="com.vaadin.shared.communication.ClientRpc">ClientRpc</span></span>]</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[<span class="extype" name="com.vaadin.server.AbstractClientConnector.getRpcProxy.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="com.vaadin.server.AbstractClientConnector.getRpcProxy.T">T</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getSession" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getSession():com.vaadin.server.VaadinSession"></a>
+      <a id="getSession():VaadinSession"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSession</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.server.VaadinSession">VaadinSession</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#getState" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getState():com.vaadin.shared.ui.orderedlayout.AbstractOrderedLayoutState"></a>
+      <a id="getState():AbstractOrderedLayoutState"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getState</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.shared.ui.orderedlayout.AbstractOrderedLayoutState">AbstractOrderedLayoutState</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.ui">com.vaadin.ui</span>] </dd><dt>Definition Classes</dt><dd>AbstractOrderedLayout → AbstractLayout → AbstractComponent → AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getState" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getState(x$1:Boolean):com.vaadin.shared.AbstractComponentState"></a>
+      <a id="getState(Boolean):AbstractComponentState"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getState</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="com.vaadin.shared.AbstractComponentState">AbstractComponentState</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.ui">com.vaadin.ui</span>] </dd><dt>Definition Classes</dt><dd>AbstractComponent → AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getStateType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getStateType():Class[_&lt;:com.vaadin.shared.communication.SharedState]"></a>
+      <a id="getStateType():Class[_&lt;:SharedState]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStateType</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_ &lt;: <span class="extype" name="com.vaadin.shared.communication.SharedState">SharedState</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getStyleName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getStyleName():String"></a>
+      <a id="getStyleName():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStyleName</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#getUI" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getUI():com.vaadin.ui.UI"></a>
+      <a id="getUI():UI"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getUI</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.ui.UI">UI</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getWidth" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getWidth():Float"></a>
+      <a id="getWidth():Float"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getWidth</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Float">Float</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getWidthUnits" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getWidthUnits():com.vaadin.server.Sizeable.Unit"></a>
+      <a id="getWidthUnits():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getWidthUnits</span><span class="params">()</span><span class="result">: <span class="extype" name="com.vaadin.server.Sizeable.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#handleConnectorRequest" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="handleConnectorRequest(x$1:com.vaadin.server.VaadinRequest,x$2:com.vaadin.server.VaadinResponse,x$3:String):Boolean"></a>
+      <a id="handleConnectorRequest(VaadinRequest,VaadinResponse,String):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">handleConnectorRequest</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.VaadinRequest">VaadinRequest</span></span>, <span name="arg1">arg1: <span class="extype" name="com.vaadin.server.VaadinResponse">VaadinResponse</span></span>, <span name="arg2">arg2: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#hasLink" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="hasLink:Boolean"></a>
+      <a id="hasLink:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasLink</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.server.AbstractClientConnector#hasListeners" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hasListeners(x$1:Class[_]):Boolean"></a>
+      <a id="hasListeners(Class[_]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasListeners</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#imageData" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="imageData:MainTab.this.ImageData"></a>
+      <a id="imageData:ImageData"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">imageData</span><span class="result">: <a href="MainTab$ImageData.html" class="extype" name="jenkem.ui.tab.MainTab.ImageData">ImageData</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#imagePrep" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="imagePrep:MainTab.this.ImagePreparationData"></a>
+      <a id="imagePrep:ImagePreparationData"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">imagePrep</span><span class="result">: <a href="MainTab$ImagePreparationData.html" class="extype" name="jenkem.ui.tab.MainTab.ImagePreparationData">ImagePreparationData</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#imagePreparer" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="imagePreparer:jenkem.ui.ImagePreparer"></a>
+      <a id="imagePreparer:ImagePreparer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">imagePreparer</span><span class="result">: <a href="../ImagePreparer.html" class="extype" name="jenkem.ui.ImagePreparer">ImagePreparer</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#inline" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="inline:jenkem.ui.Inline"></a>
+      <a id="inline:Inline"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">inline</span><span class="result">: <a href="../Inline.html" class="extype" name="jenkem.ui.Inline">Inline</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#inlineLayout" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="inlineLayout:com.vaadin.ui.VerticalLayout"></a>
+      <a id="inlineLayout:VerticalLayout"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">inlineLayout</span><span class="result">: <span class="extype" name="com.vaadin.ui.VerticalLayout">VerticalLayout</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#ircColorSetter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ircColorSetter:jenkem.ui.IrcColorSetter"></a>
+      <a id="ircColorSetter:IrcColorSetter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ircColorSetter</span><span class="result">: <a href="../IrcColorSetter.html" class="extype" name="jenkem.ui.IrcColorSetter">IrcColorSetter</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#ircConnector" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ircConnector:jenkem.ui.IrcConnector"></a>
+      <a id="ircConnector:IrcConnector"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ircConnector</span><span class="result">: <a href="../IrcConnector.html" class="extype" name="jenkem.ui.IrcConnector">IrcConnector</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#ircOutput" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ircOutput:List[String]"></a>
+      <a id="ircOutput:List[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ircOutput</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.ui.AbstractComponent#isConnectorEnabled" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isConnectorEnabled():Boolean"></a>
+      <a id="isConnectorEnabled():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isConnectorEnabled</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#isEnabled" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isEnabled():Boolean"></a>
+      <a id="isEnabled():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isEnabled</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#isImmediate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isImmediate():Boolean"></a>
+      <a id="isImmediate():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isImmediate</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#isReadOnly" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isReadOnly():Boolean"></a>
+      <a id="isReadOnly():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isReadOnly</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#isSpacing" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isSpacing():Boolean"></a>
+      <a id="isSpacing():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isSpacing</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → SpacingHandler</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#isVisible" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isVisible():Boolean"></a>
+      <a id="isVisible():Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isVisible</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#iterator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="iterator():java.util.Iterator[com.vaadin.ui.Component]"></a>
+      <a id="iterator():Iterator[Component]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">iterator</span><span class="params">()</span><span class="result">: <span class="extype" name="java.util.Iterator">Iterator</span>[<span class="extype" name="com.vaadin.ui.Component">Component</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → HasComponents → Iterable</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#kickLabel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="kickLabel:com.vaadin.ui.Label"></a>
+      <a id="kickLabel:Label"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">kickLabel</span><span class="result">: <span class="extype" name="com.vaadin.ui.Label">Label</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#kickLayout" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="kickLayout:com.vaadin.ui.HorizontalLayout"></a>
+      <a id="kickLayout:HorizontalLayout"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">kickLayout</span><span class="result">: <span class="extype" name="com.vaadin.ui.HorizontalLayout">HorizontalLayout</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#kickSelect" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="kickSelect:com.vaadin.ui.OptionGroup"></a>
+      <a id="kickSelect:OptionGroup"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">kickSelect</span><span class="result">: <span class="extype" name="com.vaadin.ui.OptionGroup">OptionGroup</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#lwCaptionLabel" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lwCaptionLabel:com.vaadin.ui.Label"></a>
+      <a id="lwCaptionLabel:Label"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lwCaptionLabel</span><span class="result">: <span class="extype" name="com.vaadin.ui.Label">Label</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#lwLayout" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lwLayout:com.vaadin.ui.HorizontalLayout"></a>
+      <a id="lwLayout:HorizontalLayout"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lwLayout</span><span class="result">: <span class="extype" name="com.vaadin.ui.HorizontalLayout">HorizontalLayout</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#mainLayout" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="mainLayout:com.vaadin.ui.HorizontalLayout"></a>
+      <a id="mainLayout:HorizontalLayout"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mainLayout</span><span class="result">: <span class="extype" name="com.vaadin.ui.HorizontalLayout">HorizontalLayout</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.server.AbstractClientConnector#markAsDirty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="markAsDirty():Unit"></a>
+      <a id="markAsDirty():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">markAsDirty</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#markAsDirtyRecursive" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="markAsDirtyRecursive():Unit"></a>
+      <a id="markAsDirtyRecursive():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">markAsDirtyRecursive</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#maxWidth" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="maxWidth:Int"></a>
+      <a id="maxWidth:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">maxWidth</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#methodBox" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="methodBox:com.vaadin.ui.ListSelect"></a>
+      <a id="methodBox:ListSelect"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">methodBox</span><span class="result">: <span class="extype" name="com.vaadin.ui.ListSelect">ListSelect</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#minWidth" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="minWidth:Int"></a>
+      <a id="minWidth:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">minWidth</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#moveComponentsFrom" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="moveComponentsFrom(x$1:com.vaadin.ui.ComponentContainer):Unit"></a>
+      <a id="moveComponentsFrom(ComponentContainer):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">moveComponentsFrom</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.ComponentContainer">ComponentContainer</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentContainer</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#nbsp" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="nbsp:String"></a>
+      <a id="nbsp:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">nbsp</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#noResizeValueChangeListener" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="noResizeValueChangeListener:com.vaadin.data.Property.ValueChangeListener"></a>
+      <a id="noResizeValueChangeListener:ValueChangeListener"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">noResizeValueChangeListener</span><span class="result">: <span class="extype" name="com.vaadin.data.Property.ValueChangeListener">ValueChangeListener</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#outputDisplay" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="outputDisplay:jenkem.ui.OutputDisplay"></a>
+      <a id="outputDisplay:OutputDisplay"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">outputDisplay</span><span class="result">: <a href="../OutputDisplay.html" class="extype" name="jenkem.ui.OutputDisplay">OutputDisplay</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#powerBox" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="powerBox:com.vaadin.ui.NativeSelect"></a>
+      <a id="powerBox:NativeSelect"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">powerBox</span><span class="result">: <span class="extype" name="com.vaadin.ui.NativeSelect">NativeSelect</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#procSetter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="procSetter:jenkem.ui.ProcSetter"></a>
+      <a id="procSetter:ProcSetter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">procSetter</span><span class="result">: <a href="../ProcSetter.html" class="extype" name="jenkem.ui.ProcSetter">ProcSetter</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.server.AbstractClientConnector#registerRpc" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="registerRpc[T&lt;:com.vaadin.shared.communication.ServerRpc](x$1:T):Unit"></a>
+      <a id="registerRpc[T&lt;:ServerRpc](T):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">registerRpc</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="com.vaadin.shared.communication.ServerRpc">ServerRpc</span></span>]</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.AbstractClientConnector.registerRpc.T">T</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#registerRpc" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="registerRpc[T&lt;:com.vaadin.shared.communication.ServerRpc](x$1:T,x$2:Class[T]):Unit"></a>
+      <a id="registerRpc[T&lt;:ServerRpc](T,Class[T]):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">registerRpc</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="com.vaadin.shared.communication.ServerRpc">ServerRpc</span></span>]</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.AbstractClientConnector.registerRpc.T">T</span></span>, <span name="arg1">arg1: <span class="extype" name="java.lang.Class">Class</span>[<span class="extype" name="com.vaadin.server.AbstractClientConnector.registerRpc.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#removeAllComponents" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeAllComponents():Unit"></a>
+      <a id="removeAllComponents():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeAllComponents</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentContainer</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#removeAttachListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeAttachListener(x$1:com.vaadin.server.ClientConnector.AttachListener):Unit"></a>
+      <a id="removeAttachListener(AttachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeAttachListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.ClientConnector.AttachListener">AttachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#removeComponent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeComponent(x$1:com.vaadin.ui.Component):Unit"></a>
+      <a id="removeComponent(Component):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeComponent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → AbstractComponentContainer → ComponentContainer</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#removeComponentAttachListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeComponentAttachListener(x$1:com.vaadin.ui.HasComponents.ComponentAttachListener):Unit"></a>
+      <a id="removeComponentAttachListener(ComponentAttachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeComponentAttachListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.HasComponents.ComponentAttachListener">ComponentAttachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentAttachDetachNotifier</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#removeComponentDetachListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeComponentDetachListener(x$1:com.vaadin.ui.HasComponents.ComponentDetachListener):Unit"></a>
+      <a id="removeComponentDetachListener(ComponentDetachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeComponentDetachListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.HasComponents.ComponentDetachListener">ComponentDetachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentAttachDetachNotifier</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#removeDetachListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeDetachListener(x$1:com.vaadin.server.ClientConnector.DetachListener):Unit"></a>
+      <a id="removeDetachListener(DetachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeDetachListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.ClientConnector.DetachListener">DetachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#removeExtension" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeExtension(x$1:com.vaadin.server.Extension):Unit"></a>
+      <a id="removeExtension(Extension):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeExtension</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.Extension">Extension</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#removeLayoutClickListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeLayoutClickListener(x$1:com.vaadin.event.LayoutEvents.LayoutClickListener):Unit"></a>
+      <a id="removeLayoutClickListener(LayoutClickListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeLayoutClickListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.event.LayoutEvents.LayoutClickListener">LayoutClickListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → LayoutClickNotifier</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#removeListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeListener(x$1:com.vaadin.ui.Component.Listener):Unit"></a>
+      <a id="removeListener(Listener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component.Listener">Listener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#removeListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeListener(x$1:Class[_],x$2:Any,x$3:java.lang.reflect.Method):Unit"></a>
+      <a id="removeListener(Class[_],Any,Method):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[_]</span>, <span name="arg1">arg1: <span class="extype" name="scala.Any">Any</span></span>, <span name="arg2">arg2: <span class="extype" name="java.lang.reflect.Method">Method</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → MethodEventSource</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#removeListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeListener(x$1:Class[_],x$2:Any):Unit"></a>
+      <a id="removeListener(Class[_],Any):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[_]</span>, <span name="arg1">arg1: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → MethodEventSource</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#removeListener" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeListener(x$1:String,x$2:Class[_],x$3:Any):Unit"></a>
+      <a id="removeListener(String,Class[_],Any):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>, <span name="arg1">arg1: <span class="extype" name="java.lang.Class">Class</span>[_]</span>, <span name="arg2">arg2: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#removeShortcutListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeShortcutListener(x$1:com.vaadin.event.ShortcutListener):Unit"></a>
+      <a id="removeShortcutListener(ShortcutListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeShortcutListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.event.ShortcutListener">ShortcutListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#removeStyleName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeStyleName(x$1:String):Unit"></a>
+      <a id="removeStyleName(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeStyleName</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#replaceComponent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="replaceComponent(x$1:com.vaadin.ui.Component,x$2:com.vaadin.ui.Component):Unit"></a>
+      <a id="replaceComponent(Component,Component):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">replaceComponent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>, <span name="arg1">arg1: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → ComponentContainer</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#resetButton" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="resetButton:com.vaadin.ui.Button"></a>
+      <a id="resetButton:Button"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resetButton</span><span class="result">: <span class="extype" name="com.vaadin.ui.Button">Button</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#resizeValueChangeListener" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="resizeValueChangeListener:com.vaadin.data.Property.ValueChangeListener"></a>
+      <a id="resizeValueChangeListener:ValueChangeListener"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resizeValueChangeListener</span><span class="result">: <span class="extype" name="com.vaadin.data.Property.ValueChangeListener">ValueChangeListener</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.server.AbstractClientConnector#retrievePendingRpcCalls" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="retrievePendingRpcCalls():java.util.List[com.vaadin.server.ClientMethodInvocation]"></a>
+      <a id="retrievePendingRpcCalls():List[ClientMethodInvocation]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">retrievePendingRpcCalls</span><span class="params">()</span><span class="result">: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="com.vaadin.server.ClientMethodInvocation">ClientMethodInvocation</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#saveImage" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="saveImage():Unit"></a>
+      <a id="saveImage():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">saveImage</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui.tab.MainTab#saveNotification" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="saveNotification:com.vaadin.ui.Notification"></a>
+      <a id="saveNotification:Notification"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">saveNotification</span><span class="result">: <span class="extype" name="com.vaadin.ui.Notification">Notification</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.ui.AbstractComponent#setCaption" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setCaption(x$1:String):Unit"></a>
+      <a id="setCaption(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setCaption</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#setComponentAlignment" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setComponentAlignment(x$1:com.vaadin.ui.Component,x$2:com.vaadin.ui.Alignment):Unit"></a>
+      <a id="setComponentAlignment(Component,Alignment):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setComponentAlignment</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>, <span name="arg1">arg1: <span class="extype" name="com.vaadin.ui.Alignment">Alignment</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → AlignmentHandler</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setComponentError" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setComponentError(x$1:com.vaadin.server.ErrorMessage):Unit"></a>
+      <a id="setComponentError(ErrorMessage):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setComponentError</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.ErrorMessage">ErrorMessage</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setData" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setData(x$1:Any):Unit"></a>
+      <a id="setData(Any):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setData</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setDescription" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDescription(x$1:String):Unit"></a>
+      <a id="setDescription(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDescription</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setEnabled" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setEnabled(x$1:Boolean):Unit"></a>
+      <a id="setEnabled(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setEnabled</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#setErrorHandler" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setErrorHandler(x$1:com.vaadin.server.ErrorHandler):Unit"></a>
+      <a id="setErrorHandler(ErrorHandler):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setErrorHandler</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.ErrorHandler">ErrorHandler</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#setExpandRatio" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setExpandRatio(x$1:com.vaadin.ui.Component,x$2:Float):Unit"></a>
+      <a id="setExpandRatio(Component,Float):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setExpandRatio</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.Component">Component</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#setHeight" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setHeight(x$1:Float,x$2:com.vaadin.server.Sizeable.Unit):Unit"></a>
+      <a id="setHeight(Float,Unit):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setHeight</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Float">Float</span></span>, <span name="arg1">arg1: <span class="extype" name="com.vaadin.server.Sizeable.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setHeight" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setHeight(x$1:String):Unit"></a>
+      <a id="setHeight(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setHeight</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setIcon" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setIcon(x$1:com.vaadin.server.Resource):Unit"></a>
+      <a id="setIcon(Resource):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setIcon</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.Resource">Resource</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setId(x$1:String):Unit"></a>
+      <a id="setId(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setId</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setImmediate" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setImmediate(x$1:Boolean):Unit"></a>
+      <a id="setImmediate(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setImmediate</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#setLink" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setLink(link:String):Unit"></a>
+      <a id="setLink(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setLink</span><span class="params">(<span name="link">link: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="com.vaadin.ui.AbstractComponent#setLocale" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setLocale(x$1:java.util.Locale):Unit"></a>
+      <a id="setLocale(Locale):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setLocale</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.util.Locale">Locale</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#setMargin" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setMargin(x$1:com.vaadin.shared.ui.MarginInfo):Unit"></a>
+      <a id="setMargin(MarginInfo):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMargin</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.shared.ui.MarginInfo">MarginInfo</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → MarginHandler</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#setMargin" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setMargin(x$1:Boolean):Unit"></a>
+      <a id="setMargin(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMargin</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → MarginHandler</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setParent" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setParent(x$1:com.vaadin.server.ClientConnector):Unit"></a>
+      <a id="setParent(ClientConnector):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setParent</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.server.ClientConnector">ClientConnector</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → AbstractClientConnector → ClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setPrimaryStyleName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setPrimaryStyleName(x$1:String):Unit"></a>
+      <a id="setPrimaryStyleName(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setPrimaryStyleName</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setReadOnly" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setReadOnly(x$1:Boolean):Unit"></a>
+      <a id="setReadOnly(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setReadOnly</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#setResource" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setResource(x$1:String,x$2:com.vaadin.server.Resource):Unit"></a>
+      <a id="setResource(String,Resource):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setResource</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>, <span name="arg1">arg1: <span class="extype" name="com.vaadin.server.Resource">Resource</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="com.vaadin.server">com.vaadin.server</span>] </dd><dt>Definition Classes</dt><dd>AbstractClientConnector</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setSizeFull" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setSizeFull():Unit"></a>
+      <a id="setSizeFull():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setSizeFull</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setSizeUndefined" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setSizeUndefined():Unit"></a>
+      <a id="setSizeUndefined():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setSizeUndefined</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#setSpacing" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setSpacing(x$1:Boolean):Unit"></a>
+      <a id="setSpacing(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setSpacing</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → SpacingHandler</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setStyleName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setStyleName(x$1:String):Unit"></a>
+      <a id="setStyleName(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStyleName</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setVisible" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setVisible(x$1:Boolean):Unit"></a>
+      <a id="setVisible(Boolean):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setVisible</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Component</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#setWidth" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setWidth(x$1:Float,x$2:com.vaadin.server.Sizeable.Unit):Unit"></a>
+      <a id="setWidth(Float,Unit):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setWidth</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Float">Float</span></span>, <span name="arg1">arg1: <span class="extype" name="com.vaadin.server.Sizeable.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setWidth" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setWidth(x$1:String):Unit"></a>
+      <a id="setWidth(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setWidth</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent → Sizeable</dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#settingsLayout" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="settingsLayout:com.vaadin.ui.VerticalLayout"></a>
+      <a id="settingsLayout:VerticalLayout"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">settingsLayout</span><span class="result">: <span class="extype" name="com.vaadin.ui.VerticalLayout">VerticalLayout</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="jenkem.ui.tab.MainTab#widthSlider" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="widthSlider:com.vaadin.ui.Slider"></a>
+      <a id="widthSlider:Slider"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">widthSlider</span><span class="result">: <span class="extype" name="com.vaadin.ui.Slider">Slider</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="com.vaadin.ui.AbstractOrderedLayout#addListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addListener(x$1:com.vaadin.event.LayoutEvents.LayoutClickListener):Unit"></a>
+      <a id="addListener(LayoutClickListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">addListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.event.LayoutEvents.LayoutClickListener">LayoutClickListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → LayoutClickNotifier</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#addListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addListener(x$1:com.vaadin.ui.HasComponents.ComponentDetachListener):Unit"></a>
+      <a id="addListener(ComponentDetachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">addListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.HasComponents.ComponentDetachListener">ComponentDetachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentContainer</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#addListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addListener(x$1:com.vaadin.ui.HasComponents.ComponentAttachListener):Unit"></a>
+      <a id="addListener(ComponentAttachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">addListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.HasComponents.ComponentAttachListener">ComponentAttachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentContainer</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#addListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addListener(x$1:Class[_],x$2:Any,x$3:String):Unit"></a>
+      <a id="addListener(Class[_],Any,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">addListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[_]</span>, <span name="arg1">arg1: <span class="extype" name="scala.Any">Any</span></span>, <span name="arg2">arg2: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → MethodEventSource</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#getDebugId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDebugId():String"></a>
+      <a id="getDebugId():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">getDebugId</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractOrderedLayout#removeListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeListener(x$1:com.vaadin.event.LayoutEvents.LayoutClickListener):Unit"></a>
+      <a id="removeListener(LayoutClickListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">removeListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.event.LayoutEvents.LayoutClickListener">LayoutClickListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractOrderedLayout → LayoutClickNotifier</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#removeListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeListener(x$1:com.vaadin.ui.HasComponents.ComponentDetachListener):Unit"></a>
+      <a id="removeListener(ComponentDetachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">removeListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.HasComponents.ComponentDetachListener">ComponentDetachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentContainer</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponentContainer#removeListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeListener(x$1:com.vaadin.ui.HasComponents.ComponentAttachListener):Unit"></a>
+      <a id="removeListener(ComponentAttachListener):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">removeListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="com.vaadin.ui.HasComponents.ComponentAttachListener">ComponentAttachListener</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponentContainer → ComponentContainer</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#removeListener" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="removeListener(x$1:Class[_],x$2:Any,x$3:String):Unit"></a>
+      <a id="removeListener(Class[_],Any,String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">removeListener</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Class">Class</span>[_]</span>, <span name="arg1">arg1: <span class="extype" name="scala.Any">Any</span></span>, <span name="arg2">arg2: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → MethodEventSource</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#requestRepaint" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="requestRepaint():Unit"></a>
+      <a id="requestRepaint():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">requestRepaint</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.server.AbstractClientConnector#requestRepaintAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="requestRepaintAll():Unit"></a>
+      <a id="requestRepaintAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">requestRepaintAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractClientConnector → ClientConnector</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li><li name="com.vaadin.ui.AbstractComponent#setDebugId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setDebugId(x$1:String):Unit"></a>
+      <a id="setDebugId(String):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">setDebugId</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AbstractComponent</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li></ol>
+            </div>
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="com.vaadin.ui.VerticalLayout">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.VerticalLayout">VerticalLayout</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.AbstractOrderedLayout">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.AbstractOrderedLayout">AbstractOrderedLayout</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.Layout.MarginHandler">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.Layout.MarginHandler">MarginHandler</span></h3>
+            </div><div class="parent" name="com.vaadin.event.LayoutEvents.LayoutClickNotifier">
+              <h3>Inherited from <span class="extype" name="com.vaadin.event.LayoutEvents.LayoutClickNotifier">LayoutClickNotifier</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.Layout.SpacingHandler">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.Layout.SpacingHandler">SpacingHandler</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.Layout.AlignmentHandler">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.Layout.AlignmentHandler">AlignmentHandler</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.AbstractLayout">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.AbstractLayout">AbstractLayout</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.Layout">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.Layout">Layout</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.AbstractComponentContainer">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.AbstractComponentContainer">AbstractComponentContainer</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.ComponentContainer">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.ComponentContainer">ComponentContainer</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.HasComponents.ComponentAttachDetachNotifier">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.HasComponents.ComponentAttachDetachNotifier">ComponentAttachDetachNotifier</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.HasComponents">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.HasComponents">HasComponents</span></h3>
+            </div><div class="parent" name="java.lang.Iterable">
+              <h3>Inherited from <span class="extype" name="java.lang.Iterable">Iterable</span>[<span class="extype" name="com.vaadin.ui.Component">Component</span>]</h3>
+            </div><div class="parent" name="com.vaadin.ui.AbstractComponent">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.AbstractComponent">AbstractComponent</span></h3>
+            </div><div class="parent" name="com.vaadin.ui.Component">
+              <h3>Inherited from <span class="extype" name="com.vaadin.ui.Component">Component</span></h3>
+            </div><div class="parent" name="com.vaadin.server.Sizeable">
+              <h3>Inherited from <span class="extype" name="com.vaadin.server.Sizeable">Sizeable</span></h3>
+            </div><div class="parent" name="com.vaadin.server.AbstractClientConnector">
+              <h3>Inherited from <span class="extype" name="com.vaadin.server.AbstractClientConnector">AbstractClientConnector</span></h3>
+            </div><div class="parent" name="com.vaadin.event.MethodEventSource">
+              <h3>Inherited from <span class="extype" name="com.vaadin.event.MethodEventSource">MethodEventSource</span></h3>
+            </div><div class="parent" name="com.vaadin.server.ClientConnector">
+              <h3>Inherited from <span class="extype" name="com.vaadin.server.ClientConnector">ClientConnector</span></h3>
+            </div><div class="parent" name="com.vaadin.shared.Connector">
+              <h3>Inherited from <span class="extype" name="com.vaadin.shared.Connector">Connector</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

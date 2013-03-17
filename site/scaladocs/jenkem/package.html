@@ -2,24 +2,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>jenkem</title>
+          <title>jenkem - Jenkem 1.0 API - jenkem</title>
+          <meta name="description" content="jenkem - Jenkem 1.0 API - jenkem" />
+          <meta name="keywords" content="jenkem Jenkem 1.0 API jenkem" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link type="text/css" media="screen" rel="stylesheet" href="../lib/template.css" />
-      <script type="text/javascript" src="../lib/jquery.js"></script>
+      <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../lib/jquery.js" id="jquery-js"></script>
       <script type="text/javascript" src="../lib/jquery-ui.js"></script>
       <script type="text/javascript" src="../lib/template.js"></script>
       <script type="text/javascript" src="../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../index.html';
+            var hash = 'jenkem.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
     
         </head>
-        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="value">
+        <body class="value">
       <div id="definition">
         <img src="../lib/package_big.png" />
         
         <h1>jenkem</h1>
       </div>
 
-      <h4 class="signature" id="signature">
+      <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">package</span>
@@ -29,11 +44,11 @@
       </span>
       </h4>
       
-      <div class="fullcommenttop" id="comment"></div>
-    
+          <div id="comment" class="fullcommenttop"></div>
+        
 
       <div id="mbrsel">
-        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
         
         
         <div id="visbl">
@@ -46,45 +61,119 @@
         <div id="allMembers">
         
 
-        
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="jenkem.JenkemInit" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="JenkemInitextendsUI"></a>
+      <a id="JenkemInit:JenkemInit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="JenkemInit.html"><span class="name">JenkemInit</span></a><span class="result"> extends <span class="extype" name="com.vaadin.ui.UI">UI</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@Theme</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
-        <div class="values members" id="values">
+        <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li visbl="pub" name="jenkem.client" data-isabs="false">
-      <a id="client:client"></a>
+              <ol><li name="jenkem.bot" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="bot"></a>
+      <a id="bot:bot"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a href="client/package.html"><span class="name">client</span></a>
+        <a href="bot/package.html"><span class="name">bot</span></a>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="jenkem.server" data-isabs="false">
-      <a id="server:server"></a>
+    </li><li name="jenkem.engine" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="engine"></a>
+      <a id="engine:engine"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a href="server/package.html"><span class="name">server</span></a>
+        <a href="engine/package.html"><span class="name">engine</span></a>
       </span>
       </h4>
       
-    </li><li visbl="pub" name="jenkem.shared" data-isabs="false">
-      <a id="shared:shared"></a>
+    </li><li name="jenkem.event" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="event"></a>
+      <a id="event:event"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a href="shared/package.html"><span class="name">shared</span></a>
+        <a href="event/package.html"><span class="name">event</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.persistence" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="persistence"></a>
+      <a id="persistence:persistence"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="persistence/package.html"><span class="name">persistence</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.servlet" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="servlet"></a>
+      <a id="servlet:servlet"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="servlet/package.html"><span class="name">servlet</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.ui" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ui"></a>
+      <a id="ui:ui"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="ui/package.html"><span class="name">ui</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.util" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="util"></a>
+      <a id="util:util"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="util/package.html"><span class="name">util</span></a>
       </span>
       </h4>
       
@@ -92,10 +181,20 @@
             </div>
 
         
+
+        
         </div>
 
         <div id="inheritedMembers">
         
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
         </div>
 
       </div>
