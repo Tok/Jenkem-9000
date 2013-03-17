@@ -7,7 +7,7 @@ Select latest jboss and add the mongodb cartridge.
 There is no need to set the mongodb credentials in the code, since they are looked up (in PMS.scala)
 Consider to add the rockmongo cartridge to manage mongodb.
 
-Don't clone the openshift repo because the gwt compilation doesn't work with openshift yet.
+Don't clone the openshift repo (because the gwt compilation didn't work with openshift when Jenkem had a GWT UI)
 Instead build the war locally from the pom.xml in this repo and submit it to openshift by sftp.
 (there are launchers for eclipse)
 

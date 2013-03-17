@@ -16,8 +16,7 @@ This application is running on OpenShift at: http://jenkem-9000.rhcloud.com
 Project page: http://tok.github.com/Jenkem-9000/
 
 Frameworks and Technologies:
--- Scala (backend)
--- Java (engine)
+-- Scala
 -- Vaadin 7 (user interface)
 -- PircBot (IRC bot)
 -- MongoDB (with JDO 3 and Datanucleus)
@@ -25,7 +24,7 @@ Frameworks and Technologies:
 
 Important Classes:
 Jenkem Bot: /src/main/scala/jenkem/bot/JenkemBot.scala
-ASCII Engine: /src/main/java/jenkem/shared/Engine.java
-HTML-Util: /src/main/java/jenkem/shared/HtmlUtil.java
+ASCII Engine: /src/main/scala/jenkem/engine/Engine.scala
+HTML-Util: /src/main/scala/jenkem/util/HtmlUtil.scala
 
 ![Jenkem-Octocat](http://tok.github.com/Jenkem-9000/images/jenkem-octocat.png)
