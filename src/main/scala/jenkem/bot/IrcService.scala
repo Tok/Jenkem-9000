@@ -9,8 +9,7 @@ object IrcService {
   val bot = new JenkemBot
 
   def connect(network: String, port: Int, channel: String, nick: String): String = {
-    val result = bot.connectAndJoin(network, port, channel, nick)
-    result
+    bot.connectAndJoin(network, port, channel, nick)
   }
 
   def disconnect(): String = {

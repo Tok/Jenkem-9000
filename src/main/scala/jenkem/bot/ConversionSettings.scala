@@ -9,6 +9,7 @@ import jenkem.engine.Pal
 import jenkem.engine.color.Scheme
 import jenkem.engine.Engine
 import jenkem.engine.ProcSettings
+import jenkem.util.InitUtil
 
 class ConversionSettings {
   @BeanProperty var width: Int = _
@@ -28,19 +29,22 @@ class ConversionSettings {
     schemeName = Scheme.Default.name
     chars = Pal.Ansi.chars
     kick = Kick.OFF
-    power = Power.Quadratic
+    power = Power.Linear
   }
 
-  def getParams(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Engine.Params = {
-    //TODO reimplement method and colorMap overriding
+  def getParams(imageData: Map[(Int, Int), (Short, Short, Short)]): Engine.Params = {
+    val (method, scheme, charset) = InitUtil.getDefaults(imageData)
+    if (!method.equals(ConversionMethod.Vortacular) && Pal.hasAnsi(chars)) {
+      chars = charset.chars
+    }
     new Engine.Params(
         method,
-        imageRgb,
+        imageData,
         colorMap,
         chars.replaceAll("[,0-9]", ""),
         ProcSettings.getInitial(Pal.hasAnsi(chars)),
-        0,
-        0,
+        InitUtil.getDefaultContrast(imageData),
+        InitUtil.getDefaultBrightness(imageData),
         power
     )
   }

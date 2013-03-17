@@ -2,7 +2,9 @@ package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
+
 import scala.collection.JavaConversions.seqAsJavaList
+
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -21,14 +23,15 @@ import com.vaadin.ui.OptionGroup
 import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
+
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Engine
 import jenkem.engine.Kick
+import jenkem.engine.Pal
 import jenkem.engine.color.Power
 import jenkem.event.DoConversionEvent
 import jenkem.event.SendToIrcEvent
 import jenkem.persistence.PersistenceService
-import jenkem.shared.ImageUtil
 import jenkem.shared.data.ImageCss
 import jenkem.shared.data.ImageHtml
 import jenkem.shared.data.ImageInfo
@@ -42,7 +45,7 @@ import jenkem.ui.OutputDisplay
 import jenkem.ui.ProcSetter
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
-import jenkem.engine.Pal
+import jenkem.util.InitUtil
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val nbsp = "&nbsp;"
@@ -154,6 +157,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   resetButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent) {
       doReset //triggers conversion
+      startConversion(false, false)
     }
   })
 
@@ -362,19 +366,21 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def makeInits() {
     conversionDisabled = true
-    val imageRgb = imageData.imageRgb
-    val width = imageData.width
-    val height = imageData.height
     val chars = charTextField.getValue.replaceAll("[,0-9]", "")
+    makeImageInits
+    conversionDisabled = false
+  }
 
-    //FIXME reimplement
-    //val defaultScheme = ImageUtil.getDefaultColorScheme(legacyImageRgb, width, height)
-    //ircColorSetter.setSelectedScheme(defaultScheme)
-    //val con = jenkem.shared.ImageUtil.getDefaultContrast(legacyImageRgb, width, height) - 100
-    //contrastSlider.setValue(con)
-    //val bri = jenkem.shared.ImageUtil.getDefaultBrightness(legacyImageRgb, width, height) - 100
-    //brightnessSlider.setValue(bri)
-
+  private def makeImageInits() {
+    conversionDisabled = true
+    val con = InitUtil.getDefaultContrast(imageData.imageRgb)
+    contrastSlider.setValue(con)
+    val bri = InitUtil.getDefaultBrightness(imageData.imageRgb)
+    brightnessSlider.setValue(bri)
+    val (method, scheme, charset) = InitUtil.getDefaults(imageData.imageRgb)
+    methodBox.setValue(method)
+    ircColorSetter.setSelectedScheme(scheme)
+    charsetBox.select(charset)
     conversionDisabled = false
   }
 
@@ -388,9 +394,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     conversionDisabled = false
   }
 
-  private def makeInitsForCharset(chars: String) {
-    procSetter.reset(Pal.hasAnsi(chars))
-  }
+  private def makeInitsForCharset(chars: String) = procSetter.reset(Pal.hasAnsi(chars))
 
   def saveImage() {
     val name = imagePreparer.getName

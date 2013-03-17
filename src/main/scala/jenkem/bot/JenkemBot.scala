@@ -12,6 +12,7 @@ import jenkem.engine.Pal
 import jenkem.engine.color.Scheme
 import jenkem.util.AwtImageUtil
 import jenkem.engine.Engine
+import jenkem.util.InitUtil
 
 class JenkemBot extends PircBot {
   val defaultDelay = 1000
@@ -31,7 +32,7 @@ class JenkemBot extends PircBot {
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY, WIDTH, MODE, SCHEME, CHARSET, POWER, KICK = Value
+    val DELAY, WIDTH, SCHEME, CHARSET, POWER = Value
   }
 
   object IntExtractor {
@@ -115,9 +116,8 @@ class JenkemBot extends PircBot {
    * @param target channel name or name of the receiver.
    */
   private def showConfig(target: String) {
-    sendMessage(target, "Delay (ms): " + getMessageDelay + ", Width (chars): " + settings.width
-        //+ ", Kick: " + settings.kick //TODO implement
-        + ", Power: " + settings.power)
+    sendMessage(target, "Delay (ms): " + getMessageDelay
+        + ", Width (chars): " + settings.width + ", Power: " + settings.power)
     sendMessage(target, "Method: " + settings.method + ", Scheme: " + settings.schemeName
         + ", Charset: " + settings.chars)
   }
@@ -136,11 +136,9 @@ class JenkemBot extends PircBot {
       ConfigItem.withName(item.toUpperCase) match {
         case ConfigItem.DELAY => setMessageDelay(sender, value)
         case ConfigItem.WIDTH => setWidth(sender, value)
-        case ConfigItem.MODE => setMethod(sender, value)
         case ConfigItem.SCHEME => setScheme(sender, value)
         case ConfigItem.CHARSET => setCharset(sender, value)
         case ConfigItem.POWER => setPower(sender, value)
-        case ConfigItem.KICK => setKick(sender, value)
       }
     } catch {
       case nse: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
@@ -178,19 +176,6 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def setMethod(target: String, value: String) {
-    try {
-      val method = ConversionMethod.valueOf(value)
-      settings.method = method
-      val charset = Pal.getForMethod(method)
-      settings.chars = charset.chars
-      val msg = ConfigItem.MODE + setTo + "\"" + value + "\" with default charset \"" + charset + "\"."
-      sendMessage(target, msg)
-    } catch {
-      case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
-    }
-  }
-
   private def setScheme(target: String, value: String) {
     try {
       val scheme = Scheme.valueOf(value)
@@ -223,15 +208,6 @@ class JenkemBot extends PircBot {
       val power = Power.valueOf(value)
       settings.power = power
       sendMessage(target, ConfigItem.POWER + setTo + power.name)
-    } catch {
-      case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
-    }
-  }
-
-  private def setKick(target: String, value: String) {
-    try {
-      settings.kick = Kick.valueOf(value)
-      sendMessage(target, ConfigItem.KICK + setTo + settings.kick)
     } catch {
       case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
     }
@@ -338,7 +314,10 @@ class JenkemBot extends PircBot {
       if (index + 2 > lastIndex) { Nil }
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
-    val message = List("Mode: " + params.method + ", Scheme: " + cs.schemeName
+    val colorString = if (params.method.equals(ConversionMethod.Vortacular)) {
+          ", Scheme: " + cs.schemeName  + ", Power: " + params.power } else { "" }
+    val message = List("Mode: " + params.method + colorString
+        + ", Chars: " + params.charset + ", Width: " + (width / 2).intValue.toString
         + ", Brightness: " + params.brightness + ", Contrast: " + params.contrast)
     message ::: generate0(0)
   }
