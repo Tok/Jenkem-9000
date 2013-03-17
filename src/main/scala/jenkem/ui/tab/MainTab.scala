@@ -2,9 +2,7 @@ package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
-
 import scala.collection.JavaConversions.seqAsJavaList
-
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -23,7 +21,6 @@ import com.vaadin.ui.OptionGroup
 import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
-
 import javax.jdo.annotations.PersistenceCapable
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Engine
@@ -47,6 +44,8 @@ import jenkem.ui.ProcSetter
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
 import jenkem.util.InitUtil
+import com.vaadin.ui.Notification
+import com.vaadin.server.Page
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val nbsp = "&nbsp;"
@@ -62,6 +61,11 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   var imageData: ImageData = _
   var convData: ConversionData = _
 
+  setCaption("Main")
+  setSizeFull
+  setMargin(true)
+  setSpacing(true)
+
   class ImagePreparationData(val icon: BufferedImage, val originalName: String)
   class ImageData(val imageRgb: Map[(Int, Int), (Short, Short, Short)],
       val width: Short, val height: Short, val lineWidth: Short, val kick: Kick.Value,
@@ -75,11 +79,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val noResizeValueChangeListener = new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
       if(!conversionDisabled) { startConversion(false, false) }}}
-
-  setCaption("Main")
-  setSizeFull
-  setMargin(true)
-  setSpacing(true)
+  
+  val saveNotification = new Notification("Image submitted to gallery.", Notification.Type.HUMANIZED_MESSAGE)
+  saveNotification.setDelayMsec(1500)
 
   val mainLayout = new HorizontalLayout
   mainLayout.setMargin(true)
@@ -411,8 +413,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val jenkemImageIrc = new ImageIrc(name, ircOutput.map(_ + "\n").mkString)
     val jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc)
     PersistenceService.saveJenkemImage(jenkemImage)
-    imagePreparer.setStatus("Image submitted to gallery.")
+    saveNotification.show(Page.getCurrent)
   }
+
   def hasLink: Boolean = imagePreparer.hasLink
   def setLink(link: String) { imagePreparer.setLink(link) }
 

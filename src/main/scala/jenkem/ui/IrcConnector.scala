@@ -7,10 +7,11 @@ import com.vaadin.ui.GridLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
-
 import jenkem.bot.BotStatus
 import jenkem.bot.IrcService
 import jenkem.event.SendToIrcEvent
+import com.vaadin.ui.Notification
+import com.vaadin.server.Page
 
 class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   //TODO move defaults to properties file
@@ -28,6 +29,12 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   setRows(5)
   setColumns(3)
 
+  val playNotification = new Notification("Sending conversion to IRC.", Notification.Type.HUMANIZED_MESSAGE)
+  playNotification.setDelayMsec(1000)
+  val connectNotification = new Notification("Connecting to IRC.",
+      "Please wait and refresh the bot status.", Notification.Type.HUMANIZED_MESSAGE)
+  connectNotification.setDelayMsec(2000)
+  
   //   0       1       2
   //0 [Label ][Box   ][Box   ]
   //1 [Label ][Box           ]
@@ -87,7 +94,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
 
   connectButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent) {
-      statusLabel.setValue("Connecting...")
+      connectNotification.show(Page.getCurrent)
       connectButton.setEnabled(false)
       val network = networkBox.getValue
       val port = Integer.parseInt(portBox.getValue)
@@ -119,6 +126,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
 
   def sendToIrc(message: java.util.List[String]) {
     IrcService.sendMessage(message)
+    playNotification.show(Page.getCurrent)
     refresh
   }
 
