@@ -35,7 +35,7 @@ object InitUtil {
   def getDefaults(imageRgb: Map[(Int, Int), (Short, Short, Short)]):
       (ConversionMethod.Value, Scheme.Value, Pal.Charset) = {
     val bOrW = imageRgb.map(pixel => isPixelColorful(pixel._2)).toList
-    val bwRatio = bOrW.filter(_ == true)
+    val bwRatio = bOrW.filter(_ == true) //throws scala-style warning
     val ratio: Double = bwRatio.length.doubleValue / bOrW.length.doubleValue
     if (ratio > 0.05D) { (ConversionMethod.Vortacular, Scheme.Default, Pal.Ansi) }
     else { (ConversionMethod.Stencil, Scheme.Bwg, Pal.HCrude) }

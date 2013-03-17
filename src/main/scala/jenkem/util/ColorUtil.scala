@@ -3,8 +3,8 @@ package jenkem.util
 import jenkem.engine.color.Scheme
 
 object ColorUtil {
-  def BC = String.valueOf('\u0002') // bold character for IRC
-  def CC = String.valueOf('\u0003') // color character for IRC
+  val BC = String.valueOf('\u0002') // bold character for IRC
+  val CC = String.valueOf('\u0003') // color character for IRC
 
   /**
    * Converts an IRC color to a CSS color.

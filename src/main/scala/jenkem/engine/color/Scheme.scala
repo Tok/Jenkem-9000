@@ -8,7 +8,7 @@ object Scheme {
   case object Lsd extends Value(3, "LSD")
   case object Bwg extends Value(4, "BWG")
   case object Bw extends Value(5, "BW")
-  def values = List(Full, Default, Mono, Lsd, Bwg, Bw)
+  def values: List[Value] = List(Full, Default, Mono, Lsd, Bwg, Bw)
 
   def valueOf(name: String): Value = {
     name.toUpperCase match {
@@ -41,7 +41,7 @@ object Scheme {
   case object Magenta   extends IrcColor("magenta",  13, (255,  0,255), false, List(100, 95,100,100,  0,  0))
   case object Gray      extends IrcColor("gray",     14, (127,127,127), true,  List(100, 13,  0,  2,100,  0))
   case object LightGray extends IrcColor("lightGray",15, (210,210,210), false, List(100, 25,  0,  5,100,  0))
-  def ircColors = List(White, Black, DarkBlue, DarkGreen, Red, Brown, Purple, Orange,
+  def ircColors: List[IrcColor] = List(White, Black, DarkBlue, DarkGreen, Red, Brown, Purple, Orange,
       Yellow, Green, Teal, Cyan, Blue, Magenta, Gray, LightGray)
 
   def valuOfIrcColor(irc: Short): IrcColor = {

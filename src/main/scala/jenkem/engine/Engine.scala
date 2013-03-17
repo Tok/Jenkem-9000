@@ -12,6 +12,7 @@ object Engine {
   val MAX = 255
   val CENTER = 127
   val MIN = 0
+  val comma = ","
 
   class Params(
       val method: ConversionMethod.Value,
@@ -64,7 +65,7 @@ object Engine {
 
     def getSwitched(i: Int): String = {
       def selectAppropriate(old: String, fix: String, first: String, second: String, third: String, character: String): String = {
-        val prefix = fix + ","
+        val prefix = fix + comma
         if (!fix.equals(first)) { prefix + first + character }
         else if (!fix.equals(second)) { prefix + second + character }
         else if (!fix.equals(third)) { prefix + third + character }
@@ -140,8 +141,8 @@ object Engine {
     range.map(makeValid(_, finalLine)).mkString
   }
 
-  private def getFg(s: String): Int = s.split(",")(0).tail.toInt
-  private def getBg(s: String): Int = s.split(",")(1).init.toInt
+  private def getFg(s: String): Int = s.split(comma)(0).tail.toInt
+  private def getBg(s: String): Int = s.split(comma)(1).init.toInt
 
   private def generatePlainLine(par: Params, index: Int): String = {
     def makeGreySample(x: Int): (Short, Short, Short, Short) = {
@@ -182,8 +183,7 @@ object Engine {
         val d = Pal.get(Pal.DOWN, par.hasAnsi)
         val ud = getFor(par.settings.get(ProcSettings.UPDOWN), top(i), bot(i), u, d)
         if (!ud.equals("")) { return ud }
-      }
-      if (par.settings.has(ProcSettings.LEFTRIGHT)) {
+      } else if (par.settings.has(ProcSettings.LEFTRIGHT)) {
         val l = Pal.get(Pal.LEFT, par.hasAnsi)
         val r = Pal.get(Pal.RIGHT, par.hasAnsi)
         val lr = getFor(par.settings.get(ProcSettings.LEFTRIGHT), left(i), right(i), l, r)
@@ -217,11 +217,11 @@ object Engine {
           def changeDbqp(list: List[String], i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {
             if (i == 0 || i == range.last) { list(i) }
             else if (darkLeft
-                && Pal.isDark(par.charset, list(i-1)) && list(i).equals(thisOne)
-                && (Pal.isBright(par.charset, list(i+1)) || list(i+1).equals(thisOne))) { to }
+                && Pal.isDark(par.charset, list(i - 1)) && list(i).equals(thisOne)
+                && (Pal.isBright(par.charset, list(i + 1)) || list(i + 1).equals(thisOne))) { to }
             else if (!darkLeft
-                && (Pal.isBright(par.charset, list(i-1)) || list(i-1).equals(thisOne))
-                && list(i).equals(thisOne) && Pal.isDark(par.charset, list(i+1))) { to }
+                && (Pal.isBright(par.charset, list(i - 1)) || list(i - 1).equals(thisOne))
+                && list(i).equals(thisOne) && Pal.isDark(par.charset, list(i + 1))) { to }
             else { list(i) }
           }
           val d = range.map(changeDbqp(in.toList, _, down, rd, false))
@@ -234,10 +234,10 @@ object Engine {
         if (par.settings.has(ProcSettings.DIAGONAL)) {
           def changeDiag(list: List[String], i: Int): String = {
             if (i == 0 || i == range.last) { list(i) }
-            else if (list(i-1).equals(down) && list(i).equals(up)) { du }
-            else if (list(i-1).equals(down) && list(i+1).equals(up)) { du }
-            else if (list(i).equals(up) && list(i+1).equals(down)) { ud }
-            else if (list(i-1).equals(up) && list(i+1).equals(down)) { ud }
+            else if (list(i - 1).equals(down) && list(i).equals(up)) { du }
+            else if (list(i - 1).equals(down) && list(i + 1).equals(up)) { du }
+            else if (list(i).equals(up) && list(i + 1).equals(down)) { ud }
+            else if (list(i - 1).equals(up) && list(i + 1).equals(down)) { ud }
             else { list(i) }
           }
           range.map(changeDiag(in.toList, _)).toList
@@ -247,8 +247,8 @@ object Engine {
         if (par.settings.has(ProcSettings.HORIZONTAL)) {
           def changeHor(list: List[String], i: Int, from: String, to: String): String = {
             if (i == 0 || i == range.last) { list(i) }
-            else if (list(i-1).equals(darkest(par.charset)) && list(i).equals(from) && list(i+1).equals(from)) { to }
-            else if (list(i-1).equals(from) && list(i).equals(from) && list(i+1).equals(darkest(par.charset))) { to }
+            else if (list(i - 1).equals(darkest(par.charset)) && list(i).equals(from) && list(i + 1).equals(from)) { to }
+            else if (list(i - 1).equals(from) && list(i).equals(from) && list(i + 1).equals(darkest(par.charset))) { to }
             else { list(i) }
           }
           val h = range.map(changeHor(in.toList, _, down, hl))
@@ -264,10 +264,10 @@ object Engine {
           range.map(changeVert(foo.toList, _, right, vl)).toList
         } else { in.toList }
       }
-      if (sel.equals("DBQP")) { postProcess0(dbqpLine(in), "DIAG") }
-      else if (sel.equals("DIAG")) { postProcess0(diagLine(in), "HOR") }
-      else if (sel.equals("HOR")) { postProcess0(horLine(in), "VERT") }
-      else if (sel.equals("VERT")) { postProcess0(vertLine(in), "") }
+      if (sel.equals(sels(0))) { postProcess0(dbqpLine(in), sels(1)) }
+      else if (sel.equals(sels(1))) { postProcess0(diagLine(in), sels(2)) }
+      else if (sel.equals(sels(2))) { postProcess0(horLine(in), sels(3)) }
+      else if (sel.equals(sels(3))) { postProcess0(vertLine(in), "") }
       else { in.mkString }
     }
     postProcess0(line.map(_.toString).toList, sels.head)

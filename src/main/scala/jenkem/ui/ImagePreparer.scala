@@ -163,5 +163,5 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       case None => setError("URL is not Valid. Please enter URL to an image: "); None
     }
   }
-  def reset = submitter.reset
+  def reset { submitter.reset }
 }

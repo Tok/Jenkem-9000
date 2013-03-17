@@ -10,8 +10,6 @@ object ProcSettings {
   case object HORIZONTAL extends Setting("-")
   val settings = List(UPDOWN, LEFTRIGHT, DBQP, DIAGONAL, VERTICAL, HORIZONTAL)
 
-  def getSettings = settings
-
   val min = -100
   val max = 100
   val default = 0

@@ -109,7 +109,7 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
       nameTextField.setValue(name)
     }
   }
-  def reset = { bgSelect.setValue(bgOptions(0)) }
+  def reset { bgSelect.setValue(bgOptions(0)) }
   def isInvert: Boolean = inversionBox.getValue
   def getBg: String = bgSelect.getValue.toString
   def getName: String = nameTextField.getValue
