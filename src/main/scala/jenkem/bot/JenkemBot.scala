@@ -32,7 +32,7 @@ class JenkemBot extends PircBot {
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY, WIDTH, SCHEME, CHARSET, POWER = Value
+    val DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER = Value
   }
 
   object IntExtractor {
@@ -117,8 +117,9 @@ class JenkemBot extends PircBot {
    */
   private def showConfig(target: String) {
     sendMessage(target, "Delay (ms): " + getMessageDelay
-        + ", Width (chars): " + settings.width + ", Power: " + settings.power)
-    sendMessage(target, "Method: " + settings.method + ", Scheme: " + settings.schemeName
+        + ", Width (chars): " + settings.width
+        + ", Power: " + settings.power
+        + ", Scheme: " + settings.schemeName
         + ", Charset: " + settings.chars)
   }
 
@@ -138,6 +139,7 @@ class JenkemBot extends PircBot {
         case ConfigItem.WIDTH => setWidth(sender, value)
         case ConfigItem.SCHEME => setScheme(sender, value)
         case ConfigItem.CHARSET => setCharset(sender, value)
+        case ConfigItem.CHARS => setChars(sender, value)
         case ConfigItem.POWER => setPower(sender, value)
       }
     } catch {
@@ -177,39 +179,37 @@ class JenkemBot extends PircBot {
   }
 
   private def setScheme(target: String, value: String) {
-    try {
-      val scheme = Scheme.valueOf(value)
-      settings.colorMap = Scheme.createColorMap(scheme)
-      settings.setSchemeName(scheme.name)
-      sendMessage(target, ConfigItem.SCHEME + setTo + value)
-    } catch {
-      case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
+    Scheme.valueOf(value) match {
+      case Some(scheme) =>
+        settings.colorMap = Scheme.createColorMap(scheme)
+        settings.setSchemeName(scheme.name)
+        sendMessage(target, ConfigItem.SCHEME + setTo + value)
+      case None => sendMessage(target, "Scheme must be one of: " + Scheme.values.mkString(", "))
     }
   }
 
   private def setCharset(target: String, value: String) {
-    if (value.length() < 3) { sendMessage(target, ConfigItem.CHARSET + " must have at least 3 characters.") }
-    else {
-      try {
-        val scheme = Pal.valueOf(value)
+    Pal.valueOf(value) match {
+      case Some(scheme) => 
         settings.chars = scheme.chars
         sendMessage(target, ConfigItem.CHARSET + setTo + scheme.chars)
-      } catch {
-        case iae: IllegalArgumentException =>
-            val clean = value.replaceAll("[0-9],", emp)
-            settings.chars = " " + clean
-            sendMessage(target, ConfigItem.CHARSET + setTo + clean)
-      }
+      case None => 
+        sendMessage(target, "Charset must be one of: " + Pal.values.mkString(", "))
     }
   }
 
+  private def setChars(target: String, value: String) {
+    settings.chars = " " + value.replaceAll("[0-9],", emp)
+    sendMessage(target, "Chars set to \"" + settings.chars + "\".")
+  }
+
   private def setPower(target: String, value: String) {
-    try {
-      val power = Power.valueOf(value)
-      settings.power = power
-      sendMessage(target, ConfigItem.POWER + setTo + power.name)
-    } catch {
-      case iae: IllegalArgumentException => sendMessage(target, iae.getMessage)
+    Power.valueOf(value) match {
+      case Some(power) =>
+        settings.power = power
+        sendMessage(target, ConfigItem.POWER + setTo + power.name)
+      case None =>
+        sendMessage(target, "Power must be one of " + Power.values.mkString(", "))
     }
   }
 

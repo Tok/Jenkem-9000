@@ -18,33 +18,20 @@ object Pal {
   case object V_LINE extends Value("|", "│")
   val values = List(UP, DOWN, LEFT, RIGHT, UP_DOWN, DOWN_UP, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, H_LINE, V_LINE)
 
-  sealed abstract class Charset(val chars: String)
-  case object Hard extends Charset(" -+xX#")
-  case object Soft extends Charset(" .:oO@")
-  case object Ansi extends Charset(" ░▒") //"▓" makes FG > BG and should not be used
-  case object HCrude extends Charset(" #")
-  case object SCrude extends Charset(" @")
-  case object ACrude extends Charset(" ▒")
-  case object Mixed extends Charset("  .-:+oxOX@#")
-  case object Letters extends Charset("  ivozaxIVOAHZSXWM")
-  case object Chaos extends Charset("  .'-:;~+=ox*OX&%$@#")
+  sealed abstract class Charset(val name: String, val chars: String)
+  case object Hard extends Charset("Hard", " -+xX#")
+  case object Soft extends Charset("Soft", " .:oO@")
+  case object Ansi extends Charset("Ansi", " ░▒") //"▓" makes FG > BG and should not be used
+  case object HCrude extends Charset("HCrude", " #")
+  case object SCrude extends Charset("SCrude", " @")
+  case object ACrude extends Charset("ACrude", " ▒")
+  case object Mixed extends Charset("Mixed", "  .-:+oxOX@#")
+  case object Letters extends Charset("Letters", "  ivozaxIVOAHZSXWM")
+  case object Chaos extends Charset("Chaos", "  .'-:;~+=ox*OX&%$@#")
   val charsets = List(Hard, Soft, Ansi, HCrude, SCrude, ACrude, Mixed, Letters, Chaos)
   val allAnsi = ("░▒▓▀▄▐▌╔╗╚╝▬│")
 
-  def valueOf(name: String): Charset = {
-    name.toUpperCase match {
-      case "HARD" => Hard
-      case "SOFT" => Soft
-      case "ANSI" => Ansi
-      case "HCRUDE" => HCrude
-      case "SCRUDE" => SCrude
-      case "ACRUDE" => ACrude
-      case "MIXED" => Mixed
-      case "LETTERS" => Letters
-      case "CHAOS" => Chaos
-      case _ => throw new IllegalArgumentException("CharSet must be one of: Hard, Soft, Ansi, HCrude, SCrude, ACrude, Mixed, Letters or Chaos.")
-    }
-  }
+  def valueOf(name: String): Option[Charset] = charsets.find(_.name.equalsIgnoreCase(name))
 
   def hasAnsi(s: String): Boolean = {
     allAnsi.toCharArray.toList.map(s.indexOf(_) >= 0).contains(true)

@@ -18,16 +18,16 @@ object Kick {
   case object X extends Value(true, false, 1, 0)
   case object Y extends Value(false, true, 0, 1)
   case object XY extends Value(true, true, 1, 1)
+  val values: List[Value] = List(OFF, X, Y, XY)
 
   def default: Value = OFF
-  def getAll: List[Value] = List(OFF, X, Y, XY)
-  def valueOf(name: String): Value = {
+  def valueOf(name: String): Option[Value] = {
     name.toUpperCase match {
-      case "OFF" | "0" => OFF
-      case "X" => X
-      case "Y" => Y
-      case "XY" => XY
-      case _ => throw new IllegalArgumentException("Kick name must be one of: \"0\", \"X\", \"Y\" or \"XY\".")
+      case "OFF" | "0" => Option(OFF)
+      case "X" => Option(X)
+      case "Y" => Option(Y)
+      case "XY" => Option(XY)
+      case _ => None
     }
   }
 }

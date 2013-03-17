@@ -13,10 +13,14 @@ class HtmlOutputServlet extends AbstractOutputServlet {
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
     response.setCharacterEncoding(encoding)
     response.setContentType("text/html")
-    val imageHtml: ImageHtml = jenkemService.getImageHtmlByName(obtainName(request))
-    Option(imageHtml.html) match {
-      case Some(html) => response.getWriter.write(html)
-      case None => response.getWriter.write(HtmlUtil.generateEmpty)
+    jenkemService.getImageHtmlByName(obtainName(request)) match {
+      case Some(imageHtml) =>
+        Option(imageHtml.html) match {
+          case Some(html) => response.getWriter.write(html)
+          case None => response.getWriter.write("Fail: HTML is empty.")
+        }
+      case None => response.getWriter.write("Fail: HTML couldn't be obtained.")
     }
+    
   }
 }

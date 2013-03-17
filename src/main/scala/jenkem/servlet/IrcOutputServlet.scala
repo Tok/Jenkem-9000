@@ -12,10 +12,13 @@ class IrcOutputServlet extends AbstractOutputServlet {
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
     response.setCharacterEncoding(encoding)
     response.setContentType("text/plain")
-    val imageIrc: ImageIrc = jenkemService.getImageIrcByName(obtainName(request))
-    Option(imageIrc.irc) match {
-      case Some(irc) => response.getWriter.write(irc)
-      case None => response.getWriter.write("")
+    jenkemService.getImageIrcByName(obtainName(request)) match {
+      case Some(imageIrc) =>
+        Option(imageIrc.irc) match {
+          case Some(irc) => response.getWriter.write(irc)
+          case None => response.getWriter.write("Fail: IRC text is empty.")
+        }
+      case None => response.getWriter.write("Fail: IRC text couldn't be obtained.")
     }
   }
 }

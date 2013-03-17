@@ -95,7 +95,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val kickLayout = new HorizontalLayout
   val kickLabel = new Label("Kick: ")
   kickLabel.setWidth("88px")
-  val kickSelect = new OptionGroup(null, Kick.getAll)
+  val kickSelect = new OptionGroup(null, Kick.values)
   kickSelect.addStyleName("horizontal");
   kickSelect.setNullSelectionAllowed(false)
   kickSelect.setImmediate(true)
@@ -168,11 +168,14 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   charsetBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
       val charsetName = event.getProperty.getValue.toString
-      val chars = Pal.valueOf(charsetName).chars
-      makeInitsForCharset(chars)
-      if (!chars.equals(charTextField.getValue)) {
-        //triggers conversion
-        charTextField.setValue(Pal.valueOf(charsetName).chars)
+      Pal.valueOf(charsetName) match {
+        case Some(pal) => 
+          makeInitsForCharset(pal.chars)
+          if (!pal.chars.equals(charTextField.getValue)) {
+             //triggers conversion
+            charTextField.setValue(pal.chars)
+          }
+        case None => imagePreparer.setError("Charset not found.")
       }
     }
   })
@@ -289,7 +292,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   }
 
   private def doPrepareImageData(url: String) {
-    val kick = Kick.valueOf(kickSelect.getValue.toString)
+    val kick = Kick.valueOf(kickSelect.getValue.toString).get
     val crops = imagePreparer.getCrops
     val invert = imagePreparer.isInvert
     val bg = imagePreparer.getBg
@@ -297,7 +300,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
     val lineWidth = widthSlider.getValue.shortValue
-    val method = ConversionMethod.valueOf(methodBox.getValue.toString)
+    val method = ConversionMethod.valueOf(methodBox.getValue.toString).get
     val (width, height) = AwtImageUtil.calculateNewSize(lineWidth, originalWidth, originalHeight)
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
     val dataWidth = (width - (2 * kick.xOffset)).shortValue
@@ -337,7 +340,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
         ps,
         contrast,
         brightness,
-        Power.valueOf(powerBox.getValue.toString)
+        Power.valueOf(powerBox.getValue.toString).get
       )
       ircOutput = generateIrcOutput(params, imageData.height)
       outputDisplay.addIrcOutput(ircOutput.map(_ + "\n"))
@@ -347,7 +350,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       conversionDisabled = false
     } catch {
       case iioe: javax.imageio.IIOException => imagePreparer.setError("Cannot read image from URL.")
-      case iae: IllegalArgumentException => imagePreparer.setError(iae.getMessage)
       case e: Exception => imagePreparer.setError(e.getMessage)
     }
   }
@@ -389,7 +391,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def makeInitsForMethod() {
     conversionDisabled = true
-    val method = ConversionMethod.valueOf(methodBox.getValue.toString)
+    val method = ConversionMethod.valueOf(methodBox.getValue.toString).get
     ircColorSetter.makeEnabled(method.equals(ConversionMethod.Vortacular))
     powerBox.setEnabled(method.equals(ConversionMethod.Vortacular))
     procSetter.reset(Pal.hasAnsi(charTextField.getValue))

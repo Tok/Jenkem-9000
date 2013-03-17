@@ -18,7 +18,12 @@ object ColorUtil {
    * @param ircColor
    * @return cssColor
    */
-  def ircToCss(ircColor: Short): String = rgbToCss(Scheme.valuOfIrcColor(ircColor).rgb)
+  def ircToCss(ircColor: Short): String = {
+    Scheme.valuOfIrcColor(ircColor) match {
+      case Some(ircColor) => rgbToCss(ircColor.rgb)
+      case None => "#000000"
+    }
+  }
 
   /**
    * Converts an RGB color to a CSS color.

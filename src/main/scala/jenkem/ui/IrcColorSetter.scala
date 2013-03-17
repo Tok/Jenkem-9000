@@ -32,8 +32,10 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   presetBox.setImmediate(true)
   presetBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
-      val s = Scheme.valueOf(event.getProperty.getValue.toString)
-      updatePreset(s)
+      Scheme.valueOf(event.getProperty.getValue.toString) match {
+        case Some(s) => updatePreset(s)
+        case None => { }
+      }
       if (!isTriggeringDisabled) {
         eventRouter.fireEvent(new DoConversionEvent(false, false))
       }
@@ -128,7 +130,10 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   def reset {
     isTriggeringDisabled = true
     if (presetBox.getValue.equals(Scheme.Default)) {
-        updatePreset(Scheme.valueOf(presetBox.getValue.toString))
+        Scheme.valueOf(presetBox.getValue.toString) match {
+          case Some(s) => updatePreset(s)
+          case None => { }
+        }
     } else { presetBox.select(Scheme.Default) }
     isTriggeringDisabled = false
     eventRouter.fireEvent(new DoConversionEvent(false, false))

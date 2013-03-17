@@ -7,12 +7,5 @@ object ConversionMethod {
   case object Stencil extends Value("Stencil")
   val values = List(Vortacular, Plain, Stencil)
 
-  def valueOf(name: String): Value = {
-    name.toUpperCase match {
-      case "VORTACULAR" => Vortacular
-      case "PLAIN" => Plain
-      case "STENCIL" => Stencil
-      case _ => throw new IllegalArgumentException("Method must be one of: \"Vortacular\", \"Plain\" or \"Stencil\".")
-    }
-  }
+  def valueOf(name: String): Option[Value] = values.find(_.name.equalsIgnoreCase(name))
 }

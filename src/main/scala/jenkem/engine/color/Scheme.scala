@@ -10,17 +10,7 @@ object Scheme {
   case object Bw extends Value(5, "BW")
   def values: List[Value] = List(Full, Default, Mono, Lsd, Bwg, Bw)
 
-  def valueOf(name: String): Value = {
-    name.toUpperCase match {
-      case "FULL" => Full
-      case "DEFAULT" => Default
-      case "MONO" => Mono
-      case "LSD" => Lsd
-      case "BWG" => Bwg
-      case "BW" => Bw
-      case _ => throw new IllegalArgumentException("Scheme must be one of: Full, Default, Mono, LSD, BWG or BW")
-    }
-  }
+  def valueOf(name: String): Option[Value] = values.find(_.name.equalsIgnoreCase(name))
 
   type RGB = (Short, Short, Short)
   //IRC colors are defacto standard. scheme colors are loosely proportional to distance from center of cube
@@ -44,35 +34,12 @@ object Scheme {
   def ircColors: List[IrcColor] = List(White, Black, DarkBlue, DarkGreen, Red, Brown, Purple, Orange,
       Yellow, Green, Teal, Cyan, Blue, Magenta, Gray, LightGray)
 
-  def valuOfIrcColor(irc: Short): IrcColor = {
-    //TODO simplify this
-    irc match {
-      case 0 => White
-      case 1 => Black
-      case 2 => DarkBlue
-      case 3 => DarkGreen
-      case 4 => Red
-      case 5 => Brown
-      case 6 => Purple
-      case 7 => Orange
-      case 8 => Yellow
-      case 9 => Green
-      case 10 => Teal
-      case 11 => Cyan
-      case 12 => Blue
-      case 13 => Magenta
-      case 14 => Gray
-      case 15 => LightGray
-      case _ => throw new IllegalArgumentException("Fail: Unknown color.")
-    }
-  }
+  def valuOfIrcColor(irc: Short): Option[IrcColor] = ircColors.find(_.irc == irc)
 
   def createColorMap(value: Value): Map[IrcColor, Short] = {
     def createColorMap0(ic: List[IrcColor], map: Map[IrcColor, Short]): Map[IrcColor, Short] = {
       if (ic.isEmpty) { map }
-      else { createColorMap0(ic.tail,
-          map + ((ic.head, ic.head.scheme(value.order)))
-              ) }
+      else { createColorMap0(ic.tail, map + ((ic.head, ic.head.scheme(value.order)))) }
     }
     createColorMap0(ircColors, Map())
   }

@@ -10,6 +10,9 @@ class CssOutputServlet extends AbstractOutputServlet {
   override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
     response.setCharacterEncoding(encoding)
     response.setContentType("text/css")
-    response.getWriter.write(jenkemService.getImageCssByName(obtainName(request)).css)
+    jenkemService.getImageCssByName(obtainName(request)) match {
+      case Some(imageCss) => response.getWriter.write(imageCss.css)
+      case None => response.getWriter.write("Fail: CSS couldn't be obtained.")
+    }
   }
 }

@@ -50,21 +50,21 @@ object PersistenceService {
    * @param name
    * @return jenkemImageHtml
    */
-  def getImageHtmlByName(name: String): ImageHtml = getByName[ImageHtml](name, classOf[ImageHtml])
+  def getImageHtmlByName(name: String): Option[ImageHtml] = getByName[ImageHtml](name, classOf[ImageHtml])
 
   /**
    * Returns the CSS of the stored image corresponding to the provided name.
    * @param name
    * @return jenkemImageCss
    */
-  def getImageCssByName(name: String): ImageCss = getByName[ImageCss](name, classOf[ImageCss])
+  def getImageCssByName(name: String): Option[ImageCss] = getByName[ImageCss](name, classOf[ImageCss])
 
   /**
    * Returns the IRC representation of the stored image corresponding to the provided name.
    * @param name
    * @return jenkemImageIrc
    */
-  def getImageIrcByName(name: String): ImageIrc = getByName[ImageIrc](name, classOf[ImageIrc])
+  def getImageIrcByName(name: String): Option[ImageIrc] = getByName[ImageIrc](name, classOf[ImageIrc])
 
   /**
    * Returns the representation of the stored type corresponding to the provided name.
@@ -72,7 +72,7 @@ object PersistenceService {
    * @param type
    * @return type
    */
-  private def getByName[T](name: String, c: java.lang.Class[T]): T = {
+  private def getByName[T](name: String, c: java.lang.Class[T]): Option[T] = {
     Option(name) match {
       case Some(name) =>
         val pm = PMF.get.getPersistenceManager
@@ -82,11 +82,11 @@ object PersistenceService {
           query.setFilter("name == n")
           query.declareParameters("String n")
           val result = query.execute(name).asInstanceOf[T]
-          result
+          Option(result)
         } finally {
           pm.close
         }
-      case None => throw new IllegalArgumentException("No Name.")
+      case None => None
     }
   }
 
