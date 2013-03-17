@@ -103,10 +103,12 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
     imageLayout.addComponent(image, 0, 0)
   }
   def setName(name: String) {
-    if (name.size > maxNameLength) {
-      nameTextField.setValue(name.substring(0, maxNameLength))
+    val clean = if (name.contains('.')) { name.take(name.lastIndexOf(".")) }
+    else { name }
+    if (clean.size > maxNameLength) {
+      nameTextField.setValue(clean.substring(0, maxNameLength))
     } else {
-      nameTextField.setValue(name)
+      nameTextField.setValue(clean)
     }
   }
   def reset { bgSelect.setValue(bgOptions(0)) }
