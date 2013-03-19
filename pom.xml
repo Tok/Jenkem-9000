@@ -29,9 +29,8 @@
 		<mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
 		<jbossAsMavenPluginVersion>7.4.Final</jbossAsMavenPluginVersion>
 		<!-- reporting -->
-		<mavenSurefirePluginVersion>2.12.4</mavenSurefirePluginVersion>
+		<mavenSurefirePluginVersion>2.14</mavenSurefirePluginVersion>
 		<mavenCoberturaPluginVersion>2.5.2</mavenCoberturaPluginVersion>
-		<mavenTaglistPluginVersion>2.4</mavenTaglistPluginVersion>
 		<mavenProjectInfoReportsPluginVersion>2.6</mavenProjectInfoReportsPluginVersion>
 		<mavenSitePluginVersion>3.2</mavenSitePluginVersion>
 	</properties>
