@@ -348,6 +348,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       imagePreparer.setStatus("Ready...")
       ircConnector.refresh
       conversionDisabled = false
+      System.gc
     } catch {
       case iioe: javax.imageio.IIOException => imagePreparer.setError("Cannot read image from URL.")
       case e: Exception => imagePreparer.setError(e.getMessage)

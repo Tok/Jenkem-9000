@@ -311,6 +311,7 @@ class JenkemBot extends PircBot {
       if (index + 2 > lastIndex) { Nil }
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
+    System.gc
     val colorString = if (params.method.equals(ConversionMethod.Vortacular)) {
           ", Scheme: " + cs.schemeName  + ", Power: " + params.power } else { "" }
     val message = List("Mode: " + params.method + colorString
