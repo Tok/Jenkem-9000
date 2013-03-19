@@ -79,7 +79,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val noResizeValueChangeListener = new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
       if(!conversionDisabled) { startConversion(false, false) }}}
-  
+
   val saveNotification = new Notification("Image submitted to gallery.", Notification.Type.HUMANIZED_MESSAGE)
   saveNotification.setDelayMsec(1500)
 
@@ -169,7 +169,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     override def valueChange(event: ValueChangeEvent) {
       val charsetName = event.getProperty.getValue.toString
       Pal.valueOf(charsetName) match {
-        case Some(pal) => 
+        case Some(pal) =>
           makeInitsForCharset(pal.chars)
           if (!pal.chars.equals(charTextField.getValue)) {
              //triggers conversion

@@ -21,6 +21,5 @@ class HtmlOutputServlet extends AbstractOutputServlet {
         }
       case None => response.getWriter.write("Fail: HTML couldn't be obtained.")
     }
-    
   }
 }

@@ -42,6 +42,7 @@ class JenkemBot extends PircBot {
 
   val emp = ""
   val sep = " "
+  val comma = ", "
   val setTo = " set to "
   val settings = new ConversionSettings
 
@@ -181,17 +182,17 @@ class JenkemBot extends PircBot {
         settings.colorMap = Scheme.createColorMap(scheme)
         settings.setSchemeName(scheme.name)
         sendMessage(target, ConfigItem.SCHEME + setTo + value)
-      case None => sendMessage(target, "Scheme must be one of: " + Scheme.values.mkString(", "))
+      case None => sendMessage(target, "Scheme must be one of: " + Scheme.values.mkString(comma))
     }
   }
 
   private def setCharset(target: String, value: String) {
     Pal.valueOf(value) match {
-      case Some(scheme) => 
+      case Some(scheme) =>
         settings.chars = scheme.chars
         sendMessage(target, ConfigItem.CHARSET + setTo + scheme.chars)
-      case None => 
-        sendMessage(target, "Charset must be one of: " + Pal.values.mkString(", "))
+      case None =>
+        sendMessage(target, "Charset must be one of: " + Pal.values.mkString(comma))
     }
   }
 
@@ -206,7 +207,7 @@ class JenkemBot extends PircBot {
         settings.power = power
         sendMessage(target, ConfigItem.POWER + setTo + power.name)
       case None =>
-        sendMessage(target, "Power must be one of " + Power.values.mkString(", "))
+        sendMessage(target, "Power must be one of " + Power.values.mkString(comma))
     }
   }
 
@@ -308,10 +309,9 @@ class JenkemBot extends PircBot {
     val params = cs.getParams(imageRgb)
     val ircOutput = List[String]()
     def generate0(index: Int): List[String] = {
-      if (index + 2 > lastIndex) { Nil }
+      if (index + 2 > lastIndex) { System.gc; Nil }
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
-    System.gc
     val colorString = if (params.method.equals(ConversionMethod.Vortacular)) {
           ", Scheme: " + cs.schemeName  + ", Power: " + params.power } else { "" }
     val message = List("Mode: " + params.method + colorString

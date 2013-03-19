@@ -54,7 +54,7 @@ object Pal {
     charset.substring(index, index + 1)
   }
 
-  def getValChars(value: Value, hasAnsi: Boolean) = getVal(value, hasAnsi)
+  def getValChars(value: Value, hasAnsi: Boolean): String = getVal(value, hasAnsi)
   def get(value: Value, hasAnsi: Boolean, charset: String): String = {
     if (charset.equals(Chaos.chars)) {
       val chars = getVal(value, hasAnsi).toCharArray.toList

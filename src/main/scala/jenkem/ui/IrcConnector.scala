@@ -34,7 +34,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   val connectNotification = new Notification("Connecting to IRC.",
       "Please wait and refresh the bot status.", Notification.Type.HUMANIZED_MESSAGE)
   connectNotification.setDelayMsec(2000)
-  
+
   //   0       1       2
   //0 [Label ][Box   ][Box   ]
   //1 [Label ][Box           ]
