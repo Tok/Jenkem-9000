@@ -19,6 +19,7 @@ object Pal {
   case object H_LINE extends Value("-", "▬")
   case object V_LINE extends Value("|", "│")
   val values = List(UP, DOWN, LEFT, RIGHT, UP_DOWN, DOWN_UP, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, H_LINE, V_LINE)
+  val pairs = List((UP_DOWN, DOWN_UP), (DOWN_UP, UP_DOWN), (LEFT_UP, RIGHT_UP), (RIGHT_UP, LEFT_UP), (LEFT_DOWN, RIGHT_DOWN), (RIGHT_DOWN, LEFT_DOWN))
 
   sealed abstract class Charset(val name: String, val chars: String)
   case object Hard extends Charset("Hard", " -+xX#")

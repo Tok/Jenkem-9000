@@ -17,6 +17,7 @@ object Sample {
   sealed abstract class Xdir extends Dir
   case object LEFT extends Xdir
   case object RIGHT extends Xdir
+  val dirs: List[Dir] = List(TOP, BOT, LEFT, RIGHT)
 
   def makeGreySample(imageRgb: Map[(Int, Int), Rgb],
       x: Int, y: Int, c: Int, b: Int): Grey = {
@@ -109,6 +110,13 @@ object Sample {
     }
   }
 
+  def getAllRgb(col: Colored): Rgb = {
+    val red =  ((col._1._1 + col._2._1 + col._3._1 + col._4._1) / 4).shortValue
+    val green = ((col._1._2 + col._2._2 + col._3._2 + col._4._2) / 4).shortValue
+    val blue = ((col._1._3 + col._2._3 + col._3._3 + col._4._3) / 4).shortValue
+    (red, green, blue)
+  }
+  
   private def calcMean(first: Rgb, second: Rgb): Rgb = {
     val redMean = (first._1 + second._1) / 2
     val greenMean = (first._2 + second._2) / 2

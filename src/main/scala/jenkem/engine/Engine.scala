@@ -40,102 +40,58 @@ object Engine {
     val sam = indices.map(makeColorSample(_)).toList
     val range = (0 until sam.length)
 
-    lazy val leftDiff = sam.map(Sample.calcRgbDiff(_, Sample.LEFT)).toList
-    lazy val rightDiff = sam.map(Sample.calcRgbDiff(_, Sample.RIGHT)).toList
-    lazy val topDiff = sam.map(Sample.calcRgbDiff(_, Sample.TOP)).toList
-    lazy val botDiff = sam.map(Sample.calcRgbDiff(_, Sample.BOT)).toList
+    lazy val diffs = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap
+    lazy val means = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbMean(_, d)).toList)).toMap
+    lazy val colors = Sample.dirs.map(d => (d, means.get(d).get.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList)).toMap
 
-    lazy val leftRgb = sam.map(Sample.calcRgbMean(_, Sample.LEFT)).toList
-    lazy val rightRgb = sam.map(Sample.calcRgbMean(_, Sample.RIGHT)).toList
-    lazy val topRgb = sam.map(Sample.calcRgbMean(_, Sample.TOP)).toList
-    lazy val botRgb = sam.map(Sample.calcRgbMean(_, Sample.BOT)).toList
-
-    lazy val left = leftRgb.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList
-    lazy val right = rightRgb.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList
-    lazy val top = topRgb.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList
-    lazy val bot = botRgb.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList
-
-    lazy val allR = range.map(i => ((leftRgb(i)._1 + rightRgb(i)._1 + topRgb(i)._1 + botRgb(i)._1) / 4).shortValue).toList
-    lazy val allG = range.map(i => ((leftRgb(i)._2 + rightRgb(i)._2 + topRgb(i)._2 + botRgb(i)._2) / 4).shortValue).toList
-    lazy val allB = range.map(i => ((leftRgb(i)._3 + rightRgb(i)._3 + topRgb(i)._3 + botRgb(i)._3) / 4).shortValue).toList
-    lazy val allRgb = range.map(i => (allR(i), allG(i), allB(i))).toList
-
-    lazy val chars = allRgb.map(Cube.getColorChar(par.colorMap, par.charset, par.power, _))
-    lazy val totalBgs = chars.map(Cube.getBgCode(_))
+    val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.charset, par.power, _))
+    val totalBgs = chars.map(Cube.getBgCode(_))
 
     def getSwitched(i: Int): String = {
-      def selectAppropriate(old: String, fix: String, first: String, second: String, third: String, character: String): String = {
-        val prefix = fix + comma
-        if (!fix.equals(first)) { prefix + first + character }
-        else if (!fix.equals(second)) { prefix + second + character }
-        else if (!fix.equals(third)) { prefix + third + character }
-        else { old }
-      }
-      def upDown(old: String): String = {
-        if (par.settings.has(ProcSettings.UPDOWN)) {
-          lazy val td = topDiff(i)
-          lazy val bd = botDiff(i)
-          lazy val topBg = top(i).bg
-          lazy val botBg = bot(i).bg
-          lazy val topFg = top(i).fg
-          lazy val botFg = bot(i).fg
-          lazy val offset = ((par.settings.get(ProcSettings.UPDOWN) * -1) + 100) / 5
-          if (td + offset < bd) {
-            selectAppropriate(old, topBg, botBg, totalBgs(i), botFg, Pal.get(Pal.UP, par.hasAnsi, par.charset))
-          } else if (bd + offset < td) {
-            selectAppropriate(old, botBg, topBg, totalBgs(i), topFg, Pal.get(Pal.DOWN, par.hasAnsi, par.charset))
+      def direct(old: String, setting: ProcSettings.Setting, first: Sample.Dir, second: Sample.Dir): String = {
+        def selectAppropriate(old: String, fix: String, first: String, second: String, third: String, character: String): String = {
+          val prefix = fix + comma
+          if (!fix.equals(first)) { prefix + first + character }
+          else if (!fix.equals(second)) { prefix + second + character }
+          else if (!fix.equals(third)) { prefix + third + character }
+          else { old }
+        }
+        if (par.settings.has(setting)) {
+          val firstBg = colors.get(first).get(i).bg
+          val secondBg = colors.get(second).get(i).bg
+          lazy val firstFg = colors.get(first).get(i).fg
+          lazy val secondFg = colors.get(second).get(i).fg
+          val fd = diffs.get(first).get(i)
+          val sd = diffs.get(second).get(i)
+          val offset = ((par.settings.get(setting) * -1) + 100) / 5
+          if (fd + offset < sd) {
+            selectAppropriate(old, firstBg, secondBg, totalBgs(i), secondFg, Pal.get(Pal.UP, par.hasAnsi, par.charset))
+          } else if (sd + offset < fd) {
+            selectAppropriate(old, secondBg, firstBg, totalBgs(i), firstFg, Pal.get(Pal.DOWN, par.hasAnsi, par.charset))
           } else { old }
         } else { old }
       }
-      def leftRight(old: String): String = {
-        if (par.settings.has(ProcSettings.LEFTRIGHT)) {
-          lazy val ld = leftDiff(i)
-          lazy val rd = rightDiff(i)
-          lazy val leftBg = left(i).bg
-          lazy val rightBg = right(i).bg
-          lazy val leftFg = left(i).fg
-          lazy val rightFg = right(i).fg
-          lazy val offset = ((par.settings.get(ProcSettings.LEFTRIGHT) * -1) + 100) / 5
-          if (ld + offset < rd) {
-            selectAppropriate(old, leftBg, rightBg, totalBgs(i), rightFg, Pal.get(Pal.LEFT, par.hasAnsi, par.charset))
-          } else if (rd + offset < ld) {
-            selectAppropriate(old, rightBg, leftBg, totalBgs(i), leftFg, Pal.get(Pal.RIGHT, par.hasAnsi, par.charset))
-          } else { old }
-        } else { old }
-      }
-      upDown(leftRight(chars(i)))
+      val lr = direct(chars(i), ProcSettings.LEFTRIGHT, Sample.LEFT, Sample.RIGHT)
+      direct(lr, ProcSettings.UPDOWN, Sample.TOP, Sample.BOT)
     }
 
     val switched = range.map(ColorUtil.CC + getSwitched(_)).toList
     val charsOnly = switched.map(_.last.toString)
     val pp = postProcess(par, charsOnly.mkString).toCharArray.map(_.toString).toList
 
-    lazy val du = Pal.getValChars(Pal.DOWN_UP, par.hasAnsi)
-    lazy val ud = Pal.getValChars(Pal.UP_DOWN, par.hasAnsi)
-    lazy val lu = Pal.getValChars(Pal.LEFT_UP, par.hasAnsi)
-    lazy val ld = Pal.getValChars(Pal.LEFT_DOWN, par.hasAnsi)
-    lazy val ru = Pal.getValChars(Pal.RIGHT_UP, par.hasAnsi)
-    lazy val rd = Pal.getValChars(Pal.RIGHT_DOWN, par.hasAnsi)
+    lazy val reps = Pal.pairs.map(p => (p, Pal.getValChars(p._1, par.hasAnsi))).toMap
     def change(c: String): String = {
-      if (du.contains(c)) { Pal.get(Pal.UP_DOWN, par.hasAnsi, par.charset) }
-      else if (ud.contains(c)) { Pal.get(Pal.DOWN_UP, par.hasAnsi, par.charset) }
-      else if (lu.contains(c)) { Pal.get(Pal.RIGHT_UP, par.hasAnsi, par.charset) }
-      else if (ru.contains(c)) { Pal.get(Pal.LEFT_UP, par.hasAnsi, par.charset) }
-      else if (ld.contains(c)) { Pal.get(Pal.RIGHT_DOWN, par.hasAnsi, par.charset) }
-      else if (rd.contains(c)) { Pal.get(Pal.LEFT_DOWN, par.hasAnsi, par.charset) }
-      else { c }
+      reps.keys.foreach(r => if (reps.get(r).get.contains(c)) { return Pal.get(r._2, par.hasAnsi, par.charset) })
+      c
     }
-    val changed = pp.map(change(_))
 
+    val changed = pp.map(change(_))
     val finalLine = range.map(i => switched(i).init + changed(i)).toList
 
     def makeValid(i: Int, list: List[String]): String = {
       val thisOne = list(i)
       if (i == 0) { thisOne }
-      else {
-        if (thisOne.init.equals(switched(i - 1).init)) { thisOne.last.toString }
-        else { thisOne }
-      }
+      else { if (thisOne.init.equals(switched(i - 1).init)) { thisOne.last.toString } else { thisOne } }
     }
 
     range.map(makeValid(_, finalLine)).mkString
