@@ -16,7 +16,7 @@ object Engine {
 
   class Params(
       val method: ConversionMethod.Value,
-      val imageRgb: Map[(Int, Int), (Short, Short, Short)],
+      val imageRgb: Map[Sample.Coords, Sample.Rgb],
       val colorMap: Map[Scheme.IrcColor, Short],
       val charset: String,
       val settings: ProcSettings.Instance,
@@ -32,8 +32,7 @@ object Engine {
   }
 
   private def generateVortacularLine(par: Params, index: Int): String = {
-    def makeColorSample(x: Int): ((Short, Short, Short), (Short, Short, Short),
-        (Short, Short, Short), (Short, Short, Short)) = {
+    def makeColorSample(x: Int): Sample.Colored = {
       Sample.makeColorSample(par.imageRgb, x, index, par.contrast, par.brightness)
     }
     val indices = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0)
@@ -54,7 +53,8 @@ object Engine {
           else if (!fix.equals(third)) { prefix + third + character }
           else { old }
         }
-        if (par.settings.has(setting)) {
+        if (!par.settings.has(setting)) { old }
+        else {
           val firstBg = colors.get(first).get(i).bg
           val secondBg = colors.get(second).get(i).bg
           lazy val firstFg = colors.get(first).get(i).fg
@@ -67,7 +67,7 @@ object Engine {
           } else if (sd + offset < fd) {
             selectAppropriate(old, secondBg, firstBg, totalBgs(i), firstFg, Pal.get(Pal.DOWN, par.hasAnsi, par.charset))
           } else { old }
-        } else { old }
+        }
       }
       val lr = direct(chars(i), ProcSettings.LEFTRIGHT, Sample.LEFT, Sample.RIGHT)
       direct(lr, ProcSettings.UPDOWN, Sample.TOP, Sample.BOT)
@@ -90,7 +90,7 @@ object Engine {
   }
 
   private def generatePlainLine(par: Params, index: Int): String = {
-    def makeGreySample(x: Int): (Short, Short, Short, Short) = {
+    def makeGreySample(x: Int): Sample.Grey = {
       Sample.makeGreySample(par.imageRgb, x, index, par.contrast, par.brightness)
     }
     val indices = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0)
@@ -131,71 +131,67 @@ object Engine {
 
   private def postProcess(par: Params, line: String): String = {
     lazy val chr = Pal.values.map(v => (v, Pal.get(v, par.hasAnsi, par.charset))).toMap
-    val sels = List("DBQP", "DIAG", "HOR", "VERT")
     val range = (0 until line.length)
-    def postProcess0(in: List[String], sel: String): String = {
-      def dbqpLine(in: List[String]): List[String] = {
-        if (par.settings.has(ProcSettings.DBQP)) {
-          def changeDbqp(list: List[String], i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {
-            if (i == 0 || i == range.last) { list(i) }
-            else if (darkLeft
-                && Pal.isDark(par.charset, list(i - 1)) && list(i).equals(thisOne)
-                && (Pal.isBright(par.charset, list(i + 1)) || list(i + 1).equals(thisOne))) { to }
-            else if (!darkLeft
-                && (Pal.isBright(par.charset, list(i - 1)) || list(i - 1).equals(thisOne))
-                && list(i).equals(thisOne) && Pal.isDark(par.charset, list(i + 1))) { to }
-            else { list(i) }
-          }
-          val d = range.map(changeDbqp(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.RIGHT_DOWN).get, false))
-          val b = range.map(changeDbqp(d.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.LEFT_DOWN).get, true))
-          val q = range.map(changeDbqp(b.toList, _, chr.get(Pal.UP).get, chr.get(Pal.RIGHT_UP).get, false))
-                  range.map(changeDbqp(q.toList, _, chr.get(Pal.UP).get, chr.get(Pal.LEFT_UP).get, true)).toList
-        } else { in.toList }
+    def dbqpLine(in: List[String]): List[String] = {
+      if (!par.settings.has(ProcSettings.DBQP)) { in.toList }
+      else {
+        def changeDbqp(list: List[String], i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {
+          if (i == 0 || i == range.last) { list(i) }
+          else if (darkLeft
+              && Pal.isDark(par.charset, list(i - 1)) && list(i).equals(thisOne)
+              && (Pal.isBright(par.charset, list(i + 1)) || list(i + 1).equals(thisOne))) { to }
+          else if (!darkLeft
+              && (Pal.isBright(par.charset, list(i - 1)) || list(i - 1).equals(thisOne))
+              && list(i).equals(thisOne) && Pal.isDark(par.charset, list(i + 1))) { to }
+          else { list(i) }
+        }
+        val d = range.map(changeDbqp(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.RIGHT_DOWN).get, false))
+        val b = range.map(changeDbqp(d.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.LEFT_DOWN).get, true))
+        val q = range.map(changeDbqp(b.toList, _, chr.get(Pal.UP).get, chr.get(Pal.RIGHT_UP).get, false))
+                range.map(changeDbqp(q.toList, _, chr.get(Pal.UP).get, chr.get(Pal.LEFT_UP).get, true)).toList
       }
-      def diagLine(in: List[String]): List[String] = {
-        if (par.settings.has(ProcSettings.DIAGONAL)) {
-          def changeDiag(list: List[String], i: Int): String = {
-            if (i == 0 || i == range.last) { list(i) }
-            else if (list(i - 1).equals(chr.get(Pal.DOWN).get) && list(i).equals(chr.get(Pal.UP).get)) { chr.get(Pal.DOWN_UP).get }
-            else if (list(i - 1).equals(chr.get(Pal.DOWN).get) && list(i + 1).equals(chr.get(Pal.UP).get)) { chr.get(Pal.DOWN_UP).get }
-            else if (list(i).equals(chr.get(Pal.UP).get) && list(i + 1).equals(chr.get(Pal.DOWN).get)) { chr.get(Pal.UP_DOWN).get }
-            else if (list(i - 1).equals(chr.get(Pal.UP).get) && list(i + 1).equals(chr.get(Pal.DOWN).get)) { chr.get(Pal.UP_DOWN).get }
-            else { list(i) }
-          }
-          range.map(changeDiag(in.toList, _)).toList
-        } else { in.toList }
-      }
-      def horLine(in: List[String]): List[String] = {
-        if (par.settings.has(ProcSettings.HORIZONTAL)) {
-          def changeHor(list: List[String], i: Int, from: String, to: String): String = {
-            if (i == 0 || i == range.last) { list(i) }
-            else if (list(i - 1).equals(darkest(par.charset)) && list(i).equals(from) && list(i + 1).equals(from)) { to }
-            else if (list(i - 1).equals(from) && list(i).equals(from) && list(i + 1).equals(darkest(par.charset))) { to }
-            else { list(i) }
-          }
-          val h = range.map(changeHor(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.H_LINE).get))
-          range.map(changeHor(h.toList, _, chr.get(Pal.UP).get, chr.get(Pal.H_LINE).get)).toList
-        } else { in.toList }
-      }
-      def vertLine(in: List[String]): List[String] = {
-        if (par.settings.has(ProcSettings.VERTICAL)) {
-          def changeVert(list: List[String], i: Int, from: String, to: String): String = {
-            if (list(i).equals(from)) { to } else { list(i) }
-          }
-          val foo = range.map(changeVert(in.toList, _, chr.get(Pal.LEFT).get, chr.get(Pal.V_LINE).get))
-          range.map(changeVert(foo.toList, _, chr.get(Pal.RIGHT).get, chr.get(Pal.V_LINE).get)).toList
-        } else { in.toList }
-      }
-      if (sel.equals(sels(0))) { postProcess0(dbqpLine(in), sels(1)) }
-      else if (sel.equals(sels(1))) { postProcess0(diagLine(in), sels(2)) }
-      else if (sel.equals(sels(2))) { postProcess0(horLine(in), sels(3)) }
-      else if (sel.equals(sels(3))) { postProcess0(vertLine(in), "") }
-      else { in.mkString }
     }
-    postProcess0(line.map(_.toString).toList, sels.head)
+    def diagLine(in: List[String]): List[String] = {
+      if (!par.settings.has(ProcSettings.DIAGONAL)) { in.toList }
+      else {
+        def changeDiag(list: List[String], i: Int): String = {
+          if (i == 0 || i == range.last) { list(i) }
+          else if (list(i - 1).equals(chr.get(Pal.DOWN).get) && list(i).equals(chr.get(Pal.UP).get)) { chr.get(Pal.DOWN_UP).get }
+          else if (list(i - 1).equals(chr.get(Pal.DOWN).get) && list(i + 1).equals(chr.get(Pal.UP).get)) { chr.get(Pal.DOWN_UP).get }
+          else if (list(i).equals(chr.get(Pal.UP).get) && list(i + 1).equals(chr.get(Pal.DOWN).get)) { chr.get(Pal.UP_DOWN).get }
+          else if (list(i - 1).equals(chr.get(Pal.UP).get) && list(i + 1).equals(chr.get(Pal.DOWN).get)) { chr.get(Pal.UP_DOWN).get }
+          else { list(i) }
+        }
+        range.map(changeDiag(in.toList, _)).toList
+      }
+    }
+    def horLine(in: List[String]): List[String] = {
+      if (!par.settings.has(ProcSettings.HORIZONTAL)) { in.toList }
+      else {
+        def changeHor(list: List[String], i: Int, from: String, to: String): String = {
+          if (i == 0 || i == range.last) { list(i) }
+          else if (list(i - 1).equals(darkest(par.charset)) && list(i).equals(from) && list(i + 1).equals(from)) { to }
+          else if (list(i - 1).equals(from) && list(i).equals(from) && list(i + 1).equals(darkest(par.charset))) { to }
+          else { list(i) }
+        }
+        val h = range.map(changeHor(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.H_LINE).get))
+        range.map(changeHor(h.toList, _, chr.get(Pal.UP).get, chr.get(Pal.H_LINE).get)).toList
+      }
+    }
+    def vertLine(in: List[String]): List[String] = {
+      if (!par.settings.has(ProcSettings.VERTICAL)) { in.toList }
+      else {
+        def changeVert(list: List[String], i: Int, from: String, to: String): String = {
+          if (list(i).equals(from)) { to } else { list(i) }
+        }
+        val foo = range.map(changeVert(in.toList, _, chr.get(Pal.LEFT).get, chr.get(Pal.V_LINE).get))
+        range.map(changeVert(foo.toList, _, chr.get(Pal.RIGHT).get, chr.get(Pal.V_LINE).get)).toList
+      }
+    }
+    vertLine(horLine(diagLine(dbqpLine(line.map(_.toString).toList)))).mkString
   }
 
-  private def inferWidth(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Short = {
+  private def inferWidth(imageRgb: Map[Sample.Coords, Sample.Rgb]): Short = {
     (imageRgb.keys.toList.map(t => t._2).max).shortValue
   }
   private def getFg(s: String): Int = s.split(comma)(0).tail.toInt

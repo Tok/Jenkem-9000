@@ -6,6 +6,7 @@ object Sample {
   val MAX_RGB: Short = 255
   val HALF_RGB: Short = 127
 
+  type Coords = (Int, Int)
   type Rgb = (Short, Short, Short)
   type Grey = (Short, Short, Short, Short)
   type Colored = (Rgb, Rgb, Rgb, Rgb)
@@ -19,7 +20,7 @@ object Sample {
   case object RIGHT extends Xdir
   val dirs: List[Dir] = List(TOP, BOT, LEFT, RIGHT)
 
-  def makeGreySample(imageRgb: Map[(Int, Int), Rgb], x: Int, y: Int, c: Int, b: Int): Grey = {
+  def makeGreySample(imageRgb: Map[Coords, Rgb], x: Int, y: Int, c: Int, b: Int): Grey = {
     val topLeft = calcCol(ImageUtil.makeGreyPixel(imageRgb, x, y), c, b)
     val topRight = calcCol(ImageUtil.makeGreyPixel(imageRgb, x + 1, y), c, b)
     val bottomLeft = calcCol(ImageUtil.makeGreyPixel(imageRgb, x, y + 1), c, b)
@@ -28,8 +29,7 @@ object Sample {
   }
 
   //TL, TR, BL, BR
-  def makeColorSample(imageRgb: Map[(Int, Int), Rgb],
-      x: Int, y: Int, c: Int, b: Int): Colored = {
+  def makeColorSample(imageRgb: Map[Coords, Rgb], x: Int, y: Int, c: Int, b: Int): Colored = {
     val tl = ImageUtil.getPixels(imageRgb, x, y)
     val tr = ImageUtil.getPixels(imageRgb, x + 1, y)
     val bl = ImageUtil.getPixels(imageRgb, x, y + 1)
