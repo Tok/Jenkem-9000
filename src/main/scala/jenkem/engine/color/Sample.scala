@@ -19,8 +19,7 @@ object Sample {
   case object RIGHT extends Xdir
   val dirs: List[Dir] = List(TOP, BOT, LEFT, RIGHT)
 
-  def makeGreySample(imageRgb: Map[(Int, Int), Rgb],
-      x: Int, y: Int, c: Int, b: Int): Grey = {
+  def makeGreySample(imageRgb: Map[(Int, Int), Rgb], x: Int, y: Int, c: Int, b: Int): Grey = {
     val topLeft = calcCol(ImageUtil.makeGreyPixel(imageRgb, x, y), c, b)
     val topRight = calcCol(ImageUtil.makeGreyPixel(imageRgb, x + 1, y), c, b)
     val bottomLeft = calcCol(ImageUtil.makeGreyPixel(imageRgb, x, y + 1), c, b)
@@ -89,12 +88,14 @@ object Sample {
     keepInRange(correctDistance(input, contrast) + brightness.shortValue).shortValue
   }
 
-  def getRgb(sample: Colored, xDir: Xdir, yDir: Ydir): (Short, Short, Short) = {
-    get[Rgb](sample, xDir, yDir)
-  }
-
-  def getGrey(sample: Grey, xDir: Xdir, yDir: Ydir): Short = {
-    get[Short](sample, xDir, yDir)
+  def getDirectedGrey(sample: Grey, dir: Dir): Short = {
+    val sum = dir match {
+      case TOP => getGrey(sample, LEFT, TOP) + getGrey(sample, RIGHT, TOP)
+      case BOT => getGrey(sample, LEFT, BOT) + getGrey(sample, RIGHT, BOT)
+      case LEFT => getGrey(sample, LEFT, TOP) + getGrey(sample, LEFT, BOT)
+      case RIGHT => getGrey(sample, RIGHT, TOP) + getGrey(sample, RIGHT, BOT)
+    }
+    (sum / 2).shortValue
   }
 
   def get[T](sample: (T, T, T, T), xDir: Xdir, yDir: Ydir): T = {
@@ -111,12 +112,12 @@ object Sample {
   }
 
   def getAllRgb(col: Colored): Rgb = {
-    val red =  ((col._1._1 + col._2._1 + col._3._1 + col._4._1) / 4).shortValue
-    val green = ((col._1._2 + col._2._2 + col._3._2 + col._4._2) / 4).shortValue
-    val blue = ((col._1._3 + col._2._3 + col._3._3 + col._4._3) / 4).shortValue
-    (red, green, blue)
+    val r = ((col._1._1 + col._2._1 + col._3._1 + col._4._1) / 4).shortValue
+    val g = ((col._1._2 + col._2._2 + col._3._2 + col._4._2) / 4).shortValue
+    val b = ((col._1._3 + col._2._3 + col._3._3 + col._4._3) / 4).shortValue
+    (r, g, b)
   }
-  
+
   private def calcMean(first: Rgb, second: Rgb): Rgb = {
     val redMean = (first._1 + second._1) / 2
     val greenMean = (first._2 + second._2) / 2
@@ -131,7 +132,9 @@ object Sample {
     result.intValue
   }
 
-  private def keepInRange(colorComponent: Int): Int = {
-    Math.max(0, Math.min(colorComponent, MAX_RGB))
-  }
+  def getMeanGrey(grey: Grey): Double = (grey._1 + grey._2 + grey._3 + grey._4) / 4D
+
+  private def getRgb(sample: Colored, xDir: Xdir, yDir: Ydir): (Short, Short, Short) = get[Rgb](sample, xDir, yDir)
+  private def getGrey(sample: Grey, xDir: Xdir, yDir: Ydir): Short = get[Short](sample, xDir, yDir)
+  private def keepInRange(colorComponent: Int): Int = Math.max(0, Math.min(colorComponent, MAX_RGB))
 }

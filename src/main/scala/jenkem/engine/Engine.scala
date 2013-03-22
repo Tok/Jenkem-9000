@@ -39,17 +39,15 @@ object Engine {
     val indices = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0)
     val sam = indices.map(makeColorSample(_)).toList
     val range = (0 until sam.length)
-
     lazy val diffs = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap
     lazy val means = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbMean(_, d)).toList)).toMap
     lazy val colors = Sample.dirs.map(d => (d, means.get(d).get.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList)).toMap
-
     val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.charset, par.power, _))
     val totalBgs = chars.map(Cube.getBgCode(_))
-
     def getSwitched(i: Int): String = {
       def direct(old: String, setting: ProcSettings.Setting, first: Sample.Dir, second: Sample.Dir): String = {
-        def selectAppropriate(old: String, fix: String, first: String, second: String, third: String, character: String): String = {
+        //TODO test if PBN pays off here
+        def selectAppropriate(old: String, fix: String, first: String, second: => String, third: => String, character: String): String = {
           val prefix = fix + comma
           if (!fix.equals(first)) { prefix + first + character }
           else if (!fix.equals(second)) { prefix + second + character }
@@ -74,31 +72,23 @@ object Engine {
       val lr = direct(chars(i), ProcSettings.LEFTRIGHT, Sample.LEFT, Sample.RIGHT)
       direct(lr, ProcSettings.UPDOWN, Sample.TOP, Sample.BOT)
     }
-
     val switched = range.map(ColorUtil.CC + getSwitched(_)).toList
     val charsOnly = switched.map(_.last.toString)
     val pp = postProcess(par, charsOnly.mkString).toCharArray.map(_.toString).toList
-
     lazy val reps = Pal.pairs.map(p => (p, Pal.getValChars(p._1, par.hasAnsi))).toMap
     def change(c: String): String = {
       reps.keys.foreach(r => if (reps.get(r).get.contains(c)) { return Pal.get(r._2, par.hasAnsi, par.charset) })
       c
     }
-
     val changed = pp.map(change(_))
     val finalLine = range.map(i => switched(i).init + changed(i)).toList
-
     def makeValid(i: Int, list: List[String]): String = {
       val thisOne = list(i)
       if (i == 0) { thisOne }
       else { if (thisOne.init.equals(switched(i - 1).init)) { thisOne.last.toString } else { thisOne } }
     }
-
     range.map(makeValid(_, finalLine)).mkString
   }
-
-  private def getFg(s: String): Int = s.split(comma)(0).tail.toInt
-  private def getBg(s: String): Int = s.split(comma)(1).init.toInt
 
   private def generatePlainLine(par: Params, index: Int): String = {
     def makeGreySample(x: Int): (Short, Short, Short, Short) = {
@@ -106,26 +96,7 @@ object Engine {
     }
     val indices = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0)
     val sam = indices.map(makeGreySample(_)).toList
-    val range = (0 until sam.length)
-    lazy val left = sam.map(s =>
-          Math.abs(Sample.getGrey(s, Sample.LEFT, Sample.TOP)
-              + Sample.getGrey(s, Sample.LEFT, Sample.BOT)) / 2).toList
-    lazy val right = sam.map(s =>
-          Math.abs(Sample.getGrey(s, Sample.RIGHT, Sample.TOP)
-              + Sample.getGrey(s, Sample.RIGHT, Sample.BOT)) / 2).toList
-    lazy val top = sam.map(s =>
-        Math.abs(Sample.getGrey(s, Sample.LEFT, Sample.TOP)
-              + Sample.getGrey(s, Sample.RIGHT, Sample.TOP)) / 2).toList
-    lazy val bot = sam.map(s =>
-        Math.abs(Sample.getGrey(s, Sample.LEFT, Sample.BOT)
-              + Sample.getGrey(s, Sample.RIGHT, Sample.BOT)) / 2).toList
-    lazy val allGrey = sam.map(s =>
-       (Sample.getGrey(s, Sample.LEFT, Sample.TOP) +
-        Sample.getGrey(s, Sample.RIGHT, Sample.TOP) +
-        Sample.getGrey(s, Sample.LEFT, Sample.BOT) +
-        Sample.getGrey(s, Sample.RIGHT, Sample.BOT)) / 4).toList
     def getChar(i: Int): String = {
-      val default = Pal.getCharAbs(par.charset, allGrey(i))
       def getFor(offset: Int, first: Int, second: Int, firstChar: String, secondChar: String): String = {
         val fCond = first <= CENTER + offset && second > CENTER - offset
         val sCond = first > CENTER - offset && second <= CENTER + offset
@@ -135,36 +106,28 @@ object Engine {
         else { "" }
       }
       if (par.settings.has(ProcSettings.UPDOWN)) {
-        val u = Pal.get(Pal.UP, par.hasAnsi, par.charset)
-        val d = Pal.get(Pal.DOWN, par.hasAnsi, par.charset)
-        val ud = getFor(par.settings.get(ProcSettings.UPDOWN), top(i), bot(i), u, d)
+        val pu = Pal.get(Pal.UP, par.hasAnsi, par.charset)
+        val pd = Pal.get(Pal.DOWN, par.hasAnsi, par.charset)
+        val t = Sample.getDirectedGrey(sam(i), Sample.TOP)
+        val b = Sample.getDirectedGrey(sam(i), Sample.BOT)
+        val ud = getFor(par.settings.get(ProcSettings.UPDOWN), t, b, pu, pd)
         if (!ud.equals("")) { return ud }
       } else if (par.settings.has(ProcSettings.LEFTRIGHT)) {
-        val l = Pal.get(Pal.LEFT, par.hasAnsi, par.charset)
-        val r = Pal.get(Pal.RIGHT, par.hasAnsi, par.charset)
-        val lr = getFor(par.settings.get(ProcSettings.LEFTRIGHT), left(i), right(i), l, r)
+        val pl = Pal.get(Pal.LEFT, par.hasAnsi, par.charset)
+        val pr = Pal.get(Pal.RIGHT, par.hasAnsi, par.charset)
+        val l = Sample.getDirectedGrey(sam(i), Sample.LEFT)
+        val r = Sample.getDirectedGrey(sam(i), Sample.RIGHT)
+        val lr = getFor(par.settings.get(ProcSettings.LEFTRIGHT), l, r, pl, pr)
         if (!lr.equals("")) { return lr }
       }
-      default
+      Pal.getCharAbs(par.charset, Sample.getMeanGrey(sam(i))) //default
     }
-
-    val line = range.map(i => getChar(i)).mkString
+    val line = (0 until sam.length).map(i => getChar(i)).mkString
     postProcess(par, line)
   }
 
   private def postProcess(par: Params, line: String): String = {
-    lazy val down = Pal.get(Pal.DOWN, par.hasAnsi, par.charset)
-    lazy val up = Pal.get(Pal.UP, par.hasAnsi, par.charset)
-    lazy val left = Pal.get(Pal.LEFT, par.hasAnsi, par.charset)
-    lazy val right = Pal.get(Pal.RIGHT, par.hasAnsi, par.charset)
-    lazy val du = Pal.get(Pal.DOWN_UP, par.hasAnsi, par.charset)
-    lazy val ud = Pal.get(Pal.UP_DOWN, par.hasAnsi, par.charset)
-    lazy val lu = Pal.get(Pal.LEFT_UP, par.hasAnsi, par.charset)
-    lazy val ld = Pal.get(Pal.LEFT_DOWN, par.hasAnsi, par.charset)
-    lazy val ru = Pal.get(Pal.RIGHT_UP, par.hasAnsi, par.charset)
-    lazy val rd = Pal.get(Pal.RIGHT_DOWN, par.hasAnsi, par.charset)
-    lazy val hl = Pal.get(Pal.H_LINE, par.hasAnsi, par.charset)
-    lazy val vl = Pal.get(Pal.V_LINE, par.hasAnsi, par.charset)
+    lazy val chr = Pal.values.map(v => (v, Pal.get(v, par.hasAnsi, par.charset))).toMap
     val sels = List("DBQP", "DIAG", "HOR", "VERT")
     val range = (0 until line.length)
     def postProcess0(in: List[String], sel: String): String = {
@@ -180,20 +143,20 @@ object Engine {
                 && list(i).equals(thisOne) && Pal.isDark(par.charset, list(i + 1))) { to }
             else { list(i) }
           }
-          val d = range.map(changeDbqp(in.toList, _, down, rd, false))
-          val b = range.map(changeDbqp(d.toList, _, down, ld, true))
-          val q = range.map(changeDbqp(b.toList, _, up, ru, false))
-                  range.map(changeDbqp(q.toList, _, up, lu, true)).toList
+          val d = range.map(changeDbqp(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.RIGHT_DOWN).get, false))
+          val b = range.map(changeDbqp(d.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.LEFT_DOWN).get, true))
+          val q = range.map(changeDbqp(b.toList, _, chr.get(Pal.UP).get, chr.get(Pal.RIGHT_UP).get, false))
+                  range.map(changeDbqp(q.toList, _, chr.get(Pal.UP).get, chr.get(Pal.LEFT_UP).get, true)).toList
         } else { in.toList }
       }
       def diagLine(in: List[String]): List[String] = {
         if (par.settings.has(ProcSettings.DIAGONAL)) {
           def changeDiag(list: List[String], i: Int): String = {
             if (i == 0 || i == range.last) { list(i) }
-            else if (list(i - 1).equals(down) && list(i).equals(up)) { du }
-            else if (list(i - 1).equals(down) && list(i + 1).equals(up)) { du }
-            else if (list(i).equals(up) && list(i + 1).equals(down)) { ud }
-            else if (list(i - 1).equals(up) && list(i + 1).equals(down)) { ud }
+            else if (list(i - 1).equals(chr.get(Pal.DOWN).get) && list(i).equals(chr.get(Pal.UP).get)) { chr.get(Pal.DOWN_UP).get }
+            else if (list(i - 1).equals(chr.get(Pal.DOWN).get) && list(i + 1).equals(chr.get(Pal.UP).get)) { chr.get(Pal.DOWN_UP).get }
+            else if (list(i).equals(chr.get(Pal.UP).get) && list(i + 1).equals(chr.get(Pal.DOWN).get)) { chr.get(Pal.UP_DOWN).get }
+            else if (list(i - 1).equals(chr.get(Pal.UP).get) && list(i + 1).equals(chr.get(Pal.DOWN).get)) { chr.get(Pal.UP_DOWN).get }
             else { list(i) }
           }
           range.map(changeDiag(in.toList, _)).toList
@@ -207,8 +170,8 @@ object Engine {
             else if (list(i - 1).equals(from) && list(i).equals(from) && list(i + 1).equals(darkest(par.charset))) { to }
             else { list(i) }
           }
-          val h = range.map(changeHor(in.toList, _, down, hl))
-          range.map(changeHor(h.toList, _, up, hl)).toList
+          val h = range.map(changeHor(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.H_LINE).get))
+          range.map(changeHor(h.toList, _, chr.get(Pal.UP).get, chr.get(Pal.H_LINE).get)).toList
         } else { in.toList }
       }
       def vertLine(in: List[String]): List[String] = {
@@ -216,8 +179,8 @@ object Engine {
           def changeVert(list: List[String], i: Int, from: String, to: String): String = {
             if (list(i).equals(from)) { to } else { list(i) }
           }
-          val foo = range.map(changeVert(in.toList, _, left, vl))
-          range.map(changeVert(foo.toList, _, right, vl)).toList
+          val foo = range.map(changeVert(in.toList, _, chr.get(Pal.LEFT).get, chr.get(Pal.V_LINE).get))
+          range.map(changeVert(foo.toList, _, chr.get(Pal.RIGHT).get, chr.get(Pal.V_LINE).get)).toList
         } else { in.toList }
       }
       if (sel.equals(sels(0))) { postProcess0(dbqpLine(in), sels(1)) }
@@ -232,6 +195,8 @@ object Engine {
   private def inferWidth(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Short = {
     (imageRgb.keys.toList.map(t => t._2).max).shortValue
   }
+  private def getFg(s: String): Int = s.split(comma)(0).tail.toInt
+  private def getBg(s: String): Int = s.split(comma)(1).init.toInt
   private def darkest(charset: String): String = charset.last.toString
   private def brightest(charset: String): String = charset.head.toString
 }
