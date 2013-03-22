@@ -77,8 +77,7 @@ object Engine {
     val pp = postProcess(par, charsOnly.mkString).toCharArray.map(_.toString).toList
     lazy val reps = Pal.pairs.map(p => (p, Pal.getValChars(p._1, par.hasAnsi))).toMap
     def change(c: String): String = {
-      reps.keys.foreach(r => if (reps.get(r).get.contains(c)) { return Pal.get(r._2, par.hasAnsi, par.charset) })
-      c
+      reps.keys.find(r => reps(r).contains(c)).map(r => Pal.get(r._2, par.hasAnsi, par.charset)).getOrElse(c)
     }
     val changed = pp.map(change(_))
     val finalLine = range.map(i => switched(i).init + changed(i)).toList
@@ -97,30 +96,34 @@ object Engine {
     val indices = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0)
     val sam = indices.map(makeGreySample(_)).toList
     def getChar(i: Int): String = {
-      def getFor(offset: Int, first: Int, second: Int, firstChar: String, secondChar: String): String = {
+      def getFor(offset: Int, first: Int, second: Int, firstChar: String, secondChar: String): Option[String] = {
         val fCond = first <= CENTER + offset && second > CENTER - offset
         val sCond = first > CENTER - offset && second <= CENTER + offset
-        if (fCond && sCond) { Random.shuffle(List(firstChar, secondChar)).head }
-        else if (fCond) { firstChar }
-        else if (sCond) { secondChar }
-        else { "" }
+        if (fCond && sCond) { Some(Random.shuffle(List(firstChar, secondChar)).head) }
+        else if (fCond) { Some(firstChar) }
+        else if (sCond) { Some(secondChar) }
+        else { None }
       }
-      if (par.settings.has(ProcSettings.UPDOWN)) {
-        val pu = Pal.get(Pal.UP, par.hasAnsi, par.charset)
-        val pd = Pal.get(Pal.DOWN, par.hasAnsi, par.charset)
-        val t = Sample.getDirectedGrey(sam(i), Sample.TOP)
-        val b = Sample.getDirectedGrey(sam(i), Sample.BOT)
-        val ud = getFor(par.settings.get(ProcSettings.UPDOWN), t, b, pu, pd)
-        if (!ud.equals("")) { return ud }
-      } else if (par.settings.has(ProcSettings.LEFTRIGHT)) {
-        val pl = Pal.get(Pal.LEFT, par.hasAnsi, par.charset)
-        val pr = Pal.get(Pal.RIGHT, par.hasAnsi, par.charset)
-        val l = Sample.getDirectedGrey(sam(i), Sample.LEFT)
-        val r = Sample.getDirectedGrey(sam(i), Sample.RIGHT)
-        val lr = getFor(par.settings.get(ProcSettings.LEFTRIGHT), l, r, pl, pr)
-        if (!lr.equals("")) { return lr }
+      def getProcessed(setting: ProcSettings.Setting,
+          firstPal: Pal.Value, secondPal: Pal.Value,
+          firstDir: Sample.Dir, secondDir: Sample.Dir): Option[String] = {
+        if (!par.settings.has(setting)) { None }
+        else {
+          val fp = Pal.get(firstPal, par.hasAnsi, par.charset)
+          val sp = Pal.get(secondPal, par.hasAnsi, par.charset)
+          val fs = Sample.getDirectedGrey(sam(i), firstDir)
+          val ss = Sample.getDirectedGrey(sam(i), secondDir)
+          getFor(par.settings.get(setting), fs, ss, fp, sp)
+        }
       }
-      Pal.getCharAbs(par.charset, Sample.getMeanGrey(sam(i))) //default
+      getProcessed(ProcSettings.UPDOWN, Pal.UP, Pal.DOWN, Sample.TOP, Sample.BOT) match {
+        case Some(ud) => ud //first possibility
+        case None =>
+          getProcessed(ProcSettings.LEFTRIGHT, Pal.LEFT, Pal.RIGHT, Sample.LEFT, Sample.RIGHT) match {
+            case Some(lr) => lr //second possibility
+            case None => Pal.getCharAbs(par.charset, Sample.getMeanGrey(sam(i))) //default
+          }
+      }
     }
     val line = (0 until sam.length).map(i => getChar(i)).mkString
     postProcess(par, line)
