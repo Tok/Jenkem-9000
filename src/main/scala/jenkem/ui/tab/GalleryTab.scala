@@ -1,8 +1,6 @@
 package jenkem.ui.tab
 
 import scala.Array.canBuildFrom
-import scala.collection.JavaConversions.asScalaBuffer
-
 import com.vaadin.data.util.BeanItemContainer
 import com.vaadin.event.EventRouter
 import com.vaadin.server.ExternalResource
@@ -10,12 +8,13 @@ import com.vaadin.ui.Link
 import com.vaadin.ui.Table
 import com.vaadin.ui.Table.Align
 import com.vaadin.ui.VerticalLayout
-
-import jenkem.persistence.data.ImageInfo
 import javax.jdo.annotations.PersistenceCapable
 import jenkem.persistence.PersistenceService
+import jenkem.persistence.data.ImageInfo
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
+import jenkem.ui.Notifications
+import com.vaadin.server.Page
 
 class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   setCaption("Gallery")
@@ -84,7 +83,9 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   def update {
     bic.removeAllItems
-    val info: java.util.ArrayList[ImageInfo] = PersistenceService.getAllImageInfo
-    info.toList.foreach(info => bic.addItem(new ImageInfoBean(info)))
+    PersistenceService.getAllImageInfo match {
+      case Some(info) => info.foreach(info => bic.addItem(new ImageInfoBean(info)))
+      case None => { Notifications.showDbNotConnected(Page.getCurrent) }
+    }
   }
 }

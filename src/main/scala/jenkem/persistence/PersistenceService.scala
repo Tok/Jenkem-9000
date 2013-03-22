@@ -1,13 +1,18 @@
 package jenkem.persistence
 
-import scala.Array.canBuildFrom
-import javax.jdo.Transaction
-import data.JenkemImage
-import data.ImageInfo
-import data.ImageHtml
-import data.JenkemImage
-import data.ImageIrc
+import scala.collection.JavaConversions.asScalaBuffer
 import data.ImageCss
+import data.ImageHtml
+import data.ImageInfo
+import data.ImageIrc
+import data.JenkemImage
+import javax.jdo.Transaction
+import javax.jdo.annotations.PersistenceCapable
+import jenkem.persistence.data.ImageCss
+import jenkem.persistence.data.ImageHtml
+import jenkem.persistence.data.ImageInfo
+import jenkem.persistence.data.ImageIrc
+import com.mongodb.MongoException
 
 
 /**
@@ -16,10 +21,7 @@ import data.ImageCss
 object PersistenceService {
   val QUERY_RANGE = 200L
 
-  /**
-   * Saves a converted JenkemImage.
-   */
-  def saveJenkemImage(jenkemImage: JenkemImage) {
+  def saveJenkemImage(jenkemImage: JenkemImage): Boolean = {
     synchronized {
       val pm = PMF.get.getPersistenceManager
       val tx: Transaction = pm.currentTransaction
@@ -38,6 +40,9 @@ object PersistenceService {
         pm.makePersistent(jenkemImage.css)
         pm.makePersistent(jenkemImage.irc)
         tx.commit
+        true
+      } catch {
+        case me: MongoException => false
       } finally {
         if (tx.isActive) { tx.rollback }
         pm.close
@@ -45,33 +50,10 @@ object PersistenceService {
     }
   }
 
-  /**
-   * Returns the HTML of the stored image corresponding to the provided name.
-   * @param name
-   * @return jenkemImageHtml
-   */
   def getImageHtmlByName(name: String): Option[ImageHtml] = getByName[ImageHtml](name, classOf[ImageHtml])
-
-  /**
-   * Returns the CSS of the stored image corresponding to the provided name.
-   * @param name
-   * @return jenkemImageCss
-   */
   def getImageCssByName(name: String): Option[ImageCss] = getByName[ImageCss](name, classOf[ImageCss])
-
-  /**
-   * Returns the IRC representation of the stored image corresponding to the provided name.
-   * @param name
-   * @return jenkemImageIrc
-   */
   def getImageIrcByName(name: String): Option[ImageIrc] = getByName[ImageIrc](name, classOf[ImageIrc])
 
-  /**
-   * Returns the representation of the stored type corresponding to the provided name.
-   * @param name
-   * @param type
-   * @return type
-   */
   private def getByName[T](name: String, c: java.lang.Class[T]): Option[T] = {
     Option(name) match {
       case Some(name) =>
@@ -82,7 +64,7 @@ object PersistenceService {
           query.setFilter("name == n")
           query.declareParameters("String n")
           val result = query.execute(name).asInstanceOf[T]
-          Option(result)
+          Some(result)
         } finally {
           pm.close
         }
@@ -90,20 +72,16 @@ object PersistenceService {
     }
   }
 
-  /**
-   * Returns an ArrayList with the information of all images in range.
-   * @return infoList
-   */
-  def getAllImageInfo(): java.util.ArrayList[ImageInfo] = {
-    val infoList = new java.util.ArrayList[ImageInfo]
+  def getAllImageInfo: Option[List[ImageInfo]] = {
     val pm = PMF.get.getPersistenceManager
     try {
       val query = pm.newQuery(classOf[ImageInfo])
       query.setRange(0, QUERY_RANGE)
       query.setOrdering("creation desc")
-      val tmp = query.execute().asInstanceOf[java.util.List[ImageInfo]]
-      infoList.addAll(tmp)
-      infoList //TODO cache this!
+      val result = query.execute.asInstanceOf[java.util.List[ImageInfo]]
+      Some(result.toList)
+    } catch {
+      case me: MongoException => None
     } finally {
       pm.close
     }

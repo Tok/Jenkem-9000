@@ -2,10 +2,13 @@ package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
+
 import scala.collection.JavaConversions.seqAsJavaList
+
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
+import com.vaadin.server.Page
 import com.vaadin.shared.ui.label.ContentMode
 import com.vaadin.ui.AbsoluteLayout
 import com.vaadin.ui.Alignment
@@ -21,6 +24,7 @@ import com.vaadin.ui.OptionGroup
 import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
+
 import javax.jdo.annotations.PersistenceCapable
 import jenkem.engine.ConversionMethod
 import jenkem.engine.Engine
@@ -39,13 +43,12 @@ import jenkem.ui.ImagePreparer
 import jenkem.ui.Inline
 import jenkem.ui.IrcColorSetter
 import jenkem.ui.IrcConnector
+import jenkem.ui.Notifications
 import jenkem.ui.OutputDisplay
 import jenkem.ui.ProcSetter
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
 import jenkem.util.InitUtil
-import com.vaadin.ui.Notification
-import com.vaadin.server.Page
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val nbsp = "&nbsp;"
@@ -79,9 +82,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val noResizeValueChangeListener = new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
       if(!conversionDisabled) { startConversion(false, false) }}}
-
-  val saveNotification = new Notification("Image submitted to gallery.", Notification.Type.HUMANIZED_MESSAGE)
-  saveNotification.setDelayMsec(1500)
 
   val mainLayout = new HorizontalLayout
   mainLayout.setMargin(true)
@@ -415,11 +415,13 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val jenkemImageCss = new ImageCss(name, htmlAndCss._2)
     val jenkemImageIrc = new ImageIrc(name, ircOutput.map(_ + "\n").mkString)
     val jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc)
-    PersistenceService.saveJenkemImage(jenkemImage)
-    saveNotification.show(Page.getCurrent)
+    if (PersistenceService.saveJenkemImage(jenkemImage)) {
+      Notifications.showImageSaved(Page.getCurrent)
+    } else {
+      Notifications.showImageNotSaved(Page.getCurrent)
+    }
   }
 
   def hasLink: Boolean = imagePreparer.hasLink
   def setLink(link: String) { imagePreparer.setLink(link) }
-
 }
