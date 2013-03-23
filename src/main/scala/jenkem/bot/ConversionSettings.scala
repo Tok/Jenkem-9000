@@ -20,7 +20,7 @@ class ConversionSettings {
   @BeanProperty var kick: Kick.Value = _
   @BeanProperty var power: Power.Value = _
 
-  val defaultWidth = 68
+  val defaultWidth = 64
 
   def reset {
     width = defaultWidth

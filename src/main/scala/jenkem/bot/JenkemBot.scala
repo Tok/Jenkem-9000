@@ -13,6 +13,8 @@ import jenkem.engine.color.Scheme
 import jenkem.util.AwtImageUtil
 import jenkem.engine.Engine
 import jenkem.util.InitUtil
+import jenkem.util.GoogleUtil
+import jenkem.util.UrlOptionizer
 
 class JenkemBot extends PircBot {
   val defaultDelay = 1000
@@ -53,27 +55,28 @@ class JenkemBot extends PircBot {
   var playThread = new Thread
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
-    val m = message.split(sep)
-    if (channel.equalsIgnoreCase(lastChan)) {
-      try { executeCommand(channel, m) }
-      catch {
-        case nsee: NoSuchElementException => convertAndPlay(channel, m.tail.head)
-      }
-    }
+    executeCommand(channel, message.split(sep))
   }
 
-  def executeCommand(channel: String, message: Array[String]) {
+  private def executeCommand(channel: String, message: Array[String]) {
     if (message.head.equalsIgnoreCase("Jenkem") ||
         message.head.equalsIgnoreCase(getLogin) ||
         message.head.equalsIgnoreCase(getNick)) {
-      Command.withName(message.tail.head.toUpperCase) match {
-        case Command.GTFO | Command.QUIT => disconnect
-        case Command.STFU | Command.STOP => makeStop
-        case Command.HELP => showHelp(channel)
-        case Command.CONFIG => showConfig(channel)
-        case Command.SET => changeConfig(channel, message(2), message(3))
-        case Command.RESET => reset(channel)
-      }
+        if (message.tail.isEmpty) { convertAndPlay(channel, "") }
+        else {
+          try {
+            Command.withName(message.tail.head.toUpperCase) match {
+              case Command.GTFO | Command.QUIT => disconnect
+              case Command.STFU | Command.STOP => makeStop
+              case Command.HELP => showHelp(channel)
+              case Command.CONFIG => showConfig(channel)
+              case Command.SET => changeConfig(channel, message(2), message(3))
+              case Command.RESET => reset(channel)
+            }
+          } catch {
+            case nsee: NoSuchElementException => convertAndPlay(channel, message.tail.head)
+          }
+        }
     }
   }
 
@@ -103,6 +106,7 @@ class JenkemBot extends PircBot {
    */
   private def showHelp(target: String) {
     sendMessage(target, "Play image from url: JENKEM [url]")
+    sendMessage(target, "Let jenkem search for an image to play: JENKEM [search term]")
     sendMessage(target, "Change config: JENKEM [ConfigItem] [Value]")
     sendMessage(target, "  ConfigItems are: DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER")
     sendMessage(target, "Show config: JENKEM CONFIG")
@@ -211,10 +215,17 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def convertAndPlay(channel: String, url: String) {
-    jenkem.util.UrlOptionizer.extract(url) match {
-      case Some(u) => playImage(generate(url, settings))
-      case None => sendMessage(channel, "Command unknown: " + url)
+  private def convertAndPlay(channel: String, urlOrTerm: String) {
+    UrlOptionizer.extract(urlOrTerm) match {
+      case Some(u) => //is url
+        playImage(generate(urlOrTerm, settings))
+      case None => //is term
+        GoogleUtil.getUrlForTerm(urlOrTerm) match {
+          case Some(imageUrl) =>
+            sendMessage(channel, imageUrl)
+            playImage(generate(imageUrl, settings))
+          case None => sendMessage(channel, "Fail: Cannot find image for \"" + urlOrTerm + "\"")
+        }
     }
   }
 
@@ -298,7 +309,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  def generate(url: String, cs: ConversionSettings): List[String] = {
+  private def generate(url: String, cs: ConversionSettings): List[String] = {
     val invert = false
     val originalImage = AwtImageUtil.bufferImage(url, "black", invert)
     val originalWidth = originalImage.getWidth
