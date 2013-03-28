@@ -2,17 +2,17 @@ package jenkem.bot
 
 import java.io.IOException
 import java.lang.InterruptedException
+
 import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
+
 import jenkem.engine.ConversionMethod
-import jenkem.engine.Kick
-import jenkem.engine.color.Power
+import jenkem.engine.Engine
 import jenkem.engine.Pal
+import jenkem.engine.color.Power
 import jenkem.engine.color.Scheme
 import jenkem.util.AwtImageUtil
-import jenkem.engine.Engine
-import jenkem.util.InitUtil
 import jenkem.util.GoogleUtil
 import jenkem.util.UrlOptionizer
 
@@ -74,7 +74,7 @@ class JenkemBot extends PircBot {
               case Command.RESET => reset(channel)
             }
           } catch {
-            case nsee: NoSuchElementException => convertAndPlay(channel, message.tail.head)
+            case nsee: NoSuchElementException => convertAndPlay(channel, message.tail.mkString("+"))
           }
         }
     }
@@ -227,6 +227,7 @@ class JenkemBot extends PircBot {
           case None => sendMessage(channel, "Fail: Cannot find image for \"" + urlOrTerm + "\"")
         }
     }
+    if (settings.schemeName.equals(Scheme.Bwg.name)) { settings.reset }
   }
 
   private def makeStop() {

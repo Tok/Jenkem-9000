@@ -33,14 +33,14 @@ class ConversionSettings {
   }
 
   def getParams(imageData: Map[(Int, Int), (Short, Short, Short)]): Engine.Params = {
-    val (method, scheme, charset) = InitUtil.getDefaults(imageData)
-    if (method.equals(ConversionMethod.Vortacular)) {
+    val (meth, scheme, charset) = InitUtil.getDefaults(imageData)
+    method = meth
+    if (scheme.equals(Scheme.Bwg)) {
       colorMap = Scheme.createColorMap(scheme)
       schemeName = scheme.name
-    } else {
-      if (Pal.hasAnsi(chars)) {
-        chars = charset.chars
-      }
+    }
+    if (!method.equals(ConversionMethod.Vortacular)) {
+      if (Pal.hasAnsi(chars)) { chars = charset.chars }
     }
     new Engine.Params(
         method,

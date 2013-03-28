@@ -25,8 +25,9 @@ object GoogleUtil {
       try {
         conn.connect
         val page = Source.fromInputStream(conn.getInputStream, encoding).mkString
-        val images = page.split("&amp;").filter(_.contains("imgurl=")).map(_.split("=").last)
-        val imgUrls = images.filter(u => u.toUpperCase.endsWith(".JPG") || u.toUpperCase.endsWith(".PNG"))
+        //getting images from google cache at gstatic.con instead of original
+        val images = page.split("src=\"").filter(_.startsWith("http://")).filter(_.contains("gstatic.com"))
+        val imgUrls = images.map(_.split("\"")(0))
         Some(Random.shuffle(imgUrls.toList).head)
       } catch {
         case pokemon: Throwable => None

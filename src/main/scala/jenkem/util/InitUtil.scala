@@ -8,9 +8,9 @@ object InitUtil {
   val AVERAGE_RGB = 127
   val COLOR_TOLERANCE = 15 //arbitrary value (absolute RGB)
   val MIN_BRIGHTNESS = -20
-  val MAX_BRIGHTNESS = 30
+  val MAX_BRIGHTNESS = 10
   val MIN_CONTRAST = -5
-  val MAX_CONTRAST = 30
+  val MAX_CONTRAST = 20
 
   /**
    * Returns the default brightness based on the number of black and white pixels
