@@ -1,6 +1,6 @@
 package jenkem.util
 
-import jenkem.engine.ConversionMethod
+import jenkem.engine.Method
 import jenkem.engine.Pal
 import jenkem.engine.color.Scheme
 
@@ -33,14 +33,14 @@ object InitUtil {
   }
 
   def getDefaults(imageRgb: Map[(Int, Int), (Short, Short, Short)]):
-      (ConversionMethod.Value, Scheme.Value, Pal.Charset) = {
+      (Method, Scheme, Pal.Charset) = {
     val grey = imageRgb.map(pixel => isPixelGrey(pixel._2)).toList
     val bw = imageRgb.map(pixel => isPixelBlackOrWhite(pixel._2)).toList
     val gRatio: Double = grey.filter(_ == true).length.doubleValue / grey.length.doubleValue
     val bwRatio: Double = bw.filter(_ == true).length.doubleValue / bw.length.doubleValue
     val scheme = if (gRatio > 0.9D) { Scheme.Bwg } else { Scheme.Default }
-    if (bwRatio > 0.9D) { (ConversionMethod.Stencil, scheme, Pal.HCrude) }
-    else { (ConversionMethod.Vortacular, scheme, Pal.Ansi) }
+    if (bwRatio > 0.9D) { (Method.Stencil, scheme, Pal.HCrude) }
+    else { (Method.Vortacular, scheme, Pal.Ansi) }
   }
 
   private def isPixelGrey(rgb: (Short, Short, Short)): Boolean = {

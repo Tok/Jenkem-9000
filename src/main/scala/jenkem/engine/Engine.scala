@@ -15,19 +15,19 @@ object Engine {
   val comma = ","
 
   class Params(
-      val method: ConversionMethod.Value,
+      val method: Method,
       val imageRgb: Map[Sample.Coords, Sample.Rgb],
       val colorMap: Map[Scheme.IrcColor, Short],
       val charset: String,
-      val settings: ProcSettings.Instance,
+      val settings: Setting.Instance,
       val contrast: Int,
       val brightness: Int,
-      val power: Power.Value) {
+      val power: Power) {
     val hasAnsi = Pal.hasAnsi(charset)
   }
 
   def generateLine(par: Params, index: Int): String = {
-    if (par.method.equals(ConversionMethod.Vortacular)) { generateVortacularLine(par, index) }
+    if (par.method.equals(Method.Vortacular)) { generateVortacularLine(par, index) }
     else { generatePlainLine(par, index) }
   }
 
@@ -44,7 +44,7 @@ object Engine {
     val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.charset, par.power, _))
     val totalBgs = chars.map(Cube.getBgCode(_))
     def getSwitched(i: Int): String = {
-      def direct(old: String, setting: ProcSettings.Setting, first: Sample.Dir, second: Sample.Dir): String = {
+      def direct(old: String, setting: Setting, first: Sample.Dir, second: Sample.Dir): String = {
         //TODO test if PBN pays off here
         def selectAppropriate(old: String, fix: String, first: String, second: => String, third: => String, character: String): String = {
           val prefix = fix + comma
@@ -69,8 +69,8 @@ object Engine {
           } else { old }
         }
       }
-      val lr = direct(chars(i), ProcSettings.LEFTRIGHT, Sample.LEFT, Sample.RIGHT)
-      direct(lr, ProcSettings.UPDOWN, Sample.TOP, Sample.BOT)
+      val lr = direct(chars(i), Setting.LEFTRIGHT, Sample.LEFT, Sample.RIGHT)
+      direct(lr, Setting.UPDOWN, Sample.TOP, Sample.BOT)
     }
     val switched = range.map(ColorUtil.CC + getSwitched(_)).toList
     val charsOnly = switched.map(_.last.toString)
@@ -104,8 +104,8 @@ object Engine {
         else if (sCond) { Some(secondChar) }
         else { None }
       }
-      def getProcessed(setting: ProcSettings.Setting,
-          firstPal: Pal.Value, secondPal: Pal.Value,
+      def getProcessed(setting: Setting,
+          firstPal: Pal, secondPal: Pal,
           firstDir: Sample.Dir, secondDir: Sample.Dir): Option[String] = {
         if (!par.settings.has(setting)) { None }
         else {
@@ -116,10 +116,10 @@ object Engine {
           getFor(par.settings.get(setting), fs, ss, fp, sp)
         }
       }
-      getProcessed(ProcSettings.UPDOWN, Pal.UP, Pal.DOWN, Sample.TOP, Sample.BOT) match {
+      getProcessed(Setting.UPDOWN, Pal.UP, Pal.DOWN, Sample.TOP, Sample.BOT) match {
         case Some(ud) => ud //first possibility
         case None =>
-          getProcessed(ProcSettings.LEFTRIGHT, Pal.LEFT, Pal.RIGHT, Sample.LEFT, Sample.RIGHT) match {
+          getProcessed(Setting.LEFTRIGHT, Pal.LEFT, Pal.RIGHT, Sample.LEFT, Sample.RIGHT) match {
             case Some(lr) => lr //second possibility
             case None => Pal.getCharAbs(par.charset, Sample.getMeanGrey(sam(i))) //default
           }
@@ -133,7 +133,7 @@ object Engine {
     lazy val chr = Pal.values.map(v => (v, Pal.get(v, par.hasAnsi, par.charset))).toMap
     val range = (0 until line.length)
     def dbqpLine(in: List[String]): List[String] = {
-      if (!par.settings.has(ProcSettings.DBQP)) { in.toList }
+      if (!par.settings.has(Setting.DBQP)) { in.toList }
       else {
         def changeDbqp(list: List[String], i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {
           if (i == 0 || i == range.last) { list(i) }
@@ -152,7 +152,7 @@ object Engine {
       }
     }
     def diagLine(in: List[String]): List[String] = {
-      if (!par.settings.has(ProcSettings.DIAGONAL)) { in.toList }
+      if (!par.settings.has(Setting.DIAGONAL)) { in.toList }
       else {
         def changeDiag(list: List[String], i: Int): String = {
           if (i == 0 || i == range.last) { list(i) }
@@ -166,7 +166,7 @@ object Engine {
       }
     }
     def horLine(in: List[String]): List[String] = {
-      if (!par.settings.has(ProcSettings.HORIZONTAL)) { in.toList }
+      if (!par.settings.has(Setting.HORIZONTAL)) { in.toList }
       else {
         def changeHor(list: List[String], i: Int, from: String, to: String): String = {
           if (i == 0 || i == range.last) { list(i) }
@@ -179,7 +179,7 @@ object Engine {
       }
     }
     def vertLine(in: List[String]): List[String] = {
-      if (!par.settings.has(ProcSettings.VERTICAL)) { in.toList }
+      if (!par.settings.has(Setting.VERTICAL)) { in.toList }
       else {
         def changeVert(list: List[String], i: Int, from: String, to: String): String = {
           if (list(i).equals(from)) { to } else { list(i) }

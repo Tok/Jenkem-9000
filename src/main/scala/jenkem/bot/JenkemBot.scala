@@ -7,7 +7,7 @@ import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
 
-import jenkem.engine.ConversionMethod
+import jenkem.engine.Method
 import jenkem.engine.Engine
 import jenkem.engine.Pal
 import jenkem.engine.color.Power
@@ -324,7 +324,7 @@ class JenkemBot extends PircBot {
       if (index + 2 > lastIndex) { System.gc; Nil }
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
-    val colorString = if (params.method.equals(ConversionMethod.Vortacular)) {
+    val colorString = if (params.method.equals(Method.Vortacular)) {
           ", Scheme: " + cs.schemeName  + ", Power: " + params.power } else { "" }
     val message = List("Mode: " + params.method + colorString
         + ", Chars: " + params.charset + ", Width: " + (width / 2).intValue.toString

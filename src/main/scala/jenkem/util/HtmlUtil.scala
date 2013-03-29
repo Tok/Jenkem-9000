@@ -2,7 +2,7 @@ package jenkem.util
 
 import scala.Array.canBuildFrom
 
-import jenkem.engine.ConversionMethod
+import jenkem.engine.Method
 
 object HtmlUtil {
   val SEP = "\n"
@@ -14,7 +14,7 @@ object HtmlUtil {
 
   def generateEmpty: String = DOCTYPE + "\n<html>\n<head>\n" + META + "\n<title></title>\n</head>\n" + "<body class=\"jenkemBody\"></body>\n</html>\n"
 
-  def generateHtml(ircOutput: List[String], name: String, method: ConversionMethod.Value): (String, String) = {
+  def generateHtml(ircOutput: List[String], name: String, method: Method): (String, String) = {
     val html = new StringBuilder
     val css = new StringBuilder
     html.append(DOCTYPE)
@@ -31,7 +31,7 @@ object HtmlUtil {
     css.append("div { float: left; width: auto; clear: both; }\n")
     css.append("span { float: left; width: auto; }\n")
     val lines = ircOutput.filterNot(_.equals(""))
-    if (!method.equals(ConversionMethod.Vortacular)) {
+    if (!method.equals(Method.Vortacular)) {
       (0 until lines.length).foreach(i => generatePlain(html, css, lines(i), i))
     } else { (0 until lines.length).foreach(i => generateColored(html, css, lines(i), i)) }
     html.append("</div>\n<div class=\"ircBinary\"><a href=\"")
@@ -41,7 +41,7 @@ object HtmlUtil {
     html.append(HOST)
     html.append(getHtmlUrl(name))
     html.append("\"><img src=\"/VAADIN/images/valid-html.png\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\"></a>")
-    if (method.equals(ConversionMethod.Vortacular)) {
+    if (method.equals(Method.Vortacular)) {
       html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=")
       html.append(HOST)
       html.append("&amp;profile=css3\"><img src=\"/VAADIN/images/valid-css.png\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\"></a>")

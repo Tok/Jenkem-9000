@@ -69,7 +69,7 @@ object AwtImageUtil {
     val argb = img.getRGB(x.intValue, y.intValue)
     (((argb >> 16) & 0xff).toShort, ((argb >> 8) & 0xff).toShort, ((argb) & 0xff).toShort)
   }
-  def getImageRgb(img: BufferedImage, width: Int, height: Int, kick: Kick.Value): Map[(Int, Int), (Short, Short, Short)] = {
+  def getImageRgb(img: BufferedImage, width: Int, height: Int, kick: Kick): Map[(Int, Int), (Short, Short, Short)] = {
     val xo = kick.xOffset
     val yo = kick.yOffset
     val keys = for {

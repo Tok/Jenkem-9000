@@ -1,7 +1,8 @@
 package jenkem.engine
 
-object ProcSettings {
-  sealed abstract class Setting(val caption: String)
+sealed abstract class Setting(val caption: String)
+
+object Setting {
   case object UPDOWN extends Setting("\"_")
   case object LEFTRIGHT extends Setting("[]")
   case object DBQP extends Setting("dbqp")
@@ -29,6 +30,7 @@ object ProcSettings {
         case UPDOWN => ud
         case LEFTRIGHT => lr
         case DBQP | DIAGONAL | VERTICAL | HORIZONTAL => (false, default)
+        case _ => (false, 0)
       }
     }
   }

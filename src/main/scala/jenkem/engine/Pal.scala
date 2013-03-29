@@ -2,22 +2,23 @@ package jenkem.engine
 
 import scala.util.Random
 
+sealed abstract class Pal(val ascii: String, val ansi: String)
+
 object Pal {
   val MAX_RGB = 255.shortValue
 
-  sealed abstract class Value(val ascii: String, val ansi: String)
-  case object UP extends Value("\"", "▀")
-  case object DOWN extends Value("_", "▄")
-  case object LEFT extends Value("([{", "▌")
-  case object RIGHT extends Value(")]}", "▐")
-  case object UP_DOWN extends Value("\\", "\\")
-  case object DOWN_UP extends Value("/", "/")
-  case object LEFT_UP extends Value("pF", "╔")
-  case object LEFT_DOWN extends Value("bL", "╚")
-  case object RIGHT_UP extends Value("q", "╗")
-  case object RIGHT_DOWN extends Value("dJ", "╝")
-  case object H_LINE extends Value("-", "▬")
-  case object V_LINE extends Value("|", "│")
+  case object UP extends Pal("\"", "▀")
+  case object DOWN extends Pal("_", "▄")
+  case object LEFT extends Pal("([{", "▌")
+  case object RIGHT extends Pal(")]}", "▐")
+  case object UP_DOWN extends Pal("\\", "\\")
+  case object DOWN_UP extends Pal("/", "/")
+  case object LEFT_UP extends Pal("pF", "╔")
+  case object LEFT_DOWN extends Pal("bL", "╚")
+  case object RIGHT_UP extends Pal("q", "╗")
+  case object RIGHT_DOWN extends Pal("dJ", "╝")
+  case object H_LINE extends Pal("-", "▬")
+  case object V_LINE extends Pal("|", "│")
   val values = List(UP, DOWN, LEFT, RIGHT, UP_DOWN, DOWN_UP, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, H_LINE, V_LINE)
   val pairs = List((UP_DOWN, DOWN_UP), (DOWN_UP, UP_DOWN), (LEFT_UP, RIGHT_UP), (RIGHT_UP, LEFT_UP), (LEFT_DOWN, RIGHT_DOWN), (RIGHT_DOWN, LEFT_DOWN))
 
@@ -55,8 +56,8 @@ object Pal {
     charset.substring(index, index + 1)
   }
 
-  def getValChars(value: Value, hasAnsi: Boolean): String = getVal(value, hasAnsi)
-  def get(value: Value, hasAnsi: Boolean, charset: String): String = {
+  def getValChars(value: Pal, hasAnsi: Boolean): String = getVal(value, hasAnsi)
+  def get(value: Pal, hasAnsi: Boolean, charset: String): String = {
     if (charset.equals(Chaos.chars)) {
       val chars = getVal(value, hasAnsi).toCharArray.toList
       if (chars.length > 1) { Random.shuffle(chars).head.toString }
@@ -74,8 +75,8 @@ object Pal {
     }
   }
 
-  private def getVal(value: Value, hasAnsi: Boolean): String = {
-    value match { case v: Value => if (hasAnsi) { v.ansi } else { v.ascii } }
+  private def getVal(value: Pal, hasAnsi: Boolean): String = {
+    value match { case p: Pal => if (hasAnsi) { p.ansi } else { p.ascii } }
   }
 
   def isDark(charset: String, compare: String): Boolean = {
@@ -87,9 +88,9 @@ object Pal {
     index >= 0 && index <= (charset.length / 2)
   }
 
-  def getForMethod(method: ConversionMethod.Value): Charset = {
-    if (method.equals(ConversionMethod.Plain)) { Soft }
-    else if (method.equals(ConversionMethod.Stencil)) { HCrude }
+  def getForMethod(method: Method): Charset = {
+    if (method.equals(Method.Plain)) { Soft }
+    else if (method.equals(Method.Stencil)) { HCrude }
     else { Pal.Ansi }
   }
 }

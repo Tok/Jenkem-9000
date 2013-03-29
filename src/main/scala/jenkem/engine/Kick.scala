@@ -12,16 +12,16 @@ package jenkem.engine
  *   | ## ## ##
  *   v
  */
-object Kick {
-  sealed abstract class Value(val hasX: Boolean, val hasY: Boolean, val xOffset: Int, val yOffset: Int)
-  case object OFF extends Value(false, false, 0, 0)
-  case object X extends Value(true, false, 1, 0)
-  case object Y extends Value(false, true, 0, 1)
-  case object XY extends Value(true, true, 1, 1)
-  val values: List[Value] = List(OFF, X, Y, XY)
+sealed abstract class Kick(val hasX: Boolean, val hasY: Boolean, val xOffset: Int, val yOffset: Int)
 
-  def default: Value = OFF
-  def valueOf(name: String): Option[Value] = {
+object Kick {
+  case object OFF extends Kick(false, false, 0, 0)
+  case object X extends Kick(true, false, 1, 0)
+  case object Y extends Kick(false, true, 0, 1)
+  case object XY extends Kick(true, true, 1, 1)
+  val values: List[Kick] = List(OFF, X, Y, XY)
+  def default: Kick = OFF
+  def valueOf(name: String): Option[Kick] = {
     name.toUpperCase match {
       case "OFF" | "0" => Option(OFF)
       case "X" => Option(X)

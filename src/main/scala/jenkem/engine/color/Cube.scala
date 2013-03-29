@@ -5,7 +5,7 @@ import scala.Array.canBuildFrom
 import jenkem.engine.Pal
 
 object Cube {
-  def getTwoNearestColors(col: (Short, Short, Short), colorMap: Map[Scheme.IrcColor, Short], power: Power.Value): Color = {
+  def getTwoNearestColors(col: (Short, Short, Short), colorMap: Map[Scheme.IrcColor, Short], power: Power): Color = {
     def makeWeightedList(wl: List[WeightedColor], ic: List[Scheme.IrcColor]): List[WeightedColor] = {
       if (ic.isEmpty) { wl }
       else { makeWeightedList(createWc(colorMap, col, ic.head) :: wl, ic.tail) }
@@ -56,7 +56,7 @@ object Cube {
   }
 
   def getColorChar(colorMap: Map[Scheme.IrcColor, Short],
-            charset: String, p: Power.Value, rgb: (Short, Short, Short)): String = {
+            charset: String, p: Power, rgb: (Short, Short, Short)): String = {
     val c: Color = getTwoNearestColors(rgb, colorMap, p)
     c.fg.toString + "," + c.bg.toString + Pal.getChar(charset, c.strength)
   }

@@ -107,7 +107,7 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     case Some(slider) => slider
     case None => new Slider
   }
-  private def updatePreset(cs: Scheme.Value) {
+  private def updatePreset(cs: Scheme) {
     isTriggeringDisabled = true
     Scheme.ircColors.foreach(ic => getSlider(ic).setValue(ic.scheme(cs.order)))
     isTriggeringDisabled = false
@@ -122,7 +122,7 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     }
     getColorMap0(new HashMap[Scheme.IrcColor, Short], Scheme.ircColors)
   }
-  def setSelectedScheme(scheme: Scheme.Value) { presetBox.select(scheme) }
+  def setSelectedScheme(scheme: Scheme) { presetBox.select(scheme) }
   def makeEnabled(enabled: Boolean) {
     presetBox.setEnabled(enabled)
     sliders.values.foreach(s => s.setEnabled(enabled))

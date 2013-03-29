@@ -13,7 +13,7 @@ import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.Slider
 
-import jenkem.engine.ProcSettings
+import jenkem.engine.Setting
 import jenkem.event.DoConversionEvent
 
 class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
@@ -28,8 +28,8 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
     }
   }
 
-  type PS = ProcSettings.Setting
-  val settings = ProcSettings.settings
+  type PS = Setting
+  val settings = Setting.settings
   setRows(3)
   setColumns(3)
 
@@ -63,7 +63,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   }
 
   private def makeLabel(setting: PS): Label = {
-    val label = new Label(ProcSettings.default.toString)
+    val label = new Label(Setting.default.toString)
     label.setWidth("30px")
     label.setStyleName("sliderLabel")
     label
@@ -72,9 +72,9 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   private def makeSlider(setting: PS): Slider = {
     val slider = new Slider(null)
     slider.setWidth("170px")
-    slider.setMin(ProcSettings.min)
-    slider.setMax(ProcSettings.max)
-    slider.setValue(ProcSettings.default)
+    slider.setMin(Setting.min)
+    slider.setMax(Setting.max)
+    slider.setValue(Setting.default)
     slider.setImmediate(true)
     slider.addValueChangeListener(new Property.ValueChangeListener {
       override def valueChange(event: ValueChangeEvent) {
@@ -101,7 +101,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
 
   def reset(hasAnsi: Boolean) {
     triggeringDisabled = true
-    val vals = ProcSettings.getInitial(hasAnsi)
+    val vals = Setting.getInitial(hasAnsi)
     settings.foreach(set(_))
     def set(setting: PS) {
       boxes.get(setting).get.setValue(vals.has(setting))
@@ -113,17 +113,17 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
     triggeringDisabled = false
   }
 
-  def getSettings: ProcSettings.Instance = {
-    def makePair(setting: PS): ProcSettings.Pair = {
+  def getSettings: Setting.Instance = {
+    def makePair(setting: PS): Setting.Pair = {
       (boxes.get(setting).get.getValue,
       sliders.get(setting).get.getValue.intValue)
     }
     def makeBool(setting: PS): Boolean = {
       boxes.get(setting).get.getValue
     }
-    new ProcSettings.Instance(
-      makePair(ProcSettings.UPDOWN), makePair(ProcSettings.LEFTRIGHT),
-      makeBool(ProcSettings.DBQP), makeBool(ProcSettings.DIAGONAL),
-      makeBool(ProcSettings.VERTICAL), makeBool(ProcSettings.HORIZONTAL))
+    new Setting.Instance(
+      makePair(Setting.UPDOWN), makePair(Setting.LEFTRIGHT),
+      makeBool(Setting.DBQP), makeBool(Setting.DIAGONAL),
+      makeBool(Setting.VERTICAL), makeBool(Setting.HORIZONTAL))
   }
 }

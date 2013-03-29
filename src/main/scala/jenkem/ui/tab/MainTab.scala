@@ -26,7 +26,7 @@ import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
 
 import javax.jdo.annotations.PersistenceCapable
-import jenkem.engine.ConversionMethod
+import jenkem.engine.Method
 import jenkem.engine.Engine
 import jenkem.engine.Kick
 import jenkem.engine.Pal
@@ -71,8 +71,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   class ImagePreparationData(val icon: BufferedImage, val originalName: String)
   class ImageData(val imageRgb: Map[(Int, Int), (Short, Short, Short)],
-      val width: Short, val height: Short, val lineWidth: Short, val kick: Kick.Value,
-      val method: ConversionMethod.Value)
+      val width: Short, val height: Short, val lineWidth: Short, val kick: Kick,
+      val method: Method)
   class ConversionData(val contrast: Short, val brightness: Short, val characters: String)
 
   val resizeValueChangeListener = new Property.ValueChangeListener {
@@ -214,8 +214,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
         startConversion(false, true)
       }
     })
-    settings.setRows(ConversionMethod.values.length)
-    ConversionMethod.values.map(settings.addItem(_))
+    settings.setRows(Method.values.length)
+    Method.values.map(settings.addItem(_))
     settings.setNullSelectionAllowed(false)
     settings.setImmediate(true)
     val layout = makeLabeled(caption, capW, settings)
@@ -266,7 +266,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def doReset() {
     conversionDisabled = true
-    methodBox.select(ConversionMethod.Vortacular)
+    methodBox.select(Method.Vortacular)
     conversionDisabled = true
     widthSlider.setValue(defaultWidth)
     charTextField.setValue(Pal.Ansi.chars)
@@ -300,7 +300,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
     val lineWidth = widthSlider.getValue.shortValue
-    val method = ConversionMethod.valueOf(methodBox.getValue.toString).get
+    val method = Method.valueOf(methodBox.getValue.toString).get
     val (width, height) = AwtImageUtil.calculateNewSize(lineWidth, originalWidth, originalHeight)
     val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
     val dataWidth = (width - (2 * kick.xOffset)).shortValue
@@ -363,7 +363,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     generate0(0)
   }
 
-  private def updateInline(method: ConversionMethod.Value, ircOutput: List[String], name: String) {
+  private def updateInline(method: Method, ircOutput: List[String], name: String) {
     val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, method)
     val inlineCss = HtmlUtil.prepareCssForInline(htmlAndCss._2)
     val inlineHtml = HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)
@@ -392,9 +392,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def makeInitsForMethod() {
     conversionDisabled = true
-    val method = ConversionMethod.valueOf(methodBox.getValue.toString).get
-    ircColorSetter.makeEnabled(method.equals(ConversionMethod.Vortacular))
-    powerBox.setEnabled(method.equals(ConversionMethod.Vortacular))
+    val method = Method.valueOf(methodBox.getValue.toString).get
+    ircColorSetter.makeEnabled(method.equals(Method.Vortacular))
+    powerBox.setEnabled(method.equals(Method.Vortacular))
     procSetter.reset(Pal.hasAnsi(charTextField.getValue))
     charsetBox.setValue(Pal.getForMethod(method)) //unsets conversionDisabled!
     conversionDisabled = false
