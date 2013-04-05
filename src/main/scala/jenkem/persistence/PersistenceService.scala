@@ -63,8 +63,8 @@ object PersistenceService {
           query.setUnique(true)
           query.setFilter("name == n")
           query.declareParameters("String n")
-          val result = query.execute(name).asInstanceOf[T]
-          Some(result)
+          val result: T = query.execute(name).asInstanceOf[T]
+          if (result != null) { Some(result) } else { None }
         } finally {
           pm.close
         }
