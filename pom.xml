@@ -9,9 +9,9 @@
 	<name>Jenkem</name>
 
 	<properties>
-		<scalaVersion>2.10.0</scalaVersion>
+		<scalaVersion>2.10.1</scalaVersion>
 		<javaVersion>1.7</javaVersion>
-		<vaadinVersion>7.0.2</vaadinVersion>
+		<vaadinVersion>7.0.6</vaadinVersion>
 		<pircbotVersion>1.5.0</pircbotVersion>
 		<datanucleusVersion>3.1.3</datanucleusVersion>
 		<datanucleusEnhancerVersion>3.1.1</datanucleusEnhancerVersion>
@@ -22,7 +22,7 @@
 		<!-- http://maven.apache.org/plugins/index.html -->
 		<!-- building -->
 		<scalastyleMavenPluginVersion>0.2.0</scalastyleMavenPluginVersion>
-		<mavenDependencyPluginVersion>2.6</mavenDependencyPluginVersion>
+		<mavenDependencyPluginVersion>2.8</mavenDependencyPluginVersion>
 		<mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
 		<mavenDatanucleusPluginVersion>${datanucleusVersion}</mavenDatanucleusPluginVersion>
 		<mavenWarPluginVersion>2.3</mavenWarPluginVersion>
