@@ -63,9 +63,11 @@ object Engine {
           val sd = diffs.get(second).get(i)
           val offset = ((par.settings.get(setting) * -1) + 100) / 5
           if (fd + offset < sd) {
-            selectAppropriate(old, firstBg, secondBg, totalBgs(i), secondFg, Pal.get(Pal.UP, par.hasAnsi, par.charset))
+            val ch = if (setting.equals(Setting.LEFTRIGHT)) { Pal.LEFT } else { Pal.UP }
+            selectAppropriate(old, firstBg, secondBg, totalBgs(i), secondFg, Pal.get(ch, par.hasAnsi, par.charset))
           } else if (sd + offset < fd) {
-            selectAppropriate(old, secondBg, firstBg, totalBgs(i), firstFg, Pal.get(Pal.DOWN, par.hasAnsi, par.charset))
+            val ch = if (setting.equals(Setting.LEFTRIGHT)) { Pal.RIGHT } else { Pal.DOWN }
+            selectAppropriate(old, secondBg, firstBg, totalBgs(i), firstFg, Pal.get(ch, par.hasAnsi, par.charset))
           } else { old }
         }
       }

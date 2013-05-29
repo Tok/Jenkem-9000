@@ -7,7 +7,7 @@ import jenkem.engine.Method
 object HtmlUtil {
   val SEP = "\n"
   val CLOSE = "\">"
-  val HOST = "https://jenkem-9000.rhcloud.com"
+  val HOST = "http://jenkem-9000.rhcloud.com"
   val CHARSET = "UTF-8"
   val DOCTYPE = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\n    \"http://www.w3.org/TR/html4/strict.dtd\">"
   val META = "<meta http-equiv=\"content-type\" content=\"text/html; charset=" + CHARSET + CLOSE
@@ -44,6 +44,7 @@ object HtmlUtil {
     if (method.equals(Method.Vortacular)) {
       html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=")
       html.append(HOST)
+      html.append(getCssUrl(name))
       html.append("&amp;profile=css3\"><img src=\"/VAADIN/images/valid-css.png\" alt=\"CSS is valid!\" style=\"border: 0; width: 88px; height: 31px\"></a>")
     }
     html.append("</div>\n</body>\n</html>")
