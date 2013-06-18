@@ -22,6 +22,7 @@
     <!-- http://maven.apache.org/plugins/index.html -->
     <!-- building -->
     <scalastyleMavenPluginVersion>0.2.0</scalastyleMavenPluginVersion>
+    <MavenExecPluginVersion>1.2.1</MavenExecPluginVersion>
     <mavenDependencyPluginVersion>2.8</mavenDependencyPluginVersion>
     <mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
     <mavenDatanucleusPluginVersion>${datanucleusVersion}</mavenDatanucleusPluginVersion>
@@ -291,7 +292,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
+        <version>${MavenExecPluginVersion}</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
