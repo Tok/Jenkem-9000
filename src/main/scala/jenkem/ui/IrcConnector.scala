@@ -16,8 +16,12 @@ import jenkem.event.SendToIrcEvent
 class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   //TODO move defaults to properties file
   //For deployments on OpenShift, the servers must listen on port 8001
+  
   val defaultNetwork = "irc.freenode.net"
   val defaultPort = "8001"
+  //val defaultNetwork = "irc.efnet.org"
+  //val defaultPort = "6669"
+
   val defaultChannel = "#Jenkem"
   val defaultNick = "J_"
 
