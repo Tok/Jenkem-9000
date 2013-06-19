@@ -2,7 +2,6 @@
 <web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>Jenkem</display-name>
     <context-param>
-        <description>Vaadin production mode</description>
         <param-name>productionMode</param-name>
         <param-value>true</param-value>
     </context-param>
@@ -13,6 +12,10 @@
         <init-param>
             <param-name>UI</param-name>
             <param-value>jenkem.JenkemInit</param-value>
+        </init-param>
+        <init-param>
+            <param-name>widgetset</param-name>
+            <param-value>jenkem.JenkemWidgetset</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

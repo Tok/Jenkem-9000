@@ -9,6 +9,11 @@
   <name>Jenkem</name>
 
   <properties>
+    <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
+    <testSourceDirectory>${basedir}/src/test/scala</testSourceDirectory>
+    <openshiftNamespace>9000</openshiftNamespace>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- API Versions: -->
     <scalaVersion>2.10.1</scalaVersion>
     <javaVersion>1.7</javaVersion>
     <vaadinVersion>7.1.0.beta1</vaadinVersion>
@@ -16,11 +21,8 @@
     <datanucleusVersion>3.1.3</datanucleusVersion>
     <datanucleusEnhancerVersion>3.1.1</datanucleusEnhancerVersion>
     <validationApiVersion>1.0.0.GA</validationApiVersion>
-    <!-- -->
-    <openshiftNamespace>9000</openshiftNamespace>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Building Plugin Versions: -->
     <!-- http://maven.apache.org/plugins/index.html -->
-    <!-- building -->
     <scalastyleMavenPluginVersion>0.2.0</scalastyleMavenPluginVersion>
     <MavenExecPluginVersion>1.2.1</MavenExecPluginVersion>
     <mavenDependencyPluginVersion>2.8</mavenDependencyPluginVersion>
@@ -28,8 +30,9 @@
     <mavenDatanucleusPluginVersion>${datanucleusVersion}</mavenDatanucleusPluginVersion>
     <mavenWarPluginVersion>2.3</mavenWarPluginVersion>
     <mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
+    <mavenResourcesPluginVersion>2.6</mavenResourcesPluginVersion>
     <jbossAsMavenPluginVersion>7.4.Final</jbossAsMavenPluginVersion>
-    <!-- reporting -->
+    <!-- Reporting Plugin Versions: -->
     <mavenSurefirePluginVersion>2.14</mavenSurefirePluginVersion>
     <mavenCoberturaPluginVersion>2.5.2</mavenCoberturaPluginVersion>
     <mavenProjectInfoReportsPluginVersion>2.6</mavenProjectInfoReportsPluginVersion>
@@ -83,6 +86,13 @@
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-client</artifactId>
       <version>${vaadinVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-client-compiler</artifactId>
+      <version>${vaadinVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.vaadin</groupId>
@@ -227,6 +237,16 @@
   </reporting>
 
   <build>
+    <sourceDirectory>${sourceDirectory}</sourceDirectory>
+    <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>${sourceDirectory}</directory>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.scalastyle</groupId>
@@ -237,8 +257,8 @@
           <failOnViolation>true</failOnViolation>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
           <failOnWarning>false</failOnWarning>
-          <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
-          <testSourceDirectory>${basedir}/src/test/scala</testSourceDirectory>
+          <sourceDirectory>${sourceDirectory}</sourceDirectory>
+          <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
           <configLocation>${basedir}/scalastyle_config.xml</configLocation>
           <outputFile>${basedir}/target/scalastyle-output.xml</outputFile>
           <outputEncoding>UTF-8</outputEncoding>
@@ -314,27 +334,32 @@
         <groupId>com.vaadin</groupId>
         <artifactId>vaadin-maven-plugin</artifactId>
         <version>${vaadinVersion}</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>${mavenWarPluginVersion}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.jboss.as.plugins</groupId>
-        <artifactId>jboss-as-maven-plugin</artifactId>
-        <version>${jbossAsMavenPluginVersion}</version>
         <configuration>
-          <hostname>localhost</hostname>
-          <port>9999</port>
-          <filename>${project.artifactId}-${project.version}.${project.packaging}</filename>
+          <webappDirectory>${basedir}/src/main/resources/VAADIN/widgetsets</webappDirectory>
+          <compileReport>true</compileReport>
+          <detail>true</detail>
+          <persistentunitcache>false</persistentunitcache>
+          <noServer>true</noServer>
+          <modules>
+            <module>jenkem.JenkemWidgetset</module>
+          </modules>
         </configuration>
+        <executions>
+          <execution>
+            <phase>vaadin:update-widgetset</phase>
+            <goals>
+              <!-- This will throw an error that can be ignored -->
+              <goal>update-widgetset</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>${mavenAntRunPluginVersion}</version>
         <executions>
           <execution>
-            <id>install</id>
+            <id>create ROOT.war</id>
             <phase>install</phase>
             <configuration>
               <target>
@@ -353,6 +378,14 @@
                     dir="${basedir}/target/${project.artifactId}-${project.version}/WEB-INF"
                     includes="web.xml" />
                 </copy>
+                <!-- remove duplicated WEB-INF if it exists -->
+                <delete failonerror="false">
+                  <fileset
+                    dir="${basedir}/src/main/resources/VAADIN/widgetsets/WEB-INF" />
+                </delete>
+                <delete failonerror="false">
+                  <fileset dir="${basedir}/src/main/resources/META-INF" />
+                </delete>
               </target>
             </configuration>
             <goals>
@@ -360,6 +393,39 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${mavenWarPluginVersion}</version>
+        <configuration>
+          <!-- FIXME scopes: Most of those jars shouldn't even be there in the first place -->
+          <packagingExcludes>WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**,
+            WEB-INF/lib/maven-*.jar,
+            WEB-INF/lib/junit-*.jar,
+            WEB-INF/lib/wagon-*.jar,
+            WEB-INF/lib/backport-*.jar,
+            WEB-INF/lib/classworlds-*.jar,
+            WEB-INF/lib/doxia-*.jar,
+            WEB-INF/lib/jackrabbit-*.jar,
+            WEB-INF/lib/jackson-*.jar,
+            WEB-INF/lib/nekohtml-*.jar,
+            WEB-INF/lib/plexus-*.jar,
+            WEB-INF/lib/snakeyaml-*.jar,
+            WEB-INF/lib/xerces*.jar,
+            WEB-INF/lib/jsch-*.jar,
+            WEB-INF/lib/jcl-*.jar,
+            WEB-INF/lib/jta-*.jar</packagingExcludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jboss.as.plugins</groupId>
+        <artifactId>jboss-as-maven-plugin</artifactId>
+        <version>${jbossAsMavenPluginVersion}</version>
+        <configuration>
+          <hostname>localhost</hostname>
+          <port>9999</port>
+          <filename>${project.artifactId}-${project.version}.${project.packaging}</filename>
+        </configuration>
       </plugin>
     </plugins>
   </build>
