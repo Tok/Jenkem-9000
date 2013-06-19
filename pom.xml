@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>jenkem</groupId>
@@ -364,27 +364,21 @@
             <configuration>
               <target>
                 <!-- copy war to deployments and rename it to ROOT.war -->
-                <copy todir="${basedir}/deployments/"
-                  preservelastmodified="true" verbose="true">
-                  <fileset dir="${basedir}/target"
-                    includes="${project.artifactId}-${project.version}.${project.packaging}" />
-                  <globmapper from="*.${project.packaging}"
-                    to="ROOT.${project.packaging}" />
+                <copy preservelastmodified="true" todir="${basedir}/deployments/" verbose="true">
+                  <fileset dir="${basedir}/target" includes="${project.artifactId}-${project.version}.${project.packaging}"/>
+                  <globmapper from="*.${project.packaging}" to="ROOT.${project.packaging}"/>
                 </copy>
                 <!-- may prevent warning in eclipse -->
-                <mkdir dir="${basedir}/target/WEB-INF" />
+                <mkdir dir="${basedir}/target/WEB-INF"/>
                 <copy todir="${basedir}/target/WEB-INF/" verbose="true">
-                  <fileset
-                    dir="${basedir}/target/${project.artifactId}-${project.version}/WEB-INF"
-                    includes="web.xml" />
+                  <fileset dir="${basedir}/target/${project.artifactId}-${project.version}/WEB-INF" includes="web.xml"/>
                 </copy>
                 <!-- remove duplicated WEB-INF if it exists -->
                 <delete failonerror="false">
-                  <fileset
-                    dir="${basedir}/src/main/resources/VAADIN/widgetsets/WEB-INF" />
+                  <fileset dir="${basedir}/src/main/resources/VAADIN/widgetsets/WEB-INF"/>
                 </delete>
                 <delete failonerror="false">
-                  <fileset dir="${basedir}/src/main/resources/META-INF" />
+                  <fileset dir="${basedir}/src/main/resources/META-INF"/>
                 </delete>
               </target>
             </configuration>
@@ -429,4 +423,26 @@
       </plugin>
     </plugins>
   </build>
+<profiles>
+        <profile>
+<!-- When built in OpenShift the openshift profile will be used when invoking mvn. -->
+<!-- Use this profile for any OpenShift specific customization your app will need. -->
+<!-- By default that is to put the resulting archive into the deployments folder. -->
+<!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+<id>openshift</id>
+<build>
+   <finalName>jenkem</finalName>
+   <plugins>
+     <plugin>
+       <artifactId>maven-war-plugin</artifactId>
+       <version>2.2</version>
+       <configuration>
+         <outputDirectory>deployments</outputDirectory>
+         <warName>ROOT</warName>
+       </configuration>
+     </plugin>
+   </plugins>
+ </build>
+</profile>
+    </profiles>
 </project>
