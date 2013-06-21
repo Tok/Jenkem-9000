@@ -2,9 +2,7 @@ package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
-
 import scala.collection.JavaConversions.seqAsJavaList
-
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -24,7 +22,6 @@ import com.vaadin.ui.OptionGroup
 import com.vaadin.ui.Slider
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
-
 import javax.jdo.annotations.PersistenceCapable
 import jenkem.engine.Method
 import jenkem.engine.Engine
@@ -49,6 +46,7 @@ import jenkem.ui.ProcSetter
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
 import jenkem.util.InitUtil
+import com.vaadin.ui.Notification
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val nbsp = "&nbsp;"

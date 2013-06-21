@@ -2,6 +2,7 @@ package jenkem.ui
 
 import java.awt.image.BufferedImage
 import java.net.URL
+
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -16,14 +17,12 @@ import com.vaadin.ui.GridLayout
 import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
+
 import jenkem.event.DoConversionEvent
-import jenkem.util.UrlOptionizer
 import jenkem.js.Cropper
 import jenkem.js.CropperChangeListener
-import com.vaadin.ui.Notification
 import jenkem.js.Crops
-import jenkem.event.CropsChangeEvent
-import java.util.Date
+import jenkem.util.UrlOptionizer
 
 class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   val captionWidth = "80px"
@@ -32,18 +31,13 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   val cropper = new Cropper
   cropper.setWidth("100px");
   cropper.setHeight("150px");
+  
   cropper.addListener(new CropperChangeListener {
     override def valueChange(c: Crops) {
       crops = c;
-      eventRouter.fireEvent(new CropsChangeEvent(c.x, c.x2, c.y, c.y2))
-    }
-  })
-
-  eventRouter.addListener(classOf[CropsChangeEvent], new {
-    def changeCrops(e: CropsChangeEvent) {
       eventRouter.fireEvent(new DoConversionEvent(true, true))
     }
-  }, "changeCrops")
+  })
 
   val statusLayout = new HorizontalLayout
   val statusCaptionLabel = new Label("Status: ")
@@ -91,7 +85,6 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   resetButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent) {
       cropper.setImageSrc(cropper.getImageSrc)
-      eventRouter.fireEvent(new DoConversionEvent(true, true))
     }
   });
   cropLayout.addComponent(resetButton)
@@ -121,9 +114,6 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   setComponentAlignment(cropLayout, Alignment.MIDDLE_LEFT)
 
   private def bind() {
-    inputTextField.addValueChangeListener(new Property.ValueChangeListener {
-      override def valueChange(event: ValueChangeEvent) { replaceUrl }
-    })
     inputTextField.addFocusListener(new FocusListener {
       override def focus(event: FocusEvent) { inputTextField.selectAll }
     })
@@ -134,23 +124,6 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   private def focusShowButton { inputTextField.focus }
   private def replaceImage(url: URL) {
     cropper.setImageSrc(url.toString)
-  }
-  private def replaceUrl {
-    val currentFrag = Page.getCurrent.getUriFragment
-    val currentUrl = inputTextField.getValue
-    Option(currentFrag) match {
-      case Some(frag) =>
-        if (!currentFrag.endsWith(currentUrl)) {
-          UrlOptionizer.extract(currentUrl) match {
-            case Some(u) =>
-              Page.getCurrent.setUriFragment("main/" + currentUrl)
-              replaceImage(u)
-              eventRouter.fireEvent(new DoConversionEvent(true, true))
-            case None => statusLabel.setValue(currentUrl + " is not a valid URL. Please enter URL to an image: ")
-          }
-        } else { trigger }
-      case None => { trigger }
-    }
   }
   private def trigger { eventRouter.fireEvent(new DoConversionEvent(true, true)) }
   private def updateLabel(status: String, error: String) {
@@ -176,18 +149,34 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
     }
   }
   def setLink(link: String) {
+    inputTextField.setValue(link)
     UrlOptionizer.extract(link) match {
       case Some(u) =>
-        inputTextField.setValue(link)
         replaceImage(u)
         Page.getCurrent.setUriFragment("main/" + link)
-      case None => statusLabel.setValue("URL is not valid. Please enter URL to an image: ")
+      case None => setError("URL is not Valid. Please enter URL to an image: ")
+    }
+  }
+  private def replaceUrl {
+    val currentFrag = Page.getCurrent.getUriFragment
+    val currentUrl = inputTextField.getValue
+    Option(currentFrag) match {
+      case Some(frag) =>
+        if (!currentFrag.endsWith(currentUrl)) {
+          UrlOptionizer.extract(currentUrl) match {
+            case Some(u) =>
+              Page.getCurrent.setUriFragment("main/" + currentUrl)
+              replaceImage(u)
+            case None => setError("URL is not Valid. Please enter URL to an image: ")
+          }
+        } else { trigger }
+      case None => { trigger }
     }
   }
   def getUrl: Option[String] = {
     UrlOptionizer.extract(inputTextField.getValue) match {
       case Some(u) => Option(u.toString)
-      case None => setError("URL is not Valid. Please enter URL to an image: "); None
+      case None => None
     }
   }
   def reset { submitter.reset }
