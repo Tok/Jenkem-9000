@@ -23,10 +23,10 @@ Frameworks and Technologies:
 -- Maven (for build and reporting)
 
 Important Classes:
-[ASCII Engine](src/main/scala/jenkem/engine/Engine.scala)
-[Jenkem Bot](src/main/scala/jenkem/bot/JenkemBot.scala)
-[HTML-Util](src/main/scala/jenkem/util/HtmlUtil.scala)
+ASCII Engine: https://github.com/Tok/Jenkem-9000/blob/master/src/main/scala/jenkem/engine/Engine.scala
+Jenkem Bot: https://github.com/Tok/Jenkem-9000/blob/master/src/main/scala/jenkem/bot/JenkemBot.scala
+HTML-Util: https://github.com/Tok/Jenkem-9000/blob/master/src/main/scala/jenkem/util/HtmlUtil.scala
 
-![Jenkem-Octocat](tok.github.com/Jenkem-9000/images/jenkem-octocat.png)
+![Jenkem-Octocat](https://raw.github.com/Tok/Jenkem-9000/master/jenkem-octocat.png)
 
 Project page (typically outdated): http://tok.github.com/Jenkem-9000/
