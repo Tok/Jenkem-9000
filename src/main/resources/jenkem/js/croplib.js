@@ -30,9 +30,9 @@ croplib.Cropper = function(element) {
 		alert("Error: Must implement select() method");
 	};
 
-	appendCss("./VAADIN/jCrop/css/jquery.Jcrop.css", function() {
-		loadScript("./VAADIN/jCrop/js/jquery.min.js", function() {
-			loadScript("./VAADIN/jCrop/js/jquery.Jcrop.js", function() {
+	appendCss("./VAADIN/Jcrop/css/jquery.Jcrop.css", function() {
+		loadScript("./VAADIN/Jcrop/js/jquery.min.js", function() {
+			loadScript("./VAADIN/Jcrop/js/jquery.Jcrop.js", function() {
 				jcropInit();
 			});
 		});

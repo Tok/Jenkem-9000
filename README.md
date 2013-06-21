@@ -21,7 +21,7 @@ Frameworks and Technologies:
 * Vaadin 7 (user interface)
 * PircBot (for IRC connection)
 * MongoDB (with JDO 3 and Datanucleus)
-* jCrop (with jQuery)
+* Jcrop (with jQuery)
 * Maven (for build and reporting)
 
 Important Classes:
