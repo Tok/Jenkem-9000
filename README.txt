@@ -27,6 +27,6 @@ Important Classes:
 [Jenkem Bot](src/main/scala/jenkem/bot/JenkemBot.scala)
 [HTML-Util](src/main/scala/jenkem/util/HtmlUtil.scala)
 
-![Jenkem-Octocat](jenkem-octocat.png)
+![Jenkem-Octocat](tok.github.com/Jenkem-9000/images/jenkem-octocat.png)
 
 Project page (typically outdated): http://tok.github.com/Jenkem-9000/

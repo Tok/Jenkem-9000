@@ -5,5 +5,3 @@ target/
 .settings
 target
 .settings/*
-!.settings/.jsdtscope
-/.openshift
