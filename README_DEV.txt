@@ -18,17 +18,12 @@ enable-welcome-root must be disabled in standalone.xml before deploying.
 http://127.0.0.1:8080/
 
 Submit to openshift by sftp:
+The first time do a 'git rm -r src/ pom.xml'.
 connect to 
 sftp://[hexUsername]@[appname]-[namespace].rhcloud.com/app-root/repo/deployments
 and submit the ROOT.war from /deployments
-Then restart the app using "rhc app restart --app [appname]" or ssh into the shell and do it there.
+Then restart the app using "rhc app restart -a [appname]" or ssh into the shell and do it there.
 (in eclipse this can be done by selecting the "export" feature after installing and configuring a plugin for sftp.)
 
 delete logs and temp files by:
 rhc app tidy -a [appname]
-
-get random images -> http://lorempixel.com/
-http://lorempixel.com/72/100/   (random with 72 width)
-http://lorempixel.com/g/72/100/    (random gray)
-http://lorempixel.com/72/100/abstract
-http://lorempixel.com/72/100/nature ....

@@ -2,7 +2,6 @@ package jenkem.ui
 
 import java.awt.image.BufferedImage
 import java.net.URL
-
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -17,14 +16,33 @@ import com.vaadin.ui.GridLayout
 import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
-
 import jenkem.event.DoConversionEvent
 import jenkem.util.UrlOptionizer
+import jenkem.js.Cropper
+import jenkem.js.CropperChangeListener
+import com.vaadin.ui.Notification
+import jenkem.js.Crops
+import jenkem.event.CropsChangeEvent
+import java.util.Date
 
 class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   val captionWidth = "80px"
 
-  val stupidCrop = new StupidCrop(eventRouter)
+  var crops = new Crops(0, 0, 100, 100, 100, 100)
+  val cropper = new Cropper
+  cropper.setHeight("150px");
+  cropper.addListener(new CropperChangeListener {
+    override def valueChange(c: Crops) {
+      crops = c;
+      eventRouter.fireEvent(new CropsChangeEvent(c.x, c.x2, c.y, c.y2))
+    }
+  })
+
+  eventRouter.addListener(classOf[CropsChangeEvent], new {
+    def changeCrops(e: CropsChangeEvent) {
+      eventRouter.fireEvent(new DoConversionEvent(true, true))
+    }
+  }, "changeCrops")
 
   val statusLayout = new HorizontalLayout
   val statusCaptionLabel = new Label("Status: ")
@@ -65,12 +83,18 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   val cropLayout = new HorizontalLayout
   val cropCaptionLabel = new Label("Cropping: ")
   cropCaptionLabel.setWidth(captionWidth)
-  val cropStatus = new CropStatus(eventRouter)
   cropLayout.setSpacing(true)
   cropLayout.addComponent(cropCaptionLabel)
   cropLayout.setComponentAlignment(cropCaptionLabel, Alignment.MIDDLE_LEFT)
-  cropLayout.addComponent(cropStatus)
-  cropLayout.setComponentAlignment(cropStatus, Alignment.MIDDLE_LEFT)
+  val resetButton = new Button("Reset Selection")
+  resetButton.addClickListener(new Button.ClickListener {
+    override def buttonClick(event: ClickEvent) {
+      cropper.setImageSrc(cropper.getImageSrc)
+      eventRouter.fireEvent(new DoConversionEvent(true, true))
+    }
+  });
+  cropLayout.addComponent(resetButton)
+  cropLayout.setComponentAlignment(resetButton, Alignment.MIDDLE_LEFT)
 
   bind
 
@@ -84,8 +108,8 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   setRows(4)
   setColumns(3)
 
-  addComponent(stupidCrop, 0, 0, 0, 3)
-  setComponentAlignment(stupidCrop, Alignment.TOP_LEFT)
+  addComponent(cropper, 0, 0, 0, 3)
+  setComponentAlignment(cropper, Alignment.TOP_LEFT)
   addComponent(statusLayout, 1, 0)
   setComponentAlignment(statusLayout, Alignment.MIDDLE_LEFT)
   addComponent(urlLayout, 1, 1)
@@ -107,7 +131,9 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
     })
   }
   private def focusShowButton { inputTextField.focus }
-  private def replaceImage(url: URL) { stupidCrop.replaceImage(url) }
+  private def replaceImage(url: URL) {
+    cropper.setImageSrc(url.toString)
+  }
   private def replaceUrl {
     val currentFrag = Page.getCurrent.getUriFragment
     val currentUrl = inputTextField.getValue
@@ -141,7 +167,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   def isInvert: Boolean = submitter.isInvert
   def getBg: String = submitter.getBg
   def enableSubmission(enabled: Boolean) { submitter.enableSubmission(enabled) }
-  def getCrops: (Int, Int, Int, Int) = cropStatus.getCrops
+  def getCrops: (Int, Int, Int, Int) = (crops.x, crops.x2, crops.y, crops.y2)
   def hasLink: Boolean = {
     Option(inputTextField.getValue) match {
       case Some(value) => !value.equals("")

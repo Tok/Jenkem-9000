@@ -10,16 +10,14 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
-
 import scala.Array.canBuildFrom
-
 import com.vaadin.server.Resource
 import com.vaadin.server.StreamResource
-
 import javax.imageio.ImageIO
 import jenkem.engine.Kick
 import sun.misc.BASE64Decoder
 import sun.misc.BASE64Encoder
+import java.util.Date
 
 object AwtImageUtil {
   //scalastyle: NullChecker and IllegalImportsChecker warnings
@@ -47,8 +45,8 @@ object AwtImageUtil {
     val image = ImageIO.read(new URL(url))
     val xs = crops._1
     val xe = crops._2
-    val ys = 100 - crops._4 //switched to translate..
-    val ye = 100 - crops._3 //..from bottom left to top left
+    val ys = crops._3
+    val ye = crops._4
     val cropX = (image.getWidth * xs) / 100
     val cropY = (image.getHeight * ys) / 100
     val cropW = (image.getWidth * (xe - xs)) / 100
@@ -100,7 +98,7 @@ object AwtImageUtil {
         }
       }
     }
-    new StreamResource(new IconSource, name + ".png")
+    new StreamResource(new IconSource, name + ".png?" + new Date().getTime())
   }
   def encodeToBase64(image: BufferedImage): String = {
     val baos = new ByteArrayOutputStream
