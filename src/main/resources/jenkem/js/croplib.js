@@ -19,12 +19,13 @@ croplib.Cropper = function(element) {
 		document.getElementsByTagName('head')[0].appendChild(link);
 	}
 
-	var defaultWidth = 100; //136;
+	var defaultWidth = 100; // 136;
 
 	var component = this;
 	this.element = element;
 	this.element.style.display = "inline-block";
-	this.element.innerHTML = "<img id='target' style='width: " + defaultWidth + "px; height: auto' />";
+	this.element.innerHTML = "<img id='target' style='width: " + defaultWidth
+			+ "px; height: auto; background-color: #FFFFFF' />";
 
 	this.select = function() {
 		alert("Error: Must implement select() method");
@@ -73,7 +74,8 @@ croplib.Cropper = function(element) {
 	}
 
 	function addImage(imageSrc) {
-		element.innerHTML = "<img src='" + imageSrc + "' id='target'/>";
+		element.innerHTML = "<img src='" + imageSrc
+				+ "' id='target' style='background-color: #FFFFFF' />";
 		var image = element.getElementsByTagName("img")[0];
 		image.style.width = defaultWidth + "px";
 		image.style.height = "auto";
