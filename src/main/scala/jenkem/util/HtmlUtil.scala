@@ -64,7 +64,7 @@ object HtmlUtil {
   }
 
   def prepareCssForInline(inputCss: String): String = {
-    val rep = ".jenkem { font-family: monospace; font-weight: bold; font-size: 10px; line-height: 12px; }"
+    val rep = ".jenkem { clear: both; font-family: monospace; font-weight: bold; font-size: 10px; line-height: 12px; }"
     val filtered = inputCss.split(SEP).toList.filterNot(_.startsWith("form {"))
       .filterNot(_.startsWith("body {")).filterNot(_.startsWith("html {"))
     val result = filtered.map(l => if (l.startsWith("div {")) { rep } else { l })

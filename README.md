@@ -1,3 +1,5 @@
+Jenkem-9000 is a Web-Application to convert Images into IRC-style HTML&CSS and generate colored output for IRC.
+
 ```
   _---_
  (  J  )
@@ -11,8 +13,6 @@
  | | | |  \____/\___)_| |_|_|\_\___)_||_||_|       (______/\_____/\_____/\_____/
  (_|_|_)
 ```
-
-Jenkem-9000 is a Web-Application to convert Images into IRC-style HTML&CSS and generate colored output for IRC.
 
 This application is running on OpenShift at: http://jenkem-9000.rhcloud.com
 
