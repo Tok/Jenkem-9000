@@ -7,18 +7,18 @@ sealed abstract class Pal(val ascii: String, val ansi: String)
 object Pal {
   val MAX_RGB = 255.shortValue
 
-  case object UP extends Pal("\"", "▀")
-  case object DOWN extends Pal("_", "▄")
-  case object LEFT extends Pal("([{", "▌")
-  case object RIGHT extends Pal(")]}", "▐")
+  case object UP extends Pal("\"", "▀▼")
+  case object DOWN extends Pal("_", "▄▲")
+  case object LEFT extends Pal("([{", "▌►")
+  case object RIGHT extends Pal(")]}", "▐◄")
   case object UP_DOWN extends Pal("\\", "\\")
   case object DOWN_UP extends Pal("/", "/")
-  case object LEFT_UP extends Pal("pF", "╔")
-  case object LEFT_DOWN extends Pal("bL", "╚")
-  case object RIGHT_UP extends Pal("q", "╗")
-  case object RIGHT_DOWN extends Pal("dJ", "╝")
+  case object LEFT_UP extends Pal("pF", "┌╔")
+  case object LEFT_DOWN extends Pal("bL", "└╚")
+  case object RIGHT_UP extends Pal("q", "┐╗")
+  case object RIGHT_DOWN extends Pal("dJ", "┘╝")
   case object H_LINE extends Pal("-", "▬")
-  case object V_LINE extends Pal("|", "│")
+  case object V_LINE extends Pal("|", "│║")
   val values = List(UP, DOWN, LEFT, RIGHT, UP_DOWN, DOWN_UP, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, H_LINE, V_LINE)
   val pairs = List((UP_DOWN, DOWN_UP), (DOWN_UP, UP_DOWN), (LEFT_UP, RIGHT_UP), (RIGHT_UP, LEFT_UP), (LEFT_DOWN, RIGHT_DOWN), (RIGHT_DOWN, LEFT_DOWN))
 
@@ -26,14 +26,15 @@ object Pal {
   case object Hard extends Charset("Hard", " -+xX#")
   case object Soft extends Charset("Soft", " .:oO@")
   case object Ansi extends Charset("Ansi", " ░▒") //"▓" makes FG > BG and should not be used
+  case object Party extends Charset("Party", " ♪♫☺☻")
   case object HCrude extends Charset("HCrude", " #")
   case object SCrude extends Charset("SCrude", " @")
   case object ACrude extends Charset("ACrude", " ▒")
   case object Mixed extends Charset("Mixed", "  .-:+oxOX@#")
   case object Letters extends Charset("Letters", "  ivozaxIVOAHZSXWM")
   case object Chaos extends Charset("Chaos", "  .'-:;~+=ox*OX&%$@#")
-  val charsets = List(Hard, Soft, Ansi, HCrude, SCrude, ACrude, Mixed, Letters, Chaos)
-  val allAnsi = ("░▒▓▀▄▐▌╔╗╚╝▬│")
+  val charsets = List(Hard, Soft, Ansi, Party, HCrude, SCrude, ACrude, Mixed, Letters, Chaos)
+  val allAnsi = ("░▒▓▀▄▐▌╔╗╚╝┌┐└┘▬║│♪♫☺♥☻▼▲►◄")
 
   def valueOf(name: String): Option[Charset] = charsets.find(_.name.equalsIgnoreCase(name))
 
@@ -62,14 +63,13 @@ object Pal {
       val chars = getVal(value, hasAnsi).toCharArray.toList
       if (chars.length > 1) { Random.shuffle(chars).head.toString }
       else { chars.head.toString }
-    } else if (charset.equals(Hard.chars) || charset.equals(HCrude.chars) ||
+    } else if (charset.equals(Party.chars)) {
+       getVal(value, hasAnsi).takeRight(1).toString
+    } else if (getVal(value, hasAnsi).length > 1 &&
+        (charset.equals(Hard.chars) || charset.equals(HCrude.chars) ||
         charset.equals(Mixed.chars) || charset.equals(Letters.chars) ||
-        charset.takeRight(1).equals("#")) {
-      if (getVal(value, hasAnsi).length > 1) {
-        getVal(value, hasAnsi).toString.substring(1, 2)
-      } else {
-        getVal(value, hasAnsi).take(1).toString
-      }
+        charset.takeRight(1).equals("#"))) {
+      getVal(value, hasAnsi).toString.substring(1, 2)
     } else {
       getVal(value, hasAnsi).take(1).toString
     }
