@@ -31,7 +31,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   val cropper = new Cropper
   cropper.setWidth("100px");
   cropper.setHeight("150px");
-  
+
   cropper.addListener(new CropperChangeListener {
     override def valueChange(c: Crops) {
       crops = c;
