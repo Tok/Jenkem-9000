@@ -14,7 +14,8 @@
     <openshiftNamespace>9000</openshiftNamespace>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- API Versions: -->
-    <scalaVersion>2.10.1</scalaVersion>
+    <!-- http://mvnrepository.com/ -->
+    <scalaVersion>2.10.2</scalaVersion>
     <javaVersion>1.7</javaVersion>
     <vaadinVersion>7.1.0.beta1</vaadinVersion>
     <pircbotVersion>1.5.0</pircbotVersion>
@@ -23,7 +24,7 @@
     <validationApiVersion>1.0.0.GA</validationApiVersion>
     <!-- Building Plugin Versions: -->
     <!-- http://maven.apache.org/plugins/index.html -->
-    <scalastyleMavenPluginVersion>0.2.0</scalastyleMavenPluginVersion>
+    <scalastyleMavenPluginVersion>0.3.2</scalastyleMavenPluginVersion>
     <MavenExecPluginVersion>1.2.1</MavenExecPluginVersion>
     <mavenDependencyPluginVersion>2.8</mavenDependencyPluginVersion>
     <mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
@@ -33,10 +34,10 @@
     <mavenResourcesPluginVersion>2.6</mavenResourcesPluginVersion>
     <jbossAsMavenPluginVersion>7.4.Final</jbossAsMavenPluginVersion>
     <!-- Reporting Plugin Versions: -->
-    <mavenSurefirePluginVersion>2.14</mavenSurefirePluginVersion>
+    <mavenSurefirePluginVersion>2.15</mavenSurefirePluginVersion>
     <mavenCoberturaPluginVersion>2.5.2</mavenCoberturaPluginVersion>
-    <mavenProjectInfoReportsPluginVersion>2.6</mavenProjectInfoReportsPluginVersion>
-    <mavenSitePluginVersion>3.2</mavenSitePluginVersion>
+    <mavenProjectInfoReportsPluginVersion>2.7</mavenProjectInfoReportsPluginVersion>
+    <mavenSitePluginVersion>3.3</mavenSitePluginVersion>
   </properties>
 
   <repositories>
