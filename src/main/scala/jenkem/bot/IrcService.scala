@@ -12,6 +12,10 @@ object IrcService {
     bot.connectAndJoin(network, port, channel, nick)
   }
 
+  def setDelay(delay: Int) {
+    bot.setMessageDelay(delay)
+  }
+
   def disconnect(): String = {
     bot.disconnect
     "Disconnected."

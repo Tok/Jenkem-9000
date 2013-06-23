@@ -1,5 +1,10 @@
 This is a standalone version of Jenkem 9000 that is bundled with a tomcat server for local use.
 
+CURRENT DOWNLOAD LINKS:
+http://bitshare.com/uploaded/968f/25kav2.html
+http://netload.in/datei9z81WOAgL4/jenkem.rar.htm
+https://mega.co.nz/#!k4tDGBgC!Iu-O_RrB3mu3X2CSEPHPvE1aLIl6Oldw6lRD_xfbacw
+
 PREREQUITITES:
 Jenkem needs Java: http://java.com/download
 
@@ -14,7 +19,7 @@ Go To: http://localhost:8080/
 
 IRC CONNECTION:
 Change the default IRC information according to your preferences and hit the "Connect" Button.
-After a few seconds bot should connect and join the specified channel.
+After a few seconds the bot should connect and join the specified channel.
 Otherwise a reason for the error should be seen in the status label.
 Click "Refresh Bot Status" and/or change your settings and try again until it works.
 

@@ -49,7 +49,7 @@ class JenkemBot extends PircBot {
   val settings = new ConversionSettings
 
   var lastChan = emp
-  var botStatus = new BotStatus(Disconnected, NotSending, emp, emp, emp)
+  var botStatus = new BotStatus(Disconnected, NotSending, emp, emp, emp, getDelay)
   var stopSwitch = false
   var isPlaying = false
   var playThread = new Thread
@@ -93,11 +93,11 @@ class JenkemBot extends PircBot {
   }
 
   override def onConnect {
-    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick)
+    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
   }
 
   override def onDisconnect {
-    botStatus = new BotStatus(Disconnected, NotSending, getServer, lastChan, getNick)
+    botStatus = new BotStatus(Disconnected, NotSending, getServer, lastChan, getNick, getDelay)
   }
 
   /**
@@ -157,6 +157,7 @@ class JenkemBot extends PircBot {
       case IntExtractor(v) if min to max contains v =>
         setMessageDelay(v)
         sendMessage(target, ConfigItem.DELAY + " set to " + v)
+        botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
       case IntExtractor(v) => sendMessage(target, ConfigItem.DELAY + " must be" + between)
       case _ => sendMessage(target, ConfigItem.DELAY + " must be a numeric value" + between)
     }
@@ -240,9 +241,11 @@ class JenkemBot extends PircBot {
   private def resetStop() {
     stopSwitch = false
     isPlaying = false
-    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick)
+    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
   }
 
+  private def getDelay: Int = super.getMessageDelay.toInt
+  
   /**
    * Runs a thread to play the image into the channel.
    * this is done in Jenkems own thread so an asynchronous command can set the stop switch while the image is forwarded to IRC.
@@ -253,7 +256,7 @@ class JenkemBot extends PircBot {
     override def run {
       stopSwitch = false
       isPlaying = true;
-      botStatus = new BotStatus(Connected, Sending, getServer, lastChan, getNick)
+      botStatus = new BotStatus(Connected, Sending, getServer, lastChan, getNick, getDelay)
       val sendMe = "PRIVMSG " + getChannels.head + " :"
       sendImageLine(fullImage)
       def sendImageLine(image: List[String]) {
@@ -276,7 +279,7 @@ class JenkemBot extends PircBot {
   def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {
     settings.reset
     def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
-      botStatus = new BotStatus(Disconnected, NotSending, network, channel, nick)
+      botStatus = new BotStatus(Disconnected, NotSending, network, channel, nick, getDelay)
       message
     }
     try {
