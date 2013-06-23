@@ -149,6 +149,8 @@ class JenkemBot extends PircBot {
     }
   }
 
+  private def getDelay: Int = super.getMessageDelay.toInt
+
   private def setMessageDelay(target: String, value: String) {
     val min = 100
     val max = 3000
@@ -244,8 +246,6 @@ class JenkemBot extends PircBot {
     botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
   }
 
-  private def getDelay: Int = super.getMessageDelay.toInt
-  
   /**
    * Runs a thread to play the image into the channel.
    * this is done in Jenkems own thread so an asynchronous command can set the stop switch while the image is forwarded to IRC.

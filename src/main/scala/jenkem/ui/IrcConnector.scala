@@ -27,7 +27,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   val freenodePort = "8001"
   val efnetServer = "efnet.xs4all.nl" //"irc.efnet.org"
   val efnetPort = "6669"
-    
+
   val defaultChannel = "#Jenkem"
   val defaultNick = "J_"
 
