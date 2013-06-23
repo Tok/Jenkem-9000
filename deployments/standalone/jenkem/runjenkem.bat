@@ -1,4 +1,10 @@
 @echo off
+IF "%JAVA_HOME%" == "" (
+  ECHO Jenkem needs Java: http://java.com/download
+  ECHO Please install Java and try again
+  PAUSE
+  EXIT
+)
 CHDIR %~dp0
 IF EXIST .extract RD /s/q .extract
 IF EXIST log.txt DEL log.txt

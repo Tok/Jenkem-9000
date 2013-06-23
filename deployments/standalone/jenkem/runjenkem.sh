@@ -1,4 +1,9 @@
 #!/bin/bash
+if [ "$JAVA_HOME" == "" ]; then
+  echo Jenkem needs Java: http://java.com/download
+  echo Please install Java and try again
+  exit
+fi
 cd ${0%/*}
 rm -rf .extract 1> /dev/null
 rm -f log.txt 1> /dev/null
@@ -11,4 +16,3 @@ echo For local database access, please install and run the latest mongodb versio
 echo
 echo All output is logged to log.txt
 java -jar Jenkem-1.0-war-exec.jar 2> log.txt
-pause
