@@ -33,6 +33,7 @@
     <mavenWarPluginVersion>2.3</mavenWarPluginVersion>
     <mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
     <mavenResourcesPluginVersion>2.6</mavenResourcesPluginVersion>
+    <mavenTruezipPluginVersion>1.1</mavenTruezipPluginVersion>
     <jbossAsMavenPluginVersion>7.4.Final</jbossAsMavenPluginVersion>
     <tomcat7MavenPluginVersion>2.1</tomcat7MavenPluginVersion>
     <!-- Reporting Plugin Versions: -->
@@ -381,7 +382,8 @@
                 </copy>
                 <!-- copy executable standalone to deployments -->
                 <copy preservelastmodified="true"
-                  todir="${basedir}/deployments/standalone/jenkem" verbose="true">
+                  todir="${basedir}/deployments/standalone/jenkem"
+                  verbose="true">
                   <fileset dir="${basedir}/target"
                     includes="${project.artifactId}-${project.version}-war-exec.jar" />
                 </copy>
@@ -445,6 +447,33 @@
             <phase>package</phase>
             <configuration>
               <path>/</path>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>truezip-maven-plugin</artifactId>
+        <version>${mavenTruezipPluginVersion}</version>
+        <executions>
+          <execution>
+            <id>zip-standalone</id>
+            <goals>
+              <goal>cp</goal>
+              <goal>remove</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <from>${basedir}/deployments/standalone/jenkem</from>
+              <to>${basedir}/deployments/standalone/${project.artifactId}-${project.version}.zip</to>
+              <fileset>
+                <directory>${basedir}/deployments/standalone/${project.artifactId}-${project.version}.zip</directory>
+                <includes>
+                  <include>**/.extract</include>
+                  <include>**/.gitignore</include>
+                  <include>**/log.txt</include>
+                </includes>
+              </fileset>
             </configuration>
           </execution>
         </executions>
