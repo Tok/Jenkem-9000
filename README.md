@@ -23,6 +23,7 @@ Frameworks and Technologies:
 * MongoDB (with JDO 3 and Datanucleus)
 * Jcrop (with jQuery)
 * Maven (for build and reporting)
+* Tomcat7 (for standalone version only)
 
 Important Classes:
 

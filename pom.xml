@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>jenkem</groupId>
@@ -33,6 +34,7 @@
     <mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
     <mavenResourcesPluginVersion>2.6</mavenResourcesPluginVersion>
     <jbossAsMavenPluginVersion>7.4.Final</jbossAsMavenPluginVersion>
+    <tomcat7MavenPluginVersion>2.1</tomcat7MavenPluginVersion>
     <!-- Reporting Plugin Versions: -->
     <mavenSurefirePluginVersion>2.15</mavenSurefirePluginVersion>
     <mavenCoberturaPluginVersion>2.5.2</mavenCoberturaPluginVersion>
@@ -370,21 +372,33 @@
             <configuration>
               <target>
                 <!-- copy war to deployments and rename it to ROOT.war -->
-                <copy preservelastmodified="true" todir="${basedir}/deployments/" verbose="true">
-                  <fileset dir="${basedir}/target" includes="${project.artifactId}-${project.version}.${project.packaging}"/>
-                  <globmapper from="*.${project.packaging}" to="ROOT.${project.packaging}"/>
+                <copy preservelastmodified="true"
+                  todir="${basedir}/deployments/openshift" verbose="true">
+                  <fileset dir="${basedir}/target"
+                    includes="${project.artifactId}-${project.version}.${project.packaging}" />
+                  <globmapper from="*.${project.packaging}"
+                    to="ROOT.${project.packaging}" />
+                </copy>
+                <!-- copy executable standalone to deployments -->
+                <copy preservelastmodified="true"
+                  todir="${basedir}/deployments/standalone/jenkem" verbose="true">
+                  <fileset dir="${basedir}/target"
+                    includes="${project.artifactId}-${project.version}-war-exec.jar" />
                 </copy>
                 <!-- may prevent warning in eclipse -->
-                <mkdir dir="${basedir}/target/WEB-INF"/>
+                <mkdir dir="${basedir}/target/WEB-INF" />
                 <copy todir="${basedir}/target/WEB-INF/" verbose="true">
-                  <fileset dir="${basedir}/target/${project.artifactId}-${project.version}/WEB-INF" includes="web.xml"/>
+                  <fileset
+                    dir="${basedir}/target/${project.artifactId}-${project.version}/WEB-INF"
+                    includes="web.xml" />
                 </copy>
                 <!-- remove duplicated WEB-INF if it exists -->
                 <delete failonerror="false">
-                  <fileset dir="${basedir}/src/main/resources/VAADIN/widgetsets/WEB-INF"/>
+                  <fileset
+                    dir="${basedir}/src/main/resources/VAADIN/widgetsets/WEB-INF" />
                 </delete>
                 <delete failonerror="false">
-                  <fileset dir="${basedir}/src/main/resources/META-INF"/>
+                  <fileset dir="${basedir}/src/main/resources/META-INF" />
                 </delete>
               </target>
             </configuration>
@@ -398,7 +412,8 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>${mavenWarPluginVersion}</version>
         <configuration>
-          <!-- FIXME scopes: Most of those jars shouldn't even be there in the first place -->
+          <!-- FIXME scopes: Most of those jars shouldn't even be there in 
+            the first place -->
           <packagingExcludes>WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**,
             WEB-INF/lib/maven-*.jar,
             WEB-INF/lib/junit-*.jar,
@@ -416,6 +431,23 @@
             WEB-INF/lib/jcl-*.jar,
             WEB-INF/lib/jta-*.jar</packagingExcludes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>${tomcat7MavenPluginVersion}</version>
+        <executions>
+          <execution>
+            <id>tomcat-run</id>
+            <goals>
+              <goal>exec-war-only</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <path>/</path>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.jboss.as.plugins</groupId>
