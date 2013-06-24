@@ -12,7 +12,7 @@ object IrcService {
     bot.connectAndJoin(network, port, channel, nick)
   }
 
-  def setDelay(delay: Int) {
+  def setDelay(delay: Int): Unit = {
     bot.setMessageDelay(delay)
   }
 

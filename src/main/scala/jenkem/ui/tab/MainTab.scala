@@ -156,7 +156,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   settingsLayout.addComponent(ircConnector)
 
   resetButton.addClickListener(new Button.ClickListener {
-    override def buttonClick(event: ClickEvent) {
+    override def buttonClick(event: ClickEvent): Unit = {
       doReset //triggers conversion
       startConversion(false, false)
     }
@@ -164,7 +164,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   Pal.charsets.foreach(cb => charsetBox.addItem(cb))
   charsetBox.addValueChangeListener(new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) {
+    override def valueChange(event: ValueChangeEvent): Unit = {
       val charsetName = event.getProperty.getValue.toString
       Pal.valueOf(charsetName) match {
         case Some(pal) =>
@@ -185,11 +185,11 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   powerBox.addValueChangeListener(noResizeValueChangeListener)
 
   eventRouter.addListener(classOf[DoConversionEvent], new {
-    def convert(e: DoConversionEvent) {
+    def convert(e: DoConversionEvent): Unit =
       startConversion(e.prepareImage, e.resize)
-    }}, "convert")
+    }, "convert")
   eventRouter.addListener(classOf[SendToIrcEvent], new {
-    def send { ircConnector.sendToIrc(ircOutput) }}, "send")
+    def send: Unit = ircConnector.sendToIrc(ircOutput)}, "send")
 
   doReset
 
@@ -205,7 +205,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   private def makeListMethodSelect(caption: String): ListSelect = {
     val settings = new ListSelect
     settings.addValueChangeListener(new Property.ValueChangeListener {
-      override def valueChange(event: ValueChangeEvent) {
+      override def valueChange(event: ValueChangeEvent): Unit = {
         conversionDisabled = true
         makeInitsForMethod
         conversionDisabled = false
@@ -250,7 +250,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     slider.setMax(max)
     slider.setImmediate(true)
     slider.addValueChangeListener(new Property.ValueChangeListener {
-      override def valueChange(event: ValueChangeEvent) {
+      override def valueChange(event: ValueChangeEvent): Unit = {
         label.setValue("%1.0f".format(event.getProperty.getValue))
         startConversion(false, false)
       }
@@ -262,7 +262,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     (slider, label)
   }
 
-  private def doReset() {
+  private def doReset(): Unit = {
     conversionDisabled = true
     methodBox.select(Method.Vortacular)
     conversionDisabled = true
@@ -278,7 +278,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     conversionDisabled = false
   }
 
-  private def doPrepareImage(url: String) {
+  private def doPrepareImage(url: String): Unit = {
     val crops = imagePreparer.getCrops
     val invert = imagePreparer.isInvert
     val bg = imagePreparer.getBg
@@ -289,7 +289,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     imagePrep = new ImagePreparationData(icon, imagePreparer.getName)
   }
 
-  private def doPrepareImageData(url: String) {
+  private def doPrepareImageData(url: String): Unit = {
     val kick = Kick.valueOf(kickSelect.getValue.toString).get
     val crops = imagePreparer.getCrops
     val invert = imagePreparer.isInvert
@@ -306,7 +306,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     imageData = new ImageData(imageRgb, dataWidth, dataHeight, lineWidth, kick, method)
   }
 
-  private def startConversion(prepareImage: Boolean, resize: Boolean) {
+  private def startConversion(prepareImage: Boolean, resize: Boolean): Unit = {
     if (!conversionDisabled) {
       conversionDisabled = true
       imagePreparer.getUrl match {
@@ -323,7 +323,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     }
   }
 
-  private def makeConversion() {
+  private def makeConversion(): Unit = {
     try {
       val chars = charTextField.getValue.replaceAll("[,0-9]", "")
       val contrast = contrastLabel.getValue.toShort
@@ -361,21 +361,21 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     generate0(0)
   }
 
-  private def updateInline(method: Method, ircOutput: List[String], name: String) {
+  private def updateInline(method: Method, ircOutput: List[String], name: String): Unit = {
     val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, method)
     val inlineCss = HtmlUtil.prepareCssForInline(htmlAndCss._2)
     val inlineHtml = HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)
     inline.setValue(inlineHtml)
   }
 
-  private def makeInits() {
+  private def makeInits(): Unit = {
     conversionDisabled = true
     val chars = charTextField.getValue.replaceAll("[,0-9]", "")
     makeImageInits
     conversionDisabled = false
   }
 
-  private def makeImageInits() {
+  private def makeImageInits(): Unit = {
     conversionDisabled = true
     val con = InitUtil.getDefaultContrast(imageData.imageRgb)
     contrastSlider.setValue(con)
@@ -388,7 +388,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     conversionDisabled = false
   }
 
-  private def makeInitsForMethod() {
+  private def makeInitsForMethod(): Unit = {
     conversionDisabled = true
     val method = Method.valueOf(methodBox.getValue.toString).get
     ircColorSetter.makeEnabled(method.equals(Method.Vortacular))
@@ -400,7 +400,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def makeInitsForCharset(chars: String) = procSetter.reset(Pal.hasAnsi(chars))
 
-  def saveImage() {
+  def saveImage(): Unit = {
     val name = imagePreparer.getName
     val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, imageData.method)
     val format = new java.text.SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
@@ -421,5 +421,5 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   }
 
   def hasLink: Boolean = imagePreparer.hasLink
-  def setLink(link: String) { imagePreparer.setLink(link) }
+  def setLink(link: String): Unit = imagePreparer.setLink(link)
 }

@@ -34,10 +34,10 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   nameTextField.setWidth(250 + "px")
   nameTextField.setImmediate(true)
   nameTextField.addFocusListener(new FocusListener {
-    override def focus(event: FocusEvent) { nameTextField.selectAll }
+    override def focus(event: FocusEvent): Unit = nameTextField.selectAll
   })
   nameTextField.addValueChangeListener(new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) {
+    override def valueChange(event: ValueChangeEvent): Unit = {
       if (!disable) {
         if (nameTextField.getValue.size > maxNameLength) {
           disable = true
@@ -52,7 +52,7 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
 
   val submitButton = new Button("Submit To Gallery")
   submitButton.addClickListener(new Button.ClickListener {
-    override def buttonClick(event: ClickEvent) {
+    override def buttonClick(event: ClickEvent): Unit = {
       eventRouter.fireEvent(new SaveImageEvent)
     }
   })
@@ -87,14 +87,14 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   bgSelect.setImmediate(true)
   bgSelect.setValue(bgOptions(0))
   bgSelect.addValueChangeListener(new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) {
+    override def valueChange(event: ValueChangeEvent): Unit = {
       eventRouter.fireEvent(new DoConversionEvent(true, true))
     }
   })
   addComponent(bgSelect)
   setComponentAlignment(bgSelect, Alignment.MIDDLE_LEFT)
 
-  def addIcon(img: BufferedImage) {
+  def addIcon(img: BufferedImage): Unit = {
     val image = new Image
     image.setSource(AwtImageUtil.makeVaadinResource(img, "Icon"))
     image.setWidth("32px")
@@ -102,7 +102,7 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
     imageLayout.removeAllComponents
     imageLayout.addComponent(image, 0, 0)
   }
-  def setName(name: String) {
+  def setName(name: String): Unit = {
     val clean = if (name.contains('.')) { name.take(name.lastIndexOf(".")) }
     else { name }
     if (clean.size > maxNameLength) {
@@ -111,9 +111,9 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
       nameTextField.setValue(clean)
     }
   }
-  def reset { bgSelect.setValue(bgOptions(0)) }
+  def reset: Unit = bgSelect.setValue(bgOptions(0))
   def isInvert: Boolean = inversionBox.getValue
   def getBg: String = bgSelect.getValue.toString
   def getName: String = nameTextField.getValue
-  def enableSubmission(enabled: Boolean) { submitButton.setEnabled(enabled) }
+  def enableSubmission(enabled: Boolean): Unit = submitButton.setEnabled(enabled)
 }

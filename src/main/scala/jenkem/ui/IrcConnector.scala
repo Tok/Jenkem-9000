@@ -27,6 +27,8 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   val freenodePort = "8001"
   val efnetServer = "efnet.xs4all.nl" //"irc.efnet.org"
   val efnetPort = "6669"
+  val undernetServer = "irc.undernet.org"
+  val undernetPort = "6667"
 
   val defaultChannel = "#Jenkem"
   val defaultNick = "J_"
@@ -46,10 +48,12 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
     //more options if application is not running on OpenShift
     networkCombo.addItem(efnetServer)
     portCombo.addItem(efnetPort)
+    networkCombo.addItem(undernetServer)
+    portCombo.addItem(undernetPort)
   }
 
   networkCombo.addValueChangeListener(new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) {
+    override def valueChange(event: ValueChangeEvent): Unit = {
       if (networkCombo.getValue.toString.equalsIgnoreCase(freenodeServer)) {
         portCombo.select(freenodePort)
       } else if (networkCombo.getValue.toString.equalsIgnoreCase(efnetServer)) {
@@ -58,7 +62,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
     }
   })
   delayBox.addValueChangeListener(new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) {
+    override def valueChange(event: ValueChangeEvent): Unit = {
       try {
         val delay = delayBox.getValue.toString.toInt
         if (delay < defaultDelayMs) {
@@ -149,13 +153,13 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
     combo
   }
 
-  private def lockCombo(combo: ComboBox, value: Boolean) {
+  private def lockCombo(combo: ComboBox, value: Boolean): Unit = {
     combo.setTextInputAllowed(!value)
     combo.setNewItemsAllowed(!value)
   }
 
   connectButton.addClickListener(new Button.ClickListener {
-    override def buttonClick(event: ClickEvent) {
+    override def buttonClick(event: ClickEvent): Unit = {
       Notifications.showConnectToIrc(Page.getCurrent)
       connectButton.setEnabled(false)
       val network = networkCombo.getValue.toString
@@ -169,14 +173,14 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   })
 
   disconnectButton.addClickListener(new Button.ClickListener {
-    override def buttonClick(event: ClickEvent) {
+    override def buttonClick(event: ClickEvent): Unit = {
       disconnectButton.setEnabled(false)
       statusLabel.setValue(IrcService.disconnect)
     }
   })
 
   sendButton.addClickListener(new Button.ClickListener {
-    override def buttonClick(event: ClickEvent) {
+    override def buttonClick(event: ClickEvent): Unit = {
       sendButton.setEnabled(false)
       statusLabel.setValue("Sending...")
       eventRouter.fireEvent(new SendToIrcEvent)
@@ -184,18 +188,18 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   })
 
   refreshButton.addClickListener(new Button.ClickListener {
-    override def buttonClick(event: ClickEvent) { refresh }
+    override def buttonClick(event: ClickEvent): Unit = refresh
   })
 
-  def sendToIrc(message: java.util.List[String]) {
+  def sendToIrc(message: java.util.List[String]): Unit = {
     IrcService.sendMessage(message)
     Notifications.showPlayToIrc(Page.getCurrent)
     refresh
   }
 
-  def refresh { showBotStatus(IrcService.getBotStatus) }
+  def refresh: Unit = showBotStatus(IrcService.getBotStatus)
 
-  private def showBotStatus(botStatus: BotStatus) {
+  private def showBotStatus(botStatus: BotStatus): Unit = {
     if (botStatus.isConnected || botStatus.isSending) {
       if (botStatus.isSending) { statusLabel.setValue("Bot is busy...") }
       else { statusLabel.setValue("Bot is connected.") }

@@ -37,12 +37,10 @@ class Cropper extends AbstractJavaScriptComponent {
     })
 
   val listeners: ArrayBuffer[CropperChangeListener] = ArrayBuffer[CropperChangeListener]()
-  def addListener(listener: CropperChangeListener) { listeners += listener }
+  def addListener(listener: CropperChangeListener): Unit = { listeners += listener }
 
-  def setImageSrc(imageSrc: String) { getState.setImageSrc(imageSrc) }
-  def getImageSrc: String = {
-    getState.getImageSrc
-  }
+  def setImageSrc(imageSrc: String): Unit = getState.setImageSrc(imageSrc)
+  def getImageSrc: String = getState.getImageSrc
 
   override def getState: CropperState = super.getState.asInstanceOf[CropperState]
 }

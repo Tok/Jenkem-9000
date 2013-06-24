@@ -72,7 +72,7 @@ object HtmlUtil {
   }
 
   private def generatePlain(html: StringBuilder, css: StringBuilder,
-      line: String, lineId: Int) {
+      line: String, lineId: Int): Unit = {
     html.append("<div class=\"jenkem\"><span id=\"id_")
     html.append(lineId.toString)
     html.append(CLOSE)
@@ -84,7 +84,7 @@ object HtmlUtil {
   }
 
   private def generateColored(html: StringBuilder, css: StringBuilder,
-      line: String, lineId: Int) {
+      line: String, lineId: Int): Unit = {
     html.append("<div class=\"jenkem\">")
     val sections = line.split(ColorUtil.CC)
     val filteredSections = sections.filterNot(_.equals("")).filterNot(_.equals(ColorUtil.BC))

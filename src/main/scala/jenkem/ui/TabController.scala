@@ -27,7 +27,7 @@ class TabController(val eventRouter: EventRouter) {
   def getTabSheet(page: Page): TabSheet = {
     tabSheet.setWidth("1024px")
     tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
-      override def selectedTabChange(event: SelectedTabChangeEvent) {
+      override def selectedTabChange(event: SelectedTabChangeEvent): Unit = {
         if (isReady) {
           val tabsheet = event.getTabSheet
           val tab = tabsheet.getTab(tabsheet.getSelectedTab)
@@ -48,8 +48,8 @@ class TabController(val eventRouter: EventRouter) {
     tabSheet
   }
 
-  def selectTab(frag: String) {
-    def selectMainWithDefault() {
+  def selectTab(frag: String): Unit = {
+    def selectMainWithDefault(): Unit = {
       tabSheet.setSelectedTab(mainTab)
       mainTab.setLink(defaultUrl)
     }
@@ -71,7 +71,7 @@ class TabController(val eventRouter: EventRouter) {
 
   eventRouter.addListener(classOf[SaveImageEvent],
     new {
-      def save {
+      def save: Unit = {
         mainTab.saveImage
         galleryTab.update
       }

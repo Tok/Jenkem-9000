@@ -113,34 +113,32 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   addComponent(cropLayout, 1, 3)
   setComponentAlignment(cropLayout, Alignment.MIDDLE_LEFT)
 
-  private def bind() {
+  private def bind(): Unit = {
     inputTextField.addFocusListener(new FocusListener {
-      override def focus(event: FocusEvent) { inputTextField.selectAll }
+      override def focus(event: FocusEvent): Unit = inputTextField.selectAll
     })
     convButton.addClickListener(new Button.ClickListener {
-      override def buttonClick(event: ClickEvent) { replaceUrl }
+      override def buttonClick(event: ClickEvent): Unit = replaceUrl
     })
   }
-  private def focusShowButton { inputTextField.focus }
-  private def replaceImage(url: URL) {
-    cropper.setImageSrc(url.toString)
-  }
-  private def trigger { eventRouter.fireEvent(new DoConversionEvent(true, true)) }
-  private def updateLabel(status: String, error: String) {
+  private def focusShowButton: Unit = inputTextField.focus
+  private def replaceImage(url: URL): Unit = cropper.setImageSrc(url.toString)
+  private def trigger: Unit = eventRouter.fireEvent(new DoConversionEvent(true, true))
+  private def updateLabel(status: String, error: String): Unit = {
     Option(error) match {
       case Some(error) => statusLabel.setComponentError(new UserError(error))
       case None => statusLabel.setComponentError(None.orNull)
     }
     statusLabel.setValue(status)
   }
-  def setStatus(status: String) { updateLabel(status, None.orNull) }
-  def setError(error: String) { updateLabel(error, error) }
-  def addIcon(img: BufferedImage) { submitter.addIcon(img) }
-  def setName(name: String) { submitter.setName(name) }
+  def setStatus(status: String): Unit = updateLabel(status, None.orNull)
+  def setError(error: String): Unit = updateLabel(error, error)
+  def addIcon(img: BufferedImage): Unit = submitter.addIcon(img)
+  def setName(name: String): Unit = submitter.setName(name)
   def getName: String = submitter.getName
   def isInvert: Boolean = submitter.isInvert
   def getBg: String = submitter.getBg
-  def enableSubmission(enabled: Boolean) { submitter.enableSubmission(enabled) }
+  def enableSubmission(enabled: Boolean): Unit = submitter.enableSubmission(enabled)
   def getCrops: (Int, Int, Int, Int) = (crops.x, crops.x2, crops.y, crops.y2)
   def hasLink: Boolean = {
     Option(inputTextField.getValue) match {
@@ -148,7 +146,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       case None => false
     }
   }
-  def setLink(link: String) {
+  def setLink(link: String): Unit = {
     inputTextField.setValue(link)
     UrlOptionizer.extract(link) match {
       case Some(u) =>
@@ -157,7 +155,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       case None => setError("URL is not Valid. Please enter URL to an image: ")
     }
   }
-  private def replaceUrl {
+  private def replaceUrl: Unit = {
     val currentFrag = Page.getCurrent.getUriFragment
     val currentUrl = inputTextField.getValue
     Option(currentFrag) match {
@@ -179,5 +177,5 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       case None => None
     }
   }
-  def reset { submitter.reset }
+  def reset: Unit = submitter.reset
 }

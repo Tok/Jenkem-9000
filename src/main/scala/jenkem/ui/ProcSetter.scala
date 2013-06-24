@@ -21,7 +21,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   setWidth("250px")
 
   val vcl = new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) {
+    override def valueChange(event: ValueChangeEvent): Unit = {
       if (!triggeringDisabled) {
         eventRouter.fireEvent(new DoConversionEvent(false, false))
       }
@@ -77,7 +77,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
     slider.setValue(Setting.default)
     slider.setImmediate(true)
     slider.addValueChangeListener(new Property.ValueChangeListener {
-      override def valueChange(event: ValueChangeEvent) {
+      override def valueChange(event: ValueChangeEvent): Unit = {
         labels.get(setting).get.setValue("%1.0f".format(event.getProperty.getValue))
         if (!triggeringDisabled) {
           eventRouter.fireEvent(new DoConversionEvent(false, false))
@@ -87,23 +87,23 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
     slider
   }
 
-  private def makeSliderRow(i: Int) {
+  private def makeSliderRow(i: Int): Unit = {
     val setting = settings(i)
     addAligned(boxes.get(setting).get, 0, i)
     addAligned(sliders.get(setting).get, 1, i)
     addAligned(labels.get(setting).get, 2, i)
   }
 
-  private def addAligned(comp: Component, row: Int, i: Int) {
+  private def addAligned(comp: Component, row: Int, i: Int): Unit = {
     addComponent(comp, row, i)
     setComponentAlignment(comp, Alignment.MIDDLE_LEFT)
   }
 
-  def reset(hasAnsi: Boolean) {
+  def reset(hasAnsi: Boolean): Unit = {
     triggeringDisabled = true
     val vals = Setting.getInitial(hasAnsi)
     settings.foreach(set(_))
-    def set(setting: PS) {
+    def set(setting: PS): Unit = {
       boxes.get(setting).get.setValue(vals.has(setting))
       sliders.get(setting) match {
         case Some(s) => s.setValue(vals.get(setting))

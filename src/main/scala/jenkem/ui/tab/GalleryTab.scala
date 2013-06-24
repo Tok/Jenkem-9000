@@ -81,7 +81,7 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   update
 
-  def update {
+  def update: Unit = {
     bic.removeAllItems
     PersistenceService.getAllImageInfo match {
       case Some(info) => info.foreach(info => bic.addItem(new ImageInfoBean(info)))

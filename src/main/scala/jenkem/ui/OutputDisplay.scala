@@ -16,12 +16,12 @@ class OutputDisplay extends VerticalLayout {
   ircText.setWordwrap(false)
   //ircText.setReadOnly(true)
   ircText.addFocusListener(new FocusListener {
-    override def focus(event: FocusEvent) { ircText.selectAll }
+    override def focus(event: FocusEvent): Unit = ircText.selectAll
   })
   addComponent(outputCaptionLabel)
   addComponent(ircText)
 
-  def addIrcOutput(ircOutput: List[String]) {
+  def addIrcOutput(ircOutput: List[String]): Unit = {
     val lines = new StringBuilder(ircOutput.size)
     ircOutput.foreach(line => lines.append(line))
     ircText.setValue(lines.toString)

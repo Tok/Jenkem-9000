@@ -18,7 +18,7 @@ import jenkem.util.UrlOptionizer
 
 class JenkemBot extends PircBot {
   val defaultDelay = 1000
-  def init {
+  def init: Unit = {
     super.setEncoding("UTF-8")
     super.setLogin("jenkem")
     super.setVersion("Jenkem-9000")
@@ -54,11 +54,11 @@ class JenkemBot extends PircBot {
   var isPlaying = false
   var playThread = new Thread
 
-  override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
+  override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String): Unit = {
     evaluateCommand(channel, message.split(sep))
   }
 
-  private def evaluateCommand(channel: String, message: Array[String]) {
+  private def evaluateCommand(channel: String, message: Array[String]): Unit = {
     if (message.head.equalsIgnoreCase("Jenkem") ||
       message.head.equalsIgnoreCase(getLogin) ||
       message.head.equalsIgnoreCase(getNick)) {
@@ -75,7 +75,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def executeCommand(channel: String, command: String, item: Option[String], value: Option[String]) {
+  private def executeCommand(channel: String, command: String, item: Option[String], value: Option[String]): Unit = {
     Command.withName(command) match {
       case Command.GTFO | Command.QUIT => disconnect
       case Command.STFU | Command.STOP => makeStop
@@ -86,7 +86,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def changeConfig(channel: String, item: Option[String], value: Option[String]) {
+  private def changeConfig(channel: String, item: Option[String], value: Option[String]): Unit = {
     item match {
       case Some(i) =>
         value match {
@@ -97,7 +97,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def applyNewConfigValue(sender: String, item: String, value: String) {
+  private def applyNewConfigValue(sender: String, item: String, value: String): Unit = {
     try {
       ConfigItem.withName(item.toUpperCase) match {
         case ConfigItem.DELAY => setMessageDelay(sender, value)
@@ -112,7 +112,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  override def onPrivateMessage(sender: String, login: String, hostname: String, message: String) {
+  override def onPrivateMessage(sender: String, login: String, hostname: String, message: String): Unit = {
     val m = message.split(sep)
     try {
       Command.withName(m.head.toUpperCase) match {
@@ -124,11 +124,11 @@ class JenkemBot extends PircBot {
     }
   }
 
-  override def onConnect {
+  override def onConnect: Unit = {
     botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
   }
 
-  override def onDisconnect {
+  override def onDisconnect: Unit = {
     botStatus = new BotStatus(Disconnected, NotSending, getServer, lastChan, getNick, getDelay)
   }
 
@@ -136,7 +136,7 @@ class JenkemBot extends PircBot {
    * Shows the help-text.
    * @param target channel name or name of the receiver.
    */
-  private def showHelp(target: String) {
+  private def showHelp(target: String): Unit = {
     sendMessage(target, "Play image from url: JENKEM [url]")
     sendMessage(target, "Let jenkem search for an image to play: JENKEM [search term]")
     sendMessage(target, "Change config: JENKEM [ConfigItem] [Value]")
@@ -149,7 +149,7 @@ class JenkemBot extends PircBot {
    * Shows the configuration.
    * @param target channel name or name of the receiver.
    */
-  private def showConfig(target: String) {
+  private def showConfig(target: String): Unit = {
     sendMessage(target, "Delay (ms): " + getMessageDelay
       + ", Width (chars): " + settings.width
       + ", Power: " + settings.power
@@ -162,13 +162,13 @@ class JenkemBot extends PircBot {
    * @param target name of the sender or channel
    * @param e the Exception to handle
    */
-  private def showException(target: String, t: Throwable) {
+  private def showException(target: String, t: Throwable): Unit = {
     sendMessage(target, "FAIL: " + t.toString)
   }
 
   private def getDelay: Int = super.getMessageDelay.toInt
 
-  private def setMessageDelay(target: String, value: String) {
+  private def setMessageDelay(target: String, value: String): Unit = {
     val min = 100
     val max = 3000
     val between = " between " + min + " and " + max + "."
@@ -182,12 +182,12 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def reset(target: String) {
+  private def reset(target: String): Unit = {
     settings.reset
     sendMessage(target, "Conversion settings have been resetted.")
   }
 
-  private def setWidth(target: String, value: String) {
+  private def setWidth(target: String, value: String): Unit = {
     val min = 16
     val max = 80
     val between = ConfigItem.WIDTH + " must be between " + min + " and " + max + "."
@@ -200,7 +200,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def setScheme(target: String, value: String) {
+  private def setScheme(target: String, value: String): Unit = {
     Scheme.valueOf(value) match {
       case Some(scheme) =>
         settings.colorMap = Scheme.createColorMap(scheme)
@@ -210,7 +210,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def setCharset(target: String, value: String) {
+  private def setCharset(target: String, value: String): Unit = {
     Pal.valueOf(value) match {
       case Some(scheme) =>
         settings.chars = scheme.chars
@@ -220,12 +220,12 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def setChars(target: String, value: String) {
+  private def setChars(target: String, value: String): Unit = {
     settings.chars = " " + value.replaceAll("[0-9],", emp)
     sendMessage(target, "Chars set to \"" + settings.chars + "\".")
   }
 
-  private def setPower(target: String, value: String) {
+  private def setPower(target: String, value: String): Unit = {
     Power.valueOf(value) match {
       case Some(power) =>
         settings.power = power
@@ -235,7 +235,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def convertAndPlay(channel: String, urlOrTerm: String) {
+  private def convertAndPlay(channel: String, urlOrTerm: String): Unit = {
     UrlOptionizer.extract(urlOrTerm) match {
       case Some(u) => //is url
         playImage(generate(urlOrTerm, settings))
@@ -250,14 +250,14 @@ class JenkemBot extends PircBot {
     if (settings.schemeName.equals(Scheme.Bwg.name)) { settings.reset }
   }
 
-  private def makeStop() {
+  private def makeStop(): Unit = {
     if (isPlaying) {
       stopSwitch = true
       isPlaying = false
     }
   }
 
-  private def resetStop() {
+  private def resetStop(): Unit = {
     stopSwitch = false
     isPlaying = false
     botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
@@ -270,13 +270,13 @@ class JenkemBot extends PircBot {
    * the tread stops when the stopSwitch is changed to true or when the image is done being played.
    */
   class IrcSender(fullImage: List[String]) extends Runnable {
-    override def run {
+    override def run: Unit = {
       stopSwitch = false
       isPlaying = true;
       botStatus = new BotStatus(Connected, Sending, getServer, lastChan, getNick, getDelay)
       val sendMe = "PRIVMSG " + getChannels.head + " :"
       sendImageLine(fullImage)
-      def sendImageLine(image: List[String]) {
+      def sendImageLine(image: List[String]): Unit = {
         if (!image.isEmpty) {
           sendRawLine(sendMe + image.head)
           try {

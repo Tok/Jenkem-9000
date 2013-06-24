@@ -17,5 +17,5 @@ class Inline extends VerticalLayout {
   addComponent(preview)
   setComponentAlignment(preview, Alignment.TOP_LEFT)
 
-  def setValue(value: String) { preview.setValue(value) }
+  def setValue(value: String): Unit = preview.setValue(value)
 }

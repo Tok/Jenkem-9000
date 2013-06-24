@@ -31,7 +31,7 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   presetBox.setNullSelectionAllowed(false)
   presetBox.setImmediate(true)
   presetBox.addValueChangeListener(new Property.ValueChangeListener {
-    override def valueChange(event: ValueChangeEvent) {
+    override def valueChange(event: ValueChangeEvent): Unit = {
       Scheme.valueOf(event.getProperty.getValue.toString) match {
         case Some(s) => updatePreset(s)
         case None => { }
@@ -107,7 +107,7 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     case Some(slider) => slider
     case None => new Slider
   }
-  private def updatePreset(cs: Scheme) {
+  private def updatePreset(cs: Scheme): Unit = {
     isTriggeringDisabled = true
     Scheme.ircColors.foreach(ic => getSlider(ic).setValue(ic.scheme(cs.order)))
     isTriggeringDisabled = false
@@ -122,12 +122,12 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     }
     getColorMap0(new HashMap[Scheme.IrcColor, Short], Scheme.ircColors)
   }
-  def setSelectedScheme(scheme: Scheme) { presetBox.select(scheme) }
-  def makeEnabled(enabled: Boolean) {
+  def setSelectedScheme(scheme: Scheme): Unit = presetBox.select(scheme)
+  def makeEnabled(enabled: Boolean): Unit = {
     presetBox.setEnabled(enabled)
     sliders.values.foreach(s => s.setEnabled(enabled))
   }
-  def reset {
+  def reset: Unit = {
     isTriggeringDisabled = true
     if (presetBox.getValue.equals(Scheme.Default)) {
         Scheme.valueOf(presetBox.getValue.toString) match {

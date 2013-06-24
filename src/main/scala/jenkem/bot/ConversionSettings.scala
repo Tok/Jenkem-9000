@@ -22,7 +22,7 @@ class ConversionSettings {
 
   val defaultWidth = 64
 
-  def reset {
+  def reset: Unit = {
     width = defaultWidth
     method = Method.Vortacular
     colorMap = Scheme.createColorMap(Scheme.Default)
