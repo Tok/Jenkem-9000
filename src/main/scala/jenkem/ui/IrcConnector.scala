@@ -23,18 +23,17 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   val defaultDelayMs = 1000;
   val maxDelayMs = 3000;
 
-  val freenodeServer = "irc.freenode.net"
-  val freenodePort = "8001"
-  val efnetServer = "efnet.xs4all.nl" //"irc.efnet.org"
-  val efnetPort = "6669"
-  val undernetServer = "irc.undernet.org"
-  val undernetPort = "6667"
+  type IrcNetwork = (String, Int)
+  val freenode: IrcNetwork = ("irc.freenode.net", 8001)
+  val efnet: IrcNetwork = ("efnet.xs4all.nl", 6669) //"irc.efnet.org"
+  val undernet: IrcNetwork = ("irc.undernet.org", 6667)
+  val networks = Array(freenode, efnet, undernet)
 
   val defaultChannel = "#Jenkem"
   val defaultNick = "J_"
 
-  val networkCombo = createCombo(freenodeServer)
-  val portCombo = createCombo(freenodePort)
+  val networkCombo = createCombo(freenode._1)
+  val portCombo = createCombo(freenode._2)
   val delayBox = new TextField
   delayBox.setValue(defaultDelayMs.toString)
   delayBox.setWidth("50px")
@@ -46,18 +45,17 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
     delayBox.setReadOnly(true)
   } else {
     //more options if application is not running on OpenShift
-    networkCombo.addItem(efnetServer)
-    portCombo.addItem(efnetPort)
-    networkCombo.addItem(undernetServer)
-    portCombo.addItem(undernetPort)
+    networkCombo.addItem(efnet._1)
+    portCombo.addItem(efnet._2)
+    networkCombo.addItem(undernet._1)
+    portCombo.addItem(undernet._2)
   }
 
   networkCombo.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent): Unit = {
-      if (networkCombo.getValue.toString.equalsIgnoreCase(freenodeServer)) {
-        portCombo.select(freenodePort)
-      } else if (networkCombo.getValue.toString.equalsIgnoreCase(efnetServer)) {
-        portCombo.select(efnetPort)
+      networks.find(_._1.equalsIgnoreCase(networkCombo.getValue.toString)) match {
+        case Some((net, port)) => portCombo.select(port)
+        case _ => Unit
       }
     }
   })
