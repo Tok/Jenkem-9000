@@ -55,28 +55,60 @@ class JenkemBot extends PircBot {
   var playThread = new Thread
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String) {
-    executeCommand(channel, message.split(sep))
+    evaluateCommand(channel, message.split(sep))
   }
 
-  private def executeCommand(channel: String, message: Array[String]) {
+  private def evaluateCommand(channel: String, message: Array[String]) {
     if (message.head.equalsIgnoreCase("Jenkem") ||
-        message.head.equalsIgnoreCase(getLogin) ||
-        message.head.equalsIgnoreCase(getNick)) {
-        if (message.tail.isEmpty) { convertAndPlay(channel, "") }
-        else {
-          try {
-            Command.withName(message.tail.head.toUpperCase) match {
-              case Command.GTFO | Command.QUIT => disconnect
-              case Command.STFU | Command.STOP => makeStop
-              case Command.HELP => showHelp(channel)
-              case Command.CONFIG => showConfig(channel)
-              case Command.SET => changeConfig(channel, message(2), message(3))
-              case Command.RESET => reset(channel)
-            }
-          } catch {
-            case nsee: NoSuchElementException => convertAndPlay(channel, message.tail.mkString("+"))
-          }
+      message.head.equalsIgnoreCase(getLogin) ||
+      message.head.equalsIgnoreCase(getNick)) {
+      if (message.tail.isEmpty) { convertAndPlay(channel, "") }
+      else {
+        try {
+          val item = if (message.length > 2) { Some(message(2)) } else { None }
+          val value = if (message.length > 3) { Some(message(3)) } else { None }
+          executeCommand(channel, message.tail.head.toUpperCase, item, value);
+        } catch {
+          case nsee: NoSuchElementException => convertAndPlay(channel, message.tail.mkString("+"))
         }
+      }
+    }
+  }
+
+  private def executeCommand(channel: String, command: String, item: Option[String], value: Option[String]) {
+    Command.withName(command) match {
+      case Command.GTFO | Command.QUIT => disconnect
+      case Command.STFU | Command.STOP => makeStop
+      case Command.HELP => showHelp(channel)
+      case Command.CONFIG => showConfig(channel)
+      case Command.SET => changeConfig(channel, item, value)
+      case Command.RESET => reset(channel)
+    }
+  }
+
+  private def changeConfig(channel: String, item: Option[String], value: Option[String]) {
+    item match {
+      case Some(i) =>
+        value match {
+          case Some(v) => applyNewConfigValue(channel, i, v)
+          case None => sendMessage(channel, "New value needed for " + i)
+        }
+      case None => sendMessage(channel, "Set command requires an item to change and a new value.")
+    }
+  }
+
+  private def applyNewConfigValue(sender: String, item: String, value: String) {
+    try {
+      ConfigItem.withName(item.toUpperCase) match {
+        case ConfigItem.DELAY => setMessageDelay(sender, value)
+        case ConfigItem.WIDTH => setWidth(sender, value)
+        case ConfigItem.SCHEME => setScheme(sender, value)
+        case ConfigItem.CHARSET => setCharset(sender, value)
+        case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI => setChars(sender, value)
+        case ConfigItem.POWER => setPower(sender, value)
+      }
+    } catch {
+      case nse: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
     }
   }
 
@@ -119,10 +151,10 @@ class JenkemBot extends PircBot {
    */
   private def showConfig(target: String) {
     sendMessage(target, "Delay (ms): " + getMessageDelay
-        + ", Width (chars): " + settings.width
-        + ", Power: " + settings.power
-        + ", Scheme: " + settings.schemeName
-        + ", Charset: " + settings.chars)
+      + ", Width (chars): " + settings.width
+      + ", Power: " + settings.power
+      + ", Scheme: " + settings.schemeName
+      + ", Charset: " + settings.chars)
   }
 
   /**
@@ -132,21 +164,6 @@ class JenkemBot extends PircBot {
    */
   private def showException(target: String, t: Throwable) {
     sendMessage(target, "FAIL: " + t.toString)
-  }
-
-  private def changeConfig(sender: String, item: String, value: String) {
-    try {
-      ConfigItem.withName(item.toUpperCase) match {
-        case ConfigItem.DELAY => setMessageDelay(sender, value)
-        case ConfigItem.WIDTH => setWidth(sender, value)
-        case ConfigItem.SCHEME => setScheme(sender, value)
-        case ConfigItem.CHARSET => setCharset(sender, value)
-        case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI => setChars(sender, value)
-        case ConfigItem.POWER => setPower(sender, value)
-      }
-    } catch {
-      case nse: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
-    }
   }
 
   private def getDelay: Int = super.getMessageDelay.toInt
@@ -328,10 +345,11 @@ class JenkemBot extends PircBot {
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
     val colorString = if (params.method.equals(Method.Vortacular)) {
-          ", Scheme: " + cs.schemeName  + ", Power: " + params.power } else { "" }
+      ", Scheme: " + cs.schemeName + ", Power: " + params.power
+    } else { "" }
     val message = List("Mode: " + params.method + colorString
-        + ", Chars: " + params.charset + ", Width: " + (width / 2).intValue.toString
-        + ", Brightness: " + params.brightness + ", Contrast: " + params.contrast)
+      + ", Chars: " + params.charset + ", Width: " + (width / 2).intValue.toString
+      + ", Brightness: " + params.brightness + ", Contrast: " + params.contrast)
     message ::: generate0(0)
   }
 }
