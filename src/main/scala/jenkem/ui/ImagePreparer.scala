@@ -129,11 +129,11 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   private def updateLabel(status: String, error: String) {
     Option(error) match {
       case Some(error) => statusLabel.setComponentError(new UserError(error))
-      case None => statusLabel.setComponentError(null)
+      case None => statusLabel.setComponentError(None.orNull)
     }
     statusLabel.setValue(status)
   }
-  def setStatus(status: String) { updateLabel(status, null) }
+  def setStatus(status: String) { updateLabel(status, None.orNull) }
   def setError(error: String) { updateLabel(error, error) }
   def addIcon(img: BufferedImage) { submitter.addIcon(img) }
   def setName(name: String) { submitter.setName(name) }

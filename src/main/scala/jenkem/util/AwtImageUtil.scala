@@ -20,9 +20,6 @@ import sun.misc.BASE64Encoder
 import java.util.Date
 
 object AwtImageUtil {
-  //scalastyle: NullChecker and IllegalImportsChecker warnings
-  //may be ignored for this object because awt is used.
-
   val iconSize = 32
   val defaultCrops = (0, 100, 0, 100) //xs, xe, ys, ye
   val colorWhite = new Color(255, 255, 255)
@@ -38,7 +35,7 @@ object AwtImageUtil {
       if (invert) { colorWhite } else { colorBlack }
     }
     val buffered = doBuffer(url, bg, color, crops)
-    if (invert) { new RescaleOp(-1F, 255F, null).filter(buffered, null) }
+    if (invert) { new RescaleOp(-1F, 255F, None.orNull).filter(buffered, None.orNull) }
     else { buffered }
   }
   private def doBuffer(url: String, bg: String, color: Color, crops: (Int, Int, Int, Int)): BufferedImage = {
@@ -58,7 +55,7 @@ object AwtImageUtil {
         g2d.clearRect(0, 0, cropW, cropH)
         //val transform: AffineTransform = g2d.getTransform
         val subimage = image.getSubimage(cropX, cropY, cropW, cropH)
-        g2d.drawImage(subimage, null, null)
+        g2d.drawImage(subimage, None.orNull, None.orNull)
         g2d.dispose
     }
     buffered
@@ -94,7 +91,7 @@ object AwtImageUtil {
           ImageIO.write(img, "png", imagebuffer)
           new ByteArrayInputStream(imagebuffer.toByteArray)
         } catch {
-          case ioe: IOException => null
+          case ioe: IOException => None.orNull
         }
       }
     }
@@ -116,7 +113,7 @@ object AwtImageUtil {
     val resized = new BufferedImage(width, height, img.getType)
     val g = resized.createGraphics
     g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
-    g.drawImage(img, 0, 0, width, height, 0, 0, img.getWidth, img.getHeight, null);
+    g.drawImage(img, 0, 0, width, height, 0, 0, img.getWidth, img.getHeight, None.orNull);
     g.dispose
     resized
   }

@@ -66,7 +66,7 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   setComponentAlignment(imageLayout, Alignment.MIDDLE_LEFT)
 
   val inversionCaption = new Label("Invert: ")
-  val inversionBox = new CheckBox(null)
+  val inversionBox = new CheckBox
   inversionBox.setImmediate(true)
   inversionBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
@@ -80,7 +80,7 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   setComponentAlignment(invLayout, Alignment.MIDDLE_LEFT)
 
   val bgOptions = List("white", "black")
-  val bgSelect = new OptionGroup(null, bgOptions)
+  val bgSelect = new OptionGroup(None.orNull, bgOptions)
   bgSelect.setDescription("Only relvant for images with transparency.")
   bgSelect.addStyleName("horizontal");
   bgSelect.setNullSelectionAllowed(false)

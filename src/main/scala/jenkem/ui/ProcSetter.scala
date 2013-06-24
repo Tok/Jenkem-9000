@@ -70,7 +70,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   }
 
   private def makeSlider(setting: PS): Slider = {
-    val slider = new Slider(null)
+    val slider = new Slider(None.orNull)
     slider.setWidth("170px")
     slider.setMin(Setting.min)
     slider.setMax(Setting.max)

@@ -93,7 +93,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val kickLayout = new HorizontalLayout
   val kickLabel = new Label("Kick: ")
   kickLabel.setWidth("88px")
-  val kickSelect = new OptionGroup(null, Kick.values)
+  val kickSelect = new OptionGroup(None.orNull, Kick.values)
   kickSelect.addStyleName("horizontal");
   kickSelect.setNullSelectionAllowed(false)
   kickSelect.setImmediate(true)
