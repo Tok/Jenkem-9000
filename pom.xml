@@ -482,11 +482,16 @@
         <groupId>org.jboss.as.plugins</groupId>
         <artifactId>jboss-as-maven-plugin</artifactId>
         <version>${jbossAsMavenPluginVersion}</version>
-        <configuration>
-          <hostname>localhost</hostname>
-          <port>9999</port>
-          <filename>${project.artifactId}-${project.version}.${project.packaging}</filename>
-        </configuration>
+        <executions>
+          <execution>
+            <phase>jboss-as:deploy</phase>
+            <configuration>
+              <hostname>localhost</hostname>
+              <port>9999</port>
+              <filename>${project.artifactId}-${project.version}.${project.packaging}</filename>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
