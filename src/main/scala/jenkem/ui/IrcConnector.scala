@@ -203,6 +203,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
       else { statusLabel.setValue("Bot is connected.") }
       networkCombo.setValue(botStatus.network)
       networkCombo.setEnabled(false)
+      portCombo.setEnabled(false)
       channelBox.setValue(botStatus.channel)
       channelBox.setEnabled(false)
       nickBox.setValue(botStatus.name)
@@ -215,6 +216,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
     } else {
       statusLabel.setValue("Bot is not connected.")
       networkCombo.setEnabled(true)
+      portCombo.setEnabled(true)
       channelBox.setEnabled(true)
       nickBox.setEnabled(true)
       delayBox.setEnabled(true)
