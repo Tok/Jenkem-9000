@@ -57,26 +57,25 @@ object Pal {
     charset.substring(index, index + 1)
   }
 
-  def getValChars(value: Pal, hasAnsi: Boolean): String = getVal(value, hasAnsi)
   def get(value: Pal, hasAnsi: Boolean, charset: String): String = {
     if (charset.equals(Chaos.chars)) {
-      val chars = getVal(value, hasAnsi).toCharArray.toList
+      val chars = getValChars(value, hasAnsi).toCharArray.toList
       if (chars.length > 1) { Random.shuffle(chars).head.toString }
       else { chars.head.toString }
     } else if (charset.equals(Party.chars)) {
-       getVal(value, hasAnsi).takeRight(1).toString
-    } else if (getVal(value, hasAnsi).length > 1 &&
+       getValChars(value, hasAnsi).takeRight(1).toString
+    } else if (getValChars(value, hasAnsi).length > 1 &&
         (charset.equals(Hard.chars) || charset.equals(HCrude.chars) ||
         charset.equals(Mixed.chars) || charset.equals(Letters.chars) ||
         charset.takeRight(1).equals("#"))) {
-      getVal(value, hasAnsi).toString.substring(1, 2)
+      getValChars(value, hasAnsi).toString.substring(1, 2)
     } else {
-      getVal(value, hasAnsi).take(1).toString
+      getValChars(value, hasAnsi).take(1).toString
     }
   }
 
-  private def getVal(value: Pal, hasAnsi: Boolean): String = {
-    value match { case p: Pal => if (hasAnsi) { p.ansi } else { p.ascii } }
+  def getValChars(pal: Pal, hasAnsi: Boolean): String = {
+    if (hasAnsi) { pal.ansi } else { pal.ascii }
   }
 
   def isDark(charset: String, compare: String): Boolean = {
