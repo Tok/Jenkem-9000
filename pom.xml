@@ -387,6 +387,18 @@
                   <fileset dir="${basedir}/target"
                     includes="${project.artifactId}-${project.version}-war-exec.jar" />
                 </copy>
+                <!-- remove extract folder and log -->
+                <delete failonerror="false"
+                  dir="${basedir}/deployments/standalone/jenkem/.extract" />
+                <delete failonerror="false">
+                  <fileset dir="${basedir}/deployments/standalone/jenkem/">
+                    <exclude name=".gitignore" />
+                    <exclude name="README.txt" />
+                    <exclude name="${project.artifactId}-${project.version}-war-exec.jar" />
+                    <exclude name="runjenkem.sh" />
+                    <exclude name="runjenkem.bat" />
+                  </fileset>
+                </delete>
                 <!-- may prevent warning in eclipse -->
                 <mkdir dir="${basedir}/target/WEB-INF" />
                 <copy todir="${basedir}/target/WEB-INF/" verbose="true">
