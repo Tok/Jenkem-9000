@@ -3,13 +3,9 @@ package jenkem.engine.color
 import jenkem.util.ImageUtil
 
 object Sample {
-  val MAX_RGB: Short = 255
-  val HALF_RGB: Short = 127
-
   type Coords = (Int, Int)
-  type Rgb = (Short, Short, Short)
   type Grey = (Short, Short, Short, Short)
-  type Colored = (Rgb, Rgb, Rgb, Rgb)
+  type Colored = (Color.Rgb, Color.Rgb, Color.Rgb, Color.Rgb)
 
   abstract class Dir
   sealed abstract class Ydir extends Dir
@@ -20,7 +16,7 @@ object Sample {
   case object RIGHT extends Xdir
   val dirs: List[Dir] = List(TOP, BOT, LEFT, RIGHT)
 
-  def makeGreySample(imageRgb: Map[Coords, Rgb], x: Int, y: Int, c: Int, b: Int): Grey = {
+  def makeGreySample(imageRgb: Map[Coords, Color.Rgb], x: Int, y: Int, c: Int, b: Int): Grey = {
     val topLeft = calcCol(ImageUtil.makeGreyPixel(imageRgb, x, y), c, b)
     val topRight = calcCol(ImageUtil.makeGreyPixel(imageRgb, x + 1, y), c, b)
     val bottomLeft = calcCol(ImageUtil.makeGreyPixel(imageRgb, x, y + 1), c, b)
@@ -29,7 +25,7 @@ object Sample {
   }
 
   //TL, TR, BL, BR
-  def makeColorSample(imageRgb: Map[Coords, Rgb], x: Int, y: Int, c: Int, b: Int): Colored = {
+  def makeColorSample(imageRgb: Map[Coords, Color.Rgb], x: Int, y: Int, c: Int, b: Int): Colored = {
     val tl = ImageUtil.getPixels(imageRgb, x, y)
     val tr = ImageUtil.getPixels(imageRgb, x + 1, y)
     val bl = ImageUtil.getPixels(imageRgb, x, y + 1)
@@ -41,7 +37,7 @@ object Sample {
   }
 
   def calcRgbDiff(sample: Colored, dir: Dir): Short = {
-    def calcDiff(first: Rgb, second: Rgb): Short = {
+    def calcDiff(first: Color.Rgb, second: Color.Rgb): Short = {
       val redDiff = Math.abs(first._1 - second._1)
       val greenDiff = Math.abs(first._2 - second._2)
       val blueDiff = Math.abs(first._3 - second._3)
@@ -65,13 +61,13 @@ object Sample {
     }
   }
 
-  def calcRgbMean(sample: Colored, dir: Dir): Rgb = {
-    def calcHorRgbMean(sample: Colored, xDir: Xdir): Rgb = {
+  def calcRgbMean(sample: Colored, dir: Dir): Color.Rgb = {
+    def calcHorRgbMean(sample: Colored, xDir: Xdir): Color.Rgb = {
       val xTop = getRgb(sample, xDir, TOP)
       val xBot = getRgb(sample, xDir, BOT)
       calcMean(xTop, xBot)
     }
-    def calcVertRgbMean(sample: Colored, yDir: Ydir): Rgb = {
+    def calcVertRgbMean(sample: Colored, yDir: Ydir): Color.Rgb = {
       val yLeft = getRgb(sample, LEFT, yDir)
       val yRight = getRgb(sample, RIGHT, yDir)
       calcMean(yLeft, yRight)
@@ -111,14 +107,14 @@ object Sample {
     }
   }
 
-  def getAllRgb(col: Colored): Rgb = {
+  def getAllRgb(col: Colored): Color.Rgb = {
     val r = ((col._1._1 + col._2._1 + col._3._1 + col._4._1) / 4).shortValue
     val g = ((col._1._2 + col._2._2 + col._3._2 + col._4._2) / 4).shortValue
     val b = ((col._1._3 + col._2._3 + col._3._3 + col._4._3) / 4).shortValue
     (r, g, b)
   }
 
-  private def calcMean(first: Rgb, second: Rgb): Rgb = {
+  private def calcMean(first: Color.Rgb, second: Color.Rgb): Color.Rgb = {
     val redMean = (first._1 + second._1) / 2
     val greenMean = (first._2 + second._2) / 2
     val blueMean = (first._3 + second._3) / 2
@@ -126,15 +122,15 @@ object Sample {
   }
 
   private def correctDistance(input: Int, contrast: Int): Int = {
-    val distanceFromCenter = if (input < HALF_RGB) { HALF_RGB - input } else { input - HALF_RGB }
+    val distanceFromCenter = if (input < Color.CENTER) { Color.CENTER - input } else { input - Color.CENTER }
     val contrastedDist: Double = distanceFromCenter * (1D + (contrast.doubleValue / 100))
-    val result = if (input < HALF_RGB) { HALF_RGB - contrastedDist } else { HALF_RGB + contrastedDist }
+    val result = if (input < Color.CENTER) { Color.CENTER - contrastedDist } else { Color.CENTER + contrastedDist }
     result.intValue
   }
 
   def getMeanGrey(grey: Grey): Double = (grey._1 + grey._2 + grey._3 + grey._4) / 4D
 
-  private def getRgb(sample: Colored, xDir: Xdir, yDir: Ydir): (Short, Short, Short) = get[Rgb](sample, xDir, yDir)
+  private def getRgb(sample: Colored, xDir: Xdir, yDir: Ydir): (Short, Short, Short) = get[Color.Rgb](sample, xDir, yDir)
   private def getGrey(sample: Grey, xDir: Xdir, yDir: Ydir): Short = get[Short](sample, xDir, yDir)
-  private def keepInRange(colorComponent: Int): Int = Math.max(0, Math.min(colorComponent, MAX_RGB))
+  private def keepInRange(colorComponent: Int): Int = Math.max(0, Math.min(colorComponent, Color.MAX))
 }

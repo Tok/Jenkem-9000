@@ -12,7 +12,7 @@ import jenkem.engine.color.Color
 object Engine {
   class Params(
       val method: Method,
-      val imageRgb: Map[Sample.Coords, Sample.Rgb],
+      val imageRgb: Map[Sample.Coords, Color.Rgb],
       val colorMap: Map[Scheme.IrcColor, Short],
       val charset: String,
       val settings: Setting.Instance,
@@ -189,7 +189,7 @@ object Engine {
     vertLine(horLine(diagLine(dbqpLine(line.map(_.toString).toList)))).mkString
   }
 
-  private def inferWidth(imageRgb: Map[Sample.Coords, Sample.Rgb]): Short = {
+  private def inferWidth(imageRgb: Map[Sample.Coords, Color.Rgb]): Short = {
     (imageRgb.keys.toList.map(t => t._2).max).shortValue
   }
 }

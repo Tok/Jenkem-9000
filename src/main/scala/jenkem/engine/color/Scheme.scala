@@ -14,7 +14,7 @@ object Scheme {
   def valueOf(name: String): Option[Scheme] = values.find(_.name.equalsIgnoreCase(name))
 
   //IRC colors are defacto standard. scheme colors are loosely proportional to distance from center of cube
-  sealed abstract class IrcColor(val name: String, val irc: Short, val rgb: Color.RGB, val isDark: Boolean, val scheme: List[Short])
+  sealed abstract class IrcColor(val name: String, val irc: Short, val rgb: Color.Rgb, val isDark: Boolean, val scheme: List[Short])
   case object White     extends IrcColor("white",     0, (255,255,255), false, List(100, 90,100, 10,100,100))
   case object Black     extends IrcColor("black",     1, (  0,  0,  0), true,  List(100, 90,100, 10,100,100))
   case object DarkBlue  extends IrcColor("darkBlue",  2, (  0,  0,127), true,  List(100, 66,  0, 75,  0,  0))
