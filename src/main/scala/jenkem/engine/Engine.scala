@@ -51,19 +51,17 @@ object Engine {
         }
         if (!par.settings.has(setting)) { old }
         else {
-          val firstBg = colors.get(first).get(i).bg
-          val secondBg = colors.get(second).get(i).bg
-          lazy val firstFg = colors.get(first).get(i).fg
-          lazy val secondFg = colors.get(second).get(i).fg
-          val fd = diffs.get(first).get(i)
-          val sd = diffs.get(second).get(i)
+          lazy val f: Color = colors.get(first).get(i)
+          lazy val s: Color = colors.get(second).get(i)
+          val fd: Short = diffs.get(first).get(i)
+          val sd: Short = diffs.get(second).get(i)
           val offset = ((par.settings.get(setting) * -1) + 100) / 5
           if (fd + offset < sd) {
             val ch = if (setting.equals(Setting.LEFTRIGHT)) { Pal.LEFT } else { Pal.UP }
-            selectAppropriate(old, firstBg, secondBg, totalBgs(i), secondFg, Pal.get(ch, par.hasAnsi, par.charset))
+            selectAppropriate(old, f.bg, s.bg, totalBgs(i), s.fg, Pal.get(ch, par.hasAnsi, par.charset))
           } else if (sd + offset < fd) {
             val ch = if (setting.equals(Setting.LEFTRIGHT)) { Pal.RIGHT } else { Pal.DOWN }
-            selectAppropriate(old, secondBg, firstBg, totalBgs(i), firstFg, Pal.get(ch, par.hasAnsi, par.charset))
+            selectAppropriate(old, s.bg, f.bg, totalBgs(i), f.fg, Pal.get(ch, par.hasAnsi, par.charset))
           } else { old }
         }
       }
@@ -81,8 +79,8 @@ object Engine {
     val finalLine = range.map(i => switched(i).init + changed(i)).toList
     def makeValid(i: Int, list: List[String]): String = {
       val thisOne = list(i)
-      if (i == 0) { thisOne }
-      else { if (thisOne.init.equals(switched(i - 1).init)) { thisOne.last.toString } else { thisOne } }
+      if (i != 0 && thisOne.init.equals(switched(i - 1).init)) { thisOne.last.toString }
+      else { thisOne }
     }
     range.map(makeValid(_, finalLine)).mkString
   }
