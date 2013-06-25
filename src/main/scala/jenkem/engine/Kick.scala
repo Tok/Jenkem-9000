@@ -12,13 +12,13 @@ package jenkem.engine
  *   | ## ## ##
  *   v
  */
-sealed abstract class Kick(val hasX: Boolean, val hasY: Boolean, val xOffset: Int, val yOffset: Int)
+sealed abstract class Kick(val xOffset: Int, val yOffset: Int)
 
 object Kick {
-  case object OFF extends Kick(false, false, 0, 0)
-  case object X extends Kick(true, false, 1, 0)
-  case object Y extends Kick(false, true, 0, 1)
-  case object XY extends Kick(true, true, 1, 1)
+  case object OFF extends Kick(0, 0)
+  case object X extends Kick(1, 0)
+  case object Y extends Kick(0, 1)
+  case object XY extends Kick(1, 1)
   val values: List[Kick] = List(OFF, X, Y, XY)
   def default: Kick = OFF
   def valueOf(name: String): Option[Kick] = {
