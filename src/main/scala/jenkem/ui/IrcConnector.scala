@@ -18,61 +18,49 @@ import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Notification
+import jenkem.bot.IrcSettings
 
 class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
-  val defaultDelayMs = 1000;
-  val maxDelayMs = 3000;
-
-  type IrcNetwork = (String, Int)
-  val freenode: IrcNetwork = ("irc.freenode.net", 8001)
-  val efnet: IrcNetwork = ("efnet.xs4all.nl", 6669) //"irc.efnet.org"
-  val undernet: IrcNetwork = ("irc.undernet.org", 6667)
-  val networks = Array(freenode, efnet, undernet)
-
-  val defaultChannel = "#Jenkem"
-  val defaultNick = "J_"
-
-  val networkCombo = createCombo(freenode._1)
-  val portCombo = createCombo(freenode._2)
+  val networkCombo = createCombo(IrcSettings.getDefaultNetwork.net)
+  val portCombo = createCombo(IrcSettings.getDefaultNetwork.port)
   val delayBox = new TextField
-  delayBox.setValue(defaultDelayMs.toString)
+  delayBox.setValue(IrcSettings.defaultDelayMs.toString)
   delayBox.setWidth("50px")
 
-  lockCombo(networkCombo, false)
-  lockCombo(portCombo, false)
   if (OpenShiftUtil.isOnOpenshift) {
     portCombo.setReadOnly(true)
     delayBox.setReadOnly(true)
   } else {
     //more options if application is not running on OpenShift
-    networkCombo.addItem(efnet._1)
-    portCombo.addItem(efnet._2)
-    networkCombo.addItem(undernet._1)
-    portCombo.addItem(undernet._2)
+    IrcSettings.networks.foreach(n => if (n.location.equals(IrcSettings.Loc.ELSEWHERE)) {
+        networkCombo.addItem(n.net)
+        portCombo.addItem(n.port)
+    })
   }
 
   networkCombo.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent): Unit = {
-      networks.find(_._1.equalsIgnoreCase(networkCombo.getValue.toString)) match {
-        case Some((net, port)) => portCombo.select(port)
+      IrcSettings.networks.find(_.net.equalsIgnoreCase(networkCombo.getValue.toString)) match {
+        case Some(n) => portCombo.select(n.port)
         case _ => Unit
       }
     }
   })
+
   delayBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent): Unit = {
       try {
         val delay = delayBox.getValue.toString.toInt
-        if (delay < defaultDelayMs) {
+        if (delay < IrcSettings.warningDelayMs) {
           Notification.show("Warning: Delay is low. Please make sure you are not flooding, or the bot might get kicked.")
-        } else if (delay > maxDelayMs) {
+        } else if (delay > IrcSettings.maxDelayMs) {
           Notification.show("Warning: Delay is very high. Please make sure you know what you are doing.")
         }
         IrcService.setDelay(delay)
       } catch {
         case e: NumberFormatException =>
           Notification.show("Delay must be a number. Value has been reset to default.")
-          delayBox.setValue(defaultDelayMs.toString)
+          delayBox.setValue(IrcSettings.defaultDelayMs.toString)
       }
     }
   })
@@ -138,22 +126,19 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   statusLayout.addComponent(statusLabel)
   statusLayout.addComponent(refreshButton)
 
-  channelBox.setValue(defaultChannel)
-  nickBox.setValue(defaultNick)
+  channelBox.setValue(IrcSettings.defaultChannel)
+  nickBox.setValue(IrcSettings.defaultNick)
   refresh
 
   private def createCombo(item: Any): ComboBox = {
     val combo = new ComboBox
     combo.addItem(item)
     combo.select(item)
+    combo.setTextInputAllowed(true)
+    combo.setNewItemsAllowed(true)
     combo.setNullSelectionAllowed(false)
     combo.setImmediate(true)
     combo
-  }
-
-  private def lockCombo(combo: ComboBox, value: Boolean): Unit = {
-    combo.setTextInputAllowed(!value)
-    combo.setNewItemsAllowed(!value)
   }
 
   connectButton.addClickListener(new Button.ClickListener {

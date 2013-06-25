@@ -17,13 +17,12 @@ import jenkem.util.GoogleUtil
 import jenkem.util.UrlOptionizer
 
 class JenkemBot extends PircBot {
-  val defaultDelay = 1000
   def init: Unit = {
     super.setEncoding("UTF-8")
-    super.setLogin("jenkem")
-    super.setVersion("Jenkem-9000")
+    super.setLogin(IrcSettings.login)
+    super.setVersion(IrcSettings.version)
+    super.setMessageDelay(IrcSettings.defaultDelayMs)
     super.setAutoNickChange(false)
-    super.setMessageDelay(defaultDelay)
   }
   init
 
@@ -42,20 +41,16 @@ class JenkemBot extends PircBot {
     catch { case _: java.lang.NumberFormatException => None }
   }
 
-  val emp = ""
-  val sep = " "
-  val comma = ", "
-  val setTo = " set to "
   val settings = new ConversionSettings
 
-  var lastChan = emp
-  var botStatus = new BotStatus(Disconnected, NotSending, emp, emp, emp, getDelay)
+  var lastChan = ""
+  var botStatus = new BotStatus(Disconnected, NotSending, "", "", "", getDelay)
   var stopSwitch = false
   var isPlaying = false
   var playThread = new Thread
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String): Unit = {
-    evaluateCommand(channel, message.split(sep))
+    evaluateCommand(channel, splitAtSpace(message))
   }
 
   private def evaluateCommand(channel: String, message: Array[String]): Unit = {
@@ -113,7 +108,7 @@ class JenkemBot extends PircBot {
   }
 
   override def onPrivateMessage(sender: String, login: String, hostname: String, message: String): Unit = {
-    val m = message.split(sep)
+    val m = splitAtSpace(message)
     try {
       Command.withName(m.head.toUpperCase) match {
         case Command.HELP => showHelp(sender)
@@ -194,7 +189,7 @@ class JenkemBot extends PircBot {
     value match {
       case IntExtractor(v) if min to max contains v =>
         settings.width = v
-        sendMessage(target, ConfigItem.WIDTH + setTo + v)
+        reportConfigChange(target, ConfigItem.WIDTH, v.toString)
       case IntExtractor(v) => sendMessage(target, between)
       case _ => sendMessage(target, between)
     }
@@ -205,8 +200,8 @@ class JenkemBot extends PircBot {
       case Some(scheme) =>
         settings.colorMap = Scheme.createColorMap(scheme)
         settings.setSchemeName(scheme.name)
-        sendMessage(target, ConfigItem.SCHEME + setTo + value)
-      case None => sendMessage(target, "Scheme must be one of: " + Scheme.values.mkString(comma))
+        reportConfigChange(target, ConfigItem.SCHEME, value)
+      case None => sendMessage(target, "Scheme must be one of: " + makeString(Scheme.values))
     }
   }
 
@@ -214,14 +209,14 @@ class JenkemBot extends PircBot {
     Pal.valueOf(value) match {
       case Some(scheme) =>
         settings.chars = scheme.chars
-        sendMessage(target, ConfigItem.CHARSET + setTo + scheme.chars)
+        reportConfigChange(target, ConfigItem.CHARSET, scheme.chars)
       case None =>
-        sendMessage(target, "Charset must be one of: " + Pal.values.mkString(comma))
+        sendMessage(target, "Charset must be one of: " + makeString(Pal.values))
     }
   }
 
   private def setChars(target: String, value: String): Unit = {
-    settings.chars = " " + value.replaceAll("[0-9],", emp)
+    settings.chars = " " + value.replaceAll("[0-9],", "")
     sendMessage(target, "Chars set to \"" + settings.chars + "\".")
   }
 
@@ -229,10 +224,14 @@ class JenkemBot extends PircBot {
     Power.valueOf(value) match {
       case Some(power) =>
         settings.power = power
-        sendMessage(target, ConfigItem.POWER + setTo + power.name)
+        reportConfigChange(target, ConfigItem.POWER, power.name)
       case None =>
-        sendMessage(target, "Power must be one of " + Power.values.mkString(comma))
+        sendMessage(target, "Power must be one of " + makeString(Power.values))
     }
+  }
+
+  private def reportConfigChange(target: String, item: ConfigItem.Value, value: String): Unit = {
+    sendMessage(target, item + " set to " + value)
   }
 
   private def convertAndPlay(channel: String, urlOrTerm: String): Unit = {
@@ -249,6 +248,9 @@ class JenkemBot extends PircBot {
     }
     if (settings.schemeName.equals(Scheme.Bwg.name)) { settings.reset }
   }
+
+  private def splitAtSpace(message: String): Array[String] = message.split(" ")
+  private def makeString(list: List[Any]): String = list.mkString(", ")
 
   private def makeStop(): Unit = {
     if (isPlaying) {
