@@ -7,13 +7,9 @@ import jenkem.engine.color.Power
 import jenkem.engine.color.Sample
 import jenkem.util.ColorUtil
 import jenkem.engine.color.Scheme
+import jenkem.engine.color.Color
 
 object Engine {
-  val MAX = 255
-  val CENTER = 127
-  val MIN = 0
-  val comma = ","
-
   class Params(
       val method: Method,
       val imageRgb: Map[Sample.Coords, Sample.Rgb],
@@ -47,7 +43,7 @@ object Engine {
       def direct(old: String, setting: Setting, first: Sample.Dir, second: Sample.Dir): String = {
         //TODO test if PBN pays off here
         def selectAppropriate(old: String, fix: String, first: String, second: => String, third: => String, character: String): String = {
-          val prefix = fix + comma
+          val prefix = fix + ","
           if (!fix.equals(first)) { prefix + first + character }
           else if (!fix.equals(second)) { prefix + second + character }
           else if (!fix.equals(third)) { prefix + third + character }
@@ -99,8 +95,8 @@ object Engine {
     val sam = indices.map(makeGreySample(_)).toList
     def getChar(i: Int): String = {
       def getFor(offset: Int, first: Int, second: Int, firstChar: String, secondChar: String): Option[String] = {
-        val fCond = first <= CENTER + offset && second > CENTER - offset
-        val sCond = first > CENTER - offset && second <= CENTER + offset
+        val fCond = first <= Color.CENTER + offset && second > Color.CENTER - offset
+        val sCond = first > Color.CENTER - offset && second <= Color.CENTER + offset
         if (fCond && sCond) { Some(Random.shuffle(List(firstChar, secondChar)).head) }
         else if (fCond) { Some(firstChar) }
         else if (sCond) { Some(secondChar) }

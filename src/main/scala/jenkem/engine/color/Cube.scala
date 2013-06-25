@@ -4,12 +4,12 @@ import scala.Array.canBuildFrom
 import jenkem.engine.Pal
 
 object Cube {
-  def getTwoNearestColors(col: Scheme.RGB, colorMap: Map[Scheme.IrcColor, Short], power: Power): Color = {
+  def getTwoNearestColors(col: Color.RGB, colorMap: Map[Scheme.IrcColor, Short], power: Power): Color = {
     def makeWeightedList(wl: List[WeightedColor], ic: List[Scheme.IrcColor]): List[WeightedColor] = {
       if (ic.isEmpty) { wl }
       else { makeWeightedList(createWc(colorMap, col, ic.head) :: wl, ic.tail) }
     }
-    def calcPoweredStrength(col: Scheme.RGB, wc: WeightedColor, p: Float): Float = {
+    def calcPoweredStrength(col: Color.RGB, wc: WeightedColor, p: Float): Float = {
       Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.floatValue), p).toFloat
     }
 
@@ -53,8 +53,8 @@ object Cube {
       strength)
   }
 
-  private def calcStrength(col: Scheme.RGB, comp: Scheme.RGB, factor: Float): Float = {
-    def calcDistance(from: Scheme.RGB, to: Scheme.RGB): Float = {
+  private def calcStrength(col: Color.RGB, comp: Color.RGB, factor: Float): Float = {
+    def calcDistance(from: Color.RGB, to: Color.RGB): Float = {
       Math.sqrt((Math.pow(to._1 - from._1, 2D)
         + Math.pow(to._2 - from._2, 2D)
         + Math.pow(to._3 - from._3, 2D))).toFloat
