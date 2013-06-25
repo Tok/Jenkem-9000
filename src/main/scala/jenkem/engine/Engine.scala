@@ -42,7 +42,7 @@ object Engine {
     lazy val means = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbMean(_, d)).toList)).toMap
     lazy val colors = Sample.dirs.map(d => (d, means.get(d).get.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList)).toMap
     val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.charset, par.power, _))
-    val totalBgs = chars.map(Cube.getBgCode(_))
+    val totalBgs = chars.map(ColorUtil.getBgString(_))
     def getSwitched(i: Int): String = {
       def direct(old: String, setting: Setting, first: Sample.Dir, second: Sample.Dir): String = {
         //TODO test if PBN pays off here
@@ -172,8 +172,8 @@ object Engine {
       else {
         def changeHor(list: List[String], i: Int, from: String, to: String): String = {
           if (i == 0 || i == range.last) { list(i) }
-          else if (list(i - 1).equals(darkest(par.charset)) && list(i).equals(from) && list(i + 1).equals(from)) { to }
-          else if (list(i - 1).equals(from) && list(i).equals(from) && list(i + 1).equals(darkest(par.charset))) { to }
+          else if (list(i - 1).equals(Pal.darkest(par.charset)) && list(i).equals(from) && list(i + 1).equals(from)) { to }
+          else if (list(i - 1).equals(from) && list(i).equals(from) && list(i + 1).equals(Pal.darkest(par.charset))) { to }
           else { list(i) }
         }
         val h = range.map(changeHor(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.H_LINE).get))
@@ -196,8 +196,4 @@ object Engine {
   private def inferWidth(imageRgb: Map[Sample.Coords, Sample.Rgb]): Short = {
     (imageRgb.keys.toList.map(t => t._2).max).shortValue
   }
-  private def getFg(s: String): Int = s.split(comma)(0).tail.toInt
-  private def getBg(s: String): Int = s.split(comma)(1).init.toInt
-  private def darkest(charset: String): String = charset.last.toString
-  private def brightest(charset: String): String = charset.head.toString
 }

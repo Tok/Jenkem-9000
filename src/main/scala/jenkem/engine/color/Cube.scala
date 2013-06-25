@@ -1,17 +1,16 @@
 package jenkem.engine.color
 
 import scala.Array.canBuildFrom
-
 import jenkem.engine.Pal
 
 object Cube {
-  def getTwoNearestColors(col: (Short, Short, Short), colorMap: Map[Scheme.IrcColor, Short], power: Power): Color = {
+  def getTwoNearestColors(col: Scheme.RGB, colorMap: Map[Scheme.IrcColor, Short], power: Power): Color = {
     def makeWeightedList(wl: List[WeightedColor], ic: List[Scheme.IrcColor]): List[WeightedColor] = {
       if (ic.isEmpty) { wl }
       else { makeWeightedList(createWc(colorMap, col, ic.head) :: wl, ic.tail) }
     }
-    def calcPoweredStrength(col: (Short, Short, Short), wc: WeightedColor, p: Double): Double = {
-      Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.doubleValue), p)
+    def calcPoweredStrength(col: Scheme.RGB, wc: WeightedColor, p: Float): Float = {
+      Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.floatValue), p).toFloat
     }
 
     val list: List[WeightedColor] = makeWeightedList(Nil, Scheme.ircColors)
@@ -43,43 +42,35 @@ object Cube {
     // against each other in regard to their distance to the
     // center of the cube 127,127,127
 
-    val p: Double = power.exponent
+    val p: Float = power.exponent
     val strongestStrength = calcPoweredStrength(col, strongest, p)
     val secondStrength = calcPoweredStrength(col, second, p)
-    val strength: Double = strongestStrength / secondStrength
+    val strength: Float = strongestStrength / secondStrength
 
     new Color(
-        second.ircColor.irc.toString, second.ircColor.rgb,
-        strongest.ircColor.irc.toString, strongest.ircColor.rgb,
-        strength
-    )
+      second.ircColor.irc.toString, second.ircColor.rgb,
+      strongest.ircColor.irc.toString, strongest.ircColor.rgb,
+      strength)
   }
 
-  def getColorChar(colorMap: Map[Scheme.IrcColor, Short],
-            charset: String, p: Power, rgb: (Short, Short, Short)): String = {
-    val c: Color = getTwoNearestColors(rgb, colorMap, p)
-    c.fg.toString + "," + c.bg.toString + Pal.getChar(charset, c.strength)
+  private def calcStrength(col: Scheme.RGB, comp: Scheme.RGB, factor: Float): Float = {
+    def calcDistance(from: Scheme.RGB, to: Scheme.RGB): Float = {
+      Math.sqrt((Math.pow(to._1 - from._1, 2D)
+        + Math.pow(to._2 - from._2, 2D)
+        + Math.pow(to._3 - from._3, 2D))).toFloat
+    }
+    calcDistance(col, comp) / factor
   }
 
   private def createWc(colorMap: Map[Scheme.IrcColor, Short],
     col: (Short, Short, Short), ic: Scheme.IrcColor): WeightedColor = {
-    val weight = calcStrength(col, (ic.rgb._1,ic.rgb._2,ic.rgb._3) , colorMap.get(ic).get.doubleValue)
+    val weight = calcStrength(col, (ic.rgb._1, ic.rgb._2, ic.rgb._3), colorMap.get(ic).get.floatValue)
     new WeightedColor(ic, weight)
   }
 
-  private def calcStrength(col: (Short, Short, Short), comp: (Short, Short, Short), factor: Double): Double = {
-    calcDistance(col, comp) / factor
-  }
-
-  private def calcDistance(from: (Short, Short, Short), to: (Short, Short, Short)): Double = {
-    Math.sqrt((Math.pow(to._1 - from._1, 2D)
-      + Math.pow(to._2 - from._2, 2D)
-      + Math.pow(to._3 - from._3, 2D)))
-  }
-
-  //XXX move elsewhere
-  def getBgCode(ircChar: String): String = {
-     val split = ircChar.split(",")
-     split(1).substring(0, split(1).length - 1);
+  def getColorChar(colorMap: Map[Scheme.IrcColor, Short],
+    charset: String, p: Power, rgb: (Short, Short, Short)): String = {
+    val c: Color = getTwoNearestColors(rgb, colorMap, p)
+    c.fg.toString + "," + c.bg.toString + Pal.getChar(charset, c.strength)
   }
 }

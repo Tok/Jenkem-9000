@@ -1,5 +1,5 @@
 package jenkem.engine.color
 
 case class Color(
-    val fg: String, val fgRgb: (Short, Short, Short),
-    val bg: String, val bgRgb: (Short, Short, Short), val strength: Double)
+  val fg: String, val fgRgb: Scheme.RGB,
+  val bg: String, val bgRgb: Scheme.RGB, val strength: Float)

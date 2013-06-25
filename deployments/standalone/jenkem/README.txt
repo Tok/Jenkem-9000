@@ -38,7 +38,7 @@ JENKEM CONFIG
 
 Change configuration:
 JENKEM [ConfigItem] [Value]
-ConfigItems are: DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER")
+ConfigItems are: DELAY, WIDTH, SCHEME, CHARSET, CHARS and POWER 
 
 Reset configuration:
 JENKEM RESET

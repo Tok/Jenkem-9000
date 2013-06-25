@@ -43,4 +43,8 @@ object ColorUtil {
     val ret = Integer.toHexString(i)
     if (ret.length == 1) { "0" + ret } else { ret }
   }
+
+  def getFg(s: String): Int = s.split(",")(0).tail.toInt
+  def getBgString(s: String): String = s.split(",")(1).init
+  def getBg(s: String): Int = getBgString(s).toInt
 }

@@ -92,4 +92,7 @@ object Pal {
     else if (method.equals(Method.Stencil)) { HCrude }
     else { Pal.Ansi }
   }
+
+  def darkest(charset: String): String = charset.last.toString
+  def brightest(charset: String): String = charset.head.toString
 }
