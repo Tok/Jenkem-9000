@@ -8,23 +8,12 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 object IrcService {
   val bot = new JenkemBot
 
+  def disconnect: String = { bot.disconnect; "Disconnected." }
   def connect(network: String, port: Int, channel: String, nick: String): String = {
     bot.connectAndJoin(network, port, channel, nick)
   }
 
-  def setDelay(delay: Int): Unit = {
-    bot.setMessageDelay(delay)
-  }
-
-  def disconnect(): String = {
-    bot.disconnect
-    "Disconnected."
-  }
-
-  def getBotStatus(): BotStatus = bot.botStatus
-
-  /**
-   * Saves a converted JenkemImage.
-   */
-  def sendMessage(image: java.util.List[String]): String = bot.playImage(image.asScala.toList)
+  def getBotStatus: BotStatus.Value = Sender.botStatus
+  def setDelay(delay: Int): Unit = bot.setMessageDelay(delay)
+  def sendMessage(image: java.util.List[String]): String = Sender.playImage(bot, image.asScala.toList)
 }

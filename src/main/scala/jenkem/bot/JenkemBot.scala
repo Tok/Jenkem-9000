@@ -42,12 +42,7 @@ class JenkemBot extends PircBot {
   }
 
   val settings = new ConversionSettings
-
   var lastChan = ""
-  var botStatus = new BotStatus(Disconnected, NotSending, "", "", "", getDelay)
-  var stopSwitch = false
-  var isPlaying = false
-  var playThread = new Thread
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String): Unit = {
     evaluateCommand(channel, splitAtSpace(message))
@@ -73,7 +68,7 @@ class JenkemBot extends PircBot {
   private def executeCommand(channel: String, command: String, item: Option[String], value: Option[String]): Unit = {
     Command.withName(command) match {
       case Command.GTFO | Command.QUIT => disconnect
-      case Command.STFU | Command.STOP => makeStop
+      case Command.STFU | Command.STOP => Sender.makeStop
       case Command.HELP => showHelp(channel)
       case Command.CONFIG => showConfig(channel)
       case Command.SET => changeConfig(channel, item, value)
@@ -120,11 +115,11 @@ class JenkemBot extends PircBot {
   }
 
   override def onConnect: Unit = {
-    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
+    Sender.botStatus = new BotStatus.Value(Connected, NotSending, getServer, lastChan, getNick, getDelay)
   }
 
   override def onDisconnect: Unit = {
-    botStatus = new BotStatus(Disconnected, NotSending, getServer, lastChan, getNick, getDelay)
+    Sender.botStatus = new BotStatus.Value(Disconnected, NotSending, getServer, lastChan, getNick, getDelay)
   }
 
   /**
@@ -161,7 +156,7 @@ class JenkemBot extends PircBot {
     sendMessage(target, "FAIL: " + t.toString)
   }
 
-  private def getDelay: Int = super.getMessageDelay.toInt
+  def getDelay: Int = super.getMessageDelay.toInt
 
   private def setMessageDelay(target: String, value: String): Unit = {
     val min = 100
@@ -171,7 +166,7 @@ class JenkemBot extends PircBot {
       case IntExtractor(v) if min to max contains v =>
         setMessageDelay(v)
         sendMessage(target, ConfigItem.DELAY + " set to " + v)
-        botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
+        Sender.botStatus = new BotStatus.Value(Connected, NotSending, getServer, lastChan, getNick, getDelay)
       case IntExtractor(v) => sendMessage(target, ConfigItem.DELAY + " must be" + between)
       case _ => sendMessage(target, ConfigItem.DELAY + " must be a numeric value" + between)
     }
@@ -237,12 +232,12 @@ class JenkemBot extends PircBot {
   private def convertAndPlay(channel: String, urlOrTerm: String): Unit = {
     UrlOptionizer.extract(urlOrTerm) match {
       case Some(u) => //is url
-        playImage(generate(urlOrTerm, settings))
+        Sender.playImage(this, generate(urlOrTerm, settings))
       case None => //is term
         GoogleUtil.getUrlForTerm(urlOrTerm) match {
           case Some(imageUrl) =>
             sendMessage(channel, imageUrl)
-            playImage(generate(imageUrl, settings))
+            Sender.playImage(this, generate(imageUrl, settings))
           case None => sendMessage(channel, "Fail: Cannot find image for \"" + urlOrTerm + "\"")
         }
     }
@@ -252,53 +247,13 @@ class JenkemBot extends PircBot {
   private def splitAtSpace(message: String): Array[String] = message.split(" ")
   private def makeString(list: List[Any]): String = list.mkString(", ")
 
-  private def makeStop(): Unit = {
-    if (isPlaying) {
-      stopSwitch = true
-      isPlaying = false
-    }
-  }
-
-  private def resetStop(): Unit = {
-    stopSwitch = false
-    isPlaying = false
-    botStatus = new BotStatus(Connected, NotSending, getServer, lastChan, getNick, getDelay)
-  }
-
-  /**
-   * Runs a thread to play the image into the channel.
-   * this is done in Jenkems own thread so an asynchronous command can set the stop switch while the image is forwarded to IRC.
-   * Pircbots OutputMessage queue is thus bypassed by directly using sendRawLine method.
-   * the tread stops when the stopSwitch is changed to true or when the image is done being played.
-   */
-  class IrcSender(fullImage: List[String]) extends Runnable {
-    override def run: Unit = {
-      stopSwitch = false
-      isPlaying = true;
-      botStatus = new BotStatus(Connected, Sending, getServer, lastChan, getNick, getDelay)
-      val sendMe = "PRIVMSG " + getChannels.head + " :"
-      sendImageLine(fullImage)
-      def sendImageLine(image: List[String]): Unit = {
-        if (!image.isEmpty) {
-          sendRawLine(sendMe + image.head)
-          try {
-            Thread.sleep(getMessageDelay)
-          } catch {
-            case ie: InterruptedException => sendRawLine(sendMe + ie.getMessage)
-          }
-          if (!stopSwitch) { sendImageLine(image.tail) } else { resetStop }
-        } else { resetStop } //finished
-      }
-    }
-  }
-
   /**
    * Connects the jenkem bot to IRC and joins the selected channel.
    */
   def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {
     settings.reset
     def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
-      botStatus = new BotStatus(Disconnected, NotSending, network, channel, nick, getDelay)
+      Sender.botStatus = new BotStatus.Value(Disconnected, NotSending, network, channel, nick, getDelay)
       message
     }
     try {
@@ -311,24 +266,6 @@ class JenkemBot extends PircBot {
       case nie: NickAlreadyInUseException => handleConnectionException("Fail: Nick is already in use.", network, channel, nick)
       case ioe: IOException => handleConnectionException("Fail: IOException: " + ioe, network, channel, nick)
       case ie: IrcException => handleConnectionException("Fail: IrcException: " + ie, network, channel, nick)
-    }
-  }
-
-  /**
-   * Takes a String[] and floods it to IRC by using a new Thread.
-   * @param channel name of the channel
-   * @param out a String[] with the image as ASCII for IRC.
-   */
-  @throws(classOf[InterruptedException])
-  def playImage(out: List[String]): String = {
-    this.synchronized {
-      if (isPlaying) { "Bot is busy." }
-      else if (getChannels.isEmpty) { "Bot is not in any channel." }
-      else {
-        playThread = new Thread(new IrcSender(out))
-        playThread.start
-        "Playing image..."
-      }
     }
   }
 

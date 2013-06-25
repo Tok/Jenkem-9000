@@ -10,8 +10,11 @@ case object Sending extends SendStatus
 case object NotSending extends SendStatus
 case object UnknownSendStatus extends SendStatus
 
-class BotStatus(val connectionStatus: ConnectionStatus, val sendStatus: SendStatus,
-  val network: String, val channel: String, val name: String, val delay: Int) {
-  val isConnected: Boolean = connectionStatus == Connected
-  val isSending: Boolean = sendStatus == Sending
+object BotStatus {
+  def getDefault: Value = new Value(Disconnected, NotSending, "", "", "", IrcSettings.defaultDelayMs)
+  class Value(val connectionStatus: ConnectionStatus, val sendStatus: SendStatus,
+    val network: String, val channel: String, val name: String, val delay: Int) {
+    val isConnected: Boolean = connectionStatus == Connected
+    val isSending: Boolean = sendStatus == Sending
+  }
 }

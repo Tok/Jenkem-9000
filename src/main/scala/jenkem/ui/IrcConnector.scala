@@ -182,22 +182,22 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
 
   def refresh: Unit = showBotStatus(IrcService.getBotStatus)
 
-  private def showBotStatus(botStatus: BotStatus): Unit = {
-    if (botStatus.isConnected || botStatus.isSending) {
-      if (botStatus.isSending) { statusLabel.setValue("Bot is busy...") }
+  private def showBotStatus(stat: BotStatus.Value): Unit = {
+    if (stat.isConnected || stat.isSending) {
+      if (stat.isSending) { statusLabel.setValue("Bot is busy...") }
       else { statusLabel.setValue("Bot is connected.") }
-      networkCombo.setValue(botStatus.network)
+      networkCombo.setValue(stat.network)
       networkCombo.setEnabled(false)
       portCombo.setEnabled(false)
-      channelBox.setValue(botStatus.channel)
+      channelBox.setValue(stat.channel)
       channelBox.setEnabled(false)
-      nickBox.setValue(botStatus.name)
+      nickBox.setValue(stat.name)
       nickBox.setEnabled(false)
-      delayBox.setValue(botStatus.delay.toString)
+      delayBox.setValue(stat.delay.toString)
       delayBox.setEnabled(false)
       connectButton.setEnabled(false)
       disconnectButton.setEnabled(true)
-      sendButton.setEnabled(!botStatus.isSending)
+      sendButton.setEnabled(!stat.isSending)
     } else {
       statusLabel.setValue("Bot is not connected.")
       networkCombo.setEnabled(true)
