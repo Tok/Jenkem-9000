@@ -157,7 +157,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   resetButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent): Unit = {
-      doReset //triggers conversion
+      doReset //may trigger conversion
       startConversion(false, false)
     }
   })
@@ -311,46 +311,58 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
       conversionDisabled = true
       imagePreparer.getUrl match {
         case Some(url) =>
-          if (prepareImage) { doPrepareImage(url) }
-          if (resize) { doPrepareImageData(url) }
-          if (prepareImage) {
-            makeInits
-            conversionDisabled = false
-            startConversion(false, false)
-          } else { makeConversion }
+          try {
+            val totalStart = (new Date).getTime
+            if (prepareImage) { doPrepareImage(url) }
+            if (resize) { doPrepareImageData(url) }
+            if (prepareImage) {
+              makeInits
+              conversionDisabled = false
+              startConversion(false, false)
+            } else {
+              val (conversionTime, htmlTime) = makeConversion
+              val totalEnd = (new Date).getTime
+              val totalTime = totalEnd - totalStart
+              val status = "Image converted in " + conversionTime + "ms. " +
+                    "HTML generated in " + htmlTime + "ms. " +
+                    "Total time " + totalTime + "ms."
+              imagePreparer.setStatus(status)
+              System.gc
+            }
+          } catch {
+            case iioe: javax.imageio.IIOException => imagePreparer.setError("Cannot read image from URL.")
+            case e: Exception => imagePreparer.setError(e.getMessage)
+          }
         case None => { }
       }
     }
   }
 
-  private def makeConversion(): Unit = {
-    try {
-      val chars = charTextField.getValue.replaceAll("[,0-9]", "")
-      val contrast = contrastLabel.getValue.toShort
-      val brightness = brightnessLabel.getValue.toShort
-      convData = new ConversionData(contrast, brightness, chars)
-      val ps = procSetter.getSettings
-      val params = new Engine.Params(
-        imageData.method,
-        imageData.imageRgb,
-        ircColorSetter.getColorMap,
-        chars,
-        ps,
-        contrast,
-        brightness,
-        Power.valueOf(powerBox.getValue.toString).get
-      )
-      ircOutput = generateIrcOutput(params, imageData.height)
-      outputDisplay.addIrcOutput(ircOutput.map(_ + "\n"))
-      updateInline(imageData.method, ircOutput, imagePreparer.getName)
-      imagePreparer.setStatus("Ready...")
-      ircConnector.refresh
-      conversionDisabled = false
-      System.gc
-    } catch {
-      case iioe: javax.imageio.IIOException => imagePreparer.setError("Cannot read image from URL.")
-      case e: Exception => imagePreparer.setError(e.getMessage)
-    }
+  private def makeConversion(): (Long, Long) = {
+    val chars = charTextField.getValue.replaceAll("[,0-9]", "")
+    val contrast = contrastLabel.getValue.toShort
+    val brightness = brightnessLabel.getValue.toShort
+    convData = new ConversionData(contrast, brightness, chars)
+    val ps = procSetter.getSettings
+    val params = new Engine.Params(
+      imageData.method,
+      imageData.imageRgb,
+      ircColorSetter.getColorMap,
+      chars,
+      ps,
+      contrast,
+      brightness,
+      Power.valueOf(powerBox.getValue.toString).get
+    )
+    val conversionStart = (new Date).getTime
+    ircOutput = generateIrcOutput(params, imageData.height)
+    val conversionEnd = (new Date).getTime
+    val conversionDiff = conversionEnd - conversionStart
+    outputDisplay.addIrcOutput(ircOutput.map(_ + "\n"))
+    val htmlDiff = updateInline(imageData.method, ircOutput, imagePreparer.getName)
+    ircConnector.refresh
+    conversionDisabled = false
+    (conversionDiff, htmlDiff)
   }
 
   private def generateIrcOutput(params: Engine.Params, lastIndex: Int) = {
@@ -361,11 +373,14 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     generate0(0)
   }
 
-  private def updateInline(method: Method, ircOutput: List[String], name: String): Unit = {
+  private def updateInline(method: Method, ircOutput: List[String], name: String): Long = {
+    val htmlStart = (new Date).getTime
     val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, method)
     val inlineCss = HtmlUtil.prepareCssForInline(htmlAndCss._2)
     val inlineHtml = HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)
+    val htmlEnd = (new Date).getTime
     inline.setValue(inlineHtml)
+    htmlEnd - htmlStart
   }
 
   private def makeInits(): Unit = {

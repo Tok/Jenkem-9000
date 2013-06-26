@@ -41,7 +41,6 @@ object Engine {
     val totalBgs = chars.map(ColorUtil.getBgString(_))
     def getSwitched(i: Int): String = {
       def direct(old: String, setting: Setting, first: Sample.Dir, second: Sample.Dir): String = {
-        //TODO test if PBN pays off here
         if (!par.settings.has(setting)) { old }
         else {
           lazy val f: Color = colors.get(first).get(i)
