@@ -32,7 +32,7 @@ class JenkemBot extends PircBot {
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY, WIDTH, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER = Value
+    val DELAY, WIDTH, MODE, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER = Value
   }
 
   object IntExtractor {
@@ -91,6 +91,7 @@ class JenkemBot extends PircBot {
       ConfigItem.withName(item.toUpperCase) match {
         case ConfigItem.DELAY => setMessageDelay(sender, value)
         case ConfigItem.WIDTH => setWidth(sender, value)
+        case ConfigItem.MODE => setMethod(sender, value)
         case ConfigItem.SCHEME => setScheme(sender, value)
         case ConfigItem.CHARSET => setCharset(sender, value)
         case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI => setChars(sender, value)
@@ -189,6 +190,15 @@ class JenkemBot extends PircBot {
     }
   }
 
+  private def setMethod(target: String, value: String): Unit = {
+    Method.valueOf(value) match {
+      case Some(method) =>
+        settings.method = method
+        reportConfigChange(target, ConfigItem.MODE, value)
+      case None => sendMessage(target, "Mode must be one of: " + makeString(Method.values))
+    }
+  }
+
   private def setScheme(target: String, value: String): Unit = {
     Scheme.valueOf(value) match {
       case Some(scheme) =>
@@ -283,12 +293,17 @@ class JenkemBot extends PircBot {
       if (index + 2 > lastIndex) { System.gc; Nil }
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
-    val colorString = if (params.method.equals(Method.Vortacular)) {
-      ", Scheme: " + cs.schemeName + ", Power: " + params.power
+    val hasColor = params.method.hasColor
+    val notPwntari = !params.method.equals(Method.Pwntari)
+    val colorString = if (hasColor) { ", Scheme: " + cs.schemeName } else { "" }
+    val powerString = if (notPwntari) { ", Power: " + params.power } else { "" }
+    val charsString = if (notPwntari) { ", Chars: " + params.charset } else { "" }
+    val brightAndContString = if (notPwntari) {
+      ", Brightness: " + params.brightness + ", Contrast: " + params.contrast
     } else { "" }
-    val message = List("Mode: " + params.method + colorString
-      + ", Chars: " + params.charset + ", Width: " + (width / 2).intValue.toString
-      + ", Brightness: " + params.brightness + ", Contrast: " + params.contrast)
+    val message = List("Mode: " + params.method + colorString + powerString
+      + charsString + ", Width: " + (width / 2).intValue.toString
+      + brightAndContString)
     message ::: generate0(0)
   }
 }

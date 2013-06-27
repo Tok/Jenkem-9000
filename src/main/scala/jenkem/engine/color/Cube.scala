@@ -4,31 +4,26 @@ import scala.Array.canBuildFrom
 import jenkem.engine.Pal
 
 object Cube {
+  def getNearest(col: Color.Rgb, colorMap: Map[Scheme.IrcColor, Short]): Short = {
+    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)
+    val shuffled: List[WeightedColor] = util.Random.shuffle(list)
+    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)
+    ordered.head.ircColor.irc
+  }
+
+  private def makeWeightedList(col: Color.Rgb, colorMap: Map[Scheme.IrcColor, Short], ic: List[Scheme.IrcColor], wl: List[WeightedColor]): List[WeightedColor] = {
+    if (ic.isEmpty) { wl }
+    else { makeWeightedList(col, colorMap, ic.tail, createWc(colorMap, col, ic.head) :: wl) }
+  }
+
   def getTwoNearestColors(col: Color.Rgb, colorMap: Map[Scheme.IrcColor, Short], power: Power): Color = {
-    def makeWeightedList(wl: List[WeightedColor], ic: List[Scheme.IrcColor]): List[WeightedColor] = {
-      if (ic.isEmpty) { wl }
-      else { makeWeightedList(createWc(colorMap, col, ic.head) :: wl, ic.tail) }
-    }
-    def calcPoweredStrength(col: Color.Rgb, wc: WeightedColor, p: Float): Float = {
+    def calcPoweredStrength(wc: WeightedColor, p: Float): Float = {
       Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.floatValue), p).toFloat
     }
 
-    val list: List[WeightedColor] = makeWeightedList(Nil, Scheme.ircColors)
-    // if the list isn't shuffled the following occurs:
-    // the color that happens to be the 1st in the collection is used in
-    // favor of the others,
-    // when more possible values would apply with the same strength.
-    // this is not good, because it often favors one random color of (RGB)
-    // and of (CYM) over the others.
-    // instead, all possibilities of R, G or B should use Black and C, Y or
-    // M should use White instead of the color that
-    // is selected by doing nothing.
-    // doing this could potentially have a good effect on the output of
-    // colorless images with alot of pixels
-    // on the black-white scale
-    // (=represented by the black to white diagonal in the cube, which has
-    // the same distance to all the 3 RGB and the 3 CMY edges).
+    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)
 
+    // shuffle to balance colors with same strength
     val shuffled: List[WeightedColor] = util.Random.shuffle(list)
     val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)
     val strongest: WeightedColor = ordered.head
@@ -43,8 +38,8 @@ object Cube {
     // center of the cube 127,127,127
 
     val p: Float = power.exponent
-    val strongestStrength = calcPoweredStrength(col, strongest, p)
-    val secondStrength = calcPoweredStrength(col, second, p)
+    val strongestStrength = calcPoweredStrength(strongest, p)
+    val secondStrength = calcPoweredStrength(second, p)
     val strength: Float = strongestStrength / secondStrength
 
     new Color(

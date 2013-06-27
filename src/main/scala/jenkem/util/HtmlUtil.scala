@@ -31,9 +31,11 @@ object HtmlUtil {
     css.append("div { float: left; width: auto; clear: both; }\n")
     css.append("span { float: left; width: auto; }\n")
     val lines = ircOutput.filterNot(_.equals(""))
-    if (!method.equals(Method.Vortacular)) {
+    if (method.hasColor) {
+      (0 until lines.length).foreach(i => generateColored(html, css, lines(i), i))
+    } else {
       (0 until lines.length).foreach(i => generatePlain(html, css, lines(i), i))
-    } else { (0 until lines.length).foreach(i => generateColored(html, css, lines(i), i)) }
+    }
     html.append("</div>\n<div class=\"ircBinary\"><a href=\"")
     html.append(getIrcUrl(name))
     html.append("\" onclick=\"this.target='blank'\">Download binary textfile for IRC</a></div>\n")
@@ -41,7 +43,7 @@ object HtmlUtil {
     html.append(HOST)
     html.append(getHtmlUrl(name))
     html.append("\"><img src=\"/VAADIN/images/valid-html.png\" alt=\"Valid HTML 4.01 Strict\" style=\"border: 0; width: 88px; height: 31px\"></a>")
-    if (method.equals(Method.Vortacular)) {
+    if (method.hasColor) {
       html.append("<a href=\"http://jigsaw.w3.org/css-validator/validator?uri=")
       html.append(HOST)
       html.append(getCssUrl(name))

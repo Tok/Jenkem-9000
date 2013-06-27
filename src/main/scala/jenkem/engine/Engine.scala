@@ -8,6 +8,7 @@ import jenkem.engine.color.Sample
 import jenkem.util.ColorUtil
 import jenkem.engine.color.Scheme
 import jenkem.engine.color.Color
+import jenkem.util.ImageUtil
 
 object Engine {
   class Params(
@@ -23,8 +24,42 @@ object Engine {
   }
 
   def generateLine(par: Params, index: Int): String = {
-    if (par.method.equals(Method.Vortacular)) { generateVortacularLine(par, index) }
-    else { generatePlainLine(par, index) }
+    par.method match {
+      case Method.Vortacular => generateVortacularLine(par, index)
+      case Method.Pwntari => generatePwntariLine(par, index)
+      case _ => generatePlainLine(par, index)
+    }
+  }
+
+  private def generatePwntariLine(par: Params, index: Int): String = {
+    def consolidateDuplicates(chars: List[String]): List[String] = {
+      def consolidateDuplicates0(chars: List[String], accu: List[String], i: Int): List[String] = {
+        if (i == chars.length) { accu }
+        else {
+          val thisOne = chars(i)
+          if (i == 0) { consolidateDuplicates0(chars, accu ::: List(thisOne), i + 1) }
+          else {
+            val eq = thisOne.equals(chars(i - 1))
+            val newChar = if (eq) { List("▄") } else { List(thisOne) }
+            consolidateDuplicates0(chars, accu ::: newChar, i + 1)
+          }
+        }
+      }
+      consolidateDuplicates0(chars, Nil, 0)
+    }
+    val width = inferWidth(par.imageRgb)
+    val realIndices = (0 until width).filter(_ % 2 == 0)
+    val tl = realIndices.map(i => ImageUtil.getPixels(par.imageRgb, i, index))
+    val tr = realIndices.map(i => ImageUtil.getPixels(par.imageRgb, i + 1, index))
+    val bl = realIndices.map(i => ImageUtil.getPixels(par.imageRgb, i, index + 1))
+    val br = realIndices.map(i => ImageUtil.getPixels(par.imageRgb, i + 1, index + 1))
+    val indices = (0 until (width / 2))
+    val t = indices.map(i => Sample.calcMean(tl(i), tr(i)))
+    val b = indices.map(i => Sample.calcMean(bl(i), br(i)))
+    val tIrc = t.map(Cube.getNearest(_, par.colorMap))
+    val bIrc = b.map(Cube.getNearest(_, par.colorMap))
+    val chars = indices.map(i => ColorUtil.makePwnIrc(bIrc(i), tIrc(i))).toList
+    consolidateDuplicates(chars).mkString
   }
 
   private def generateVortacularLine(par: Params, index: Int): String = {
@@ -37,6 +72,12 @@ object Engine {
     lazy val diffs = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap
     lazy val means = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbMean(_, d)).toList)).toMap
     lazy val colors = Sample.dirs.map(d => (d, means.get(d).get.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList)).toMap
+
+    //lazy val tl = sam.map(_._1) //TODO use Cube.getNearest
+    //lazy val tr = sam.map(_._2)
+    //lazy val bl = sam.map(_._3)
+    //lazy val br = sam.map(_._4)
+
     val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.charset, par.power, _))
     val totalBgs = chars.map(ColorUtil.getBgString(_))
     def getSwitched(i: Int): String = {

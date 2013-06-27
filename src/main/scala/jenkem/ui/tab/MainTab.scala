@@ -408,8 +408,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   private def makeInitsForMethod(): Unit = {
     conversionDisabled = true
     val method = Method.valueOf(methodBox.getValue.toString).get
-    ircColorSetter.makeEnabled(method.equals(Method.Vortacular))
-    powerBox.setEnabled(method.equals(Method.Vortacular))
+    ircColorSetter.makeEnabled(method.hasColor)
+    powerBox.setEnabled(method.hasColor)
     procSetter.reset(Pal.hasAnsi(charTextField.getValue))
     charsetBox.setValue(Pal.getForMethod(method)) //unsets conversionDisabled!
     conversionDisabled = false

@@ -114,7 +114,7 @@ object Sample {
     (r, g, b)
   }
 
-  private def calcMean(first: Color.Rgb, second: Color.Rgb): Color.Rgb = {
+  def calcMean(first: Color.Rgb, second: Color.Rgb): Color.Rgb = {
     val redMean = (first._1 + second._1) / 2
     val greenMean = (first._2 + second._2) / 2
     val blueMean = (first._3 + second._3) / 2

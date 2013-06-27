@@ -40,6 +40,8 @@ class InfoTab extends VerticalLayout {
   addLabel("Vortacular:")
   addLabel("\tThis is the default method for colored images.")
   addLabel("\tWill push four pixels into one character.")
+  addLabel("Pwntari:")
+  addLabel("\tMore pixels, but less colors.")
   addLabel("Plain:")
   addLabel("\tDoesn't output any colors.")
   addLabel("Stencil:")
