@@ -12,6 +12,6 @@ abstract class AbstractOutputServlet extends HttpServlet {
   val jenkemService = PersistenceService
   def obtainName(request: HttpServletRequest): String = {
     val extendedName = request.getParameter("name")
-    extendedName.substring(0, extendedName.lastIndexOf('.'));
+    extendedName.substring(0, extendedName.lastIndexOf('.'))
   }
 }

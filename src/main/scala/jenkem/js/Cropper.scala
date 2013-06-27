@@ -14,7 +14,7 @@ import scala.collection.mutable.ArrayBuffer
  */
 @JavaScript(Array("croplib.js", "cropper-connector.js"))
 class Cropper extends AbstractJavaScriptComponent {
-  var isReady = false;
+  var isReady = false
 
   addFunction(
     "onSelect",
@@ -22,7 +22,7 @@ class Cropper extends AbstractJavaScriptComponent {
       @throws(classOf[JSONException])
       override def call(arguments: JSONArray) {
         if (isReady) { //ignore first resize
-          val coords = arguments.get(0).asInstanceOf[JSONArray];
+          val coords = arguments.get(0).asInstanceOf[JSONArray]
           val crops = new Crops(
             coords.getInt(0),
             coords.getInt(1),

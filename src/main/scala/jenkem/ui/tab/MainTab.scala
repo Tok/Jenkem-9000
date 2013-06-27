@@ -97,7 +97,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val kickLabel = new Label("Kick: ")
   kickLabel.setWidth("88px")
   val kickSelect = new OptionGroup(None.orNull, Kick.values)
-  kickSelect.addStyleName("horizontal");
+  kickSelect.addStyleName("horizontal")
   kickSelect.setNullSelectionAllowed(false)
   kickSelect.setImmediate(true)
   kickSelect.addValueChangeListener(resizeValueChangeListener)
@@ -129,8 +129,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   mainLayout.addComponent(settingsLayout)
 
   val methodBox = makeListMethodSelect("Conversion Method: ")
-  val resetButton = new Button("Reset")
-  settingsLayout.addComponent(makeLabeled("Reset All Settings: ", capW, resetButton, false))
+  val resetButton = new Button("Reset Conversion Settings")
+  settingsLayout.addComponent(makeLabeled("Action: ", capW, resetButton, false))
   val (brightnessSlider, brightnessLabel) = makeSliderAndLabel("Character Brightness: ", -100, 100, 0)
   val (contrastSlider, contrastLabel) = makeSliderAndLabel("Character Contrast: ", -100, 100, 0)
 
@@ -287,7 +287,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val lineWidth = widthSlider.getValue.shortValue
     val method = Method.valueOf(methodBox.getValue.toString).get
     val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
-    val scaled = AwtImageUtil.getScaled(originalImage, width, height, kick)
+    val b = imagePreparer.getBrightness
+    val c = imagePreparer.getContrast
+    val scaled = AwtImageUtil.getScaled(originalImage, width, height, kick, b, c)
     inline.setIntermediate(scaled, method)
     val imageRgb = AwtImageUtil.getImageRgb(scaled)
     imageData = new ImageData(imageRgb, scaled.getWidth.toShort, scaled.getHeight.toShort, lineWidth, method)
@@ -384,7 +386,10 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     brightnessSlider.setValue(0)
     val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData.imageRgb)
     methodOpt match {
-      case Some(meth) => methodBox.setValue(meth)
+      case Some(meth) =>
+        if (imagePreparer.getBrightness == 0 && imagePreparer.getContrast == 0) {
+          methodBox.setValue(meth)
+        }
       case None => { }
     }
     ircColorSetter.setSelectedScheme(scheme)

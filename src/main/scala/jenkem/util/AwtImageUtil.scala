@@ -4,6 +4,7 @@ import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import java.awt.image.RescaleOp
+import java.awt.image.LookupOp
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -19,6 +20,7 @@ import sun.misc.BASE64Encoder
 import java.util.Date
 import java.awt.RenderingHints
 import jenkem.engine.Method
+import java.awt.image.ShortLookupTable
 
 object AwtImageUtil {
   type Crops = (Int, Int, Int, Int)
@@ -117,10 +119,10 @@ object AwtImageUtil {
   }
 
   def getScaled(img: BufferedImage, width: Int, height: Int): BufferedImage = {
-    getScaled(img, width, height, Kick.OFF)
+    getScaled(img, width, height, Kick.OFF, 0, 0)
   }
 
-  def getScaled(img: BufferedImage, width: Int, height: Int, kick: Kick): BufferedImage = {
+  def getScaled(img: BufferedImage, width: Int, height: Int, kick: Kick, b: Int, c: Int): BufferedImage = {
     val resized = new BufferedImage(width, height, img.getType)
     val g2d = resized.createGraphics
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)
@@ -131,6 +133,22 @@ object AwtImageUtil {
     g2d.dispose
     val wx = resized.getWidth - (2 * kick.xOffset)
     val hx = resized.getHeight - (2 * kick.yOffset)
-    resized.getSubimage(kick.xOffset, kick.yOffset, wx, hx)
+    val sub = resized.getSubimage(kick.xOffset, kick.yOffset, wx, hx)
+    val bloped = new LookupOp(brightnessLot(b), None.orNull).filter(sub, sub)
+    val cloped = new LookupOp(contrastLot(c), None.orNull).filter(sub, sub)
+    sub
+  }
+
+  private def brightnessLot(b: Int): ShortLookupTable = {
+    def getValue(v: Int): Short = Math.max(0, Math.min(255, v + b)).toShort
+    val table: Array[Short] = (0 to 255).map(getValue(_)).toArray
+    new ShortLookupTable(0, table)
+  }
+
+  private def contrastLot(c: Int): ShortLookupTable = {
+    val cf = (c + 100F).toFloat / 100F
+    def getValue(v: Int): Short = Math.max(0, Math.min(255, v * cf)).toShort
+    val table: Array[Short] = (0 to 255).map(getValue(_)).toArray
+    new ShortLookupTable(0, table)
   }
 }

@@ -27,6 +27,7 @@ import jenkem.util.AwtImageUtil
 class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   val maxNameLength = 40
   var disable = false
+  var disableTrigger = false
 
   setSpacing(true)
 
@@ -70,7 +71,9 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   inversionBox.setImmediate(true)
   inversionBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
-      eventRouter.fireEvent(new DoConversionEvent(true, true))
+      if (!disableTrigger) {
+        eventRouter.fireEvent(new DoConversionEvent(true, true))
+      }
     }
   })
   val invLayout = new HorizontalLayout
@@ -82,13 +85,15 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
   val bgOptions = List("white", "black")
   val bgSelect = new OptionGroup(None.orNull, bgOptions)
   bgSelect.setDescription("Only relvant for images with transparency.")
-  bgSelect.addStyleName("horizontal");
+  bgSelect.addStyleName("horizontal")
   bgSelect.setNullSelectionAllowed(false)
   bgSelect.setImmediate(true)
   bgSelect.setValue(bgOptions(0))
   bgSelect.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent): Unit = {
-      eventRouter.fireEvent(new DoConversionEvent(true, true))
+      if (!disableTrigger) {
+        eventRouter.fireEvent(new DoConversionEvent(true, true))
+      }
     }
   })
   addComponent(bgSelect)
@@ -111,7 +116,12 @@ class Submitter(val eventRouter: EventRouter) extends HorizontalLayout {
       nameTextField.setValue(clean)
     }
   }
-  def reset: Unit = bgSelect.setValue(bgOptions(0))
+  def reset: Unit = {
+    disableTrigger = true
+    bgSelect.setValue(bgOptions(0))
+    inversionBox.setValue(false)
+    disableTrigger = false
+  }
   def isInvert: Boolean = inversionBox.getValue
   def getBg: String = bgSelect.getValue.toString
   def getName: String = nameTextField.getValue

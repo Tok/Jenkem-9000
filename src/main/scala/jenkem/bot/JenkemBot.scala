@@ -56,7 +56,7 @@ class JenkemBot extends PircBot {
         try {
           val item = if (message.length > 2) { Some(message(2)) } else { None }
           val value = if (message.length > 3) { Some(message(3)) } else { None }
-          executeCommand(channel, message.tail.head.toUpperCase, item, value);
+          executeCommand(channel, message.tail.head.toUpperCase, item, value)
         } catch {
           case nsee: NoSuchElementException => convertAndPlay(channel, message.tail.mkString("+"))
         }
@@ -141,7 +141,7 @@ class JenkemBot extends PircBot {
    */
   private def showConfig(target: String): Unit = {
     sendMessage(target, "Mode: " + settings.getMethod
-      + "Delay (ms): " + getMessageDelay
+      + ", Delay (ms): " + getMessageDelay
       + ", Width (chars): " + settings.width
       + ", Power: " + settings.power
       + ", Scheme: " + settings.schemeName
@@ -285,7 +285,7 @@ class JenkemBot extends PircBot {
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
     val (width, height) = AwtImageUtil.calculateNewSize(cs.method, cs.width, originalWidth, originalHeight)
-    val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick)
+    val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick, 0, 0)
     val imageRgb = AwtImageUtil.getImageRgb(scaled)
     val lastIndex = height
     val params = cs.getParams(imageRgb)
@@ -299,12 +299,8 @@ class JenkemBot extends PircBot {
     val colorString = if (hasColor) { ", Scheme: " + cs.schemeName } else { "" }
     val powerString = if (notPwntari) { ", Power: " + params.power } else { "" }
     val charsString = if (notPwntari) { ", Chars: " + params.charset } else { "" }
-    //val brightAndContString = if (notPwntari) {
-    //  ", Brightness: " + params.brightness + ", Contrast: " + params.contrast
-    //} else { "" }
     val message = List("Mode: " + params.method + colorString + powerString
       + charsString + ", Width: " + (width / 2).intValue.toString)
-      //+ brightAndContString) //TODO reimplement or remove
     message ::: generate0(0)
   }
 }
