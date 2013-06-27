@@ -11,6 +11,8 @@ import jenkem.engine.color.Color
 import jenkem.util.ImageUtil
 
 object Engine {
+  val comma = ","
+
   class Params(
       val method: Method,
       val imageRgb: Map[Sample.Coords, Color.Rgb],
@@ -60,59 +62,66 @@ object Engine {
     def makeColorSample(x: Int): Sample.Colored = {
       Sample.makeColorSample(par.imageRgb, x, index, par.contrast, par.brightness)
     }
-    val indices = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0)
-    val sam = indices.map(makeColorSample(_)).toList
+    val sam = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0).map(makeColorSample(_)).toList
     val range = (0 until sam.length)
     lazy val diffs = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap
     lazy val means = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbMean(_, d)).toList)).toMap
     lazy val colors = Sample.dirs.map(d => (d, means.get(d).get.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList)).toMap
-
-    //lazy val tl = sam.map(_._1) //TODO use Cube.getNearest
-    //lazy val tr = sam.map(_._2)
-    //lazy val bl = sam.map(_._3)
-    //lazy val br = sam.map(_._4)
-
+    lazy val tl = sam.map(_._1)
+    lazy val tr = sam.map(_._2)
+    lazy val bl = sam.map(_._3)
+    lazy val br = sam.map(_._4)
+    lazy val tIrc = range.map(i => Sample.calcMean(tl(i), tr(i))).map(Cube.getNearest(_, par.colorMap)).toList
+    lazy val bIrc = range.map(i => Sample.calcMean(bl(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList
+    lazy val lIrc = range.map(i => Sample.calcMean(tl(i), bl(i))).map(Cube.getNearest(_, par.colorMap)).toList
+    lazy val rIrc = range.map(i => Sample.calcMean(tr(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList
     val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.charset, par.power, _))
     val totalBgs = chars.map(ColorUtil.getBgString(_))
     def getSwitched(i: Int): String = {
-      def direct(old: String, setting: Setting, first: Sample.Dir, second: Sample.Dir): String = {
+      def direct(old: String, setting: Setting): String = {
         if (!par.settings.has(setting)) { old }
         else {
-          lazy val f: Color = colors.get(first).get(i)
-          lazy val s: Color = colors.get(second).get(i)
-          val fd: Short = diffs.get(first).get(i)
-          val sd: Short = diffs.get(second).get(i)
-          val offset = ((par.settings.get(setting) * -1) + 100) / 5
-          if (fd + offset < sd) {
-            val ch = if (setting.equals(Setting.LEFTRIGHT)) { Pal.LEFT } else { Pal.UP }
-            selectAppropriate(old, f.bg, s.bg, totalBgs(i), s.fg, Pal.get(ch, par.hasAnsi, par.charset))
-          } else if (sd + offset < fd) {
-            val ch = if (setting.equals(Setting.LEFTRIGHT)) { Pal.RIGHT } else { Pal.DOWN }
-            selectAppropriate(old, s.bg, f.bg, totalBgs(i), f.fg, Pal.get(ch, par.hasAnsi, par.charset))
-          } else { old }
+          val offset = ((par.settings.get(setting) + 100) * -1) / 4
+          if (setting.equals(Setting.LEFTRIGHT)) {
+            if (lIrc(i) == rIrc(i)) { old }
+            else {
+              val leftDiff: Short = diffs.get(Sample.LEFT).get(i)
+              val rightDiff: Short = diffs.get(Sample.RIGHT).get(i)
+              if (leftDiff + offset < rightDiff) {
+                lIrc(i) + comma + rIrc(i) + Pal.get(Pal.LEFT, par.hasAnsi, par.charset)
+              } else if (rightDiff + offset < leftDiff) {
+                rIrc(i) + comma + lIrc(i) + Pal.get(Pal.RIGHT, par.hasAnsi, par.charset)
+              } else { old }
+            }
+          } else { //setting.equals(Setting.UPDOWN)
+            if (tIrc(i) == bIrc(i)) { old }
+            else {
+              val topDiff: Short = diffs.get(Sample.TOP).get(i)
+              val botDiff: Short = diffs.get(Sample.BOT).get(i)
+              if (topDiff + offset < botDiff) {
+                tIrc(i) + comma + bIrc(i) + Pal.get(Pal.UP, par.hasAnsi, par.charset)
+              } else if (botDiff + offset < topDiff) {
+                bIrc(i) + comma + tIrc(i) + Pal.get(Pal.DOWN, par.hasAnsi, par.charset)
+              } else { old }
+            }
+          }
         }
       }
-      val lr = direct(chars(i), Setting.LEFTRIGHT, Sample.LEFT, Sample.RIGHT)
-      direct(lr, Setting.UPDOWN, Sample.TOP, Sample.BOT)
+      direct(direct(chars(i), Setting.LEFTRIGHT), Setting.UPDOWN)
     }
     val switched = range.map(ColorUtil.CC + getSwitched(_)).toList
     val charsOnly = switched.map(_.last.toString)
-    val pp = postProcess(par, charsOnly.mkString).toCharArray.map(_.toString).toList
+    val pp = postProcess(par, charsOnly.mkString, true).toCharArray.map(_.toString).toList
+
     lazy val reps = Pal.pairs.map(p => (p, Pal.getValChars(p._1, par.hasAnsi))).toMap
     def change(c: String): String = {
       reps.keys.find(r => reps(r).contains(c)).map(r => Pal.get(r._2, par.hasAnsi, par.charset)).getOrElse(c)
     }
     val changed = pp.map(change(_))
     val finalLine = range.map(i => switched(i).init + changed(i)).toList
-    range.map(makeValid(_, finalLine, switched)).mkString
-  }
 
-  private def selectAppropriate(old: String, fix: String, first: String, second: => String, third: => String, character: String): String = {
-    val prefix = fix + ","
-    if (!fix.equals(first)) { prefix + first + character }
-    else if (!fix.equals(second)) { prefix + second + character }
-    else if (!fix.equals(third)) { prefix + third + character }
-    else { old }
+    //val finalLine = range.map(i => switched(i).init + pp(i)).toList
+    range.map(makeValid(_, finalLine, switched)).mkString
   }
 
   private def makeValid(i: Int, list: List[String], switched: List[String]): String = {
@@ -137,7 +146,7 @@ object Engine {
           val sp = Pal.get(secondPal, par.hasAnsi, par.charset)
           val fs = Sample.getDirectedGrey(sam(i), firstDir)
           val ss = Sample.getDirectedGrey(sam(i), secondDir)
-          getFor(par.settings.get(setting), fs, ss, fp, sp)
+          getFor(par.settings.get(setting) / 10, fs, ss, fp, sp)
         }
       }
       getProcessed(Setting.UPDOWN, Pal.UP, Pal.DOWN, Sample.TOP, Sample.BOT) match {
@@ -150,7 +159,7 @@ object Engine {
       }
     }
     val line = (0 until sam.length).map(i => getChar(i)).mkString
-    postProcess(par, line)
+    postProcess(par, line, false)
   }
 
   private def getFor(offset: Int, first: Int, second: Int, firstChar: String, secondChar: String): Option[String] = {
@@ -164,27 +173,31 @@ object Engine {
 
   type CharMapType = Map[Product, String]
 
-  private def postProcess(par: Params, line: String): String = {
+  private def postProcess(par: Params, line: String, hasCol: Boolean): String = {
     lazy val chr: CharMapType = Pal.values.map(v => (v, Pal.get(v, par.hasAnsi, par.charset))).toMap
     val range = (0 until line.length)
     val lineList = line.map(_.toString).toList
-    val dbqp = dbqpLine(lineList, range, par, chr)
+    val dbqp = dbqpLine(lineList, range, par, chr, hasCol)
     val diag = diagLine(dbqp, range, par, chr)
     val hor = horLine(diag, range, par, chr)
     val vert = vertLine(hor, range, par, chr).mkString
     vert
   }
 
-  private def dbqpLine(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
-    if (!par.settings.has(Setting.DBQP)) { in.toList } else { changeDbqP(in, range, par, chr) }
+  private def dbqpLine(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
+    if (!par.settings.has(Setting.DBQP)) { in.toList } else { changeDbqp(in, range, par, chr, hasCol) }
   }
 
-  private def changeDbqP(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
-    val d = range.map(changeDbqp(in.toList, range, par, _, chr.get(Pal.DOWN).get, chr.get(Pal.RIGHT_DOWN).get, false))
-    val b = range.map(changeDbqp(d.toList, range, par, _, chr.get(Pal.DOWN).get, chr.get(Pal.LEFT_DOWN).get, true))
-    val q = range.map(changeDbqp(b.toList, range, par, _, chr.get(Pal.UP).get, chr.get(Pal.RIGHT_UP).get, false))
-    val p = range.map(changeDbqp(q.toList, range, par, _, chr.get(Pal.UP).get, chr.get(Pal.LEFT_UP).get, true)).toList
-    p
+  private def changeDbqp(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
+    def getD: String = if (hasCol) { chr.get(Pal.LEFT_DOWN).get } else { chr.get(Pal.RIGHT_DOWN).get }
+    def getB: String = if (hasCol) { chr.get(Pal.RIGHT_DOWN).get } else { chr.get(Pal.LEFT_DOWN).get }
+    def getQ: String = if (hasCol) { chr.get(Pal.LEFT_UP).get } else { chr.get(Pal.RIGHT_UP).get }
+    def getP: String = if (hasCol) { chr.get(Pal.RIGHT_UP).get } else { chr.get(Pal.LEFT_UP).get }
+    val d = range.map(changeDbqp(in.toList, range, par, _, chr.get(Pal.DOWN).get, getD, false))
+    val b = range.map(changeDbqp(d.toList, range, par, _, chr.get(Pal.DOWN).get, getB, true))
+    val q = range.map(changeDbqp(b.toList, range, par, _, chr.get(Pal.UP).get, getQ, false))
+    val p = range.map(changeDbqp(q.toList, range, par, _, chr.get(Pal.UP).get, getP, true))
+    p.toList
   }
 
   private def isFirstOrLast(i: Int, range: Range): Boolean = i == 0 || i == range.last

@@ -1,9 +1,9 @@
 This is a standalone version of Jenkem 9000 that is bundled with a tomcat server for local use.
 
 CURRENT DOWNLOAD LINK:
-http://bitshare.com/files/j95eu82j/Jenkem-1.0.zip.html
-http://netload.in/dateiyjOk3uQrRe/Jenkem-1.0.zip.htm
-https://mega.co.nz/#!m8YF3Jyb!Mi5bFH2WoI74NVzzaMsESlm0TnMbW4Nur3LBlDJtaPA
+http://bitshare.com/files/gehd4tfi/Jenkem-1.0.zip.html
+http://netload.in/dateiMIUQQEJHUO/Jenkem-1.0.zip.htm
+https://mega.co.nz/#!Ss5STS5A!OYIDF1LZMnhFsD9w91T-qSbz3Wp12Ls1Z0rmZuk9pTo
 
 PREREQUITITES:
 Jenkem needs Java: http://java.com/download
