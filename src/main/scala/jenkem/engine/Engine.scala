@@ -40,22 +40,16 @@ object Engine {
           if (i == 0) { consolidateDuplicates0(chars, accu ::: List(thisOne), i + 1) }
           else {
             val eq = thisOne.equals(chars(i - 1))
-            val newChar = if (eq) { List("▄") } else { List(thisOne) }
+            val newChar = if (eq) { List(par.charset.head.toString) } else { List(thisOne) }
             consolidateDuplicates0(chars, accu ::: newChar, i + 1)
           }
         }
       }
       consolidateDuplicates0(chars, Nil, 0)
     }
-    val width = inferWidth(par.imageRgb)
-    val realIndices = (0 until width).filter(_ % 2 == 0)
-    val tl = realIndices.map(i => ImageUtil.getPixels(par.imageRgb, i, index))
-    val tr = realIndices.map(i => ImageUtil.getPixels(par.imageRgb, i + 1, index))
-    val bl = realIndices.map(i => ImageUtil.getPixels(par.imageRgb, i, index + 1))
-    val br = realIndices.map(i => ImageUtil.getPixels(par.imageRgb, i + 1, index + 1))
-    val indices = (0 until (width / 2))
-    val t = indices.map(i => Sample.calcMean(tl(i), tr(i)))
-    val b = indices.map(i => Sample.calcMean(bl(i), br(i)))
+    val indices = (0 until inferWidth(par.imageRgb))
+    val t = indices.map(i => ImageUtil.getPixels(par.imageRgb, i, index))
+    val b = indices.map(i => ImageUtil.getPixels(par.imageRgb, i, index + 1))
     val tIrc = t.map(Cube.getNearest(_, par.colorMap))
     val bIrc = b.map(Cube.getNearest(_, par.colorMap))
     val chars = indices.map(i => ColorUtil.makePwnIrc(bIrc(i), tIrc(i))).toList

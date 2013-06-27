@@ -130,7 +130,7 @@ class JenkemBot extends PircBot {
     sendMessage(target, "Play image from url: JENKEM [url]")
     sendMessage(target, "Let jenkem search for an image to play: JENKEM [search term]")
     sendMessage(target, "Change config: JENKEM [ConfigItem] [Value]")
-    sendMessage(target, "  ConfigItems are: DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER")
+    sendMessage(target, "  ConfigItems are: MODE, DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER")
     sendMessage(target, "Show config: JENKEM CONFIG")
     sendMessage(target, "Reset config: JENKEM RESET")
   }
@@ -140,7 +140,8 @@ class JenkemBot extends PircBot {
    * @param target channel name or name of the receiver.
    */
   private def showConfig(target: String): Unit = {
-    sendMessage(target, "Delay (ms): " + getMessageDelay
+    sendMessage(target, "Mode: " + settings.getMethod
+      + "Delay (ms): " + getMessageDelay
       + ", Width (chars): " + settings.width
       + ", Power: " + settings.power
       + ", Scheme: " + settings.schemeName
@@ -283,7 +284,7 @@ class JenkemBot extends PircBot {
     val originalImage = AwtImageUtil.bufferImage(url, "black", invert)
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
-    val (width, height) = AwtImageUtil.calculateNewSize(cs.width, originalWidth, originalHeight)
+    val (width, height) = AwtImageUtil.calculateNewSize(cs.method, cs.width, originalWidth, originalHeight)
     val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick)
     val imageRgb = AwtImageUtil.getImageRgb(scaled)
     val lastIndex = height
@@ -298,12 +299,12 @@ class JenkemBot extends PircBot {
     val colorString = if (hasColor) { ", Scheme: " + cs.schemeName } else { "" }
     val powerString = if (notPwntari) { ", Power: " + params.power } else { "" }
     val charsString = if (notPwntari) { ", Chars: " + params.charset } else { "" }
-    val brightAndContString = if (notPwntari) {
-      ", Brightness: " + params.brightness + ", Contrast: " + params.contrast
-    } else { "" }
+    //val brightAndContString = if (notPwntari) {
+    //  ", Brightness: " + params.brightness + ", Contrast: " + params.contrast
+    //} else { "" }
     val message = List("Mode: " + params.method + colorString + powerString
-      + charsString + ", Width: " + (width / 2).intValue.toString
-      + brightAndContString)
+      + charsString + ", Width: " + (width / 2).intValue.toString)
+      //+ brightAndContString) //TODO reimplement or remove
     message ::: generate0(0)
   }
 }

@@ -16,7 +16,8 @@ object InitUtil {
    * Returns the default brightness based on the number of black and white pixels
    * compared to the total pixel count in the image.
    */
-  def getDefaultBrightness(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
+  @deprecated("Not used anymore", "2013-06-27")
+  def getDefaultAsciiBrightness(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
     val mean = getMeanRgb(imageRgb)
     Math.min(MAX_BRIGHTNESS, Math.max(MIN_BRIGHTNESS, AVERAGE_RGB - mean))
   }
@@ -25,7 +26,8 @@ object InitUtil {
    * Returns the default contrast based on the mean of the estimated
    * distance of the pixels from the center of the color space cube.
    */
-  def getDefaultContrast(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
+  @deprecated("Not used anymore", "2013-06-27")
+  def getDefaultAsciiContrast(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
     //bigger value --> the more contrast --> reduce
     val dev = getMeanDev(imageRgb) // 0 < dev < 127
     val diff = (AVERAGE_RGB / 2) - dev
@@ -33,14 +35,17 @@ object InitUtil {
   }
 
   def getDefaults(imageRgb: Map[(Int, Int), (Short, Short, Short)]):
-      (Method, Scheme, Pal.Charset) = {
+      (Option[Method], Scheme, Option[Pal.Charset]) = {
     val grey = imageRgb.map(pixel => isPixelGrey(pixel._2)).toList
     val bw = imageRgb.map(pixel => isPixelBlackOrWhite(pixel._2)).toList
     val gRatio: Double = grey.filter(_ == true).length.doubleValue / grey.length.doubleValue
     val bwRatio: Double = bw.filter(_ == true).length.doubleValue / bw.length.doubleValue
     val scheme = if (gRatio > 0.9D) { Scheme.Bwg } else { Scheme.Default }
-    if (bwRatio > 0.9D) { (Method.Stencil, scheme, Pal.HCrude) }
-    else { (Method.Vortacular, scheme, Pal.Ansi) }
+    if (bwRatio > 0.9D) {
+      (Some(Method.Stencil), scheme, Some(Pal.HCrude)) }
+    else {
+      (None, scheme, None)
+    }
   }
 
   private def isPixelGrey(rgb: (Short, Short, Short)): Boolean = {

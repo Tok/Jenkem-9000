@@ -27,6 +27,7 @@ import jenkem.engine.Method
 import jenkem.engine.Engine
 import jenkem.engine.Kick
 import jenkem.engine.Pal
+import jenkem.engine.color.Scheme
 import jenkem.engine.color.Power
 import jenkem.event.DoConversionEvent
 import jenkem.event.SendToIrcEvent
@@ -130,8 +131,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val methodBox = makeListMethodSelect("Conversion Method: ")
   val resetButton = new Button("Reset")
   settingsLayout.addComponent(makeLabeled("Reset All Settings: ", capW, resetButton, false))
-  val (contrastSlider, contrastLabel) = makeSliderAndLabel("Contrast: ", -100, 100, 0)
-  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel("Brightness: ", -100, 100, 0)
+  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel("Character Brightness: ", -100, 100, 0)
+  val (contrastSlider, contrastLabel) = makeSliderAndLabel("Character Contrast: ", -100, 100, 0)
 
   val charsetLayout = new HorizontalLayout
   val charsetBox = new NativeSelect
@@ -159,12 +160,11 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   resetButton.addClickListener(new Button.ClickListener {
     override def buttonClick(event: ClickEvent): Unit = {
       doReset //may trigger conversion
-      startConversion(false, false)
+      startConversion(false, true)
     }
   })
 
-  Pal.charsets.foreach(cb => charsetBox.addItem(cb))
-  charsetBox.addValueChangeListener(new Property.ValueChangeListener {
+  val charsetBoxListener = new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent): Unit = {
       val charsetName = event.getProperty.getValue.toString
       Pal.valueOf(charsetName) match {
@@ -177,7 +177,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
         case None => imagePreparer.setError("Charset not found.")
       }
     }
-  })
+  }
+  charsetBox.addValueChangeListener(charsetBoxListener)
 
   charTextField.setImmediate(true)
   charTextField.addValueChangeListener(noResizeValueChangeListener)
@@ -192,6 +193,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   eventRouter.addListener(classOf[SendToIrcEvent], new {
     def send: Unit = ircConnector.sendToIrc(ircOutput)}, "send")
 
+  methodBox.select(Method.Vortacular)
   doReset
 
   private def makeNativeSelect(caption: String): NativeSelect = {
@@ -263,22 +265,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     (slider, label)
   }
 
-  private def doReset(): Unit = {
-    conversionDisabled = true
-    methodBox.select(Method.Vortacular)
-    conversionDisabled = true
-    widthSlider.setValue(defaultWidth)
-    charTextField.setValue(Pal.Ansi.chars)
-    procSetter.reset(true)
-    kickSelect.select(Kick.default)
-    powerBox.select(Power.Linear)
-    contrastSlider.setValue(0)
-    brightnessSlider.setValue(0)
-    ircColorSetter.reset
-    charsetBox.select(Pal.Ansi) //unsets conversionDisabled!
-    conversionDisabled = false
-  }
-
   private def doPrepareImage(url: String): Unit = {
     val crops = imagePreparer.getCrops
     val invert = imagePreparer.isInvert
@@ -300,9 +286,9 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val originalHeight = originalImage.getHeight
     val lineWidth = widthSlider.getValue.shortValue
     val method = Method.valueOf(methodBox.getValue.toString).get
-    val (width, height) = AwtImageUtil.calculateNewSize(lineWidth, originalWidth, originalHeight)
+    val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
     val scaled = AwtImageUtil.getScaled(originalImage, width, height, kick)
-    inline.setIntermediate(scaled)
+    inline.setIntermediate(scaled, method)
     val imageRgb = AwtImageUtil.getImageRgb(scaled)
     imageData = new ImageData(imageRgb, scaled.getWidth.toShort, scaled.getHeight.toShort, lineWidth, method)
   }
@@ -394,14 +380,27 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def makeImageInits(): Unit = {
     conversionDisabled = true
-    val con = InitUtil.getDefaultContrast(imageData.imageRgb)
-    contrastSlider.setValue(con)
-    val bri = InitUtil.getDefaultBrightness(imageData.imageRgb)
-    brightnessSlider.setValue(bri)
-    val (method, scheme, charset) = InitUtil.getDefaults(imageData.imageRgb)
-    methodBox.setValue(method)
+    contrastSlider.setValue(0)
+    brightnessSlider.setValue(0)
+    val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData.imageRgb)
+    methodOpt match {
+      case Some(meth) => methodBox.setValue(meth)
+      case None => { }
+    }
     ircColorSetter.setSelectedScheme(scheme)
-    charsetBox.select(charset)
+    charsetOpt match {
+      case Some(chrset) => charsetBox.select(chrset)
+      case None => { }
+    }
+    conversionDisabled = false
+  }
+
+  private def doReset(): Unit = {
+    conversionDisabled = true
+    widthSlider.setValue(defaultWidth)
+    contrastSlider.setValue(0)
+    brightnessSlider.setValue(0)
+    makeInitsForMethod
     conversionDisabled = false
   }
 
@@ -409,9 +408,33 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     conversionDisabled = true
     val method = Method.valueOf(methodBox.getValue.toString).get
     ircColorSetter.makeEnabled(method.hasColor)
-    powerBox.setEnabled(method.hasColor)
+    if (!method.equals(Method.Pwntari)) {
+      ircColorSetter.setSelectedScheme(Scheme.Default)
+    } else {
+      ircColorSetter.setSelectedScheme(Scheme.Full)
+    }
+    powerBox.setEnabled(method.equals(Method.Vortacular))
+    powerBox.select(Power.Linear)
+    kickSelect.select(Kick.OFF)
+    kickSelect.setEnabled(method.hasKick)
     procSetter.reset(Pal.hasAnsi(charTextField.getValue))
-    charsetBox.setValue(Pal.getForMethod(method)) //unsets conversionDisabled!
+    procSetter.setEnabled(!method.equals(Method.Pwntari))
+    charsetBox.removeValueChangeListener(charsetBoxListener)
+    charsetBox.removeAllItems
+    Pal.getCharsetForMethod(method).foreach(cb => charsetBox.addItem(cb))
+    charsetBox.addValueChangeListener(charsetBoxListener)
+    charsetBox.setValue(Pal.getForMethod(method))
+    charsetBox.setEnabled(!method.equals(Method.Pwntari))
+    charTextField.setEnabled(!method.equals(Method.Pwntari))
+    if (method.equals(Method.Pwntari)) {
+      charTextField.setValue("▄")
+      contrastSlider.setValue(0)
+      brightnessSlider.setValue(0)
+    }
+    contrastSlider.setEnabled(!method.equals(Method.Pwntari))
+    brightnessSlider.setEnabled(!method.equals(Method.Pwntari))
+    contrastLabel.setEnabled(!method.equals(Method.Pwntari))
+    brightnessLabel.setEnabled(!method.equals(Method.Pwntari))
     conversionDisabled = false
   }
 

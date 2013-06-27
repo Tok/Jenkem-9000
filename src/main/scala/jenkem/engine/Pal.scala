@@ -33,13 +33,21 @@ object Pal {
   case object Mixed extends Charset("Mixed", "  .-:+oxOX@#")
   case object Letters extends Charset("Letters", "  ivozaxIVOAHZSXWM")
   case object Chaos extends Charset("Chaos", "  .'-:;~+=ox*OX&%$@#")
-  val charsets = List(Hard, Soft, Ansi, Party, HCrude, SCrude, ACrude, Mixed, Letters, Chaos)
+  val allCharsets = List(Hard, Soft, Ansi, Party, HCrude, SCrude, ACrude, Mixed, Letters, Chaos)
+  val plainCharsets = List(Hard, Soft, Party, Mixed, Letters, Chaos)
+  val stencilCharsets = List(HCrude, SCrude)
   val allAnsi = ("░▒▓▀▄▐▌╔╗╚╝┌┐└┘▬║│♪♫☺♥☻▼▲►◄")
 
-  def valueOf(name: String): Option[Charset] = charsets.find(_.name.equalsIgnoreCase(name))
+  def valueOf(name: String): Option[Charset] = allCharsets.find(_.name.equalsIgnoreCase(name))
 
   def hasAnsi(s: String): Boolean = {
     allAnsi.toCharArray.toList.map(s.indexOf(_) >= 0).contains(true)
+  }
+
+  def getCharsetForMethod(method: Method): List[Charset] = {
+    if (method.equals(Method.Plain)) { plainCharsets }
+    else if (method.equals(Method.Stencil)) { stencilCharsets }
+    else { allCharsets }
   }
 
   /**

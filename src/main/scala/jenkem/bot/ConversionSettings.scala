@@ -33,16 +33,28 @@ class ConversionSettings {
   }
 
   def getParams(imageData: Map[(Int, Int), (Short, Short, Short)]): Engine.Params = {
-    val (meth, scheme, charset) = InitUtil.getDefaults(imageData)
-    if (method.hasColor != meth.hasColor) {
-      method = meth
+    val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData)
+    methodOpt match {
+      case Some(meth) =>
+        if (method.hasColor != meth.hasColor && !method.equals(Method.Pwntari)) {
+          //if method is Pwntari it should not be changed here
+          //because it uses different scaling.
+          method = meth
+        }
+      case None => { }
     }
     if (scheme.equals(Scheme.Bwg)) {
       colorMap = Scheme.createColorMap(scheme)
       schemeName = scheme.name
     }
-    if (!method.hasColor) {
-      if (Pal.hasAnsi(chars)) { chars = charset.chars }
+    charsetOpt match {
+      case Some(chrset) =>
+        if (!method.hasColor) {
+          if (Pal.hasAnsi(chars)) { chars = chrset.chars }
+        } else if (method.equals(Method.Pwntari)) {
+          chars = "▄"
+        }
+      case None => { }
     }
     new Engine.Params(
         method,
@@ -50,8 +62,8 @@ class ConversionSettings {
         colorMap,
         chars.replaceAll("[,0-9]", ""),
         Setting.getInitial(Pal.hasAnsi(chars)),
-        InitUtil.getDefaultContrast(imageData),
-        InitUtil.getDefaultBrightness(imageData),
+        0,
+        0,
         power
     )
   }

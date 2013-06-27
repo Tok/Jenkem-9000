@@ -18,6 +18,7 @@ import sun.misc.BASE64Decoder
 import sun.misc.BASE64Encoder
 import java.util.Date
 import java.awt.RenderingHints
+import jenkem.engine.Method
 
 object AwtImageUtil {
   type Crops = (Int, Int, Int, Int)
@@ -75,8 +76,8 @@ object AwtImageUtil {
     keys.map(t => ((t._1, t._2), getRgb(scaled, t._2, t._1))).toMap
   }
 
-  def calculateNewSize(lineWidth: Int, originalWidth: Int, originalHeight: Int): (Int, Int) = {
-    val width = lineWidth * 2
+  def calculateNewSize(method: Method, lineWidth: Int, originalWidth: Int, originalHeight: Int): (Int, Int) = {
+    val width = if (!method.equals(Method.Pwntari)) { lineWidth * 2 } else { lineWidth }
     val height = lineWidth * originalHeight / originalWidth
     (width, height)
   }

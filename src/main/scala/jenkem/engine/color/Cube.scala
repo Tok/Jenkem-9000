@@ -11,7 +11,8 @@ object Cube {
     ordered.head.ircColor.irc
   }
 
-  private def makeWeightedList(col: Color.Rgb, colorMap: Map[Scheme.IrcColor, Short], ic: List[Scheme.IrcColor], wl: List[WeightedColor]): List[WeightedColor] = {
+  private def makeWeightedList(col: Color.Rgb, colorMap: Map[Scheme.IrcColor, Short],
+      ic: List[Scheme.IrcColor], wl: List[WeightedColor]): List[WeightedColor] = {
     if (ic.isEmpty) { wl }
     else { makeWeightedList(col, colorMap, ic.tail, createWc(colorMap, col, ic.head) :: wl) }
   }

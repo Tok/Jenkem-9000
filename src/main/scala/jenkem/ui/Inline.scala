@@ -11,6 +11,7 @@ import com.vaadin.ui.Label
 import com.vaadin.ui.VerticalLayout
 import java.awt.image.BufferedImage
 import jenkem.util.AwtImageUtil
+import jenkem.engine.Method
 
 class Inline extends VerticalLayout {
   val spacer = new Label
@@ -48,8 +49,9 @@ class Inline extends VerticalLayout {
 
   switchContent
 
-  def setIntermediate(img: BufferedImage): Unit = {
-    val intermediate = AwtImageUtil.getScaled(img, img.getWidth * 3, img.getHeight * 6)
+  def setIntermediate(img: BufferedImage, method: Method): Unit = {
+    val widthFactor = if (!method.equals(Method.Pwntari)) { 3 } else { 6 }
+    val intermediate = AwtImageUtil.getScaled(img, img.getWidth * widthFactor, img.getHeight * 6)
     val resource = AwtImageUtil.makeVaadinResource(intermediate, "Intermediate")
     image.setSource(resource)
   }

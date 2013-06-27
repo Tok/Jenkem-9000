@@ -127,15 +127,4 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
     presetBox.setEnabled(enabled)
     sliders.values.foreach(s => s.setEnabled(enabled))
   }
-  def reset: Unit = {
-    isTriggeringDisabled = true
-    if (presetBox.getValue.equals(Scheme.Default)) {
-        Scheme.valueOf(presetBox.getValue.toString) match {
-          case Some(s) => updatePreset(s)
-          case None => { }
-        }
-    } else { presetBox.select(Scheme.Default) }
-    isTriggeringDisabled = false
-    eventRouter.fireEvent(new DoConversionEvent(false, false))
-  }
 }
