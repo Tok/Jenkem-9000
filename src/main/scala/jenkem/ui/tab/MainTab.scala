@@ -47,10 +47,10 @@ import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
 import jenkem.util.InitUtil
 import com.vaadin.ui.Notification
+import com.vaadin.ui.Image
+import com.vaadin.ui.GridLayout
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
-  val nbsp = "&nbsp;"
-
   val capW = 150
   val defaultWidth = 68
   val minWidth = 16
@@ -69,7 +69,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   class ImagePreparationData(val icon: BufferedImage, val originalName: String)
   class ImageData(val imageRgb: Map[(Int, Int), (Short, Short, Short)],
-      val width: Short, val height: Short, val lineWidth: Short, val kick: Kick,
+      val width: Short, val height: Short, val lineWidth: Short,
       val method: Method)
   class ConversionData(val contrast: Short, val brightness: Short, val characters: String)
 
@@ -80,6 +80,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val noResizeValueChangeListener = new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent) {
       if(!conversionDisabled) { startConversion(false, false) }}}
+
+  private def spacer = new Label("&nbsp;", ContentMode.HTML)
 
   val mainLayout = new HorizontalLayout
   mainLayout.setMargin(true)
@@ -123,12 +125,11 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   inlineLayout.addComponent(lwLayout)
   inlineLayout.addComponent(inline)
   mainLayout.addComponent(inlineLayout)
-
   mainLayout.addComponent(settingsLayout)
 
   val methodBox = makeListMethodSelect("Conversion Method: ")
   val resetButton = new Button("Reset")
-  settingsLayout.addComponent(makeLabeled("Reset All Settings: ", capW, resetButton))
+  settingsLayout.addComponent(makeLabeled("Reset All Settings: ", capW, resetButton, false))
   val (contrastSlider, contrastLabel) = makeSliderAndLabel("Contrast: ", -100, 100, 0)
   val (brightnessSlider, brightnessLabel) = makeSliderAndLabel("Brightness: ", -100, 100, 0)
 
@@ -141,17 +142,17 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   charTextField.setWidth("125px")
   charsetLayout.addComponent(charsetBox)
   charsetLayout.addComponent(charTextField)
-  settingsLayout.addComponent(makeLabeled("Characters: ", capW, charsetLayout))
+  settingsLayout.addComponent(makeLabeled("Characters: ", capW, charsetLayout, true))
   val procSetter = new ProcSetter(eventRouter)
-  settingsLayout.addComponent(makeLabeled("Processing: ", capW, procSetter))
-  settingsLayout.addComponent(new Label(nbsp, ContentMode.HTML))
+  settingsLayout.addComponent(makeLabeled("Processing: ", capW, procSetter, true))
+  settingsLayout.addComponent(spacer)
   val powerBox = makeNativeSelect("Power: ")
   val ircColorSetter = new IrcColorSetter(eventRouter)
   settingsLayout.addComponent(ircColorSetter)
-  settingsLayout.addComponent(new Label(nbsp, ContentMode.HTML))
+  settingsLayout.addComponent(spacer)
   val outputDisplay = new OutputDisplay
   settingsLayout.addComponent(outputDisplay)
-  settingsLayout.addComponent(new Label(nbsp, ContentMode.HTML))
+  settingsLayout.addComponent(spacer)
   val ircConnector = new IrcConnector(eventRouter)
   settingsLayout.addComponent(ircConnector)
 
@@ -197,7 +198,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val box = new NativeSelect
     box.setNullSelectionAllowed(false)
     box.setImmediate(true)
-    val layout = makeLabeled(caption, capW, box)
+    val layout = makeLabeled(caption, capW, box, true)
     settingsLayout.addComponent(layout)
     box
   }
@@ -216,16 +217,16 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     Method.values.map(settings.addItem(_))
     settings.setNullSelectionAllowed(false)
     settings.setImmediate(true)
-    val layout = makeLabeled(caption, capW, settings)
+    val layout = makeLabeled(caption, capW, settings, true)
     settingsLayout.addComponent(layout)
     settings
   }
 
-  private def makeLabeled(caption: String, width: Int, component: Component) = {
+  private def makeLabeled(caption: String, width: Int, component: Component, setWidth: Boolean) = {
     val layout = new HorizontalLayout
     val captionLabel = new Label(caption)
     captionLabel.setWidth(width + "px")
-    component.setWidth("250px")
+    if (setWidth) { component.setWidth("250px") }
     layout.addComponent(captionLabel)
     layout.addComponent(component)
     layout
@@ -258,7 +259,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     layout.setWidth("100%")
     layout.addComponent(slider, "left:0px")
     layout.addComponent(label, "left:220px")
-    settingsLayout.addComponent(makeLabeled(caption, capW, layout))
+    settingsLayout.addComponent(makeLabeled(caption, capW, layout, true))
     (slider, label)
   }
 
@@ -300,10 +301,10 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val lineWidth = widthSlider.getValue.shortValue
     val method = Method.valueOf(methodBox.getValue.toString).get
     val (width, height) = AwtImageUtil.calculateNewSize(lineWidth, originalWidth, originalHeight)
-    val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, kick)
-    val dataWidth = (width - (2 * kick.xOffset)).shortValue
-    val dataHeight = (height - (2 * kick.yOffset)).shortValue
-    imageData = new ImageData(imageRgb, dataWidth, dataHeight, lineWidth, kick, method)
+    val scaled = AwtImageUtil.getScaled(originalImage, width, height, kick)
+    inline.setIntermediate(scaled)
+    val imageRgb = AwtImageUtil.getImageRgb(scaled)
+    imageData = new ImageData(imageRgb, scaled.getWidth.toShort, scaled.getHeight.toShort, lineWidth, method)
   }
 
   private def startConversion(prepareImage: Boolean, resize: Boolean): Unit = {
@@ -380,6 +381,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val inlineHtml = HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)
     val htmlEnd = (new Date).getTime
     inline.setValue(inlineHtml)
+    inline.reset
     htmlEnd - htmlStart
   }
 

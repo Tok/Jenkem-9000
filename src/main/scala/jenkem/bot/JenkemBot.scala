@@ -2,11 +2,9 @@ package jenkem.bot
 
 import java.io.IOException
 import java.lang.InterruptedException
-
 import org.jibble.pircbot.IrcException
 import org.jibble.pircbot.NickAlreadyInUseException
 import org.jibble.pircbot.PircBot
-
 import jenkem.engine.Method
 import jenkem.engine.Engine
 import jenkem.engine.Pal
@@ -15,6 +13,7 @@ import jenkem.engine.color.Scheme
 import jenkem.util.AwtImageUtil
 import jenkem.util.GoogleUtil
 import jenkem.util.UrlOptionizer
+import jenkem.ui.ImagePreparer
 
 class JenkemBot extends PircBot {
   def init: Unit = {
@@ -275,7 +274,8 @@ class JenkemBot extends PircBot {
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
     val (width, height) = AwtImageUtil.calculateNewSize(cs.width, originalWidth, originalHeight)
-    val imageRgb = AwtImageUtil.getImageRgb(originalImage, width, height, cs.kick)
+    val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick)
+    val imageRgb = AwtImageUtil.getImageRgb(scaled)
     val lastIndex = height
     val params = cs.getParams(imageRgb)
     val ircOutput = List[String]()

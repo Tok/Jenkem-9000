@@ -3,8 +3,7 @@ package jenkem.ui
 import java.awt.image.BufferedImage
 import java.net.URL
 
-import com.vaadin.data.Property
-import com.vaadin.data.Property.ValueChangeEvent
+import com.vaadin.annotations.JavaScript
 import com.vaadin.event.EventRouter
 import com.vaadin.event.FieldEvents.FocusEvent
 import com.vaadin.event.FieldEvents.FocusListener
