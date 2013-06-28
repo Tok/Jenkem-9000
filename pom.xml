@@ -16,13 +16,18 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- API Versions: -->
     <!-- http://mvnrepository.com/ -->
-    <scalaVersion>2.10.2</scalaVersion>
+    <scalaVersion>2.10.0</scalaVersion>
     <javaVersion>1.7</javaVersion>
     <vaadinVersion>7.1.0.beta1</vaadinVersion>
     <pircbotVersion>1.5.0</pircbotVersion>
     <datanucleusVersion>3.1.3</datanucleusVersion>
     <datanucleusEnhancerVersion>3.1.1</datanucleusEnhancerVersion>
     <validationApiVersion>1.0.0.GA</validationApiVersion>
+    <!-- Testing Versions: -->
+    <jUnitVersion>4.10</jUnitVersion>
+    <jacocoVersion>0.6.4-SNAPSHOT</jacocoVersion>
+    <scalatestVerion>2.0.M6-SNAP24</scalatestVerion>
+    <mavenScalatestPluginVersion>1.0-SNAPSHOT</mavenScalatestPluginVersion>
     <!-- Building Plugin Versions: -->
     <!-- http://maven.apache.org/plugins/index.html -->
     <scalastyleMavenPluginVersion>0.3.2</scalastyleMavenPluginVersion>
@@ -34,32 +39,20 @@
     <mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
     <mavenResourcesPluginVersion>2.6</mavenResourcesPluginVersion>
     <mavenTruezipPluginVersion>1.1</mavenTruezipPluginVersion>
-    <jbossAsMavenPluginVersion>7.4.Final</jbossAsMavenPluginVersion>
     <tomcat7MavenPluginVersion>2.1</tomcat7MavenPluginVersion>
     <!-- Reporting Plugin Versions: -->
     <mavenSurefirePluginVersion>2.15</mavenSurefirePluginVersion>
-    <mavenCoberturaPluginVersion>2.5.2</mavenCoberturaPluginVersion>
     <mavenProjectInfoReportsPluginVersion>2.7</mavenProjectInfoReportsPluginVersion>
     <mavenSitePluginVersion>3.3</mavenSitePluginVersion>
+    <!-- Coverage -->
+    <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.jacoco.reportPath>${basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
   <repositories>
     <repository>
-      <id>eap</id>
-      <url>http://maven.repository.redhat.com/techpreview/all</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>oss.sonatype.org</id>
-      <url>https://oss.sonatype.org/content/groups/scala-tools/</url>
-    </repository>
-    <repository>
-      <id>DN_M2_Repo</id>
+      <id>datanucleus.org</id>
       <url>http://www.datanucleus.org/downloads/maven2/</url>
     </repository>
     <repository>
@@ -70,18 +63,8 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>eap</id>
-      <url>http://maven.repository.redhat.com/techpreview/all</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>scala-style</id>
-      <url>https://oss.sonatype.org/content/repositories/releases/org/scalastyle/scalastyle-maven-plugin</url>
+      <id>sonatype-oss-public</id>
+      <url>https://oss.sonatype.org/content/groups/public/</url>
     </pluginRepository>
   </pluginRepositories>
 
@@ -125,13 +108,6 @@
       <version>${vaadinVersion}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.jboss.spec</groupId>
-      <artifactId>jboss-javaee-6.0</artifactId>
-      <version>3.0.1.Final-redhat-1</version>
-      <type>pom</type>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
@@ -197,25 +173,23 @@
       <version>${datanucleusEnhancerVersion}</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.scalatest</groupId>
+      <artifactId>scalatest_2.10</artifactId>
+      <version>${scalatestVerion}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${jUnitVersion}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <reporting>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${mavenSurefirePluginVersion}</version>
-        <configuration>
-          <goal>surefire-report:report</goal>
-          <reportFormat>html</reportFormat>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${mavenCoberturaPluginVersion}</version>
-      </plugin>
       <plugin>
         <groupId>org.scala-tools</groupId>
         <artifactId>maven-scala-plugin</artifactId>
@@ -297,6 +271,50 @@
           </includes>
           <verbose>true</verbose>
           <scalaVersion>${scalaVersion}</scalaVersion>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.scalatest</groupId>
+        <artifactId>maven-scalatest-plugin</artifactId>
+        <version>${mavenScalatestPluginVersion}</version>
+        <configuration>
+          <reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory>
+          <junitxml>.</junitxml>
+          <filereports>TestSuite.txt</filereports>
+        </configuration>
+        <executions>
+          <execution>
+            <id>test</id>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacocoVersion}</version>
+        <executions>
+          <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>prepare-agent</goal>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${mavenSurefirePluginVersion}</version>
+        <configuration>
+          <goal>surefire-report:report</goal>
+          <reportFormat>html</reportFormat>
+          <aggregate>true</aggregate>
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
       <plugin>
@@ -394,7 +412,8 @@
                   <fileset dir="${basedir}/deployments/standalone/jenkem/">
                     <exclude name=".gitignore" />
                     <exclude name="README.txt" />
-                    <exclude name="${project.artifactId}-${project.version}-war-exec.jar" />
+                    <exclude
+                      name="${project.artifactId}-${project.version}-war-exec.jar" />
                     <exclude name="runjenkem.sh" />
                     <exclude name="runjenkem.bat" />
                   </fileset>
@@ -486,21 +505,6 @@
                   <include>**/log.txt</include>
                 </includes>
               </fileset>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.jboss.as.plugins</groupId>
-        <artifactId>jboss-as-maven-plugin</artifactId>
-        <version>${jbossAsMavenPluginVersion}</version>
-        <executions>
-          <execution>
-            <phase>jboss-as:deploy</phase>
-            <configuration>
-              <hostname>localhost</hostname>
-              <port>9999</port>
-              <filename>${project.artifactId}-${project.version}.${project.packaging}</filename>
             </configuration>
           </execution>
         </executions>

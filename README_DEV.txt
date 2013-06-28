@@ -1,9 +1,12 @@
-===Local jBoss deployment===
+===Run in embedded Tomcat 7===
+Run the runjenkem.sh or runjemkem.bat in deployment/standalone/jenkem
+
+===Local jBoss deployment (optional)===
 Install the latest jBoss AS (wildfly not tested yet).
 enable-welcome-root must be disabled in standalone.xml before deploying.
 
 Depoly war to local jBoss by running the eclipse laucher for maven or do it manually:
-http://127.0.0.1:9990/console/App.html#deployments --> manually submit war from /target
+http://127.0.0.1:9990/console/App.html#deployments --> manually submit the war from /target or ROOT.war
 http://127.0.0.1:8080/
 
 If you want to store conversions make sure mongodb is running locally with default settings.
