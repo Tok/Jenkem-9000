@@ -17,7 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- API Versions: -->
     <!-- http://mvnrepository.com/ -->
-    <scalaVersion>2.10.0</scalaVersion>
+    <scalaVersion>2.10.1</scalaVersion>
     <javaVersion>1.7</javaVersion>
     <vaadinVersion>7.1.0.beta1</vaadinVersion>
     <pircbotVersion>1.5.0</pircbotVersion>
