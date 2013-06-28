@@ -27,8 +27,8 @@
     <!-- Testing Versions: -->
     <jUnitVersion>4.10</jUnitVersion>
     <jacocoVersion>0.6.4-SNAPSHOT</jacocoVersion>
-    <scalatestVerion>2.0.M6-SNAP24</scalatestVerion>
-    <mavenScalatestPluginVersion>1.0-SNAPSHOT</mavenScalatestPluginVersion>
+    <scalatestVerion>2.0.M6-SNAP9</scalatestVerion>
+    <mavenScalatestPluginVersion>1.0-M4-SNAPSHOT</mavenScalatestPluginVersion>
     <!-- Building Plugin Versions: -->
     <!-- http://maven.apache.org/plugins/index.html -->
     <scalastyleMavenPluginVersion>0.3.3-SNAPSHOT</scalastyleMavenPluginVersion>
@@ -226,14 +226,7 @@
   <build>
     <sourceDirectory>${sourceDirectory}</sourceDirectory>
     <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
-    <resources>
-      <resource>
-        <directory>${sourceDirectory}</directory>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.scalastyle</groupId>
@@ -266,6 +259,7 @@
           <execution>
             <goals>
               <goal>compile</goal>
+              <goal>testCompile</goal>
             </goals>
           </execution>
         </executions>
@@ -278,8 +272,23 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${mavenSurefirePluginVersion}</version>
+        <configuration>
+          <goal>surefire-report:report</goal>
+          <reportFormat>html</reportFormat>
+          <aggregate>true</aggregate>
+          <skipTests>true</skipTests>
+          <includes>
+            <include>**/*Suite.class</include>
+            <include>**/*Test.class</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.scalatest</groupId>
-        <artifactId>maven-scalatest-plugin</artifactId>
+        <artifactId>scalatest-maven-plugin</artifactId>
         <version>${mavenScalatestPluginVersion}</version>
         <configuration>
           <reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory>
@@ -309,17 +318,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${mavenSurefirePluginVersion}</version>
-        <configuration>
-          <goal>surefire-report:report</goal>
-          <reportFormat>html</reportFormat>
-          <aggregate>true</aggregate>
-          <skipTests>true</skipTests>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.datanucleus</groupId>

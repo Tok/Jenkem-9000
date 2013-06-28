@@ -9,7 +9,7 @@ import org.scalatest.junit.JUnitRunner
 class InitSuite extends FunSuite {
 
   test("true") {
+    //assert(0 === 1)
     assert(0 === 0)
-    assert(true)
   }
 }
