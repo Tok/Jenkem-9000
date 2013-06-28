@@ -8,6 +8,7 @@
   <packaging>war</packaging>
   <version>1.0</version>
   <name>Jenkem</name>
+  <url>https://jenkem-9000.rhcloud.com</url>
 
   <properties>
     <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
@@ -30,7 +31,7 @@
     <mavenScalatestPluginVersion>1.0-SNAPSHOT</mavenScalatestPluginVersion>
     <!-- Building Plugin Versions: -->
     <!-- http://maven.apache.org/plugins/index.html -->
-    <scalastyleMavenPluginVersion>0.3.2</scalastyleMavenPluginVersion>
+    <scalastyleMavenPluginVersion>0.3.3-SNAPSHOT</scalastyleMavenPluginVersion>
     <MavenExecPluginVersion>1.2.1</MavenExecPluginVersion>
     <mavenDependencyPluginVersion>2.8</mavenDependencyPluginVersion>
     <mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
@@ -205,11 +206,14 @@
               <report>index</report>
               <report>summary</report>
               <report>dependency-info</report>
-              <report>dependencies</report>
+              <!-- <report>dependencies</report> -->
               <report>plugins</report>
             </reports>
           </reportSet>
         </reportSets>
+        <configuration>
+          <dependencyLocationEnabled>false</dependencyLocationEnabled>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
