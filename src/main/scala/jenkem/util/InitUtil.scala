@@ -3,9 +3,9 @@ package jenkem.util
 import jenkem.engine.Method
 import jenkem.engine.Pal
 import jenkem.engine.color.Scheme
+import jenkem.engine.color.Color
 
 object InitUtil {
-  val AVERAGE_RGB = 127
   val COLOR_TOLERANCE = 15 //arbitrary value (absolute RGB)
   val MIN_BRIGHTNESS = -20
   val MAX_BRIGHTNESS = 10
@@ -19,7 +19,7 @@ object InitUtil {
   @deprecated("Not used anymore", "2013-06-27")
   def getDefaultAsciiBrightness(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
     val mean = getMeanRgb(imageRgb)
-    Math.min(MAX_BRIGHTNESS, Math.max(MIN_BRIGHTNESS, AVERAGE_RGB - mean))
+    Math.min(MAX_BRIGHTNESS, Math.max(MIN_BRIGHTNESS, Color.CENTER - mean))
   }
 
   /**
@@ -30,7 +30,7 @@ object InitUtil {
   def getDefaultAsciiContrast(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
     //bigger value --> the more contrast --> reduce
     val dev = getMeanDev(imageRgb) // 0 < dev < 127
-    val diff = (AVERAGE_RGB / 2) - dev
+    val diff = (Color.CENTER / 2) - dev
     Math.min(MAX_CONTRAST, Math.max(MIN_CONTRAST, diff))
   }
 
@@ -72,9 +72,9 @@ object InitUtil {
    */
   private def getMeanDev(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
     val devs = imageRgb.values.map(rgb => (
-        Math.abs(rgb._1 - AVERAGE_RGB) +
-        Math.abs(rgb._2 - AVERAGE_RGB) +
-        Math.abs(rgb._3 - AVERAGE_RGB)) / 3).toList
+        Math.abs(rgb._1 - Color.CENTER) +
+        Math.abs(rgb._2 - Color.CENTER) +
+        Math.abs(rgb._3 - Color.CENTER)) / 3).toList
     devs.sum / devs.length
   }
 
