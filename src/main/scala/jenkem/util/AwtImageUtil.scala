@@ -70,7 +70,7 @@ object AwtImageUtil {
     (((argb >> 16) & 0xff).toShort, ((argb >> 8) & 0xff).toShort, ((argb) & 0xff).toShort)
   }
 
-  def getImageRgb(scaled: BufferedImage): Map[(Int, Int), (Short, Short, Short)] = {
+  def getImageRgb(scaled: BufferedImage): jenkem.engine.color.Color.RgbMap = {
     val keys = for {
        y <- 0 until scaled.getHeight
        x <- 0 until scaled.getWidth

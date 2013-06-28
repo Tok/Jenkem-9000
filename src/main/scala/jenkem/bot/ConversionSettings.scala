@@ -10,6 +10,7 @@ import jenkem.engine.color.Scheme
 import jenkem.engine.Engine
 import jenkem.engine.Setting
 import jenkem.util.InitUtil
+import jenkem.engine.color.Color
 
 class ConversionSettings {
   @BeanProperty var width: Int = _
@@ -32,7 +33,7 @@ class ConversionSettings {
     power = Power.Linear
   }
 
-  def getParams(imageData: Map[(Int, Int), (Short, Short, Short)]): Engine.Params = {
+  def getParams(imageData: Color.RgbMap): Engine.Params = {
     val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData)
     methodOpt match {
       case Some(meth) =>

@@ -50,6 +50,7 @@ import jenkem.util.InitUtil
 import com.vaadin.ui.Notification
 import com.vaadin.ui.Image
 import com.vaadin.ui.GridLayout
+import jenkem.engine.color.Color
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val capW = 150
@@ -69,7 +70,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   setSpacing(true)
 
   class ImagePreparationData(val icon: BufferedImage, val originalName: String)
-  class ImageData(val imageRgb: Map[(Int, Int), (Short, Short, Short)],
+  class ImageData(val imageRgb: Color.RgbMap,
       val width: Short, val height: Short, val lineWidth: Short,
       val method: Method)
   class ConversionData(val contrast: Short, val brightness: Short, val characters: String)

@@ -17,7 +17,7 @@ object InitUtil {
    * compared to the total pixel count in the image.
    */
   @deprecated("Not used anymore", "2013-06-27")
-  def getDefaultAsciiBrightness(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
+  def getDefaultAsciiBrightness(imageRgb: Color.RgbMap): Int = {
     val mean = getMeanRgb(imageRgb)
     Math.min(MAX_BRIGHTNESS, Math.max(MIN_BRIGHTNESS, Color.CENTER - mean))
   }
@@ -27,14 +27,14 @@ object InitUtil {
    * distance of the pixels from the center of the color space cube.
    */
   @deprecated("Not used anymore", "2013-06-27")
-  def getDefaultAsciiContrast(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
+  def getDefaultAsciiContrast(imageRgb: Color.RgbMap): Int = {
     //bigger value --> the more contrast --> reduce
     val dev = getMeanDev(imageRgb) // 0 < dev < 127
     val diff = (Color.CENTER / 2) - dev
     Math.min(MAX_CONTRAST, Math.max(MIN_CONTRAST, diff))
   }
 
-  def getDefaults(imageRgb: Map[(Int, Int), (Short, Short, Short)]):
+  def getDefaults(imageRgb: Color.RgbMap):
       (Option[Method], Scheme, Option[Pal.Charset]) = {
     val grey = imageRgb.map(pixel => isPixelGrey(pixel._2)).toList
     val bw = imageRgb.map(pixel => isPixelBlackOrWhite(pixel._2)).toList
@@ -62,7 +62,7 @@ object InitUtil {
   /**
    * Returns the mean RGB value of all pixels in the image.
    */
-  private def getMeanRgb(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
+  private def getMeanRgb(imageRgb: Color.RgbMap): Int = {
     val means = imageRgb.values.map(rgb => (rgb._1 + rgb._2 + rgb._3) / 3).toList
     means.sum / means.length
   }
@@ -70,7 +70,7 @@ object InitUtil {
   /**
    * Returns the mean RGB value of all pixels in the image.
    */
-  private def getMeanDev(imageRgb: Map[(Int, Int), (Short, Short, Short)]): Int = {
+  private def getMeanDev(imageRgb: Color.RgbMap): Int = {
     val devs = imageRgb.values.map(rgb => (
         Math.abs(rgb._1 - Color.CENTER) +
         Math.abs(rgb._2 - Color.CENTER) +

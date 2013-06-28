@@ -6,6 +6,7 @@ case class Color(
 
 object Color {
   type Rgb = (Short, Short, Short)
+  type RgbMap = Map[(Int, Int), (Short, Short, Short)]
   val MAX: Short = 255
   val CENTER: Short = 127
   val MIN: Short = 0
