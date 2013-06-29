@@ -36,7 +36,7 @@ object InitUtil {
 
   def getDefaults(imageRgb: Color.RgbMap):
       (Option[Method], Scheme, Option[Pal.Charset]) = {
-    val grey = imageRgb.map(pixel => isPixelGrey(pixel._2)).toList
+    val grey = imageRgb.map(pixel => isPixelGray(pixel._2)).toList
     val bw = imageRgb.map(pixel => isPixelBlackOrWhite(pixel._2)).toList
     val gRatio: Double = grey.filter(_ == true).length.doubleValue / grey.length.doubleValue
     val bwRatio: Double = bw.filter(_ == true).length.doubleValue / bw.length.doubleValue
@@ -48,13 +48,13 @@ object InitUtil {
     }
   }
 
-  private def isPixelGrey(rgb: (Short, Short, Short)): Boolean = {
+  private def isPixelGray(rgb: Color.Rgb): Boolean = {
       (!(Math.abs(rgb._1 - rgb._2) > COLOR_TOLERANCE)
     && !(Math.abs(rgb._2 - rgb._3) > COLOR_TOLERANCE)
     && !(Math.abs(rgb._3 - rgb._1) > COLOR_TOLERANCE))
   }
 
-  private def isPixelBlackOrWhite(rgb: (Short, Short, Short)): Boolean = {
+  private def isPixelBlackOrWhite(rgb: Color.Rgb): Boolean = {
     val mean = (rgb._1 + rgb._2 + rgb._3).doubleValue / 3
     mean < 30 || mean > 225
   }
@@ -71,10 +71,10 @@ object InitUtil {
    * Returns the mean RGB value of all pixels in the image.
    */
   private def getMeanDev(imageRgb: Color.RgbMap): Int = {
-    val devs = imageRgb.values.map(rgb => (
-        Math.abs(rgb._1 - Color.CENTER) +
-        Math.abs(rgb._2 - Color.CENTER) +
-        Math.abs(rgb._3 - Color.CENTER)) / 3).toList
+    val devs = imageRgb.values.map(rgb => ((
+            Math.abs(rgb._1 - Color.CENTER) +
+            Math.abs(rgb._2 - Color.CENTER) +
+            Math.abs(rgb._3 - Color.CENTER)).toDouble / 3D).toInt).toList
     devs.sum / devs.length
   }
 

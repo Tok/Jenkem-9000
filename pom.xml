@@ -226,7 +226,6 @@
   <build>
     <sourceDirectory>${sourceDirectory}</sourceDirectory>
     <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
-
     <plugins>
       <plugin>
         <groupId>org.scalastyle</groupId>
