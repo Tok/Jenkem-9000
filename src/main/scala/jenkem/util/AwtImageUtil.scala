@@ -78,12 +78,6 @@ object AwtImageUtil {
     keys.map(t => ((t._1, t._2), getRgb(scaled, t._2, t._1))).toMap
   }
 
-  def calculateNewSize(method: Method, lineWidth: Int, originalWidth: Int, originalHeight: Int): (Int, Int) = {
-    val width = if (!method.equals(Method.Pwntari)) { lineWidth * 2 } else { lineWidth }
-    val height = lineWidth * originalHeight / originalWidth
-    (width, height)
-  }
-
   def makeIcon(url: String, bg: String, invert: Boolean, crops: Crops): BufferedImage = {
     val buffered = bufferImage(url, bg, invert, crops)
     getScaled(buffered, iconSize, iconSize)

@@ -14,6 +14,7 @@ import jenkem.util.AwtImageUtil
 import jenkem.util.GoogleUtil
 import jenkem.util.UrlOptionizer
 import jenkem.ui.ImagePreparer
+import jenkem.util.InitUtil
 
 class JenkemBot extends PircBot {
   def init: Unit = {
@@ -284,7 +285,7 @@ class JenkemBot extends PircBot {
     val originalImage = AwtImageUtil.bufferImage(url, "black", invert)
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
-    val (width, height) = AwtImageUtil.calculateNewSize(cs.method, cs.width, originalWidth, originalHeight)
+    val (width, height) = InitUtil.calculateNewSize(cs.method, cs.width, originalWidth, originalHeight)
     val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick, 0, 0)
     val imageRgb = AwtImageUtil.getImageRgb(scaled)
     val lastIndex = height

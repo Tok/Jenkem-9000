@@ -87,4 +87,25 @@ class InitUtilSuite extends FunSuite {
     assert((127 to 128).contains(InitUtil.invokePrivate(getMeanDev(redPixelMap))))
     assert((84 to 85).contains(InitUtil.invokePrivate(getMeanDev(darkGreenPixelMap))))
   }
+
+  test("Initial size") {
+    val (pw, ph) = InitUtil.calculateNewSize(Method.Pwntari, 72, 1000, 1000)
+    val (vw, vh) = InitUtil.calculateNewSize(Method.Vortacular, 72, 1000, 1000)
+    assert(pw === 72)
+    assert(ph === 72)
+    assert(vw === 144)
+    assert(vh === 72)
+    val (pw2, ph2) = InitUtil.calculateNewSize(Method.Pwntari, 72, 1000, 500)
+    val (vw2, vh2) = InitUtil.calculateNewSize(Method.Vortacular, 72, 1000, 500)
+    assert(pw2 === 72)
+    assert(ph2 === 36)
+    assert(vw2 === 144)
+    assert(vh2 === 36)
+    val (pw3, ph3) = InitUtil.calculateNewSize(Method.Pwntari, 72, 500, 1000)
+    val (vw3, vh3) = InitUtil.calculateNewSize(Method.Vortacular, 72, 500, 1000)
+    assert(pw3 === 72)
+    assert(ph3 === 144)
+    assert(vw3 === 144)
+    assert(vh3 === 144)
+  }
 }

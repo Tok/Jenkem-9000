@@ -287,7 +287,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val originalHeight = originalImage.getHeight
     val lineWidth = widthSlider.getValue.shortValue
     val method = Method.valueOf(methodBox.getValue.toString).get
-    val (width, height) = AwtImageUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
+    val (width, height) = InitUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
     val b = imagePreparer.getBrightness
     val c = imagePreparer.getContrast
     val scaled = AwtImageUtil.getScaled(originalImage, width, height, kick, b, c)

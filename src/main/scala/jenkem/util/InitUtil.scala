@@ -12,6 +12,12 @@ object InitUtil {
   val MIN_CONTRAST = -5
   val MAX_CONTRAST = 20
 
+  def calculateNewSize(method: Method, lineWidth: Int, originalWidth: Int, originalHeight: Int): (Int, Int) = {
+    val width = if (!method.equals(Method.Pwntari)) { lineWidth * 2 } else { lineWidth }
+    val height = lineWidth * originalHeight / originalWidth
+    (width, height)
+  }
+
   /**
    * Returns the default brightness based on the number of black and white pixels
    * compared to the total pixel count in the image.
