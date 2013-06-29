@@ -50,7 +50,7 @@ class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
   delayBox.addValueChangeListener(new Property.ValueChangeListener {
     override def valueChange(event: ValueChangeEvent): Unit = {
       try {
-        val delay = delayBox.getValue.toString.toInt
+        val delay = delayBox.getValue.toInt
         if (delay < IrcSettings.warningDelayMs) {
           Notification.show("Warning: Delay is low. Please make sure you are not flooding, or the bot might get kicked.")
         } else if (delay > IrcSettings.maxDelayMs) {

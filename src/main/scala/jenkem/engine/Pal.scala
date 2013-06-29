@@ -71,14 +71,14 @@ object Pal {
       if (chars.length > 1) { Random.shuffle(chars).head.toString }
       else { chars.head.toString }
     } else if (charset.equals(Party.chars)) {
-       getValChars(value, hasAnsi).takeRight(1).toString
+       getValChars(value, hasAnsi).takeRight(1)
     } else if (getValChars(value, hasAnsi).length > 1 &&
         (charset.equals(Hard.chars) || charset.equals(HCrude.chars) ||
         charset.equals(Mixed.chars) || charset.equals(Letters.chars) ||
         charset.takeRight(1).equals("#"))) {
-      getValChars(value, hasAnsi).toString.substring(1, 2)
+      getValChars(value, hasAnsi).substring(1, 2)
     } else {
-      getValChars(value, hasAnsi).take(1).toString
+      getValChars(value, hasAnsi).take(1)
     }
   }
 

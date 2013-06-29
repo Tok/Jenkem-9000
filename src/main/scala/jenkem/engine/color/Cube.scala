@@ -67,6 +67,6 @@ object Cube {
   def getColorChar(colorMap: Map[Scheme.IrcColor, Short],
     charset: String, p: Power, rgb: (Short, Short, Short)): String = {
     val c: Color = getTwoNearestColors(rgb, colorMap, p)
-    c.fg.toString + "," + c.bg.toString + Pal.getChar(charset, c.strength)
+    c.fg + "," + c.bg + Pal.getChar(charset, c.strength)
   }
 }

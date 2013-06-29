@@ -17,12 +17,12 @@ object Engine {
       val method: Method,
       val imageRgb: Map[Sample.Coords, Color.Rgb],
       val colorMap: Map[Scheme.IrcColor, Short],
-      val charset: String,
+      val characters: String,
       val settings: Setting.Instance,
       val contrast: Int,
       val brightness: Int,
       val power: Power) {
-    val hasAnsi = Pal.hasAnsi(charset)
+    val hasAnsi = Pal.hasAnsi(characters)
   }
 
   def generateLine(par: Params, index: Int): String = {
@@ -42,7 +42,7 @@ object Engine {
           if (i == 0) { consolidateDuplicates0(chars, accu ::: List(thisOne), i + 1) }
           else {
             val eq = thisOne.equals(chars(i - 1))
-            val newChar = if (eq) { List(par.charset.head.toString) } else { List(thisOne) }
+            val newChar = if (eq) { List(par.characters.head.toString) } else { List(thisOne) }
             consolidateDuplicates0(chars, accu ::: newChar, i + 1)
           }
         }
@@ -65,8 +65,8 @@ object Engine {
     val sam = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0).map(makeColorSample(_)).toList
     val range = (0 until sam.length)
     lazy val diffs = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap
-    lazy val means = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbMean(_, d)).toList)).toMap
-    lazy val colors = Sample.dirs.map(d => (d, means.get(d).get.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList)).toMap
+    //lazy val means = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbMean(_, d)).toList)).toMap
+    //lazy val colors = Sample.dirs.map(d => (d, means.get(d).get.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList)).toMap
     lazy val tl = sam.map(_._1)
     lazy val tr = sam.map(_._2)
     lazy val bl = sam.map(_._3)
@@ -75,8 +75,8 @@ object Engine {
     lazy val bIrc = range.map(i => Sample.calcMean(bl(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList
     lazy val lIrc = range.map(i => Sample.calcMean(tl(i), bl(i))).map(Cube.getNearest(_, par.colorMap)).toList
     lazy val rIrc = range.map(i => Sample.calcMean(tr(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList
-    val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.charset, par.power, _))
-    val totalBgs = chars.map(ColorUtil.getBgString(_))
+    val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.characters, par.power, _))
+    //val totalBgs = chars.map(ColorUtil.getBgString(_))
     def getSwitched(i: Int): String = {
       def direct(old: String, setting: Setting): String = {
         if (!par.settings.has(setting)) { old }
@@ -88,9 +88,9 @@ object Engine {
               val leftDiff: Short = diffs.get(Sample.LEFT).get(i)
               val rightDiff: Short = diffs.get(Sample.RIGHT).get(i)
               if (leftDiff + offset < rightDiff) {
-                lIrc(i) + comma + rIrc(i) + Pal.get(Pal.LEFT, par.hasAnsi, par.charset)
+                lIrc(i) + comma + rIrc(i) + Pal.get(Pal.LEFT, par.hasAnsi, par.characters)
               } else if (rightDiff + offset < leftDiff) {
-                rIrc(i) + comma + lIrc(i) + Pal.get(Pal.RIGHT, par.hasAnsi, par.charset)
+                rIrc(i) + comma + lIrc(i) + Pal.get(Pal.RIGHT, par.hasAnsi, par.characters)
               } else { old }
             }
           } else { //setting.equals(Setting.UPDOWN)
@@ -99,9 +99,9 @@ object Engine {
               val topDiff: Short = diffs.get(Sample.TOP).get(i)
               val botDiff: Short = diffs.get(Sample.BOT).get(i)
               if (topDiff + offset < botDiff) {
-                tIrc(i) + comma + bIrc(i) + Pal.get(Pal.UP, par.hasAnsi, par.charset)
+                tIrc(i) + comma + bIrc(i) + Pal.get(Pal.UP, par.hasAnsi, par.characters)
               } else if (botDiff + offset < topDiff) {
-                bIrc(i) + comma + tIrc(i) + Pal.get(Pal.DOWN, par.hasAnsi, par.charset)
+                bIrc(i) + comma + tIrc(i) + Pal.get(Pal.DOWN, par.hasAnsi, par.characters)
               } else { old }
             }
           }
@@ -115,7 +115,7 @@ object Engine {
 
     lazy val reps = Pal.pairs.map(p => (p, Pal.getValChars(p._1, par.hasAnsi))).toMap
     def change(c: String): String = {
-      reps.keys.find(r => reps(r).contains(c)).map(r => Pal.get(r._2, par.hasAnsi, par.charset)).getOrElse(c)
+      reps.keys.find(r => reps(r).contains(c)).map(r => Pal.get(r._2, par.hasAnsi, par.characters)).getOrElse(c)
     }
     val changed = pp.map(change(_))
     val finalLine = range.map(i => switched(i).init + changed(i)).toList
@@ -142,8 +142,8 @@ object Engine {
           firstDir: Sample.Dir, secondDir: Sample.Dir): Option[String] = {
         if (!par.settings.has(setting)) { None }
         else {
-          val fp = Pal.get(firstPal, par.hasAnsi, par.charset)
-          val sp = Pal.get(secondPal, par.hasAnsi, par.charset)
+          val fp = Pal.get(firstPal, par.hasAnsi, par.characters)
+          val sp = Pal.get(secondPal, par.hasAnsi, par.characters)
           val fs = Sample.getDirectedGrey(sam(i), firstDir)
           val ss = Sample.getDirectedGrey(sam(i), secondDir)
           getFor(par.settings.get(setting) / 10, fs, ss, fp, sp)
@@ -154,7 +154,7 @@ object Engine {
         case None =>
           getProcessed(Setting.LEFTRIGHT, Pal.LEFT, Pal.RIGHT, Sample.LEFT, Sample.RIGHT) match {
             case Some(lr) => lr //second possibility
-            case None => Pal.getCharAbs(par.charset, Sample.getMeanGrey(sam(i))) //default
+            case None => Pal.getCharAbs(par.characters, Sample.getMeanGrey(sam(i))) //default
           }
       }
     }
@@ -174,7 +174,7 @@ object Engine {
   type CharMapType = Map[Product, String]
 
   private def postProcess(par: Params, line: String, hasCol: Boolean): String = {
-    lazy val chr: CharMapType = Pal.values.map(v => (v, Pal.get(v, par.hasAnsi, par.charset))).toMap
+    lazy val chr: CharMapType = Pal.values.map(v => (v, Pal.get(v, par.hasAnsi, par.characters))).toMap
     val range = (0 until line.length)
     val lineList = line.map(_.toString).toList
     val dbqp = dbqpLine(lineList, range, par, chr, hasCol)
@@ -208,10 +208,10 @@ object Engine {
     lazy val isCurrentEqual: Boolean = current.equals(thisOne)
     def isLastEqual: Boolean = thisOne.equals(last)
     def isNextEqual: Boolean = thisOne.equals(next)
-    def isLastDark: Boolean = Pal.isDark(par.charset, last)
-    def isNextDark: Boolean = Pal.isDark(par.charset, next)
-    def isLastBright: Boolean = Pal.isBright(par.charset, last)
-    def isNextBright: Boolean = Pal.isBright(par.charset, next)
+    def isLastDark: Boolean = Pal.isDark(par.characters, last)
+    def isNextDark: Boolean = Pal.isDark(par.characters, next)
+    def isLastBright: Boolean = Pal.isBright(par.characters, last)
+    def isNextBright: Boolean = Pal.isBright(par.characters, next)
     def isLastBrightOrEqual: Boolean = isLastBright || isLastEqual
     def isNextBrightOrEqual: Boolean = isNextBright || isNextEqual
     def leftCondition: Boolean = darkLeft && isLastDark && isNextBrightOrEqual
@@ -225,7 +225,7 @@ object Engine {
     else {
       def changeDiag(list: List[String], i: Int): String = {
         lazy val current: String = list(i)
-        lazy val currentEqualsDown = current.equals(chr.get(Pal.DOWN).get)
+        //lazy val currentEqualsDown = current.equals(chr.get(Pal.DOWN).get)
         lazy val currentEqualsUp = current.equals(chr.get(Pal.UP).get)
         lazy val last: String = list(i - 1)
         lazy val lastEqualsDown = last.equals(chr.get(Pal.DOWN).get)
@@ -252,8 +252,8 @@ object Engine {
         lazy val last: String = list(i - 1)
         lazy val next: String = list(i + 1)
         if (isFirstOrLast(i, range)) { current }
-        else if (last.equals(Pal.darkest(par.charset)) && current.equals(from) && next.equals(from)) { to }
-        else if (last.equals(from) && current.equals(from) && next.equals(Pal.darkest(par.charset))) { to }
+        else if (last.equals(Pal.darkest(par.characters)) && current.equals(from) && next.equals(from)) { to }
+        else if (last.equals(from) && current.equals(from) && next.equals(Pal.darkest(par.characters))) { to }
         else { current }
       }
       val h = range.map(changeHor(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.H_LINE).get))

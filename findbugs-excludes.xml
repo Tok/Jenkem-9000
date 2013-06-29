@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<FindBugsFilter>
+  <!-- Gerneral filters for all classes -->
+  <Match>
+    <!-- False positive on case objects -->
+    <Bug pattern="HE_HASHCODE_USE_OBJECT_EQUALS" />
+  </Match>
+  <Match>
+    <!-- False positive on case objects -->
+    <Bug pattern="SE_NO_SERIALVERSIONID" />
+  </Match>
+  <Match>
+    <!-- False positive on case objects -->
+    <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
+  </Match>
+  <Match>
+    <!-- False positive on immutable collections -->
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
+    <!-- Complains on nested anonymous functions -->
+    <Bug pattern="SE_BAD_FIELD" />
+  </Match>
+  <Match>
+    <!-- Complains on case objects -->
+    <Bug pattern="SE_NO_SUITABLE_CONSTRUCTOR" />
+  </Match>
+
+  <!-- Specific filters for selected classes -->
+  <Match>
+    <Class name="jenkem.bot.JenkemBot" />
+    <!-- Fixing this would need removing a condition in the case match -->
+    <Bug pattern="DB_DUPLICATE_BRANCHES" />
+  </Match>
+  <Match>
+    <Class name="jenkem.bot.JenkemBot" />
+    <!-- OK for as long as only internal Strings are converted -->
+    <Bug pattern="DM_CONVERT_CASE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.bot.JenkemBot" />
+    <!-- Matches Enumeration Objects -->
+    <Bug pattern="NM_FIELD_NAMING_CONVENTION" />
+  </Match>
+  <Match>
+    <Class name="jenkem.bot.JenkemBot" />
+    <!-- Matches Enumeration Objects -->
+    <Bug pattern="NM_METHOD_NAMING_CONVENTION" />
+  </Match>
+
+  <Match>
+    <Class name="jenkem.engine.Kick$" />
+    <!-- OK for as long as only internal Strings are converted -->
+    <Bug pattern="DM_CONVERT_CASE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.engine.Kick$" />
+    <!-- No explicit null check there -->
+    <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.engine.color.Color" />
+    <!-- Float precision is OK here -->
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+  <Match>
+    <Class name="jenkem.engine.color.WeightedColor" />
+    <!-- Float precision is OK here -->
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+
+  <Match>
+    <Class name="jenkem.js.Cropper" />
+    <!-- Cast is confirmed with isInstanceOf -->
+    <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+  </Match>
+
+  <Match>
+    <Class name="jenkem.persistence.data.ImageCss" />
+    <!-- From annotation -->
+    <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+  </Match>
+  <Match>
+    <Class name="jenkem.persistence.data.ImageHtml" />
+    <!-- From annotation -->
+    <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+  </Match>
+  <Match>
+    <Class name="jenkem.persistence.data.ImageInfo" />
+    <!-- From annotation -->
+    <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+  </Match>
+  <Match>
+    <Class name="jenkem.persistence.data.ImageIrc" />
+    <!-- From annotation -->
+    <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+  </Match>
+
+  <Match>
+    <Class name="jenkem.ui.ImagePreparer" />
+    <!-- Framework demands null (None.OrNull) for component error -->
+    <Bug pattern="NP_NULL_ON_SOME_PATH" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.TabController" />
+    <!-- OK for as long as only internal Strings are converted -->
+    <Bug pattern="DM_CONVERT_CASE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.TabController$$anon$1" />
+    <!-- OK for as long as only internal Strings are converted -->
+    <Bug pattern="DM_CONVERT_CASE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.TabController$$anon$2" />
+    <!-- Implicit call from addListener -->
+    <Bug pattern="UMAC_UNCALLABLE_METHOD_OF_ANONYMOUS_CLASS" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.tab.GalleryTab$$anonfun$1" />
+    <!-- OK for as long as only internal Strings are converted -->
+    <Bug pattern="DM_CONVERT_CASE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.tab.GalleryTab$$anonfun$2" />
+    <!-- OK for as long as only internal Strings are converted -->
+    <Bug pattern="DM_CONVERT_CASE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.tab.GalleryTab$$anonfun$3" />
+    <!-- OK for as long as only internal Strings are converted -->
+    <Bug pattern="DM_CONVERT_CASE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.tab.GalleryTab$$anonfun$4" />
+    <!-- OK for as long as only internal Strings are converted -->
+    <Bug pattern="DM_CONVERT_CASE" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.tab.MainTab$$anon$7" />
+    <!-- Implicit call from addListener -->
+    <Bug pattern="UMAC_UNCALLABLE_METHOD_OF_ANONYMOUS_CLASS" />
+  </Match>
+  <Match>
+    <Class name="jenkem.ui.tab.MainTab$$anon$8" />
+    <!-- Implicit call from addListener -->
+    <Bug pattern="UMAC_UNCALLABLE_METHOD_OF_ANONYMOUS_CLASS" />
+  </Match>
+
+  <Match>
+    <Class name="jenkem.util.HtmlUtil$$anonfun$jenkem$util$HtmlUtil$$generateColored$1" />
+    <!-- False positive caused by scala loop syntax? -->
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+</FindBugsFilter>

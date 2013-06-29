@@ -33,15 +33,6 @@ object InitUtil {
     }
   }
 
-  private def findGreatestCommonDivisor(width: Int, height: Int): Int = {
-    if (height == 0) { width.abs }
-    else { findGreatestCommonDivisor(height, width % height) }
-  }
-
-  private def findLeastCommonMultiple(width: Int, height: Int): Int = {
-    (width * height).abs / findGreatestCommonDivisor(width, height)
-  }
-
   /**
    * Returns the default brightness based on the number of black and white pixels
    * compared to the total pixel count in the image.

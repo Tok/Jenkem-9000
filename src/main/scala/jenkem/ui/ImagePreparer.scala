@@ -185,7 +185,6 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       override def buttonClick(event: ClickEvent): Unit = replaceUrl
     })
   }
-  private def focusShowButton: Unit = inputTextField.focus
   private def replaceImage(url: URL): Unit = cropper.setImageSrc(url.toString)
   private def trigger: Unit = {
     if (!disableTrigger) {

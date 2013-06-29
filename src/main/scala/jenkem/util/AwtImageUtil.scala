@@ -128,8 +128,8 @@ object AwtImageUtil {
     val wx = resized.getWidth - (2 * kick.xOffset)
     val hx = resized.getHeight - (2 * kick.yOffset)
     val sub = resized.getSubimage(kick.xOffset, kick.yOffset, wx, hx)
-    val bloped = new LookupOp(brightnessLot(b), None.orNull).filter(sub, sub)
-    val cloped = new LookupOp(contrastLot(c), None.orNull).filter(sub, sub)
+    new LookupOp(brightnessLot(b), None.orNull).filter(sub, sub)
+    new LookupOp(contrastLot(c), None.orNull).filter(sub, sub)
     sub
   }
 

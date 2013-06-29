@@ -152,15 +152,6 @@ class JenkemBot extends PircBot {
       + ", Proportion: " + settings.proportion)
   }
 
-  /**
-   * Handles Exceptions by forwarding them to the IRC channel.
-   * @param target name of the sender or channel
-   * @param e the Exception to handle
-   */
-  private def showException(target: String, t: Throwable): Unit = {
-    sendMessage(target, "FAIL: " + t.toString)
-  }
-
   def getDelay: Int = super.getMessageDelay.toInt
 
   private def setMessageDelay(target: String, value: String): Unit = {
@@ -303,16 +294,15 @@ class JenkemBot extends PircBot {
     val imageRgb = AwtImageUtil.getImageRgb(scaled)
     val lastIndex = height
     val params = cs.getParams(imageRgb)
-    val ircOutput = List[String]()
     def generate0(index: Int): List[String] = {
-      if (index + 2 > lastIndex) { System.gc; Nil }
+      if (index + 2 > lastIndex) { Nil }
       else { Engine.generateLine(params, index) :: generate0(index + 2) }
     }
     val hasColor = params.method.hasColor
     val notPwntari = !params.method.equals(Method.Pwntari)
     val colorString = if (hasColor) { ", Scheme: " + cs.schemeName } else { "" }
     val powerString = if (notPwntari) { ", Power: " + params.power } else { "" }
-    val charsString = if (notPwntari) { ", Chars: " + params.charset } else { "" }
+    val charsString = if (notPwntari) { ", Chars: " + params.characters } else { "" }
     val widthDivisor = if (!params.method.equals(Method.Pwntari)) { 2 } else { 1 }
     val message = List("Mode: " + params.method + colorString + powerString
       + charsString + ", Width: " + (width / widthDivisor).intValue.toString)

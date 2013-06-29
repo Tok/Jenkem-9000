@@ -9,6 +9,19 @@
   <version>1.0</version>
   <name>Jenkem</name>
   <url>https://jenkem-9000.rhcloud.com</url>
+  
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/Tok/Jenkem-9000/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <id>Tok</id>
+      <name>Lukas Steiger</name>
+      <email>lsteiger4@gmail.com</email>
+    </developer>
+  </developers>
 
   <properties>
     <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
@@ -42,6 +55,7 @@
     <mavenTruezipPluginVersion>1.1</mavenTruezipPluginVersion>
     <tomcat7MavenPluginVersion>2.1</tomcat7MavenPluginVersion>
     <!-- Reporting Plugin Versions: -->
+    <mavenFindbugsPluginVersion>2.5.2</mavenFindbugsPluginVersion>
     <mavenSurefirePluginVersion>2.15</mavenSurefirePluginVersion>
     <mavenProjectInfoReportsPluginVersion>2.7</mavenProjectInfoReportsPluginVersion>
     <mavenSitePluginVersion>3.3</mavenSitePluginVersion>
@@ -195,6 +209,17 @@
         <groupId>org.scala-tools</groupId>
         <artifactId>maven-scala-plugin</artifactId>
         <version>${mavenScalaPluginVersion}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>${mavenFindbugsPluginVersion}</version>
+        <configuration>
+          <failOnError>true</failOnError>
+          <effort>Max</effort> <!-- Min, Default and Max. -->
+          <threshold>Low</threshold> <!-- High, Default, Low, Ignore, Exp -->
+          <excludeFilterFile>findbugs-excludes.xml</excludeFilterFile>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -463,7 +488,7 @@
             <configuration>
               <target>
                 <exec executable="start" vmlauncher="false">
-                  <arg line="${basedir}/target/site/index.html"/>
+                  <arg line="${basedir}/target/site/index.html" />
                 </exec>
               </target>
             </configuration>

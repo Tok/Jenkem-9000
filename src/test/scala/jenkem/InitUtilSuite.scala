@@ -109,23 +109,6 @@ class InitUtilSuite extends FunSuite {
     assert(vh3 === 144)
   }
 
-  test("Find Least Common Multiple") {
-    val findLeastCommonMultiple = PrivateMethod[Int]('findLeastCommonMultiple)
-    assert(InitUtil.invokePrivate(findLeastCommonMultiple(1, 1)) === 1)
-    assert(InitUtil.invokePrivate(findLeastCommonMultiple(4, 6)) === 12)
-    assert(InitUtil.invokePrivate(findLeastCommonMultiple(12, 18)) === 36)
-    assert(InitUtil.invokePrivate(findLeastCommonMultiple(2, 0)) === 0)
-    assert(InitUtil.invokePrivate(findLeastCommonMultiple(-6, 14)) === 42)
-  }
-
-  test("Find Greatest Common Divisor") {
-    val findGreatestCommonDivisor = PrivateMethod[Int]('findGreatestCommonDivisor)
-    assert(InitUtil.invokePrivate(findGreatestCommonDivisor(1, 1)) === 1)
-    assert(InitUtil.invokePrivate(findGreatestCommonDivisor(4, 6)) === 2)
-    assert(InitUtil.invokePrivate(findGreatestCommonDivisor(18, 84)) === 6)
-    assert(InitUtil.invokePrivate(findGreatestCommonDivisor(48, 180)) === 12)
-  }
-
   test("Calculate Proportional Size") {
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 144, 144) === (48, 48))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 360, 360) === (60, 60))

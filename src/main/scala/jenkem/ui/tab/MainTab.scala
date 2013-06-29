@@ -247,14 +247,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     layout
   }
 
-  private def makeCheckBox(caption: String) = {
-    val box = new CheckBox(caption)
-    box.setImmediate(true)
-    box.addValueChangeListener(noResizeValueChangeListener)
-    settingsLayout.addComponent(box)
-    box
-  }
-
   private def makeSliderAndLabel(caption: String, min: Int, max: Int, default: Int): (Slider, Label) = {
     val layout = new AbsoluteLayout
     val label = new Label(default.toString)
@@ -319,7 +311,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
             if (prepareImage) { doPrepareImage(url) }
             if (resize) { doPrepareImageData(url) }
             if (prepareImage) {
-              makeInits
+              makeImageInits
               conversionDisabled = false
               startConversion(false, false)
             } else {
@@ -330,7 +322,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
                     "HTML generated in " + htmlTime + "ms. " +
                     "Total time " + totalTime + "ms."
               imagePreparer.setStatus(status)
-              System.gc
+              //System.gc
             }
           } catch {
             case iioe: javax.imageio.IIOException => imagePreparer.setError("Cannot read image from URL.")
@@ -385,13 +377,6 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     inline.setValue(inlineHtml)
     inline.reset
     htmlEnd - htmlStart
-  }
-
-  private def makeInits(): Unit = {
-    conversionDisabled = true
-    val chars = charTextField.getValue.replaceAll("[,0-9]", "")
-    makeImageInits
-    conversionDisabled = false
   }
 
   private def makeImageInits(): Unit = {
