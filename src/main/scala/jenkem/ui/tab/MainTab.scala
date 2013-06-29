@@ -51,12 +51,11 @@ import com.vaadin.ui.Notification
 import com.vaadin.ui.Image
 import com.vaadin.ui.GridLayout
 import jenkem.engine.color.Color
+import jenkem.engine.Proportion
 
 class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   val capW = 150
-  val defaultWidth = 68
-  val minWidth = 16
-  val maxWidth = 74
+  val inlineLabelWidth = "88px"
 
   var conversionDisabled = true
   var ircOutput: List[String] = Nil
@@ -96,7 +95,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   val kickLayout = new HorizontalLayout
   val kickLabel = new Label("Kick: ")
-  kickLabel.setWidth("88px")
+  kickLabel.setWidth(inlineLabelWidth)
   val kickSelect = new OptionGroup(None.orNull, Kick.values)
   kickSelect.addStyleName("horizontal")
   kickSelect.setNullSelectionAllowed(false)
@@ -106,20 +105,33 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
   kickLayout.addComponent(kickSelect)
   inlineLayout.addComponent(kickLayout)
 
+  val optionsLayout = new HorizontalLayout
+  val proportionLabel = new Label("Proportion: ")
+  proportionLabel.setWidth(inlineLabelWidth)
+  val proportionSelect = new OptionGroup(None.orNull, Proportion.values)
+  proportionSelect.setDescription("Mostly relevant for small images")
+  proportionSelect.addStyleName("horizontal")
+  proportionSelect.setNullSelectionAllowed(false)
+  proportionSelect.setImmediate(true)
+  proportionSelect.addValueChangeListener(resizeValueChangeListener)
+  optionsLayout.addComponent(proportionLabel)
+  optionsLayout.addComponent(proportionSelect)
+  inlineLayout.addComponent(optionsLayout)
+
   val imagePreparer = new ImagePreparer(eventRouter)
   imagePreparer.enableSubmission(false)
   addComponent(imagePreparer)
   addComponent(mainLayout)
 
   val lwLayout = new HorizontalLayout
-  val lwCaptionLabel = new Label("Line Width: ")
-  lwCaptionLabel.setWidth("88px")
+  val lwCaptionLabel = new Label("Max Line Width: ")
+  lwCaptionLabel.setWidth(inlineLabelWidth)
   lwLayout.addComponent(lwCaptionLabel)
   lwLayout.setComponentAlignment(lwCaptionLabel, Alignment.MIDDLE_LEFT)
   val widthSlider = new Slider
-  widthSlider.setMin(minWidth)
-  widthSlider.setValue(defaultWidth)
-  widthSlider.setMax(maxWidth)
+  widthSlider.setMin(InitUtil.MIN_WIDTH)
+  widthSlider.setValue(InitUtil.DEFAULT_WIDTH)
+  widthSlider.setMax(InitUtil.MAX_WIDTH)
   widthSlider.addValueChangeListener(resizeValueChangeListener)
   widthSlider.setWidth("350px")
   lwLayout.addComponent(widthSlider)
@@ -287,7 +299,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     val originalHeight = originalImage.getHeight
     val lineWidth = widthSlider.getValue.shortValue
     val method = Method.valueOf(methodBox.getValue.toString).get
-    val (width, height) = InitUtil.calculateNewSize(method, lineWidth, originalWidth, originalHeight)
+    val proportion = proportionSelect.getValue.asInstanceOf[Proportion]
+    val (width, height) = Proportion.getWidthAndHeight(proportion, method, lineWidth, originalWidth, originalHeight)
     val b = imagePreparer.getBrightness
     val c = imagePreparer.getContrast
     val scaled = AwtImageUtil.getScaled(originalImage, width, height, kick, b, c)
@@ -403,7 +416,8 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   private def doReset(): Unit = {
     conversionDisabled = true
-    widthSlider.setValue(defaultWidth)
+    proportionSelect.setValue(Proportion.default)
+    widthSlider.setValue(InitUtil.DEFAULT_WIDTH)
     contrastSlider.setValue(0)
     brightnessSlider.setValue(0)
     makeInitsForMethod

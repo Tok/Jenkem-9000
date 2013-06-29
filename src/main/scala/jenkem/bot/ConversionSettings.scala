@@ -11,6 +11,7 @@ import jenkem.engine.Engine
 import jenkem.engine.Setting
 import jenkem.util.InitUtil
 import jenkem.engine.color.Color
+import jenkem.engine.Proportion
 
 class ConversionSettings {
   @BeanProperty var width: Int = _
@@ -20,17 +21,17 @@ class ConversionSettings {
   @BeanProperty var chars: String = _
   @BeanProperty var kick: Kick = _
   @BeanProperty var power: Power = _
-
-  val defaultWidth = 64
+  @BeanProperty var proportion: Proportion = _
 
   def reset: Unit = {
-    width = defaultWidth
+    width = InitUtil.DEFAULT_WIDTH
     method = Method.Vortacular
     colorMap = Scheme.createColorMap(Scheme.Default)
     schemeName = Scheme.Default.name
     chars = Pal.Ansi.chars
     kick = Kick.OFF
     power = Power.Linear
+    proportion = Proportion.default
   }
 
   def getParams(imageData: Color.RgbMap): Engine.Params = {

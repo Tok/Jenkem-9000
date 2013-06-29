@@ -15,6 +15,7 @@ import jenkem.util.GoogleUtil
 import jenkem.util.UrlOptionizer
 import jenkem.ui.ImagePreparer
 import jenkem.util.InitUtil
+import jenkem.engine.Proportion
 
 class JenkemBot extends PircBot {
   def init: Unit = {
@@ -33,7 +34,7 @@ class JenkemBot extends PircBot {
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY, WIDTH, MODE, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER = Value
+    val DELAY, WIDTH, MODE, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER, PROPORTION = Value
   }
 
   object IntExtractor {
@@ -97,6 +98,7 @@ class JenkemBot extends PircBot {
         case ConfigItem.CHARSET => setCharset(sender, value)
         case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI => setChars(sender, value)
         case ConfigItem.POWER => setPower(sender, value)
+        case ConfigItem.PROPORTION => setProporion(sender, value)
       }
     } catch {
       case nse: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
@@ -131,7 +133,7 @@ class JenkemBot extends PircBot {
     sendMessage(target, "Play image from url: JENKEM [url]")
     sendMessage(target, "Let jenkem search for an image to play: JENKEM [search term]")
     sendMessage(target, "Change config: JENKEM [ConfigItem] [Value]")
-    sendMessage(target, "  ConfigItems are: MODE, DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER")
+    sendMessage(target, "  ConfigItems are: MODE, DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER, PROPORTION")
     sendMessage(target, "Show config: JENKEM CONFIG")
     sendMessage(target, "Reset config: JENKEM RESET")
   }
@@ -146,7 +148,8 @@ class JenkemBot extends PircBot {
       + ", Width (chars): " + settings.width
       + ", Power: " + settings.power
       + ", Scheme: " + settings.schemeName
-      + ", Charset: " + settings.chars)
+      + ", Charset: " + settings.chars
+      + ", Proportion: " + settings.proportion)
   }
 
   /**
@@ -236,6 +239,16 @@ class JenkemBot extends PircBot {
     }
   }
 
+  private def setProporion(target: String, value: String): Unit = {
+    Proportion.valueOf(value) match {
+      case Some(proportion) =>
+        settings.proportion = proportion
+        reportConfigChange(target, ConfigItem.PROPORTION, proportion.toString)
+      case None =>
+        sendMessage(target, "Proportion must be one of " + makeString(Proportion.values))
+    }
+  }
+
   private def reportConfigChange(target: String, item: ConfigItem.Value, value: String): Unit = {
     sendMessage(target, item + " set to " + value)
   }
@@ -282,10 +295,10 @@ class JenkemBot extends PircBot {
 
   private def generate(url: String, cs: ConversionSettings): List[String] = {
     val invert = false
-    val originalImage = AwtImageUtil.bufferImage(url, "black", invert)
+    val originalImage = AwtImageUtil.bufferImage(url, "white", invert)
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
-    val (width, height) = InitUtil.calculateNewSize(cs.method, cs.width, originalWidth, originalHeight)
+    val (width, height) = Proportion.getWidthAndHeight(cs.proportion, cs.method, cs.width, originalWidth, originalHeight)
     val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick, 0, 0)
     val imageRgb = AwtImageUtil.getImageRgb(scaled)
     val lastIndex = height
@@ -300,8 +313,9 @@ class JenkemBot extends PircBot {
     val colorString = if (hasColor) { ", Scheme: " + cs.schemeName } else { "" }
     val powerString = if (notPwntari) { ", Power: " + params.power } else { "" }
     val charsString = if (notPwntari) { ", Chars: " + params.charset } else { "" }
+    val widthDivisor = if (!params.method.equals(Method.Pwntari)) { 2 } else { 1 }
     val message = List("Mode: " + params.method + colorString + powerString
-      + charsString + ", Width: " + (width / 2).intValue.toString)
+      + charsString + ", Width: " + (width / widthDivisor).intValue.toString)
     message ::: generate0(0)
   }
 }

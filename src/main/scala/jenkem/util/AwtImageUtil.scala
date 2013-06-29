@@ -1,6 +1,5 @@
 package jenkem.util
 
-import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import java.awt.image.RescaleOp
@@ -21,13 +20,14 @@ import java.util.Date
 import java.awt.RenderingHints
 import jenkem.engine.Method
 import java.awt.image.ShortLookupTable
+import jenkem.engine.color.Color
 
 object AwtImageUtil {
   type Crops = (Int, Int, Int, Int)
   val iconSize = 32
   val defaultCrops = (0, 100, 0, 100) //xs, xe, ys, ye
-  val colorWhite = new Color(255, 255, 255)
-  val colorBlack = new Color(0, 0, 0)
+  val colorWhite = new java.awt.Color(255, 255, 255)
+  val colorBlack = new java.awt.Color(0, 0, 0)
 
   def bufferImage(url: String, bg: String, invert: Boolean): BufferedImage = {
     bufferImage(url, bg, invert, defaultCrops)
@@ -44,7 +44,7 @@ object AwtImageUtil {
     else { buffered }
   }
 
-  private def doBuffer(url: String, bg: String, color: Color, crops: Crops): BufferedImage = {
+  private def doBuffer(url: String, bg: String, color: java.awt.Color, crops: Crops): BufferedImage = {
     val image = ImageIO.read(new URL(url))
     val xs = crops._1
     val xe = crops._2
@@ -65,12 +65,12 @@ object AwtImageUtil {
     buffered
   }
 
-  def getRgb(img: BufferedImage, x: Int, y: Int): (Short, Short, Short) = {
+  def getRgb(img: BufferedImage, x: Int, y: Int): Color.Rgb = {
     val argb = img.getRGB(x.intValue, y.intValue)
     (((argb >> 16) & 0xff).toShort, ((argb >> 8) & 0xff).toShort, ((argb) & 0xff).toShort)
   }
 
-  def getImageRgb(scaled: BufferedImage): jenkem.engine.color.Color.RgbMap = {
+  def getImageRgb(scaled: BufferedImage): Color.RgbMap = {
     val keys = for {
        y <- 0 until scaled.getHeight
        x <- 0 until scaled.getWidth

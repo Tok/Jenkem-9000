@@ -6,6 +6,10 @@ import jenkem.engine.color.Scheme
 import jenkem.engine.color.Color
 
 object InitUtil {
+  val DEFAULT_WIDTH = 68
+  val MIN_WIDTH = 16
+  val MAX_WIDTH = 74
+
   val COLOR_TOLERANCE = 15 //arbitrary value (absolute RGB)
   val MIN_BRIGHTNESS = -20
   val MAX_BRIGHTNESS = 10
@@ -16,6 +20,26 @@ object InitUtil {
     val width = if (!method.equals(Method.Pwntari)) { lineWidth * 2 } else { lineWidth }
     val height = lineWidth * originalHeight / originalWidth
     (width, height)
+  }
+
+  def calculateProportionalSize(method: Method, lineWidth: Int, originalWidth: Int, originalHeight: Int): (Int, Int) = {
+    def depend(p: (Int, Int)): (Int, Int) = if (!method.equals(Method.Pwntari)) { (p._1 * 2, p._2) } else { (p._1, p._2) }
+    if (originalWidth <= lineWidth) {
+      val ratio: Int = lineWidth / originalWidth
+      depend((originalWidth * ratio, originalHeight * ratio))
+    } else {
+      val ratio: Int = (originalWidth / lineWidth) + 1
+      depend(originalWidth / ratio, originalHeight / ratio)
+    }
+  }
+
+  private def findGreatestCommonDivisor(width: Int, height: Int): Int = {
+    if (height == 0) { width.abs }
+    else { findGreatestCommonDivisor(height, width % height) }
+  }
+
+  private def findLeastCommonMultiple(width: Int, height: Int): Int = {
+    (width * height).abs / findGreatestCommonDivisor(width, height)
   }
 
   /**
