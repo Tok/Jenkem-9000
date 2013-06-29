@@ -36,3 +36,29 @@ git push
 
 delete logs and temp files by:
 rhc app tidy -a [appname]
+
+===Use Project in Eclipse===
+- Use Eclispe Juno (or latest version supported by Scala IDE)
+- Install Plugins (see below)
+- Import Project with *minimal* settings
+- Activated Project Facets: Dynamic Web Module, Java, Javascript
+- Add Maven Nature (Adds deps to classpath that are needed for compilation, adds ability to run launchers)
+- Add Scalastyle Nature
+- Add src/main/scala, src/main/resources, src/main/webapp and src/test/scala as sourcepath.
+
+==Recommended Plugins===
+Scala IDE (The provided version of Scala should match the one in the POM):
+http://download.scala-ide.org/sdk/e38/scala210/stable/site (or equivalent)
+
+Scalastyle Plugin (point it to scalastyle_config.xml):
+http://www.scalastyle.org/downloads/
+
+==Optional Plugins==
+Scalatest for Scala IDE (allows to run tests separated from maven):
+http://www.scalatest.org/user_guide/using_scalatest_with_eclipse
+
+ANSI Escape in Console (shows colors in scalatest output):
+http://www.mihai-nita.net/eclipse
+
+Egit (if project contains a git repo):
+http://www.eclipse.org/egit/

@@ -251,7 +251,7 @@
           <sourceDirectory>${sourceDirectory}</sourceDirectory>
           <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
           <configLocation>${basedir}/scalastyle_config.xml</configLocation>
-          <outputFile>${basedir}/target/scalastyle-output.xml</outputFile>
+          <outputFile>${basedir}/target/site/scalastyle-output.xml</outputFile>
           <outputEncoding>UTF-8</outputEncoding>
         </configuration>
         <executions>
@@ -451,6 +451,20 @@
                 <delete failonerror="false">
                   <fileset dir="${basedir}/src/main/resources/META-INF" />
                 </delete>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>Show report in default browser.</id>
+            <phase>post-site</phase>
+            <configuration>
+              <target>
+                <exec executable="start" vmlauncher="false">
+                  <arg line="${basedir}/target/site/index.html"/>
+                </exec>
               </target>
             </configuration>
             <goals>
