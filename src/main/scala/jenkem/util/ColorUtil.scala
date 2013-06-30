@@ -21,7 +21,7 @@ object ColorUtil {
   def ircToCss(ircColor: Short): String = {
     Scheme.valuOfIrcColor(ircColor) match {
       case Some(ircColor) => rgbToCss(ircColor.rgb)
-      case None => "#000000"
+      case _ => "#000000"
     }
   }
 
@@ -48,6 +48,6 @@ object ColorUtil {
 
   private def commaSplit(s: String): Array[String] = s.split(",")
   def getFg(s: String): Int = commaSplit(s)(0).tail.toInt
-  def getBgString(s: String): String = commaSplit(s)(1).init
+  def getBgString(s: String): String = commaSplit(s)(1).takeWhile(_.isDigit)
   def getBg(s: String): Int = getBgString(s).toInt
 }
