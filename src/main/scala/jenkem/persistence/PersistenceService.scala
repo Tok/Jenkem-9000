@@ -13,6 +13,7 @@ import jenkem.persistence.data.ImageHtml
 import jenkem.persistence.data.ImageInfo
 import jenkem.persistence.data.ImageIrc
 import com.mongodb.MongoException
+import javax.jdo.JDODataStoreException
 
 
 /**
@@ -43,6 +44,7 @@ object PersistenceService {
         true
       } catch {
         case me: MongoException => false
+        case jdodse: JDODataStoreException => false
       } finally {
         if (tx.isActive) { tx.rollback }
         pm.close
@@ -55,20 +57,18 @@ object PersistenceService {
   def getImageIrcByName(name: String): Option[ImageIrc] = getByName[ImageIrc](name, classOf[ImageIrc])
 
   private def getByName[T](name: String, c: java.lang.Class[T]): Option[T] = {
-    Option(name) match {
-      case Some(name) =>
-        val pm = PMF.get.getPersistenceManager
-        try {
-          val query = pm.newQuery(c)
-          query.setUnique(true)
-          query.setFilter("name == n")
-          query.declareParameters("String n")
-          val result: T = query.execute(name).asInstanceOf[T]
-          if (result != None.orNull) { Some(result) } else { None }
-        } finally {
-          pm.close
-        }
-      case None => None
+    val pm = PMF.get.getPersistenceManager
+    try {
+      val query = pm.newQuery(c)
+      query.setUnique(true)
+      query.setFilter("name == n")
+      query.declareParameters("String n")
+      val result: T = query.execute(name).asInstanceOf[T]
+      if (result != None.orNull) { Some(result) } else { None }
+    } catch {
+      case me: MongoException => None
+    } finally {
+      pm.close
     }
   }
 
