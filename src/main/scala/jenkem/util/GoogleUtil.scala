@@ -39,7 +39,7 @@ object GoogleUtil {
 
   private def makeRandomSearchTerm: String = {
     val imageName = if(Random.nextBoolean) { "DSC0" } else { "IMG0" }
-    val number = Random.nextDouble.toString
-    imageName + number.take(4)
+    val number = Random.nextDouble * 10
+    imageName + number.toString.take(5).filterNot(".".contains(_))
   }
 }

@@ -4,7 +4,7 @@ object Sender {
   var botStatus = new BotStatus.Value(Disconnected, NotSending, "", "", "", IrcSettings.defaultDelayMs)
   var stopSwitch = false
   var isPlaying = false
-  var playThread: Thread = null
+  var playThread: Thread = None.orNull
 
   /**
    * Runs a thread to play the image into the channel.

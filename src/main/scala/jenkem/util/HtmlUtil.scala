@@ -70,7 +70,7 @@ object HtmlUtil {
     val filtered = inputCss.split(SEP).toList.filterNot(_.startsWith("form {"))
       .filterNot(_.startsWith("body {")).filterNot(_.startsWith("html {"))
     val result = filtered.map(l => if (l.startsWith("div {")) { rep } else { l })
-    "<style type=\"text/css\">\n" + result.map(l => l + SEP).mkString + "\n</style>"
+    "<style type=\"text/css\">\n" + result.map(l => l + SEP).mkString + "</style>"
   }
 
   private def generatePlain(html: StringBuilder, css: StringBuilder,
@@ -116,6 +116,9 @@ object HtmlUtil {
     html.append("</div>\n")
   }
 
-  private def escape(input: String) = input.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;").replaceAll(" ", "&nbsp;")
+  private def escape(input: String): String =
+    input.replaceAll("&", "&amp;")
+         .replaceAll("<", "&lt;")
+         .replaceAll(">", "&gt;")
+         .replaceAll(" ", "&nbsp;")
 }

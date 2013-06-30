@@ -1,11 +1,11 @@
-package jenkem
+package jenkem.util
 
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
-import org.scalatest.PrivateMethodTester._
-import org.scalatest.junit.JUnitRunner
+import org.scalatest.PrivateMethodTester.PrivateMethod
+import org.scalatest.PrivateMethodTester.anyRefToInvoker
 import jenkem.engine.color.Color
-import jenkem.util.ImageUtil
+import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class ImageUtilSuite extends FunSuite {
@@ -26,6 +26,8 @@ class ImageUtilSuite extends FunSuite {
     assert(ImageUtil.makeGreyPixel(grayPixelMap, 0, 0) === 127)
     assert(ImageUtil.makeGreyPixel(redPixelMap, 0, 0) === 85)
     assert(ImageUtil.makeGreyPixel(darkGreenPixelMap, 0, 0) === 42)
+    assert(ImageUtil.makeGreyPixel(blackPixelMap, 1, 0) === 0)
+    assert(ImageUtil.makeGreyPixel(blackPixelMap, 0, 1) === 0)
   }
 
   test("Pixel sum") {

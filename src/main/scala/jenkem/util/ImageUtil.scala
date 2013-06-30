@@ -9,15 +9,15 @@ object ImageUtil {
 
   private def getPixelRgbSum(imageRgb: Color.RgbMap, x: Int, y: Int): Short = {
     imageRgb.get((y, x)) match {
-      case Some((r, g, b)) => (r + g + b).shortValue
-      case None => 0
+      case Some(rgb) => (rgb._1 + rgb._2 + rgb._3).shortValue
+      case _ => 0
     }
   }
 
   def getPixels(imageRgb: Color.RgbMap, x: Int, y: Int): Color.Rgb = {
     imageRgb.get((y, x)) match {
-      case Some((r, g, b)) => (r, g, b)
-      case None => (0, 0, 0)
+      case Some(rgb) => (rgb._1, rgb._2, rgb._3)
+      case _ => (0, 0, 0)
     }
   }
 }

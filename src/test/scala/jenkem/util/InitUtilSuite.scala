@@ -1,15 +1,14 @@
-package jenkem
+package jenkem.util
 
 import org.scalatest.FunSuite
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import jenkem.engine.color.Color
 import jenkem.engine.Pal
 import jenkem.engine.Method
-import jenkem.util.InitUtil
 import jenkem.engine.color.Scheme
 import org.scalatest.PrivateMethodTester.PrivateMethod
 import org.scalatest.PrivateMethodTester._
+import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class InitUtilSuite extends FunSuite {
@@ -17,6 +16,11 @@ class InitUtilSuite extends FunSuite {
   val whitePixel: Color.Rgb = (255, 255, 255)
   val grayPixel: Color.Rgb = (127, 127, 127)
   val redPixel: Color.Rgb = (255, 0, 0)
+  val greenPixel: Color.Rgb = (0, 255, 0)
+  val bluePixel: Color.Rgb = (0, 0, 255)
+  val cyanPixel: Color.Rgb = (0, 255, 255)
+  val yellowPixel: Color.Rgb = (255, 255, 0)
+  val magentaPixel: Color.Rgb = (255, 0, 255)
   val darkGreenPixel: Color.Rgb = (0, 127, 0)
   val blackPixelMap: Color.RgbMap = Map((0, 0) -> blackPixel)
   val whitePixelMap: Color.RgbMap = Map((0, 0) -> whitePixel)
@@ -58,7 +62,20 @@ class InitUtilSuite extends FunSuite {
     assert(InitUtil.invokePrivate(isPixelGray(blackPixel)))
     assert(InitUtil.invokePrivate(isPixelGray(whitePixel)))
     assert(!InitUtil.invokePrivate(isPixelGray(redPixel)))
+    assert(!InitUtil.invokePrivate(isPixelGray(greenPixel)))
+    assert(!InitUtil.invokePrivate(isPixelGray(bluePixel)))
+    assert(!InitUtil.invokePrivate(isPixelGray(cyanPixel)))
+    assert(!InitUtil.invokePrivate(isPixelGray(yellowPixel)))
+    assert(!InitUtil.invokePrivate(isPixelGray(magentaPixel)))
     assert(!InitUtil.invokePrivate(isPixelGray(darkGreenPixel)))
+    val tol: Short = InitUtil.COLOR_TOLERANCE
+    val twotol: Short = (tol * 2).shortValue
+    assert(!InitUtil.invokePrivate(isPixelGray((0.shortValue, tol, twotol))))
+    assert(!InitUtil.invokePrivate(isPixelGray((0.shortValue, twotol, tol))))
+    assert(!InitUtil.invokePrivate(isPixelGray((tol, 0.shortValue, twotol))))
+    assert(!InitUtil.invokePrivate(isPixelGray((twotol, 0.shortValue, tol))))
+    assert(!InitUtil.invokePrivate(isPixelGray((tol, twotol, 0.shortValue))))
+    assert(!InitUtil.invokePrivate(isPixelGray((twotol, tol, 0.shortValue))))
   }
 
   test("Black and White detection") {
@@ -110,12 +127,14 @@ class InitUtilSuite extends FunSuite {
   }
 
   test("Calculate Proportional Size") {
-    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 144, 144) === (48, 48))
-    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 360, 360) === (60, 60))
-    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 419, 419) === (69, 69))
-    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 418, 418) === (69, 69))
-    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 503, 503) === (71, 71))
-    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 503, 419) === (71, 59))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 72, 72) === (72, 72))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 144, 144) === (72, 72))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 360, 360) === (72, 72))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 419, 419) === (70, 70))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 418, 418) === (38, 38))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 503, 503) === (72, 72))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 503, 419) === (42, 35))
+
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 72, 72) === (72, 72))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 36, 36) === (72, 72))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 18, 18) === (72, 72))
@@ -123,12 +142,14 @@ class InitUtilSuite extends FunSuite {
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 40, 40) === (40, 40))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 30, 30) === (60, 60))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 35, 45) === (70, 90))
-    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 144, 144) === (96, 48))
-    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 360, 360) === (120, 60))
-    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 419, 419) === (138, 69))
-    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 418, 418) === (138, 69))
-    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 503, 503) === (142, 71))
-    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 503, 419) === (142, 59))
+
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 144, 144) === (144, 72))
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 360, 360) === (144, 72))
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 419, 419) === (140, 70))
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 418, 418) === (76, 38))
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 503, 503) === (144, 72))
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 503, 419) === (84, 35))
+
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 72, 72) === (144, 72))
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 36, 36) === (144, 72))
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 18, 18) === (144, 72))
@@ -136,5 +157,29 @@ class InitUtilSuite extends FunSuite {
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 40, 40) === (80, 40))
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 30, 30) === (120, 60))
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 35, 45) === (140, 90))
+
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 1000, 1000) === (100, 50))
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 10000, 10000) === (100, 50))
+  }
+
+  test("Calculate Many Proportional Size") {
+    val limit = 72
+    val xRange = (1 to 300)
+    val yRange = (1 to 300)
+    for {
+      x <- xRange
+      y <- yRange
+    } yield {
+      val pair = InitUtil.calculateProportionalSize(Method.Pwntari, limit, x, y)
+      assert(pair._1 !== 0)
+      assert(pair._2 !== 0)
+      assert(pair._1 <= limit)
+    }
+  }
+
+  test("Default Width") {
+    assert(InitUtil.MIN_WIDTH < InitUtil.MAX_WIDTH)
+    assert(InitUtil.DEFAULT_WIDTH <= InitUtil.MAX_WIDTH)
+    assert(InitUtil.MIN_WIDTH <= InitUtil.DEFAULT_WIDTH)
   }
 }
