@@ -1,13 +1,13 @@
 package jenkem.util
 
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.PrivateMethodTester._
 import org.scalatest.PrivateMethodTester.PrivateMethod
+import org.scalatest.PrivateMethodTester.anyRefToInvoker
+import jenkem.AbstractTester
+import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class ColorUtilSuite extends FunSuite {
+class ColorUtilSuite extends AbstractTester {
   val whiteCss = "#FFFFFF"
   val blackCss = "#000000"
   val redCss = "#FF0000"

@@ -87,18 +87,18 @@ object Pal {
   }
 
   def isDark(charset: String, compare: String): Boolean = {
-    charset.indexOf(compare) >= (charset.length / 2)
+    charset.indexOf(compare) > ((charset.length - 1) / 2)
   }
 
   def isBright(charset: String, compare: String): Boolean = {
     val index = charset.indexOf(compare)
-    index >= 0 && index <= (charset.length / 2)
+    index >= 0 && index < (charset.length / 2)
   }
 
   def getForMethod(method: Method): Charset = {
     if (method.equals(Method.Plain)) { Soft }
     else if (method.equals(Method.Stencil)) { HCrude }
-    else { Pal.Ansi }
+    else { Ansi }
   }
 
   def darkest(charset: String): String = charset.last.toString

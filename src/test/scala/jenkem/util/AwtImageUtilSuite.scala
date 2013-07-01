@@ -1,16 +1,14 @@
 package jenkem.util
 
-import org.junit.runner.RunWith
-import org.scalatest.FunSuite
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.PrivateMethodTester._
-import org.scalatest.PrivateMethodTester.PrivateMethod
 import java.awt.image.BufferedImage
+import org.junit.runner.RunWith
 import com.vaadin.server.StreamResource
+import jenkem.AbstractTester
 import jenkem.engine.Kick
+import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class AwtImageUtilSuite extends FunSuite {
+class AwtImageUtilSuite extends AbstractTester {
   val blackImg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
   val base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR42mNgYGAAAAAEAAHI6uv5AAAAAElFTkSuQmCC"
 

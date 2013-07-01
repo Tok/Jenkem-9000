@@ -20,14 +20,6 @@ object Kick {
   case object Y extends Kick(0, 1)
   case object XY extends Kick(1, 1)
   val values: List[Kick] = List(OFF, X, Y, XY)
+  def valueOf(name: String): Option[Kick] = values.find(_.toString.equalsIgnoreCase(name))
   def default: Kick = OFF
-  def valueOf(name: String): Option[Kick] = {
-    name.toUpperCase match {
-      case "OFF" | "0" => Option(OFF)
-      case "X" => Option(X)
-      case "Y" => Option(Y)
-      case "XY" => Option(XY)
-      case _ => None
-    }
-  }
 }

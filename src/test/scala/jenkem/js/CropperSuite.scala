@@ -2,12 +2,12 @@ package jenkem.js
 
 import scala.collection.mutable.ArrayBuffer
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
 import com.vaadin.shared.ui.JavaScriptComponentState
+import jenkem.AbstractTester
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class CropperSuite extends FunSuite {
+class CropperSuite extends AbstractTester {
   val cropper = new Cropper
 
   test("Constants") {

@@ -41,6 +41,7 @@
     <jUnitVersion>4.10</jUnitVersion>
     <jacocoVersion>0.6.4-SNAPSHOT</jacocoVersion>
     <scalatestVerion>2.0.M6-SNAP9</scalatestVerion>
+    <easymockVersion>2.0</easymockVersion>
     <mavenScalatestPluginVersion>1.0-M4-SNAPSHOT</mavenScalatestPluginVersion>
     <!-- Building Plugin Versions: -->
     <!-- http://maven.apache.org/plugins/index.html -->
@@ -64,17 +65,6 @@
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>datanucleus.org</id>
-      <url>http://www.datanucleus.org/downloads/maven2/</url>
-    </repository>
-    <repository>
-      <id>vaadin-addons</id>
-      <url>http://maven.vaadin.com/vaadin-addons</url>
-    </repository>
-  </repositories>
 
   <pluginRepositories>
     <pluginRepository>
@@ -193,6 +183,12 @@
       <groupId>org.scalatest</groupId>
       <artifactId>scalatest_2.10</artifactId>
       <version>${scalatestVerion}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>${easymockVersion}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

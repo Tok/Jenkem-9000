@@ -1,11 +1,11 @@
 package jenkem.util
 
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
+import jenkem.AbstractTester
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class UrlOptionizerSuite extends FunSuite {
+class UrlOptionizerSuite extends AbstractTester {
   test("Extract valid") {
     val urlString = "http://host.com:80/path"
     val url = UrlOptionizer.extract(urlString)

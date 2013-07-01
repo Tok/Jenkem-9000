@@ -21,28 +21,27 @@ object InitUtil {
   }
 
   def calculateProportionalSize(method: Method, lineWidth: Int, oWidth: Int, oHeight: Int): (Int, Int) = {
-    def depend(p: (Int, Int)): (Int, Int) = if (!method.equals(Method.Pwntari)) { (p._1 * 2, p._2) } else { (p._1, p._2) }
+    def depend(p: (Int, Int)): (Int, Int) = {
+      if (!method.equals(Method.Pwntari)) { (Math.max(1, p._1 * 2), Math.max(1, p._2)) }
+      else { (Math.max(1, p._1), Math.max(1, p._2)) }
+    }
     if (oWidth <= lineWidth) {
       val ratio: Int = lineWidth / oWidth
       depend((oWidth * ratio, oHeight * ratio))
     } else {
       val range = ((lineWidth / 2) to lineWidth)
-      def calc(oW: Int, oH: Int): (Int, Int) = {
-        val wMods = range.filter(oW % _ == 0).toList
-        val hMods = range.filter(oH % _ == 0).toList
-        val both = wMods.filter(hMods.contains(_)).toList
-        if (!both.isEmpty) {
-          val divisor = oW / both.last
-          depend((oW / divisor, oH / divisor))
-        } else {
-          if (oW % 2 == 1 || oH % 2 == 1) {
-            calc(oW + (oW % 2), oH + (oH % 2))
-          } else {
-            calculateNewSize(method, lineWidth, oWidth, oHeight)
-          }
-        }
+      val wMods = range.filter(oWidth % _ == 0)
+      val hMods = range.filter(oHeight % _ == 0)
+      val both = wMods.filter(hMods.contains(_))
+      if (!both.isEmpty) {
+        val divisor = oWidth / both.last
+        depend((oWidth / divisor, oHeight / divisor))
+      } else if (!wMods.isEmpty) {
+        val divisor = oWidth / wMods.last
+        depend((oWidth / divisor, oHeight / divisor))
+      } else {
+        calculateNewSize(method, lineWidth, oWidth, oHeight)
       }
-      calc(oWidth, oHeight)
     }
   }
 
@@ -69,26 +68,4 @@ object InitUtil {
     val mean = (rgb._1 + rgb._2 + rgb._3).doubleValue / 3
     mean < BLACK_LIMIT || mean > WHITE_LIMIT
   }
-
-  /**
-   * Returns the mean RGB value of all pixels in the image.
-   */
-  @deprecated("not used for now", "2013-06-30")
-  private def getMeanRgb(imageRgb: Color.RgbMap): Int = {
-    val means = imageRgb.values.map(rgb => (rgb._1 + rgb._2 + rgb._3) / 3).toList
-    means.sum / means.length
-  }
-
-  /**
-   * Returns the mean RGB value of all pixels in the image.
-   */
-  @deprecated("not used for now", "2013-06-30")
-  private def getMeanDev(imageRgb: Color.RgbMap): Int = {
-    val devs = imageRgb.values.map(rgb => ((
-      Math.abs(rgb._1 - Color.CENTER) +
-      Math.abs(rgb._2 - Color.CENTER) +
-      Math.abs(rgb._3 - Color.CENTER)).toDouble / 3D).toInt).toList
-    devs.sum / devs.length
-  }
-
 }

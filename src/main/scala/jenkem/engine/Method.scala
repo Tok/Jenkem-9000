@@ -1,6 +1,6 @@
 package jenkem.engine
 
-sealed class Method(val name: String, val hasColor: Boolean, val hasKick: Boolean)
+sealed abstract class Method(val name: String, val hasColor: Boolean, val hasKick: Boolean)
 
 object Method {
   case object Vortacular extends Method("Vortacular", true, true)

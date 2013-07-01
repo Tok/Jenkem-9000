@@ -1,14 +1,14 @@
 package jenkem.util
 
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
-import org.scalatest.PrivateMethodTester._
 import org.scalatest.PrivateMethodTester.PrivateMethod
+import org.scalatest.PrivateMethodTester.anyRefToInvoker
+import jenkem.AbstractTester
 import jenkem.engine.Method
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class HtmlUtilSuite extends FunSuite {
+class HtmlUtilSuite extends AbstractTester {
   val name = "name"
   val nameIs = "name="
   val htmlType = ".html"

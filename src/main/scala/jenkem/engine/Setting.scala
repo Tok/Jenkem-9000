@@ -9,7 +9,7 @@ object Setting {
   case object DIAGONAL extends Setting("\\ /")
   case object VERTICAL extends Setting("|")
   case object HORIZONTAL extends Setting("-")
-  val settings = List(UPDOWN, LEFTRIGHT, DBQP, DIAGONAL, VERTICAL, HORIZONTAL)
+  val values = List(UPDOWN, LEFTRIGHT, DBQP, DIAGONAL, VERTICAL, HORIZONTAL)
 
   val min = -100
   val max = 100
@@ -29,8 +29,7 @@ object Setting {
       setting match {
         case UPDOWN => ud
         case LEFTRIGHT => lr
-        case DBQP | DIAGONAL | VERTICAL | HORIZONTAL => (false, default)
-        case _ => (false, 0)
+        case _ => (false, default)
       }
     }
   }

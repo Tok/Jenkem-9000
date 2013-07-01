@@ -1,13 +1,13 @@
 package jenkem.util
 
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
-import org.scalatest.PrivateMethodTester._
 import org.scalatest.PrivateMethodTester.PrivateMethod
+import org.scalatest.PrivateMethodTester.anyRefToInvoker
+import jenkem.AbstractTester
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class GoogleUtilSuite extends FunSuite {
+class GoogleUtilSuite extends AbstractTester {
   test("Make Random Search Term") {
     val makeRandomSearchTerm = PrivateMethod[String]('makeRandomSearchTerm)
     val range = 0 to 100

@@ -23,6 +23,8 @@ class ConversionSettings {
   @BeanProperty var power: Power = _
   @BeanProperty var proportion: Proportion = _
 
+  reset
+
   def reset: Unit = {
     width = InitUtil.DEFAULT_WIDTH
     method = Method.Vortacular

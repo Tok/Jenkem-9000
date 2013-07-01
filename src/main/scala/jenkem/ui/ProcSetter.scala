@@ -29,7 +29,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   }
 
   type PS = Setting
-  val settings = Setting.settings
+  val settings = Setting.values
   setRows(3)
   setColumns(3)
 

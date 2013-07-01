@@ -1,17 +1,17 @@
 package jenkem.util
 
-import org.scalatest.FunSuite
 import org.junit.runner.RunWith
-import jenkem.engine.color.Color
-import jenkem.engine.Pal
-import jenkem.engine.Method
-import jenkem.engine.color.Scheme
 import org.scalatest.PrivateMethodTester.PrivateMethod
-import org.scalatest.PrivateMethodTester._
+import org.scalatest.PrivateMethodTester.anyRefToInvoker
+import jenkem.AbstractTester
+import jenkem.engine.Method
+import jenkem.engine.Pal
+import jenkem.engine.color.Color
+import jenkem.engine.color.Scheme
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class InitUtilSuite extends FunSuite {
+class InitUtilSuite extends AbstractTester {
   val blackPixel: Color.Rgb = (0, 0, 0)
   val whitePixel: Color.Rgb = (255, 255, 255)
   val grayPixel: Color.Rgb = (127, 127, 127)
@@ -87,24 +87,6 @@ class InitUtilSuite extends FunSuite {
     assert(!InitUtil.invokePrivate(isPixelBlackOrWhite(darkGreenPixel)))
   }
 
-  test("Mean RGB calculation") {
-    val getMeanRgb = PrivateMethod[Int]('getMeanRgb)
-    assert(InitUtil.invokePrivate(getMeanRgb(blackPixelMap)) === 0)
-    assert(InitUtil.invokePrivate(getMeanRgb(whitePixelMap)) === 255)
-    assert(InitUtil.invokePrivate(getMeanRgb(grayPixelMap)) === 127)
-    assert(InitUtil.invokePrivate(getMeanRgb(redPixelMap)) === 85)
-    assert(InitUtil.invokePrivate(getMeanRgb(darkGreenPixelMap)) === 42)
-  }
-
-  test("Mean Dev Calculation") {
-    val getMeanDev = PrivateMethod[Int]('getMeanDev)
-    assert(InitUtil.invokePrivate(getMeanDev(grayPixelMap)) === 0)
-    assert((127 to 128).contains(InitUtil.invokePrivate(getMeanDev(blackPixelMap))))
-    assert((127 to 128).contains(InitUtil.invokePrivate(getMeanDev(whitePixelMap))))
-    assert((127 to 128).contains(InitUtil.invokePrivate(getMeanDev(redPixelMap))))
-    assert((84 to 85).contains(InitUtil.invokePrivate(getMeanDev(darkGreenPixelMap))))
-  }
-
   test("Calculate Initial Size") {
     val (pw, ph) = InitUtil.calculateNewSize(Method.Pwntari, 72, 1000, 1000)
     val (vw, vh) = InitUtil.calculateNewSize(Method.Vortacular, 72, 1000, 1000)
@@ -130,10 +112,10 @@ class InitUtilSuite extends FunSuite {
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 72, 72) === (72, 72))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 144, 144) === (72, 72))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 360, 360) === (72, 72))
-    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 419, 419) === (70, 70))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 419, 419) === (72, 72))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 418, 418) === (38, 38))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 503, 503) === (72, 72))
-    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 503, 419) === (42, 35))
+    assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 503, 419) === (72, 59))
 
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 72, 72) === (72, 72))
     assert(InitUtil.calculateProportionalSize(Method.Pwntari, 72, 36, 36) === (72, 72))
@@ -145,10 +127,10 @@ class InitUtilSuite extends FunSuite {
 
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 144, 144) === (144, 72))
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 360, 360) === (144, 72))
-    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 419, 419) === (140, 70))
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 419, 419) === (144, 72))
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 418, 418) === (76, 38))
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 503, 503) === (144, 72))
-    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 503, 419) === (84, 35))
+    assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 503, 419) === (144, 59))
 
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 72, 72) === (144, 72))
     assert(InitUtil.calculateProportionalSize(Method.Vortacular, 72, 36, 36) === (144, 72))

@@ -2,11 +2,11 @@ package jenkem.event
 
 import java.util.EventObject
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
+import jenkem.AbstractTester
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class EventSuite extends FunSuite {
+class EventSuite extends AbstractTester {
   test("Do Conversion Event") {
     val falseFalseEvent = new DoConversionEvent(false, false)
     assert(falseFalseEvent.isInstanceOf[DoConversionEvent])

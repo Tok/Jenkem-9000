@@ -1,14 +1,14 @@
 package jenkem.util
 
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
 import org.scalatest.PrivateMethodTester.PrivateMethod
 import org.scalatest.PrivateMethodTester.anyRefToInvoker
+import jenkem.AbstractTester
 import jenkem.engine.color.Color
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class ImageUtilSuite extends FunSuite {
+class ImageUtilSuite extends AbstractTester {
   val blackPixel: Color.Rgb = (0, 0, 0)
   val whitePixel: Color.Rgb = (255, 255, 255)
   val grayPixel: Color.Rgb = (127, 127, 127)
