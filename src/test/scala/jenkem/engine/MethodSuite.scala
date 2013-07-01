@@ -29,6 +29,6 @@ class MethodSuite extends AbstractTester {
   }
 
   test("Pointless") {
-    Method.values.foreach(testAny(_))
+    Method.values.foreach(testAny(_, true))
   }
 }

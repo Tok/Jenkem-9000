@@ -10,14 +10,14 @@ class UrlOptionizerSuite extends AbstractTester {
     val urlString = "http://host.com:80/path"
     val url = UrlOptionizer.extract(urlString)
     assert(url.get.isInstanceOf[java.net.URL])
-    assert(url.get.toString.equals(urlString))
+    assert(url.get.toString === urlString)
   }
 
   test("Extract valid without port") {
     val urlString = "http://host.com/path"
     val url = UrlOptionizer.extract(urlString)
     assert(url.get.isInstanceOf[java.net.URL])
-    assert(url.get.toString.equals(urlString))
+    assert(url.get.toString === urlString)
   }
 
   test("Try to extract invalid") {

@@ -53,6 +53,6 @@ class SettingSuite extends AbstractTester {
   }
 
   test("Pointless") {
-    Setting.values.foreach(testAny(_))
+    Setting.values.foreach(testAny(_, true))
   }
 }

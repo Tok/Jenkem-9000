@@ -24,7 +24,7 @@ class GoogleUtilSuite extends AbstractTester {
     assert(GoogleUtil.searchUrl.contains("images"))
     assert(GoogleUtil.searchUrl.startsWith("http"))
     assert(GoogleUtil.attributes.contains("safe=off"))
-    assert(GoogleUtil.encoding.equals("latin1"))
-    assert(GoogleUtil.agent.equals("Jenkem/9000"))
+    assert(GoogleUtil.encoding === "latin1")
+    assert(GoogleUtil.agent === "Jenkem/9000")
   }
 }

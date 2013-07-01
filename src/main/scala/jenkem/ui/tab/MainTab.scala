@@ -415,7 +415,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     ircColorSetter.makeEnabled(method.hasColor)
     ircColorSetter.setSelectedScheme(Scheme.Default)
     powerBox.setEnabled(method.equals(Method.Vortacular))
-    powerBox.select(Power.Linear)
+    powerBox.select(Power.default)
     kickSelect.select(Kick.OFF)
     kickSelect.setEnabled(method.hasKick)
     procSetter.reset(Pal.hasAnsi(charTextField.getValue))

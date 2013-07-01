@@ -19,14 +19,16 @@ abstract class AbstractTester extends FunSuite with EasyMockSugar with BeforeAnd
     System.setErr(printStream)
   }
 
-  def testAny(a: Any): Unit = {
+  def testAny(a: Any, executeProductTests: Boolean): Unit = {
     val p = a.asInstanceOf[Product]
     assert(p.productIterator.isInstanceOf[Iterator[Any]])
-    val e = intercept[IndexOutOfBoundsException] { p.productElement(0) }
-    assert(e.isInstanceOf[IndexOutOfBoundsException])
+    if (executeProductTests) {
+      val e = intercept[IndexOutOfBoundsException] { p.productElement(0) }
+      assert(e.isInstanceOf[IndexOutOfBoundsException])
+      assert(p.productPrefix === a.toString)
+      assert(p.productArity === 0)
+    }
     val eq = a.asInstanceOf[Equals]
     assert(!eq.canEqual(new Object))
-    assert(p.productPrefix.equalsIgnoreCase(a.toString))
-    assert(p.productArity === 0)
   }
 }

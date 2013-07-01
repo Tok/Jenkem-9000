@@ -36,10 +36,10 @@ class HtmlUtilSuite extends AbstractTester {
 
   test("Test Escape") {
     val escape = PrivateMethod[String]('escape)
-    assert(HtmlUtil.invokePrivate(escape("&")).equals("&amp;"))
-    assert(HtmlUtil.invokePrivate(escape("<")).equals("&lt;"))
-    assert(HtmlUtil.invokePrivate(escape(">")).equals("&gt;"))
-    assert(HtmlUtil.invokePrivate(escape(" ")).equals("&nbsp;"))
+    assert(HtmlUtil.invokePrivate(escape("&")) === "&amp;")
+    assert(HtmlUtil.invokePrivate(escape("<")) === "&lt;")
+    assert(HtmlUtil.invokePrivate(escape(">")) === "&gt;")
+    assert(HtmlUtil.invokePrivate(escape(" ")) === "&nbsp;")
   }
 
   test("Test Host") {
@@ -77,8 +77,8 @@ class HtmlUtilSuite extends AbstractTester {
     val line = "##"
     val lineId = 0
     HtmlUtil.invokePrivate(generatePlain(html, css, line, lineId))
-    assert(html.toString.equals("<div class=\"jenkem\"><span id=\"id_0\">" + line + "</span></div>" + HtmlUtil.SEP))
-    assert(css.toString.equals("#id_0 { color: #000000; background-color: #ffffff; }" + HtmlUtil.SEP))
+    assert(html.toString === "<div class=\"jenkem\"><span id=\"id_0\">" + line + "</span></div>" + HtmlUtil.SEP)
+    assert(css.toString === "#id_0 { color: #000000; background-color: #ffffff; }" + HtmlUtil.SEP)
   }
 
   test("Generate Colored") {
@@ -90,7 +90,7 @@ class HtmlUtilSuite extends AbstractTester {
     val lineId = 0
     HtmlUtil.invokePrivate(generateColored(html, css, line, lineId))
     assert(html.toString.startsWith("<div class=\"jenkem\"><span id=\"id_0_0\">" + char + "</span></div>"))
-    assert(css.toString.equals("#id_0_0 { color: #000000; background-color: #ffffff; }" + HtmlUtil.SEP))
+    assert(css.toString === "#id_0_0 { color: #000000; background-color: #ffffff; }" + HtmlUtil.SEP)
   }
 
   test("Generate HTML") {

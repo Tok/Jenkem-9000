@@ -28,17 +28,17 @@ class CropperSuite extends AbstractTester {
   test("Image Src") {
     val src = " "
     cropper.setImageSrc(src)
-    assert(cropper.getImageSrc.equals(src))
+    assert(cropper.getImageSrc === src)
   }
 
   test("State") {
     assert(cropper.getState.isInstanceOf[CropperState])
     assert(cropper.getState.isInstanceOf[JavaScriptComponentState])
     val state = new CropperState
-    assert(state.imageSrc.equals(""))
+    assert(state.imageSrc === "")
     val newSrc = "###"
     state.setImageSrc(newSrc)
-    assert(state.getImageSrc.equals(newSrc))
+    assert(state.getImageSrc === newSrc)
   }
 
   test("Crops") {

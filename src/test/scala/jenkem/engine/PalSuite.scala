@@ -50,24 +50,24 @@ class PalSuite extends AbstractTester {
   }
 
   test("Char Abs") {
-    assert(Pal.getCharAbs(chars, 255D).equals(bright))
-    assert(Pal.getCharAbs(chars, 0D).equals(dark))
-    assert(Pal.getCharAbs(chars, 127D).equals(center))
-    assert(Pal.getChar(chars, 1D).equals(dark))
-    assert(Pal.getChar(chars, 0D).equals(bright))
-    assert(Pal.getChar(chars, 0.5D).equals(center))
+    assert(Pal.getCharAbs(chars, 255D) === bright)
+    assert(Pal.getCharAbs(chars, 0D) === dark)
+    assert(Pal.getCharAbs(chars, 127D) === center)
+    assert(Pal.getChar(chars, 1D) === dark)
+    assert(Pal.getChar(chars, 0D) === bright)
+    assert(Pal.getChar(chars, 0.5D) === center)
   }
 
   test("Get Character String") {
-    assert(Pal.get(Pal.UP, false, Pal.Hard.chars).equals("\""))
-    assert(Pal.get(Pal.DOWN, false, Pal.Hard.chars).equals("_"))
-    assert(Pal.get(Pal.UP, true, Pal.Ansi.chars).equals("▀"))
-    assert(Pal.get(Pal.DOWN, true, Pal.Ansi.chars).equals("▄"))
-    assert(Pal.get(Pal.UP, true, Pal.Party.chars).equals("▼"))
-    assert(Pal.get(Pal.DOWN, true, Pal.Party.chars).equals("▲"))
+    assert(Pal.get(Pal.UP, false, Pal.Hard.chars) === "\"")
+    assert(Pal.get(Pal.DOWN, false, Pal.Hard.chars) === "_")
+    assert(Pal.get(Pal.UP, true, Pal.Ansi.chars) === "▀")
+    assert(Pal.get(Pal.DOWN, true, Pal.Ansi.chars) === "▄")
+    assert(Pal.get(Pal.UP, true, Pal.Party.chars) === "▼")
+    assert(Pal.get(Pal.DOWN, true, Pal.Party.chars) === "▲")
     val mixed = " ░▒#"
-    assert(Pal.get(Pal.LEFT, true, mixed).equals("►"))
-    assert(Pal.get(Pal.RIGHT, true, mixed).equals("◄"))
+    assert(Pal.get(Pal.LEFT, true, mixed) === "►")
+    assert(Pal.get(Pal.RIGHT, true, mixed) === "◄")
     def test(p: Pal): Unit = {
       def testCharset(c: Pal.Charset): Unit = {
         val hasAnsi = Pal.hasAnsi(c.chars)
@@ -81,8 +81,8 @@ class PalSuite extends AbstractTester {
   }
 
   test("Get Val Chars") {
-    assert(Pal.getValChars(Pal.H_LINE, false).equals("-"))
-    assert(Pal.getValChars(Pal.H_LINE, true).equals("▬"))
+    assert(Pal.getValChars(Pal.H_LINE, false) === "-")
+    assert(Pal.getValChars(Pal.H_LINE, true) === "▬")
   }
 
   test("Dark") {
@@ -105,23 +105,23 @@ class PalSuite extends AbstractTester {
 
   test("Darkest") {
     def test(c: Pal.Charset): Unit = {
-      assert(Pal.darkest(c.chars).equals(c.chars.takeRight(1)))
-      assert(!Pal.darkest(c.chars).equals(c.chars.take(1)))
+      assert(Pal.darkest(c.chars) === c.chars.takeRight(1))
+      assert(Pal.darkest(c.chars) !== c.chars.take(1))
     }
     Pal.allCharsets.foreach(test(_))
   }
 
   test("Brightest") {
     def test(c: Pal.Charset): Unit = {
-      assert(Pal.brightest(c.chars).equals(c.chars.take(1)))
-      assert(!Pal.brightest(c.chars).equals(c.chars.takeRight(1)))
+      assert(Pal.brightest(c.chars) === c.chars.take(1))
+      assert(Pal.brightest(c.chars) !== c.chars.takeRight(1))
     }
     Pal.allCharsets.foreach(test(_))
   }
 
   test("Pointless") {
-    Pal.allCharsets.foreach(testAny(_))
-    Pal.values.foreach(testAny(_))
+    Pal.allCharsets.foreach(testAny(_, true))
+    Pal.values.foreach(testAny(_, true))
   }
 
 }

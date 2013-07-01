@@ -35,6 +35,6 @@ class ProportionSuite extends AbstractTester {
   }
 
   test("Pointless") {
-    Proportion.values.foreach(testAny(_))
+    Proportion.values.foreach(testAny(_, true))
   }
 }

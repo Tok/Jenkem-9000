@@ -32,7 +32,7 @@ class ConversionSettings {
     schemeName = Scheme.Default.name
     chars = Pal.Ansi.chars
     kick = Kick.OFF
-    power = Power.Linear
+    power = Power.default
     proportion = Proportion.default
   }
 

@@ -43,6 +43,6 @@ class KickSuite extends AbstractTester {
   }
 
   test("Pointless") {
-    Kick.values.foreach(testAny(_))
+    Kick.values.foreach(testAny(_, true))
   }
 }
