@@ -67,21 +67,6 @@
     <sonar.jacoco.reportPath>${basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
 
-  <profiles>
-    <profile>
-      <id>build</id>
-      <properties>
-        <testsTagsToExclude>SlowTest</testsTagsToExclude>
-      </properties>
-    </profile>
-    <profile>
-      <id>document</id>
-      <properties>
-        <testsTagsToExclude></testsTagsToExclude>
-      </properties>
-    </profile>
-  </profiles>
-
   <pluginRepositories>
     <pluginRepository>
       <id>sonatype-oss-public</id>
@@ -240,18 +225,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacocoVersion}</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>${mavenProjectInfoReportsPluginVersion}</version>
@@ -294,7 +267,7 @@
           <sourceDirectory>${sourceDirectory}</sourceDirectory>
           <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
           <configLocation>${basedir}/scalastyle_config.xml</configLocation>
-          <outputFile>${basedir}/target/site/scalastyle-output.xml</outputFile>
+          <outputFile>${scalastyleOutput}</outputFile>
           <outputEncoding>UTF-8</outputEncoding>
         </configuration>
         <executions>
@@ -340,26 +313,6 @@
             <id>test</id>
             <goals>
               <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacocoVersion}</version>
-        <executions>
-          <execution>
-            <id>prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>report</goal>
             </goals>
           </execution>
         </executions>
@@ -599,4 +552,61 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>build</id>
+      <properties>
+        <testsTagsToExclude>SlowTest</testsTagsToExclude>
+        <scalastyleOutput>${basedir}/target/scalastyle-output.xml</scalastyleOutput>
+      </properties>
+    </profile>
+    <profile>
+      <id>document</id>
+      <properties>
+        <testsTagsToExclude></testsTagsToExclude>
+        <scalastyleOutput>${basedir}/target/site/scalastyle-output.xml</scalastyleOutput>
+      </properties>
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacocoVersion}</version>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>report</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+        </plugins>
+      </reporting>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacocoVersion}</version>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>report</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
