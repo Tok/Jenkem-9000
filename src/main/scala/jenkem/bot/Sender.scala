@@ -1,5 +1,11 @@
 package jenkem.bot
 
+import jenkem.bot.status.Disconnected
+import jenkem.bot.status.NotSending
+import jenkem.bot.status.Connected
+import jenkem.bot.status.Sending
+import jenkem.bot.status.BotStatus
+
 object Sender {
   var botStatus = new BotStatus.Value(Disconnected, NotSending, "", "", "", IrcSettings.defaultDelayMs)
   var stopSwitch = false

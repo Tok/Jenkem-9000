@@ -413,7 +413,7 @@ class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
     conversionDisabled = true
     val method = Method.valueOf(methodBox.getValue.toString).get
     ircColorSetter.makeEnabled(method.hasColor)
-    ircColorSetter.setSelectedScheme(Scheme.Default)
+    ircColorSetter.setSelectedScheme(Scheme.default)
     powerBox.setEnabled(method.equals(Method.Vortacular))
     powerBox.select(Power.default)
     kickSelect.select(Kick.OFF)

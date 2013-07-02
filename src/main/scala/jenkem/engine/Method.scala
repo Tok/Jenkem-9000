@@ -9,4 +9,5 @@ object Method {
   case object Stencil extends Method("Stencil", false, true)
   val values = List(Vortacular, Pwntari, Plain, Stencil)
   def valueOf(name: String): Option[Method] = values.find(_.name.equalsIgnoreCase(name))
+  val default = Vortacular
 }

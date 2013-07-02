@@ -16,6 +16,10 @@ import jenkem.util.UrlOptionizer
 import jenkem.ui.ImagePreparer
 import jenkem.util.InitUtil
 import jenkem.engine.Proportion
+import jenkem.bot.status.Connected
+import jenkem.bot.status.Disconnected
+import jenkem.bot.status.NotSending
+import jenkem.bot.status.BotStatus
 
 class JenkemBot extends PircBot {
   def init: Unit = {

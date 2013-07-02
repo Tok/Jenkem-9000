@@ -37,6 +37,7 @@ object Pal {
   val plainCharsets = List(Hard, Soft, Party, Mixed, Letters, Chaos)
   val stencilCharsets = List(HCrude, SCrude)
   val allAnsi = ("░▒▓▀▄▐▌╔╗╚╝┌┐└┘▬║│♪♫☺♥☻▼▲►◄")
+  val default = Ansi
 
   def valueOf(name: String): Option[Charset] = allCharsets.find(_.name.equalsIgnoreCase(name))
 

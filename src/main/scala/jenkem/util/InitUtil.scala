@@ -50,7 +50,7 @@ object InitUtil {
     val bw = imageRgb.map(pixel => isPixelBlackOrWhite(pixel._2)).toList
     val gRatio: Double = grey.filter(_ == true).length.doubleValue / grey.length.doubleValue
     val bwRatio: Double = bw.filter(_ == true).length.doubleValue / bw.length.doubleValue
-    val scheme = if (gRatio > 0.9D) { Scheme.Bwg } else { Scheme.Default }
+    val scheme = if (gRatio > 0.9D) { Scheme.Bwg } else { Scheme.default }
     if (bwRatio > 0.9D) {
       (Some(Method.Stencil), scheme, Some(Pal.HCrude))
     } else {

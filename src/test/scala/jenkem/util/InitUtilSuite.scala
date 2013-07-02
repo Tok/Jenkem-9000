@@ -52,7 +52,7 @@ class InitUtilSuite extends AbstractTester {
   test("Red Pixel") {
     val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(redPixelMap)
     assert(methodOpt === None)
-    assert(scheme === Scheme.Default)
+    assert(scheme === Scheme.default)
     assert(charsetOpt === None)
   }
 

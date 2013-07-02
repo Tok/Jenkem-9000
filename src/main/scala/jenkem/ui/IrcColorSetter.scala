@@ -2,7 +2,6 @@ package jenkem.ui
 
 import scala.annotation.migration
 import scala.collection.immutable.HashMap
-
 import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.event.EventRouter
@@ -13,9 +12,9 @@ import com.vaadin.ui.Label
 import com.vaadin.ui.NativeSelect
 import com.vaadin.ui.Slider
 import com.vaadin.ui.VerticalLayout
-
 import jenkem.engine.color.Scheme
 import jenkem.event.DoConversionEvent
+import jenkem.engine.color.Color
 
 class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   var isTriggeringDisabled = false
@@ -50,8 +49,8 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   Scheme.ircColors.foreach(ic => sliderLayout.addComponent(makeSliderLayout(ic)))
   addComponent(sliderLayout)
 
-  setSelectedScheme(Scheme.Default)
-  updatePreset(Scheme.Default)
+  setSelectedScheme(Scheme.default)
+  updatePreset(Scheme.default)
 
   private def makeLabelMap(): HashMap[Scheme.IrcColor, Label] = {
     def makeLabelMap0(hm: HashMap[Scheme.IrcColor, Label], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Label] = {
@@ -114,7 +113,7 @@ class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
   }
   private def getValue(ic: Scheme.IrcColor) = Integer.valueOf(getLabel(ic).getValue).shortValue
 
-  def getColorMap: Map[Scheme.IrcColor, Short] = {
+  def getColorMap: Color.IrcMap = {
     def getColorMap0(hm: HashMap[Scheme.IrcColor, Short], ic: List[Scheme.IrcColor]):
         HashMap[Scheme.IrcColor, Short] = {
       if (ic.isEmpty) { hm }

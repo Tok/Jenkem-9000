@@ -8,7 +8,7 @@ import com.vaadin.ui.GridLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
 import com.vaadin.ui.VerticalLayout
-import jenkem.bot.BotStatus
+import jenkem.bot.status.BotStatus
 import jenkem.bot.IrcService
 import jenkem.event.SendToIrcEvent
 import com.vaadin.ui.ComboBox

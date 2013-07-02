@@ -3,6 +3,7 @@ package jenkem.engine.color
 sealed abstract class Scheme(val order: Int, val name: String)
 
 object Scheme {
+  type ColorMap = Map[IrcColor, Short]
   case object Full extends Scheme(0, "Full")
   case object Default extends Scheme(1, "Default")
   case object Mono extends Scheme(2, "Mono")
@@ -10,8 +11,8 @@ object Scheme {
   case object Bwg extends Scheme(4, "BWG")
   case object Bw extends Scheme(5, "BW")
   def values: List[Scheme] = List(Full, Default, Mono, Lsd, Bwg, Bw)
-
   def valueOf(name: String): Option[Scheme] = values.find(_.name.equalsIgnoreCase(name))
+  val default = Default
 
   //IRC colors are defacto standard. scheme colors are loosely proportional to distance from center of cube
   sealed abstract class IrcColor(val name: String, val irc: Short, val rgb: Color.Rgb, val isDark: Boolean, val scheme: List[Short])
@@ -33,11 +34,10 @@ object Scheme {
   case object LightGray extends IrcColor("lightGray",15, (210,210,210), false, List(100, 25,  0,  5,100,  0))
   def ircColors: List[IrcColor] = List(White, Black, DarkBlue, DarkGreen, Red, Brown, Purple, Orange,
       Yellow, Green, Teal, Cyan, Blue, Magenta, Gray, LightGray)
-
   def valuOfIrcColor(irc: Short): Option[IrcColor] = ircColors.find(_.irc == irc)
 
-  def createColorMap(scheme: Scheme): Map[IrcColor, Short] = {
-    def createColorMap0(ic: List[IrcColor], map: Map[IrcColor, Short]): Map[IrcColor, Short] = {
+  def createColorMap(scheme: Scheme): ColorMap = {
+    def createColorMap0(ic: List[IrcColor], map: ColorMap): ColorMap = {
       if (ic.isEmpty) { map }
       else { createColorMap0(ic.tail, map + ((ic.head, ic.head.scheme(scheme.order)))) }
     }

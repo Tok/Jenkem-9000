@@ -43,8 +43,8 @@ class PalSuite extends AbstractTester {
   }
 
   test("Palette For Method") {
-    assert(Pal.getForMethod(Method.Vortacular) === Pal.Ansi)
-    assert(Pal.getForMethod(Method.Pwntari) === Pal.Ansi)
+    assert(Pal.getForMethod(Method.Vortacular) === Pal.default)
+    assert(Pal.getForMethod(Method.Pwntari) === Pal.default)
     assert(Pal.getForMethod(Method.Plain) === Pal.Soft)
     assert(Pal.getForMethod(Method.Stencil) === Pal.HCrude)
   }

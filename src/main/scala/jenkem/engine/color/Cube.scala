@@ -4,20 +4,20 @@ import scala.Array.canBuildFrom
 import jenkem.engine.Pal
 
 object Cube {
-  def getNearest(col: Color.Rgb, colorMap: Map[Scheme.IrcColor, Short]): Short = {
+  def getNearest(col: Color.Rgb, colorMap: Color.IrcMap): Short = {
     val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)
     val shuffled: List[WeightedColor] = util.Random.shuffle(list)
     val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)
     ordered.head.ircColor.irc
   }
 
-  private def makeWeightedList(col: Color.Rgb, colorMap: Map[Scheme.IrcColor, Short],
+  private def makeWeightedList(col: Color.Rgb, colorMap: Color.IrcMap,
       ic: List[Scheme.IrcColor], wl: List[WeightedColor]): List[WeightedColor] = {
     if (ic.isEmpty) { wl }
     else { makeWeightedList(col, colorMap, ic.tail, createWc(colorMap, col, ic.head) :: wl) }
   }
 
-  def getTwoNearestColors(col: Color.Rgb, colorMap: Map[Scheme.IrcColor, Short], power: Power): Color = {
+  def getTwoNearestColors(col: Color.Rgb, colorMap: Color.IrcMap, power: Power): Color = {
     def calcPoweredStrength(wc: WeightedColor, p: Float): Float = {
       Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.floatValue), p).toFloat
     }
@@ -58,13 +58,13 @@ object Cube {
     calcDistance(col, comp) / factor
   }
 
-  private def createWc(colorMap: Map[Scheme.IrcColor, Short],
+  private def createWc(colorMap: Color.IrcMap,
     col: (Short, Short, Short), ic: Scheme.IrcColor): WeightedColor = {
     val weight = calcStrength(col, (ic.rgb._1, ic.rgb._2, ic.rgb._3), colorMap.get(ic).get.floatValue)
     new WeightedColor(ic, weight)
   }
 
-  def getColorChar(colorMap: Map[Scheme.IrcColor, Short],
+  def getColorChar(colorMap: Color.IrcMap,
     charset: String, p: Power, rgb: (Short, Short, Short)): String = {
     val c: Color = getTwoNearestColors(rgb, colorMap, p)
     c.fg + "," + c.bg + Pal.getChar(charset, c.strength)

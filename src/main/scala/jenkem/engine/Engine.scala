@@ -15,8 +15,8 @@ object Engine {
 
   class Params(
       val method: Method,
-      val imageRgb: Map[Sample.Coords, Color.Rgb],
-      val colorMap: Map[Scheme.IrcColor, Short],
+      val imageRgb: Color.RgbMap,
+      val colorMap: Color.IrcMap,
       val characters: String,
       val settings: Setting.Instance,
       val contrast: Int,
@@ -65,8 +65,6 @@ object Engine {
     val sam = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0).map(makeColorSample(_)).toList
     val range = (0 until sam.length)
     lazy val diffs = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap
-    //lazy val means = Sample.dirs.map(d => (d, sam.map(Sample.calcRgbMean(_, d)).toList)).toMap
-    //lazy val colors = Sample.dirs.map(d => (d, means.get(d).get.map(Cube.getTwoNearestColors(_, par.colorMap, par.power)).toList)).toMap
     lazy val tl = sam.map(_._1)
     lazy val tr = sam.map(_._2)
     lazy val bl = sam.map(_._3)
@@ -76,7 +74,6 @@ object Engine {
     lazy val lIrc = range.map(i => Sample.calcMean(tl(i), bl(i))).map(Cube.getNearest(_, par.colorMap)).toList
     lazy val rIrc = range.map(i => Sample.calcMean(tr(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList
     val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.characters, par.power, _))
-    //val totalBgs = chars.map(ColorUtil.getBgString(_))
     def getSwitched(i: Int): String = {
       def direct(old: String, setting: Setting): String = {
         if (!par.settings.has(setting)) { old }
@@ -272,7 +269,7 @@ object Engine {
     }
   }
 
-  private def inferWidth(imageRgb: Map[Sample.Coords, Color.Rgb]): Short = {
+  private def inferWidth(imageRgb: Color.RgbMap): Short = {
     (imageRgb.keys.toList.map(t => t._2).max).shortValue
   }
 }
