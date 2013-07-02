@@ -20,7 +20,7 @@ class HtmlUnitSuite extends FunSuite with BeforeAndAfter {
   val localhost = "http://localhost:8080/"
   val dir = new java.io.File(".").getCanonicalPath
   val execDir = dir + "/deployments/standalone/jenkem/"
-  var proc: Process = null
+  var proc: Process = None.orNull
 
   before {
     val r = Runtime.getRuntime

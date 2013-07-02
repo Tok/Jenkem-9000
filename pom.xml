@@ -65,9 +65,22 @@
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
-    <!-- Test Excludes -->
-    <testsTagsToExclude>SlowTest</testsTagsToExclude>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>build</id>
+      <properties>
+        <testsTagsToExclude>SlowTest</testsTagsToExclude>
+      </properties>
+    </profile>
+    <profile>
+      <id>document</id>
+      <properties>
+        <testsTagsToExclude></testsTagsToExclude>
+      </properties>
+    </profile>
+  </profiles>
 
   <pluginRepositories>
     <pluginRepository>
@@ -442,8 +455,7 @@
                 <!-- remove extract folder and log -->
                 <delete failonerror="false"
                   dir="${basedir}/deployments/standalone/jenkem/.extract" />
-                <delete failonerror="false"
-                  dir="${basedir}/.extract" />
+                <delete failonerror="false" dir="${basedir}/.extract" />
                 <delete failonerror="false">
                   <fileset dir="${basedir}/deployments/standalone/jenkem/">
                     <exclude name=".gitignore" />
