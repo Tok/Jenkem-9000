@@ -45,7 +45,7 @@ rhc app tidy -a [appname]
 - Add Maven Nature (Adds deps to classpath that are needed for compilation, adds ability to run launchers)
 - Add Scalastyle Nature
 - Add src/main/scala, src/main/resources, src/main/webapp and src/test/scala as sourcepath.
-- Make a workset that excludes the target folder from the problems view to prevent slowdown.
+- Make a workset that excludes the "target" and "site" folders from the problems view to prevent a slowdown.
 
 ==Recommended Plugins===
 Scala IDE (The provided version of Scala should match the one in the POM):

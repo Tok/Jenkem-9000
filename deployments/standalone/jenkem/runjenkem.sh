@@ -15,4 +15,4 @@ echo
 echo For local database access, please install and run the latest mongodb version from www.mongodb.org
 echo
 echo All output is logged to log.txt
-java -jar Jenkem-1.0-war-exec.jar 2> log.txt
+java -jar Jenkem-1.0-SNAPSHOT-war-exec.jar 2> log.txt

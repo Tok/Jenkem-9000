@@ -6,7 +6,7 @@
   <groupId>jenkem</groupId>
   <artifactId>Jenkem</artifactId>
   <packaging>war</packaging>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
   <name>Jenkem</name>
   <url>https://jenkem-9000.rhcloud.com</url>
 
@@ -46,6 +46,7 @@
     <mavenScalatestPluginVersion>1.0-M4-SNAPSHOT</mavenScalatestPluginVersion>
     <!-- Building Plugin Versions: -->
     <!-- http://maven.apache.org/plugins/index.html -->
+    <mavenCleanPluginVersion>2.5</mavenCleanPluginVersion>
     <scalastyleMavenPluginVersion>0.3.3-SNAPSHOT</scalastyleMavenPluginVersion>
     <MavenExecPluginVersion>1.2.1</MavenExecPluginVersion>
     <mavenDependencyPluginVersion>2.8</mavenDependencyPluginVersion>
@@ -256,6 +257,14 @@
     <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>${mavenCleanPluginVersion}</version>
+        <configuration>
+          <failOnError>false</failOnError>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.scalastyle</groupId>
         <artifactId>scalastyle-maven-plugin</artifactId>
         <version>${scalastyleMavenPluginVersion}</version>
@@ -267,11 +276,12 @@
           <sourceDirectory>${sourceDirectory}</sourceDirectory>
           <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
           <configLocation>${basedir}/scalastyle_config.xml</configLocation>
-          <outputFile>${scalastyleOutput}</outputFile>
+          <outputFile>${basedir}/target/scalastyle-output.xml</outputFile> 
           <outputEncoding>UTF-8</outputEncoding>
         </configuration>
         <executions>
           <execution>
+            <phase>test</phase>
             <goals>
               <goal>check</goal>
             </goals>
@@ -386,7 +396,7 @@
         <version>${mavenAntRunPluginVersion}</version>
         <executions>
           <execution>
-            <id>create ROOT.war</id>
+            <id>copy root war</id>
             <phase>install</phase>
             <configuration>
               <target>
@@ -407,9 +417,9 @@
                 </copy>
                 <!-- remove extract folder and log -->
                 <delete failonerror="false"
-                  dir="${basedir}/deployments/standalone/jenkem/.extract" />
-                <delete failonerror="false" dir="${basedir}/.extract" />
-                <delete failonerror="false">
+                  dir="${basedir}/deployments/standalone/jenkem/.extract" verbose="true"/>
+                <delete failonerror="false" dir="${basedir}/.extract" verbose="true"/>
+                <delete failonerror="false" verbose="true">
                   <fileset dir="${basedir}/deployments/standalone/jenkem/">
                     <exclude name=".gitignore" />
                     <exclude name="README.txt" />
@@ -419,35 +429,6 @@
                     <exclude name="runjenkem.bat" />
                   </fileset>
                 </delete>
-                <!-- may prevent warning in eclipse -->
-                <mkdir dir="${basedir}/target/WEB-INF" />
-                <copy todir="${basedir}/target/WEB-INF/" verbose="true">
-                  <fileset
-                    dir="${basedir}/target/${project.artifactId}-${project.version}/WEB-INF"
-                    includes="web.xml" />
-                </copy>
-                <!-- remove duplicated WEB-INF if it exists -->
-                <delete failonerror="false">
-                  <fileset
-                    dir="${basedir}/src/main/resources/VAADIN/widgetsets/WEB-INF" />
-                </delete>
-                <delete failonerror="false">
-                  <fileset dir="${basedir}/src/main/resources/META-INF" />
-                </delete>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>Show report in default browser.</id>
-            <phase>post-site</phase>
-            <configuration>
-              <target>
-                <exec executable="start" vmlauncher="false">
-                  <arg line="${basedir}/target/site/index.html" />
-                </exec>
               </target>
             </configuration>
             <goals>
@@ -504,11 +485,11 @@
         <executions>
           <execution>
             <id>zip-standalone</id>
+            <phase>install</phase>
             <goals>
               <goal>cp</goal>
               <goal>remove</goal>
             </goals>
-            <phase>package</phase>
             <configuration>
               <from>${basedir}/deployments/standalone/jenkem</from>
               <to>${basedir}/deployments/standalone/${project.artifactId}-${project.version}.zip</to>
@@ -558,14 +539,12 @@
       <id>build</id>
       <properties>
         <testsTagsToExclude>SlowTest</testsTagsToExclude>
-        <scalastyleOutput>${basedir}/target/scalastyle-output.xml</scalastyleOutput>
       </properties>
     </profile>
     <profile>
       <id>document</id>
       <properties>
         <testsTagsToExclude></testsTagsToExclude>
-        <scalastyleOutput>${basedir}/target/site/scalastyle-output.xml</scalastyleOutput>
       </properties>
       <reporting>
         <plugins>
@@ -601,6 +580,32 @@
                 <phase>prepare-package</phase>
                 <goals>
                   <goal>report</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>${mavenAntRunPluginVersion}</version>
+            <executions>
+              <execution>
+                <phase>post-site</phase>
+                <configuration>
+                  <target>
+                    <delete failonerror="false" dir="${basedir}/site" verbose="false"/>
+                    <copy preservelastmodified="true" todir="${basedir}/site" verbose="false">
+                      <fileset dir="${basedir}/target/site" />
+                    </copy>
+                    <delete failonerror="false" verbose="false">
+                      <fileset dir="${basedir}/target/site" />
+                    </delete>
+                    <exec executable="start" vmlauncher="false">
+                      <arg line="${basedir}/site/index.html" />
+                    </exec>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
                 </goals>
               </execution>
             </executions>
