@@ -42,6 +42,7 @@
     <jacocoVersion>0.6.4-SNAPSHOT</jacocoVersion>
     <scalatestVerion>2.0.M6-SNAP9</scalatestVerion>
     <easymockVersion>2.0</easymockVersion>
+    <htmlUnitVersion>2.12</htmlUnitVersion>
     <mavenScalatestPluginVersion>1.0-M4-SNAPSHOT</mavenScalatestPluginVersion>
     <!-- Building Plugin Versions: -->
     <!-- http://maven.apache.org/plugins/index.html -->
@@ -64,6 +65,8 @@
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
+    <!-- Test Excludes -->
+    <testsTagsToExclude>SlowTest</testsTagsToExclude>
   </properties>
 
   <pluginRepositories>
@@ -192,6 +195,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
+      <version>${htmlUnitVersion}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${jUnitVersion}</version>
@@ -304,21 +313,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${mavenSurefirePluginVersion}</version>
-        <configuration>
-          <goal>surefire-report:report</goal>
-          <reportFormat>html</reportFormat>
-          <aggregate>true</aggregate>
-          <skipTests>true</skipTests>
-          <includes>
-            <include>**/*Suite.class</include>
-            <include>**/*Test.class</include>
-          </includes>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.scalatest</groupId>
         <artifactId>scalatest-maven-plugin</artifactId>
         <version>${mavenScalatestPluginVersion}</version>
@@ -326,6 +320,7 @@
           <reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory>
           <junitxml>.</junitxml>
           <filereports>TestSuite.txt</filereports>
+          <tagsToExclude>${testsTagsToExclude}</tagsToExclude>
         </configuration>
         <executions>
           <execution>
@@ -447,6 +442,8 @@
                 <!-- remove extract folder and log -->
                 <delete failonerror="false"
                   dir="${basedir}/deployments/standalone/jenkem/.extract" />
+                <delete failonerror="false"
+                  dir="${basedir}/.extract" />
                 <delete failonerror="false">
                   <fileset dir="${basedir}/deployments/standalone/jenkem/">
                     <exclude name=".gitignore" />
@@ -561,6 +558,32 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${mavenSurefirePluginVersion}</version>
+        <configuration>
+          <skip>true</skip>
+          <goal>surefire-report:report</goal>
+          <reportFormat>html</reportFormat>
+          <aggregate>true</aggregate>
+          <skipTests>true</skipTests>
+          <includes>
+            <include>**/*Suite.class</include>
+          </includes>
+          <executions>
+            <execution>
+              <phase>integration-test</phase>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <configuration>
+                <skip>false</skip>
+              </configuration>
+            </execution>
+          </executions>
+        </configuration>
       </plugin>
     </plugins>
   </build>

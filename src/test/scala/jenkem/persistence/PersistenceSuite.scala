@@ -11,9 +11,11 @@ import jenkem.persistence.data.ImageInfo
 import jenkem.persistence.data.ImageIrc
 import jenkem.persistence.data.JenkemImage
 import org.scalatest.junit.JUnitRunner
+import jenkem.SlowTest
 
 @RunWith(classOf[JUnitRunner])
 class PersistenceSuite extends AbstractTester {
+
   test("PMF Instance") {
     val pmf = PMF.get
     assert(pmf.isInstanceOf[JDOPersistenceManagerFactory])
@@ -60,19 +62,19 @@ class PersistenceSuite extends AbstractTester {
   val iirc = new ImageIrc(nameString, ircString)
   val ji = new JenkemImage(iinfo, ihtml, icss, iirc)
 
-  test("Get HTML By Name") {
+  test("Get HTML By Name", SlowTest) {
     assert(PersistenceService.getImageHtmlByName(nameString) === None)
   }
 
-  test("Get CSS By Name") {
+  test("Get CSS By Name", SlowTest) {
     assert(PersistenceService.getImageCssByName(nameString) === None)
   }
 
-  test("Get IRC By Name") {
+  test("Get IRC By Name", SlowTest) {
     assert(PersistenceService.getImageIrcByName(nameString) === None)
   }
 
-  test("Save Jenkem Image") {
+  test("Save Jenkem Image", SlowTest) {
     assert(!PersistenceService.saveJenkemImage(ji))
   }
 
