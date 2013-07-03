@@ -33,7 +33,7 @@ class JenkemBot extends PircBot {
 
   object Command extends Enumeration {
     type Command = Value
-    val QUIT, GTFO, STOP, STFU, HELP, CONFIG, ASCII, COLORS, SET, RESET = Value
+    val QUIT, GTFO, STOP, STFU, HELP, CONFIG, SET, RESET = Value
   }
 
   object ConfigItem extends Enumeration {
@@ -102,7 +102,7 @@ class JenkemBot extends PircBot {
         case ConfigItem.CHARSET => setCharset(sender, value)
         case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI => setChars(sender, value)
         case ConfigItem.POWER => setPower(sender, value)
-        case ConfigItem.PROPORTION => setProporion(sender, value)
+        case ConfigItem.PROPORTION => setProportion(sender, value)
       }
     } catch {
       case nse: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
@@ -234,7 +234,7 @@ class JenkemBot extends PircBot {
     }
   }
 
-  private def setProporion(target: String, value: String): Unit = {
+  private def setProportion(target: String, value: String): Unit = {
     Proportion.valueOf(value) match {
       case Some(proportion) =>
         settings.proportion = proportion

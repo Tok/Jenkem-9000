@@ -18,7 +18,7 @@ class JenkemInitSuite extends AbstractTester {
     ji.setSession(vaadinSession)
     ji.attach
     val mockRequest = mock[VaadinRequest]
-    val e = intercept[NullPointerException] { ji.init(mockRequest) }
-    assert(e.isInstanceOf[NullPointerException])
+    val e = intercept[Exception] { ji.init(mockRequest) }
+    assert(e.isInstanceOf[com.vaadin.event.ListenerMethod$MethodException] || e.isInstanceOf[NullPointerException])
   }
 }

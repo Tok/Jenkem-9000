@@ -1,3 +1,15 @@
+.v-assistive-device-only {
+	position: absolute;
+	top: -2000px;
+	left: -2000px;
+	width: 10px;
+	overflow: hidden;
+}
+
+.v-vaadin-version:after {
+	content: "7.1.0";
+}
+
 .v-generated-body {
 	width: 100%;
 	height: 100%;
@@ -63,7 +75,29 @@
 	-webkit-opacity: 0.8;
 	opacity: 0.8;
 	color: #666;
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
 	font-size: 13px;
+}
+
+.v-debugwindow .v-debugwindow-handle {
+	position: absolute;
+	bottom: 0;
+	background-color: #fff;
+	-moz-opacity: 0;
+	-webkit-opacity: 0;
+	opacity: 0;
+	z-index: 1000;
+}
+
+.v-debugwindow .v-debugwindow-handle-sw {
+	width: 7px;
+	height: 7px;
+}
+
+.v-debugwindow .v-debugwindow-handle-se {
+	right: 0;
+	width: 14px;
+	height: 14px;
 }
 
 .v-debugwindow:hover {
@@ -90,8 +124,7 @@
 
 .v-debugwindow-head {
 	text-align: right;
-	cursor: move;
-	bakcground-color: transparent;
+	background-color: transparent;
 }
 
 .v-debugwindow-tabs {
@@ -139,6 +172,8 @@
 	border-bottom: 1px solid #999;
 	box-shadow: 0px 0px 7px 0 rgba(55, 55, 55, 0.6);
 	min-height: 1.5em;
+	line-height: 1.5em;
+	padding-left: 5px;
 }
 
 .v-debugwindow-button {
@@ -165,7 +200,6 @@
 	background-color: #fff;
 	border: 1px solid #666;
 	border-top: none;
-	font-family: monospace;
 }
 
 .v-debugwindow-menu {
@@ -189,12 +223,6 @@
 	width: 33%;
 }
 
-.v-debugwindow-reset {
-	color: #fff;
-	background-color: #4C92ED;
-	padding: 4px;
-}
-
 .v-debugwindow-row {
 	display: table-row;
 }
@@ -203,7 +231,12 @@
 	background-color: rgba(0, 61, 255, 0.11);
 }
 
-.v-debugwindow-row.ERROR {
+.v-debugwindow-row > span {
+	display: table-cell;
+	padding: 4px;
+}
+
+.v-debugwindow-row.SEVERE {
 	color: #550000;
 	background-color: #FFC5C5;
 }
@@ -212,28 +245,16 @@
 	background-color: #FFFF99;
 }
 
-.v-debugwindow-row > span {
-	display: table-cell;
-	padding: 4px;
+.v-debugwindow-row.FINE {
+	color: #777;
 }
 
-.v-debugwindow-time {
-	text-align: right;
-	color: #999;
+.v-debugwindow-row.FINER {
+	color: #888;
 }
 
-.v-debugwindow-message {
-	white-space: nowrap;
-	width: 100%;
-}
-
-.v-debugwindow-message:hover {
-	white-space: normal;
-	word-wrap: break-word;
-}
-
-.v-debugwindow-message em {
-	background-color: #C4E6F8;
+.v-debugwindow-row.FINEST {
+	color: #888;
 }
 
 .v-debugwindow-row > span.caption {
@@ -244,6 +265,47 @@
 
 .v-debugwindow-row > span.value {
 	width: 100%;
+}
+
+.v-debugwindow-log {
+	font-family: monospace;
+}
+
+.v-debugwindow-log .v-debugwindow-reset {
+	color: #fff;
+	background-color: #4C92ED;
+	padding: 4px;
+}
+
+.v-debugwindow-log .v-debugwindow-time {
+	text-align: right;
+	color: #999;
+}
+
+.v-debugwindow-log .v-debugwindow-message {
+	white-space: nowrap;
+	width: 100%;
+}
+
+.v-debugwindow-log .v-debugwindow-message:hover {
+	white-space: normal;
+	word-wrap: break-word;
+}
+
+.v-debugwindow-log .v-debugwindow-message em {
+	background-color: #C4E6F8;
+}
+
+.v-debugwindow-hierarchy .v-debugwindow-info {
+	padding: 1em;
+}
+
+.v-debugwindow-network .v-debugwindow-row {
+	display: block !important;
+}
+
+.v-debugwindow-network .v-debugwindow-row > span {
+	display: inline;
 }
 
 /** sprite: verticals; sprite-image: url(common/img/vertical-sprites.png); sprite-layout: vertical */
@@ -343,9 +405,11 @@
 	font: inherit;
 	font-size: 12px;
 	line-height: normal;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
-	-ie-user-select: none;
+	-ms-user-select: none;
 	user-select: none;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -1073,7 +1137,7 @@
 	cursor: default;
 }
 
-body .jenkemtheme.v-app-loading {
+body .jenkemtheme.v-app .v-app-loading {
 	background-image: url(../base/common/img/loading-indicator.gif);
 	background-repeat: no-repeat;
 	background-position: 50%;
@@ -1254,14 +1318,6 @@ body .jenkemtheme.v-app-loading {
 .jenkemtheme.v-overlay-container {
 	width: 0;
 	height: 0;
-}
-
-.jenkemtheme .v-assistive-device-only {
-	position: absolute;
-	top: -2000px;
-	left: -2000px;
-	width: 10px;
-	overflow: hidden;
 }
 
 .jenkemtheme .v-vertical.v-margin-top, .jenkemtheme .v-horizontal.v-margin-top {
@@ -2236,6 +2292,39 @@ body .jenkemtheme.v-app-loading {
 	width: 30px;
 	height: 30px;
 	background: transparent url(../base/common/img/ajax-loader-medium.gif) no-repeat 50%;
+}
+
+.jenkemtheme .v-progressbar {
+	width: 150px;
+}
+
+.jenkemtheme .v-progressbar-wrapper {
+	height: 7px;
+	border: 1px solid #ddd;
+}
+
+.jenkemtheme .v-progressbar-indicator {
+	height: 7px;
+	background: #ddd;
+}
+
+.jenkemtheme div.v-progressbar-indeterminate {
+	height: 20px;
+	width: 20px;
+	background: #fff url(../base/common/img/ajax-loader-medium.gif) no-repeat 50%;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+}
+
+.jenkemtheme .v-progressbar-indeterminate .v-progressbar-wrapper, .jenkemtheme .v-progressbar-indeterminate .v-progressbar-indicator, .jenkemtheme .v-progressbar-indeterminate-disabled .v-progressbar-wrapper, .jenkemtheme .v-progressbar-indeterminate-disabled .v-progressbar-indicator {
+	display: none;
+}
+
+.jenkemtheme div.v-progressbar-indeterminate-disabled {
+	height: 20px;
+	width: 20px;
+	background: transparent;
 }
 
 .jenkemtheme .v-progressindicator {
@@ -5224,6 +5313,19 @@ body .jenkemtheme.v-app-loading {
 .jenkemtheme .v-popupview-popup {
 	background: #fff;
 	padding: 3px;
+}
+
+.jenkemtheme .v-progressbar-wrapper {
+	background: #dfe2e4 url(../reindeer/progressindicator/img/base.gif) repeat-x;
+	border: 1px solid #bfbfbf;
+}
+
+.jenkemtheme .v-disabled .v-progressbar-wrapper {
+	background-image: url(../reindeer/progressindicator/img/disabled.gif);
+}
+
+.jenkemtheme .v-progressbar-indicator {
+	background: #f7f9f9 url(../reindeer/progressindicator/img/progress.png);
 }
 
 .jenkemtheme .v-progressindicator-wrapper {
