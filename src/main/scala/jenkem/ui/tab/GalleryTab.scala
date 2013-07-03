@@ -1,20 +1,22 @@
 package jenkem.ui.tab
 
 import scala.Array.canBuildFrom
+import scala.collection.JavaConversions.seqAsJavaList
+
 import com.vaadin.data.util.BeanItemContainer
 import com.vaadin.event.EventRouter
 import com.vaadin.server.ExternalResource
+import com.vaadin.server.Page
 import com.vaadin.ui.Link
 import com.vaadin.ui.Table
 import com.vaadin.ui.Table.Align
 import com.vaadin.ui.VerticalLayout
-import javax.jdo.annotations.PersistenceCapable
+
 import jenkem.persistence.PersistenceService
 import jenkem.persistence.data.ImageInfo
+import jenkem.ui.Notifications
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
-import jenkem.ui.Notifications
-import com.vaadin.server.Page
 
 class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   setCaption("Gallery")
@@ -72,8 +74,8 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
 
   cols.foreach(col => table.addContainerProperty(col.name.toLowerCase, col.c, classOf[String]))
   val bic = new BeanItemContainer[ImageInfoBean](classOf[ImageInfoBean])
-  table.setContainerDataSource(bic)
-  table.setVisibleColumns(names)
+  val namesColl: java.util.Collection[Object] = names.toSeq
+  table.setContainerDataSource(bic, namesColl)
   cols.foreach(col => table.setColumnAlignment(col.name.toLowerCase, col.align))
   cols.foreach(col => table.setColumnHeader(col.name.toLowerCase, col.name))
 
