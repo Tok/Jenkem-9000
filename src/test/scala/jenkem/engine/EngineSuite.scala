@@ -8,6 +8,9 @@ import jenkem.engine.color.Scheme
 import jenkem.util.AwtImageUtil
 import jenkem.util.ColorUtil
 import org.scalatest.junit.JUnitRunner
+import scala.util.Random
+import jenkem.SlowTest
+import jenkem.engine.color.Color
 
 @RunWith(classOf[JUnitRunner])
 class EngineSuite extends AbstractTester {
@@ -105,5 +108,37 @@ class EngineSuite extends AbstractTester {
     val rgb = (r << 16) + (g << 8) + b
     for { x <- 0 until w; y <- 0 until h } yield { img.setRGB(x, y, rgb) }
     img
+  }
+
+  test("Random Huge Image", SlowTest) {
+    def getHugeRandomImage(w: Int, h: Int): BufferedImage = {
+      val img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB)
+      for { x <- 0 until w; y <- 0 until h } yield {
+        val r: Int = Random.nextInt(256)
+        val g: Int = Random.nextInt(256)
+        val b: Int = Random.nextInt(256)
+        val rgb = (r << 16) + (g << 8) + b
+        img.setRGB(x, y, rgb)
+      }
+      img
+    }
+    val w = 300
+    val h = w
+    val hugeImg = getHugeRandomImage(w, h)
+    val imageRgb = AwtImageUtil.getImageRgb(hugeImg)
+    def generate(m: Method, irgb: Color.RgbMap): Unit = {
+      def generate0(par: Engine.Params, index: Int): List[String] = {
+        if (index + 2 <= h) {
+          val line = Engine.generateLine(par, index)
+          assert(line.size >= w / 2)
+          generate0(par, index + 2)
+        } else { Nil }
+      }
+      val settings = new ConversionSettings
+      settings.setMethod(m)
+      val params = settings.getParams(irgb)
+      generate0(params, 0)
+    }
+    Method.values.foreach(generate(_, imageRgb))
   }
 }

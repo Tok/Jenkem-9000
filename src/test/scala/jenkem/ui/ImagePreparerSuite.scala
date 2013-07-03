@@ -50,13 +50,13 @@ class ImagePreparerSuite extends AbstractTester {
     val resetAllListener = resetAllListeners.iterator.next.asInstanceOf[Button.ClickListener]
     assert(resetAllListener.buttonClick(new ClickEvent(ip)).toString === no)
     ip.resetAllButton.addClickListener(new Button.ClickListener {
-      override def buttonClick(event: ClickEvent) {} 
+      override def buttonClick(event: ClickEvent) {}
     })
     val resetListeners = ip.resetButton.getListeners(classOf[ClickEvent])
     val resetListener = resetListeners.iterator.next.asInstanceOf[Button.ClickListener]
     assert(resetListener.buttonClick(new ClickEvent(ip)).toString === no)
     ip.resetButton.addClickListener(new Button.ClickListener {
-      override def buttonClick(event: ClickEvent) {} 
+      override def buttonClick(event: ClickEvent) {}
     })
     val convListeners = ip.convButton.getListeners(classOf[ClickEvent])
     val convListener = convListeners.iterator.next.asInstanceOf[Button.ClickListener]
@@ -64,7 +64,7 @@ class ImagePreparerSuite extends AbstractTester {
       convListener.buttonClick(new ClickEvent(ip))
     }
     ip.convButton.addClickListener(new Button.ClickListener {
-      override def buttonClick(event: ClickEvent) {} 
+      override def buttonClick(event: ClickEvent) {}
     })
   }
 
