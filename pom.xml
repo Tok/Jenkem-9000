@@ -416,10 +416,8 @@
                     includes="${project.artifactId}-${project.version}-war-exec.jar" />
                 </copy>
                 <!-- remove extract folder and log -->
-                <delete failonerror="false"
-                  dir="${basedir}/deployments/standalone/jenkem/.extract" verbose="false"/>
-                <delete failonerror="false" dir="${basedir}/.extract" verbose="true"/>
-                <delete failonerror="false" verbose="true">
+                <delete failonerror="false" dir="${basedir}/.extract" verbose="false"/>
+                <delete failonerror="false" verbose="false">
                   <fileset dir="${basedir}/deployments/standalone/jenkem/">
                     <exclude name=".gitignore" />
                     <exclude name="README.txt" />
@@ -538,7 +536,7 @@
     <profile>
       <id>build</id>
       <properties>
-        <testsTagsToExclude>SlowTest</testsTagsToExclude>
+        <testsTagsToExclude>SlowTest, DbTest</testsTagsToExclude>
       </properties>
     </profile>
     <profile>

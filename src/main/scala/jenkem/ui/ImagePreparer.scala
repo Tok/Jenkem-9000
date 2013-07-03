@@ -186,7 +186,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
     })
   }
   private def replaceImage(url: URL): Unit = cropper.setImageSrc(url.toString)
-  private def trigger: Unit = {
+  private def trigger(): Unit = {
     if (!disableTrigger) {
       eventRouter.fireEvent(new DoConversionEvent(true, true))
     }
@@ -222,7 +222,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
       case None => setError("URL is not Valid. Please enter URL to an image: ")
     }
   }
-  private def replaceUrl: Unit = {
+  private def replaceUrl(): Unit = {
     val currentFrag = Page.getCurrent.getUriFragment
     val currentUrl = inputTextField.getValue
     Option(currentFrag) match {

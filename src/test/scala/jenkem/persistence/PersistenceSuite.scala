@@ -5,16 +5,17 @@ import org.datanucleus.api.jdo.JDOPersistenceManagerFactory
 import org.junit.runner.RunWith
 import javax.jdo.spi.PersistenceCapable
 import jenkem.AbstractTester
+import jenkem.DbTest
 import jenkem.persistence.data.ImageCss
 import jenkem.persistence.data.ImageHtml
 import jenkem.persistence.data.ImageInfo
 import jenkem.persistence.data.ImageIrc
 import jenkem.persistence.data.JenkemImage
 import org.scalatest.junit.JUnitRunner
-import jenkem.SlowTest
 
 @RunWith(classOf[JUnitRunner])
 class PersistenceSuite extends AbstractTester {
+  val change = "#"
 
   test("PMF Instance") {
     val pmf = PMF.get
@@ -62,24 +63,55 @@ class PersistenceSuite extends AbstractTester {
   val iirc = new ImageIrc(nameString, ircString)
   val ji = new JenkemImage(iinfo, ihtml, icss, iirc)
 
-  test("Get HTML By Name", SlowTest) {
-    assert(PersistenceService.getImageHtmlByName(nameString) === None)
+  test("Get HTML By Name") {
+    assert(PersistenceService.getImageHtmlByName(nameString + change) === None)
   }
 
-  test("Get CSS By Name", SlowTest) {
-    assert(PersistenceService.getImageCssByName(nameString) === None)
+  test("Get CSS By Name") {
+    assert(PersistenceService.getImageCssByName(nameString + change) === None)
   }
 
-  test("Get IRC By Name", SlowTest) {
-    assert(PersistenceService.getImageIrcByName(nameString) === None)
+  test("Get IRC By Name") {
+    assert(PersistenceService.getImageIrcByName(nameString + change) === None)
   }
 
-  test("Save Jenkem Image", SlowTest) {
-    assert(!PersistenceService.saveJenkemImage(ji))
-  }
-
-  test("Get All Image Info") {
-    assert(PersistenceService.getAllImageInfo === None)
+  test("Save And Read", DbTest) {
+    val info = new ImageInfo(nameString, iconString, methodString, charactersString, contrast, brightness, lines, lineWidth, dateString)
+    val html = new ImageHtml(nameString, htmlString)
+    val css = new ImageCss(nameString, cssString)
+    val irc = new ImageIrc(nameString, ircString)
+    val img = new JenkemImage(info, html, css, irc)
+    assert(PersistenceService.saveJenkemImage(img))
+    val rhtml = PersistenceService.getImageHtmlByName(nameString).get
+    assert(rhtml._id === nameString)
+    assert(rhtml.toString === nameString)
+    assert(rhtml.name === nameString)
+    assert(rhtml.html === htmlString)
+    testPc(ihtml.asInstanceOf[PersistenceCapable])
+    val rcss = PersistenceService.getImageCssByName(nameString).get
+    assert(rcss._id === nameString)
+    assert(rcss.toString === nameString)
+    assert(rcss.name === nameString)
+    assert(rcss.css === cssString)
+    testPc(rcss.asInstanceOf[PersistenceCapable])
+    val rirc = PersistenceService.getImageIrcByName(nameString).get
+    assert(rirc.name === nameString)
+    assert(rirc._id === nameString)
+    assert(rirc.toString === nameString)
+    assert(rirc.name === nameString)
+    assert(rirc.irc === ircString)
+    testPc(rirc.asInstanceOf[PersistenceCapable])
+    assert(!PersistenceService.getAllImageInfo.isEmpty)
+    val nInfo = new ImageInfo(nameString, iconString + change, methodString + change,
+        charactersString + change, contrast, brightness, lines, lineWidth, dateString)
+    val nHtml = new ImageHtml(nameString, htmlString + change)
+    val nCss = new ImageCss(nameString, cssString + change)
+    val nIrc = new ImageIrc(nameString, ircString + change)
+    val nImg = new JenkemImage(nInfo, nHtml, nCss, nIrc)
+    assert(PersistenceService.saveJenkemImage(nImg))
+    assert(PersistenceService.getImageHtmlByName(nameString).get.name === nameString)
+    assert(PersistenceService.getImageCssByName(nameString).get.name === nameString)
+    assert(PersistenceService.getImageIrcByName(nameString).get.name === nameString)
   }
 
   test("Image IRC") {
@@ -144,6 +176,19 @@ class PersistenceSuite extends AbstractTester {
     assert(part.toString.equalsIgnoreCase(name))
   }
 
+  class Oifc extends PersistenceCapable.ObjectIdFieldConsumer {
+    def storeBooleanField(fn: Int, v: Boolean): Unit = {}
+    def storeCharField(fn: Int, v: Char): Unit = {}
+    def storeByteField(fn: Int, v: Byte): Unit = {}
+    def storeShortField(fn: Int, v: Short): Unit = {}
+    def storeIntField(fn: Int, v: Int): Unit = {}
+    def storeLongField(fn: Int, v: Long): Unit = {}
+    def storeFloatField(fn: Int, v: Float): Unit = {}
+    def storeDoubleField(fn: Int, v: Double): Unit = {}
+    def storeStringField(fn: Int, v: String): Unit = {}
+    def storeObjectField(fn: Int, v: Object): Unit = {}
+  }
+
   private def testPc(pc: PersistenceCapable): Unit = {
     assert(!pc.jdoIsDeleted)
     assert(!pc.jdoIsDetached)
@@ -159,5 +204,8 @@ class PersistenceSuite extends AbstractTester {
     assert(!pc.jdoIsDirty) //still not dirty
     assert(pc.jdoNewObjectIdInstance.toString === nameString)
     pc.jdoReplaceFlags
+
+    pc.jdoNewObjectIdInstance("")
+    intercept[Exception] { pc.jdoCopyKeyFieldsFromObjectId(new Oifc, "") }
   }
 }
