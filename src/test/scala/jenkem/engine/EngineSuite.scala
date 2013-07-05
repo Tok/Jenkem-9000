@@ -122,7 +122,7 @@ class EngineSuite extends AbstractTester {
       }
       img
     }
-    val w = 200
+    val w = 250
     val h = w
     val hugeImg = getHugeRandomImage(w, h)
     val imageRgb = AwtImageUtil.getImageRgb(hugeImg)
