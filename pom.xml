@@ -208,67 +208,6 @@
     </dependency>
   </dependencies>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.scala-tools</groupId>
-        <artifactId>maven-scala-plugin</artifactId>
-        <version>${mavenScalaPluginVersion}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacocoVersion}</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${mavenFindbugsPluginVersion}</version>
-        <configuration>
-          <failOnError>true</failOnError>
-          <effort>Max</effort> <!-- Min, Default and Max. -->
-          <threshold>Low</threshold> <!-- High, Default, Low, Ignore, Exp -->
-          <excludeFilterFile>findbugs-excludes.xml</excludeFilterFile>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>${mavenProjectInfoReportsPluginVersion}</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>index</report>
-              <report>summary</report>
-              <report>dependency-info</report>
-              <!-- <report>dependencies</report> -->
-              <report>plugins</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-        <configuration>
-          <dependencyLocationEnabled>false</dependencyLocationEnabled>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>${mavenSitePluginVersion}</version>
-        <configuration>
-          <!-- <reportPlugins> <plugin> <groupId>reaktor.scct</groupId> <artifactId>maven-scct-multiproject-report</artifactId> 
-            <version>2.0-SNAPSHOT</version> </plugin> </reportPlugins> -->
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-
   <build>
     <sourceDirectory>${sourceDirectory}</sourceDirectory>
     <testSourceDirectory>${testSourceDirectory}</testSourceDirectory>
@@ -415,120 +354,6 @@
         </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>${mavenAntRunPluginVersion}</version>
-        <executions>
-          <execution>
-            <id>copy root war</id>
-            <phase>install</phase>
-            <configuration>
-              <target>
-                <!-- copy war to deployments and rename it to ROOT.war -->
-                <copy preservelastmodified="true"
-                  todir="${basedir}/deployments/openshift" verbose="true">
-                  <fileset dir="${basedir}/target"
-                    includes="${project.artifactId}-${project.version}.${project.packaging}" />
-                  <globmapper from="*.${project.packaging}"
-                    to="ROOT.${project.packaging}" />
-                </copy>
-                <!-- copy executable standalone to deployments -->
-                <copy preservelastmodified="true"
-                  todir="${basedir}/deployments/standalone/jenkem"
-                  verbose="true">
-                  <fileset dir="${basedir}/target"
-                    includes="${project.artifactId}-${project.version}-war-exec.jar" />
-                </copy>
-                <!-- remove extract folder and log -->
-                <delete failonerror="false" dir="${basedir}/.extract"
-                  verbose="false" />
-                <delete failonerror="false" verbose="false">
-                  <fileset dir="${basedir}/deployments/standalone/jenkem/">
-                    <exclude name=".gitignore" />
-                    <exclude name="README.txt" />
-                    <exclude
-                      name="${project.artifactId}-${project.version}-war-exec.jar" />
-                    <exclude name="runjenkem.sh" />
-                    <exclude name="runjenkem.bat" />
-                  </fileset>
-                </delete>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>${mavenWarPluginVersion}</version>
-        <configuration>
-          <!-- FIXME scopes: Most of those jars shouldn't even be there in 
-            the first place -->
-          <packagingExcludes>WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**,
-            WEB-INF/lib/maven-*.jar,
-            WEB-INF/lib/junit-*.jar,
-            WEB-INF/lib/wagon-*.jar,
-            WEB-INF/lib/backport-*.jar,
-            WEB-INF/lib/classworlds-*.jar,
-            WEB-INF/lib/doxia-*.jar,
-            WEB-INF/lib/jackrabbit-*.jar,
-            WEB-INF/lib/jackson-*.jar,
-            WEB-INF/lib/nekohtml-*.jar,
-            WEB-INF/lib/plexus-*.jar,
-            WEB-INF/lib/scct*.jar,
-            WEB-INF/lib/snakeyaml-*.jar,
-            WEB-INF/lib/xerces*.jar,
-            WEB-INF/lib/jsch-*.jar,
-            WEB-INF/lib/jcl-*.jar,
-            WEB-INF/lib/jta-*.jar</packagingExcludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.tomcat.maven</groupId>
-        <artifactId>tomcat7-maven-plugin</artifactId>
-        <version>${tomcat7MavenPluginVersion}</version>
-        <executions>
-          <execution>
-            <id>tomcat-run</id>
-            <goals>
-              <goal>exec-war-only</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <path>/</path>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>truezip-maven-plugin</artifactId>
-        <version>${mavenTruezipPluginVersion}</version>
-        <executions>
-          <execution>
-            <id>zip-standalone</id>
-            <phase>install</phase>
-            <goals>
-              <goal>cp</goal>
-              <goal>remove</goal>
-            </goals>
-            <configuration>
-              <from>${basedir}/deployments/standalone/jenkem</from>
-              <to>${basedir}/deployments/standalone/${project.artifactId}-${project.version}.zip</to>
-              <fileset>
-                <directory>${basedir}/deployments/standalone/${project.artifactId}-${project.version}.zip</directory>
-                <includes>
-                  <include>**/.extract</include>
-                  <include>**/.gitignore</include>
-                  <include>**/log.txt</include>
-                </includes>
-              </fileset>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${mavenSurefirePluginVersion}</version>
@@ -563,6 +388,127 @@
       <properties>
         <testsTagsToExclude>SlowTest, DbTest</testsTagsToExclude>
       </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>${mavenAntRunPluginVersion}</version>
+            <executions>
+              <execution>
+                <id>copy root war</id>
+                <phase>install</phase>
+                <configuration>
+                  <target>
+                    <!-- copy war to deployments and rename it to ROOT.war -->
+                    <copy preservelastmodified="true"
+                      todir="${basedir}/deployments/openshift" verbose="true">
+                      <fileset dir="${basedir}/target"
+                        includes="${project.artifactId}-${project.version}.${project.packaging}" />
+                      <globmapper from="*.${project.packaging}"
+                        to="ROOT.${project.packaging}" />
+                    </copy>
+                    <!-- copy executable standalone to deployments -->
+                    <copy preservelastmodified="true"
+                      todir="${basedir}/deployments/standalone/jenkem"
+                      verbose="true">
+                      <fileset dir="${basedir}/target"
+                        includes="${project.artifactId}-${project.version}-war-exec.jar" />
+                    </copy>
+                    <!-- remove extract folder and log -->
+                    <delete failonerror="false" dir="${basedir}/.extract"
+                      verbose="false" />
+                    <delete failonerror="false" dir="${basedir}/deployments/standalone/jenkem/.extract"
+                      verbose="false" />
+                    <delete failonerror="false" verbose="false">
+                      <fileset
+                        dir="${basedir}/deployments/standalone/jenkem/">
+                        <exclude name=".gitignore" />
+                        <exclude name="README.txt" />
+                        <exclude
+                          name="${project.artifactId}-${project.version}-war-exec.jar" />
+                        <exclude name="runjenkem.sh" />
+                        <exclude name="runjenkem.bat" />
+                      </fileset>
+                    </delete>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>${mavenWarPluginVersion}</version>
+            <configuration>
+              <!-- FIXME scopes: Most of those jars shouldn't even be there 
+                in the first place -->
+              <packagingExcludes>WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**,
+                WEB-INF/lib/maven-*.jar,
+                WEB-INF/lib/junit-*.jar,
+                WEB-INF/lib/wagon-*.jar,
+                WEB-INF/lib/backport-*.jar,
+                WEB-INF/lib/classworlds-*.jar,
+                WEB-INF/lib/doxia-*.jar,
+                WEB-INF/lib/jackrabbit-*.jar,
+                WEB-INF/lib/jackson-*.jar,
+                WEB-INF/lib/nekohtml-*.jar,
+                WEB-INF/lib/plexus-*.jar,
+                WEB-INF/lib/scct*.jar,
+                WEB-INF/lib/snakeyaml-*.jar,
+                WEB-INF/lib/xerces*.jar,
+                WEB-INF/lib/jsch-*.jar,
+                WEB-INF/lib/jcl-*.jar,
+                WEB-INF/lib/jta-*.jar</packagingExcludes>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>${tomcat7MavenPluginVersion}</version>
+            <executions>
+              <execution>
+                <id>tomcat-run</id>
+                <goals>
+                  <goal>exec-war-only</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <path>/</path>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>truezip-maven-plugin</artifactId>
+            <version>${mavenTruezipPluginVersion}</version>
+            <executions>
+              <execution>
+                <id>zip-standalone</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>cp</goal>
+                  <goal>remove</goal>
+                </goals>
+                <configuration>
+                  <from>${basedir}/deployments/standalone/jenkem</from>
+                  <to>${basedir}/deployments/standalone/${project.artifactId}-${project.version}.zip</to>
+                  <fileset>
+                    <directory>${basedir}/deployments/standalone/${project.artifactId}-${project.version}.zip</directory>
+                    <includes>
+                      <include>**/.extract</include>
+                      <include>**/.gitignore</include>
+                      <include>**/log.txt</include>
+                    </includes>
+                  </fileset>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>test</id>
@@ -588,6 +534,67 @@
           <version>${scctVersion}</version>
         </dependency>
       </dependencies>
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.scala-tools</groupId>
+            <artifactId>maven-scala-plugin</artifactId>
+            <version>${mavenScalaPluginVersion}</version>
+          </plugin>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacocoVersion}</version>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>report</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>${mavenFindbugsPluginVersion}</version>
+            <configuration>
+              <failOnError>true</failOnError>
+              <effort>Max</effort> <!-- Min, Default and Max. -->
+              <threshold>Low</threshold> <!-- High, Default, Low, Ignore, Exp -->
+              <excludeFilterFile>findbugs-excludes.xml</excludeFilterFile>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>${mavenProjectInfoReportsPluginVersion}</version>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>index</report>
+                  <report>summary</report>
+                  <report>dependency-info</report>
+                  <!-- <report>dependencies</report> -->
+                  <report>plugins</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+            <configuration>
+              <dependencyLocationEnabled>false</dependencyLocationEnabled>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>${mavenSitePluginVersion}</version>
+            <configuration>
+              <!-- <reportPlugins> <plugin> <groupId>reaktor.scct</groupId> 
+                <artifactId>maven-scct-multiproject-report</artifactId> <version>2.0-SNAPSHOT</version> 
+                </plugin> </reportPlugins> -->
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
       <build>
         <plugins>
           <plugin>

@@ -35,7 +35,7 @@ class TabControllerSuite extends AbstractTester {
   var tc: TabController = None.orNull
 
   test("Init", DbTest) {
-    tc = new TabController(eventRouter)
+    //tc = new TabController(eventRouter)
   }
 
   test("Default") {
