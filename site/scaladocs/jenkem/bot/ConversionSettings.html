@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>ConversionSettings - Jenkem 1.0 API - jenkem.bot.ConversionSettings</title>
-          <meta name="description" content="ConversionSettings - Jenkem 1.0 API - jenkem.bot.ConversionSettings" />
-          <meta name="keywords" content="ConversionSettings Jenkem 1.0 API jenkem.bot.ConversionSettings" />
+          <title>ConversionSettings - Jenkem 1.0-SNAPSHOT API - jenkem.bot.ConversionSettings</title>
+          <meta name="description" content="ConversionSettings - Jenkem 1.0 - SNAPSHOT API - jenkem.bot.ConversionSettings" />
+          <meta name="keywords" content="ConversionSettings Jenkem 1.0 SNAPSHOT API jenkem.bot.ConversionSettings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -209,33 +209,20 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="jenkem.bot.ConversionSettings#colorMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="colorMap:Map[jenkem.engine.color.Scheme.IrcColor,Short]"></a>
-      <a id="colorMap:Map[IrcColor,Short]"></a>
+      <a id="colorMap:jenkem.engine.color.Color.IrcMap"></a>
+      <a id="colorMap:IrcMap"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">colorMap</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="../engine/color/Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>
-      </span>
-      </h4>
-      
-    </li><li name="jenkem.bot.ConversionSettings#defaultWidth" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="defaultWidth:Int"></a>
-      <a id="defaultWidth:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">defaultWidth</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+        <span class="name">colorMap</span><span class="result">: <a href="../engine/color/Color$.html#IrcMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Color.IrcMap">IrcMap</a></span>
       </span>
       </h4>
       
@@ -277,7 +264,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -308,67 +295,80 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="jenkem.bot.ConversionSettings#getColorMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getColorMap():Map[jenkem.engine.color.Scheme.IrcColor,Short]"></a>
-      <a id="getColorMap():Map[IrcColor,Short]"></a>
+      <a id="getColorMap():jenkem.engine.color.Color.IrcMap"></a>
+      <a id="getColorMap():IrcMap"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getColorMap</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="../engine/color/Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>
+        <span class="name">getColorMap</span><span class="params">()</span><span class="result">: <a href="../engine/color/Color$.html#IrcMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Color.IrcMap">IrcMap</a></span>
       </span>
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#getKick" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getKick():jenkem.engine.Kick.Value"></a>
-      <a id="getKick():Value"></a>
+      <a id="getKick():jenkem.engine.Kick"></a>
+      <a id="getKick():Kick"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getKick</span><span class="params">()</span><span class="result">: <a href="../engine/Kick$$Value.html" class="extype" name="jenkem.engine.Kick.Value">Value</a></span>
+        <span class="name">getKick</span><span class="params">()</span><span class="result">: <a href="../engine/Kick.html" class="extype" name="jenkem.engine.Kick">Kick</a></span>
       </span>
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#getMethod" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getMethod():jenkem.engine.ConversionMethod.Value"></a>
-      <a id="getMethod():Value"></a>
+      <a id="getMethod():jenkem.engine.Method"></a>
+      <a id="getMethod():Method"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getMethod</span><span class="params">()</span><span class="result">: <a href="../engine/ConversionMethod$$Value.html" class="extype" name="jenkem.engine.ConversionMethod.Value">Value</a></span>
+        <span class="name">getMethod</span><span class="params">()</span><span class="result">: <a href="../engine/Method.html" class="extype" name="jenkem.engine.Method">Method</a></span>
       </span>
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#getParams" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getParams(imageData:Map[(Int,Int),(Short,Short,Short)]):jenkem.engine.Engine.Params"></a>
-      <a id="getParams(Map[(Int,Int),(Short,Short,Short)]):Params"></a>
+      <a id="getParams(imageData:jenkem.engine.color.Color.RgbMap):jenkem.engine.Engine.Params"></a>
+      <a id="getParams(RgbMap):Params"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getParams</span><span class="params">(<span name="imageData">imageData: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)]</span>)</span><span class="result">: <a href="../engine/Engine$$Params.html" class="extype" name="jenkem.engine.Engine.Params">Params</a></span>
+        <span class="name">getParams</span><span class="params">(<span name="imageData">imageData: <a href="../engine/color/Color$.html#RgbMap=Map[(Int,Int),(Short,Short,Short)]" class="extmbr" name="jenkem.engine.color.Color.RgbMap">RgbMap</a></span>)</span><span class="result">: <a href="../engine/Engine$$Params.html" class="extype" name="jenkem.engine.Engine.Params">Params</a></span>
       </span>
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#getPower" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getPower():jenkem.engine.color.Power.Value"></a>
-      <a id="getPower():Value"></a>
+      <a id="getPower():jenkem.engine.color.Power"></a>
+      <a id="getPower():Power"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getPower</span><span class="params">()</span><span class="result">: <a href="../engine/color/Power$$Value.html" class="extype" name="jenkem.engine.color.Power.Value">Value</a></span>
+        <span class="name">getPower</span><span class="params">()</span><span class="result">: <a href="../engine/color/Power.html" class="extype" name="jenkem.engine.color.Power">Power</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.bot.ConversionSettings#getProportion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getProportion():jenkem.engine.Proportion"></a>
+      <a id="getProportion():Proportion"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getProportion</span><span class="params">()</span><span class="result">: <a href="../engine/Proportion.html" class="extype" name="jenkem.engine.Proportion">Proportion</a></span>
       </span>
       </h4>
       
@@ -425,28 +425,28 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="jenkem.bot.ConversionSettings#kick" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="kick:jenkem.engine.Kick.Value"></a>
-      <a id="kick:Value"></a>
+      <a id="kick:jenkem.engine.Kick"></a>
+      <a id="kick:Kick"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">kick</span><span class="result">: <a href="../engine/Kick$$Value.html" class="extype" name="jenkem.engine.Kick.Value">Value</a></span>
+        <span class="name">kick</span><span class="result">: <a href="../engine/Kick.html" class="extype" name="jenkem.engine.Kick">Kick</a></span>
       </span>
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#method" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="method:jenkem.engine.ConversionMethod.Value"></a>
-      <a id="method:Value"></a>
+      <a id="method:jenkem.engine.Method"></a>
+      <a id="method:Method"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">method</span><span class="result">: <a href="../engine/ConversionMethod$$Value.html" class="extype" name="jenkem.engine.ConversionMethod.Value">Value</a></span>
+        <span class="name">method</span><span class="result">: <a href="../engine/Method.html" class="extype" name="jenkem.engine.Method">Method</a></span>
       </span>
       </h4>
       
@@ -490,15 +490,28 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="jenkem.bot.ConversionSettings#power" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="power:jenkem.engine.color.Power.Value"></a>
-      <a id="power:Value"></a>
+      <a id="power:jenkem.engine.color.Power"></a>
+      <a id="power:Power"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">var</span>
       </span>
       <span class="symbol">
-        <span class="name">power</span><span class="result">: <a href="../engine/color/Power$$Value.html" class="extype" name="jenkem.engine.color.Power.Value">Value</a></span>
+        <span class="name">power</span><span class="result">: <a href="../engine/color/Power.html" class="extype" name="jenkem.engine.color.Power">Power</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.bot.ConversionSettings#proportion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="proportion:jenkem.engine.Proportion"></a>
+      <a id="proportion:Proportion"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">proportion</span><span class="result">: <a href="../engine/Proportion.html" class="extype" name="jenkem.engine.Proportion">Proportion</a></span>
       </span>
       </h4>
       
@@ -542,54 +555,67 @@
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#setColorMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setColorMap(x$1:Map[jenkem.engine.color.Scheme.IrcColor,Short]):Unit"></a>
-      <a id="setColorMap(Map[IrcColor,Short]):Unit"></a>
+      <a id="setColorMap(x$1:jenkem.engine.color.Color.IrcMap):Unit"></a>
+      <a id="setColorMap(IrcMap):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setColorMap</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="../engine/color/Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">setColorMap</span><span class="params">(<span name="arg0">arg0: <a href="../engine/color/Color$.html#IrcMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Color.IrcMap">IrcMap</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#setKick" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setKick(x$1:jenkem.engine.Kick.Value):Unit"></a>
-      <a id="setKick(Value):Unit"></a>
+      <a id="setKick(x$1:jenkem.engine.Kick):Unit"></a>
+      <a id="setKick(Kick):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setKick</span><span class="params">(<span name="arg0">arg0: <a href="../engine/Kick$$Value.html" class="extype" name="jenkem.engine.Kick.Value">Value</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">setKick</span><span class="params">(<span name="arg0">arg0: <a href="../engine/Kick.html" class="extype" name="jenkem.engine.Kick">Kick</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#setMethod" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setMethod(x$1:jenkem.engine.ConversionMethod.Value):Unit"></a>
-      <a id="setMethod(Value):Unit"></a>
+      <a id="setMethod(x$1:jenkem.engine.Method):Unit"></a>
+      <a id="setMethod(Method):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setMethod</span><span class="params">(<span name="arg0">arg0: <a href="../engine/ConversionMethod$$Value.html" class="extype" name="jenkem.engine.ConversionMethod.Value">Value</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">setMethod</span><span class="params">(<span name="arg0">arg0: <a href="../engine/Method.html" class="extype" name="jenkem.engine.Method">Method</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       
     </li><li name="jenkem.bot.ConversionSettings#setPower" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="setPower(x$1:jenkem.engine.color.Power.Value):Unit"></a>
-      <a id="setPower(Value):Unit"></a>
+      <a id="setPower(x$1:jenkem.engine.color.Power):Unit"></a>
+      <a id="setPower(Power):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setPower</span><span class="params">(<span name="arg0">arg0: <a href="../engine/color/Power$$Value.html" class="extype" name="jenkem.engine.color.Power.Value">Value</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">setPower</span><span class="params">(<span name="arg0">arg0: <a href="../engine/color/Power.html" class="extype" name="jenkem.engine.color.Power">Power</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.bot.ConversionSettings#setProportion" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setProportion(x$1:jenkem.engine.Proportion):Unit"></a>
+      <a id="setProportion(Proportion):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setProportion</span><span class="params">(<span name="arg0">arg0: <a href="../engine/Proportion.html" class="extype" name="jenkem.engine.Proportion">Proportion</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
       

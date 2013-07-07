@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>PersistenceService - Jenkem 1.0 API - jenkem.persistence.PersistenceService</title>
-          <meta name="description" content="PersistenceService - Jenkem 1.0 API - jenkem.persistence.PersistenceService" />
-          <meta name="keywords" content="PersistenceService Jenkem 1.0 API jenkem.persistence.PersistenceService" />
+          <title>PersistenceService - Jenkem 1.0-SNAPSHOT API - jenkem.persistence.PersistenceService</title>
+          <meta name="description" content="PersistenceService - Jenkem 1.0 - SNAPSHOT API - jenkem.persistence.PersistenceService" />
+          <meta name="keywords" content="PersistenceService Jenkem 1.0 SNAPSHOT API jenkem.persistence.PersistenceService" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -194,7 +194,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -236,24 +236,23 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="jenkem.persistence.PersistenceService#getAllImageInfo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getAllImageInfo():java.util.ArrayList[jenkem.persistence.data.ImageInfo]"></a>
-      <a id="getAllImageInfo():ArrayList[ImageInfo]"></a>
+    </li><li name="jenkem.persistence.PersistenceService#getAllImageInfo" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getAllImageInfo:Option[List[jenkem.persistence.data.ImageInfo]]"></a>
+      <a id="getAllImageInfo:Option[List[ImageInfo]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getAllImageInfo</span><span class="params">()</span><span class="result">: <span class="extype" name="java.util.ArrayList">ArrayList</span>[<a href="data/ImageInfo.html" class="extype" name="jenkem.persistence.data.ImageInfo">ImageInfo</a>]</span>
+        <span class="name">getAllImageInfo</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.List">List</span>[<a href="data/ImageInfo.html" class="extype" name="jenkem.persistence.data.ImageInfo">ImageInfo</a>]]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Returns an ArrayList with the information of all images in range.</p><div class="fullcomment"><div class="comment cmt"><p>Returns an ArrayList with the information of all images in range.</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>infoList
-</p></dd></dl></div>
+      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -267,48 +266,45 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="jenkem.persistence.PersistenceService#getImageCssByName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getImageCssByName(name:String):jenkem.persistence.data.ImageCss"></a>
-      <a id="getImageCssByName(String):ImageCss"></a>
+    </li><li name="jenkem.persistence.PersistenceService#getImageCssByName" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getImageCssByName(name:String):Option[jenkem.persistence.data.ImageCss]"></a>
+      <a id="getImageCssByName(String):Option[ImageCss]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getImageCssByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="data/ImageCss.html" class="extype" name="jenkem.persistence.data.ImageCss">ImageCss</a></span>
+        <span class="name">getImageCssByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="data/ImageCss.html" class="extype" name="jenkem.persistence.data.ImageCss">ImageCss</a>]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Returns the CSS of the stored image corresponding to the provided name.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the CSS of the stored image corresponding to the provided name.</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>jenkemImageCss
-</p></dd></dl></div>
-    </li><li name="jenkem.persistence.PersistenceService#getImageHtmlByName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getImageHtmlByName(name:String):jenkem.persistence.data.ImageHtml"></a>
-      <a id="getImageHtmlByName(String):ImageHtml"></a>
+      
+    </li><li name="jenkem.persistence.PersistenceService#getImageHtmlByName" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getImageHtmlByName(name:String):Option[jenkem.persistence.data.ImageHtml]"></a>
+      <a id="getImageHtmlByName(String):Option[ImageHtml]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getImageHtmlByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="data/ImageHtml.html" class="extype" name="jenkem.persistence.data.ImageHtml">ImageHtml</a></span>
+        <span class="name">getImageHtmlByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="data/ImageHtml.html" class="extype" name="jenkem.persistence.data.ImageHtml">ImageHtml</a>]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Returns the HTML of the stored image corresponding to the provided name.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the HTML of the stored image corresponding to the provided name.</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>jenkemImageHtml
-</p></dd></dl></div>
-    </li><li name="jenkem.persistence.PersistenceService#getImageIrcByName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getImageIrcByName(name:String):jenkem.persistence.data.ImageIrc"></a>
-      <a id="getImageIrcByName(String):ImageIrc"></a>
+      
+    </li><li name="jenkem.persistence.PersistenceService#getImageIrcByName" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getImageIrcByName(name:String):Option[jenkem.persistence.data.ImageIrc]"></a>
+      <a id="getImageIrcByName(String):Option[ImageIrc]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getImageIrcByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="data/ImageIrc.html" class="extype" name="jenkem.persistence.data.ImageIrc">ImageIrc</a></span>
+        <span class="name">getImageIrcByName</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="data/ImageIrc.html" class="extype" name="jenkem.persistence.data.ImageIrc">ImageIrc</a>]</span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Returns the IRC representation of the stored image corresponding to the provided name.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the IRC representation of the stored image corresponding to the provided name.</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>jenkemImageIrc
-</p></dd></dl></div>
+      
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -375,18 +371,18 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="jenkem.persistence.PersistenceService#saveJenkemImage" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="saveJenkemImage(jenkemImage:jenkem.persistence.data.JenkemImage):Unit"></a>
-      <a id="saveJenkemImage(JenkemImage):Unit"></a>
+      <a id="saveJenkemImage(jenkemImage:jenkem.persistence.data.JenkemImage):Boolean"></a>
+      <a id="saveJenkemImage(JenkemImage):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">saveJenkemImage</span><span class="params">(<span name="jenkemImage">jenkemImage: <a href="data/JenkemImage.html" class="extype" name="jenkem.persistence.data.JenkemImage">JenkemImage</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">saveJenkemImage</span><span class="params">(<span name="jenkemImage">jenkemImage: <a href="data/JenkemImage.html" class="extype" name="jenkem.persistence.data.JenkemImage">JenkemImage</a></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4>
-      <p class="shortcomment cmt">Saves a converted JenkemImage.</p>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

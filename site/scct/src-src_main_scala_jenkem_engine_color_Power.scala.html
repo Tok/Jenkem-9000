@@ -1,0 +1,109 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;engine/&#x200B;color/<span class="header">&#x200B;Power.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_color_Power.scala.html#Class_jenkem_engine_color_Power"><img src="class.png"/>Power</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_color_Power.scala.html#Object_jenkem_engine_color_Power"><img src="object.png"/>Power</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_color_Power.scala.html#Object_jenkem_engine_color_Power_Cubic"><img src="object.png"/>Power.Cubic</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_color_Power.scala.html#Object_jenkem_engine_color_Power_Linear"><img src="object.png"/>Power.Linear</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_color_Power.scala.html#Object_jenkem_engine_color_Power_Quadratic"><img src="object.png"/>Power.Quadratic</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_color_Power.scala.html#Object_jenkem_engine_color_Power_Quartic"><img src="object.png"/>Power.Quartic</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.engine.color
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">3</td>
+            <td><a id="Class_jenkem_engine_color_Power"/>sealed abstract class Power(val name: String, val exponent: Float)
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td><a id="Object_jenkem_engine_color_Power"/>object Power {
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td><a id="Object_jenkem_engine_color_Power_Linear"/>  case object Linear extends Power(&quot;Linear&quot;, 1F)
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td><a id="Object_jenkem_engine_color_Power_Quadratic"/>  case object Quadratic extends Power(&quot;Quadratic&quot;, 2F)
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td><a id="Object_jenkem_engine_color_Power_Cubic"/>  case object Cubic extends Power(&quot;Cubic&quot;, 3F)
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td><a id="Object_jenkem_engine_color_Power_Quartic"/>  case object Quartic extends Power(&quot;Quartic&quot;, 4F)
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>  val values: List[Power] = List(Linear, Quadratic, Cubic, Quartic)
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  def valueOf(name: String): Option[Power] = values.find(_.name.equalsIgnoreCase(name))
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  def default: Power = Linear
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>}
+</td>
+          </tr></tbody></table>

@@ -1,0 +1,73 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;bot/&#x200B;status/<span class="header">&#x200B;BotStatus.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_status_BotStatus.scala.html#Object_jenkem_bot_status_BotStatus"><img src="object.png"/>BotStatus</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_status_BotStatus.scala.html#Class_jenkem_bot_status_BotStatus_Value"><img src="class.png"/>BotStatus.Value</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.bot.status
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import jenkem.bot.IrcSettings
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td><a id="Object_jenkem_bot_status_BotStatus"/>object BotStatus {
+</td>
+          </tr><tr>
+            <td class="green">6</td>
+            <td>  val default: Value = new Value(Disconnected, NotSending, &quot;&quot;, &quot;&quot;, &quot;&quot;, IrcSettings.defaultDelayMs)
+</td>
+          </tr><tr>
+            <td class="green">7</td>
+            <td><a id="Class_jenkem_bot_status_BotStatus_Value"/>  class Value(val connectionStatus: ConnectionStatus, val sendStatus: SendStatus,
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>    val network: String, val channel: String, val name: String, val delay: Int) {
+</td>
+          </tr><tr>
+            <td class="green">9</td>
+            <td>    val isConnected: Boolean = connectionStatus == Connected
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>    val isSending: Boolean = sendStatus == Sending
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>}
+</td>
+          </tr></tbody></table>

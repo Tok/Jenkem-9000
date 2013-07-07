@@ -1,0 +1,157 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;engine/<span class="header">&#x200B;Kick.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Kick.scala.html#Class_jenkem_engine_Kick"><img src="class.png"/>Kick</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Kick.scala.html#Object_jenkem_engine_Kick"><img src="object.png"/>Kick</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Kick.scala.html#Object_jenkem_engine_Kick_OFF"><img src="object.png"/>Kick.OFF</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Kick.scala.html#Object_jenkem_engine_Kick_X"><img src="object.png"/>Kick.X</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Kick.scala.html#Object_jenkem_engine_Kick_XY"><img src="object.png"/>Kick.XY</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Kick.scala.html#Object_jenkem_engine_Kick_Y"><img src="object.png"/>Kick.Y</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.engine
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td> * Represents the possible kicks for the conversion.
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td> * Depending on the Kick, Methods that convert two rows or columns at a time
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td> * will start at position 0 or 1 in rows (Y) or columns (X).
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td> *   X
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> * Y +----------&gt;
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td> *   | ## ## ##
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td> *   | ## ## ##
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td> *   | ## ## ##
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td> *   | ## ## ##
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td> *   v
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td><a id="Class_jenkem_engine_Kick"/>sealed abstract class Kick(val xOffset: Int, val yOffset: Int)
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td><a id="Object_jenkem_engine_Kick"/>object Kick {
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td><a id="Object_jenkem_engine_Kick_OFF"/>  case object OFF extends Kick(0, 0)
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td><a id="Object_jenkem_engine_Kick_X"/>  case object X extends Kick(1, 0)
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td><a id="Object_jenkem_engine_Kick_Y"/>  case object Y extends Kick(0, 1)
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td><a id="Object_jenkem_engine_Kick_XY"/>  case object XY extends Kick(1, 1)
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>  val values: List[Kick] = List(OFF, X, Y, XY)
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>  def valueOf(name: String): Option[Kick] = values.find(_.toString.equalsIgnoreCase(name))
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>  def default: Kick = OFF
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>}
+</td>
+          </tr></tbody></table>

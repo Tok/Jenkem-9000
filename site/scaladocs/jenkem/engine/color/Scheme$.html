@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>Scheme - Jenkem 1.0 API - jenkem.engine.color.Scheme</title>
-          <meta name="description" content="Scheme - Jenkem 1.0 API - jenkem.engine.color.Scheme" />
-          <meta name="keywords" content="Scheme Jenkem 1.0 API jenkem.engine.color.Scheme" />
+          <title>Scheme - Jenkem 1.0-SNAPSHOT API - jenkem.engine.color.Scheme</title>
+          <meta name="description" content="Scheme - Jenkem 1.0 - SNAPSHOT API - jenkem.engine.color.Scheme" />
+          <meta name="keywords" content="Scheme Jenkem 1.0 SNAPSHOT API jenkem.engine.color.Scheme" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -29,9 +29,9 @@
         </head>
         <body class="value">
       <div id="definition">
-        <img src="../../../lib/object_big.png" />
+        <a href="Scheme.html" title="Go to companion"><img src="../../../lib/object_to_class_big.png" /></a>
         <p id="owner"><a href="../../package.html" class="extype" name="jenkem">jenkem</a>.<a href="../package.html" class="extype" name="jenkem.engine">engine</a>.<a href="package.html" class="extype" name="jenkem.engine.color">color</a></p>
-        <h1>Scheme</h1>
+        <h1><a href="Scheme.html" title="Go to companion">Scheme</a></h1>
       </div>
 
       <h4 id="signature" class="signature">
@@ -86,8 +86,21 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="jenkem.engine.color.Scheme.IrcColor" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="IrcColorextendsObject"></a>
+              <ol><li name="jenkem.engine.color.Scheme.ColorMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ColorMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]"></a>
+      <a id="ColorMap:ColorMap"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ColorMap</span><span class="result"> = <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.engine.color.Scheme.IrcColor" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="IrcColorextendsAnyRef"></a>
       <a id="IrcColor:IrcColor"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -96,32 +109,6 @@
       </span>
       <span class="symbol">
         <a href="Scheme$$IrcColor.html"><span class="name">IrcColor</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4>
-      
-    </li><li name="jenkem.engine.color.Scheme.RGB" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="RGB=(Short,Short,Short)"></a>
-      <a id="RGB:(Short,Short,Short)"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">RGB</span><span class="result"> = (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
-      </span>
-      </h4>
-      
-    </li><li name="jenkem.engine.color.Scheme.Value" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ValueextendsObject"></a>
-      <a id="Value:Value"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">sealed abstract </span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a href="Scheme$$Value.html"><span class="name">Value</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
@@ -245,7 +232,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Scheme$$Bw$.html"><span class="name">Bw</span></a><span class="result"> extends <a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Scheme$$Bw$.html"><span class="name">Bw</span></a><span class="result"> extends <a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -258,7 +245,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Scheme$$Bwg$.html"><span class="name">Bwg</span></a><span class="result"> extends <a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Scheme$$Bwg$.html"><span class="name">Bwg</span></a><span class="result"> extends <a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -310,7 +297,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Scheme$$Default$.html"><span class="name">Default</span></a><span class="result"> extends <a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Scheme$$Default$.html"><span class="name">Default</span></a><span class="result"> extends <a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -323,7 +310,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Scheme$$Full$.html"><span class="name">Full</span></a><span class="result"> extends <a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Scheme$$Full$.html"><span class="name">Full</span></a><span class="result"> extends <a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -375,7 +362,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Scheme$$Lsd$.html"><span class="name">Lsd</span></a><span class="result"> extends <a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Scheme$$Lsd$.html"><span class="name">Lsd</span></a><span class="result"> extends <a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -401,7 +388,7 @@
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a href="Scheme$$Mono$.html"><span class="name">Mono</span></a><span class="result"> extends <a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Scheme$$Mono$.html"><span class="name">Mono</span></a><span class="result"> extends <a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -508,20 +495,33 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="jenkem.engine.color.Scheme#createColorMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="createColorMap(value:jenkem.engine.color.Scheme.Value):Map[jenkem.engine.color.Scheme.IrcColor,Short]"></a>
-      <a id="createColorMap(Value):Map[IrcColor,Short]"></a>
+      <a id="createColorMap(scheme:jenkem.engine.color.Scheme):jenkem.engine.color.Scheme.ColorMap"></a>
+      <a id="createColorMap(Scheme):ColorMap"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">createColorMap</span><span class="params">(<span name="value">value: <a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>
+        <span class="name">createColorMap</span><span class="params">(<span name="scheme">scheme: <a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a></span>)</span><span class="result">: <a href="#ColorMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Scheme.ColorMap">ColorMap</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.engine.color.Scheme#default" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="default:jenkem.engine.color.Scheme.Default.type"></a>
+      <a id="default:Default.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">default</span><span class="result">: <a href="Scheme$$Default$.html" class="extype" name="jenkem.engine.color.Scheme.Default">Default</a>.type</span>
       </span>
       </h4>
       
@@ -563,7 +563,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -685,41 +685,41 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="jenkem.engine.color.Scheme#valuOfIrcColor" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="valuOfIrcColor(irc:Short):jenkem.engine.color.Scheme.IrcColor"></a>
-      <a id="valuOfIrcColor(Short):IrcColor"></a>
+      <a id="valuOfIrcColor(irc:Short):Option[jenkem.engine.color.Scheme.IrcColor]"></a>
+      <a id="valuOfIrcColor(Short):Option[IrcColor]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">valuOfIrcColor</span><span class="params">(<span name="irc">irc: <span class="extype" name="scala.Short">Short</span></span>)</span><span class="result">: <a href="Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a></span>
+        <span class="name">valuOfIrcColor</span><span class="params">(<span name="irc">irc: <span class="extype" name="scala.Short">Short</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>]</span>
       </span>
       </h4>
       
     </li><li name="jenkem.engine.color.Scheme#valueOf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="valueOf(name:String):jenkem.engine.color.Scheme.Value"></a>
-      <a id="valueOf(String):Value"></a>
+      <a id="valueOf(name:String):Option[jenkem.engine.color.Scheme]"></a>
+      <a id="valueOf(String):Option[Scheme]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">valueOf</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a></span>
+        <span class="name">valueOf</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a>]</span>
       </span>
       </h4>
       
     </li><li name="jenkem.engine.color.Scheme#values" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="values:List[jenkem.engine.color.Scheme.Value]"></a>
-      <a id="values:List[Value]"></a>
+      <a id="values:List[jenkem.engine.color.Scheme]"></a>
+      <a id="values:List[Scheme]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">values</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Scheme$$Value.html" class="extype" name="jenkem.engine.color.Scheme.Value">Value</a>]</span>
+        <span class="name">values</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Scheme.html" class="extype" name="jenkem.engine.color.Scheme">Scheme</a>]</span>
       </span>
       </h4>
       

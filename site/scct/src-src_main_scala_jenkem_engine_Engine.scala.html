@@ -1,0 +1,1125 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;engine/<span class="header">&#x200B;Engine.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">63 %</div>
+        <div class="greenBar" style="width:126px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Engine.scala.html#Object_jenkem_engine_Engine"><img src="object.png"/>Engine</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">62 %</div>
+        <div class="greenBar" style="width:124px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Engine.scala.html#Class_jenkem_engine_Engine_Params"><img src="class.png"/>Engine.Params</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.engine
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import scala.Array.canBuildFrom
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import scala.util.Random
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import jenkem.engine.color.Cube
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import jenkem.engine.color.Power
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import jenkem.engine.color.Sample
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import jenkem.util.ColorUtil
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>import jenkem.engine.color.Scheme
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>import jenkem.engine.color.Color
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>import jenkem.util.ImageUtil
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td><a id="Object_jenkem_engine_Engine"/>object Engine {
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>  val comma = &quot;,&quot;
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td><a id="Class_jenkem_engine_Engine_Params"/>  class Params(
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>      val method: Method,
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>      val imageRgb: Color.RgbMap,
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>      val colorMap: Color.IrcMap,
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>      val characters: String,
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>      val settings: Setting.Instance,
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>      val contrast: Int,
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>      val brightness: Int,
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>      val power: Power) {
+</td>
+          </tr><tr>
+            <td class="green">25</td>
+            <td>    val hasAnsi = Pal.hasAnsi(characters)
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  def generateLine(par: Params, index: Int): String = {
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>    par.method match {
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>      case Method.Vortacular =&gt; generateVortacularLine(par, index)
+</td>
+          </tr><tr>
+            <td class="green">31</td>
+            <td>      case Method.Pwntari =&gt; generatePwntariLine(par, index)
+</td>
+          </tr><tr>
+            <td class="green">32</td>
+            <td>      case _ =&gt; generatePlainLine(par, index)
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>  private def generatePwntariLine(par: Params, index: Int): String = {
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>    def consolidateDuplicates(chars: List[String]): List[String] = {
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>      def consolidateDuplicates0(chars: List[String], accu: List[String], i: Int): List[String] = {
+</td>
+          </tr><tr>
+            <td class="green">39</td>
+            <td>        if (i == chars.length) { accu }
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>        else {
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>          val thisOne = chars(i)
+</td>
+          </tr><tr>
+            <td class="green">42</td>
+            <td>          if (i == 0) { consolidateDuplicates0(chars, accu ::: List(thisOne), i + 1) }
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>          else {
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>            val eq = thisOne.equals(chars(i - 1))
+</td>
+          </tr><tr>
+            <td class="green">45</td>
+            <td>            val newChar = if (eq) { List(par.characters.head.toString) } else { List(thisOne) }
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>            consolidateDuplicates0(chars, accu ::: newChar, i + 1)
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>      consolidateDuplicates0(chars, Nil, 0)
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>    val indices = (0 until inferWidth(par.imageRgb))
+</td>
+          </tr><tr>
+            <td class="green">53</td>
+            <td>    val t = indices.map(i =&gt; ImageUtil.getPixels(par.imageRgb, i, index))
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>    val b = indices.map(i =&gt; ImageUtil.getPixels(par.imageRgb, i, index + 1))
+</td>
+          </tr><tr>
+            <td class="green">55</td>
+            <td>    val tIrc = t.map(Cube.getNearest(_, par.colorMap))
+</td>
+          </tr><tr>
+            <td class="green">56</td>
+            <td>    val bIrc = b.map(Cube.getNearest(_, par.colorMap))
+</td>
+          </tr><tr>
+            <td class="green">57</td>
+            <td>    val chars = indices.map(i =&gt; ColorUtil.makePwnIrc(bIrc(i), tIrc(i))).toList
+</td>
+          </tr><tr>
+            <td class="green">58</td>
+            <td>    consolidateDuplicates(chars).mkString
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>  private def generateVortacularLine(par: Params, index: Int): String = {
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>    def makeColorSample(x: Int): Sample.Colored = {
+</td>
+          </tr><tr>
+            <td class="green">63</td>
+            <td>      Sample.makeColorSample(par.imageRgb, x, index, par.contrast, par.brightness)
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">65</td>
+            <td>    val sam = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0).map(makeColorSample(_)).toList
+</td>
+          </tr><tr>
+            <td class="green">66</td>
+            <td>    val range = (0 until sam.length)
+</td>
+          </tr><tr>
+            <td class="green">67</td>
+            <td>    lazy val diffs = Sample.dirs.map(d =&gt; (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap
+</td>
+          </tr><tr>
+            <td class="green">68</td>
+            <td>    lazy val tl = sam.map(_._1)
+</td>
+          </tr><tr>
+            <td class="green">69</td>
+            <td>    lazy val tr = sam.map(_._2)
+</td>
+          </tr><tr>
+            <td class="green">70</td>
+            <td>    lazy val bl = sam.map(_._3)
+</td>
+          </tr><tr>
+            <td class="green">71</td>
+            <td>    lazy val br = sam.map(_._4)
+</td>
+          </tr><tr>
+            <td class="green">72</td>
+            <td>    lazy val tIrc = range.map(i =&gt; Sample.calcMean(tl(i), tr(i))).map(Cube.getNearest(_, par.colorMap)).toList
+</td>
+          </tr><tr>
+            <td class="green">73</td>
+            <td>    lazy val bIrc = range.map(i =&gt; Sample.calcMean(bl(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList
+</td>
+          </tr><tr>
+            <td class="green">74</td>
+            <td>    lazy val lIrc = range.map(i =&gt; Sample.calcMean(tl(i), bl(i))).map(Cube.getNearest(_, par.colorMap)).toList
+</td>
+          </tr><tr>
+            <td class="green">75</td>
+            <td>    lazy val rIrc = range.map(i =&gt; Sample.calcMean(tr(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>    val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.characters, par.power, _))
+</td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>    def getSwitched(i: Int): String = {
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>      def direct(old: String, setting: Setting): String = {
+</td>
+          </tr><tr>
+            <td class="yellow">79</td>
+            <td>        if (!par.settings.has(setting)) { <span class="non">old }
+</span></td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>        else {
+</td>
+          </tr><tr>
+            <td class="green">81</td>
+            <td>          val offset = ((par.settings.get(setting) + 100) * -1) / 4
+</td>
+          </tr><tr>
+            <td class="green">82</td>
+            <td>          if (setting.equals(Setting.LEFTRIGHT)) {
+</td>
+          </tr><tr>
+            <td class="green">83</td>
+            <td>            if (lIrc(i) == rIrc(i)) { old }
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>            else {
+</td>
+          </tr><tr>
+            <td class="green">85</td>
+            <td>              val leftDiff: Short = diffs.get(Sample.LEFT).get(i)
+</td>
+          </tr><tr>
+            <td class="green">86</td>
+            <td>              val rightDiff: Short = diffs.get(Sample.RIGHT).get(i)
+</td>
+          </tr><tr>
+            <td class="green">87</td>
+            <td>              if (leftDiff + offset &lt; rightDiff) {
+</td>
+          </tr><tr>
+            <td class="green">88</td>
+            <td>                lIrc(i) + comma + rIrc(i) + Pal.get(Pal.LEFT, par.hasAnsi, par.characters)
+</td>
+          </tr><tr>
+            <td class="green">89</td>
+            <td>              } else if (rightDiff + offset &lt; leftDiff) {
+</td>
+          </tr><tr>
+            <td class="green">90</td>
+            <td>                rIrc(i) + comma + lIrc(i) + Pal.get(Pal.RIGHT, par.hasAnsi, par.characters)
+</td>
+          </tr><tr>
+            <td class="red">91</td>
+            <td>              } else { <span class="non">old }
+</span></td>
+          </tr><tr>
+            <td class="black">92</td>
+            <td>            }
+</td>
+          </tr><tr>
+            <td class="black">93</td>
+            <td>          } else { //setting.equals(Setting.UPDOWN)
+</td>
+          </tr><tr>
+            <td class="green">94</td>
+            <td>            if (tIrc(i) == bIrc(i)) { old }
+</td>
+          </tr><tr>
+            <td class="black">95</td>
+            <td>            else {
+</td>
+          </tr><tr>
+            <td class="green">96</td>
+            <td>              val topDiff: Short = diffs.get(Sample.TOP).get(i)
+</td>
+          </tr><tr>
+            <td class="green">97</td>
+            <td>              val botDiff: Short = diffs.get(Sample.BOT).get(i)
+</td>
+          </tr><tr>
+            <td class="green">98</td>
+            <td>              if (topDiff + offset &lt; botDiff) {
+</td>
+          </tr><tr>
+            <td class="green">99</td>
+            <td>                tIrc(i) + comma + bIrc(i) + Pal.get(Pal.UP, par.hasAnsi, par.characters)
+</td>
+          </tr><tr>
+            <td class="green">100</td>
+            <td>              } else if (botDiff + offset &lt; topDiff) {
+</td>
+          </tr><tr>
+            <td class="green">101</td>
+            <td>                bIrc(i) + comma + tIrc(i) + Pal.get(Pal.DOWN, par.hasAnsi, par.characters)
+</td>
+          </tr><tr>
+            <td class="red">102</td>
+            <td>              } else { <span class="non">old }
+</span></td>
+          </tr><tr>
+            <td class="black">103</td>
+            <td>            }
+</td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">105</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">106</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="green">107</td>
+            <td>      direct(direct(chars(i), Setting.LEFTRIGHT), Setting.UPDOWN)
+</td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">109</td>
+            <td>    val switched = range.map(ColorUtil.CC + getSwitched(_)).toList
+</td>
+          </tr><tr>
+            <td class="green">110</td>
+            <td>    val charsOnly = switched.map(_.last.toString)
+</td>
+          </tr><tr>
+            <td class="green">111</td>
+            <td>    val pp = postProcess(par, charsOnly.mkString, true).toCharArray.map(_.toString).toList
+</td>
+          </tr><tr>
+            <td class="black">112</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">113</td>
+            <td>    lazy val reps = Pal.pairs.map(p =&gt; (p, Pal.getValChars(p._1, par.hasAnsi))).toMap
+</td>
+          </tr><tr>
+            <td class="black">114</td>
+            <td>    def change(c: String): String = {
+</td>
+          </tr><tr>
+            <td class="yellow">115</td>
+            <td>      reps.keys.find(r =&gt; reps(r).contains(c)).map(r =&gt; <span class="non">Pal.get(r._2, par.hasAnsi, par.characters)).getOrElse(c)
+</span></td>
+          </tr><tr>
+            <td class="black">116</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">117</td>
+            <td>    val changed = pp.map(change(_))
+</td>
+          </tr><tr>
+            <td class="green">118</td>
+            <td>    val finalLine = range.map(i =&gt; switched(i).init + changed(i)).toList
+</td>
+          </tr><tr>
+            <td class="black">119</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">120</td>
+            <td>    //val finalLine = range.map(i =&gt; switched(i).init + pp(i)).toList
+</td>
+          </tr><tr>
+            <td class="green">121</td>
+            <td>    range.map(makeValid(_, finalLine, switched)).mkString
+</td>
+          </tr><tr>
+            <td class="black">122</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">123</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">124</td>
+            <td>  private def makeValid(i: Int, list: List[String], switched: List[String]): String = {
+</td>
+          </tr><tr>
+            <td class="green">125</td>
+            <td>    val thisOne = list(i)
+</td>
+          </tr><tr>
+            <td class="green">126</td>
+            <td>    if (i != 0 &amp;&amp; thisOne.init.equals(switched(i - 1).init)) { thisOne.last.toString }
+</td>
+          </tr><tr>
+            <td class="green">127</td>
+            <td>    else { thisOne }
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">129</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>  private def generatePlainLine(par: Params, index: Int): String = {
+</td>
+          </tr><tr>
+            <td class="black">131</td>
+            <td>    def makeGreySample(x: Int): Sample.Grey = {
+</td>
+          </tr><tr>
+            <td class="green">132</td>
+            <td>      Sample.makeGreySample(par.imageRgb, x, index, par.contrast, par.brightness)
+</td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">134</td>
+            <td>    val indices = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0)
+</td>
+          </tr><tr>
+            <td class="green">135</td>
+            <td>    val sam = indices.map(makeGreySample(_)).toList
+</td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>    def getChar(i: Int): String = {
+</td>
+          </tr><tr>
+            <td class="black">137</td>
+            <td>      def getProcessed(setting: Setting,
+</td>
+          </tr><tr>
+            <td class="black">138</td>
+            <td>          firstPal: Pal, secondPal: Pal,
+</td>
+          </tr><tr>
+            <td class="black">139</td>
+            <td>          firstDir: Sample.Dir, secondDir: Sample.Dir): Option[String] = {
+</td>
+          </tr><tr>
+            <td class="yellow">140</td>
+            <td>        if (!par.settings.has(setting)) { <span class="non">None }
+</span></td>
+          </tr><tr>
+            <td class="black">141</td>
+            <td>        else {
+</td>
+          </tr><tr>
+            <td class="green">142</td>
+            <td>          val fp = Pal.get(firstPal, par.hasAnsi, par.characters)
+</td>
+          </tr><tr>
+            <td class="green">143</td>
+            <td>          val sp = Pal.get(secondPal, par.hasAnsi, par.characters)
+</td>
+          </tr><tr>
+            <td class="green">144</td>
+            <td>          val fs = Sample.getDirectedGrey(sam(i), firstDir)
+</td>
+          </tr><tr>
+            <td class="green">145</td>
+            <td>          val ss = Sample.getDirectedGrey(sam(i), secondDir)
+</td>
+          </tr><tr>
+            <td class="green">146</td>
+            <td>          getFor(par.settings.get(setting) / 10, fs, ss, fp, sp)
+</td>
+          </tr><tr>
+            <td class="black">147</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">148</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="green">149</td>
+            <td>      getProcessed(Setting.UPDOWN, Pal.UP, Pal.DOWN, Sample.TOP, Sample.BOT) match {
+</td>
+          </tr><tr>
+            <td class="green">150</td>
+            <td>        case Some(ud) =&gt; ud //first possibility
+</td>
+          </tr><tr>
+            <td class="black">151</td>
+            <td>        case None =&gt;
+</td>
+          </tr><tr>
+            <td class="green">152</td>
+            <td>          getProcessed(Setting.LEFTRIGHT, Pal.LEFT, Pal.RIGHT, Sample.LEFT, Sample.RIGHT) match {
+</td>
+          </tr><tr>
+            <td class="green">153</td>
+            <td>            case Some(lr) =&gt; lr //second possibility
+</td>
+          </tr><tr>
+            <td class="green">154</td>
+            <td>            case None =&gt; Pal.getCharAbs(par.characters, Sample.getMeanGrey(sam(i))) //default
+</td>
+          </tr><tr>
+            <td class="black">155</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">156</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">157</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">158</td>
+            <td>    val line = (0 until sam.length).map(i =&gt; getChar(i)).mkString
+</td>
+          </tr><tr>
+            <td class="green">159</td>
+            <td>    postProcess(par, line, false)
+</td>
+          </tr><tr>
+            <td class="black">160</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">161</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">162</td>
+            <td>  private def getFor(offset: Int, first: Int, second: Int, firstChar: String, secondChar: String): Option[String] = {
+</td>
+          </tr><tr>
+            <td class="green">163</td>
+            <td>    val fCond = first &lt;= Color.CENTER + offset &amp;&amp; second &gt; Color.CENTER - offset
+</td>
+          </tr><tr>
+            <td class="green">164</td>
+            <td>    val sCond = first &gt; Color.CENTER - offset &amp;&amp; second &lt;= Color.CENTER + offset
+</td>
+          </tr><tr>
+            <td class="yellow">165</td>
+            <td>    if (fCond &amp;&amp; sCond) { <span class="non">Some(Random.shuffle(List(firstChar, secondChar)).head) }
+</span></td>
+          </tr><tr>
+            <td class="green">166</td>
+            <td>    else if (fCond) { Some(firstChar) }
+</td>
+          </tr><tr>
+            <td class="green">167</td>
+            <td>    else if (sCond) { Some(secondChar) }
+</td>
+          </tr><tr>
+            <td class="green">168</td>
+            <td>    else { None }
+</td>
+          </tr><tr>
+            <td class="black">169</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">170</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">171</td>
+            <td>  type CharMapType = Map[Product, String]
+</td>
+          </tr><tr>
+            <td class="black">172</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">173</td>
+            <td>  private def postProcess(par: Params, line: String, hasCol: Boolean): String = {
+</td>
+          </tr><tr>
+            <td class="green">174</td>
+            <td>    lazy val chr: CharMapType = Pal.values.map(v =&gt; (v, Pal.get(v, par.hasAnsi, par.characters))).toMap
+</td>
+          </tr><tr>
+            <td class="green">175</td>
+            <td>    val range = (0 until line.length)
+</td>
+          </tr><tr>
+            <td class="green">176</td>
+            <td>    val lineList = line.map(_.toString).toList
+</td>
+          </tr><tr>
+            <td class="green">177</td>
+            <td>    val dbqp = dbqpLine(lineList, range, par, chr, hasCol)
+</td>
+          </tr><tr>
+            <td class="green">178</td>
+            <td>    val diag = diagLine(dbqp, range, par, chr)
+</td>
+          </tr><tr>
+            <td class="green">179</td>
+            <td>    val hor = horLine(diag, range, par, chr)
+</td>
+          </tr><tr>
+            <td class="green">180</td>
+            <td>    val vert = vertLine(hor, range, par, chr).mkString
+</td>
+          </tr><tr>
+            <td class="green">181</td>
+            <td>    vert
+</td>
+          </tr><tr>
+            <td class="black">182</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">183</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">184</td>
+            <td>  private def dbqpLine(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
+</td>
+          </tr><tr>
+            <td class="yellow">185</td>
+            <td>    if (!par.settings.has(Setting.DBQP)) { in.toList } else { <span class="non">changeDbqp(in, range, par, chr, hasCol) }
+</span></td>
+          </tr><tr>
+            <td class="black">186</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">187</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">188</td>
+            <td>  private def changeDbqp(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
+</td>
+          </tr><tr>
+            <td class="red">189</td>
+            <td>    def getD: String = if (<span class="non">hasCol) { chr.get(Pal.LEFT_DOWN).get } else { chr.get(Pal.RIGHT_DOWN).get }
+</span></td>
+          </tr><tr>
+            <td class="red">190</td>
+            <td>    def getB: String = if (<span class="non">hasCol) { chr.get(Pal.RIGHT_DOWN).get } else { chr.get(Pal.LEFT_DOWN).get }
+</span></td>
+          </tr><tr>
+            <td class="red">191</td>
+            <td>    def getQ: String = if (<span class="non">hasCol) { chr.get(Pal.LEFT_UP).get } else { chr.get(Pal.RIGHT_UP).get }
+</span></td>
+          </tr><tr>
+            <td class="red">192</td>
+            <td>    def getP: String = if (<span class="non">hasCol) { chr.get(Pal.RIGHT_UP).get } else { chr.get(Pal.LEFT_UP).get }
+</span></td>
+          </tr><tr>
+            <td class="red">193</td>
+            <td>    val d = <span class="non">range.map(changeDbqp(in.toList, range, par, _, chr.get(Pal.DOWN).get, getD, false))
+</span></td>
+          </tr><tr>
+            <td class="red">194</td>
+            <td>    val b = <span class="non">range.map(changeDbqp(d.toList, range, par, _, chr.get(Pal.DOWN).get, getB, true))
+</span></td>
+          </tr><tr>
+            <td class="red">195</td>
+            <td>    val q = <span class="non">range.map(changeDbqp(b.toList, range, par, _, chr.get(Pal.UP).get, getQ, false))
+</span></td>
+          </tr><tr>
+            <td class="red">196</td>
+            <td>    val p = <span class="non">range.map(changeDbqp(q.toList, range, par, _, chr.get(Pal.UP).get, getP, true))
+</span></td>
+          </tr><tr>
+            <td class="red">197</td>
+            <td>    <span class="non">p.toList
+</span></td>
+          </tr><tr>
+            <td class="black">198</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">199</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">200</td>
+            <td>  private def isFirstOrLast(i: Int, range: Range): Boolean = <span class="non">i == 0 || i == range.last
+</span></td>
+          </tr><tr>
+            <td class="black">201</td>
+            <td>  private def changeDbqp(list: List[String], range: Range, par: Params, i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {
+</td>
+          </tr><tr>
+            <td class="red">202</td>
+            <td>    lazy val current: String = <span class="non">list(i)
+</span></td>
+          </tr><tr>
+            <td class="red">203</td>
+            <td>    lazy val last: String = <span class="non">list(i - 1)
+</span></td>
+          </tr><tr>
+            <td class="red">204</td>
+            <td>    lazy val next: String = <span class="non">list(i + 1)
+</span></td>
+          </tr><tr>
+            <td class="red">205</td>
+            <td>    lazy val isCurrentEqual: Boolean = <span class="non">current.equals(thisOne)
+</span></td>
+          </tr><tr>
+            <td class="red">206</td>
+            <td>    def isLastEqual: Boolean = <span class="non">thisOne.equals(last)
+</span></td>
+          </tr><tr>
+            <td class="red">207</td>
+            <td>    def isNextEqual: Boolean = <span class="non">thisOne.equals(next)
+</span></td>
+          </tr><tr>
+            <td class="red">208</td>
+            <td>    def isLastDark: Boolean = <span class="non">Pal.isDark(par.characters, last)
+</span></td>
+          </tr><tr>
+            <td class="red">209</td>
+            <td>    def isNextDark: Boolean = <span class="non">Pal.isDark(par.characters, next)
+</span></td>
+          </tr><tr>
+            <td class="red">210</td>
+            <td>    def isLastBright: Boolean = <span class="non">Pal.isBright(par.characters, last)
+</span></td>
+          </tr><tr>
+            <td class="red">211</td>
+            <td>    def isNextBright: Boolean = <span class="non">Pal.isBright(par.characters, next)
+</span></td>
+          </tr><tr>
+            <td class="red">212</td>
+            <td>    def isLastBrightOrEqual: Boolean = <span class="non">isLastBright || isLastEqual
+</span></td>
+          </tr><tr>
+            <td class="red">213</td>
+            <td>    def isNextBrightOrEqual: Boolean = <span class="non">isNextBright || isNextEqual
+</span></td>
+          </tr><tr>
+            <td class="red">214</td>
+            <td>    def leftCondition: Boolean = <span class="non">darkLeft &amp;&amp; isLastDark &amp;&amp; isNextBrightOrEqual
+</span></td>
+          </tr><tr>
+            <td class="red">215</td>
+            <td>    def rightCondition: Boolean = <span class="non">!darkLeft &amp;&amp; isNextDark &amp;&amp; isLastBrightOrEqual
+</span></td>
+          </tr><tr>
+            <td class="red">216</td>
+            <td>    def notLeftAndNotRight: Boolean = <span class="non">!leftCondition &amp;&amp; !rightCondition
+</span></td>
+          </tr><tr>
+            <td class="red">217</td>
+            <td>    if (<span class="non">isFirstOrLast(i, range) || !isCurrentEqual || notLeftAndNotRight) { current } else { to }
+</span></td>
+          </tr><tr>
+            <td class="black">218</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">219</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">220</td>
+            <td>  private def diagLine(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
+</td>
+          </tr><tr>
+            <td class="green">221</td>
+            <td>    if (!par.settings.has(Setting.DIAGONAL)) { in.toList }
+</td>
+          </tr><tr>
+            <td class="black">222</td>
+            <td>    else {
+</td>
+          </tr><tr>
+            <td class="black">223</td>
+            <td>      def changeDiag(list: List[String], i: Int): String = {
+</td>
+          </tr><tr>
+            <td class="red">224</td>
+            <td>        lazy val current: String = <span class="non">list(i)
+</span></td>
+          </tr><tr>
+            <td class="black">225</td>
+            <td>        //lazy val currentEqualsDown = current.equals(chr.get(Pal.DOWN).get)
+</td>
+          </tr><tr>
+            <td class="red">226</td>
+            <td>        lazy val currentEqualsUp = <span class="non">current.equals(chr.get(Pal.UP).get)
+</span></td>
+          </tr><tr>
+            <td class="red">227</td>
+            <td>        lazy val last: String = <span class="non">list(i - 1)
+</span></td>
+          </tr><tr>
+            <td class="red">228</td>
+            <td>        lazy val lastEqualsDown = <span class="non">last.equals(chr.get(Pal.DOWN).get)
+</span></td>
+          </tr><tr>
+            <td class="red">229</td>
+            <td>        lazy val lastEqualsUp = <span class="non">last.equals(chr.get(Pal.UP).get)
+</span></td>
+          </tr><tr>
+            <td class="red">230</td>
+            <td>        lazy val next: String = <span class="non">list(i + 1)
+</span></td>
+          </tr><tr>
+            <td class="red">231</td>
+            <td>        lazy val nextEqualsDown = <span class="non">next.equals(chr.get(Pal.DOWN).get)
+</span></td>
+          </tr><tr>
+            <td class="red">232</td>
+            <td>        lazy val nextEqualsUp = <span class="non">next.equals(chr.get(Pal.UP).get)
+</span></td>
+          </tr><tr>
+            <td class="red">233</td>
+            <td>        lazy val currentOrNextIsUp = <span class="non">currentEqualsUp || nextEqualsUp
+</span></td>
+          </tr><tr>
+            <td class="red">234</td>
+            <td>        lazy val currentOrLastIsUp = <span class="non">currentEqualsUp || lastEqualsUp
+</span></td>
+          </tr><tr>
+            <td class="red">235</td>
+            <td>        if (<span class="non">isFirstOrLast(i, range)) { current }
+</span></td>
+          </tr><tr>
+            <td class="red">236</td>
+            <td>        else if (<span class="non">lastEqualsDown &amp;&amp; currentOrNextIsUp) { chr.get(Pal.DOWN_UP).get }
+</span></td>
+          </tr><tr>
+            <td class="red">237</td>
+            <td>        else if (<span class="non">currentOrLastIsUp &amp;&amp; nextEqualsDown) { chr.get(Pal.UP_DOWN).get }
+</span></td>
+          </tr><tr>
+            <td class="red">238</td>
+            <td>        else { <span class="non">current }
+</span></td>
+          </tr><tr>
+            <td class="black">239</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="red">240</td>
+            <td>      <span class="non">range.map(changeDiag(in.toList, _)).toList
+</span></td>
+          </tr><tr>
+            <td class="black">241</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">242</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">243</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">244</td>
+            <td>  private def horLine(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
+</td>
+          </tr><tr>
+            <td class="green">245</td>
+            <td>    if (!par.settings.has(Setting.HORIZONTAL)) { in.toList }
+</td>
+          </tr><tr>
+            <td class="black">246</td>
+            <td>    else {
+</td>
+          </tr><tr>
+            <td class="black">247</td>
+            <td>      def changeHor(list: List[String], i: Int, from: String, to: String): String = {
+</td>
+          </tr><tr>
+            <td class="red">248</td>
+            <td>        lazy val current: String = <span class="non">list(i)
+</span></td>
+          </tr><tr>
+            <td class="red">249</td>
+            <td>        lazy val last: String = <span class="non">list(i - 1)
+</span></td>
+          </tr><tr>
+            <td class="red">250</td>
+            <td>        lazy val next: String = <span class="non">list(i + 1)
+</span></td>
+          </tr><tr>
+            <td class="red">251</td>
+            <td>        if (<span class="non">isFirstOrLast(i, range)) { current }
+</span></td>
+          </tr><tr>
+            <td class="red">252</td>
+            <td>        else if (<span class="non">last.equals(Pal.darkest(par.characters)) &amp;&amp; current.equals(from) &amp;&amp; next.equals(from)) { to }
+</span></td>
+          </tr><tr>
+            <td class="red">253</td>
+            <td>        else if (<span class="non">last.equals(from) &amp;&amp; current.equals(from) &amp;&amp; next.equals(Pal.darkest(par.characters))) { to }
+</span></td>
+          </tr><tr>
+            <td class="red">254</td>
+            <td>        else { <span class="non">current }
+</span></td>
+          </tr><tr>
+            <td class="black">255</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="red">256</td>
+            <td>      val h = <span class="non">range.map(changeHor(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.H_LINE).get))
+</span></td>
+          </tr><tr>
+            <td class="red">257</td>
+            <td>      <span class="non">range.map(changeHor(h.toList, _, chr.get(Pal.UP).get, chr.get(Pal.H_LINE).get)).toList
+</span></td>
+          </tr><tr>
+            <td class="black">258</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">259</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">260</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">261</td>
+            <td>  private def vertLine(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
+</td>
+          </tr><tr>
+            <td class="green">262</td>
+            <td>    if (!par.settings.has(Setting.VERTICAL)) { in.toList }
+</td>
+          </tr><tr>
+            <td class="black">263</td>
+            <td>    else {
+</td>
+          </tr><tr>
+            <td class="black">264</td>
+            <td>      def changeVert(list: List[String], i: Int, from: String, to: String): String = {
+</td>
+          </tr><tr>
+            <td class="red">265</td>
+            <td>        if (<span class="non">list(i).equals(from)) { to } else { list(i) }
+</span></td>
+          </tr><tr>
+            <td class="black">266</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="red">267</td>
+            <td>      val foo = <span class="non">range.map(changeVert(in.toList, _, chr.get(Pal.LEFT).get, chr.get(Pal.V_LINE).get))
+</span></td>
+          </tr><tr>
+            <td class="red">268</td>
+            <td>      <span class="non">range.map(changeVert(foo.toList, _, chr.get(Pal.RIGHT).get, chr.get(Pal.V_LINE).get)).toList
+</span></td>
+          </tr><tr>
+            <td class="black">269</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">270</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">271</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">272</td>
+            <td>  private def inferWidth(imageRgb: Color.RgbMap): Short = {
+</td>
+          </tr><tr>
+            <td class="green">273</td>
+            <td>    (imageRgb.keys.toList.map(t =&gt; t._2).max).shortValue
+</td>
+          </tr><tr>
+            <td class="black">274</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">275</td>
+            <td>}
+</td>
+          </tr></tbody></table>

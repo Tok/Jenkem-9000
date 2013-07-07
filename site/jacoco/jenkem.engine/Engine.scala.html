@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Engine.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine</a> &gt; <span class="el_source">Engine.scala</span></div><h1>Engine.scala</h1><pre class="source lang-java linenums">package jenkem.engine
+
+import scala.Array.canBuildFrom
+import scala.util.Random
+import jenkem.engine.color.Cube
+import jenkem.engine.color.Power
+import jenkem.engine.color.Sample
+import jenkem.util.ColorUtil
+import jenkem.engine.color.Scheme
+import jenkem.engine.color.Color
+import jenkem.util.ImageUtil
+
+<span class="fc" id="L13">object Engine {</span>
+<span class="fc" id="L14">  val comma = &quot;,&quot;</span>
+
+<span class="fc" id="L16">  class Params(</span>
+<span class="fc" id="L17">      val method: Method,</span>
+<span class="fc" id="L18">      val imageRgb: Color.RgbMap,</span>
+<span class="fc" id="L19">      val colorMap: Color.IrcMap,</span>
+<span class="fc" id="L20">      val characters: String,</span>
+<span class="fc" id="L21">      val settings: Setting.Instance,</span>
+<span class="fc" id="L22">      val contrast: Int,</span>
+<span class="fc" id="L23">      val brightness: Int,</span>
+<span class="fc" id="L24">      val power: Power) {</span>
+<span class="fc" id="L25">    val hasAnsi = Pal.hasAnsi(characters)</span>
+  }
+
+  def generateLine(par: Params, index: Int): String = {
+<span class="fc" id="L29">    par.method match {</span>
+<span class="pc bpc" id="L30" title="3 of 6 branches missed.">      case Method.Vortacular =&gt; generateVortacularLine(par, index)</span>
+<span class="pc bpc" id="L31" title="3 of 6 branches missed.">      case Method.Pwntari =&gt; generatePwntariLine(par, index)</span>
+<span class="fc" id="L32">      case _ =&gt; generatePlainLine(par, index)</span>
+    }
+  }
+
+  private def generatePwntariLine(par: Params, index: Int): String = {
+    def consolidateDuplicates(chars: List[String]): List[String] = {
+<span class="fc" id="L38">      def consolidateDuplicates0(chars: List[String], accu: List[String], i: Int): List[String] = {</span>
+<span class="fc bfc" id="L39" title="All 4 branches covered.">        if (i == chars.length) { accu }</span>
+        else {
+<span class="fc" id="L41">          val thisOne = chars(i)</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">          if (i == 0) { consolidateDuplicates0(chars, accu ::: List(thisOne), i + 1) }</span>
+          else {
+<span class="fc" id="L44">            val eq = thisOne.equals(chars(i - 1))</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            val newChar = if (eq) { List(par.characters.head.toString) } else { List(thisOne) }</span>
+<span class="fc" id="L46">            consolidateDuplicates0(chars, accu ::: newChar, i + 1)</span>
+          }
+        }
+      }
+<span class="fc" id="L50">      consolidateDuplicates0(chars, Nil, 0)</span>
+    }
+<span class="fc" id="L52">    val indices = (0 until inferWidth(par.imageRgb))</span>
+<span class="fc" id="L53">    val t = indices.map(i =&gt; ImageUtil.getPixels(par.imageRgb, i, index))</span>
+<span class="fc" id="L54">    val b = indices.map(i =&gt; ImageUtil.getPixels(par.imageRgb, i, index + 1))</span>
+<span class="fc" id="L55">    val tIrc = t.map(Cube.getNearest(_, par.colorMap))</span>
+<span class="fc" id="L56">    val bIrc = b.map(Cube.getNearest(_, par.colorMap))</span>
+<span class="fc" id="L57">    val chars = indices.map(i =&gt; ColorUtil.makePwnIrc(bIrc(i), tIrc(i))).toList</span>
+<span class="fc" id="L58">    consolidateDuplicates(chars).mkString</span>
+  }
+
+<span class="fc" id="L61">  private def generateVortacularLine(par: Params, index: Int): String = {</span>
+    def makeColorSample(x: Int): Sample.Colored = {
+<span class="fc" id="L63">      Sample.makeColorSample(par.imageRgb, x, index, par.contrast, par.brightness)</span>
+    }
+<span class="fc bfc" id="L65" title="All 2 branches covered.">    val sam = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0).map(makeColorSample(_)).toList</span>
+<span class="fc" id="L66">    val range = (0 until sam.length)</span>
+<span class="pc bpc" id="L67" title="79 of 112 branches missed.">    lazy val diffs = Sample.dirs.map(d =&gt; (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap</span>
+<span class="pc" id="L68">    lazy val tl = sam.map(_._1)</span>
+<span class="pc" id="L69">    lazy val tr = sam.map(_._2)</span>
+<span class="pc" id="L70">    lazy val bl = sam.map(_._3)</span>
+<span class="pc" id="L71">    lazy val br = sam.map(_._4)</span>
+<span class="pc" id="L72">    lazy val tIrc = range.map(i =&gt; Sample.calcMean(tl(i), tr(i))).map(Cube.getNearest(_, par.colorMap)).toList</span>
+<span class="pc" id="L73">    lazy val bIrc = range.map(i =&gt; Sample.calcMean(bl(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList</span>
+<span class="pc" id="L74">    lazy val lIrc = range.map(i =&gt; Sample.calcMean(tl(i), bl(i))).map(Cube.getNearest(_, par.colorMap)).toList</span>
+<span class="pc" id="L75">    lazy val rIrc = range.map(i =&gt; Sample.calcMean(tr(i), br(i))).map(Cube.getNearest(_, par.colorMap)).toList</span>
+<span class="fc" id="L76">    val chars = sam.map(Sample.getAllRgb(_)).map(Cube.getColorChar(par.colorMap, par.characters, par.power, _))</span>
+    def getSwitched(i: Int): String = {
+      def direct(old: String, setting: Setting): String = {
+<span class="pc bpc" id="L79" title="2 of 4 branches missed.">        if (!par.settings.has(setting)) { old }</span>
+        else {
+<span class="fc" id="L81">          val offset = ((par.settings.get(setting) + 100) * -1) / 4</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">          if (setting.equals(Setting.LEFTRIGHT)) {</span>
+<span class="fc bfc" id="L83" title="All 4 branches covered.">            if (lIrc(i) == rIrc(i)) { old }</span>
+            else {
+<span class="fc" id="L85">              val leftDiff: Short = diffs.get(Sample.LEFT).get(i)</span>
+<span class="fc" id="L86">              val rightDiff: Short = diffs.get(Sample.RIGHT).get(i)</span>
+<span class="fc bfc" id="L87" title="All 4 branches covered.">              if (leftDiff + offset &lt; rightDiff) {</span>
+<span class="fc" id="L88">                lIrc(i) + comma + rIrc(i) + Pal.get(Pal.LEFT, par.hasAnsi, par.characters)</span>
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">              } else if (rightDiff + offset &lt; leftDiff) {</span>
+<span class="fc" id="L90">                rIrc(i) + comma + lIrc(i) + Pal.get(Pal.RIGHT, par.hasAnsi, par.characters)</span>
+<span class="nc" id="L91">              } else { old }</span>
+            }
+          } else { //setting.equals(Setting.UPDOWN)
+<span class="fc bfc" id="L94" title="All 4 branches covered.">            if (tIrc(i) == bIrc(i)) { old }</span>
+            else {
+<span class="fc" id="L96">              val topDiff: Short = diffs.get(Sample.TOP).get(i)</span>
+<span class="fc" id="L97">              val botDiff: Short = diffs.get(Sample.BOT).get(i)</span>
+<span class="fc bfc" id="L98" title="All 4 branches covered.">              if (topDiff + offset &lt; botDiff) {</span>
+<span class="fc" id="L99">                tIrc(i) + comma + bIrc(i) + Pal.get(Pal.UP, par.hasAnsi, par.characters)</span>
+<span class="pc bpc" id="L100" title="2 of 4 branches missed.">              } else if (botDiff + offset &lt; topDiff) {</span>
+<span class="fc" id="L101">                bIrc(i) + comma + tIrc(i) + Pal.get(Pal.DOWN, par.hasAnsi, par.characters)</span>
+<span class="nc" id="L102">              } else { old }</span>
+            }
+          }
+        }
+      }
+<span class="fc" id="L107">      direct(direct(chars(i), Setting.LEFTRIGHT), Setting.UPDOWN)</span>
+    }
+<span class="fc" id="L109">    val switched = range.map(ColorUtil.CC + getSwitched(_)).toList</span>
+<span class="fc" id="L110">    val charsOnly = switched.map(_.last.toString)</span>
+<span class="fc" id="L111">    val pp = postProcess(par, charsOnly.mkString, true).toCharArray.map(_.toString).toList</span>
+
+<span class="pc" id="L113">    lazy val reps = Pal.pairs.map(p =&gt; (p, Pal.getValChars(p._1, par.hasAnsi))).toMap</span>
+    def change(c: String): String = {
+<span class="pc" id="L115">      reps.keys.find(r =&gt; reps(r).contains(c)).map(r =&gt; Pal.get(r._2, par.hasAnsi, par.characters)).getOrElse(c)</span>
+    }
+<span class="fc" id="L117">    val changed = pp.map(change(_))</span>
+<span class="fc" id="L118">    val finalLine = range.map(i =&gt; switched(i).init + changed(i)).toList</span>
+
+    //val finalLine = range.map(i =&gt; switched(i).init + pp(i)).toList
+<span class="fc" id="L121">    range.map(makeValid(_, finalLine, switched)).mkString</span>
+  }
+
+<span class="fc" id="L124">  private def makeValid(i: Int, list: List[String], switched: List[String]): String = {</span>
+<span class="fc" id="L125">    val thisOne = list(i)</span>
+<span class="fc bfc" id="L126" title="All 6 branches covered.">    if (i != 0 &amp;&amp; thisOne.init.equals(switched(i - 1).init)) { thisOne.last.toString }</span>
+<span class="fc" id="L127">    else { thisOne }</span>
+  }
+
+  private def generatePlainLine(par: Params, index: Int): String = {
+    def makeGreySample(x: Int): Sample.Grey = {
+<span class="fc" id="L132">      Sample.makeGreySample(par.imageRgb, x, index, par.contrast, par.brightness)</span>
+    }
+<span class="fc bfc" id="L134" title="All 2 branches covered.">    val indices = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0)</span>
+<span class="fc" id="L135">    val sam = indices.map(makeGreySample(_)).toList</span>
+    def getChar(i: Int): String = {
+      def getProcessed(setting: Setting,
+          firstPal: Pal, secondPal: Pal,
+          firstDir: Sample.Dir, secondDir: Sample.Dir): Option[String] = {
+<span class="pc bpc" id="L140" title="2 of 4 branches missed.">        if (!par.settings.has(setting)) { None }</span>
+        else {
+<span class="fc" id="L142">          val fp = Pal.get(firstPal, par.hasAnsi, par.characters)</span>
+<span class="fc" id="L143">          val sp = Pal.get(secondPal, par.hasAnsi, par.characters)</span>
+<span class="fc" id="L144">          val fs = Sample.getDirectedGrey(sam(i), firstDir)</span>
+<span class="fc" id="L145">          val ss = Sample.getDirectedGrey(sam(i), secondDir)</span>
+<span class="fc" id="L146">          getFor(par.settings.get(setting) / 10, fs, ss, fp, sp)</span>
+        }
+      }
+<span class="pc" id="L149">      getProcessed(Setting.UPDOWN, Pal.UP, Pal.DOWN, Sample.TOP, Sample.BOT) match {</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        case Some(ud) =&gt; ud //first possibility</span>
+<span class="pc bpc" id="L151" title="4 of 6 branches missed.">        case None =&gt;</span>
+<span class="pc" id="L152">          getProcessed(Setting.LEFTRIGHT, Pal.LEFT, Pal.RIGHT, Sample.LEFT, Sample.RIGHT) match {</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">            case Some(lr) =&gt; lr //second possibility</span>
+<span class="pc bpc" id="L154" title="4 of 6 branches missed.">            case None =&gt; Pal.getCharAbs(par.characters, Sample.getMeanGrey(sam(i))) //default</span>
+          }
+      }
+    }
+<span class="fc" id="L158">    val line = (0 until sam.length).map(i =&gt; getChar(i)).mkString</span>
+<span class="fc" id="L159">    postProcess(par, line, false)</span>
+  }
+
+<span class="fc" id="L162">  private def getFor(offset: Int, first: Int, second: Int, firstChar: String, secondChar: String): Option[String] = {</span>
+<span class="fc bfc" id="L163" title="All 4 branches covered.">    val fCond = first &lt;= Color.CENTER + offset &amp;&amp; second &gt; Color.CENTER - offset</span>
+<span class="fc bfc" id="L164" title="All 4 branches covered.">    val sCond = first &gt; Color.CENTER - offset &amp;&amp; second &lt;= Color.CENTER + offset</span>
+<span class="pc bpc" id="L165" title="2 of 6 branches missed.">    if (fCond &amp;&amp; sCond) { Some(Random.shuffle(List(firstChar, secondChar)).head) }</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">    else if (fCond) { Some(firstChar) }</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">    else if (sCond) { Some(secondChar) }</span>
+<span class="fc" id="L168">    else { None }</span>
+  }
+
+  type CharMapType = Map[Product, String]
+
+<span class="fc" id="L173">  private def postProcess(par: Params, line: String, hasCol: Boolean): String = {</span>
+<span class="pc" id="L174">    lazy val chr: CharMapType = Pal.values.map(v =&gt; (v, Pal.get(v, par.hasAnsi, par.characters))).toMap</span>
+<span class="fc" id="L175">    val range = (0 until line.length)</span>
+<span class="fc" id="L176">    val lineList = line.map(_.toString).toList</span>
+<span class="fc" id="L177">    val dbqp = dbqpLine(lineList, range, par, chr, hasCol)</span>
+<span class="fc" id="L178">    val diag = diagLine(dbqp, range, par, chr)</span>
+<span class="fc" id="L179">    val hor = horLine(diag, range, par, chr)</span>
+<span class="fc" id="L180">    val vert = vertLine(hor, range, par, chr).mkString</span>
+<span class="fc" id="L181">    vert</span>
+  }
+
+  private def dbqpLine(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
+<span class="pc bpc" id="L185" title="2 of 4 branches missed.">    if (!par.settings.has(Setting.DBQP)) { in.toList } else { changeDbqp(in, range, par, chr, hasCol) }</span>
+  }
+
+  private def changeDbqp(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
+<span class="nc bnc" id="L189" title="All 2 branches missed.">    def getD: String = if (hasCol) { chr.get(Pal.LEFT_DOWN).get } else { chr.get(Pal.RIGHT_DOWN).get }</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">    def getB: String = if (hasCol) { chr.get(Pal.RIGHT_DOWN).get } else { chr.get(Pal.LEFT_DOWN).get }</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">    def getQ: String = if (hasCol) { chr.get(Pal.LEFT_UP).get } else { chr.get(Pal.RIGHT_UP).get }</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">    def getP: String = if (hasCol) { chr.get(Pal.RIGHT_UP).get } else { chr.get(Pal.LEFT_UP).get }</span>
+<span class="nc" id="L193">    val d = range.map(changeDbqp(in.toList, range, par, _, chr.get(Pal.DOWN).get, getD, false))</span>
+<span class="nc" id="L194">    val b = range.map(changeDbqp(d.toList, range, par, _, chr.get(Pal.DOWN).get, getB, true))</span>
+<span class="nc" id="L195">    val q = range.map(changeDbqp(b.toList, range, par, _, chr.get(Pal.UP).get, getQ, false))</span>
+<span class="nc" id="L196">    val p = range.map(changeDbqp(q.toList, range, par, _, chr.get(Pal.UP).get, getP, true))</span>
+<span class="nc" id="L197">    p.toList</span>
+  }
+
+<span class="nc bnc" id="L200" title="All 4 branches missed.">  private def isFirstOrLast(i: Int, range: Range): Boolean = i == 0 || i == range.last</span>
+<span class="nc" id="L201">  private def changeDbqp(list: List[String], range: Range, par: Params, i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {</span>
+<span class="nc" id="L202">    lazy val current: String = list(i)</span>
+<span class="nc" id="L203">    lazy val last: String = list(i - 1)</span>
+<span class="nc" id="L204">    lazy val next: String = list(i + 1)</span>
+<span class="nc" id="L205">    lazy val isCurrentEqual: Boolean = current.equals(thisOne)</span>
+<span class="nc" id="L206">    def isLastEqual: Boolean = thisOne.equals(last)</span>
+<span class="nc" id="L207">    def isNextEqual: Boolean = thisOne.equals(next)</span>
+<span class="nc" id="L208">    def isLastDark: Boolean = Pal.isDark(par.characters, last)</span>
+<span class="nc" id="L209">    def isNextDark: Boolean = Pal.isDark(par.characters, next)</span>
+<span class="nc" id="L210">    def isLastBright: Boolean = Pal.isBright(par.characters, last)</span>
+<span class="nc" id="L211">    def isNextBright: Boolean = Pal.isBright(par.characters, next)</span>
+<span class="nc bnc" id="L212" title="All 4 branches missed.">    def isLastBrightOrEqual: Boolean = isLastBright || isLastEqual</span>
+<span class="nc bnc" id="L213" title="All 4 branches missed.">    def isNextBrightOrEqual: Boolean = isNextBright || isNextEqual</span>
+<span class="nc bnc" id="L214" title="All 6 branches missed.">    def leftCondition: Boolean = darkLeft &amp;&amp; isLastDark &amp;&amp; isNextBrightOrEqual</span>
+<span class="nc bnc" id="L215" title="All 6 branches missed.">    def rightCondition: Boolean = !darkLeft &amp;&amp; isNextDark &amp;&amp; isLastBrightOrEqual</span>
+<span class="nc bnc" id="L216" title="All 4 branches missed.">    def notLeftAndNotRight: Boolean = !leftCondition &amp;&amp; !rightCondition</span>
+<span class="nc bnc" id="L217" title="All 8 branches missed.">    if (isFirstOrLast(i, range) || !isCurrentEqual || notLeftAndNotRight) { current } else { to }</span>
+  }
+
+  private def diagLine(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
+<span class="pc bpc" id="L221" title="2 of 4 branches missed.">    if (!par.settings.has(Setting.DIAGONAL)) { in.toList }</span>
+    else {
+<span class="nc" id="L223">      def changeDiag(list: List[String], i: Int): String = {</span>
+<span class="nc" id="L224">        lazy val current: String = list(i)</span>
+        //lazy val currentEqualsDown = current.equals(chr.get(Pal.DOWN).get)
+<span class="nc" id="L226">        lazy val currentEqualsUp = current.equals(chr.get(Pal.UP).get)</span>
+<span class="nc" id="L227">        lazy val last: String = list(i - 1)</span>
+<span class="nc" id="L228">        lazy val lastEqualsDown = last.equals(chr.get(Pal.DOWN).get)</span>
+<span class="nc" id="L229">        lazy val lastEqualsUp = last.equals(chr.get(Pal.UP).get)</span>
+<span class="nc" id="L230">        lazy val next: String = list(i + 1)</span>
+<span class="nc" id="L231">        lazy val nextEqualsDown = next.equals(chr.get(Pal.DOWN).get)</span>
+<span class="nc" id="L232">        lazy val nextEqualsUp = next.equals(chr.get(Pal.UP).get)</span>
+<span class="nc bnc" id="L233" title="All 4 branches missed.">        lazy val currentOrNextIsUp = currentEqualsUp || nextEqualsUp</span>
+<span class="nc bnc" id="L234" title="All 4 branches missed.">        lazy val currentOrLastIsUp = currentEqualsUp || lastEqualsUp</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (isFirstOrLast(i, range)) { current }</span>
+<span class="nc bnc" id="L236" title="All 6 branches missed.">        else if (lastEqualsDown &amp;&amp; currentOrNextIsUp) { chr.get(Pal.DOWN_UP).get }</span>
+<span class="nc bnc" id="L237" title="All 6 branches missed.">        else if (currentOrLastIsUp &amp;&amp; nextEqualsDown) { chr.get(Pal.UP_DOWN).get }</span>
+<span class="nc" id="L238">        else { current }</span>
+      }
+<span class="nc" id="L240">      range.map(changeDiag(in.toList, _)).toList</span>
+    }
+  }
+
+  private def horLine(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
+<span class="pc bpc" id="L245" title="2 of 4 branches missed.">    if (!par.settings.has(Setting.HORIZONTAL)) { in.toList }</span>
+    else {
+<span class="nc" id="L247">      def changeHor(list: List[String], i: Int, from: String, to: String): String = {</span>
+<span class="nc" id="L248">        lazy val current: String = list(i)</span>
+<span class="nc" id="L249">        lazy val last: String = list(i - 1)</span>
+<span class="nc" id="L250">        lazy val next: String = list(i + 1)</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">        if (isFirstOrLast(i, range)) { current }</span>
+<span class="nc bnc" id="L252" title="All 8 branches missed.">        else if (last.equals(Pal.darkest(par.characters)) &amp;&amp; current.equals(from) &amp;&amp; next.equals(from)) { to }</span>
+<span class="nc bnc" id="L253" title="All 8 branches missed.">        else if (last.equals(from) &amp;&amp; current.equals(from) &amp;&amp; next.equals(Pal.darkest(par.characters))) { to }</span>
+<span class="nc" id="L254">        else { current }</span>
+      }
+<span class="nc" id="L256">      val h = range.map(changeHor(in.toList, _, chr.get(Pal.DOWN).get, chr.get(Pal.H_LINE).get))</span>
+<span class="nc" id="L257">      range.map(changeHor(h.toList, _, chr.get(Pal.UP).get, chr.get(Pal.H_LINE).get)).toList</span>
+    }
+  }
+
+  private def vertLine(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
+<span class="pc bpc" id="L262" title="2 of 4 branches missed.">    if (!par.settings.has(Setting.VERTICAL)) { in.toList }</span>
+    else {
+      def changeVert(list: List[String], i: Int, from: String, to: String): String = {
+<span class="nc bnc" id="L265" title="All 2 branches missed.">        if (list(i).equals(from)) { to } else { list(i) }</span>
+      }
+<span class="nc" id="L267">      val foo = range.map(changeVert(in.toList, _, chr.get(Pal.LEFT).get, chr.get(Pal.V_LINE).get))</span>
+<span class="nc" id="L268">      range.map(changeVert(foo.toList, _, chr.get(Pal.RIGHT).get, chr.get(Pal.V_LINE).get)).toList</span>
+    }
+  }
+
+  private def inferWidth(imageRgb: Color.RgbMap): Short = {
+<span class="fc" id="L273">    (imageRgb.keys.toList.map(t =&gt; t._2).max).shortValue</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

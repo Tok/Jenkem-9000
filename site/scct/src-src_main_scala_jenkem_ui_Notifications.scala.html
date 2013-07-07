@@ -1,0 +1,121 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;ui/<span class="header">&#x200B;Notifications.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_Notifications.scala.html#Object_jenkem_ui_Notifications"><img src="object.png"/>Notifications</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.ui
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import com.vaadin.server.Page
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import com.vaadin.ui.Notification
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td><a id="Object_jenkem_ui_Notifications"/>object Notifications {
+</td>
+          </tr><tr>
+            <td class="red">7</td>
+            <td>  val imageSaved = <span class="non">new Notification(&quot;Image submitted to gallery.&quot;, Notification.Type.HUMANIZED_MESSAGE)
+</span></td>
+          </tr><tr>
+            <td class="red">8</td>
+            <td>  <span class="non">imageSaved.setDelayMsec(1500)
+</span></td>
+          </tr><tr>
+            <td class="red">9</td>
+            <td>  def showImageSaved(page: Page): Unit = <span class="non">imageSaved.show(page)
+</span></td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">11</td>
+            <td>  val imageNotSaved = <span class="non">new Notification(&quot;Image not submitted!&quot;, Notification.Type.ERROR_MESSAGE)
+</span></td>
+          </tr><tr>
+            <td class="red">12</td>
+            <td>  <span class="non">imageNotSaved.setDelayMsec(1500)
+</span></td>
+          </tr><tr>
+            <td class="red">13</td>
+            <td>  def showImageNotSaved(page: Page): Unit = <span class="non">imageNotSaved.show(page)
+</span></td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">15</td>
+            <td>  val dbNotConnected = <span class="non">new Notification(&quot;Database is not connected!&quot;, Notification.Type.ERROR_MESSAGE)
+</span></td>
+          </tr><tr>
+            <td class="red">16</td>
+            <td>  <span class="non">dbNotConnected.setDelayMsec(1500)
+</span></td>
+          </tr><tr>
+            <td class="red">17</td>
+            <td>  def showDbNotConnected(page: Page): Unit = <span class="non">dbNotConnected.show(page)
+</span></td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">19</td>
+            <td>  val playToIrc = <span class="non">new Notification(&quot;Sending conversion to IRC.&quot;, Notification.Type.HUMANIZED_MESSAGE)
+</span></td>
+          </tr><tr>
+            <td class="red">20</td>
+            <td>  <span class="non">playToIrc.setDelayMsec(1000)
+</span></td>
+          </tr><tr>
+            <td class="red">21</td>
+            <td>  def showPlayToIrc(page: Page): Unit = <span class="non">playToIrc.show(page)
+</span></td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">23</td>
+            <td>  val connectToIrc = <span class="non">new Notification(&quot;Connecting to IRC.&quot;, &quot;Please wait and refresh the bot status.&quot;, Notification.Type.HUMANIZED_MESSAGE)
+</span></td>
+          </tr><tr>
+            <td class="red">24</td>
+            <td>  <span class="non">connectToIrc.setDelayMsec(2000)
+</span></td>
+          </tr><tr>
+            <td class="red">25</td>
+            <td>  def showConnectToIrc(page: Page): Unit = <span class="non">connectToIrc.show(page)
+</span></td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>}
+</td>
+          </tr></tbody></table>

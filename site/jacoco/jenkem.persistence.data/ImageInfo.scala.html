@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ImageInfo.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.persistence.data</a> &gt; <span class="el_source">ImageInfo.scala</span></div><h1>ImageInfo.scala</h1><pre class="source lang-java linenums">package jenkem.persistence.data
+
+import javax.jdo.annotations.IdentityType
+import javax.jdo.annotations.PersistenceCapable
+import javax.jdo.annotations.PrimaryKey
+
+/**
+ * Persistent Info for converted images.
+ */
+@PersistenceCapable(identityType = IdentityType.APPLICATION)
+<span class="pc" id="L11">class ImageInfo(var name: String, var icon: String,</span>
+<span class="pc" id="L12">    var method: String, var characters: String, var contrast: Short, var brightness: Short,</span>
+<span class="pc" id="L13">    var lines: Short, var lineWidth: Short, var creation: String) extends ImagePartTrait {</span>
+<span class="pc" id="L14">  @PrimaryKey var _id = name</span>
+<span class="fc" id="L15">  override def toString: String = name</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

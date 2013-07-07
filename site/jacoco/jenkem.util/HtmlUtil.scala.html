@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>HtmlUtil.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.util</a> &gt; <span class="el_source">HtmlUtil.scala</span></div><h1>HtmlUtil.scala</h1><pre class="source lang-java linenums">package jenkem.util
+
+import scala.Array.canBuildFrom
+
+import jenkem.engine.Method
+
+<span class="fc" id="L7">object HtmlUtil {</span>
+<span class="fc" id="L8">  val SEP = &quot;\n&quot;</span>
+<span class="fc" id="L9">  val CLOSE = &quot;\&quot;&gt;&quot;</span>
+<span class="fc" id="L10">  val HOST = &quot;http://jenkem-9000.rhcloud.com&quot;</span>
+<span class="fc" id="L11">  val CHARSET = &quot;UTF-8&quot;</span>
+<span class="fc" id="L12">  val DOCTYPE = &quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01//EN\&quot;\n    \&quot;http://www.w3.org/TR/html4/strict.dtd\&quot;&gt;&quot;</span>
+<span class="fc" id="L13">  val META = &quot;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=&quot; + CHARSET + CLOSE</span>
+
+<span class="fc" id="L15">  def generateEmpty: String = DOCTYPE + &quot;\n&lt;html&gt;\n&lt;head&gt;\n&quot; + META + &quot;\n&lt;title&gt;&lt;/title&gt;\n&lt;/head&gt;\n&quot; + &quot;&lt;body class=\&quot;jenkemBody\&quot;&gt;&lt;/body&gt;\n&lt;/html&gt;\n&quot;</span>
+
+  def generateHtml(ircOutput: List[String], name: String, method: Method): (String, String) = {
+<span class="fc" id="L18">    val html = new StringBuilder</span>
+<span class="fc" id="L19">    val css = new StringBuilder</span>
+<span class="fc" id="L20">    html.append(DOCTYPE)</span>
+<span class="fc" id="L21">    html.append(&quot;\n&lt;html&gt;\n&lt;head&gt;\n&quot;)</span>
+<span class="fc" id="L22">    html.append(META)</span>
+<span class="fc" id="L23">    html.append(&quot;\n&lt;title&gt;&quot;)</span>
+<span class="fc" id="L24">    html.append(name)</span>
+<span class="fc" id="L25">    html.append(&quot;&lt;/title&gt;\n&lt;link href=\&quot;&quot;)</span>
+<span class="fc" id="L26">    html.append(getCssUrl(name))</span>
+<span class="fc" id="L27">    html.append(&quot;\&quot; rel=\&quot;stylesheet\&quot; type=\&quot;text/css\&quot;&gt;\n&lt;/head&gt;\n&lt;body class=\&quot;jenkemBody\&quot;&gt;\n&lt;div&gt;\n&quot;)</span>
+<span class="fc" id="L28">    css.append(&quot;form { margin: 0 auto; padding: 0; }\n&quot;)</span>
+<span class="fc" id="L29">    css.append(&quot;html { background-color: #ffffff }\n&quot;)</span>
+<span class="fc" id="L30">    css.append(&quot;body { font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; background-color: black; }\n&quot;)</span>
+<span class="fc" id="L31">    css.append(&quot;div { float: left; width: auto; clear: both; }\n&quot;)</span>
+<span class="fc" id="L32">    css.append(&quot;span { float: left; width: auto; }\n&quot;)</span>
+<span class="fc" id="L33">    val lines = ircOutput.filterNot(_.equals(&quot;&quot;))</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">    if (method.hasColor) {</span>
+<span class="pc" id="L35">      (0 until lines.length).foreach(i =&gt; generateColored(html, css, lines(i), i))</span>
+    } else {
+<span class="pc" id="L37">      (0 until lines.length).foreach(i =&gt; generatePlain(html, css, lines(i), i))</span>
+    }
+<span class="fc" id="L39">    html.append(&quot;&lt;/div&gt;\n&lt;div class=\&quot;ircBinary\&quot;&gt;&lt;a href=\&quot;&quot;)</span>
+<span class="fc" id="L40">    html.append(getIrcUrl(name))</span>
+<span class="fc" id="L41">    html.append(&quot;\&quot; onclick=\&quot;this.target='blank'\&quot;&gt;Download binary textfile for IRC&lt;/a&gt;&lt;/div&gt;\n&quot;)</span>
+<span class="fc" id="L42">    html.append(&quot;&lt;div class=\&quot;validator\&quot;&gt;&lt;a href=\&quot;http://validator.w3.org/check?uri=&quot;)</span>
+<span class="fc" id="L43">    html.append(HOST)</span>
+<span class="fc" id="L44">    html.append(getHtmlUrl(name))</span>
+<span class="fc" id="L45">    html.append(&quot;\&quot;&gt;&lt;img src=\&quot;/VAADIN/images/valid-html.png\&quot; alt=\&quot;Valid HTML 4.01 Strict\&quot; style=\&quot;border: 0; width: 88px; height: 31px\&quot;&gt;&lt;/a&gt;&quot;)</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">    if (method.hasColor) {</span>
+<span class="fc" id="L47">      html.append(&quot;&lt;a href=\&quot;http://jigsaw.w3.org/css-validator/validator?uri=&quot;)</span>
+<span class="fc" id="L48">      html.append(HOST)</span>
+<span class="fc" id="L49">      html.append(getCssUrl(name))</span>
+<span class="fc" id="L50">      html.append(&quot;&amp;amp;profile=css3\&quot;&gt;&lt;img src=\&quot;/VAADIN/images/valid-css.png\&quot; alt=\&quot;CSS is valid!\&quot; style=\&quot;border: 0; width: 88px; height: 31px\&quot;&gt;&lt;/a&gt;&quot;)</span>
+    }
+<span class="fc" id="L52">    html.append(&quot;&lt;/div&gt;\n&lt;/body&gt;\n&lt;/html&gt;&quot;)</span>
+<span class="fc" id="L53">    (html.toString, css.toString)</span>
+  }
+
+<span class="fc" id="L56">  def getCssUrl(name: String): String = &quot;/jenkem/cssOutput?name=&quot; + name + &quot;.css&quot;</span>
+<span class="fc" id="L57">  def getIrcUrl(name: String): String = &quot;/jenkem/irc?name=&quot; + name + &quot;.txt&quot;</span>
+<span class="fc" id="L58">  def getHtmlUrl(name: String): String = &quot;/jenkem/output?name=&quot; + name + &quot;.html&quot;</span>
+
+  def prepareHtmlForInline(inputHtml: String, inputCss: String): String = {
+<span class="fc" id="L61">    val filtered = inputHtml.split(SEP).toList</span>
+<span class="fc" id="L62">      .filterNot(_.startsWith(&quot;&lt;div class=\&quot;ircBinary\&quot;&gt;&quot;))</span>
+<span class="fc" id="L63">      .filterNot(_.startsWith(&quot;&lt;div class=\&quot;validator\&quot;&gt;&quot;))</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">    val result = filtered.map(l =&gt; if (l.startsWith(&quot;&lt;link href=&quot;)) { inputCss } else { l })</span>
+<span class="fc" id="L65">    result.map(l =&gt; l + SEP).mkString</span>
+  }
+
+  def prepareCssForInline(inputCss: String): String = {
+<span class="fc" id="L69">    val rep = &quot;.jenkem { clear: both; font-family: monospace; font-weight: bold; font-size: 10px; line-height: 12px; }&quot;</span>
+<span class="fc" id="L70">    val filtered = inputCss.split(SEP).toList.filterNot(_.startsWith(&quot;form {&quot;))</span>
+<span class="fc" id="L71">      .filterNot(_.startsWith(&quot;body {&quot;)).filterNot(_.startsWith(&quot;html {&quot;))</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">    val result = filtered.map(l =&gt; if (l.startsWith(&quot;div {&quot;)) { rep } else { l })</span>
+<span class="fc" id="L73">    &quot;&lt;style type=\&quot;text/css\&quot;&gt;\n&quot; + result.map(l =&gt; l + SEP).mkString + &quot;&lt;/style&gt;&quot;</span>
+  }
+
+  private def generatePlain(html: StringBuilder, css: StringBuilder,
+      line: String, lineId: Int): Unit = {
+<span class="fc" id="L78">    html.append(&quot;&lt;div class=\&quot;jenkem\&quot;&gt;&lt;span id=\&quot;id_&quot;)</span>
+<span class="fc" id="L79">    html.append(lineId.toString)</span>
+<span class="fc" id="L80">    html.append(CLOSE)</span>
+<span class="fc" id="L81">    html.append(escape(line))</span>
+<span class="fc" id="L82">    html.append(&quot;&lt;/span&gt;&lt;/div&gt;\n&quot;)</span>
+<span class="fc" id="L83">    css.append(&quot;#id_&quot;)</span>
+<span class="fc" id="L84">    css.append(lineId.toString)</span>
+<span class="fc" id="L85">    css.append(&quot; { color: #000000; background-color: #ffffff; }\n&quot;)</span>
+  }
+
+  private def generateColored(html: StringBuilder, css: StringBuilder,
+      line: String, lineId: Int): Unit = {
+<span class="fc" id="L90">    html.append(&quot;&lt;div class=\&quot;jenkem\&quot;&gt;&quot;)</span>
+<span class="fc" id="L91">    val sections = line.split(ColorUtil.CC)</span>
+<span class="fc" id="L92">    val filteredSections = sections.filterNot(_.equals(&quot;&quot;)).filterNot(_.equals(ColorUtil.BC))</span>
+<span class="fc" id="L93">    val parts = filteredSections.map(_.split(&quot;,&quot;).toList)</span>
+<span class="fc" id="L94">    val fg = parts.map(_(0))</span>
+<span class="fc" id="L95">    val bgAndChars = parts.map(_(1))</span>
+<span class="fc" id="L96">    val bg = bgAndChars.map(_.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;)) //remove nonnumeric</span>
+<span class="fc" id="L97">    val chars = bgAndChars.map(_.replaceAll(&quot;[0-9]&quot;, &quot;&quot;)) //remove numeric</span>
+<span class="fc" id="L98">    for { id &lt;- 0 until bgAndChars.length } yield {</span>
+<span class="fc" id="L99">      html.append(&quot;&lt;span id=\&quot;id_&quot;)</span>
+<span class="fc" id="L100">      html.append(lineId)</span>
+<span class="fc" id="L101">      html.append(&quot;_&quot;)</span>
+<span class="fc" id="L102">      html.append(id)</span>
+<span class="fc" id="L103">      html.append(CLOSE)</span>
+<span class="fc" id="L104">      html.append(escape(chars(id)))</span>
+<span class="fc" id="L105">      html.append(&quot;&lt;/span&gt;&quot;)</span>
+<span class="fc" id="L106">      css.append(&quot;#id_&quot;)</span>
+<span class="fc" id="L107">      css.append(lineId)</span>
+<span class="fc" id="L108">      css.append(&quot;_&quot;)</span>
+<span class="fc" id="L109">      css.append(id)</span>
+<span class="fc" id="L110">      css.append(&quot; { color: &quot;)</span>
+<span class="fc" id="L111">      css.append(ColorUtil.ircToCss(fg(id))) //fg</span>
+<span class="fc" id="L112">      css.append(&quot;; background-color: &quot;)</span>
+<span class="fc" id="L113">      css.append(ColorUtil.ircToCss(bg(id)))</span>
+<span class="fc" id="L114">      css.append(&quot;; }\n&quot;)</span>
+    }
+<span class="fc" id="L116">    html.append(&quot;&lt;/div&gt;\n&quot;)</span>
+  }
+
+  private def escape(input: String): String =
+<span class="fc" id="L120">    input.replaceAll(&quot;&amp;&quot;, &quot;&amp;amp;&quot;)</span>
+<span class="fc" id="L121">         .replaceAll(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)</span>
+<span class="fc" id="L122">         .replaceAll(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)</span>
+<span class="fc" id="L123">         .replaceAll(&quot; &quot;, &quot;&amp;nbsp;&quot;)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Pal.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine</a> &gt; <span class="el_source">Pal.scala</span></div><h1>Pal.scala</h1><pre class="source lang-java linenums">package jenkem.engine
+
+import scala.util.Random
+
+<span class="fc" id="L5">sealed abstract class Pal(val ascii: String, val ansi: String)</span>
+
+<span class="fc" id="L7">object Pal {</span>
+<span class="fc" id="L8">  val MAX_RGB = 255.shortValue</span>
+
+<span class="pc" id="L10">  case object UP extends Pal(&quot;\&quot;&quot;, &quot;▀▼&quot;)</span>
+<span class="pc" id="L11">  case object DOWN extends Pal(&quot;_&quot;, &quot;▄▲&quot;)</span>
+<span class="pc" id="L12">  case object LEFT extends Pal(&quot;([{&quot;, &quot;▌►&quot;)</span>
+<span class="pc" id="L13">  case object RIGHT extends Pal(&quot;)]}&quot;, &quot;▐◄&quot;)</span>
+<span class="pc" id="L14">  case object UP_DOWN extends Pal(&quot;\\&quot;, &quot;\\&quot;)</span>
+<span class="pc" id="L15">  case object DOWN_UP extends Pal(&quot;/&quot;, &quot;/&quot;)</span>
+<span class="pc" id="L16">  case object LEFT_UP extends Pal(&quot;pF&quot;, &quot;┌╔&quot;)</span>
+<span class="pc" id="L17">  case object LEFT_DOWN extends Pal(&quot;bL&quot;, &quot;└╚&quot;)</span>
+<span class="pc" id="L18">  case object RIGHT_UP extends Pal(&quot;q&quot;, &quot;┐╗&quot;)</span>
+<span class="pc" id="L19">  case object RIGHT_DOWN extends Pal(&quot;dJ&quot;, &quot;┘╝&quot;)</span>
+<span class="pc" id="L20">  case object H_LINE extends Pal(&quot;-&quot;, &quot;▬&quot;)</span>
+<span class="pc" id="L21">  case object V_LINE extends Pal(&quot;|&quot;, &quot;│║&quot;)</span>
+<span class="fc" id="L22">  val values = List(UP, DOWN, LEFT, RIGHT, UP_DOWN, DOWN_UP, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, H_LINE, V_LINE)</span>
+<span class="fc" id="L23">  val pairs = List((UP_DOWN, DOWN_UP), (DOWN_UP, UP_DOWN), (LEFT_UP, RIGHT_UP), (RIGHT_UP, LEFT_UP), (LEFT_DOWN, RIGHT_DOWN), (RIGHT_DOWN, LEFT_DOWN))</span>
+
+<span class="fc" id="L25">  sealed abstract class Charset(val name: String, val chars: String)</span>
+<span class="pc" id="L26">  case object Hard extends Charset(&quot;Hard&quot;, &quot; -+xX#&quot;)</span>
+<span class="pc" id="L27">  case object Soft extends Charset(&quot;Soft&quot;, &quot; .:oO@&quot;)</span>
+<span class="pc" id="L28">  case object Ansi extends Charset(&quot;Ansi&quot;, &quot; ░▒&quot;) //&quot;▓&quot; makes FG &gt; BG and should not be used</span>
+<span class="pc" id="L29">  case object Party extends Charset(&quot;Party&quot;, &quot; ♪♫☺☻&quot;)</span>
+<span class="pc" id="L30">  case object HCrude extends Charset(&quot;HCrude&quot;, &quot; #&quot;)</span>
+<span class="pc" id="L31">  case object SCrude extends Charset(&quot;SCrude&quot;, &quot; @&quot;)</span>
+<span class="pc" id="L32">  case object ACrude extends Charset(&quot;ACrude&quot;, &quot; ▒&quot;)</span>
+<span class="pc" id="L33">  case object Mixed extends Charset(&quot;Mixed&quot;, &quot;  .-:+oxOX@#&quot;)</span>
+<span class="pc" id="L34">  case object Letters extends Charset(&quot;Letters&quot;, &quot;  ivozaxIVOAHZSXWM&quot;)</span>
+<span class="pc" id="L35">  case object Chaos extends Charset(&quot;Chaos&quot;, &quot;  .'-:;~+=ox*OX&amp;%$@#&quot;)</span>
+<span class="fc" id="L36">  val allCharsets = List(Hard, Soft, Ansi, Party, HCrude, SCrude, ACrude, Mixed, Letters, Chaos)</span>
+<span class="fc" id="L37">  val plainCharsets = List(Hard, Soft, Party, Mixed, Letters, Chaos)</span>
+<span class="fc" id="L38">  val stencilCharsets = List(HCrude, SCrude)</span>
+<span class="fc" id="L39">  val allAnsi = (&quot;░▒▓▀▄▐▌╔╗╚╝┌┐└┘▬║│♪♫☺♥☻▼▲►◄&quot;)</span>
+<span class="fc" id="L40">  val default = Ansi</span>
+
+<span class="fc" id="L42">  def valueOf(name: String): Option[Charset] = allCharsets.find(_.name.equalsIgnoreCase(name))</span>
+
+  def hasAnsi(s: String): Boolean = {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    allAnsi.toCharArray.toList.map(s.indexOf(_) &gt;= 0).contains(true)</span>
+  }
+
+  def getCharsetForMethod(method: Method): List[Charset] = {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    if (method.equals(Method.Plain)) { plainCharsets }</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    else if (method.equals(Method.Stencil)) { stencilCharsets }</span>
+<span class="fc" id="L51">    else { allCharsets }</span>
+  }
+
+  /**
+   * Selects a character from the provided characters and selects the
+   * character to use, depending on the entered strength value.
+   * the palette must be a String like ' .:xX#', from bright to dark.
+   */
+  def getCharAbs(charset: String, strength: Double): String = {
+<span class="fc" id="L60">    getChar(charset, (MAX_RGB - strength) / MAX_RGB)</span>
+  }
+
+  def getChar(charset: String, strength: Double): String = {
+<span class="fc" id="L64">    val fixedStrenght = (Math.max(0D, Math.min(0.99D, strength)))</span>
+<span class="fc" id="L65">    val index: Int =  (fixedStrenght * charset.length).intValue</span>
+<span class="fc" id="L66">    charset.substring(index, index + 1)</span>
+  }
+
+  def get(value: Pal, hasAnsi: Boolean, charset: String): String = {
+<span class="fc bfc" id="L70" title="All 2 branches covered.">    if (charset.equals(Chaos.chars)) {</span>
+<span class="fc" id="L71">      val chars = getValChars(value, hasAnsi).toCharArray.toList</span>
+<span class="fc bfc" id="L72" title="All 4 branches covered.">      if (chars.length &gt; 1) { Random.shuffle(chars).head.toString }</span>
+<span class="fc" id="L73">      else { chars.head.toString }</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">    } else if (charset.equals(Party.chars)) {</span>
+<span class="fc" id="L75">       getValChars(value, hasAnsi).takeRight(1)</span>
+<span class="fc bfc" id="L76" title="All 4 branches covered.">    } else if (getValChars(value, hasAnsi).length &gt; 1 &amp;&amp;</span>
+<span class="fc bfc" id="L77" title="All 4 branches covered.">        (charset.equals(Hard.chars) || charset.equals(HCrude.chars) ||</span>
+<span class="fc bfc" id="L78" title="All 4 branches covered.">        charset.equals(Mixed.chars) || charset.equals(Letters.chars) ||</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        charset.takeRight(1).equals(&quot;#&quot;))) {</span>
+<span class="fc" id="L80">      getValChars(value, hasAnsi).substring(1, 2)</span>
+    } else {
+<span class="fc" id="L82">      getValChars(value, hasAnsi).take(1)</span>
+    }
+  }
+
+  def getValChars(pal: Pal, hasAnsi: Boolean): String = {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">    if (hasAnsi) { pal.ansi } else { pal.ascii }</span>
+  }
+
+  def isDark(charset: String, compare: String): Boolean = {
+<span class="fc bfc" id="L91" title="All 2 branches covered.">    charset.indexOf(compare) &gt; ((charset.length - 1) / 2)</span>
+  }
+
+<span class="fc" id="L94">  def isBright(charset: String, compare: String): Boolean = {</span>
+<span class="fc" id="L95">    val index = charset.indexOf(compare)</span>
+<span class="fc bfc" id="L96" title="All 4 branches covered.">    index &gt;= 0 &amp;&amp; index &lt; (charset.length / 2)</span>
+  }
+
+  def getForMethod(method: Method): Charset = {
+<span class="fc bfc" id="L100" title="All 2 branches covered.">    if (method.equals(Method.Plain)) { Soft }</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">    else if (method.equals(Method.Stencil)) { HCrude }</span>
+<span class="fc" id="L102">    else { Ansi }</span>
+  }
+
+<span class="fc" id="L105">  def darkest(charset: String): String = charset.last.toString</span>
+<span class="fc" id="L106">  def brightest(charset: String): String = charset.head.toString</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

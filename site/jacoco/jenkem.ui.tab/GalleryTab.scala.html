@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GalleryTab.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui.tab</a> &gt; <span class="el_source">GalleryTab.scala</span></div><h1>GalleryTab.scala</h1><pre class="source lang-java linenums">package jenkem.ui.tab
+
+import scala.Array.canBuildFrom
+import scala.collection.JavaConversions.seqAsJavaList
+
+import com.vaadin.data.util.BeanItemContainer
+import com.vaadin.event.EventRouter
+import com.vaadin.server.ExternalResource
+import com.vaadin.server.Page
+import com.vaadin.ui.Link
+import com.vaadin.ui.Table
+import com.vaadin.ui.Table.Align
+import com.vaadin.ui.VerticalLayout
+
+import jenkem.persistence.PersistenceService
+import jenkem.persistence.data.ImageInfo
+import jenkem.ui.Notifications
+import jenkem.util.AwtImageUtil
+import jenkem.util.HtmlUtil
+
+<span class="pc" id="L21">class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {</span>
+<span class="fc" id="L22">  setCaption(&quot;Gallery&quot;)</span>
+<span class="fc" id="L23">  setSizeFull</span>
+<span class="fc" id="L24">  setMargin(true)</span>
+<span class="fc" id="L25">  setSpacing(true)</span>
+
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">  sealed abstract class Column(val name: String, val c: Class[_], val align: Align)</span>
+<span class="pc bpc" id="L28" title="2 of 4 branches missed.">  case object ICON extends Column(&quot;Icon&quot;, classOf[Link], Table.Align.CENTER)</span>
+<span class="pc bpc" id="L29" title="2 of 4 branches missed.">  case object NAME extends Column(&quot;Name&quot;, classOf[Link], Table.Align.LEFT)</span>
+<span class="pc bpc" id="L30" title="2 of 4 branches missed.">  case object METHOD extends Column(&quot;Method&quot;, classOf[String], Table.Align.LEFT)</span>
+<span class="pc bpc" id="L31" title="2 of 4 branches missed.">  case object CHARS extends Column(&quot;Characters&quot;, classOf[String], Table.Align.LEFT)</span>
+<span class="pc bpc" id="L32" title="2 of 4 branches missed.">  case object CONT extends Column(&quot;Contrast&quot;, classOf[Int], Table.Align.RIGHT)</span>
+<span class="pc bpc" id="L33" title="2 of 4 branches missed.">  case object BRIGHT extends Column(&quot;Brightness&quot;, classOf[Int], Table.Align.RIGHT)</span>
+<span class="pc bpc" id="L34" title="2 of 4 branches missed.">  case object LINES extends Column(&quot;Lines&quot;, classOf[Int], Table.Align.RIGHT)</span>
+<span class="pc bpc" id="L35" title="2 of 4 branches missed.">  case object WIDTH extends Column(&quot;Width&quot;, classOf[Int], Table.Align.RIGHT)</span>
+<span class="pc bpc" id="L36" title="2 of 4 branches missed.">  case object CREATION extends Column(&quot;Creation&quot;, classOf[String], Table.Align.LEFT)</span>
+<span class="fc" id="L37">  val cols = Array(ICON, NAME, METHOD, CHARS, CONT, BRIGHT, LINES, WIDTH, CREATION)</span>
+<span class="fc" id="L38">  val names: Array[Object] = cols.map(_.name.toLowerCase)</span>
+
+<span class="fc" id="L40">  val table = new Table</span>
+<span class="fc" id="L41">  table.setWidth(&quot;100%&quot;)</span>
+<span class="fc" id="L42">  table.setHeight(&quot;1000px&quot;)</span>
+<span class="fc" id="L43">  table.setSelectable(false)</span>
+<span class="fc" id="L44">  table.setMultiSelect(false)</span>
+<span class="fc" id="L45">  table.setImmediate(true)</span>
+<span class="fc" id="L46">  table.setColumnReorderingAllowed(true)</span>
+<span class="fc" id="L47">  table.setColumnCollapsingAllowed(true)</span>
+
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">  class ImageInfoBean(info: ImageInfo) {</span>
+    def getIcon: Link = {
+<span class="fc" id="L51">      val link = new Link</span>
+<span class="fc" id="L52">      link.setTargetName(&quot;_blank&quot;)</span>
+<span class="fc" id="L53">      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.name))</span>
+<span class="fc" id="L54">      link.setResource(ex)</span>
+<span class="fc" id="L55">      val buffered = AwtImageUtil.decodeFromBase64(info.icon)</span>
+<span class="fc" id="L56">      val resource = AwtImageUtil.makeVaadinResource(buffered, info.name)</span>
+<span class="fc" id="L57">      link.setIcon(resource)</span>
+<span class="fc" id="L58">      link</span>
+    }
+    def getName: Link = {
+<span class="fc" id="L61">      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.name))</span>
+<span class="fc" id="L62">      val link = new Link(info.name, ex)</span>
+<span class="fc" id="L63">      link.setTargetName(&quot;_blank&quot;)</span>
+<span class="fc" id="L64">      link</span>
+    }
+<span class="fc" id="L66">    def getMethod: String = info.method</span>
+<span class="fc" id="L67">    def getCharacters: String = info.characters</span>
+<span class="fc" id="L68">    def getContrast: Integer = info.contrast</span>
+<span class="fc" id="L69">    def getBrightness: Integer = info.brightness</span>
+<span class="fc" id="L70">    def getLines: Integer = info.lines</span>
+<span class="fc" id="L71">    def getWidth: Integer = info.lineWidth</span>
+<span class="fc" id="L72">    def getCreation: String = info.creation</span>
+  }
+
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">  cols.foreach(col =&gt; table.addContainerProperty(col.name.toLowerCase, col.c, classOf[String]))</span>
+<span class="fc" id="L76">  val bic = new BeanItemContainer[ImageInfoBean](classOf[ImageInfoBean])</span>
+<span class="fc" id="L77">  val namesColl: java.util.Collection[Object] = names.toSeq</span>
+<span class="fc" id="L78">  table.setContainerDataSource(bic, namesColl)</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">  cols.foreach(col =&gt; table.setColumnAlignment(col.name.toLowerCase, col.align))</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">  cols.foreach(col =&gt; table.setColumnHeader(col.name.toLowerCase, col.name))</span>
+
+<span class="fc" id="L82">  addComponent(table)</span>
+
+<span class="fc" id="L84">  update</span>
+
+<span class="fc" id="L86">  def update: Unit = {</span>
+<span class="fc" id="L87">    bic.removeAllItems</span>
+<span class="pc" id="L88">    PersistenceService.getAllImageInfo match {</span>
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">      case Some(info) =&gt; info.foreach(info =&gt; bic.addItem(new ImageInfoBean(info)))</span>
+<span class="nc bnc" id="L90" title="All 6 branches missed.">      case None =&gt; { Notifications.showDbNotConnected(Page.getCurrent) }</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

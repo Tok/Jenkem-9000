@@ -1,0 +1,121 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;engine/<span class="header">&#x200B;Proportion.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Proportion.scala.html#Class_jenkem_engine_Proportion"><img src="class.png"/>Proportion</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Proportion.scala.html#Object_jenkem_engine_Proportion"><img src="object.png"/>Proportion</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Proportion.scala.html#Object_jenkem_engine_Proportion_Exact"><img src="object.png"/>Proportion.Exact</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Proportion.scala.html#Object_jenkem_engine_Proportion_Optimize"><img src="object.png"/>Proportion.Optimize</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.engine
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import jenkem.util.InitUtil
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td><a id="Class_jenkem_engine_Proportion"/>sealed abstract class Proportion
+</td>
+          </tr><tr>
+            <td class="green">6</td>
+            <td><a id="Object_jenkem_engine_Proportion"/>object Proportion {
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td><a id="Object_jenkem_engine_Proportion_Optimize"/>  case object Optimize extends Proportion
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td><a id="Object_jenkem_engine_Proportion_Exact"/>  case object Exact extends Proportion
+</td>
+          </tr><tr>
+            <td class="green">9</td>
+            <td>  val values = List[Proportion](Optimize, Exact)
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>  def valueOf(name: String): Option[Proportion] = values.find(_.toString.equalsIgnoreCase(name))
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  def default: Proportion = Optimize
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>  def getWidthAndHeight(prop: Proportion, method: Method, maxWidth: Int,
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>      originalWidth: Int, originalHeight: Int): (Int, Int) = {
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>    if (prop.equals(Proportion.Optimize)) {
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>      InitUtil.calculateProportionalSize(method, maxWidth, originalWidth, originalHeight)
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>    } else {
+</td>
+          </tr><tr>
+            <td class="green">17</td>
+            <td>      InitUtil.calculateNewSize(method, maxWidth, originalWidth, originalHeight)
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>}
+</td>
+          </tr></tbody></table>

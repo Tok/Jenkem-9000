@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Scheme.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine.color</a> &gt; <span class="el_source">Scheme.scala</span></div><h1>Scheme.scala</h1><pre class="source lang-java linenums">package jenkem.engine.color
+
+<span class="fc" id="L3">sealed abstract class Scheme(val order: Int, val name: String)</span>
+
+<span class="fc" id="L5">object Scheme {</span>
+  type ColorMap = Map[IrcColor, Short]
+<span class="pc" id="L7">  case object Full extends Scheme(0, &quot;Full&quot;)</span>
+<span class="pc" id="L8">  case object Default extends Scheme(1, &quot;Default&quot;)</span>
+<span class="pc" id="L9">  case object Mono extends Scheme(2, &quot;Mono&quot;)</span>
+<span class="pc" id="L10">  case object Lsd extends Scheme(3, &quot;LSD&quot;)</span>
+<span class="pc" id="L11">  case object Bwg extends Scheme(4, &quot;BWG&quot;)</span>
+<span class="pc" id="L12">  case object Bw extends Scheme(5, &quot;BW&quot;)</span>
+<span class="fc" id="L13">  def values: List[Scheme] = List(Full, Default, Mono, Lsd, Bwg, Bw)</span>
+<span class="fc" id="L14">  def valueOf(name: String): Option[Scheme] = values.find(_.name.equalsIgnoreCase(name))</span>
+<span class="fc" id="L15">  val default = Default</span>
+
+  //IRC colors are defacto standard. scheme colors are loosely proportional to distance from center of cube
+<span class="pc" id="L18">  sealed abstract class IrcColor(val name: String, val irc: Short, val rgb: Color.Rgb, val isDark: Boolean, val scheme: List[Short])</span>
+<span class="pc" id="L19">  case object White     extends IrcColor(&quot;white&quot;,     0, (255,255,255), false, List(100, 90,100, 10,100,100))</span>
+<span class="pc" id="L20">  case object Black     extends IrcColor(&quot;black&quot;,     1, (  0,  0,  0), true,  List(100, 90,100, 10,100,100))</span>
+<span class="pc" id="L21">  case object DarkBlue  extends IrcColor(&quot;darkBlue&quot;,  2, (  0,  0,127), true,  List(100, 66,  0, 75,  0,  0))</span>
+<span class="pc" id="L22">  case object DarkGreen extends IrcColor(&quot;darkGreen&quot;, 3, (  0,147,  0), true,  List(100, 71,  0, 75,  0,  0))</span>
+<span class="pc" id="L23">  case object Red       extends IrcColor(&quot;red&quot;,       4, (255,  0,  0), true,  List(100, 95,100,100,  0,  0))</span>
+<span class="pc" id="L24">  case object Brown     extends IrcColor(&quot;brown&quot;,     5, (127,  0,  0), true,  List(100, 66,  0, 75,  0,  0))</span>
+<span class="pc" id="L25">  case object Purple    extends IrcColor(&quot;purple&quot;,    6, (156,  0,156), true,  List(100, 48,  0, 60,  0,  0))</span>
+<span class="pc" id="L26">  case object Orange    extends IrcColor(&quot;orange&quot;,    7, (252,127,  0), false, List(100, 70,  0, 75,  0,  0))</span>
+<span class="pc" id="L27">  case object Yellow    extends IrcColor(&quot;yellow&quot;,    8, (255,255,  0), false, List(100, 95,100,100,  0,  0))</span>
+<span class="pc" id="L28">  case object Green     extends IrcColor(&quot;green&quot;,     9, (  0,255,  0), false, List(100, 95,100,100,  0,  0))</span>
+<span class="pc" id="L29">  case object Teal      extends IrcColor(&quot;teal&quot;,     10, (  0,147,147), true,  List(100, 43,  0, 75,  0,  0))</span>
+<span class="pc" id="L30">  case object Cyan      extends IrcColor(&quot;cyan&quot;,     11, (  0,255,255), false, List(100, 95,100,100,  0,  0))</span>
+<span class="pc" id="L31">  case object Blue      extends IrcColor(&quot;blue&quot;,     12, (  0,  0,255), true,  List(100, 95,100,100,  0,  0))</span>
+<span class="pc" id="L32">  case object Magenta   extends IrcColor(&quot;magenta&quot;,  13, (255,  0,255), false, List(100, 95,100,100,  0,  0))</span>
+<span class="pc" id="L33">  case object Gray      extends IrcColor(&quot;gray&quot;,     14, (127,127,127), true,  List(100, 13,  0,  2,100,  0))</span>
+<span class="pc" id="L34">  case object LightGray extends IrcColor(&quot;lightGray&quot;,15, (210,210,210), false, List(100, 25,  0,  5,100,  0))</span>
+<span class="fc" id="L35">  def ircColors: List[IrcColor] = List(White, Black, DarkBlue, DarkGreen, Red, Brown, Purple, Orange,</span>
+<span class="fc" id="L36">      Yellow, Green, Teal, Cyan, Blue, Magenta, Gray, LightGray)</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">  def valuOfIrcColor(irc: Short): Option[IrcColor] = ircColors.find(_.irc == irc)</span>
+
+  def createColorMap(scheme: Scheme): ColorMap = {
+<span class="fc" id="L40">    def createColorMap0(ic: List[IrcColor], map: ColorMap): ColorMap = {</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">      if (ic.isEmpty) { map }</span>
+<span class="fc" id="L42">      else { createColorMap0(ic.tail, map + ((ic.head, ic.head.scheme(scheme.order)))) }</span>
+    }
+<span class="fc" id="L44">    createColorMap0(ircColors, Map())</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

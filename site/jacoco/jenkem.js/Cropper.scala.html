@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cropper.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.js</a> &gt; <span class="el_source">Cropper.scala</span></div><h1>Cropper.scala</h1><pre class="source lang-java linenums">package jenkem.js
+
+import scala.Array.canBuildFrom
+import org.json.JSONArray
+import org.json.JSONException
+import com.vaadin.annotations.JavaScript
+import com.vaadin.ui.AbstractJavaScriptComponent
+import com.vaadin.ui.JavaScriptFunction
+import com.vaadin.ui.Notification
+import scala.collection.mutable.ArrayBuffer
+
+/**
+ * https://vaadin.com/book/vaadin7/-/page/gwt.javascript.html
+ */
+@JavaScript(Array(&quot;croplib.js&quot;, &quot;cropper-connector.js&quot;))
+<span class="fc" id="L16">class Cropper extends AbstractJavaScriptComponent {</span>
+<span class="pc" id="L17">  var isReady = false</span>
+
+<span class="fc" id="L19">  addFunction(</span>
+<span class="fc" id="L20">    &quot;onSelect&quot;,</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">    new JavaScriptFunction() {</span>
+      @throws(classOf[JSONException])
+      override def call(arguments: JSONArray) {
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (isReady) { //ignore first resize</span>
+<span class="nc" id="L25">          val coords = arguments.get(0).asInstanceOf[JSONArray]</span>
+<span class="nc" id="L26">          val crops = new Crops(</span>
+<span class="nc" id="L27">            coords.getInt(0),</span>
+<span class="nc" id="L28">            coords.getInt(1),</span>
+<span class="nc" id="L29">            coords.getInt(2),</span>
+<span class="nc" id="L30">            coords.getInt(3),</span>
+<span class="nc" id="L31">            coords.getInt(4),</span>
+<span class="nc" id="L32">            coords.getInt(5))</span>
+<span class="nc" id="L33">          listeners.foreach(_.valueChange(crops))</span>
+        }
+<span class="nc" id="L35">        isReady = true</span>
+      }
+    }
+  )
+
+<span class="fc" id="L40">  val listeners: ArrayBuffer[CropperChangeListener] = ArrayBuffer[CropperChangeListener]()</span>
+<span class="fc" id="L41">  def addListener(listener: CropperChangeListener): Unit = { listeners += listener }</span>
+
+<span class="fc" id="L43">  def setImageSrc(imageSrc: String): Unit = getState.setImageSrc(imageSrc)</span>
+<span class="fc" id="L44">  def getImageSrc: String = getState.getImageSrc</span>
+
+  override def getState: CropperState = {
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">    if(super.getState.isInstanceOf[CropperState]) {</span>
+<span class="fc" id="L48">      super.getState.asInstanceOf[CropperState]</span>
+    } else {
+<span class="nc" id="L50">      throw new IllegalArgumentException(&quot;State is not CropperState.&quot;)</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

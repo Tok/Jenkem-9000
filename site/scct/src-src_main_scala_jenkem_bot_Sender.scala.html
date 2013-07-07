@@ -1,0 +1,289 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;bot/<span class="header">&#x200B;Sender.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">28 %</div>
+        <div class="greenBar" style="width:56px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_Sender.scala.html#Object_jenkem_bot_Sender"><img src="object.png"/>Sender</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">50 %</div>
+        <div class="greenBar" style="width:100px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_Sender.scala.html#Class_jenkem_bot_Sender_ImageSender"><img src="class.png"/>Sender.ImageSender</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.bot
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import jenkem.bot.status.Disconnected
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import jenkem.bot.status.NotSending
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import jenkem.bot.status.Connected
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import jenkem.bot.status.Sending
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import jenkem.bot.status.BotStatus
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td><a id="Object_jenkem_bot_Sender"/>object Sender {
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>  var botStatus = new BotStatus.Value(Disconnected, NotSending, &quot;&quot;, &quot;&quot;, &quot;&quot;, IrcSettings.defaultDelayMs)
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  var stopSwitch = false
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  var isPlaying = false
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>  var playThread: Thread = None.orNull
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>   * Runs a thread to play the image into the channel.
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>   * this is done in Jenkems own thread so an asynchronous command can set the stop switch while the image is forwarded to IRC.
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>   * Pircbots OutputMessage queue is thus bypassed by directly using sendRawLine method.
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>   * the tread stops when the stopSwitch is changed to true or when the image is done being played.
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">21</td>
+            <td><a id="Class_jenkem_bot_Sender_ImageSender"/>  class ImageSender<span class="non">(bot: JenkemBot, fullImage: List[String]) extends Runnable {
+</span></td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>    override def run: Unit = {
+</td>
+          </tr><tr>
+            <td class="red">23</td>
+            <td>      <span class="non">stopSwitch = false
+</span></td>
+          </tr><tr>
+            <td class="red">24</td>
+            <td>      <span class="non">isPlaying = true
+</span></td>
+          </tr><tr>
+            <td class="red">25</td>
+            <td>      <span class="non">botStatus = new BotStatus.Value(Connected, Sending, bot.getServer, bot.lastChan, bot.getNick, bot.getDelay)
+</span></td>
+          </tr><tr>
+            <td class="red">26</td>
+            <td>      val sendMe = <span class="non">&quot;PRIVMSG &quot; + bot.getChannels.head + &quot; :&quot;
+</span></td>
+          </tr><tr>
+            <td class="red">27</td>
+            <td>      <span class="non">sendImageLine(fullImage)
+</span></td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>      def sendImageLine(image: List[String]): Unit = {
+</td>
+          </tr><tr>
+            <td class="red">29</td>
+            <td>        if (<span class="non">!image.isEmpty) {
+</span></td>
+          </tr><tr>
+            <td class="red">30</td>
+            <td>          <span class="non">bot.sendRawLine(sendMe + image.head)
+</span></td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>          try {
+</td>
+          </tr><tr>
+            <td class="red">32</td>
+            <td>            <span class="non">Thread.sleep(bot.getMessageDelay)
+</span></td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>          } catch {
+</td>
+          </tr><tr>
+            <td class="red">34</td>
+            <td>            case ie: InterruptedException =&gt; <span class="non">bot.sendRawLine(sendMe + ie.getMessage)
+</span></td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="red">36</td>
+            <td>          if (<span class="non">!stopSwitch) { sendImageLine(image.tail) } else { resetStop(bot) }
+</span></td>
+          </tr><tr>
+            <td class="red">37</td>
+            <td>        } else { <span class="non">resetStop(bot) } //finished
+</span></td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>   * Takes a String[] and floods it to IRC by using a new Thread.
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>   * @param channel name of the channel
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>   * @param out a String[] with the image as ASCII for IRC.
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>  @throws(classOf[InterruptedException])
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>  def playImage(bot: JenkemBot, out: List[String]): String = {
+</td>
+          </tr><tr>
+            <td class="green">49</td>
+            <td>    this.synchronized {
+</td>
+          </tr><tr>
+            <td class="yellow">50</td>
+            <td>      if (isPlaying) { <span class="non">&quot;Bot is busy.&quot; }
+</span></td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>      else if (bot.getChannels.isEmpty) { &quot;Bot is not in any channel.&quot; }
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>      else {
+</td>
+          </tr><tr>
+            <td class="red">53</td>
+            <td>        <span class="non">playThread = new Thread(new ImageSender(bot, out))
+</span></td>
+          </tr><tr>
+            <td class="red">54</td>
+            <td>        <span class="non">playThread.start
+</span></td>
+          </tr><tr>
+            <td class="red">55</td>
+            <td>        <span class="non">&quot;Playing image...&quot;
+</span></td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="yellow">60</td>
+            <td>  def makeStop: Unit = if (isPlaying) { <span class="non">stopSwitch = true; isPlaying = false }
+</span></td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>  def resetStop(bot: JenkemBot): Unit = {
+</td>
+          </tr><tr>
+            <td class="red">62</td>
+            <td>    <span class="non">stopSwitch = false
+</span></td>
+          </tr><tr>
+            <td class="red">63</td>
+            <td>    <span class="non">isPlaying = false
+</span></td>
+          </tr><tr>
+            <td class="red">64</td>
+            <td>    <span class="non">botStatus = new BotStatus.Value(Connected, NotSending, bot.getServer, bot.lastChan, bot.getNick, bot.getDelay)
+</span></td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>}
+</td>
+          </tr></tbody></table>

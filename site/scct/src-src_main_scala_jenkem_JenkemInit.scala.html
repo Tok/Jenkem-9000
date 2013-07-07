@@ -1,0 +1,245 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/<span class="header">&#x200B;JenkemInit.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">69 %</div>
+        <div class="greenBar" style="width:138px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_JenkemInit.scala.html#Class_jenkem_JenkemInit"><img src="class.png"/>JenkemInit</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">69 %</div>
+        <div class="greenBar" style="width:138px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import com.vaadin.annotations.Theme
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import com.vaadin.event.EventRouter
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import com.vaadin.server.Page
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import com.vaadin.server.ThemeResource
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import com.vaadin.server.VaadinRequest
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import com.vaadin.shared.ui.label.ContentMode
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>import com.vaadin.ui.Alignment
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>import com.vaadin.ui.HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>import com.vaadin.ui.Image
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>import com.vaadin.ui.Label
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>import com.vaadin.ui.UI
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>import com.vaadin.ui.VerticalLayout
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>import jenkem.ui.TabController
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>@Theme(&quot;jenkemtheme&quot;)
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td><a id="Class_jenkem_JenkemInit"/>class JenkemInit extends UI {
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>  override def init(request: VaadinRequest): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>    val titleLayout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>    val layout = new VerticalLayout
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>    layout.setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">25</td>
+            <td>    val eventRouter = new EventRouter
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>    val asciiLabel = new Label(
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>      &quot;      __           _                             ________  _______  _______  _______ \n&quot;
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>        + &quot;     |  |         | |                           /   __   \\/   _   \\/   _   \\/   _   \\ \n&quot;
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>        + &quot;     |  |___ _ ___| | _ ___ _ __ __    _____   (   (__\\   \\  / \\   \\  / \\   \\  / \\   \\ \n&quot;
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>        + &quot; _   |  | _ \\ '_  \\ |/ / _ \\ '  '  \\  (_____)   \\______    )(   )   )(   )   )(   )   ) \n&quot;
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>        + &quot;/ \\__|  | __/ | | |   (  __/ || || |            ______/   /  \\_/   /  \\_/   /  \\_/   / \n&quot;
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>        + &quot;\\______/\\___)_| |_|_|\\_\\___)_||_||_|           (_________/\\_______/\\_______/\\_______/ \n\n&quot;)
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>    asciiLabel.setContentMode(ContentMode.PREFORMATTED)
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>    asciiLabel.setStyleName(&quot;asciiLabel&quot;)
+</td>
+          </tr><tr>
+            <td class="green">36</td>
+            <td>    titleLayout.addComponent(asciiLabel)
+</td>
+          </tr><tr>
+            <td class="green">37</td>
+            <td>    titleLayout.setComponentAlignment(asciiLabel, Alignment.MIDDLE_CENTER)
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">39</td>
+            <td>    val image = new Image(&quot;&quot;, new ThemeResource(&quot;j.png&quot;))
+</td>
+          </tr><tr>
+            <td class="green">40</td>
+            <td>    titleLayout.addComponent(image)
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>    titleLayout.setComponentAlignment(image, Alignment.TOP_CENTER)
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>    layout.addComponent(titleLayout)
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>    layout.setComponentAlignment(titleLayout, Alignment.TOP_CENTER)
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>    val tc = new TabController(eventRouter)
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">48</td>
+            <td>    val tabSheet = <span class="non">tc.getTabSheet(Page.getCurrent)
+</span></td>
+          </tr><tr>
+            <td class="red">49</td>
+            <td>    <span class="non">layout.addComponent(tabSheet)
+</span></td>
+          </tr><tr>
+            <td class="red">50</td>
+            <td>    <span class="non">layout.setComponentAlignment(tabSheet, Alignment.MIDDLE_CENTER)
+</span></td>
+          </tr><tr>
+            <td class="red">51</td>
+            <td>    <span class="non">setContent(layout)
+</span></td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">53</td>
+            <td>    val frag = <span class="non">Page.getCurrent.getUriFragment
+</span></td>
+          </tr><tr>
+            <td class="red">54</td>
+            <td>    <span class="non">tc.selectTab(frag)
+</span></td>
+          </tr><tr>
+            <td class="red">55</td>
+            <td>    <span class="non">tc.isReady = true
+</span></td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>}
+</td>
+          </tr></tbody></table>

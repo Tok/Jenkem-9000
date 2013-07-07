@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Sample.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine.color</a> &gt; <span class="el_source">Sample.scala</span></div><h1>Sample.scala</h1><pre class="source lang-java linenums">package jenkem.engine.color
+
+import jenkem.util.ImageUtil
+
+<span class="fc" id="L5">object Sample {</span>
+  type Grey = (Short, Short, Short, Short)
+  type Colored = (Color.Rgb, Color.Rgb, Color.Rgb, Color.Rgb)
+
+  abstract class Dir
+<span class="fc" id="L10">  sealed abstract class Ydir extends Dir</span>
+<span class="pc" id="L11">  case object TOP extends Ydir</span>
+<span class="pc" id="L12">  case object BOT extends Ydir</span>
+<span class="fc" id="L13">  sealed abstract class Xdir extends Dir</span>
+<span class="pc" id="L14">  case object LEFT extends Xdir</span>
+<span class="pc" id="L15">  case object RIGHT extends Xdir</span>
+<span class="fc" id="L16">  val dirs: List[Dir] = List(TOP, BOT, LEFT, RIGHT)</span>
+
+  def makeGreySample(imageRgb: Color.RgbMap, x: Int, y: Int, c: Int, b: Int): Grey = {
+<span class="fc" id="L19">    val topLeft = calcCol(ImageUtil.makeGreyPixel(imageRgb, x, y), c, b)</span>
+<span class="fc" id="L20">    val topRight = calcCol(ImageUtil.makeGreyPixel(imageRgb, x + 1, y), c, b)</span>
+<span class="fc" id="L21">    val bottomLeft = calcCol(ImageUtil.makeGreyPixel(imageRgb, x, y + 1), c, b)</span>
+<span class="fc" id="L22">    val bottomRight = calcCol(ImageUtil.makeGreyPixel(imageRgb, x + 1, y + 1), c, b)</span>
+<span class="fc" id="L23">    (topLeft, topRight, bottomLeft, bottomRight)</span>
+  }
+
+  //TL, TR, BL, BR
+  def makeColorSample(imageRgb: Color.RgbMap, x: Int, y: Int, c: Int, b: Int): Colored = {
+<span class="fc" id="L28">    val tl = ImageUtil.getPixels(imageRgb, x, y)</span>
+<span class="fc" id="L29">    val tr = ImageUtil.getPixels(imageRgb, x + 1, y)</span>
+<span class="fc" id="L30">    val bl = ImageUtil.getPixels(imageRgb, x, y + 1)</span>
+<span class="fc" id="L31">    val br = ImageUtil.getPixels(imageRgb, x + 1, y + 1)</span>
+<span class="fc" id="L32">    ((calcCol(tl._1, c, b), calcCol(tl._2, c, b), calcCol(tl._3, c, b)),</span>
+<span class="fc" id="L33">     (calcCol(tr._1, c, b), calcCol(tr._2, c, b), calcCol(tr._3, c, b)),</span>
+<span class="fc" id="L34">     (calcCol(bl._1, c, b), calcCol(bl._2, c, b), calcCol(bl._3, c, b)),</span>
+<span class="fc" id="L35">     (calcCol(br._1, c, b), calcCol(br._2, c, b), calcCol(br._3, c, b)))</span>
+  }
+
+  def calcRgbDiff(sample: Colored, dir: Dir): Short = {
+    def calcDiff(first: Color.Rgb, second: Color.Rgb): Short = {
+<span class="fc" id="L40">      val redDiff = Math.abs(first._1 - second._1)</span>
+<span class="fc" id="L41">      val greenDiff = Math.abs(first._2 - second._2)</span>
+<span class="fc" id="L42">      val blueDiff = Math.abs(first._3 - second._3)</span>
+<span class="fc" id="L43">      ((redDiff + greenDiff + blueDiff) / 3).shortValue</span>
+    }
+    def calcHorRgbDiff(sample: Colored, xDir: Xdir): Short = {
+<span class="fc" id="L46">      val xTop = get[Color.Rgb](sample, xDir, TOP)</span>
+<span class="fc" id="L47">      val xBot = get[Color.Rgb](sample, xDir, BOT)</span>
+<span class="fc" id="L48">      calcDiff(xTop, xBot)</span>
+    }
+    def calcVertRgbDiff(sample: Colored, yDir: Ydir): Short = {
+<span class="fc" id="L51">      val yLeft = get[Color.Rgb](sample, LEFT, yDir)</span>
+<span class="fc" id="L52">      val yRight = get[Color.Rgb](sample, RIGHT, yDir)</span>
+<span class="fc" id="L53">      calcDiff(yLeft, yRight)</span>
+    }
+<span class="pc" id="L55">    dir match {</span>
+<span class="pc bpc" id="L56" title="3 of 6 branches missed.">      case TOP =&gt; calcVertRgbDiff(sample, TOP)</span>
+<span class="pc bpc" id="L57" title="3 of 6 branches missed.">      case BOT =&gt; calcVertRgbDiff(sample, BOT)</span>
+<span class="pc bpc" id="L58" title="3 of 6 branches missed.">      case LEFT =&gt; calcHorRgbDiff(sample, LEFT)</span>
+<span class="pc bpc" id="L59" title="4 of 6 branches missed.">      case RIGHT =&gt; calcHorRgbDiff(sample, RIGHT)</span>
+    }
+  }
+
+  def calcRgbMean(sample: Colored, dir: Dir): Color.Rgb = {
+    def calcHorRgbMean(sample: Colored, xDir: Xdir): Color.Rgb = {
+<span class="fc" id="L65">      val xTop = get[Color.Rgb](sample, xDir, TOP)</span>
+<span class="fc" id="L66">      val xBot = get[Color.Rgb](sample, xDir, BOT)</span>
+<span class="fc" id="L67">      calcMean(xTop, xBot)</span>
+    }
+    def calcVertRgbMean(sample: Colored, yDir: Ydir): Color.Rgb = {
+<span class="fc" id="L70">      val yLeft = get[Color.Rgb](sample, LEFT, yDir)</span>
+<span class="fc" id="L71">      val yRight = get[Color.Rgb](sample, RIGHT, yDir)</span>
+<span class="fc" id="L72">      calcMean(yLeft, yRight)</span>
+    }
+<span class="pc" id="L74">    dir match {</span>
+<span class="pc bpc" id="L75" title="3 of 6 branches missed.">      case TOP =&gt; calcVertRgbMean(sample, TOP)</span>
+<span class="pc bpc" id="L76" title="3 of 6 branches missed.">      case BOT =&gt; calcVertRgbMean(sample, BOT)</span>
+<span class="pc bpc" id="L77" title="3 of 6 branches missed.">      case LEFT =&gt; calcHorRgbMean(sample, LEFT)</span>
+<span class="pc bpc" id="L78" title="4 of 6 branches missed.">      case RIGHT =&gt; calcHorRgbMean(sample, RIGHT)</span>
+    }
+  }
+
+  def calcCol(input: Short, contrast: Int, brightness: Int): Short = {
+<span class="fc" id="L83">    keepInRange(correctDistance(input, contrast) + brightness.shortValue).shortValue</span>
+  }
+
+  def getDirectedGrey(sample: Grey, dir: Dir): Short = {
+<span class="pc" id="L87">    val sum = dir match {</span>
+<span class="pc bpc" id="L88" title="3 of 6 branches missed.">      case TOP =&gt; get[Short](sample, LEFT, TOP) + get[Short](sample, RIGHT, TOP)</span>
+<span class="pc bpc" id="L89" title="3 of 6 branches missed.">      case BOT =&gt; get[Short](sample, LEFT, BOT) + get[Short](sample, RIGHT, BOT)</span>
+<span class="pc bpc" id="L90" title="3 of 6 branches missed.">      case LEFT =&gt; get[Short](sample, LEFT, TOP) + get[Short](sample, LEFT, BOT)</span>
+<span class="pc bpc" id="L91" title="4 of 6 branches missed.">      case RIGHT =&gt; get[Short](sample, RIGHT, TOP) + get[Short](sample, RIGHT, BOT)</span>
+    }
+<span class="fc" id="L93">    (sum / 2).shortValue</span>
+  }
+
+  def get[T](sample: (T, T, T, T), xDir: Xdir, yDir: Ydir): T = {
+<span class="pc" id="L97">    yDir match {</span>
+<span class="pc bpc" id="L98" title="3 of 6 branches missed.">      case TOP =&gt; xDir match {</span>
+<span class="pc bpc" id="L99" title="3 of 6 branches missed.">        case LEFT =&gt; sample._1</span>
+<span class="pc bpc" id="L100" title="4 of 6 branches missed.">        case RIGHT =&gt; sample._2</span>
+      }
+<span class="pc bpc" id="L102" title="4 of 6 branches missed.">      case BOT =&gt; xDir match {</span>
+<span class="pc bpc" id="L103" title="3 of 6 branches missed.">        case LEFT =&gt; sample._3</span>
+<span class="pc bpc" id="L104" title="4 of 6 branches missed.">         case RIGHT =&gt; sample._4</span>
+      }
+    }
+  }
+
+  def getAllRgb(col: Colored): Color.Rgb = {
+<span class="fc" id="L110">    val r = ((col._1._1 + col._2._1 + col._3._1 + col._4._1) / 4).shortValue</span>
+<span class="fc" id="L111">    val g = ((col._1._2 + col._2._2 + col._3._2 + col._4._2) / 4).shortValue</span>
+<span class="fc" id="L112">    val b = ((col._1._3 + col._2._3 + col._3._3 + col._4._3) / 4).shortValue</span>
+<span class="fc" id="L113">    (r, g, b)</span>
+  }
+
+  def calcMean(first: Color.Rgb, second: Color.Rgb): Color.Rgb = {
+<span class="fc" id="L117">    val redMean = (first._1 + second._1) / 2</span>
+<span class="fc" id="L118">    val greenMean = (first._2 + second._2) / 2</span>
+<span class="fc" id="L119">    val blueMean = (first._3 + second._3) / 2</span>
+<span class="fc" id="L120">    (redMean.shortValue, greenMean.shortValue, blueMean.shortValue)</span>
+  }
+
+  private def correctDistance(input: Int, contrast: Int): Int = {
+<span class="fc" id="L124">    val distanceFromCenter = Math.abs(input - Color.CENTER)</span>
+<span class="fc" id="L125">    val contrastedDist: Double = distanceFromCenter * (1D + (contrast.doubleValue / 100))</span>
+<span class="fc bfc" id="L126" title="All 4 branches covered.">    val result = if (input &lt; Color.CENTER) { Color.CENTER - contrastedDist } else { Color.CENTER + contrastedDist }</span>
+<span class="fc" id="L127">    result.intValue</span>
+  }
+
+<span class="fc" id="L130">  def getMeanGrey(grey: Grey): Double = (grey._1 + grey._2 + grey._3 + grey._4) / 4D</span>
+
+<span class="fc" id="L132">  private def keepInRange(colorComponent: Int): Int = Math.max(0, Math.min(colorComponent, Color.MAX))</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

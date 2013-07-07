@@ -1,0 +1,1905 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;ui/&#x200B;tab/<span class="header">&#x200B;MainTab.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">68 %</div>
+        <div class="greenBar" style="width:136px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_tab_MainTab.scala.html#Class_jenkem_ui_tab_MainTab"><img src="class.png"/>MainTab</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">69 %</div>
+        <div class="greenBar" style="width:138px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_tab_MainTab.scala.html#Class_jenkem_ui_tab_MainTab_ConversionData"><img src="class.png"/>MainTab.ConversionData</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_tab_MainTab.scala.html#Class_jenkem_ui_tab_MainTab_ImageData"><img src="class.png"/>MainTab.ImageData</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_tab_MainTab.scala.html#Class_jenkem_ui_tab_MainTab_ImagePreparationData"><img src="class.png"/>MainTab.ImagePreparationData</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.ui.tab
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import java.awt.image.BufferedImage
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import java.util.Date
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import scala.collection.JavaConversions.seqAsJavaList
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import com.vaadin.data.Property
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import com.vaadin.data.Property.ValueChangeEvent
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import com.vaadin.event.EventRouter
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>import com.vaadin.server.Page
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>import com.vaadin.shared.ui.label.ContentMode
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>import com.vaadin.ui.AbsoluteLayout
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>import com.vaadin.ui.Alignment
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>import com.vaadin.ui.Button
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>import com.vaadin.ui.Button.ClickEvent
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>import com.vaadin.ui.CheckBox
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>import com.vaadin.ui.Component
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>import com.vaadin.ui.HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>import com.vaadin.ui.Label
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>import com.vaadin.ui.ListSelect
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>import com.vaadin.ui.NativeSelect
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>import com.vaadin.ui.OptionGroup
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>import com.vaadin.ui.Slider
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>import com.vaadin.ui.TextField
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>import com.vaadin.ui.VerticalLayout
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>import javax.jdo.annotations.PersistenceCapable
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>import jenkem.engine.Method
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>import jenkem.engine.Engine
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>import jenkem.engine.Kick
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>import jenkem.engine.Pal
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>import jenkem.engine.color.Scheme
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>import jenkem.engine.color.Power
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>import jenkem.event.DoConversionEvent
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>import jenkem.event.SendToIrcEvent
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>import jenkem.persistence.PersistenceService
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>import jenkem.persistence.data.ImageCss
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>import jenkem.persistence.data.ImageHtml
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>import jenkem.persistence.data.ImageInfo
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>import jenkem.persistence.data.ImageIrc
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>import jenkem.persistence.data.JenkemImage
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>import jenkem.ui.ImagePreparer
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>import jenkem.ui.Inline
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>import jenkem.ui.IrcColorSetter
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>import jenkem.ui.IrcConnector
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>import jenkem.ui.Notifications
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>import jenkem.ui.OutputDisplay
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>import jenkem.ui.ProcSetter
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>import jenkem.util.AwtImageUtil
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>import jenkem.util.HtmlUtil
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>import jenkem.util.InitUtil
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>import com.vaadin.ui.Notification
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>import com.vaadin.ui.Image
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>import com.vaadin.ui.GridLayout
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>import jenkem.engine.color.Color
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>import jenkem.engine.Proportion
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">56</td>
+            <td><a id="Class_jenkem_ui_tab_MainTab"/>class MainTab(val eventRouter: EventRouter) extends VerticalLayout {
+</td>
+          </tr><tr>
+            <td class="green">57</td>
+            <td>  val capW = 150
+</td>
+          </tr><tr>
+            <td class="green">58</td>
+            <td>  val inlineLabelWidth = &quot;88px&quot;
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">60</td>
+            <td>  var conversionDisabled = true
+</td>
+          </tr><tr>
+            <td class="green">61</td>
+            <td>  var ircOutput: List[String] = Nil
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>  var imagePrep: ImagePreparationData = _
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>  var imageData: ImageData = _
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>  var convData: ConversionData = _
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">66</td>
+            <td>  setCaption(&quot;Main&quot;)
+</td>
+          </tr><tr>
+            <td class="green">67</td>
+            <td>  setSizeFull
+</td>
+          </tr><tr>
+            <td class="green">68</td>
+            <td>  setMargin(true)
+</td>
+          </tr><tr>
+            <td class="green">69</td>
+            <td>  setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">71</td>
+            <td><a id="Class_jenkem_ui_tab_MainTab_ImagePreparationData"/>  class ImagePreparationData<span class="non">(val icon: BufferedImage, val originalName: String)
+</span></td>
+          </tr><tr>
+            <td class="red">72</td>
+            <td><a id="Class_jenkem_ui_tab_MainTab_ImageData"/>  class ImageData<span class="non">(val imageRgb: Color.RgbMap,
+</span></td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>      val width: Short, val height: Short, val lineWidth: Short,
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>      val method: Method)
+</td>
+          </tr><tr>
+            <td class="green">75</td>
+            <td><a id="Class_jenkem_ui_tab_MainTab_ConversionData"/>  class ConversionData(val contrast: Short, val brightness: Short, val characters: String)
+</td>
+          </tr><tr>
+            <td class="black">76</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">77</td>
+            <td>  val resizeValueChangeListener = new Property.ValueChangeListener {
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>    override def valueChange(event: ValueChangeEvent) {
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>      if(!conversionDisabled) { startConversion(false, true) }}}
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">81</td>
+            <td>  val noResizeValueChangeListener = new Property.ValueChangeListener {
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>    override def valueChange(event: ValueChangeEvent) {
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>      if(!conversionDisabled) { startConversion(false, false) }}}
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">85</td>
+            <td>  private def spacer = new Label(&quot;&amp;nbsp;&quot;, ContentMode.HTML)
+</td>
+          </tr><tr>
+            <td class="black">86</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">87</td>
+            <td>  val mainLayout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">88</td>
+            <td>  mainLayout.setMargin(true)
+</td>
+          </tr><tr>
+            <td class="green">89</td>
+            <td>  mainLayout.setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="green">90</td>
+            <td>  val settingsLayout = new VerticalLayout
+</td>
+          </tr><tr>
+            <td class="green">91</td>
+            <td>  settingsLayout.setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="black">92</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">93</td>
+            <td>  val inline = new Inline
+</td>
+          </tr><tr>
+            <td class="green">94</td>
+            <td>  val inlineLayout = new VerticalLayout
+</td>
+          </tr><tr>
+            <td class="black">95</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">96</td>
+            <td>  val kickLayout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">97</td>
+            <td>  val kickLabel = new Label(&quot;Kick: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">98</td>
+            <td>  kickLabel.setWidth(inlineLabelWidth)
+</td>
+          </tr><tr>
+            <td class="green">99</td>
+            <td>  val kickSelect = new OptionGroup(None.orNull, Kick.values)
+</td>
+          </tr><tr>
+            <td class="green">100</td>
+            <td>  kickSelect.addStyleName(&quot;horizontal&quot;)
+</td>
+          </tr><tr>
+            <td class="green">101</td>
+            <td>  kickSelect.setNullSelectionAllowed(false)
+</td>
+          </tr><tr>
+            <td class="green">102</td>
+            <td>  kickSelect.setImmediate(true)
+</td>
+          </tr><tr>
+            <td class="green">103</td>
+            <td>  kickSelect.addValueChangeListener(resizeValueChangeListener)
+</td>
+          </tr><tr>
+            <td class="green">104</td>
+            <td>  kickLayout.addComponent(kickLabel)
+</td>
+          </tr><tr>
+            <td class="green">105</td>
+            <td>  kickLayout.addComponent(kickSelect)
+</td>
+          </tr><tr>
+            <td class="green">106</td>
+            <td>  inlineLayout.addComponent(kickLayout)
+</td>
+          </tr><tr>
+            <td class="black">107</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">108</td>
+            <td>  val optionsLayout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">109</td>
+            <td>  val proportionLabel = new Label(&quot;Proportion: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">110</td>
+            <td>  proportionLabel.setWidth(inlineLabelWidth)
+</td>
+          </tr><tr>
+            <td class="green">111</td>
+            <td>  val proportionSelect = new OptionGroup(None.orNull, Proportion.values)
+</td>
+          </tr><tr>
+            <td class="green">112</td>
+            <td>  proportionSelect.setDescription(&quot;Mostly relevant for small images&quot;)
+</td>
+          </tr><tr>
+            <td class="green">113</td>
+            <td>  proportionSelect.addStyleName(&quot;horizontal&quot;)
+</td>
+          </tr><tr>
+            <td class="green">114</td>
+            <td>  proportionSelect.setNullSelectionAllowed(false)
+</td>
+          </tr><tr>
+            <td class="green">115</td>
+            <td>  proportionSelect.setImmediate(true)
+</td>
+          </tr><tr>
+            <td class="green">116</td>
+            <td>  proportionSelect.addValueChangeListener(resizeValueChangeListener)
+</td>
+          </tr><tr>
+            <td class="green">117</td>
+            <td>  optionsLayout.addComponent(proportionLabel)
+</td>
+          </tr><tr>
+            <td class="green">118</td>
+            <td>  optionsLayout.addComponent(proportionSelect)
+</td>
+          </tr><tr>
+            <td class="green">119</td>
+            <td>  inlineLayout.addComponent(optionsLayout)
+</td>
+          </tr><tr>
+            <td class="black">120</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">121</td>
+            <td>  val imagePreparer = new ImagePreparer(eventRouter)
+</td>
+          </tr><tr>
+            <td class="green">122</td>
+            <td>  imagePreparer.enableSubmission(false)
+</td>
+          </tr><tr>
+            <td class="green">123</td>
+            <td>  addComponent(imagePreparer)
+</td>
+          </tr><tr>
+            <td class="green">124</td>
+            <td>  addComponent(mainLayout)
+</td>
+          </tr><tr>
+            <td class="black">125</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">126</td>
+            <td>  val lwLayout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">127</td>
+            <td>  val lwCaptionLabel = new Label(&quot;Max Line Width: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">128</td>
+            <td>  lwCaptionLabel.setWidth(inlineLabelWidth)
+</td>
+          </tr><tr>
+            <td class="green">129</td>
+            <td>  lwLayout.addComponent(lwCaptionLabel)
+</td>
+          </tr><tr>
+            <td class="green">130</td>
+            <td>  lwLayout.setComponentAlignment(lwCaptionLabel, Alignment.MIDDLE_LEFT)
+</td>
+          </tr><tr>
+            <td class="green">131</td>
+            <td>  val widthSlider = new Slider
+</td>
+          </tr><tr>
+            <td class="green">132</td>
+            <td>  widthSlider.setMin(InitUtil.MIN_WIDTH)
+</td>
+          </tr><tr>
+            <td class="green">133</td>
+            <td>  widthSlider.setValue(InitUtil.DEFAULT_WIDTH)
+</td>
+          </tr><tr>
+            <td class="green">134</td>
+            <td>  widthSlider.setMax(InitUtil.MAX_WIDTH)
+</td>
+          </tr><tr>
+            <td class="green">135</td>
+            <td>  widthSlider.addValueChangeListener(resizeValueChangeListener)
+</td>
+          </tr><tr>
+            <td class="green">136</td>
+            <td>  widthSlider.setWidth(&quot;350px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">137</td>
+            <td>  lwLayout.addComponent(widthSlider)
+</td>
+          </tr><tr>
+            <td class="green">138</td>
+            <td>  lwLayout.setComponentAlignment(widthSlider, Alignment.MIDDLE_LEFT)
+</td>
+          </tr><tr>
+            <td class="green">139</td>
+            <td>  inlineLayout.addComponent(lwLayout)
+</td>
+          </tr><tr>
+            <td class="green">140</td>
+            <td>  inlineLayout.addComponent(inline)
+</td>
+          </tr><tr>
+            <td class="green">141</td>
+            <td>  mainLayout.addComponent(inlineLayout)
+</td>
+          </tr><tr>
+            <td class="green">142</td>
+            <td>  mainLayout.addComponent(settingsLayout)
+</td>
+          </tr><tr>
+            <td class="black">143</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">144</td>
+            <td>  val methodBox = makeListMethodSelect(&quot;Conversion Method: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">145</td>
+            <td>  val resetButton = new Button(&quot;Reset Conversion Settings&quot;)
+</td>
+          </tr><tr>
+            <td class="green">146</td>
+            <td>  settingsLayout.addComponent(makeLabeled(&quot;Action: &quot;, capW, resetButton, false))
+</td>
+          </tr><tr>
+            <td class="green">147</td>
+            <td>  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel(&quot;Character Brightness: &quot;, -100, 100, 0)
+</td>
+          </tr><tr>
+            <td class="green">148</td>
+            <td>  val (contrastSlider, contrastLabel) = makeSliderAndLabel(&quot;Character Contrast: &quot;, -100, 100, 0)
+</td>
+          </tr><tr>
+            <td class="black">149</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">150</td>
+            <td>  val charsetLayout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">151</td>
+            <td>  val charsetBox = new NativeSelect
+</td>
+          </tr><tr>
+            <td class="green">152</td>
+            <td>  charsetBox.setNullSelectionAllowed(false)
+</td>
+          </tr><tr>
+            <td class="green">153</td>
+            <td>  charsetBox.setImmediate(true)
+</td>
+          </tr><tr>
+            <td class="green">154</td>
+            <td>  charsetBox.setWidth(&quot;120px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">155</td>
+            <td>  val charTextField = new TextField
+</td>
+          </tr><tr>
+            <td class="green">156</td>
+            <td>  charTextField.setWidth(&quot;125px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">157</td>
+            <td>  charsetLayout.addComponent(charsetBox)
+</td>
+          </tr><tr>
+            <td class="green">158</td>
+            <td>  charsetLayout.addComponent(charTextField)
+</td>
+          </tr><tr>
+            <td class="green">159</td>
+            <td>  settingsLayout.addComponent(makeLabeled(&quot;Characters: &quot;, capW, charsetLayout, true))
+</td>
+          </tr><tr>
+            <td class="green">160</td>
+            <td>  val procSetter = new ProcSetter(eventRouter)
+</td>
+          </tr><tr>
+            <td class="green">161</td>
+            <td>  settingsLayout.addComponent(makeLabeled(&quot;Processing: &quot;, capW, procSetter, true))
+</td>
+          </tr><tr>
+            <td class="green">162</td>
+            <td>  settingsLayout.addComponent(spacer)
+</td>
+          </tr><tr>
+            <td class="green">163</td>
+            <td>  val powerBox = makeNativeSelect(&quot;Power: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">164</td>
+            <td>  val ircColorSetter = new IrcColorSetter(eventRouter)
+</td>
+          </tr><tr>
+            <td class="green">165</td>
+            <td>  settingsLayout.addComponent(ircColorSetter)
+</td>
+          </tr><tr>
+            <td class="green">166</td>
+            <td>  settingsLayout.addComponent(spacer)
+</td>
+          </tr><tr>
+            <td class="green">167</td>
+            <td>  val outputDisplay = new OutputDisplay
+</td>
+          </tr><tr>
+            <td class="green">168</td>
+            <td>  settingsLayout.addComponent(outputDisplay)
+</td>
+          </tr><tr>
+            <td class="green">169</td>
+            <td>  settingsLayout.addComponent(spacer)
+</td>
+          </tr><tr>
+            <td class="green">170</td>
+            <td>  val ircConnector = new IrcConnector(eventRouter)
+</td>
+          </tr><tr>
+            <td class="green">171</td>
+            <td>  settingsLayout.addComponent(ircConnector)
+</td>
+          </tr><tr>
+            <td class="black">172</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">173</td>
+            <td>  resetButton.addClickListener(new Button.ClickListener {
+</td>
+          </tr><tr>
+            <td class="black">174</td>
+            <td>    override def buttonClick(event: ClickEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">175</td>
+            <td>      doReset //may trigger conversion
+</td>
+          </tr><tr>
+            <td class="black">176</td>
+            <td>      startConversion(false, true)
+</td>
+          </tr><tr>
+            <td class="black">177</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">178</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="black">179</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">180</td>
+            <td>  val charsetBoxListener = new Property.ValueChangeListener {
+</td>
+          </tr><tr>
+            <td class="black">181</td>
+            <td>    override def valueChange(event: ValueChangeEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">182</td>
+            <td>      val charsetName = event.getProperty.getValue.toString
+</td>
+          </tr><tr>
+            <td class="black">183</td>
+            <td>      Pal.valueOf(charsetName) match {
+</td>
+          </tr><tr>
+            <td class="black">184</td>
+            <td>        case Some(pal) =&gt;
+</td>
+          </tr><tr>
+            <td class="black">185</td>
+            <td>          makeInitsForCharset(pal.chars)
+</td>
+          </tr><tr>
+            <td class="black">186</td>
+            <td>          if (!pal.chars.equals(charTextField.getValue)) {
+</td>
+          </tr><tr>
+            <td class="black">187</td>
+            <td>             //triggers conversion
+</td>
+          </tr><tr>
+            <td class="black">188</td>
+            <td>            charTextField.setValue(pal.chars)
+</td>
+          </tr><tr>
+            <td class="black">189</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">190</td>
+            <td>        case None =&gt; imagePreparer.setError(&quot;Charset not found.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">191</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">192</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">193</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="green">194</td>
+            <td>  charsetBox.addValueChangeListener(charsetBoxListener)
+</td>
+          </tr><tr>
+            <td class="black">195</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">196</td>
+            <td>  charTextField.setImmediate(true)
+</td>
+          </tr><tr>
+            <td class="green">197</td>
+            <td>  charTextField.addValueChangeListener(noResizeValueChangeListener)
+</td>
+          </tr><tr>
+            <td class="black">198</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">199</td>
+            <td>  Power.values.foreach(p =&gt; powerBox.addItem(p))
+</td>
+          </tr><tr>
+            <td class="green">200</td>
+            <td>  powerBox.addValueChangeListener(noResizeValueChangeListener)
+</td>
+          </tr><tr>
+            <td class="black">201</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">202</td>
+            <td>  eventRouter.addListener(classOf[DoConversionEvent], new {
+</td>
+          </tr><tr>
+            <td class="black">203</td>
+            <td>    def convert(e: DoConversionEvent): Unit =
+</td>
+          </tr><tr>
+            <td class="black">204</td>
+            <td>      startConversion(e.prepareImage, e.resize)
+</td>
+          </tr><tr>
+            <td class="black">205</td>
+            <td>    }, &quot;convert&quot;)
+</td>
+          </tr><tr>
+            <td class="green">206</td>
+            <td>  eventRouter.addListener(classOf[SendToIrcEvent], new {
+</td>
+          </tr><tr>
+            <td class="black">207</td>
+            <td>    def send: Unit = ircConnector.sendToIrc(ircOutput)}, &quot;send&quot;)
+</td>
+          </tr><tr>
+            <td class="black">208</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">209</td>
+            <td>  methodBox.select(Method.Vortacular)
+</td>
+          </tr><tr>
+            <td class="green">210</td>
+            <td>  doReset
+</td>
+          </tr><tr>
+            <td class="black">211</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">212</td>
+            <td>  private def makeNativeSelect(caption: String): NativeSelect = {
+</td>
+          </tr><tr>
+            <td class="green">213</td>
+            <td>    val box = new NativeSelect
+</td>
+          </tr><tr>
+            <td class="green">214</td>
+            <td>    box.setNullSelectionAllowed(false)
+</td>
+          </tr><tr>
+            <td class="green">215</td>
+            <td>    box.setImmediate(true)
+</td>
+          </tr><tr>
+            <td class="green">216</td>
+            <td>    val layout = makeLabeled(caption, capW, box, true)
+</td>
+          </tr><tr>
+            <td class="green">217</td>
+            <td>    settingsLayout.addComponent(layout)
+</td>
+          </tr><tr>
+            <td class="green">218</td>
+            <td>    box
+</td>
+          </tr><tr>
+            <td class="black">219</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">220</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">221</td>
+            <td>  private def makeListMethodSelect(caption: String): ListSelect = {
+</td>
+          </tr><tr>
+            <td class="green">222</td>
+            <td>    val settings = new ListSelect
+</td>
+          </tr><tr>
+            <td class="green">223</td>
+            <td>    settings.addValueChangeListener(new Property.ValueChangeListener {
+</td>
+          </tr><tr>
+            <td class="black">224</td>
+            <td>      override def valueChange(event: ValueChangeEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">225</td>
+            <td>        conversionDisabled = true
+</td>
+          </tr><tr>
+            <td class="black">226</td>
+            <td>        makeInitsForMethod
+</td>
+          </tr><tr>
+            <td class="black">227</td>
+            <td>        conversionDisabled = false
+</td>
+          </tr><tr>
+            <td class="black">228</td>
+            <td>        startConversion(false, true)
+</td>
+          </tr><tr>
+            <td class="black">229</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">230</td>
+            <td>    })
+</td>
+          </tr><tr>
+            <td class="green">231</td>
+            <td>    settings.setRows(Method.values.length)
+</td>
+          </tr><tr>
+            <td class="green">232</td>
+            <td>    Method.values.map(settings.addItem(_))
+</td>
+          </tr><tr>
+            <td class="green">233</td>
+            <td>    settings.setNullSelectionAllowed(false)
+</td>
+          </tr><tr>
+            <td class="green">234</td>
+            <td>    settings.setImmediate(true)
+</td>
+          </tr><tr>
+            <td class="green">235</td>
+            <td>    val layout = makeLabeled(caption, capW, settings, true)
+</td>
+          </tr><tr>
+            <td class="green">236</td>
+            <td>    settingsLayout.addComponent(layout)
+</td>
+          </tr><tr>
+            <td class="green">237</td>
+            <td>    settings
+</td>
+          </tr><tr>
+            <td class="black">238</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">239</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">240</td>
+            <td>  private def makeLabeled(caption: String, width: Int, component: Component, setWidth: Boolean) = {
+</td>
+          </tr><tr>
+            <td class="green">241</td>
+            <td>    val layout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">242</td>
+            <td>    val captionLabel = new Label(caption)
+</td>
+          </tr><tr>
+            <td class="green">243</td>
+            <td>    captionLabel.setWidth(width + &quot;px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">244</td>
+            <td>    if (setWidth) { component.setWidth(&quot;250px&quot;) }
+</td>
+          </tr><tr>
+            <td class="green">245</td>
+            <td>    layout.addComponent(captionLabel)
+</td>
+          </tr><tr>
+            <td class="green">246</td>
+            <td>    layout.addComponent(component)
+</td>
+          </tr><tr>
+            <td class="green">247</td>
+            <td>    layout
+</td>
+          </tr><tr>
+            <td class="black">248</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">249</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">250</td>
+            <td>  private def makeSliderAndLabel(caption: String, min: Int, max: Int, default: Int): (Slider, Label) = {
+</td>
+          </tr><tr>
+            <td class="green">251</td>
+            <td>    val layout = new AbsoluteLayout
+</td>
+          </tr><tr>
+            <td class="green">252</td>
+            <td>    val label = new Label(default.toString)
+</td>
+          </tr><tr>
+            <td class="green">253</td>
+            <td>    label.setWidth(&quot;30px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">254</td>
+            <td>    label.setStyleName(&quot;sliderLabel&quot;)
+</td>
+          </tr><tr>
+            <td class="green">255</td>
+            <td>    val slider = new Slider(&quot;&quot;)
+</td>
+          </tr><tr>
+            <td class="green">256</td>
+            <td>    slider.setWidth(&quot;220px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">257</td>
+            <td>    slider.setMin(min)
+</td>
+          </tr><tr>
+            <td class="green">258</td>
+            <td>    slider.setMax(max)
+</td>
+          </tr><tr>
+            <td class="green">259</td>
+            <td>    slider.setImmediate(true)
+</td>
+          </tr><tr>
+            <td class="green">260</td>
+            <td>    slider.addValueChangeListener(new Property.ValueChangeListener {
+</td>
+          </tr><tr>
+            <td class="black">261</td>
+            <td>      override def valueChange(event: ValueChangeEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">262</td>
+            <td>        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))
+</td>
+          </tr><tr>
+            <td class="black">263</td>
+            <td>        startConversion(false, false)
+</td>
+          </tr><tr>
+            <td class="black">264</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">265</td>
+            <td>    })
+</td>
+          </tr><tr>
+            <td class="green">266</td>
+            <td>    layout.setWidth(&quot;100%&quot;)
+</td>
+          </tr><tr>
+            <td class="green">267</td>
+            <td>    layout.addComponent(slider, &quot;left:0px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">268</td>
+            <td>    layout.addComponent(label, &quot;left:220px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">269</td>
+            <td>    settingsLayout.addComponent(makeLabeled(caption, capW, layout, true))
+</td>
+          </tr><tr>
+            <td class="green">270</td>
+            <td>    (slider, label)
+</td>
+          </tr><tr>
+            <td class="black">271</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">272</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">273</td>
+            <td>  private def doPrepareImage(url: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="red">274</td>
+            <td>    val crops = <span class="non">imagePreparer.getCrops
+</span></td>
+          </tr><tr>
+            <td class="red">275</td>
+            <td>    val invert = <span class="non">imagePreparer.isInvert
+</span></td>
+          </tr><tr>
+            <td class="red">276</td>
+            <td>    val bg = <span class="non">imagePreparer.getBg
+</span></td>
+          </tr><tr>
+            <td class="red">277</td>
+            <td>    val icon = <span class="non">AwtImageUtil.makeIcon(url, bg, invert, crops)
+</span></td>
+          </tr><tr>
+            <td class="red">278</td>
+            <td>    <span class="non">imagePreparer.addIcon(icon)
+</span></td>
+          </tr><tr>
+            <td class="red">279</td>
+            <td>    <span class="non">imagePreparer.setName(url.split(&quot;/&quot;).last)
+</span></td>
+          </tr><tr>
+            <td class="red">280</td>
+            <td>    <span class="non">imagePreparer.enableSubmission(true)
+</span></td>
+          </tr><tr>
+            <td class="red">281</td>
+            <td>    <span class="non">imagePrep = new ImagePreparationData(icon, imagePreparer.getName)
+</span></td>
+          </tr><tr>
+            <td class="black">282</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">283</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">284</td>
+            <td>  private def doPrepareImageData(url: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="red">285</td>
+            <td>    val kick = <span class="non">Kick.valueOf(kickSelect.getValue.toString).get
+</span></td>
+          </tr><tr>
+            <td class="red">286</td>
+            <td>    val crops = <span class="non">imagePreparer.getCrops
+</span></td>
+          </tr><tr>
+            <td class="red">287</td>
+            <td>    val invert = <span class="non">imagePreparer.isInvert
+</span></td>
+          </tr><tr>
+            <td class="red">288</td>
+            <td>    val bg = <span class="non">imagePreparer.getBg
+</span></td>
+          </tr><tr>
+            <td class="red">289</td>
+            <td>    val originalImage = <span class="non">AwtImageUtil.bufferImage(url, bg, invert, crops)
+</span></td>
+          </tr><tr>
+            <td class="red">290</td>
+            <td>    val originalWidth = <span class="non">originalImage.getWidth
+</span></td>
+          </tr><tr>
+            <td class="red">291</td>
+            <td>    val originalHeight = <span class="non">originalImage.getHeight
+</span></td>
+          </tr><tr>
+            <td class="red">292</td>
+            <td>    val lineWidth = <span class="non">widthSlider.getValue.shortValue
+</span></td>
+          </tr><tr>
+            <td class="red">293</td>
+            <td>    val method = <span class="non">Method.valueOf(methodBox.getValue.toString).get
+</span></td>
+          </tr><tr>
+            <td class="red">294</td>
+            <td>    val proportion = <span class="non">proportionSelect.getValue.asInstanceOf[Proportion]
+</span></td>
+          </tr><tr>
+            <td class="red">295</td>
+            <td>    val (<span class="non">width, height) = Proportion.getWidthAndHeight(proportion, method, lineWidth, originalWidth, originalHeight)
+</span></td>
+          </tr><tr>
+            <td class="red">296</td>
+            <td>    val b = <span class="non">imagePreparer.getBrightness
+</span></td>
+          </tr><tr>
+            <td class="red">297</td>
+            <td>    val c = <span class="non">imagePreparer.getContrast
+</span></td>
+          </tr><tr>
+            <td class="red">298</td>
+            <td>    val scaled = <span class="non">AwtImageUtil.getScaled(originalImage, width, height, kick, b, c)
+</span></td>
+          </tr><tr>
+            <td class="red">299</td>
+            <td>    <span class="non">inline.setIntermediate(scaled, method)
+</span></td>
+          </tr><tr>
+            <td class="red">300</td>
+            <td>    val imageRgb = <span class="non">AwtImageUtil.getImageRgb(scaled)
+</span></td>
+          </tr><tr>
+            <td class="red">301</td>
+            <td>    <span class="non">imageData = new ImageData(imageRgb, scaled.getWidth.toShort, scaled.getHeight.toShort, lineWidth, method)
+</span></td>
+          </tr><tr>
+            <td class="black">302</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">303</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">304</td>
+            <td>  private def startConversion(prepareImage: Boolean, resize: Boolean): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">305</td>
+            <td>    if (!conversionDisabled) {
+</td>
+          </tr><tr>
+            <td class="green">306</td>
+            <td>      conversionDisabled = true
+</td>
+          </tr><tr>
+            <td class="green">307</td>
+            <td>      imagePreparer.getUrl match {
+</td>
+          </tr><tr>
+            <td class="black">308</td>
+            <td>        case Some(url) =&gt;
+</td>
+          </tr><tr>
+            <td class="black">309</td>
+            <td>          try {
+</td>
+          </tr><tr>
+            <td class="green">310</td>
+            <td>            val totalStart = (new Date).getTime
+</td>
+          </tr><tr>
+            <td class="yellow">311</td>
+            <td>            if (prepareImage) { <span class="non">doPrepareImage(url) }
+</span></td>
+          </tr><tr>
+            <td class="yellow">312</td>
+            <td>            if (resize) { <span class="non">doPrepareImageData(url) }
+</span></td>
+          </tr><tr>
+            <td class="green">313</td>
+            <td>            if (prepareImage) {
+</td>
+          </tr><tr>
+            <td class="red">314</td>
+            <td>              <span class="non">makeImageInits
+</span></td>
+          </tr><tr>
+            <td class="red">315</td>
+            <td>              <span class="non">conversionDisabled = false
+</span></td>
+          </tr><tr>
+            <td class="red">316</td>
+            <td>              <span class="non">startConversion(false, false)
+</span></td>
+          </tr><tr>
+            <td class="black">317</td>
+            <td>            } else {
+</td>
+          </tr><tr>
+            <td class="red">318</td>
+            <td>              val (<span class="non">conversionTime, htmlTime) = makeConversion
+</span></td>
+          </tr><tr>
+            <td class="red">319</td>
+            <td>              val totalEnd = (<span class="non">new Date).getTime
+</span></td>
+          </tr><tr>
+            <td class="red">320</td>
+            <td>              val totalTime = <span class="non">totalEnd - totalStart
+</span></td>
+          </tr><tr>
+            <td class="red">321</td>
+            <td>              val status = <span class="non">&quot;Image converted in &quot; + conversionTime + &quot;ms. &quot; +
+</span></td>
+          </tr><tr>
+            <td class="black">322</td>
+            <td>                    &quot;HTML generated in &quot; + htmlTime + &quot;ms. &quot; +
+</td>
+          </tr><tr>
+            <td class="black">323</td>
+            <td>                    &quot;Total time &quot; + totalTime + &quot;ms.&quot;
+</td>
+          </tr><tr>
+            <td class="red">324</td>
+            <td>              <span class="non">imagePreparer.setStatus(status)
+</span></td>
+          </tr><tr>
+            <td class="black">325</td>
+            <td>              //System.gc
+</td>
+          </tr><tr>
+            <td class="black">326</td>
+            <td>            }
+</td>
+          </tr><tr>
+            <td class="black">327</td>
+            <td>          } catch {
+</td>
+          </tr><tr>
+            <td class="red">328</td>
+            <td>            case iioe: javax.imageio.IIOException =&gt; <span class="non">imagePreparer.setError(&quot;Cannot read image from URL.&quot;)
+</span></td>
+          </tr><tr>
+            <td class="green">329</td>
+            <td>            case e: Exception =&gt; imagePreparer.setError(e.getMessage)
+</td>
+          </tr><tr>
+            <td class="black">330</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">331</td>
+            <td>        case None =&gt; { }
+</td>
+          </tr><tr>
+            <td class="black">332</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">333</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">334</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">335</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">336</td>
+            <td>  private def makeConversion(): (Long, Long) = {
+</td>
+          </tr><tr>
+            <td class="green">337</td>
+            <td>    val chars = charTextField.getValue.replaceAll(&quot;[,0-9]&quot;, &quot;&quot;)
+</td>
+          </tr><tr>
+            <td class="green">338</td>
+            <td>    val contrast = contrastLabel.getValue.toShort
+</td>
+          </tr><tr>
+            <td class="green">339</td>
+            <td>    val brightness = brightnessLabel.getValue.toShort
+</td>
+          </tr><tr>
+            <td class="green">340</td>
+            <td>    convData = new ConversionData(contrast, brightness, chars)
+</td>
+          </tr><tr>
+            <td class="green">341</td>
+            <td>    val ps = procSetter.getSettings
+</td>
+          </tr><tr>
+            <td class="green">342</td>
+            <td>    val params = new Engine.Params(
+</td>
+          </tr><tr>
+            <td class="black">343</td>
+            <td>      imageData.method,
+</td>
+          </tr><tr>
+            <td class="black">344</td>
+            <td>      imageData.imageRgb,
+</td>
+          </tr><tr>
+            <td class="black">345</td>
+            <td>      ircColorSetter.getColorMap,
+</td>
+          </tr><tr>
+            <td class="black">346</td>
+            <td>      chars,
+</td>
+          </tr><tr>
+            <td class="black">347</td>
+            <td>      ps,
+</td>
+          </tr><tr>
+            <td class="black">348</td>
+            <td>      contrast,
+</td>
+          </tr><tr>
+            <td class="black">349</td>
+            <td>      brightness,
+</td>
+          </tr><tr>
+            <td class="black">350</td>
+            <td>      Power.valueOf(powerBox.getValue.toString).get
+</td>
+          </tr><tr>
+            <td class="black">351</td>
+            <td>    )
+</td>
+          </tr><tr>
+            <td class="red">352</td>
+            <td>    val conversionStart = (<span class="non">new Date).getTime
+</span></td>
+          </tr><tr>
+            <td class="red">353</td>
+            <td>    <span class="non">ircOutput = generateIrcOutput(params, imageData.height)
+</span></td>
+          </tr><tr>
+            <td class="red">354</td>
+            <td>    val conversionEnd = (<span class="non">new Date).getTime
+</span></td>
+          </tr><tr>
+            <td class="red">355</td>
+            <td>    val conversionDiff = <span class="non">conversionEnd - conversionStart
+</span></td>
+          </tr><tr>
+            <td class="red">356</td>
+            <td>    <span class="non">outputDisplay.addIrcOutput(ircOutput.map(_ + &quot;\n&quot;))
+</span></td>
+          </tr><tr>
+            <td class="red">357</td>
+            <td>    val htmlDiff = <span class="non">updateInline(imageData.method, ircOutput, imagePreparer.getName)
+</span></td>
+          </tr><tr>
+            <td class="red">358</td>
+            <td>    <span class="non">ircConnector.refresh
+</span></td>
+          </tr><tr>
+            <td class="red">359</td>
+            <td>    <span class="non">conversionDisabled = false
+</span></td>
+          </tr><tr>
+            <td class="red">360</td>
+            <td>    <span class="non">(conversionDiff, htmlDiff)
+</span></td>
+          </tr><tr>
+            <td class="black">361</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">362</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">363</td>
+            <td>  private def generateIrcOutput(params: Engine.Params, lastIndex: Int) = {
+</td>
+          </tr><tr>
+            <td class="black">364</td>
+            <td>    def generate0(index: Int): List[String] = {
+</td>
+          </tr><tr>
+            <td class="red">365</td>
+            <td>      if (<span class="non">index + 2 &gt; lastIndex) { Nil }
+</span></td>
+          </tr><tr>
+            <td class="red">366</td>
+            <td>      else { Engine.generateLine(params, index) <span class="non">:: generate0(index + 2) }
+</span></td>
+          </tr><tr>
+            <td class="black">367</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="red">368</td>
+            <td>    <span class="non">generate0(0)
+</span></td>
+          </tr><tr>
+            <td class="black">369</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">370</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">371</td>
+            <td>  private def updateInline(method: Method, ircOutput: List[String], name: String): Long = {
+</td>
+          </tr><tr>
+            <td class="red">372</td>
+            <td>    val htmlStart = (<span class="non">new Date).getTime
+</span></td>
+          </tr><tr>
+            <td class="red">373</td>
+            <td>    val htmlAndCss = <span class="non">HtmlUtil.generateHtml(ircOutput, name, method)
+</span></td>
+          </tr><tr>
+            <td class="red">374</td>
+            <td>    val inlineCss = <span class="non">HtmlUtil.prepareCssForInline(htmlAndCss._2)
+</span></td>
+          </tr><tr>
+            <td class="red">375</td>
+            <td>    val inlineHtml = <span class="non">HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)
+</span></td>
+          </tr><tr>
+            <td class="red">376</td>
+            <td>    val htmlEnd = (<span class="non">new Date).getTime
+</span></td>
+          </tr><tr>
+            <td class="red">377</td>
+            <td>    <span class="non">inline.setValue(inlineHtml)
+</span></td>
+          </tr><tr>
+            <td class="red">378</td>
+            <td>    <span class="non">inline.reset
+</span></td>
+          </tr><tr>
+            <td class="red">379</td>
+            <td>    <span class="non">htmlEnd - htmlStart
+</span></td>
+          </tr><tr>
+            <td class="black">380</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">381</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">382</td>
+            <td>  private def makeImageInits(): Unit = {
+</td>
+          </tr><tr>
+            <td class="red">383</td>
+            <td>    <span class="non">conversionDisabled = true
+</span></td>
+          </tr><tr>
+            <td class="red">384</td>
+            <td>    <span class="non">contrastSlider.setValue(0)
+</span></td>
+          </tr><tr>
+            <td class="red">385</td>
+            <td>    <span class="non">brightnessSlider.setValue(0)
+</span></td>
+          </tr><tr>
+            <td class="red">386</td>
+            <td>    val (<span class="non">methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData.imageRgb)
+</span></td>
+          </tr><tr>
+            <td class="red">387</td>
+            <td>    <span class="non">methodOpt match {
+</span></td>
+          </tr><tr>
+            <td class="black">388</td>
+            <td>      case Some(meth) =&gt;
+</td>
+          </tr><tr>
+            <td class="red">389</td>
+            <td>        if (<span class="non">imagePreparer.getBrightness == 0 &amp;&amp; imagePreparer.getContrast == 0) {
+</span></td>
+          </tr><tr>
+            <td class="red">390</td>
+            <td>          <span class="non">methodBox.setValue(meth)
+</span></td>
+          </tr><tr>
+            <td class="black">391</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">392</td>
+            <td>      case None =&gt; { }
+</td>
+          </tr><tr>
+            <td class="black">393</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="red">394</td>
+            <td>    <span class="non">ircColorSetter.setSelectedScheme(scheme)
+</span></td>
+          </tr><tr>
+            <td class="red">395</td>
+            <td>    <span class="non">charsetOpt match {
+</span></td>
+          </tr><tr>
+            <td class="red">396</td>
+            <td>      case Some(chrset) =&gt; <span class="non">charsetBox.select(chrset)
+</span></td>
+          </tr><tr>
+            <td class="black">397</td>
+            <td>      case None =&gt; { }
+</td>
+          </tr><tr>
+            <td class="black">398</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="red">399</td>
+            <td>    <span class="non">conversionDisabled = false
+</span></td>
+          </tr><tr>
+            <td class="black">400</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">401</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">402</td>
+            <td>  private def doReset(): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">403</td>
+            <td>    conversionDisabled = true
+</td>
+          </tr><tr>
+            <td class="green">404</td>
+            <td>    proportionSelect.setValue(Proportion.default)
+</td>
+          </tr><tr>
+            <td class="green">405</td>
+            <td>    widthSlider.setValue(InitUtil.DEFAULT_WIDTH)
+</td>
+          </tr><tr>
+            <td class="green">406</td>
+            <td>    contrastSlider.setValue(0)
+</td>
+          </tr><tr>
+            <td class="green">407</td>
+            <td>    brightnessSlider.setValue(0)
+</td>
+          </tr><tr>
+            <td class="green">408</td>
+            <td>    makeInitsForMethod
+</td>
+          </tr><tr>
+            <td class="green">409</td>
+            <td>    conversionDisabled = false
+</td>
+          </tr><tr>
+            <td class="black">410</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">411</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">412</td>
+            <td>  private def makeInitsForMethod(): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">413</td>
+            <td>    conversionDisabled = true
+</td>
+          </tr><tr>
+            <td class="green">414</td>
+            <td>    val method = Method.valueOf(methodBox.getValue.toString).get
+</td>
+          </tr><tr>
+            <td class="green">415</td>
+            <td>    ircColorSetter.makeEnabled(method.hasColor)
+</td>
+          </tr><tr>
+            <td class="green">416</td>
+            <td>    ircColorSetter.setSelectedScheme(Scheme.default)
+</td>
+          </tr><tr>
+            <td class="green">417</td>
+            <td>    powerBox.setEnabled(method.equals(Method.Vortacular))
+</td>
+          </tr><tr>
+            <td class="green">418</td>
+            <td>    powerBox.select(Power.default)
+</td>
+          </tr><tr>
+            <td class="green">419</td>
+            <td>    kickSelect.select(Kick.OFF)
+</td>
+          </tr><tr>
+            <td class="green">420</td>
+            <td>    kickSelect.setEnabled(method.hasKick)
+</td>
+          </tr><tr>
+            <td class="green">421</td>
+            <td>    procSetter.reset(Pal.hasAnsi(charTextField.getValue))
+</td>
+          </tr><tr>
+            <td class="green">422</td>
+            <td>    procSetter.setEnabled(!method.equals(Method.Pwntari))
+</td>
+          </tr><tr>
+            <td class="green">423</td>
+            <td>    charsetBox.removeValueChangeListener(charsetBoxListener)
+</td>
+          </tr><tr>
+            <td class="green">424</td>
+            <td>    charsetBox.removeAllItems
+</td>
+          </tr><tr>
+            <td class="green">425</td>
+            <td>    Pal.getCharsetForMethod(method).foreach(cb =&gt; charsetBox.addItem(cb))
+</td>
+          </tr><tr>
+            <td class="green">426</td>
+            <td>    charsetBox.addValueChangeListener(charsetBoxListener)
+</td>
+          </tr><tr>
+            <td class="green">427</td>
+            <td>    charsetBox.setValue(Pal.getForMethod(method))
+</td>
+          </tr><tr>
+            <td class="green">428</td>
+            <td>    charsetBox.setEnabled(!method.equals(Method.Pwntari))
+</td>
+          </tr><tr>
+            <td class="green">429</td>
+            <td>    charTextField.setEnabled(!method.equals(Method.Pwntari))
+</td>
+          </tr><tr>
+            <td class="green">430</td>
+            <td>    if (method.equals(Method.Pwntari)) {
+</td>
+          </tr><tr>
+            <td class="red">431</td>
+            <td>      <span class="non">charTextField.setValue(&quot;▄&quot;)
+</span></td>
+          </tr><tr>
+            <td class="red">432</td>
+            <td>      <span class="non">contrastSlider.setValue(0)
+</span></td>
+          </tr><tr>
+            <td class="red">433</td>
+            <td>      <span class="non">brightnessSlider.setValue(0)
+</span></td>
+          </tr><tr>
+            <td class="black">434</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">435</td>
+            <td>    contrastSlider.setEnabled(!method.equals(Method.Pwntari))
+</td>
+          </tr><tr>
+            <td class="green">436</td>
+            <td>    brightnessSlider.setEnabled(!method.equals(Method.Pwntari))
+</td>
+          </tr><tr>
+            <td class="green">437</td>
+            <td>    contrastLabel.setEnabled(!method.equals(Method.Pwntari))
+</td>
+          </tr><tr>
+            <td class="green">438</td>
+            <td>    brightnessLabel.setEnabled(!method.equals(Method.Pwntari))
+</td>
+          </tr><tr>
+            <td class="green">439</td>
+            <td>    conversionDisabled = false
+</td>
+          </tr><tr>
+            <td class="black">440</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">441</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">442</td>
+            <td>  private def makeInitsForCharset(chars: String) = procSetter.reset(Pal.hasAnsi(chars))
+</td>
+          </tr><tr>
+            <td class="black">443</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">444</td>
+            <td>  def saveImage(): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">445</td>
+            <td>    val name = imagePreparer.getName
+</td>
+          </tr><tr>
+            <td class="green">446</td>
+            <td>    val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, imageData.method)
+</td>
+          </tr><tr>
+            <td class="red">447</td>
+            <td>    val format = <span class="non">new java.text.SimpleDateFormat(&quot;yyyy.MM.dd HH:mm:ss&quot;)
+</span></td>
+          </tr><tr>
+            <td class="red">448</td>
+            <td>    val base64Icon = <span class="non">AwtImageUtil.encodeToBase64(imagePrep.icon)
+</span></td>
+          </tr><tr>
+            <td class="red">449</td>
+            <td>    val jenkemImageInfo = <span class="non">new ImageInfo(name, base64Icon, imageData.method.name, convData.characters,
+</span></td>
+          </tr><tr>
+            <td class="black">450</td>
+            <td>        convData.contrast.shortValue, convData.brightness.shortValue, ircOutput.size.shortValue,
+</td>
+          </tr><tr>
+            <td class="black">451</td>
+            <td>        imageData.lineWidth.shortValue, format.format(new Date)
+</td>
+          </tr><tr>
+            <td class="black">452</td>
+            <td>    )
+</td>
+          </tr><tr>
+            <td class="red">453</td>
+            <td>    val jenkemImageHtml = <span class="non">new ImageHtml(name, htmlAndCss._1)
+</span></td>
+          </tr><tr>
+            <td class="red">454</td>
+            <td>    val jenkemImageCss = <span class="non">new ImageCss(name, htmlAndCss._2)
+</span></td>
+          </tr><tr>
+            <td class="red">455</td>
+            <td>    val jenkemImageIrc = <span class="non">new ImageIrc(name, ircOutput.map(_ + &quot;\n&quot;).mkString)
+</span></td>
+          </tr><tr>
+            <td class="red">456</td>
+            <td>    val jenkemImage = <span class="non">new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc)
+</span></td>
+          </tr><tr>
+            <td class="red">457</td>
+            <td>    if (<span class="non">PersistenceService.saveJenkemImage(jenkemImage)) {
+</span></td>
+          </tr><tr>
+            <td class="red">458</td>
+            <td>      <span class="non">Notifications.showImageSaved(Page.getCurrent)
+</span></td>
+          </tr><tr>
+            <td class="black">459</td>
+            <td>    } else {
+</td>
+          </tr><tr>
+            <td class="red">460</td>
+            <td>      <span class="non">Notifications.showImageNotSaved(Page.getCurrent)
+</span></td>
+          </tr><tr>
+            <td class="black">461</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">462</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">463</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">464</td>
+            <td>  def hasLink: Boolean = <span class="non">imagePreparer.hasLink
+</span></td>
+          </tr><tr>
+            <td class="green">465</td>
+            <td>  def setLink(link: String): Unit = imagePreparer.setLink(link)
+</td>
+          </tr><tr>
+            <td class="black">466</td>
+            <td>}
+</td>
+          </tr></tbody></table>

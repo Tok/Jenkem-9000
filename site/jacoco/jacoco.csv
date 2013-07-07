@@ -1,0 +1,357 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Jenkem,jenkem.ui.tab,MainTab.ImageData,46,0,2,0,3,0,7,0,6,0
+Jenkem,jenkem.ui.tab,GalleryTab.Column,4,30,1,1,0,1,1,4,0,4
+Jenkem,jenkem.ui.tab,GalleryTab..anonfun.update.new Serializable() {...},4,23,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui.tab,GalleryTab.ImageInfoBean,4,186,1,1,0,20,1,10,0,10
+Jenkem,jenkem.ui.tab,MainTab..anonfun.makeListMethodSelect.new Serializable() {...},0,15,0,0,0,1,0,2,0,2
+Jenkem,jenkem.ui.tab,MainTab.ImagePreparationData,28,0,2,0,1,0,4,0,3,0
+Jenkem,jenkem.ui.tab,GalleryTab.BRIGHT.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.ui.tab,MainTab..anonfun.jenkem.ui.tab.MainTab..makeInitsForMethod.new Serializable() {...},4,18,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui.tab,MainTab.ConversionData,13,21,1,1,0,1,4,1,3,1
+Jenkem,jenkem.ui.tab,GalleryTab..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.ui.tab,GalleryTab..anonfun.new Serializable() {...},4,22,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui.tab,GalleryTab..anonfun.new Serializable() {...},4,22,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui.tab,GalleryTab..anonfun.new Serializable() {...},4,23,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui.tab,MainTab..anonfun.new Serializable() {...},4,18,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui.tab,MainTab..anonfun.new Serializable() {...},16,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.ui.tab,MainTab..anon.new Property.ValueChangeListener() {...},9,13,2,2,0,2,2,2,0,2
+Jenkem,jenkem.ui.tab,MainTab..anon.new Property.ValueChangeListener() {...},28,52,8,4,1,8,5,3,0,2
+Jenkem,jenkem.ui.tab,MainTab..anon.new Button.ClickListener() {...},13,8,1,1,2,1,2,1,1,1
+Jenkem,jenkem.ui.tab,MainTab..anon.new Property.ValueChangeListener() {...},4,25,1,1,0,5,1,2,0,2
+Jenkem,jenkem.ui.tab,MainTab..anon.new Property.ValueChangeListener() {...},30,11,1,1,2,1,2,1,1,1
+Jenkem,jenkem.ui.tab,MainTab..anon.new Object() {...},4,16,1,1,0,2,1,2,0,2
+Jenkem,jenkem.ui.tab,MainTab..anon.new Object() {...},14,8,1,1,1,1,2,1,1,1
+Jenkem,jenkem.ui.tab,MainTab..anon.new Property.ValueChangeListener() {...},9,13,2,2,0,2,2,2,0,2
+Jenkem,jenkem.ui.tab,GalleryTab.CHARS.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.ui.tab,GalleryTab.METHOD.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.ui.tab,InfoTab,0,696,0,0,0,96,0,4,0,4
+Jenkem,jenkem.ui.tab,MainTab,1214,1859,52,22,105,182,49,52,16,48
+Jenkem,jenkem.ui.tab,GalleryTab.NAME.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.ui.tab,GalleryTab,74,583,25,19,1,36,23,25,1,25
+Jenkem,jenkem.ui.tab,MainTab..anonfun.makeConversion.new Serializable() {...},16,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.ui.tab,GalleryTab.CONT.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.ui.tab,GalleryTab.WIDTH.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.ui.tab,GalleryTab.LINES.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.ui.tab,GalleryTab.CREATION.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.ui.tab,GalleryTab.ICON.,6,31,0,0,0,1,2,7,2,7
+Jenkem,jenkem.event,SendToIrcEvent,0,8,0,0,0,1,0,1,0,1
+Jenkem,jenkem.event,SaveImageEvent,0,8,0,0,0,1,0,1,0,1
+Jenkem,jenkem.event,DoConversionEvent,0,20,0,0,0,1,0,3,0,3
+Jenkem,jenkem.persistence.data,JenkemImage.HTML.,26,9,0,0,0,1,7,2,7,2
+Jenkem,jenkem.persistence.data,ImageCss,264,459,45,53,0,3,46,58,11,41
+Jenkem,jenkem.persistence.data,JenkemImage,12,191,4,12,0,6,4,18,0,14
+Jenkem,jenkem.persistence.data,JenkemImage.IRC.,26,9,0,0,0,1,7,2,7,2
+Jenkem,jenkem.persistence.data,JenkemImage.Part,4,18,1,1,0,1,1,2,0,2
+Jenkem,jenkem.persistence.data,ImageHtml,264,459,45,53,0,3,46,58,11,41
+Jenkem,jenkem.persistence.data,JenkemImage.CSS.,26,9,0,0,0,1,7,2,7,2
+Jenkem,jenkem.persistence.data,ImageIrc,264,459,45,53,0,3,46,58,11,41
+Jenkem,jenkem.persistence.data,JenkemImage.INFO.,26,9,0,0,0,1,7,2,7,2
+Jenkem,jenkem.persistence.data,ImageInfo,544,777,108,81,0,5,95,93,25,55
+Jenkem,jenkem.js,Cropper..anon.1..anonfun.call.new Serializable() {...},11,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.js,Cropper..anon.new JavaScriptFunction() {...},49,8,3,1,11,1,3,1,1,1
+Jenkem,jenkem.js,CropperState,0,36,0,0,0,4,0,5,0,5
+Jenkem,jenkem.js,CropperChangeListener,0,7,0,0,0,1,0,1,0,1
+Jenkem,jenkem.js,Crops,6,37,0,0,0,1,2,5,2,5
+Jenkem,jenkem.js,Cropper,13,88,1,1,1,11,2,7,1,7
+Jenkem,jenkem.bot.status,UnknownConnectionStatus.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.bot.status,UnknownSendStatus,23,0,0,0,0,0,7,0,7,0
+Jenkem,jenkem.bot.status,Sending.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.bot.status,BotStatus.,0,27,0,0,0,2,0,3,0,3
+Jenkem,jenkem.bot.status,NotSending.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.bot.status,Connected,23,0,0,0,0,0,7,0,7,0
+Jenkem,jenkem.bot.status,Disconnected.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.bot.status,BotStatus.Value,10,81,7,5,0,4,5,10,0,9
+Jenkem,jenkem.bot.status,NotSending,23,0,0,0,0,0,7,0,7,0
+Jenkem,jenkem.bot.status,UnknownSendStatus.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.bot.status,Sending,23,0,0,0,0,0,7,0,7,0
+Jenkem,jenkem.bot.status,Disconnected,23,0,0,0,0,0,7,0,7,0
+Jenkem,jenkem.bot.status,Connected.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.bot.status,BotStatus,3,0,0,0,0,0,1,0,1,0
+Jenkem,jenkem.bot.status,UnknownConnectionStatus,23,0,0,0,0,0,7,0,7,0
+Jenkem,jenkem.servlet,IrcOutputServlet,76,55,13,3,3,7,8,2,0,2
+Jenkem,jenkem.servlet,HtmlOutputServlet,76,55,13,3,3,7,8,2,0,2
+Jenkem,jenkem.servlet,AbstractOutputServlet,0,46,0,0,0,5,0,4,0,4
+Jenkem,jenkem.servlet,CssOutputServlet,28,55,5,3,0,7,4,2,0,2
+Jenkem,jenkem.persistence,PersistenceService..anonfun.liftedTree1.1.new Serializable() {...},0,24,0,0,0,1,0,2,0,2
+Jenkem,jenkem.persistence,PersistenceService,22,0,0,0,0,0,6,0,6,0
+Jenkem,jenkem.persistence,PMF.,77,146,9,3,3,15,6,10,0,10
+Jenkem,jenkem.persistence,PersistenceService.,146,336,14,6,4,41,8,12,0,10
+Jenkem,jenkem.persistence,PMF,24,0,0,0,0,0,8,0,8,0
+Jenkem,jenkem.engine.color,Scheme.Lsd.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Sample.,102,1148,60,52,0,69,42,34,0,20
+Jenkem,jenkem.engine.color,Sample.BOT.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.engine.color,Scheme.Black.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Power.,0,58,0,0,0,4,0,5,0,5
+Jenkem,jenkem.engine.color,Scheme.Magenta.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Sample.TOP.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.engine.color,Scheme.Full.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.DarkBlue.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.IrcColor,3,34,0,0,0,1,1,5,1,5
+Jenkem,jenkem.engine.color,Scheme..anonfun.valuOfIrcColor.new Serializable() {...},0,19,0,2,0,1,0,3,0,2
+Jenkem,jenkem.engine.color,WeightedColor.,34,0,2,0,1,0,7,0,6,0
+Jenkem,jenkem.engine.color,Power.Quadratic.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.Yellow.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Color,185,57,41,1,0,3,35,11,12,11
+Jenkem,jenkem.engine.color,Cube..anonfun.new Serializable() {...},0,10,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine.color,Scheme.Brown.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Cube..anonfun.new Serializable() {...},0,10,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine.color,Scheme.Bw.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Cube,18,0,0,0,0,0,3,0,3,0
+Jenkem,jenkem.engine.color,Scheme.Default.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.DarkGreen.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Sample.Dir,0,7,0,0,0,1,0,1,0,1
+Jenkem,jenkem.engine.color,Sample.Ydir,0,7,0,0,0,1,0,1,0,1
+Jenkem,jenkem.engine.color,Scheme.Purple.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.Mono.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Power,10,19,0,0,0,1,3,3,3,3
+Jenkem,jenkem.engine.color,Cube.,0,353,0,2,0,30,0,11,0,10
+Jenkem,jenkem.engine.color,Sample,59,0,0,0,0,0,11,0,11,0
+Jenkem,jenkem.engine.color,Scheme.White.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.Green.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.Cyan.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.Blue.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,WeightedColor,110,30,21,0,0,1,21,6,10,6
+Jenkem,jenkem.engine.color,Scheme.Orange.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Power.Cubic.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Power.Quartic.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Sample.RIGHT.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.engine.color,Scheme.LightGray.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.Red.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Power.Linear.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme.Teal.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Sample.LEFT.,4,32,0,0,0,1,2,8,2,8
+Jenkem,jenkem.engine.color,Scheme,21,19,0,0,0,1,6,3,6,3
+Jenkem,jenkem.engine.color,Scheme.,0,206,0,2,0,11,0,10,0,9
+Jenkem,jenkem.engine.color,Color.,33,38,2,0,1,4,4,5,3,5
+Jenkem,jenkem.engine.color,Scheme.Bwg.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine.color,Scheme..anonfun.valueOf.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine.color,Sample.Xdir,0,7,0,0,0,1,0,1,0,1
+Jenkem,jenkem.engine.color,Power..anonfun.valueOf.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine.color,Scheme.Gray.,2,76,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.br.lzycompute.1.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.diffs.lzycompute.1.new Serializable() {...},0,27,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Setting.Instance,8,172,6,14,0,11,4,16,0,10
+Jenkem,jenkem.engine,Engine.Params,0,67,0,0,0,10,0,10,0,10
+Jenkem,jenkem.engine,Pal.Letters.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Method.,0,62,0,0,0,4,0,5,0,5
+Jenkem,jenkem.engine,Kick.XY.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.generateVortacularLine.new Serializable() {...},0,21,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Method.Pwntari.,2,37,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.diffs.lzycompute.1.1..anonfun.apply.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.RIGHT.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal.RIGHT_DOWN.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.chr.lzycompute.1.new Serializable() {...},0,24,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.rIrc.lzycompute.1.new Serializable() {...},0,44,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.rIrc.lzycompute.1.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine.,2123,2413,197,113,58,103,171,85,55,46
+Jenkem,jenkem.engine,Pal.DOWN_UP.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Kick,10,19,0,0,0,1,3,3,3,3
+Jenkem,jenkem.engine,Engine..anonfun.reps.lzycompute.1.new Serializable() {...},0,23,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.Ansi.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal.SCrude.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.lIrc.lzycompute.1.new Serializable() {...},0,44,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.lIrc.lzycompute.1.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.Soft.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.horLine.new Serializable() {...},42,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},32,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},42,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},46,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},46,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Pal.LEFT_UP.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal..anonfun.valueOf.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal,79,19,0,0,0,1,20,3,20,3
+Jenkem,jenkem.engine,Engine..anonfun.tIrc.lzycompute.1.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.HCrude.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.tIrc.lzycompute.1.new Serializable() {...},0,44,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},46,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,36,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,26,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,21,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Proportion,18,7,0,0,0,1,4,1,4,1
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,21,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,94,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,23,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},46,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.H_LINE.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Setting.UPDOWN.,2,35,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.bIrc.lzycompute.1.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.bIrc.lzycompute.1.new Serializable() {...},0,44,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.inferWidth.new Serializable() {...},0,10,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.tr.lzycompute.1.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Method.Vortacular.,2,37,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Kick.OFF.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,26,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.Hard.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,21,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,22,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,24,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,20,0,2,0,1,0,4,0,3
+Jenkem,jenkem.engine,Setting.DBQP.,2,35,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,20,0,2,0,1,0,4,0,3
+Jenkem,jenkem.engine,Engine..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Setting.HORIZONTAL.,2,35,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Method..anonfun.valueOf.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Proportion.Exact.,2,34,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.bl.lzycompute.1.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.DOWN.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal.LEFT.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal.LEFT_DOWN.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Method.Plain.,2,37,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Setting.DIAGONAL.,2,35,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Proportion.,0,80,0,2,0,7,0,7,0,6
+Jenkem,jenkem.engine,Pal.RIGHT_UP.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal.ACrude.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine,8,0,0,0,0,0,2,0,2,0
+Jenkem,jenkem.engine,Pal.Mixed.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Method,10,25,0,0,0,1,3,4,3,4
+Jenkem,jenkem.engine,Kick.,0,58,0,0,0,4,0,5,0,5
+Jenkem,jenkem.engine,Proportion..anonfun.valueOf.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.V_LINE.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Setting.VERTICAL.,2,35,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Kick.Y.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.jenkem.engine.Engine..change.1.new Serializable() {...},16,6,0,0,0,1,1,1,1,1
+Jenkem,jenkem.engine,Engine..anonfun.jenkem.engine.Engine..change.1.new Serializable() {...},0,9,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Engine..anonfun.jenkem.engine.Engine..change.1.new Serializable() {...},0,34,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Pal.Charset,0,19,0,0,0,1,0,3,0,3
+Jenkem,jenkem.engine,Kick.X.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal..anonfun.hasAnsi.new Serializable() {...},0,20,0,2,0,1,0,3,0,2
+Jenkem,jenkem.engine,Pal.UP_DOWN.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Engine..anonfun.tl.lzycompute.1.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.engine,Setting,16,13,0,0,0,1,5,2,5,2
+Jenkem,jenkem.engine,Engine..anonfun.vertLine.new Serializable() {...},32,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Pal.Party.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal.UP.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Setting.,0,110,0,4,0,6,0,9,0,7
+Jenkem,jenkem.engine,Method.Stencil.,2,37,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Setting.LEFTRIGHT.,2,35,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal.Chaos.,2,36,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Proportion.Optimize.,2,34,0,0,0,1,1,9,1,9
+Jenkem,jenkem.engine,Pal.,0,691,0,38,0,40,0,41,0,22
+Jenkem,jenkem.engine,Engine..anonfun.diagLine.new Serializable() {...},27,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.engine,Kick..anonfun.valueOf.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,GoogleUtil,16,0,0,0,0,0,5,0,5,0
+Jenkem,jenkem.util,HtmlUtil.,0,827,0,4,0,76,0,20,0,18
+Jenkem,jenkem.util,AwtImageUtil.IconSource.new StreamResource.StreamSource() {...},39,10,0,0,4,1,1,1,1,1
+Jenkem,jenkem.util,GoogleUtil.,22,255,0,4,1,20,0,10,0,8
+Jenkem,jenkem.util,GoogleUtil..anonfun.new Serializable() {...},0,13,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,GoogleUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,GoogleUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,UrlOptionizer.UrlExtractor.,0,28,0,0,0,2,0,3,0,3
+Jenkem,jenkem.util,InitUtil,36,0,0,0,0,0,9,0,9,0
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,12,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,27,0,2,0,1,0,3,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,12,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,12,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil,48,0,0,0,0,0,13,0,13,0
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,12,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,15,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},7,20,1,1,0,1,1,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,12,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,ColorUtil..anonfun.getBgString.new Serializable() {...},0,13,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.new Serializable() {...},0,11,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,AwtImageUtil..anonfun.1..anonfun.apply.new Serializable() {...},0,17,0,0,0,2,0,2,0,2
+Jenkem,jenkem.util,AwtImageUtil.,71,737,5,3,3,66,5,20,1,20
+Jenkem,jenkem.util,AwtImageUtil,70,0,0,0,0,0,14,0,14,0
+Jenkem,jenkem.util,AwtImageUtil..anonfun.getImageRgb.new Serializable() {...},0,29,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,GoogleUtil..anonfun.makeRandomSearchTerm.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,ImageUtil,12,0,0,0,0,0,2,0,2,0
+Jenkem,jenkem.util,InitUtil.,0,554,0,38,0,41,0,33,0,14
+Jenkem,jenkem.util,OpenShiftUtil.,30,32,9,3,0,4,6,3,0,3
+Jenkem,jenkem.util,OpenShiftUtil,3,0,0,0,0,0,1,0,1,0
+Jenkem,jenkem.util,UrlOptionizer,4,0,0,0,0,0,1,0,1,0
+Jenkem,jenkem.util,HtmlUtil..anonfun.generateHtml.new Serializable() {...},4,29,0,0,0,1,1,2,1,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.generateHtml.new Serializable() {...},4,29,0,0,0,1,1,2,1,2
+Jenkem,jenkem.util,UrlOptionizer.,5,48,1,1,0,5,1,3,0,3
+Jenkem,jenkem.util,ImageUtil.,0,122,0,4,0,8,0,7,0,5
+Jenkem,jenkem.util,HtmlUtil..anonfun.prepareCssForInline.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,ColorUtil,31,0,0,0,0,0,8,0,8,0
+Jenkem,jenkem.util,ColorUtil.,0,230,0,6,0,16,0,16,0,13
+Jenkem,jenkem.util,AwtImageUtil..anonfun.new Serializable() {...},0,28,0,0,0,2,0,2,0,2
+Jenkem,jenkem.util,AwtImageUtil..anonfun.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,AwtImageUtil..anonfun.new Serializable() {...},0,12,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,AwtImageUtil..anonfun.new Serializable() {...},0,16,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.prepareHtmlForInline.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,InitUtil..anonfun.new Serializable() {...},0,24,0,2,0,1,0,4,0,3
+Jenkem,jenkem.util,InitUtil..anonfun.new Serializable() {...},0,24,0,2,0,1,0,4,0,3
+Jenkem,jenkem.util,InitUtil..anonfun.new Serializable() {...},0,20,0,0,0,1,0,3,0,3
+Jenkem,jenkem.util,InitUtil..anonfun.new Serializable() {...},0,13,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,InitUtil..anonfun.new Serializable() {...},0,13,0,0,0,1,0,2,0,2
+Jenkem,jenkem.util,InitUtil..anonfun.new Serializable() {...},0,14,0,2,0,1,0,3,0,2
+Jenkem,jenkem.util,InitUtil..anonfun.new Serializable() {...},0,14,0,2,0,1,0,3,0,2
+Jenkem,jenkem.util,HtmlUtil..anonfun.jenkem.util.HtmlUtil..generateColored.new Serializable() {...},0,183,0,0,0,17,0,2,0,2
+Jenkem,jenkem.bot,Sender.ImageSender,173,0,8,0,13,0,7,0,3,0
+Jenkem,jenkem.bot,JenkemBot.IntExtractor.,0,26,0,0,0,3,0,2,0,2
+Jenkem,jenkem.bot,IrcSettings,39,0,0,0,0,0,13,0,13,0
+Jenkem,jenkem.bot,JenkemBot,411,2161,116,144,13,151,88,81,3,36
+Jenkem,jenkem.bot,IrcSettings.Loc.,0,30,0,0,0,2,0,4,0,4
+Jenkem,jenkem.bot,IrcSettings.,6,176,0,0,0,14,2,13,2,13
+Jenkem,jenkem.bot,ConversionSettings,145,376,17,17,2,41,27,25,13,22
+Jenkem,jenkem.bot,IrcService,24,0,0,0,0,0,6,0,6,0
+Jenkem,jenkem.bot,JenkemBot.ConfigItem.,0,113,0,0,0,2,0,11,0,11
+Jenkem,jenkem.bot,Sender.,101,105,3,3,5,10,9,7,6,7
+Jenkem,jenkem.bot,IrcService.,53,24,0,0,4,3,5,3,5,3
+Jenkem,jenkem.bot,IrcSettings.IrcNetwork,0,25,0,0,0,1,0,4,0,4
+Jenkem,jenkem.bot,JenkemBot.Command.,0,91,0,0,0,2,0,9,0,9
+Jenkem,jenkem.bot,Sender,40,0,0,0,0,0,11,0,11,0
+Jenkem,jenkem.ui,ProcSetter..anonfun.new Serializable() {...},8,28,1,1,0,1,2,2,1,2
+Jenkem,jenkem.ui,ProcSetter..anonfun.new Serializable() {...},4,17,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui,ProcSetter..anonfun.new Serializable() {...},4,17,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui,ProcSetter..anonfun.new Serializable() {...},4,17,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui,Notifications.,164,0,0,0,16,0,12,0,12,0
+Jenkem,jenkem.ui,TabController..anonfun.getTabSheet.new Serializable() {...},28,0,2,0,1,0,3,0,2,0
+Jenkem,jenkem.ui,ProcSetter..anonfun.new Serializable() {...},8,17,1,1,0,1,2,2,1,2
+Jenkem,jenkem.ui,IrcColorSetter..anonfun.jenkem.ui.IrcColorSetter..updatePreset.new Serializable() {...},4,31,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui,OutputDisplay..anonfun.addIrcOutput.new Serializable() {...},15,0,0,0,1,0,2,0,2,0
+Jenkem,jenkem.ui,TabController..anon.new Object() {...},13,8,1,1,2,1,2,1,1,1
+Jenkem,jenkem.ui,IrcConnector..anonfun.new Serializable() {...},4,43,1,3,0,3,1,3,0,2
+Jenkem,jenkem.ui,TabController..anon.new TabSheet.SelectedTabChangeListener() {...},108,0,16,0,11,0,10,0,2,0
+Jenkem,jenkem.ui,IrcConnector..anon.new Property.ValueChangeListener() {...},40,8,3,1,3,1,3,1,1,1
+Jenkem,jenkem.ui,IrcConnector..anon.new Property.ValueChangeListener() {...},45,8,5,1,9,1,4,1,1,1
+Jenkem,jenkem.ui,IrcConnector..anon.new Button.ClickListener() {...},63,8,1,1,9,1,2,1,1,1
+Jenkem,jenkem.ui,IrcConnector..anon.new Button.ClickListener() {...},16,8,1,1,2,1,2,1,1,1
+Jenkem,jenkem.ui,IrcConnector..anon.new Button.ClickListener() {...},22,8,1,1,3,1,2,1,1,1
+Jenkem,jenkem.ui,IrcConnector..anon.new Button.ClickListener() {...},8,8,1,1,1,1,2,1,1,1
+Jenkem,jenkem.ui,Submitter,37,608,3,3,1,59,5,20,2,20
+Jenkem,jenkem.ui,Notifications,35,0,0,0,0,0,10,0,10,0
+Jenkem,jenkem.ui,IrcConnector,159,874,5,7,17,85,6,26,2,24
+Jenkem,jenkem.ui,Submitter..anon.new Property.ValueChangeListener() {...},22,32,3,3,2,4,3,2,0,2
+Jenkem,jenkem.ui,Submitter..anon.new FieldEvents.FocusListener() {...},9,8,1,1,1,1,2,1,1,1
+Jenkem,jenkem.ui,Submitter..anon.new Property.ValueChangeListener() {...},18,8,3,1,2,1,3,1,1,1
+Jenkem,jenkem.ui,TabController,179,198,19,3,12,19,15,9,4,9
+Jenkem,jenkem.ui,Submitter..anon.new Property.ValueChangeListener() {...},18,8,3,1,2,1,3,1,1,1
+Jenkem,jenkem.ui,Submitter..anon.new Button.ClickListener() {...},12,8,1,1,1,1,2,1,1,1
+Jenkem,jenkem.ui,IrcColorSetter..anonfun.new Serializable() {...},4,18,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui,IrcColorSetter..anonfun.new Serializable() {...},4,21,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui,IrcColorSetter..anon.new Property.ValueChangeListener() {...},23,46,9,3,1,6,6,2,0,2
+Jenkem,jenkem.ui,IrcColorSetter..anon.new Property.ValueChangeListener() {...},13,36,2,2,1,4,2,2,0,2
+Jenkem,jenkem.ui,IrcColorSetter,109,597,16,6,7,60,12,22,3,20
+Jenkem,jenkem.ui,ImagePreparer..anon.new Button.ClickListener() {...},4,17,1,1,0,2,1,2,0,2
+Jenkem,jenkem.ui,ImagePreparer..anon.new Property.ValueChangeListener() {...},4,35,1,1,0,3,1,2,0,2
+Jenkem,jenkem.ui,ImagePreparer..anon.new CropperChangeListener() {...},4,64,1,1,0,6,1,2,0,2
+Jenkem,jenkem.ui,ImagePreparer..anon.new Button.ClickListener() {...},4,43,1,1,0,7,1,2,0,2
+Jenkem,jenkem.ui,ImagePreparer..anon.new FieldEvents.FocusListener() {...},4,13,1,1,0,2,1,2,0,2
+Jenkem,jenkem.ui,ImagePreparer,231,1376,42,20,16,120,27,56,1,51
+Jenkem,jenkem.ui,IrcColorSetter..anonfun.makeEnabled.new Serializable() {...},0,15,0,0,0,1,0,2,0,2
+Jenkem,jenkem.ui,ImagePreparer..anon.new Button.ClickListener() {...},9,9,0,0,1,1,1,1,1,1
+Jenkem,jenkem.ui,ImagePreparer..anon.new Button.ClickListener() {...},8,8,1,1,1,1,2,1,1,1
+Jenkem,jenkem.ui,Inline,0,380,0,14,0,31,0,19,0,12
+Jenkem,jenkem.ui,OutputDisplay..anon.new FieldEvents.FocusListener() {...},9,8,1,1,1,1,2,1,1,1
+Jenkem,jenkem.ui,ProcSetter..anon.new Property.ValueChangeListener() {...},44,11,3,1,4,1,3,1,1,1
+Jenkem,jenkem.ui,ProcSetter..anon.new Property.ValueChangeListener() {...},13,13,2,2,1,2,2,2,0,2
+Jenkem,jenkem.ui,IrcConnector..anon.1..anonfun.new Serializable() {...},14,8,1,1,0,1,2,1,1,1
+Jenkem,jenkem.ui,OutputDisplay,31,93,0,0,3,10,1,3,1,3
+Jenkem,jenkem.ui,ProcSetter..anonfun.reset.new Serializable() {...},4,22,1,1,0,1,1,2,0,2
+Jenkem,jenkem.ui,ProcSetter,12,619,4,6,0,59,4,23,1,21
+Jenkem,jenkem.ui,Inline..anon.new Button.ClickListener() {...},4,12,1,1,0,2,1,2,0,2
+Jenkem,jenkem,JenkemInit,173,7,0,0,23,1,1,1,1,1

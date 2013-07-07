@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Sender.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.bot</a> &gt; <span class="el_source">Sender.scala</span></div><h1>Sender.scala</h1><pre class="source lang-java linenums">package jenkem.bot
+
+import jenkem.bot.status.Disconnected
+import jenkem.bot.status.NotSending
+import jenkem.bot.status.Connected
+import jenkem.bot.status.Sending
+import jenkem.bot.status.BotStatus
+
+<span class="fc" id="L9">object Sender {</span>
+<span class="fc" id="L10">  var botStatus = new BotStatus.Value(Disconnected, NotSending, &quot;&quot;, &quot;&quot;, &quot;&quot;, IrcSettings.defaultDelayMs)</span>
+<span class="pc" id="L11">  var stopSwitch = false</span>
+<span class="pc" id="L12">  var isPlaying = false</span>
+<span class="pc" id="L13">  var playThread: Thread = None.orNull</span>
+
+  /**
+   * Runs a thread to play the image into the channel.
+   * this is done in Jenkems own thread so an asynchronous command can set the stop switch while the image is forwarded to IRC.
+   * Pircbots OutputMessage queue is thus bypassed by directly using sendRawLine method.
+   * the tread stops when the stopSwitch is changed to true or when the image is done being played.
+   */
+<span class="nc" id="L21">  class ImageSender(bot: JenkemBot, fullImage: List[String]) extends Runnable {</span>
+    override def run: Unit = {
+<span class="nc" id="L23">      stopSwitch = false</span>
+<span class="nc" id="L24">      isPlaying = true</span>
+<span class="nc" id="L25">      botStatus = new BotStatus.Value(Connected, Sending, bot.getServer, bot.lastChan, bot.getNick, bot.getDelay)</span>
+<span class="nc" id="L26">      val sendMe = &quot;PRIVMSG &quot; + bot.getChannels.head + &quot; :&quot;</span>
+<span class="nc" id="L27">      sendImageLine(fullImage)</span>
+<span class="nc" id="L28">      def sendImageLine(image: List[String]): Unit = {</span>
+<span class="nc bnc" id="L29" title="All 4 branches missed.">        if (!image.isEmpty) {</span>
+<span class="nc" id="L30">          bot.sendRawLine(sendMe + image.head)</span>
+<span class="nc" id="L31">          try {</span>
+<span class="nc" id="L32">            Thread.sleep(bot.getMessageDelay)</span>
+          } catch {
+            case ie: InterruptedException =&gt; bot.sendRawLine(sendMe + ie.getMessage)
+          }
+<span class="nc bnc" id="L36" title="All 4 branches missed.">          if (!stopSwitch) { sendImageLine(image.tail) } else { resetStop(bot) }</span>
+<span class="nc" id="L37">        } else { resetStop(bot) } //finished</span>
+      }
+    }
+  }
+
+  /**
+   * Takes a String[] and floods it to IRC by using a new Thread.
+   * @param channel name of the channel
+   * @param out a String[] with the image as ASCII for IRC.
+   */
+  @throws(classOf[InterruptedException])
+  def playImage(bot: JenkemBot, out: List[String]): String = {
+<span class="pc" id="L49">    this.synchronized {</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">      if (isPlaying) { &quot;Bot is busy.&quot; }</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">      else if (bot.getChannels.isEmpty) { &quot;Bot is not in any channel.&quot; }</span>
+      else {
+<span class="nc" id="L53">        playThread = new Thread(new ImageSender(bot, out))</span>
+<span class="nc" id="L54">        playThread.start</span>
+<span class="pc" id="L55">        &quot;Playing image...&quot;</span>
+      }
+    }
+  }
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">  def makeStop: Unit = if (isPlaying) { stopSwitch = true; isPlaying = false }</span>
+  def resetStop(bot: JenkemBot): Unit = {
+<span class="nc" id="L62">    stopSwitch = false</span>
+<span class="nc" id="L63">    isPlaying = false</span>
+<span class="nc" id="L64">    botStatus = new BotStatus.Value(Connected, NotSending, bot.getServer, bot.lastChan, bot.getNick, bot.getDelay)</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

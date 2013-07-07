@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PMF.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.persistence</a> &gt; <span class="el_source">PMF.scala</span></div><h1>PMF.scala</h1><pre class="source lang-java linenums">package jenkem.persistence
+
+import java.util.Properties
+
+import javax.jdo.JDOHelper
+import javax.jdo.PersistenceManagerFactory
+
+/**
+ * Holds a single instance of the PersistenceManagerFactory.
+ */
+<span class="fc" id="L11">object PMF {</span>
+<span class="fc" id="L12">  final val dbHost = System.getenv(&quot;OPENSHIFT_MONGODB_DB_HOST&quot;)</span>
+<span class="fc" id="L13">  final val dbPort = System.getenv(&quot;OPENSHIFT_MONGODB_DB_PORT&quot;)</span>
+<span class="fc" id="L14">  final val dbName = System.getenv(&quot;OPENSHIFT_APP_NAME&quot;)</span>
+<span class="fc" id="L15">  final val dbUser = System.getenv(&quot;OPENSHIFT_MONGODB_DB_USERNAME&quot;)</span>
+<span class="fc" id="L16">  final val dbPass = System.getenv(&quot;OPENSHIFT_MONGODB_DB_PASSWORD&quot;)</span>
+
+<span class="fc" id="L18">  final val properties: Properties = new Properties</span>
+  //properties.setProperty(&quot;datanucleus.cache.level2.type&quot;, &quot;xmemcached&quot;)
+<span class="fc" id="L20">  properties.setProperty(&quot;javax.jdo.PersistenceManagerFactoryClass&quot;, &quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;)</span>
+<span class="fc" id="L21">  properties.setProperty(&quot;javax.jdo.option.Mapping&quot;, &quot;mongodb&quot;)</span>
+
+<span class="pc" id="L23">  Option(dbHost) match {</span>
+<span class="pc bpc" id="L24" title="5 of 6 branches missed.">    case Some(v) if (!v.isEmpty) =&gt;</span>
+<span class="nc" id="L25">      properties.setProperty(&quot;javax.jdo.option.ConnectionURL&quot;, &quot;mongodb:&quot; + v + &quot;:&quot; + dbPort + &quot;/&quot; + dbName)</span>
+<span class="nc" id="L26">      properties.setProperty(&quot;javax.jdo.option.ConnectionUserName&quot;, dbUser)</span>
+<span class="nc" id="L27">      properties.setProperty(&quot;javax.jdo.option.ConnectionPassword&quot;, dbPass)</span>
+<span class="pc bpc" id="L28" title="4 of 6 branches missed.">    case None =&gt;</span>
+<span class="fc" id="L29">      properties.setProperty(&quot;javax.jdo.option.ConnectionURL&quot;, &quot;mongodb:/jenkem&quot;)</span>
+  }
+
+<span class="fc" id="L32">  final val pmf: PersistenceManagerFactory = JDOHelper.getPersistenceManagerFactory(properties)</span>
+<span class="fc" id="L33">  def get: PersistenceManagerFactory = pmf</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

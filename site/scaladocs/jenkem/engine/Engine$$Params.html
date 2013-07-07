@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>Params - Jenkem 1.0 API - jenkem.engine.Engine.Params</title>
-          <meta name="description" content="Params - Jenkem 1.0 API - jenkem.engine.Engine.Params" />
-          <meta name="keywords" content="Params Jenkem 1.0 API jenkem.engine.Engine.Params" />
+          <title>Params - Jenkem 1.0-SNAPSHOT API - jenkem.engine.Engine.Params</title>
+          <meta name="description" content="Params - Jenkem 1.0 - SNAPSHOT API - jenkem.engine.Engine.Params" />
+          <meta name="keywords" content="Params Jenkem 1.0 SNAPSHOT API jenkem.engine.Engine.Params" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -85,7 +85,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="jenkem.engine.Engine.Params#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(method:jenkem.engine.ConversionMethod.Value,imageRgb:Map[(Int,Int),(Short,Short,Short)],colorMap:Map[jenkem.engine.color.Scheme.IrcColor,Short],charset:String,settings:jenkem.engine.ProcSettings.Instance,contrast:Int,brightness:Int,power:jenkem.engine.color.Power.Value):jenkem.engine.Engine.Params"></a>
+      <a id="&lt;init&gt;(method:jenkem.engine.Method,imageRgb:jenkem.engine.color.Color.RgbMap,colorMap:jenkem.engine.color.Color.IrcMap,characters:String,settings:jenkem.engine.Setting.Instance,contrast:Int,brightness:Int,power:jenkem.engine.color.Power):jenkem.engine.Engine.Params"></a>
       <a id="&lt;init&gt;:Params"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -93,7 +93,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Params</span><span class="params">(<span name="method">method: <a href="ConversionMethod$$Value.html" class="extype" name="jenkem.engine.ConversionMethod.Value">Value</a></span>, <span name="imageRgb">imageRgb: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)]</span>, <span name="colorMap">colorMap: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="color/Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>, <span name="charset">charset: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="settings">settings: <a href="ProcSettings$$Instance.html" class="extype" name="jenkem.engine.ProcSettings.Instance">Instance</a></span>, <span name="contrast">contrast: <span class="extype" name="scala.Int">Int</span></span>, <span name="brightness">brightness: <span class="extype" name="scala.Int">Int</span></span>, <span name="power">power: <a href="color/Power$$Value.html" class="extype" name="jenkem.engine.color.Power.Value">Value</a></span>)</span>
+        <span class="name">Params</span><span class="params">(<span name="method">method: <a href="Method.html" class="extype" name="jenkem.engine.Method">Method</a></span>, <span name="imageRgb">imageRgb: <a href="color/Color$.html#RgbMap=Map[(Int,Int),(Short,Short,Short)]" class="extmbr" name="jenkem.engine.color.Color.RgbMap">RgbMap</a></span>, <span name="colorMap">colorMap: <a href="color/Color$.html#IrcMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Color.IrcMap">IrcMap</a></span>, <span name="characters">characters: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="settings">settings: <a href="Setting$$Instance.html" class="extype" name="jenkem.engine.Setting.Instance">Instance</a></span>, <span name="contrast">contrast: <span class="extype" name="scala.Int">Int</span></span>, <span name="brightness">brightness: <span class="extype" name="scala.Int">Int</span></span>, <span name="power">power: <a href="color/Power.html" class="extype" name="jenkem.engine.color.Power">Power</a></span>)</span>
       </span>
       </h4>
       
@@ -197,16 +197,16 @@
       </span>
       </h4>
       
-    </li><li name="jenkem.engine.Engine.Params#charset" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="charset:String"></a>
-      <a id="charset:String"></a>
+    </li><li name="jenkem.engine.Engine.Params#characters" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="characters:String"></a>
+      <a id="characters:String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">charset</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">characters</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4>
       
@@ -222,20 +222,20 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="jenkem.engine.Engine.Params#colorMap" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="colorMap:Map[jenkem.engine.color.Scheme.IrcColor,Short]"></a>
-      <a id="colorMap:Map[IrcColor,Short]"></a>
+      <a id="colorMap:jenkem.engine.color.Color.IrcMap"></a>
+      <a id="colorMap:IrcMap"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">colorMap</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="color/Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>
+        <span class="name">colorMap</span><span class="result">: <a href="color/Color$.html#IrcMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Color.IrcMap">IrcMap</a></span>
       </span>
       </h4>
       
@@ -290,7 +290,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -334,15 +334,15 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="jenkem.engine.Engine.Params#imageRgb" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="imageRgb:Map[(Int,Int),(Short,Short,Short)]"></a>
-      <a id="imageRgb:Map[(Int,Int),(Short,Short,Short)]"></a>
+      <a id="imageRgb:jenkem.engine.color.Color.RgbMap"></a>
+      <a id="imageRgb:RgbMap"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">imageRgb</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)]</span>
+        <span class="name">imageRgb</span><span class="result">: <a href="color/Color$.html#RgbMap=Map[(Int,Int),(Short,Short,Short)]" class="extmbr" name="jenkem.engine.color.Color.RgbMap">RgbMap</a></span>
       </span>
       </h4>
       
@@ -360,15 +360,15 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="jenkem.engine.Engine.Params#method" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="method:jenkem.engine.ConversionMethod.Value"></a>
-      <a id="method:Value"></a>
+      <a id="method:jenkem.engine.Method"></a>
+      <a id="method:Method"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">method</span><span class="result">: <a href="ConversionMethod$$Value.html" class="extype" name="jenkem.engine.ConversionMethod.Value">Value</a></span>
+        <span class="name">method</span><span class="result">: <a href="Method.html" class="extype" name="jenkem.engine.Method">Method</a></span>
       </span>
       </h4>
       
@@ -412,20 +412,20 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="jenkem.engine.Engine.Params#power" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="power:jenkem.engine.color.Power.Value"></a>
-      <a id="power:Value"></a>
+      <a id="power:jenkem.engine.color.Power"></a>
+      <a id="power:Power"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">power</span><span class="result">: <a href="color/Power$$Value.html" class="extype" name="jenkem.engine.color.Power.Value">Value</a></span>
+        <span class="name">power</span><span class="result">: <a href="color/Power.html" class="extype" name="jenkem.engine.color.Power">Power</a></span>
       </span>
       </h4>
       
     </li><li name="jenkem.engine.Engine.Params#settings" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="settings:jenkem.engine.ProcSettings.Instance"></a>
+      <a id="settings:jenkem.engine.Setting.Instance"></a>
       <a id="settings:Instance"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -433,7 +433,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">settings</span><span class="result">: <a href="ProcSettings$$Instance.html" class="extype" name="jenkem.engine.ProcSettings.Instance">Instance</a></span>
+        <span class="name">settings</span><span class="result">: <a href="Setting$$Instance.html" class="extype" name="jenkem.engine.Setting.Instance">Instance</a></span>
       </span>
       </h4>
       

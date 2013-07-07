@@ -1,0 +1,333 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;ui/<span class="header">&#x200B;TabController.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">57 %</div>
+        <div class="greenBar" style="width:114px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_TabController.scala.html#Class_jenkem_ui_TabController"><img src="class.png"/>TabController</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">57 %</div>
+        <div class="greenBar" style="width:114px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.ui
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import scala.collection.immutable.ListMap
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import com.vaadin.event.EventRouter
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import com.vaadin.server.Page
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import com.vaadin.ui.TabSheet
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import com.vaadin.ui.TabSheet.SelectedTabChangeEvent
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>import jenkem.event.SaveImageEvent
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>import jenkem.ui.tab.GalleryTab
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>import jenkem.ui.tab.InfoTab
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>import jenkem.ui.tab.MainTab
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td><a id="Class_jenkem_ui_TabController"/>class TabController(val eventRouter: EventRouter) {
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>  var isReady = false
+</td>
+          </tr><tr>
+            <td class="green">17</td>
+            <td>  val defaultUrl = &quot;http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png&quot;
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>  val tabSheet = new TabSheet
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td>  val mainTab = new MainTab(eventRouter)
+</td>
+          </tr><tr>
+            <td class="green">20</td>
+            <td>  val galleryTab = new GalleryTab(eventRouter)
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>  val infoTab = new InfoTab
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>  val tabs = ListMap(
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>    mainTab.getCaption.toLowerCase -&gt; mainTab,
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>    galleryTab.getCaption.toLowerCase -&gt; galleryTab,
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>    infoTab.getCaption.toLowerCase -&gt; infoTab)
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>  def getTabSheet(page: Page): TabSheet = {
+</td>
+          </tr><tr>
+            <td class="red">28</td>
+            <td>    <span class="non">tabSheet.setWidth(&quot;1024px&quot;)
+</span></td>
+          </tr><tr>
+            <td class="red">29</td>
+            <td>    <span class="non">tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+</span></td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>      override def selectedTabChange(event: SelectedTabChangeEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>        if (isReady) {
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>          val tabsheet = event.getTabSheet
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>          val tab = tabsheet.getTab(tabsheet.getSelectedTab)
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>          Option(tab) match {
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>            case Some(tab) =&gt;
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>              if (tab.getCaption.toLowerCase.equals(&quot;main&quot;) &amp;&amp; !mainTab.hasLink) {
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>                page.setUriFragment(tab.getCaption.toLowerCase + &quot;/&quot; + defaultUrl)
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>                mainTab.setLink(defaultUrl)
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>              } else {
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>                page.setUriFragment(tab.getCaption.toLowerCase)
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>              }
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>            case None =&gt; { }
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>    })
+</td>
+          </tr><tr>
+            <td class="red">47</td>
+            <td>    <span class="non">tabs.foreach((t) =&gt; tabSheet.addTab(t._2, t._2.getCaption))
+</span></td>
+          </tr><tr>
+            <td class="red">48</td>
+            <td>    <span class="non">tabSheet
+</span></td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>  def selectTab(frag: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>    def selectMainWithDefault(): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">53</td>
+            <td>      tabSheet.setSelectedTab(mainTab)
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>      mainTab.setLink(defaultUrl)
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">56</td>
+            <td>    Option(frag) match {
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>      case Some(frag) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">58</td>
+            <td>        val split = frag.split(&quot;/&quot;, 2)
+</td>
+          </tr><tr>
+            <td class="green">59</td>
+            <td>        tabs.get(split(0)) match {
+</td>
+          </tr><tr>
+            <td class="green">60</td>
+            <td>          case None =&gt; selectMainWithDefault
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>          case Some(tab) =&gt;
+</td>
+          </tr><tr>
+            <td class="red">62</td>
+            <td>            <span class="non">tabSheet.setSelectedTab(tab)
+</span></td>
+          </tr><tr>
+            <td class="red">63</td>
+            <td>            if (<span class="non">tab.equals(mainTab)) {
+</span></td>
+          </tr><tr>
+            <td class="red">64</td>
+            <td>              if (<span class="non">split.length &gt; 1) { mainTab.setLink(split(1)) }
+</span></td>
+          </tr><tr>
+            <td class="red">65</td>
+            <td>              else { <span class="non">mainTab.setLink(defaultUrl) }
+</span></td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>            }
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="red">68</td>
+            <td>      case None =&gt; <span class="non">selectMainWithDefault
+</span></td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">72</td>
+            <td>  eventRouter.addListener(classOf[SaveImageEvent],
+</td>
+          </tr><tr>
+            <td class="green">73</td>
+            <td>    new {
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>      def save: Unit = {
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>        mainTab.saveImage
+</td>
+          </tr><tr>
+            <td class="black">76</td>
+            <td>        galleryTab.update
+</td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>    }, &quot;save&quot;)
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>}
+</td>
+          </tr></tbody></table>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>IrcColorSetter.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">IrcColorSetter.scala</span></div><h1>IrcColorSetter.scala</h1><pre class="source lang-java linenums">package jenkem.ui
+
+import scala.annotation.migration
+import scala.collection.immutable.HashMap
+import com.vaadin.data.Property
+import com.vaadin.data.Property.ValueChangeEvent
+import com.vaadin.event.EventRouter
+import com.vaadin.shared.ui.slider.SliderOrientation
+import com.vaadin.ui.Alignment
+import com.vaadin.ui.HorizontalLayout
+import com.vaadin.ui.Label
+import com.vaadin.ui.NativeSelect
+import com.vaadin.ui.Slider
+import com.vaadin.ui.VerticalLayout
+import jenkem.engine.color.Scheme
+import jenkem.event.DoConversionEvent
+import jenkem.engine.color.Color
+
+<span class="fc" id="L19">class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {</span>
+<span class="fc" id="L20">  var isTriggeringDisabled = false</span>
+<span class="fc" id="L21">  setSpacing(true)</span>
+<span class="fc" id="L22">  setWidth(&quot;400px&quot;)</span>
+<span class="fc" id="L23">  val labels = makeLabelMap</span>
+<span class="fc" id="L24">  val sliders = makeSliderMap</span>
+<span class="fc" id="L25">  val presetBox = new NativeSelect</span>
+<span class="fc" id="L26">  val captionLabel = new Label(&quot;Preset: &quot;)</span>
+<span class="fc" id="L27">  captionLabel.setWidth(&quot;150px&quot;)</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">  Scheme.values.foreach(cs =&gt; presetBox.addItem(cs))</span>
+<span class="fc" id="L29">  presetBox.setWidth(&quot;250px&quot;)</span>
+<span class="fc" id="L30">  presetBox.setNullSelectionAllowed(false)</span>
+<span class="fc" id="L31">  presetBox.setImmediate(true)</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">  presetBox.addValueChangeListener(new Property.ValueChangeListener {</span>
+<span class="fc" id="L33">    override def valueChange(event: ValueChangeEvent): Unit = {</span>
+<span class="pc" id="L34">      Scheme.valueOf(event.getProperty.getValue.toString) match {</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        case Some(s) =&gt; updatePreset(s)</span>
+<span class="nc bnc" id="L36" title="All 6 branches missed.">        case None =&gt; { }</span>
+      }
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">      if (!isTriggeringDisabled) {</span>
+<span class="fc" id="L39">        eventRouter.fireEvent(new DoConversionEvent(false, false))</span>
+      }
+    }
+  })
+<span class="fc" id="L43">  val layout = new HorizontalLayout</span>
+<span class="fc" id="L44">  layout.addComponent(captionLabel)</span>
+<span class="fc" id="L45">  layout.addComponent(presetBox)</span>
+<span class="fc" id="L46">  addComponent(layout)</span>
+
+<span class="fc" id="L48">  val sliderLayout = new HorizontalLayout</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">  Scheme.ircColors.foreach(ic =&gt; sliderLayout.addComponent(makeSliderLayout(ic)))</span>
+<span class="fc" id="L50">  addComponent(sliderLayout)</span>
+
+<span class="fc" id="L52">  setSelectedScheme(Scheme.default)</span>
+<span class="fc" id="L53">  updatePreset(Scheme.default)</span>
+
+  private def makeLabelMap(): HashMap[Scheme.IrcColor, Label] = {
+<span class="fc" id="L56">    def makeLabelMap0(hm: HashMap[Scheme.IrcColor, Label], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Label] = {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">      if (ic.isEmpty) { hm }</span>
+      else {
+<span class="fc" id="L59">        val label = new Label</span>
+<span class="fc" id="L60">        label.setStyleName(&quot;colorLabel &quot; + ic.head.name)</span>
+<span class="fc" id="L61">        makeLabelMap0(hm + ((ic.head, label)), ic.tail)</span>
+      }
+    }
+<span class="fc" id="L64">    makeLabelMap0(new HashMap[Scheme.IrcColor, Label], Scheme.ircColors)</span>
+  }
+  private def makeSliderMap(): HashMap[Scheme.IrcColor, Slider] = {
+<span class="fc" id="L67">    def makeSliderMap0(hm: HashMap[Scheme.IrcColor, Slider], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Slider] = {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">      if (ic.isEmpty) { hm }</span>
+      else {
+<span class="fc" id="L70">        val slider = new Slider</span>
+<span class="fc" id="L71">        slider.setHeight(&quot;100px&quot;)</span>
+<span class="fc" id="L72">        slider.setResolution(0)</span>
+<span class="fc" id="L73">        slider.setOrientation(SliderOrientation.VERTICAL)</span>
+<span class="fc" id="L74">        slider.setMin(0)</span>
+<span class="fc" id="L75">        slider.setMax(100)</span>
+<span class="fc" id="L76">        slider.setImmediate(true)</span>
+<span class="fc" id="L77">        slider.setStyleName(&quot;v-slider &quot; + ic.head.name)</span>
+<span class="fc" id="L78">        makeSliderMap0(hm + ((ic.head, slider)), ic.tail)</span>
+      }
+    }
+<span class="fc" id="L81">    makeSliderMap0(new HashMap[Scheme.IrcColor, Slider], Scheme.ircColors)</span>
+  }
+  private def makeSliderLayout(ic: Scheme.IrcColor) = {
+<span class="fc" id="L84">    val label = getLabel(ic)</span>
+<span class="fc" id="L85">    val slider = getSlider(ic)</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">    slider.addValueChangeListener(new Property.ValueChangeListener {</span>
+<span class="fc" id="L87">      override def valueChange(event: ValueChangeEvent) {</span>
+<span class="fc" id="L88">        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (!isTriggeringDisabled) {</span>
+<span class="nc" id="L90">          eventRouter.fireEvent(new DoConversionEvent(false, false))</span>
+        }
+      }
+    })
+<span class="fc" id="L94">    val layout = new VerticalLayout</span>
+<span class="fc" id="L95">    layout.setSpacing(true)</span>
+<span class="fc" id="L96">    layout.addComponent(slider)</span>
+<span class="fc" id="L97">    layout.setComponentAlignment(slider, Alignment.MIDDLE_CENTER)</span>
+<span class="fc" id="L98">    layout.addComponent(label)</span>
+<span class="fc" id="L99">    layout</span>
+  }
+<span class="pc" id="L101">  private def getLabel(ic: Scheme.IrcColor): Label = labels.get(ic) match {</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">    case Some(label) =&gt; label</span>
+<span class="nc bnc" id="L103" title="All 6 branches missed.">    case None =&gt; new Label</span>
+  }
+<span class="pc" id="L105">  private def getSlider(ic: Scheme.IrcColor): Slider = sliders.get(ic) match {</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">    case Some(slider) =&gt; slider</span>
+<span class="nc bnc" id="L107" title="All 6 branches missed.">    case None =&gt; new Slider</span>
+  }
+  private def updatePreset(cs: Scheme): Unit = {
+<span class="fc" id="L110">    isTriggeringDisabled = true</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">    Scheme.ircColors.foreach(ic =&gt; getSlider(ic).setValue(ic.scheme(cs.order)))</span>
+<span class="fc" id="L112">    isTriggeringDisabled = false</span>
+  }
+<span class="nc" id="L114">  private def getValue(ic: Scheme.IrcColor) = Integer.valueOf(getLabel(ic).getValue).shortValue</span>
+
+  def getColorMap: Color.IrcMap = {
+<span class="nc" id="L117">    def getColorMap0(hm: HashMap[Scheme.IrcColor, Short], ic: List[Scheme.IrcColor]):</span>
+        HashMap[Scheme.IrcColor, Short] = {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">      if (ic.isEmpty) { hm }</span>
+<span class="nc" id="L120">      else { getColorMap0(hm + ((ic.head, getValue(ic.head))), ic.tail) }</span>
+    }
+<span class="nc" id="L122">    getColorMap0(new HashMap[Scheme.IrcColor, Short], Scheme.ircColors)</span>
+  }
+<span class="fc" id="L124">  def setSelectedScheme(scheme: Scheme): Unit = presetBox.select(scheme)</span>
+  def makeEnabled(enabled: Boolean): Unit = {
+<span class="fc" id="L126">    presetBox.setEnabled(enabled)</span>
+<span class="fc" id="L127">    sliders.values.foreach(s =&gt; s.setEnabled(enabled))</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

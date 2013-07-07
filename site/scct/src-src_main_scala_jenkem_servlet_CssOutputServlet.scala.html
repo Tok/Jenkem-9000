@@ -1,0 +1,89 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;servlet/<span class="header">&#x200B;CssOutputServlet.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">83 %</div>
+        <div class="greenBar" style="width:166px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_servlet_CssOutputServlet.scala.html#Class_jenkem_servlet_CssOutputServlet"><img src="class.png"/>CssOutputServlet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">83 %</div>
+        <div class="greenBar" style="width:166px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.servlet
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import javax.servlet.http.HttpServletRequest
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import javax.servlet.http.HttpServletResponse
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td> * Servlet to retrieve and return stored CSS.
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">9</td>
+            <td><a id="Class_jenkem_servlet_CssOutputServlet"/>class CssOutputServlet extends AbstractOutputServlet {
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>  override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>    response.setCharacterEncoding(encoding)
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>    response.setContentType(&quot;text/css&quot;)
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>    jenkemService.getImageCssByName(obtainName(request)) match {
+</td>
+          </tr><tr>
+            <td class="red">14</td>
+            <td>      case Some(imageCss) =&gt; <span class="non">response.getWriter.write(imageCss.css)
+</span></td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>      case None =&gt; response.getWriter.write(&quot;Fail: CSS couldn't be obtained.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>}
+</td>
+          </tr></tbody></table>

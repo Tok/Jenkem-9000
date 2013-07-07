@@ -1,0 +1,97 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;persistence/&#x200B;data/<span class="header">&#x200B;JenkemImage.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_persistence_data_JenkemImage.scala.html#Class_jenkem_persistence_data_JenkemImage"><img src="class.png"/>JenkemImage</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_persistence_data_JenkemImage.scala.html#Object_jenkem_persistence_data_JenkemImage_CSS"><img src="object.png"/>JenkemImage.CSS</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_persistence_data_JenkemImage.scala.html#Object_jenkem_persistence_data_JenkemImage_HTML"><img src="object.png"/>JenkemImage.HTML</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_persistence_data_JenkemImage.scala.html#Object_jenkem_persistence_data_JenkemImage_INFO"><img src="object.png"/>JenkemImage.INFO</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_persistence_data_JenkemImage.scala.html#Object_jenkem_persistence_data_JenkemImage_IRC"><img src="object.png"/>JenkemImage.IRC</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_persistence_data_JenkemImage.scala.html#Class_jenkem_persistence_data_JenkemImage_Part"><img src="class.png"/>JenkemImage.Part</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.persistence.data
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">3</td>
+            <td><a id="Class_jenkem_persistence_data_JenkemImage"/>class JenkemImage(val info: ImageInfo, val html: ImageHtml, val css: ImageCss, val irc: ImageIrc) {
+</td>
+          </tr><tr>
+            <td class="green">4</td>
+            <td><a id="Class_jenkem_persistence_data_JenkemImage_Part"/>  sealed class Part(val c: Class[_ &lt;: ImagePartTrait])
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td><a id="Object_jenkem_persistence_data_JenkemImage_INFO"/>  case object INFO extends Part(classOf[ImageInfo])
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td><a id="Object_jenkem_persistence_data_JenkemImage_HTML"/>  case object HTML extends Part(classOf[ImageHtml])
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td><a id="Object_jenkem_persistence_data_JenkemImage_CSS"/>  case object CSS extends Part(classOf[ImageCss])
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td><a id="Object_jenkem_persistence_data_JenkemImage_IRC"/>  case object IRC extends Part(classOf[ImageIrc])
+</td>
+          </tr><tr>
+            <td class="green">9</td>
+            <td>  val values = List(INFO, HTML, CSS, IRC)
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>}
+</td>
+          </tr></tbody></table>

@@ -1,0 +1,1301 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;bot/<span class="header">&#x200B;JenkemBot.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">89 %</div>
+        <div class="greenBar" style="width:178px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_JenkemBot.scala.html#Class_jenkem_bot_JenkemBot"><img src="class.png"/>JenkemBot</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">88 %</div>
+        <div class="greenBar" style="width:176px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_JenkemBot.scala.html#Object_jenkem_bot_JenkemBot_Command"><img src="object.png"/>JenkemBot.Command</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_JenkemBot.scala.html#Object_jenkem_bot_JenkemBot_ConfigItem"><img src="object.png"/>JenkemBot.ConfigItem</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_JenkemBot.scala.html#Object_jenkem_bot_JenkemBot_IntExtractor"><img src="object.png"/>JenkemBot.IntExtractor</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.bot
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import java.io.IOException
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import java.lang.InterruptedException
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import org.jibble.pircbot.IrcException
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import org.jibble.pircbot.NickAlreadyInUseException
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import org.jibble.pircbot.PircBot
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import jenkem.engine.Method
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>import jenkem.engine.Engine
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>import jenkem.engine.Pal
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>import jenkem.engine.color.Power
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>import jenkem.engine.color.Scheme
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>import jenkem.util.AwtImageUtil
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>import jenkem.util.GoogleUtil
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>import jenkem.util.UrlOptionizer
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>import jenkem.ui.ImagePreparer
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>import jenkem.util.InitUtil
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>import jenkem.engine.Proportion
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>import jenkem.bot.status.Connected
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>import jenkem.bot.status.Disconnected
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>import jenkem.bot.status.NotSending
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>import jenkem.bot.status.BotStatus
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td><a id="Class_jenkem_bot_JenkemBot"/>class JenkemBot extends PircBot {
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>  def init: Unit = {
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>    super.setEncoding(&quot;UTF-8&quot;)
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>    super.setLogin(IrcSettings.login)
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>    super.setVersion(IrcSettings.version)
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>    super.setMessageDelay(IrcSettings.defaultDelayMs)
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>    super.setAutoNickChange(false)
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="green">32</td>
+            <td>  init
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td><a id="Object_jenkem_bot_JenkemBot_Command"/>  object Command extends Enumeration {
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>    type Command = Value
+</td>
+          </tr><tr>
+            <td class="green">36</td>
+            <td>    val QUIT, GTFO, STOP, STFU, HELP, CONFIG, SET, RESET = Value
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td><a id="Object_jenkem_bot_JenkemBot_ConfigItem"/>  object ConfigItem extends Enumeration {
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>    type ConfigItem = Value
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>    val DELAY, WIDTH, MODE, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER, PROPORTION = Value
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td><a id="Object_jenkem_bot_JenkemBot_IntExtractor"/>  object IntExtractor {
+</td>
+          </tr><tr>
+            <td class="green">45</td>
+            <td>    def unapply(s: String): Option[Int] = try { Some(s.toInt) }
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>    catch { case _: java.lang.NumberFormatException =&gt; None }
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">49</td>
+            <td>  val settings = new ConversionSettings
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>  var lastChan = &quot;&quot;
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>  override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">53</td>
+            <td>    evaluateCommand(channel, splitAtSpace(message))
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>  private def evaluateCommand(channel: String, message: Array[String]): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">57</td>
+            <td>    if (message.head.equalsIgnoreCase(&quot;Jenkem&quot;) ||
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>      message.head.equalsIgnoreCase(getLogin) ||
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>      message.head.equalsIgnoreCase(getNick)) {
+</td>
+          </tr><tr>
+            <td class="green">60</td>
+            <td>      if (message.tail.isEmpty) { convertAndPlay(channel, &quot;&quot;) }
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>      else {
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>        try {
+</td>
+          </tr><tr>
+            <td class="green">63</td>
+            <td>          val item = if (message.length &gt; 2) { Some(message(2)) } else { None }
+</td>
+          </tr><tr>
+            <td class="green">64</td>
+            <td>          val value = if (message.length &gt; 3) { Some(message(3)) } else { None }
+</td>
+          </tr><tr>
+            <td class="green">65</td>
+            <td>          executeCommand(channel, message.tail.head.toUpperCase, item, value)
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>        } catch {
+</td>
+          </tr><tr>
+            <td class="green">67</td>
+            <td>          case nsee: NoSuchElementException =&gt; convertAndPlay(channel, message.tail.mkString(&quot;+&quot;))
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>  private def executeCommand(channel: String, command: String, item: Option[String], value: Option[String]): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">74</td>
+            <td>    Command.withName(command) match {
+</td>
+          </tr><tr>
+            <td class="green">75</td>
+            <td>      case Command.GTFO | Command.QUIT =&gt; disconnect
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>      case Command.STFU | Command.STOP =&gt; Sender.makeStop
+</td>
+          </tr><tr>
+            <td class="green">77</td>
+            <td>      case Command.HELP =&gt; showHelp(channel)
+</td>
+          </tr><tr>
+            <td class="green">78</td>
+            <td>      case Command.CONFIG =&gt; showConfig(channel)
+</td>
+          </tr><tr>
+            <td class="green">79</td>
+            <td>      case Command.SET =&gt; changeConfig(channel, item, value)
+</td>
+          </tr><tr>
+            <td class="green">80</td>
+            <td>      case Command.RESET =&gt; reset(channel)
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>  private def changeConfig(channel: String, item: Option[String], value: Option[String]): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">85</td>
+            <td>    item match {
+</td>
+          </tr><tr>
+            <td class="black">86</td>
+            <td>      case Some(i) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">87</td>
+            <td>        value match {
+</td>
+          </tr><tr>
+            <td class="green">88</td>
+            <td>          case Some(v) =&gt; applyNewConfigValue(channel, i, v)
+</td>
+          </tr><tr>
+            <td class="green">89</td>
+            <td>          case None =&gt; sendMessage(channel, &quot;New value needed for &quot; + i)
+</td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="green">91</td>
+            <td>      case None =&gt; sendMessage(channel, &quot;Set command requires an item to change and a new value.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">92</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">93</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">94</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">95</td>
+            <td>  private def applyNewConfigValue(sender: String, item: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>    try {
+</td>
+          </tr><tr>
+            <td class="green">97</td>
+            <td>      ConfigItem.withName(item.toUpperCase) match {
+</td>
+          </tr><tr>
+            <td class="green">98</td>
+            <td>        case ConfigItem.DELAY =&gt; setMessageDelay(sender, value)
+</td>
+          </tr><tr>
+            <td class="green">99</td>
+            <td>        case ConfigItem.WIDTH =&gt; setWidth(sender, value)
+</td>
+          </tr><tr>
+            <td class="green">100</td>
+            <td>        case ConfigItem.MODE =&gt; setMethod(sender, value)
+</td>
+          </tr><tr>
+            <td class="green">101</td>
+            <td>        case ConfigItem.SCHEME =&gt; setScheme(sender, value)
+</td>
+          </tr><tr>
+            <td class="green">102</td>
+            <td>        case ConfigItem.CHARSET =&gt; setCharset(sender, value)
+</td>
+          </tr><tr>
+            <td class="green">103</td>
+            <td>        case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI =&gt; setChars(sender, value)
+</td>
+          </tr><tr>
+            <td class="green">104</td>
+            <td>        case ConfigItem.POWER =&gt; setPower(sender, value)
+</td>
+          </tr><tr>
+            <td class="green">105</td>
+            <td>        case ConfigItem.PROPORTION =&gt; setProportion(sender, value)
+</td>
+          </tr><tr>
+            <td class="black">106</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">107</td>
+            <td>    } catch {
+</td>
+          </tr><tr>
+            <td class="green">108</td>
+            <td>      case nse: NoSuchElementException =&gt; sendMessage(sender, &quot;Config item unknown: &quot; + item)
+</td>
+          </tr><tr>
+            <td class="black">109</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">111</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">112</td>
+            <td>  override def onPrivateMessage(sender: String, login: String, hostname: String, message: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">113</td>
+            <td>    val m = splitAtSpace(message)
+</td>
+          </tr><tr>
+            <td class="black">114</td>
+            <td>    try {
+</td>
+          </tr><tr>
+            <td class="green">115</td>
+            <td>      Command.withName(m.head.toUpperCase) match {
+</td>
+          </tr><tr>
+            <td class="green">116</td>
+            <td>        case Command.HELP =&gt; showHelp(sender)
+</td>
+          </tr><tr>
+            <td class="green">117</td>
+            <td>        case Command.CONFIG =&gt; showConfig(sender)
+</td>
+          </tr><tr>
+            <td class="black">118</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">119</td>
+            <td>    } catch {
+</td>
+          </tr><tr>
+            <td class="green">120</td>
+            <td>      case nsee: NoSuchElementException =&gt; sendMessage(sender, &quot;Command unknown: &quot; + message)
+</td>
+          </tr><tr>
+            <td class="black">121</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">122</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">123</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">124</td>
+            <td>  override def onConnect: Unit = {
+</td>
+          </tr><tr>
+            <td class="green">125</td>
+            <td>    Sender.botStatus = new BotStatus.Value(Connected, NotSending, getServer, lastChan, getNick, getDelay)
+</td>
+          </tr><tr>
+            <td class="black">126</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">127</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>  override def onDisconnect: Unit = {
+</td>
+          </tr><tr>
+            <td class="green">129</td>
+            <td>    Sender.botStatus = new BotStatus.Value(Disconnected, NotSending, getServer, lastChan, getNick, getDelay)
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">131</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">132</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>   * Shows the help-text.
+</td>
+          </tr><tr>
+            <td class="black">134</td>
+            <td>   * @param target channel name or name of the receiver.
+</td>
+          </tr><tr>
+            <td class="black">135</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>  private def showHelp(target: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">137</td>
+            <td>    sendMessage(target, &quot;Play image from url: JENKEM [url]&quot;)
+</td>
+          </tr><tr>
+            <td class="green">138</td>
+            <td>    sendMessage(target, &quot;Let jenkem search for an image to play: JENKEM [search term]&quot;)
+</td>
+          </tr><tr>
+            <td class="green">139</td>
+            <td>    sendMessage(target, &quot;Change config: JENKEM [ConfigItem] [Value]&quot;)
+</td>
+          </tr><tr>
+            <td class="green">140</td>
+            <td>    sendMessage(target, &quot;  ConfigItems are: MODE, DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER, PROPORTION&quot;)
+</td>
+          </tr><tr>
+            <td class="green">141</td>
+            <td>    sendMessage(target, &quot;Show config: JENKEM CONFIG&quot;)
+</td>
+          </tr><tr>
+            <td class="green">142</td>
+            <td>    sendMessage(target, &quot;Reset config: JENKEM RESET&quot;)
+</td>
+          </tr><tr>
+            <td class="black">143</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">144</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">145</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">146</td>
+            <td>   * Shows the configuration.
+</td>
+          </tr><tr>
+            <td class="black">147</td>
+            <td>   * @param target channel name or name of the receiver.
+</td>
+          </tr><tr>
+            <td class="black">148</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">149</td>
+            <td>  private def showConfig(target: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">150</td>
+            <td>    sendMessage(target, &quot;Mode: &quot; + settings.getMethod
+</td>
+          </tr><tr>
+            <td class="black">151</td>
+            <td>      + &quot;, Delay (ms): &quot; + getMessageDelay
+</td>
+          </tr><tr>
+            <td class="black">152</td>
+            <td>      + &quot;, Width (chars): &quot; + settings.width
+</td>
+          </tr><tr>
+            <td class="black">153</td>
+            <td>      + &quot;, Power: &quot; + settings.power
+</td>
+          </tr><tr>
+            <td class="black">154</td>
+            <td>      + &quot;, Scheme: &quot; + settings.schemeName
+</td>
+          </tr><tr>
+            <td class="black">155</td>
+            <td>      + &quot;, Charset: &quot; + settings.chars
+</td>
+          </tr><tr>
+            <td class="black">156</td>
+            <td>      + &quot;, Proportion: &quot; + settings.proportion)
+</td>
+          </tr><tr>
+            <td class="black">157</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">158</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">159</td>
+            <td>  def getDelay: Int = super.getMessageDelay.toInt
+</td>
+          </tr><tr>
+            <td class="black">160</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">161</td>
+            <td>  private def setMessageDelay(target: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">162</td>
+            <td>    val min = 100
+</td>
+          </tr><tr>
+            <td class="green">163</td>
+            <td>    val max = 3000
+</td>
+          </tr><tr>
+            <td class="green">164</td>
+            <td>    val between = &quot; between &quot; + min + &quot; and &quot; + max + &quot;.&quot;
+</td>
+          </tr><tr>
+            <td class="green">165</td>
+            <td>    value match {
+</td>
+          </tr><tr>
+            <td class="green">166</td>
+            <td>      case IntExtractor(v) if min to max contains v =&gt;
+</td>
+          </tr><tr>
+            <td class="green">167</td>
+            <td>        setMessageDelay(v)
+</td>
+          </tr><tr>
+            <td class="green">168</td>
+            <td>        sendMessage(target, ConfigItem.DELAY + &quot; set to &quot; + v)
+</td>
+          </tr><tr>
+            <td class="green">169</td>
+            <td>        Sender.botStatus = new BotStatus.Value(Connected, NotSending, getServer, lastChan, getNick, getDelay)
+</td>
+          </tr><tr>
+            <td class="green">170</td>
+            <td>      case IntExtractor(v) =&gt; sendMessage(target, ConfigItem.DELAY + &quot; must be&quot; + between)
+</td>
+          </tr><tr>
+            <td class="green">171</td>
+            <td>      case _ =&gt; sendMessage(target, ConfigItem.DELAY + &quot; must be a numeric value&quot; + between)
+</td>
+          </tr><tr>
+            <td class="black">172</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">173</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">174</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">175</td>
+            <td>  private def reset(target: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">176</td>
+            <td>    settings.reset
+</td>
+          </tr><tr>
+            <td class="green">177</td>
+            <td>    sendMessage(target, &quot;Conversion settings have been resetted.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">178</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">179</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">180</td>
+            <td>  private def setWidth(target: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">181</td>
+            <td>    val min = 16
+</td>
+          </tr><tr>
+            <td class="green">182</td>
+            <td>    val max = 80
+</td>
+          </tr><tr>
+            <td class="green">183</td>
+            <td>    val between = ConfigItem.WIDTH + &quot; must be between &quot; + min + &quot; and &quot; + max + &quot;.&quot;
+</td>
+          </tr><tr>
+            <td class="green">184</td>
+            <td>    value match {
+</td>
+          </tr><tr>
+            <td class="green">185</td>
+            <td>      case IntExtractor(v) if min to max contains v =&gt;
+</td>
+          </tr><tr>
+            <td class="green">186</td>
+            <td>        settings.width = v
+</td>
+          </tr><tr>
+            <td class="green">187</td>
+            <td>        reportConfigChange(target, ConfigItem.WIDTH, v.toString)
+</td>
+          </tr><tr>
+            <td class="green">188</td>
+            <td>      case IntExtractor(v) =&gt; sendMessage(target, between)
+</td>
+          </tr><tr>
+            <td class="green">189</td>
+            <td>      case _ =&gt; sendMessage(target, between)
+</td>
+          </tr><tr>
+            <td class="black">190</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">191</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">192</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">193</td>
+            <td>  private def setMethod(target: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">194</td>
+            <td>    Method.valueOf(value) match {
+</td>
+          </tr><tr>
+            <td class="black">195</td>
+            <td>      case Some(method) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">196</td>
+            <td>        settings.method = method
+</td>
+          </tr><tr>
+            <td class="green">197</td>
+            <td>        reportConfigChange(target, ConfigItem.MODE, value)
+</td>
+          </tr><tr>
+            <td class="green">198</td>
+            <td>      case None =&gt; sendMessage(target, &quot;Mode must be one of: &quot; + makeString(Method.values))
+</td>
+          </tr><tr>
+            <td class="black">199</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">200</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">201</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">202</td>
+            <td>  private def setScheme(target: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">203</td>
+            <td>    Scheme.valueOf(value) match {
+</td>
+          </tr><tr>
+            <td class="black">204</td>
+            <td>      case Some(scheme) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">205</td>
+            <td>        settings.colorMap = Scheme.createColorMap(scheme)
+</td>
+          </tr><tr>
+            <td class="green">206</td>
+            <td>        settings.setSchemeName(scheme.name)
+</td>
+          </tr><tr>
+            <td class="green">207</td>
+            <td>        reportConfigChange(target, ConfigItem.SCHEME, value)
+</td>
+          </tr><tr>
+            <td class="green">208</td>
+            <td>      case None =&gt; sendMessage(target, &quot;Scheme must be one of: &quot; + makeString(Scheme.values))
+</td>
+          </tr><tr>
+            <td class="black">209</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">210</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">211</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">212</td>
+            <td>  private def setCharset(target: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">213</td>
+            <td>    Pal.valueOf(value) match {
+</td>
+          </tr><tr>
+            <td class="black">214</td>
+            <td>      case Some(scheme) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">215</td>
+            <td>        settings.chars = scheme.chars
+</td>
+          </tr><tr>
+            <td class="green">216</td>
+            <td>        reportConfigChange(target, ConfigItem.CHARSET, scheme.chars)
+</td>
+          </tr><tr>
+            <td class="black">217</td>
+            <td>      case None =&gt;
+</td>
+          </tr><tr>
+            <td class="green">218</td>
+            <td>        sendMessage(target, &quot;Charset must be one of: &quot; + makeString(Pal.values))
+</td>
+          </tr><tr>
+            <td class="black">219</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">220</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">221</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">222</td>
+            <td>  private def setChars(target: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">223</td>
+            <td>    settings.chars = &quot; &quot; + value.replaceAll(&quot;[0-9],&quot;, &quot;&quot;)
+</td>
+          </tr><tr>
+            <td class="green">224</td>
+            <td>    sendMessage(target, &quot;Chars set to \&quot;&quot; + settings.chars + &quot;\&quot;.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">225</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">226</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">227</td>
+            <td>  private def setPower(target: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">228</td>
+            <td>    Power.valueOf(value) match {
+</td>
+          </tr><tr>
+            <td class="black">229</td>
+            <td>      case Some(power) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">230</td>
+            <td>        settings.power = power
+</td>
+          </tr><tr>
+            <td class="green">231</td>
+            <td>        reportConfigChange(target, ConfigItem.POWER, power.name)
+</td>
+          </tr><tr>
+            <td class="black">232</td>
+            <td>      case None =&gt;
+</td>
+          </tr><tr>
+            <td class="green">233</td>
+            <td>        sendMessage(target, &quot;Power must be one of &quot; + makeString(Power.values))
+</td>
+          </tr><tr>
+            <td class="black">234</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">235</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">236</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">237</td>
+            <td>  private def setProportion(target: String, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">238</td>
+            <td>    Proportion.valueOf(value) match {
+</td>
+          </tr><tr>
+            <td class="black">239</td>
+            <td>      case Some(proportion) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">240</td>
+            <td>        settings.proportion = proportion
+</td>
+          </tr><tr>
+            <td class="green">241</td>
+            <td>        reportConfigChange(target, ConfigItem.PROPORTION, proportion.toString)
+</td>
+          </tr><tr>
+            <td class="black">242</td>
+            <td>      case None =&gt;
+</td>
+          </tr><tr>
+            <td class="green">243</td>
+            <td>        sendMessage(target, &quot;Proportion must be one of &quot; + makeString(Proportion.values))
+</td>
+          </tr><tr>
+            <td class="black">244</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">245</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">246</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">247</td>
+            <td>  private def reportConfigChange(target: String, item: ConfigItem.Value, value: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">248</td>
+            <td>    sendMessage(target, item + &quot; set to &quot; + value)
+</td>
+          </tr><tr>
+            <td class="black">249</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">250</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">251</td>
+            <td>  private def convertAndPlay(channel: String, urlOrTerm: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">252</td>
+            <td>    UrlOptionizer.extract(urlOrTerm) match {
+</td>
+          </tr><tr>
+            <td class="black">253</td>
+            <td>      case Some(u) =&gt; //is url
+</td>
+          </tr><tr>
+            <td class="red">254</td>
+            <td>        <span class="non">Sender.playImage(this, generate(urlOrTerm, settings))
+</span></td>
+          </tr><tr>
+            <td class="black">255</td>
+            <td>      case None =&gt; //is term
+</td>
+          </tr><tr>
+            <td class="green">256</td>
+            <td>        GoogleUtil.getUrlForTerm(urlOrTerm) match {
+</td>
+          </tr><tr>
+            <td class="black">257</td>
+            <td>          case Some(imageUrl) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">258</td>
+            <td>            sendMessage(channel, imageUrl)
+</td>
+          </tr><tr>
+            <td class="green">259</td>
+            <td>            Sender.playImage(this, generate(imageUrl, settings))
+</td>
+          </tr><tr>
+            <td class="red">260</td>
+            <td>          case None =&gt; <span class="non">sendMessage(channel, &quot;Fail: Cannot find image for \&quot;&quot; + urlOrTerm + &quot;\&quot;&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">261</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">262</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="yellow">263</td>
+            <td>    if (settings.schemeName.equals(Scheme.Bwg.name)) { <span class="non">settings.reset }
+</span></td>
+          </tr><tr>
+            <td class="black">264</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">265</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">266</td>
+            <td>  private def splitAtSpace(message: String): Array[String] = message.split(&quot; &quot;)
+</td>
+          </tr><tr>
+            <td class="green">267</td>
+            <td>  private def makeString(list: List[Any]): String = list.mkString(&quot;, &quot;)
+</td>
+          </tr><tr>
+            <td class="black">268</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">269</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">270</td>
+            <td>   * Connects the jenkem bot to IRC and joins the selected channel.
+</td>
+          </tr><tr>
+            <td class="black">271</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">272</td>
+            <td>  def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {
+</td>
+          </tr><tr>
+            <td class="red">273</td>
+            <td>    <span class="non">settings.reset
+</span></td>
+          </tr><tr>
+            <td class="black">274</td>
+            <td>    def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
+</td>
+          </tr><tr>
+            <td class="red">275</td>
+            <td>      <span class="non">Sender.botStatus = new BotStatus.Value(Disconnected, NotSending, network, channel, nick, getDelay)
+</span></td>
+          </tr><tr>
+            <td class="red">276</td>
+            <td>      <span class="non">message
+</span></td>
+          </tr><tr>
+            <td class="black">277</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">278</td>
+            <td>    try {
+</td>
+          </tr><tr>
+            <td class="red">279</td>
+            <td>      <span class="non">super.setName(nick)
+</span></td>
+          </tr><tr>
+            <td class="red">280</td>
+            <td>      <span class="non">lastChan = channel
+</span></td>
+          </tr><tr>
+            <td class="red">281</td>
+            <td>      <span class="non">connect(network, port)
+</span></td>
+          </tr><tr>
+            <td class="red">282</td>
+            <td>      <span class="non">joinChannel(channel)
+</span></td>
+          </tr><tr>
+            <td class="red">283</td>
+            <td>      <span class="non">&quot;Joining &quot; + channel + &quot;...&quot;
+</span></td>
+          </tr><tr>
+            <td class="black">284</td>
+            <td>    } catch {
+</td>
+          </tr><tr>
+            <td class="red">285</td>
+            <td>      case nie: NickAlreadyInUseException =&gt; <span class="non">handleConnectionException(&quot;Fail: Nick is already in use.&quot;, network, channel, nick)
+</span></td>
+          </tr><tr>
+            <td class="red">286</td>
+            <td>      case ioe: IOException =&gt; <span class="non">handleConnectionException(&quot;Fail: IOException: &quot; + ioe, network, channel, nick)
+</span></td>
+          </tr><tr>
+            <td class="red">287</td>
+            <td>      case ie: IrcException =&gt; <span class="non">handleConnectionException(&quot;Fail: IrcException: &quot; + ie, network, channel, nick)
+</span></td>
+          </tr><tr>
+            <td class="black">288</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">289</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">290</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">291</td>
+            <td>  private def generate(url: String, cs: ConversionSettings): List[String] = {
+</td>
+          </tr><tr>
+            <td class="green">292</td>
+            <td>    val invert = false
+</td>
+          </tr><tr>
+            <td class="green">293</td>
+            <td>    val originalImage = AwtImageUtil.bufferImage(url, &quot;white&quot;, invert)
+</td>
+          </tr><tr>
+            <td class="green">294</td>
+            <td>    val originalWidth = originalImage.getWidth
+</td>
+          </tr><tr>
+            <td class="green">295</td>
+            <td>    val originalHeight = originalImage.getHeight
+</td>
+          </tr><tr>
+            <td class="green">296</td>
+            <td>    val (width, height) = Proportion.getWidthAndHeight(cs.proportion, cs.method, cs.width, originalWidth, originalHeight)
+</td>
+          </tr><tr>
+            <td class="green">297</td>
+            <td>    val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick, 0, 0)
+</td>
+          </tr><tr>
+            <td class="green">298</td>
+            <td>    val imageRgb = AwtImageUtil.getImageRgb(scaled)
+</td>
+          </tr><tr>
+            <td class="green">299</td>
+            <td>    val lastIndex = height
+</td>
+          </tr><tr>
+            <td class="green">300</td>
+            <td>    val params = cs.getParams(imageRgb)
+</td>
+          </tr><tr>
+            <td class="black">301</td>
+            <td>    def generate0(index: Int): List[String] = {
+</td>
+          </tr><tr>
+            <td class="green">302</td>
+            <td>      if (index + 2 &gt; lastIndex) { Nil }
+</td>
+          </tr><tr>
+            <td class="green">303</td>
+            <td>      else { Engine.generateLine(params, index) :: generate0(index + 2) }
+</td>
+          </tr><tr>
+            <td class="black">304</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">305</td>
+            <td>    val hasColor = params.method.hasColor
+</td>
+          </tr><tr>
+            <td class="green">306</td>
+            <td>    val notPwntari = !params.method.equals(Method.Pwntari)
+</td>
+          </tr><tr>
+            <td class="yellow">307</td>
+            <td>    val colorString = if (hasColor) { &quot;, Scheme: &quot; + cs.schemeName } else { <span class="non">&quot;&quot; }
+</span></td>
+          </tr><tr>
+            <td class="yellow">308</td>
+            <td>    val powerString = if (notPwntari) { &quot;, Power: &quot; + params.power } else { <span class="non">&quot;&quot; }
+</span></td>
+          </tr><tr>
+            <td class="yellow">309</td>
+            <td>    val charsString = if (notPwntari) { &quot;, Chars: &quot; + params.characters } else { <span class="non">&quot;&quot; }
+</span></td>
+          </tr><tr>
+            <td class="yellow">310</td>
+            <td>    val widthDivisor = if (!params.method.equals(Method.Pwntari)) { 2 } else { <span class="non">1 }
+</span></td>
+          </tr><tr>
+            <td class="green">311</td>
+            <td>    val message = List(&quot;Mode: &quot; + params.method + colorString + powerString
+</td>
+          </tr><tr>
+            <td class="black">312</td>
+            <td>      + charsString + &quot;, Width: &quot; + (width / widthDivisor).intValue.toString)
+</td>
+          </tr><tr>
+            <td class="green">313</td>
+            <td>    message ::: generate0(0)
+</td>
+          </tr><tr>
+            <td class="black">314</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">315</td>
+            <td>}
+</td>
+          </tr></tbody></table>

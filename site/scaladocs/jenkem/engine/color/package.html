@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>color - Jenkem 1.0 API - jenkem.engine.color</title>
-          <meta name="description" content="color - Jenkem 1.0 API - jenkem.engine.color" />
-          <meta name="keywords" content="color Jenkem 1.0 API jenkem.engine.color" />
+          <title>color - Jenkem 1.0-SNAPSHOT API - jenkem.engine.color</title>
+          <meta name="description" content="color - Jenkem 1.0 - SNAPSHOT API - jenkem.engine.color" />
+          <meta name="keywords" content="color Jenkem 1.0 SNAPSHOT API jenkem.engine.color" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -64,28 +64,54 @@
         <div id="types" class="types members">
               <h3>Type Members</h3>
               <ol><li name="jenkem.engine.color.Color" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="ColorextendsObject"></a>
+      <a id="ColorextendsProductwithSerializable"></a>
       <a id="Color:Color"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Color.html"><span class="name">Color</span></a><span class="params">(<span name="fg">fg: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="fgRgb">fgRgb: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>, <span name="bg">bg: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="bgRgb">bgRgb: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>, <span name="strength">strength: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.engine.color.Power" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="PowerextendsAnyRef"></a>
+      <a id="Power:Power"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed abstract </span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="Color.html"><span class="name">Color</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a href="Power.html"><span class="name">Power</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.engine.color.Scheme" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="SchemeextendsAnyRef"></a>
+      <a id="Scheme:Scheme"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Scheme.html"><span class="name">Scheme</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
     </li><li name="jenkem.engine.color.WeightedColor" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="WeightedColorextendsObject"></a>
+      <a id="WeightedColorextendsProductwithSerializable"></a>
       <a id="WeightedColor:WeightedColor"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">class</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="WeightedColor.html"><span class="name">WeightedColor</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a href="WeightedColor.html"><span class="name">WeightedColor</span></a><span class="params">(<span name="ircColor">ircColor: <a href="Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a></span>, <span name="weight">weight: <span class="extype" name="scala.Float">Float</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -96,7 +122,20 @@
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="jenkem.engine.color.Cube" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="jenkem.engine.color.Color" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Color"></a>
+      <a id="Color:Color"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Color$.html"><span class="name">Color</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.engine.color.Cube" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Cube"></a>
       <a id="Cube:Cube"></a>
       <h4 class="signature">

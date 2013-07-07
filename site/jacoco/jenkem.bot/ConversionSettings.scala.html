@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ConversionSettings.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.bot</a> &gt; <span class="el_source">ConversionSettings.scala</span></div><h1>ConversionSettings.scala</h1><pre class="source lang-java linenums">package jenkem.bot
+
+import java.util.HashMap
+import scala.reflect.BeanProperty
+import jenkem.engine.Method
+import jenkem.engine.Kick
+import jenkem.engine.color.Power
+import jenkem.engine.Pal
+import jenkem.engine.color.Scheme
+import jenkem.engine.Engine
+import jenkem.engine.Setting
+import jenkem.util.InitUtil
+import jenkem.engine.color.Color
+import jenkem.engine.Proportion
+
+<span class="fc" id="L16">class ConversionSettings {</span>
+<span class="pc" id="L17">  @BeanProperty var width: Int = _</span>
+<span class="fc" id="L18">  @BeanProperty var method: Method = _</span>
+<span class="pc" id="L19">  @BeanProperty var colorMap: Color.IrcMap = _</span>
+<span class="pc" id="L20">  @BeanProperty var schemeName: String = _</span>
+<span class="pc" id="L21">  @BeanProperty var chars: String = _</span>
+<span class="pc" id="L22">  @BeanProperty var kick: Kick = _</span>
+<span class="pc" id="L23">  @BeanProperty var power: Power = _</span>
+<span class="pc" id="L24">  @BeanProperty var proportion: Proportion = _</span>
+
+<span class="fc" id="L26">  reset</span>
+
+  def reset: Unit = {
+<span class="fc" id="L29">    width = InitUtil.DEFAULT_WIDTH</span>
+<span class="fc" id="L30">    method = Method.default</span>
+<span class="fc" id="L31">    colorMap = Scheme.createColorMap(Scheme.default)</span>
+<span class="fc" id="L32">    schemeName = Scheme.default.name</span>
+<span class="fc" id="L33">    chars = Pal.default.chars</span>
+<span class="fc" id="L34">    kick = Kick.OFF</span>
+<span class="fc" id="L35">    power = Power.default</span>
+<span class="fc" id="L36">    proportion = Proportion.default</span>
+  }
+
+  def getParams(imageData: Color.RgbMap): Engine.Params = {
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">    val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData)</span>
+<span class="pc" id="L41">    methodOpt match {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">      case Some(meth) =&gt;</span>
+<span class="pc bpc" id="L43" title="3 of 6 branches missed.">        if (method.hasColor != meth.hasColor &amp;&amp; !method.equals(Method.Pwntari)) {</span>
+          //if method is Pwntari it should not be changed here
+          //because it uses different scaling.
+<span class="fc" id="L46">          method = meth</span>
+        }
+<span class="pc bpc" id="L48" title="4 of 6 branches missed.">      case None =&gt; { }</span>
+    }
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    if (scheme.equals(Scheme.Bwg)) {</span>
+<span class="fc" id="L51">      colorMap = Scheme.createColorMap(scheme)</span>
+<span class="fc" id="L52">      schemeName = scheme.name</span>
+    }
+<span class="pc" id="L54">    charsetOpt match {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">      case Some(chrset) =&gt;</span>
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">        if (!method.hasColor) {</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">          if (Pal.hasAnsi(chars)) { chars = chrset.chars }</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        } else if (method.equals(Method.Pwntari)) {</span>
+<span class="nc" id="L59">          chars = &quot;▄&quot;</span>
+        }
+<span class="pc bpc" id="L61" title="4 of 6 branches missed.">      case None =&gt; { }</span>
+    }
+<span class="fc" id="L63">    new Engine.Params(</span>
+<span class="fc" id="L64">        method,</span>
+<span class="fc" id="L65">        imageData,</span>
+<span class="fc" id="L66">        colorMap,</span>
+<span class="fc" id="L67">        chars.replaceAll(&quot;[,0-9]&quot;, &quot;&quot;),</span>
+<span class="fc" id="L68">        Setting.getInitial(Pal.hasAnsi(chars)),</span>
+<span class="fc" id="L69">        0,</span>
+<span class="fc" id="L70">        0,</span>
+<span class="fc" id="L71">        power</span>
+    )
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

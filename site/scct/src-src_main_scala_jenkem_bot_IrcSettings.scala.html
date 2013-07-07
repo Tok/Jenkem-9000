@@ -1,0 +1,125 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;bot/<span class="header">&#x200B;IrcSettings.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_IrcSettings.scala.html#Object_jenkem_bot_IrcSettings"><img src="object.png"/>IrcSettings</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_IrcSettings.scala.html#Class_jenkem_bot_IrcSettings_IrcNetwork"><img src="class.png"/>IrcSettings.IrcNetwork</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_IrcSettings.scala.html#Object_jenkem_bot_IrcSettings_Loc"><img src="object.png"/>IrcSettings.Loc</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.bot
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td><a id="Object_jenkem_bot_IrcSettings"/>object IrcSettings {
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td><a id="Object_jenkem_bot_IrcSettings_Loc"/>  object Loc extends Enumeration {
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>    type Loc = Value
+</td>
+          </tr><tr>
+            <td class="green">6</td>
+            <td>    val OPENSHIFT, ELSEWHERE = Value
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="green">8</td>
+            <td><a id="Class_jenkem_bot_IrcSettings_IrcNetwork"/>  sealed class IrcNetwork(val net: String, val port: Int, val location: Loc.Value)
+</td>
+          </tr><tr>
+            <td class="green">9</td>
+            <td>  val freenode = new IrcNetwork(&quot;irc.freenode.net&quot;, 8001, Loc.OPENSHIFT)
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>  val efnet = new IrcNetwork(&quot;efnet.xs4all.nl&quot;, 6669, Loc.ELSEWHERE) //&quot;irc.efnet.org&quot;
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  val undernet = new IrcNetwork(&quot;irc.undernet.org&quot;, 6667, Loc.ELSEWHERE)
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  val rizon = new IrcNetwork(&quot;irc.rizon.net&quot;, 6667, Loc.ELSEWHERE)
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>  val networks = Array(freenode, efnet, undernet, rizon)
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>  def getDefaultNetwork: IrcNetwork = freenode
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>  val defaultChannel = &quot;#Jenkem&quot;
+</td>
+          </tr><tr>
+            <td class="green">17</td>
+            <td>  val defaultNick = &quot;J_&quot;
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>  val login = &quot;jenkem&quot;
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td>  val version = &quot;Jenkem-9000&quot;
+</td>
+          </tr><tr>
+            <td class="green">20</td>
+            <td>  val defaultDelayMs = 1000
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>  val maxDelayMs = 3000
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>  val warningDelayMs = 500
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>}
+</td>
+          </tr></tbody></table>

@@ -1,0 +1,869 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;ui/<span class="header">&#x200B;IrcConnector.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">84 %</div>
+        <div class="greenBar" style="width:168px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_IrcConnector.scala.html#Class_jenkem_ui_IrcConnector"><img src="class.png"/>IrcConnector</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">84 %</div>
+        <div class="greenBar" style="width:168px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.ui
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import com.vaadin.event.EventRouter
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import com.vaadin.server.Page
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import com.vaadin.ui.Button
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import com.vaadin.ui.Button.ClickEvent
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import com.vaadin.ui.GridLayout
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import com.vaadin.ui.Label
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>import com.vaadin.ui.TextField
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>import com.vaadin.ui.VerticalLayout
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>import jenkem.bot.status.BotStatus
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>import jenkem.bot.IrcService
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>import jenkem.event.SendToIrcEvent
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>import com.vaadin.ui.ComboBox
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>import jenkem.util.OpenShiftUtil
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>import com.vaadin.data.Property.ValueChangeListener
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>import com.vaadin.data.Property
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>import com.vaadin.data.Property.ValueChangeEvent
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>import com.vaadin.ui.HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>import com.vaadin.ui.Notification
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>import jenkem.bot.IrcSettings
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td><a id="Class_jenkem_ui_IrcConnector"/>class IrcConnector(val eventRouter: EventRouter) extends GridLayout {
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>  val networkCombo = createCombo(IrcSettings.getDefaultNetwork.net)
+</td>
+          </tr><tr>
+            <td class="green">25</td>
+            <td>  val portCombo = createCombo(IrcSettings.getDefaultNetwork.port)
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>  val delayBox = new TextField
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>  delayBox.setValue(IrcSettings.defaultDelayMs.toString)
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>  delayBox.setWidth(&quot;50px&quot;)
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>  if (OpenShiftUtil.isOnOpenshift) {
+</td>
+          </tr><tr>
+            <td class="red">31</td>
+            <td>    <span class="non">portCombo.setReadOnly(true)
+</span></td>
+          </tr><tr>
+            <td class="red">32</td>
+            <td>    <span class="non">delayBox.setReadOnly(true)
+</span></td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>  } else {
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>    //more options if application is not running on OpenShift
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>    IrcSettings.networks.foreach(n =&gt; if (n.location.equals(IrcSettings.Loc.ELSEWHERE)) {
+</td>
+          </tr><tr>
+            <td class="green">36</td>
+            <td>        networkCombo.addItem(n.net)
+</td>
+          </tr><tr>
+            <td class="green">37</td>
+            <td>        portCombo.addItem(n.port)
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>    })
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>  networkCombo.addValueChangeListener(new Property.ValueChangeListener {
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>    override def valueChange(event: ValueChangeEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>      IrcSettings.networks.find(_.net.equalsIgnoreCase(networkCombo.getValue.toString)) match {
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>        case Some(n) =&gt; portCombo.select(n.port)
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>        case _ =&gt; Unit
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>  delayBox.addValueChangeListener(new Property.ValueChangeListener {
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>    override def valueChange(event: ValueChangeEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>      try {
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>        val delay = delayBox.getValue.toInt
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>        if (delay &lt; IrcSettings.warningDelayMs) {
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>          Notification.show(&quot;Warning: Delay is low. Please make sure you are not flooding, or the bot might get kicked.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>        } else if (delay &gt; IrcSettings.maxDelayMs) {
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>          Notification.show(&quot;Warning: Delay is very high. Please make sure you know what you are doing.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>        IrcService.setDelay(delay)
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>      } catch {
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>        case e: NumberFormatException =&gt;
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>          Notification.show(&quot;Delay must be a number. Value has been reset to default.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>          delayBox.setValue(IrcSettings.defaultDelayMs.toString)
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">68</td>
+            <td>  val width = &quot;400px&quot;
+</td>
+          </tr><tr>
+            <td class="green">69</td>
+            <td>  val compWidth = &quot;250px&quot;
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">71</td>
+            <td>  setWidth(width)
+</td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">73</td>
+            <td>  setRows(6)
+</td>
+          </tr><tr>
+            <td class="green">74</td>
+            <td>  setColumns(3)
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">76</td>
+            <td>  //   0       1         2
+</td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>  //0 [Label ][ComboBox][ComboBox]
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>  //1 [Label ][Box               ]
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>  //2 [Label ][Box               ]
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>  //3 [Label ][ComboBox          ]
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>  //4 [Label ][Buttons           ]
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>  //5 [Label ][Status  ][Button  ]
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">84</td>
+            <td>  val networkCaption = new Label(&quot;IRC Network: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">85</td>
+            <td>  networkCaption.setWidth(&quot;150px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">86</td>
+            <td>  networkCombo.setWidth(&quot;180px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">87</td>
+            <td>  portCombo.setWidth(&quot;70px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">88</td>
+            <td>  delayBox.setWidth(&quot;100px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">89</td>
+            <td>  val channelCaption = new Label(&quot;Channel: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">90</td>
+            <td>  val channelBox = new TextField
+</td>
+          </tr><tr>
+            <td class="green">91</td>
+            <td>  channelBox.setWidth(compWidth)
+</td>
+          </tr><tr>
+            <td class="green">92</td>
+            <td>  val nickCaption = new Label(&quot;Nick: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">93</td>
+            <td>  val nickBox = new TextField
+</td>
+          </tr><tr>
+            <td class="green">94</td>
+            <td>  nickBox.setWidth(compWidth)
+</td>
+          </tr><tr>
+            <td class="green">95</td>
+            <td>  val actionCaption = new Label(&quot;Actions: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">96</td>
+            <td>  val buttonLayout = new GridLayout
+</td>
+          </tr><tr>
+            <td class="green">97</td>
+            <td>  val connectButton = new Button(&quot;Connect&quot;)
+</td>
+          </tr><tr>
+            <td class="green">98</td>
+            <td>  val disconnectButton = new Button(&quot;Disconnect&quot;)
+</td>
+          </tr><tr>
+            <td class="green">99</td>
+            <td>  val sendButton = new Button(&quot;Send Conversion&quot;)
+</td>
+          </tr><tr>
+            <td class="green">100</td>
+            <td>  val delayCaption = new Label(&quot;Delay (ms): &quot;)
+</td>
+          </tr><tr>
+            <td class="green">101</td>
+            <td>  val statusCaption = new Label(&quot;Status: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">102</td>
+            <td>  val statusLayout = new VerticalLayout
+</td>
+          </tr><tr>
+            <td class="green">103</td>
+            <td>  val statusLabel = new Label(&quot;&quot;)
+</td>
+          </tr><tr>
+            <td class="green">104</td>
+            <td>  statusLabel.setWidth(compWidth)
+</td>
+          </tr><tr>
+            <td class="green">105</td>
+            <td>  val refreshButton = new Button(&quot;Refresh Bot Status&quot;)
+</td>
+          </tr><tr>
+            <td class="black">106</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">107</td>
+            <td>  //addComponent(component, column1, row1, column2, row2)
+</td>
+          </tr><tr>
+            <td class="green">108</td>
+            <td>  addComponent(networkCaption, 0, 0)
+</td>
+          </tr><tr>
+            <td class="green">109</td>
+            <td>  addComponent(networkCombo, 1, 0)
+</td>
+          </tr><tr>
+            <td class="green">110</td>
+            <td>  addComponent(portCombo, 2, 0)
+</td>
+          </tr><tr>
+            <td class="green">111</td>
+            <td>  addComponent(channelCaption, 0, 1)
+</td>
+          </tr><tr>
+            <td class="green">112</td>
+            <td>  addComponent(channelBox, 1, 1, 2, 1)
+</td>
+          </tr><tr>
+            <td class="green">113</td>
+            <td>  addComponent(nickCaption, 0, 2)
+</td>
+          </tr><tr>
+            <td class="green">114</td>
+            <td>  addComponent(nickBox, 1, 2, 2, 2)
+</td>
+          </tr><tr>
+            <td class="green">115</td>
+            <td>  addComponent(delayCaption, 0, 3)
+</td>
+          </tr><tr>
+            <td class="green">116</td>
+            <td>  addComponent(delayBox, 1, 3, 2, 3)
+</td>
+          </tr><tr>
+            <td class="green">117</td>
+            <td>  addComponent(actionCaption, 0, 4)
+</td>
+          </tr><tr>
+            <td class="green">118</td>
+            <td>  addComponent(buttonLayout, 1, 4, 2, 4)
+</td>
+          </tr><tr>
+            <td class="green">119</td>
+            <td>  addComponent(statusCaption, 0, 5)
+</td>
+          </tr><tr>
+            <td class="green">120</td>
+            <td>  addComponent(statusLayout, 1, 5, 2, 5)
+</td>
+          </tr><tr>
+            <td class="green">121</td>
+            <td>  buttonLayout.setRows(2)
+</td>
+          </tr><tr>
+            <td class="green">122</td>
+            <td>  buttonLayout.setColumns(2)
+</td>
+          </tr><tr>
+            <td class="green">123</td>
+            <td>  buttonLayout.addComponent(connectButton, 0, 0)
+</td>
+          </tr><tr>
+            <td class="green">124</td>
+            <td>  buttonLayout.addComponent(disconnectButton, 1, 0)
+</td>
+          </tr><tr>
+            <td class="green">125</td>
+            <td>  buttonLayout.addComponent(sendButton, 0, 1, 1, 1)
+</td>
+          </tr><tr>
+            <td class="green">126</td>
+            <td>  statusLayout.addComponent(statusLabel)
+</td>
+          </tr><tr>
+            <td class="green">127</td>
+            <td>  statusLayout.addComponent(refreshButton)
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">129</td>
+            <td>  channelBox.setValue(IrcSettings.defaultChannel)
+</td>
+          </tr><tr>
+            <td class="green">130</td>
+            <td>  nickBox.setValue(IrcSettings.defaultNick)
+</td>
+          </tr><tr>
+            <td class="green">131</td>
+            <td>  refresh
+</td>
+          </tr><tr>
+            <td class="black">132</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>  private def createCombo(item: Any): ComboBox = {
+</td>
+          </tr><tr>
+            <td class="green">134</td>
+            <td>    val combo = new ComboBox
+</td>
+          </tr><tr>
+            <td class="green">135</td>
+            <td>    combo.addItem(item)
+</td>
+          </tr><tr>
+            <td class="green">136</td>
+            <td>    combo.select(item)
+</td>
+          </tr><tr>
+            <td class="green">137</td>
+            <td>    combo.setTextInputAllowed(true)
+</td>
+          </tr><tr>
+            <td class="green">138</td>
+            <td>    combo.setNewItemsAllowed(true)
+</td>
+          </tr><tr>
+            <td class="green">139</td>
+            <td>    combo.setNullSelectionAllowed(false)
+</td>
+          </tr><tr>
+            <td class="green">140</td>
+            <td>    combo.setImmediate(true)
+</td>
+          </tr><tr>
+            <td class="green">141</td>
+            <td>    combo
+</td>
+          </tr><tr>
+            <td class="black">142</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">143</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">144</td>
+            <td>  connectButton.addClickListener(new Button.ClickListener {
+</td>
+          </tr><tr>
+            <td class="black">145</td>
+            <td>    override def buttonClick(event: ClickEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">146</td>
+            <td>      Notifications.showConnectToIrc(Page.getCurrent)
+</td>
+          </tr><tr>
+            <td class="black">147</td>
+            <td>      connectButton.setEnabled(false)
+</td>
+          </tr><tr>
+            <td class="black">148</td>
+            <td>      val network = networkCombo.getValue.toString
+</td>
+          </tr><tr>
+            <td class="black">149</td>
+            <td>      val port = Integer.parseInt(portCombo.getValue.toString)
+</td>
+          </tr><tr>
+            <td class="black">150</td>
+            <td>      val channel = channelBox.getValue
+</td>
+          </tr><tr>
+            <td class="black">151</td>
+            <td>      val nick = nickBox.getValue
+</td>
+          </tr><tr>
+            <td class="black">152</td>
+            <td>      IrcService.setDelay(delayBox.getValue.toInt)
+</td>
+          </tr><tr>
+            <td class="black">153</td>
+            <td>      val message = IrcService.connect(network, port, channel, nick)
+</td>
+          </tr><tr>
+            <td class="black">154</td>
+            <td>      statusLabel.setValue(message)
+</td>
+          </tr><tr>
+            <td class="black">155</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">156</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="black">157</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">158</td>
+            <td>  disconnectButton.addClickListener(new Button.ClickListener {
+</td>
+          </tr><tr>
+            <td class="black">159</td>
+            <td>    override def buttonClick(event: ClickEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">160</td>
+            <td>      disconnectButton.setEnabled(false)
+</td>
+          </tr><tr>
+            <td class="black">161</td>
+            <td>      statusLabel.setValue(IrcService.disconnect)
+</td>
+          </tr><tr>
+            <td class="black">162</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">163</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="black">164</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">165</td>
+            <td>  sendButton.addClickListener(new Button.ClickListener {
+</td>
+          </tr><tr>
+            <td class="black">166</td>
+            <td>    override def buttonClick(event: ClickEvent): Unit = {
+</td>
+          </tr><tr>
+            <td class="black">167</td>
+            <td>      sendButton.setEnabled(false)
+</td>
+          </tr><tr>
+            <td class="black">168</td>
+            <td>      statusLabel.setValue(&quot;Sending...&quot;)
+</td>
+          </tr><tr>
+            <td class="black">169</td>
+            <td>      eventRouter.fireEvent(new SendToIrcEvent)
+</td>
+          </tr><tr>
+            <td class="black">170</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">171</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="black">172</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">173</td>
+            <td>  refreshButton.addClickListener(new Button.ClickListener {
+</td>
+          </tr><tr>
+            <td class="black">174</td>
+            <td>    override def buttonClick(event: ClickEvent): Unit = refresh
+</td>
+          </tr><tr>
+            <td class="black">175</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="black">176</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">177</td>
+            <td>  def sendToIrc(message: java.util.List[String]): Unit = {
+</td>
+          </tr><tr>
+            <td class="red">178</td>
+            <td>    <span class="non">IrcService.sendMessage(message)
+</span></td>
+          </tr><tr>
+            <td class="red">179</td>
+            <td>    <span class="non">Notifications.showPlayToIrc(Page.getCurrent)
+</span></td>
+          </tr><tr>
+            <td class="red">180</td>
+            <td>    <span class="non">refresh
+</span></td>
+          </tr><tr>
+            <td class="black">181</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">182</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">183</td>
+            <td>  def refresh: Unit = showBotStatus(IrcService.getBotStatus)
+</td>
+          </tr><tr>
+            <td class="black">184</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">185</td>
+            <td>  private def showBotStatus(stat: BotStatus.Value): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">186</td>
+            <td>    if (stat.isConnected || stat.isSending) {
+</td>
+          </tr><tr>
+            <td class="yellow">187</td>
+            <td>      if (stat.isSending) { <span class="non">statusLabel.setValue(&quot;Bot is busy...&quot;) }
+</span></td>
+          </tr><tr>
+            <td class="green">188</td>
+            <td>      else { statusLabel.setValue(&quot;Bot is connected.&quot;) }
+</td>
+          </tr><tr>
+            <td class="green">189</td>
+            <td>      networkCombo.setValue(stat.network)
+</td>
+          </tr><tr>
+            <td class="red">190</td>
+            <td>      <span class="non">networkCombo.setEnabled(false)
+</span></td>
+          </tr><tr>
+            <td class="red">191</td>
+            <td>      <span class="non">portCombo.setEnabled(false)
+</span></td>
+          </tr><tr>
+            <td class="red">192</td>
+            <td>      <span class="non">channelBox.setValue(stat.channel)
+</span></td>
+          </tr><tr>
+            <td class="red">193</td>
+            <td>      <span class="non">channelBox.setEnabled(false)
+</span></td>
+          </tr><tr>
+            <td class="red">194</td>
+            <td>      <span class="non">nickBox.setValue(stat.name)
+</span></td>
+          </tr><tr>
+            <td class="red">195</td>
+            <td>      <span class="non">nickBox.setEnabled(false)
+</span></td>
+          </tr><tr>
+            <td class="red">196</td>
+            <td>      <span class="non">delayBox.setValue(stat.delay.toString)
+</span></td>
+          </tr><tr>
+            <td class="red">197</td>
+            <td>      <span class="non">delayBox.setEnabled(false)
+</span></td>
+          </tr><tr>
+            <td class="red">198</td>
+            <td>      <span class="non">connectButton.setEnabled(false)
+</span></td>
+          </tr><tr>
+            <td class="red">199</td>
+            <td>      <span class="non">disconnectButton.setEnabled(true)
+</span></td>
+          </tr><tr>
+            <td class="red">200</td>
+            <td>      <span class="non">sendButton.setEnabled(!stat.isSending)
+</span></td>
+          </tr><tr>
+            <td class="black">201</td>
+            <td>    } else {
+</td>
+          </tr><tr>
+            <td class="green">202</td>
+            <td>      statusLabel.setValue(&quot;Bot is not connected.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">203</td>
+            <td>      networkCombo.setEnabled(true)
+</td>
+          </tr><tr>
+            <td class="green">204</td>
+            <td>      portCombo.setEnabled(true)
+</td>
+          </tr><tr>
+            <td class="green">205</td>
+            <td>      channelBox.setEnabled(true)
+</td>
+          </tr><tr>
+            <td class="green">206</td>
+            <td>      nickBox.setEnabled(true)
+</td>
+          </tr><tr>
+            <td class="green">207</td>
+            <td>      delayBox.setEnabled(true)
+</td>
+          </tr><tr>
+            <td class="green">208</td>
+            <td>      connectButton.setEnabled(true)
+</td>
+          </tr><tr>
+            <td class="green">209</td>
+            <td>      disconnectButton.setEnabled(false)
+</td>
+          </tr><tr>
+            <td class="green">210</td>
+            <td>      sendButton.setEnabled(false)
+</td>
+          </tr><tr>
+            <td class="black">211</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">212</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">213</td>
+            <td>}
+</td>
+          </tr></tbody></table>

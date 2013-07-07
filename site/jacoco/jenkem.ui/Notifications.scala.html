@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Notifications.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">Notifications.scala</span></div><h1>Notifications.scala</h1><pre class="source lang-java linenums">package jenkem.ui
+
+import com.vaadin.server.Page
+import com.vaadin.ui.Notification
+
+<span class="nc" id="L6">object Notifications {</span>
+<span class="nc" id="L7">  val imageSaved = new Notification(&quot;Image submitted to gallery.&quot;, Notification.Type.HUMANIZED_MESSAGE)</span>
+<span class="nc" id="L8">  imageSaved.setDelayMsec(1500)</span>
+<span class="nc" id="L9">  def showImageSaved(page: Page): Unit = imageSaved.show(page)</span>
+
+<span class="nc" id="L11">  val imageNotSaved = new Notification(&quot;Image not submitted!&quot;, Notification.Type.ERROR_MESSAGE)</span>
+<span class="nc" id="L12">  imageNotSaved.setDelayMsec(1500)</span>
+<span class="nc" id="L13">  def showImageNotSaved(page: Page): Unit = imageNotSaved.show(page)</span>
+
+<span class="nc" id="L15">  val dbNotConnected = new Notification(&quot;Database is not connected!&quot;, Notification.Type.ERROR_MESSAGE)</span>
+<span class="nc" id="L16">  dbNotConnected.setDelayMsec(1500)</span>
+<span class="nc" id="L17">  def showDbNotConnected(page: Page): Unit = dbNotConnected.show(page)</span>
+
+<span class="nc" id="L19">  val playToIrc = new Notification(&quot;Sending conversion to IRC.&quot;, Notification.Type.HUMANIZED_MESSAGE)</span>
+<span class="nc" id="L20">  playToIrc.setDelayMsec(1000)</span>
+<span class="nc" id="L21">  def showPlayToIrc(page: Page): Unit = playToIrc.show(page)</span>
+
+<span class="nc" id="L23">  val connectToIrc = new Notification(&quot;Connecting to IRC.&quot;, &quot;Please wait and refresh the bot status.&quot;, Notification.Type.HUMANIZED_MESSAGE)</span>
+<span class="nc" id="L24">  connectToIrc.setDelayMsec(2000)</span>
+<span class="nc" id="L25">  def showConnectToIrc(page: Page): Unit = connectToIrc.show(page)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

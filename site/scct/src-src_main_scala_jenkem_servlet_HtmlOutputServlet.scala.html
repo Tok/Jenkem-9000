@@ -1,0 +1,117 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;servlet/<span class="header">&#x200B;HtmlOutputServlet.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">62 %</div>
+        <div class="greenBar" style="width:124px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_servlet_HtmlOutputServlet.scala.html#Class_jenkem_servlet_HtmlOutputServlet"><img src="class.png"/>HtmlOutputServlet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">62 %</div>
+        <div class="greenBar" style="width:124px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.servlet
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import jenkem.persistence.data.ImageHtml
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import javax.jdo.annotations.PersistenceCapable
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import javax.servlet.http.HttpServletRequest
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import javax.servlet.http.HttpServletResponse
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import jenkem.util.HtmlUtil
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td> * Servlet to retrieve and return stored HTML.
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td><a id="Class_jenkem_servlet_HtmlOutputServlet"/>class HtmlOutputServlet extends AbstractOutputServlet {
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>  override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>    response.setCharacterEncoding(encoding)
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>    response.setContentType(&quot;text/html&quot;)
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>    jenkemService.getImageHtmlByName(obtainName(request)) match {
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>      case Some(imageHtml) =&gt;
+</td>
+          </tr><tr>
+            <td class="red">18</td>
+            <td>        <span class="non">Option(imageHtml.html) match {
+</span></td>
+          </tr><tr>
+            <td class="red">19</td>
+            <td>          case Some(html) =&gt; <span class="non">response.getWriter.write(html)
+</span></td>
+          </tr><tr>
+            <td class="red">20</td>
+            <td>          case None =&gt; <span class="non">response.getWriter.write(&quot;Fail: HTML is empty.&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>      case None =&gt; response.getWriter.write(&quot;Fail: HTML couldn't be obtained.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>}
+</td>
+          </tr></tbody></table>

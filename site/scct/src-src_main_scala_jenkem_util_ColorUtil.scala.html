@@ -1,0 +1,229 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;util/<span class="header">&#x200B;ColorUtil.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">94 %</div>
+        <div class="greenBar" style="width:188px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_util_ColorUtil.scala.html#Object_jenkem_util_ColorUtil"><img src="object.png"/>ColorUtil</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">94 %</div>
+        <div class="greenBar" style="width:188px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.util
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import jenkem.engine.color.Scheme
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td><a id="Object_jenkem_util_ColorUtil"/>object ColorUtil {
+</td>
+          </tr><tr>
+            <td class="green">6</td>
+            <td>  val BC = String.valueOf('\u0002') // bold character for IRC
+</td>
+          </tr><tr>
+            <td class="green">7</td>
+            <td>  val CC = String.valueOf('\u0003') // color character for IRC
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>   * Converts an IRC color to a CSS color.
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>   * @param ircColor
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>   * @return cssColor
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>  def ircToCss(ircColor: String): String = ircToCss(ircColor.toShort)
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>   * Converts an IRC color to a CSS color.
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>   * @param ircColor
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>   * @return cssColor
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>  def ircToCss(ircColor: Short): String = {
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>    Scheme.valuOfIrcColor(ircColor) match {
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>      case Some(ircColor) =&gt; rgbToCss(ircColor.rgb)
+</td>
+          </tr><tr>
+            <td class="red">24</td>
+            <td>      case _ =&gt; <span class="non">&quot;#000000&quot;
+</span></td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>   * Converts an RGB color to a CSS color.
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>   * @param rgb
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>   * @return cssColor
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>  private def rgbToCss(rgb: (Short, Short, Short)): String = {
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>    &quot;#&quot; + toHex(rgb._1) + toHex(rgb._2) + toHex(rgb._3)
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>   * Converts the provided interger to hex.
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>   * @param i
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>   * @return hex
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>  private def toHex(i: Int): String = {
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>    val ret = Integer.toHexString(i)
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>    if (ret.length == 1) { &quot;0&quot; + ret } else { ret }
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">47</td>
+            <td>  def makePwnIrc(bot: Short, top: Short): String = CC + bot + &quot;,&quot; + top + &quot;▄&quot;
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">49</td>
+            <td>  private def commaSplit(s: String): Array[String] = s.split(&quot;,&quot;)
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>  def getFg(s: String): Int = commaSplit(s)(0).tail.toInt
+</td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>  def getBgString(s: String): String = commaSplit(s)(1).takeWhile(_.isDigit)
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>  def getBg(s: String): Int = getBgString(s).toInt
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>}
+</td>
+          </tr></tbody></table>

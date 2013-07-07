@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OpenShiftUtil.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.util</a> &gt; <span class="el_source">OpenShiftUtil.scala</span></div><h1>OpenShiftUtil.scala</h1><pre class="source lang-java linenums">package jenkem.util
+
+<span class="fc" id="L3">object OpenShiftUtil {</span>
+  def isOnOpenshift: Boolean = {
+<span class="pc" id="L5">    Option(System.getenv(&quot;OPENSHIFT_APP_DNS&quot;)) match {</span>
+<span class="pc bpc" id="L6" title="5 of 6 branches missed.">      case Some(name) if (!name.isEmpty) =&gt; true</span>
+<span class="pc bpc" id="L7" title="4 of 6 branches missed.">      case None =&gt; false</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

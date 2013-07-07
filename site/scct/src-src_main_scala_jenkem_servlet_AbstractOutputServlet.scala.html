@@ -1,0 +1,85 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;servlet/<span class="header">&#x200B;AbstractOutputServlet.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_servlet_AbstractOutputServlet.scala.html#Class_jenkem_servlet_AbstractOutputServlet"><img src="class.png"/>AbstractOutputServlet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.servlet
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import javax.servlet.http.HttpServlet
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import javax.servlet.http.HttpServletRequest
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import jenkem.persistence.PersistenceService
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> * Abstract Servlet for output
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td><a id="Class_jenkem_servlet_AbstractOutputServlet"/>abstract class AbstractOutputServlet extends HttpServlet {
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  val encoding = &quot;UTF-8&quot;
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  val jenkemService = PersistenceService
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>  def obtainName(request: HttpServletRequest): String = {
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>    val extendedName = request.getParameter(&quot;name&quot;)
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>    extendedName.substring(0, extendedName.lastIndexOf('.'))
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>}
+</td>
+          </tr></tbody></table>

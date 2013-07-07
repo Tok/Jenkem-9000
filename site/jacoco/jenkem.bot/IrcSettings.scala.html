@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>IrcSettings.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.bot</a> &gt; <span class="el_source">IrcSettings.scala</span></div><h1>IrcSettings.scala</h1><pre class="source lang-java linenums">package jenkem.bot
+
+<span class="fc" id="L3">object IrcSettings {</span>
+<span class="fc" id="L4">  object Loc extends Enumeration {</span>
+    type Loc = Value
+<span class="fc" id="L6">    val OPENSHIFT, ELSEWHERE = Value</span>
+  }
+<span class="fc" id="L8">  sealed class IrcNetwork(val net: String, val port: Int, val location: Loc.Value)</span>
+<span class="fc" id="L9">  val freenode = new IrcNetwork(&quot;irc.freenode.net&quot;, 8001, Loc.OPENSHIFT)</span>
+<span class="fc" id="L10">  val efnet = new IrcNetwork(&quot;efnet.xs4all.nl&quot;, 6669, Loc.ELSEWHERE) //&quot;irc.efnet.org&quot;</span>
+<span class="fc" id="L11">  val undernet = new IrcNetwork(&quot;irc.undernet.org&quot;, 6667, Loc.ELSEWHERE)</span>
+<span class="fc" id="L12">  val rizon = new IrcNetwork(&quot;irc.rizon.net&quot;, 6667, Loc.ELSEWHERE)</span>
+<span class="fc" id="L13">  val networks = Array(freenode, efnet, undernet, rizon)</span>
+<span class="fc" id="L14">  def getDefaultNetwork: IrcNetwork = freenode</span>
+
+<span class="fc" id="L16">  val defaultChannel = &quot;#Jenkem&quot;</span>
+<span class="fc" id="L17">  val defaultNick = &quot;J_&quot;</span>
+<span class="fc" id="L18">  val login = &quot;jenkem&quot;</span>
+<span class="fc" id="L19">  val version = &quot;Jenkem-9000&quot;</span>
+<span class="fc" id="L20">  val defaultDelayMs = 1000</span>
+<span class="pc" id="L21">  val maxDelayMs = 3000</span>
+<span class="pc" id="L22">  val warningDelayMs = 500</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

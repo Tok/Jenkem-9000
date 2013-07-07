@@ -1,0 +1,229 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;js/<span class="header">&#x200B;Cropper.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">90 %</div>
+        <div class="greenBar" style="width:180px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_js_Cropper.scala.html#Class_jenkem_js_Cropper"><img src="class.png"/>Cropper</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">90 %</div>
+        <div class="greenBar" style="width:180px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.js
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import scala.Array.canBuildFrom
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import org.json.JSONArray
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import org.json.JSONException
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import com.vaadin.annotations.JavaScript
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import com.vaadin.ui.AbstractJavaScriptComponent
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import com.vaadin.ui.JavaScriptFunction
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>import com.vaadin.ui.Notification
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>import scala.collection.mutable.ArrayBuffer
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td> * https://vaadin.com/book/vaadin7/-/page/gwt.javascript.html
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>@JavaScript(Array(&quot;croplib.js&quot;, &quot;cropper-connector.js&quot;))
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td><a id="Class_jenkem_js_Cropper"/>class Cropper extends AbstractJavaScriptComponent {
+</td>
+          </tr><tr>
+            <td class="green">17</td>
+            <td>  var isReady = false
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td>  addFunction(
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>    &quot;onSelect&quot;,
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>    new JavaScriptFunction() {
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>      @throws(classOf[JSONException])
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>      override def call(arguments: JSONArray) {
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>        if (isReady) { //ignore first resize
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>          val coords = arguments.get(0).asInstanceOf[JSONArray]
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>          val crops = new Crops(
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>            coords.getInt(0),
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>            coords.getInt(1),
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>            coords.getInt(2),
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>            coords.getInt(3),
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>            coords.getInt(4),
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>            coords.getInt(5))
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>          listeners.foreach(_.valueChange(crops))
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>        isReady = true
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>  )
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">40</td>
+            <td>  val listeners: ArrayBuffer[CropperChangeListener] = ArrayBuffer[CropperChangeListener]()
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>  def addListener(listener: CropperChangeListener): Unit = { listeners += listener }
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>  def setImageSrc(imageSrc: String): Unit = getState.setImageSrc(imageSrc)
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>  def getImageSrc: String = getState.getImageSrc
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>  override def getState: CropperState = {
+</td>
+          </tr><tr>
+            <td class="green">47</td>
+            <td>    if(super.getState.isInstanceOf[CropperState]) {
+</td>
+          </tr><tr>
+            <td class="green">48</td>
+            <td>      super.getState.asInstanceOf[CropperState]
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>    } else {
+</td>
+          </tr><tr>
+            <td class="red">50</td>
+            <td>      <span class="non">throw new IllegalArgumentException(&quot;State is not CropperState.&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>}
+</td>
+          </tr></tbody></table>

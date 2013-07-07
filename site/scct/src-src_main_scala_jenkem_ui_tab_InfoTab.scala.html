@@ -1,0 +1,453 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;ui/&#x200B;tab/<span class="header">&#x200B;InfoTab.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_tab_InfoTab.scala.html#Class_jenkem_ui_tab_InfoTab"><img src="class.png"/>InfoTab</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.ui.tab
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import com.vaadin.server.ExternalResource
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import com.vaadin.shared.ui.label.ContentMode
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import com.vaadin.ui.Label
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import com.vaadin.ui.Link
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import com.vaadin.ui.VerticalLayout
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">9</td>
+            <td><a id="Class_jenkem_ui_tab_InfoTab"/>class InfoTab extends VerticalLayout {
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>  val newLine = &quot;\n&quot;
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  setCaption(&quot;Info&quot;)
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  setSizeFull
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>  setMargin(true)
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>  addLabel(&quot;Welcome to the Jenkem 9000 ASCII converter.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">17</td>
+            <td>  addLabel(&quot;To convert an image, go to the main tab, enter a link to the image and click the convert button.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>  addLabel(&quot;If you make a good conversion, you can add it to the gallery, by clicking the submit button.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td>  addLabel(&quot;Other images with the same name will be repalced. You can save the HTML output from&quot;)
+</td>
+          </tr><tr>
+            <td class="green">20</td>
+            <td>  addLabel(&quot;the gallery after submitting your conversion.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>  addLabel(&quot;If you do so, don't forget to also save the provided CSS and fix the stylesheet link in your&quot;)
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>  addLabel(&quot;HTML source if you want to upload it somewhere else.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>  addLabel(&quot;Problems:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">25</td>
+            <td>  addLabel(&quot;IRC Clients:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>  addLabel(&quot;\tSome IRC clients limit the input that can be put on one line.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>  addLabel(&quot;\tDepending on your client, long lines with many color changes and therefore too much&quot;)
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>  addLabel(&quot;\tdata will be cut off or skipped to a new line and thereby break the image.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>  addLabel(&quot;\tIf this happens, you might try to use a lower setting for the line-width of your conversion.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>  addLabel(&quot;\tIt's often a good idea to test replaying your converted image into an empty channel&quot;)
+</td>
+          </tr><tr>
+            <td class="green">31</td>
+            <td>  addLabel(&quot;\tbefore flooding it directly into a channel full with people idling in it.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">32</td>
+            <td>  addLabel(&quot;\tThe recommended font is Lucida Console.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">33</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>  addLabel(&quot;Browsers:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>  addLabel(&quot;\tCropping and functions that rely on cropping do not work in Internet Explorer.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">36</td>
+            <td>  addLabel(&quot;\tThe recommended browser for Jenkem is Chrome because it has a fast JavaScript engine.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">37</td>
+            <td>  addLabel(&quot;\tFirefox also works.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">38</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">39</td>
+            <td>  addLabel(&quot;Conversion Modes:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">40</td>
+            <td>  addLabel(&quot;Vortacular:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>  addLabel(&quot;\tThis is the default method for colored images.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">42</td>
+            <td>  addLabel(&quot;\tWill push four pixels into one character.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>  addLabel(&quot;Pwntari:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>  addLabel(&quot;\tMore pixels, but less colors.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">45</td>
+            <td>  addLabel(&quot;Plain:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>  addLabel(&quot;\tDoesn't output any colors.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">47</td>
+            <td>  addLabel(&quot;Stencil:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">48</td>
+            <td>  addLabel(&quot;\tThis method is best used with black &amp; white images like stencils.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">49</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>  addLabel(&quot;Color Schemes:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>  addLabel(&quot;Default:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>  addLabel(&quot;\tThe default color schema. Works best for fotos and colorful images.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">53</td>
+            <td>  addLabel(&quot;Old:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>  addLabel(&quot;\tAnother color schema, that was in place before the default was optimized.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">55</td>
+            <td>  addLabel(&quot;\tThe output looks similar to conversions with the default scheme.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">56</td>
+            <td>  addLabel(&quot;Vivid:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">57</td>
+            <td>  addLabel(&quot;\tA color schema with more vivid colors, by using a reduced amount of black and white pixels.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">58</td>
+            <td>  addLabel(&quot;Mono:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">59</td>
+            <td>  addLabel(&quot;\tDoes only use black &amp; white and six colors. Output looks more old-school.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">60</td>
+            <td>  addLabel(&quot;LSD:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">61</td>
+            <td>  addLabel(&quot;\tBlack and white are highly reduced in order to make the output far more colorful.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">62</td>
+            <td>  addLabel(&quot;Skin:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">63</td>
+            <td>  addLabel(&quot;\tThis scheme was optimized for images with skin.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">64</td>
+            <td>  addLabel(&quot;\tHowever, default mode conversion often look better.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">65</td>
+            <td>  addLabel(&quot;Bwg:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">66</td>
+            <td>  addLabel(&quot;\tThis scheme is only using black, white and two shades of gray.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">67</td>
+            <td>  addLabel(&quot;\tWorks best for images without any color.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">68</td>
+            <td>  addLabel(&quot;Bw:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">69</td>
+            <td>  addLabel(&quot;\tOnly uses black and white. Works best for black &amp; white images like stencils.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">70</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">71</td>
+            <td>  addLabel(&quot;Contrast:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">72</td>
+            <td>  addLabel(&quot;\tThe contrast is multiplied with the color of each pixel.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">73</td>
+            <td>  addLabel(&quot;\tTry to lower the contrast settings to improve the output for bright images.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">74</td>
+            <td>  addLabel(&quot;Brightness:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">75</td>
+            <td>  addLabel(&quot;\tThe brightness is added to the color of each pixel.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>  addLabel(&quot;\tTry to adjust this value to fix the output after setting the contrast.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">77</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">78</td>
+            <td>  addLabel(&quot;Kick:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">79</td>
+            <td>  addLabel(&quot;\tSets an offset for methods that use anti aliasing.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">80</td>
+            <td>  addLabel(&quot;\tSetting another option than \&quot;0\&quot; may result in a better output.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">81</td>
+            <td>  addLabel(&quot;\tChanging the kick is particulary useful for images that have important regions,&quot;)
+</td>
+          </tr><tr>
+            <td class="green">82</td>
+            <td>  addLabel(&quot;\tlike for example the eyes in an image of a face.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">83</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">84</td>
+            <td>  addLabel(&quot;Binary Output for IRC:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">85</td>
+            <td>  addLabel(&quot;\tOutputs the conversion as text with colors for IRC.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">86</td>
+            <td>  addLabel(&quot;\tYou can copy and paste this into your IRC-client to forward your conversion to IRC.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">87</td>
+            <td>  addLabel(&quot;\tMost clients will show it with the exact same color as in the HTML-preview.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">88</td>
+            <td>  addLabel(&quot;\tThe palette is obeying the defacto standard as used by mIRC.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">89</td>
+            <td>  addLabel(&quot;\tBut beware, many IRC-servers don't allow flooding and may get you kicked for doing this.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">90</td>
+            <td>  addLabel(&quot;\tDepending on your IRC client you may consider use a script that pastes the output&quot;)
+</td>
+          </tr><tr>
+            <td class="green">91</td>
+            <td>  addLabel(&quot;\tlinewise with a delay of about 1500 ms in order to prevent this.&quot;)
+</td>
+          </tr><tr>
+            <td class="green">92</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">93</td>
+            <td>  addLabel(&quot;You can link to this application converting an image,&quot;)
+</td>
+          </tr><tr>
+            <td class="green">94</td>
+            <td>  addLabel(&quot;by appending the image-url to the #main link like this:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">95</td>
+            <td>  addLink(&quot;http://jenkem-9000.rhcloud.com/#main/http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png&quot;)
+</td>
+          </tr><tr>
+            <td class="green">96</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">97</td>
+            <td>  addLabel(&quot;The source code of this application can be found at:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">98</td>
+            <td>  addLink(&quot;http://github.com/Tok/Jenkem-9000/&quot;)
+</td>
+          </tr><tr>
+            <td class="green">99</td>
+            <td>  addLabel(newLine)
+</td>
+          </tr><tr>
+            <td class="green">100</td>
+            <td>  addLabel(&quot;Jenkem 9000 project page:&quot;)
+</td>
+          </tr><tr>
+            <td class="green">101</td>
+            <td>  addLink(&quot;http://tok.github.com/Jenkem-9000/&quot;)
+</td>
+          </tr><tr>
+            <td class="black">102</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">103</td>
+            <td>  def addLink(text: String): Unit = addComponent(new Link(text, new ExternalResource(text)))
+</td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td>  def addLabel(text: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">105</td>
+            <td>    val label = new Label(text)
+</td>
+          </tr><tr>
+            <td class="green">106</td>
+            <td>    label.setContentMode(ContentMode.PREFORMATTED)
+</td>
+          </tr><tr>
+            <td class="green">107</td>
+            <td>    addComponent(label)
+</td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">109</td>
+            <td>}
+</td>
+          </tr></tbody></table>

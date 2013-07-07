@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>AwtImageUtil - Jenkem 1.0 API - jenkem.util.AwtImageUtil</title>
-          <meta name="description" content="AwtImageUtil - Jenkem 1.0 API - jenkem.util.AwtImageUtil" />
-          <meta name="keywords" content="AwtImageUtil Jenkem 1.0 API jenkem.util.AwtImageUtil" />
+          <title>AwtImageUtil - Jenkem 1.0-SNAPSHOT API - jenkem.util.AwtImageUtil</title>
+          <meta name="description" content="AwtImageUtil - Jenkem 1.0 - SNAPSHOT API - jenkem.util.AwtImageUtil" />
+          <meta name="keywords" content="AwtImageUtil Jenkem 1.0 SNAPSHOT API jenkem.util.AwtImageUtil" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -84,7 +84,23 @@
         <div id="allMembers">
         
 
-        
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="jenkem.util.AwtImageUtil.Crops" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Crops=(Int,Int,Int,Int)"></a>
+      <a id="Crops:(Int,Int,Int,Int)"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Crops</span><span class="result"> = (<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>)</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
 
         
 
@@ -194,19 +210,6 @@
       </span>
       </h4>
       
-    </li><li name="jenkem.util.AwtImageUtil#calculateNewSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="calculateNewSize(lineWidth:Int,originalWidth:Int,originalHeight:Int):(Int,Int)"></a>
-      <a id="calculateNewSize(Int,Int,Int):(Int,Int)"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">calculateNewSize</span><span class="params">(<span name="lineWidth">lineWidth: <span class="extype" name="scala.Int">Int</span></span>, <span name="originalWidth">originalWidth: <span class="extype" name="scala.Int">Int</span></span>, <span name="originalHeight">originalHeight: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: (<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>)</span>
-      </span>
-      </h4>
-      
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -219,7 +222,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -326,7 +329,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -344,15 +347,15 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="jenkem.util.AwtImageUtil#getImageRgb" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getImageRgb(img:java.awt.image.BufferedImage,width:Int,height:Int,kick:jenkem.engine.Kick.Value):Map[(Int,Int),(Short,Short,Short)]"></a>
-      <a id="getImageRgb(BufferedImage,Int,Int,Value):Map[(Int,Int),(Short,Short,Short)]"></a>
+      <a id="getImageRgb(scaled:java.awt.image.BufferedImage):jenkem.engine.color.Color.RgbMap"></a>
+      <a id="getImageRgb(BufferedImage):RgbMap"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getImageRgb</span><span class="params">(<span name="img">img: <span class="extype" name="java.awt.image.BufferedImage">BufferedImage</span></span>, <span name="width">width: <span class="extype" name="scala.Int">Int</span></span>, <span name="height">height: <span class="extype" name="scala.Int">Int</span></span>, <span name="kick">kick: <a href="../engine/Kick$$Value.html" class="extype" name="jenkem.engine.Kick.Value">Value</a></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)]</span>
+        <span class="name">getImageRgb</span><span class="params">(<span name="scaled">scaled: <span class="extype" name="java.awt.image.BufferedImage">BufferedImage</span></span>)</span><span class="result">: <a href="../engine/color/Color$.html#RgbMap=Map[(Int,Int),(Short,Short,Short)]" class="extmbr" name="jenkem.engine.color.Color.RgbMap">RgbMap</a></span>
       </span>
       </h4>
       
@@ -366,6 +369,32 @@
       </span>
       <span class="symbol">
         <span class="name">getRgb</span><span class="params">(<span name="img">img: <span class="extype" name="java.awt.image.BufferedImage">BufferedImage</span></span>, <span name="x">x: <span class="extype" name="scala.Int">Int</span></span>, <span name="y">y: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.util.AwtImageUtil#getScaled" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getScaled(img:java.awt.image.BufferedImage,width:Int,height:Int,kick:jenkem.engine.Kick,b:Int,c:Int):java.awt.image.BufferedImage"></a>
+      <a id="getScaled(BufferedImage,Int,Int,Kick,Int,Int):BufferedImage"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getScaled</span><span class="params">(<span name="img">img: <span class="extype" name="java.awt.image.BufferedImage">BufferedImage</span></span>, <span name="width">width: <span class="extype" name="scala.Int">Int</span></span>, <span name="height">height: <span class="extype" name="scala.Int">Int</span></span>, <span name="kick">kick: <a href="../engine/Kick.html" class="extype" name="jenkem.engine.Kick">Kick</a></span>, <span name="b">b: <span class="extype" name="scala.Int">Int</span></span>, <span name="c">c: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="java.awt.image.BufferedImage">BufferedImage</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.util.AwtImageUtil#getScaled" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getScaled(img:java.awt.image.BufferedImage,width:Int,height:Int):java.awt.image.BufferedImage"></a>
+      <a id="getScaled(BufferedImage,Int,Int):BufferedImage"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getScaled</span><span class="params">(<span name="img">img: <span class="extype" name="java.awt.image.BufferedImage">BufferedImage</span></span>, <span name="width">width: <span class="extype" name="scala.Int">Int</span></span>, <span name="height">height: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="java.awt.image.BufferedImage">BufferedImage</span></span>
       </span>
       </h4>
       

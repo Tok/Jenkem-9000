@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OutputDisplay.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">OutputDisplay.scala</span></div><h1>OutputDisplay.scala</h1><pre class="source lang-java linenums">package jenkem.ui
+
+import com.vaadin.event.FieldEvents.FocusEvent
+import com.vaadin.event.FieldEvents.FocusListener
+import com.vaadin.ui.Label
+import com.vaadin.ui.TextArea
+import com.vaadin.ui.VerticalLayout
+
+<span class="fc" id="L9">class OutputDisplay extends VerticalLayout {</span>
+<span class="fc" id="L10">  setSpacing(true)</span>
+<span class="fc" id="L11">  setWidth(&quot;400px&quot;)</span>
+
+<span class="fc" id="L13">  val outputCaptionLabel = new Label(&quot;Binary Output For IRC: &quot;)</span>
+<span class="fc" id="L14">  val ircText = new TextArea</span>
+<span class="fc" id="L15">  ircText.setWidth(&quot;400px&quot;)</span>
+<span class="fc" id="L16">  ircText.setWordwrap(false)</span>
+  //ircText.setReadOnly(true)
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">  ircText.addFocusListener(new FocusListener {</span>
+<span class="nc" id="L19">    override def focus(event: FocusEvent): Unit = ircText.selectAll</span>
+  })
+<span class="fc" id="L21">  addComponent(outputCaptionLabel)</span>
+<span class="fc" id="L22">  addComponent(ircText)</span>
+
+  def addIrcOutput(ircOutput: List[String]): Unit = {
+<span class="nc" id="L25">    val lines = new StringBuilder(ircOutput.size)</span>
+<span class="nc" id="L26">    ircOutput.foreach(line =&gt; lines.append(line))</span>
+<span class="nc" id="L27">    ircText.setValue(lines.toString)</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

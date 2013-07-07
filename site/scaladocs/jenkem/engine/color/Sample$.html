@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>Sample - Jenkem 1.0 API - jenkem.engine.color.Sample</title>
-          <meta name="description" content="Sample - Jenkem 1.0 API - jenkem.engine.color.Sample" />
-          <meta name="keywords" content="Sample Jenkem 1.0 API jenkem.engine.color.Sample" />
+          <title>Sample - Jenkem 1.0-SNAPSHOT API - jenkem.engine.color.Sample</title>
+          <meta name="description" content="Sample - Jenkem 1.0 - SNAPSHOT API - jenkem.engine.color.Sample" />
+          <meta name="keywords" content="Sample Jenkem 1.0 SNAPSHOT API jenkem.engine.color.Sample" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -100,7 +100,7 @@
       </h4>
       
     </li><li name="jenkem.engine.color.Sample.Dir" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="DirextendsObject"></a>
+      <a id="DirextendsAnyRef"></a>
       <a id="Dir:Dir"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -122,19 +122,6 @@
       </span>
       <span class="symbol">
         <span class="name">Grey</span><span class="result"> = (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
-      </span>
-      </h4>
-      
-    </li><li name="jenkem.engine.color.Sample.Rgb" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="Rgb=(Short,Short,Short)"></a>
-      <a id="Rgb:(Short,Short,Short)"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">Rgb</span><span class="result"> = (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
       </span>
       </h4>
       
@@ -249,19 +236,6 @@
       </span>
       </h4>
       
-    </li><li name="jenkem.engine.color.Sample#HALF_RGB" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="HALF_RGB:Short"></a>
-      <a id="HALF_RGB:Short"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">HALF_RGB</span><span class="result">: <span class="extype" name="scala.Short">Short</span></span>
-      </span>
-      </h4>
-      
     </li><li name="jenkem.engine.color.Sample.LEFT" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="LEFT"></a>
       <a id="LEFT:LEFT"></a>
@@ -272,19 +246,6 @@
       </span>
       <span class="symbol">
         <a href="Sample$$LEFT$.html"><span class="name">LEFT</span></a><span class="result"> extends <a href="Sample$$Xdir.html" class="extype" name="jenkem.engine.color.Sample.Xdir">Xdir</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      </h4>
-      
-    </li><li name="jenkem.engine.color.Sample#MAX_RGB" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="MAX_RGB:Short"></a>
-      <a id="MAX_RGB:Short"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">MAX_RGB</span><span class="result">: <span class="extype" name="scala.Short">Short</span></span>
       </span>
       </h4>
       
@@ -340,6 +301,19 @@
       </span>
       </h4>
       
+    </li><li name="jenkem.engine.color.Sample#calcMean" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="calcMean(first:(Short,Short,Short),second:(Short,Short,Short)):(Short,Short,Short)"></a>
+      <a id="calcMean((Short,Short,Short),(Short,Short,Short)):(Short,Short,Short)"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">calcMean</span><span class="params">(<span name="first">first: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>, <span name="second">second: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>)</span><span class="result">: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
+      </span>
+      </h4>
+      
     </li><li name="jenkem.engine.color.Sample#calcRgbDiff" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="calcRgbDiff(sample:((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short)),dir:jenkem.engine.color.Sample.Dir):Short"></a>
       <a id="calcRgbDiff(((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short)),Dir):Short"></a>
@@ -378,10 +352,23 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="jenkem.engine.color.Sample#dirs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="dirs:List[jenkem.engine.color.Sample.Dir]"></a>
+      <a id="dirs:List[Dir]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dirs</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="Sample$$Dir.html" class="extype" name="jenkem.engine.color.Sample.Dir">Dir</a>]</span>
+      </span>
+      </h4>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -420,7 +407,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -437,6 +424,19 @@
       </span>
       </h4>
       
+    </li><li name="jenkem.engine.color.Sample#getAllRgb" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getAllRgb(col:((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short))):(Short,Short,Short)"></a>
+      <a id="getAllRgb(((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short))):(Short,Short,Short)"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAllRgb</span><span class="params">(<span name="col">col: ((<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>))</span>)</span><span class="result">: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
+      </span>
+      </h4>
+      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -450,29 +450,29 @@
       </span>
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="jenkem.engine.color.Sample#getGrey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getGrey(sample:(Short,Short,Short,Short),xDir:jenkem.engine.color.Sample.Xdir,yDir:jenkem.engine.color.Sample.Ydir):Short"></a>
-      <a id="getGrey((Short,Short,Short,Short),Xdir,Ydir):Short"></a>
+    </li><li name="jenkem.engine.color.Sample#getDirectedGrey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getDirectedGrey(sample:(Short,Short,Short,Short),dir:jenkem.engine.color.Sample.Dir):Short"></a>
+      <a id="getDirectedGrey((Short,Short,Short,Short),Dir):Short"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getGrey</span><span class="params">(<span name="sample">sample: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>, <span name="xDir">xDir: <a href="Sample$$Xdir.html" class="extype" name="jenkem.engine.color.Sample.Xdir">Xdir</a></span>, <span name="yDir">yDir: <a href="Sample$$Ydir.html" class="extype" name="jenkem.engine.color.Sample.Ydir">Ydir</a></span>)</span><span class="result">: <span class="extype" name="scala.Short">Short</span></span>
+        <span class="name">getDirectedGrey</span><span class="params">(<span name="sample">sample: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>, <span name="dir">dir: <a href="Sample$$Dir.html" class="extype" name="jenkem.engine.color.Sample.Dir">Dir</a></span>)</span><span class="result">: <span class="extype" name="scala.Short">Short</span></span>
       </span>
       </h4>
       
-    </li><li name="jenkem.engine.color.Sample#getRgb" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getRgb(sample:((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short)),xDir:jenkem.engine.color.Sample.Xdir,yDir:jenkem.engine.color.Sample.Ydir):(Short,Short,Short)"></a>
-      <a id="getRgb(((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short)),Xdir,Ydir):(Short,Short,Short)"></a>
+    </li><li name="jenkem.engine.color.Sample#getMeanGrey" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getMeanGrey(grey:(Short,Short,Short,Short)):Double"></a>
+      <a id="getMeanGrey((Short,Short,Short,Short)):Double"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getRgb</span><span class="params">(<span name="sample">sample: ((<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>))</span>, <span name="xDir">xDir: <a href="Sample$$Xdir.html" class="extype" name="jenkem.engine.color.Sample.Xdir">Xdir</a></span>, <span name="yDir">yDir: <a href="Sample$$Ydir.html" class="extype" name="jenkem.engine.color.Sample.Ydir">Ydir</a></span>)</span><span class="result">: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
+        <span class="name">getMeanGrey</span><span class="params">(<span name="grey">grey: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       </h4>
       
@@ -503,28 +503,28 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="jenkem.engine.color.Sample#makeColorSample" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="makeColorSample(imageRgb:Map[(Int,Int),(Short,Short,Short)],x:Int,y:Int,c:Int,b:Int):((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short))"></a>
-      <a id="makeColorSample(Map[(Int,Int),(Short,Short,Short)],Int,Int,Int,Int):((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short))"></a>
+      <a id="makeColorSample(imageRgb:jenkem.engine.color.Color.RgbMap,x:Int,y:Int,c:Int,b:Int):((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short))"></a>
+      <a id="makeColorSample(RgbMap,Int,Int,Int,Int):((Short,Short,Short),(Short,Short,Short),(Short,Short,Short),(Short,Short,Short))"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeColorSample</span><span class="params">(<span name="imageRgb">imageRgb: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)]</span>, <span name="x">x: <span class="extype" name="scala.Int">Int</span></span>, <span name="y">y: <span class="extype" name="scala.Int">Int</span></span>, <span name="c">c: <span class="extype" name="scala.Int">Int</span></span>, <span name="b">b: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: ((<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>))</span>
+        <span class="name">makeColorSample</span><span class="params">(<span name="imageRgb">imageRgb: <a href="Color$.html#RgbMap=Map[(Int,Int),(Short,Short,Short)]" class="extmbr" name="jenkem.engine.color.Color.RgbMap">RgbMap</a></span>, <span name="x">x: <span class="extype" name="scala.Int">Int</span></span>, <span name="y">y: <span class="extype" name="scala.Int">Int</span></span>, <span name="c">c: <span class="extype" name="scala.Int">Int</span></span>, <span name="b">b: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: ((<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>))</span>
       </span>
       </h4>
       
     </li><li name="jenkem.engine.color.Sample#makeGreySample" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="makeGreySample(imageRgb:Map[(Int,Int),(Short,Short,Short)],x:Int,y:Int,c:Int,b:Int):(Short,Short,Short,Short)"></a>
-      <a id="makeGreySample(Map[(Int,Int),(Short,Short,Short)],Int,Int,Int,Int):(Short,Short,Short,Short)"></a>
+      <a id="makeGreySample(imageRgb:jenkem.engine.color.Color.RgbMap,x:Int,y:Int,c:Int,b:Int):(Short,Short,Short,Short)"></a>
+      <a id="makeGreySample(RgbMap,Int,Int,Int,Int):(Short,Short,Short,Short)"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">makeGreySample</span><span class="params">(<span name="imageRgb">imageRgb: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Int">Int</span>), (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)]</span>, <span name="x">x: <span class="extype" name="scala.Int">Int</span></span>, <span name="y">y: <span class="extype" name="scala.Int">Int</span></span>, <span name="c">c: <span class="extype" name="scala.Int">Int</span></span>, <span name="b">b: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
+        <span class="name">makeGreySample</span><span class="params">(<span name="imageRgb">imageRgb: <a href="Color$.html#RgbMap=Map[(Int,Int),(Short,Short,Short)]" class="extmbr" name="jenkem.engine.color.Color.RgbMap">RgbMap</a></span>, <span name="x">x: <span class="extype" name="scala.Int">Int</span></span>, <span name="y">y: <span class="extype" name="scala.Int">Int</span></span>, <span name="c">c: <span class="extype" name="scala.Int">Int</span></span>, <span name="b">b: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>
       </span>
       </h4>
       

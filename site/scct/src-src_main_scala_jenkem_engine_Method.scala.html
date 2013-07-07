@@ -1,0 +1,109 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;engine/<span class="header">&#x200B;Method.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Method.scala.html#Class_jenkem_engine_Method"><img src="class.png"/>Method</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Method.scala.html#Object_jenkem_engine_Method"><img src="object.png"/>Method</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Method.scala.html#Object_jenkem_engine_Method_Plain"><img src="object.png"/>Method.Plain</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Method.scala.html#Object_jenkem_engine_Method_Pwntari"><img src="object.png"/>Method.Pwntari</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Method.scala.html#Object_jenkem_engine_Method_Stencil"><img src="object.png"/>Method.Stencil</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Method.scala.html#Object_jenkem_engine_Method_Vortacular"><img src="object.png"/>Method.Vortacular</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.engine
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">3</td>
+            <td><a id="Class_jenkem_engine_Method"/>sealed abstract class Method(val name: String, val hasColor: Boolean, val hasKick: Boolean)
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td><a id="Object_jenkem_engine_Method"/>object Method {
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td><a id="Object_jenkem_engine_Method_Vortacular"/>  case object Vortacular extends Method(&quot;Vortacular&quot;, true, true)
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td><a id="Object_jenkem_engine_Method_Pwntari"/>  case object Pwntari extends Method(&quot;Pwntari&quot;, true, false)
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td><a id="Object_jenkem_engine_Method_Plain"/>  case object Plain extends Method(&quot;Plain&quot;, false, true)
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td><a id="Object_jenkem_engine_Method_Stencil"/>  case object Stencil extends Method(&quot;Stencil&quot;, false, true)
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>  val values = List(Vortacular, Pwntari, Plain, Stencil)
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  def valueOf(name: String): Option[Method] = values.find(_.name.equalsIgnoreCase(name))
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  val default = Vortacular
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>}
+</td>
+          </tr></tbody></table>

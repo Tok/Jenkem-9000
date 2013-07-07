@@ -1,0 +1,161 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;persistence/<span class="header">&#x200B;PMF.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">75 %</div>
+        <div class="greenBar" style="width:150px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_persistence_PMF.scala.html#Class_jenkem_persistence_PMF"><img src="class.png"/>PMF</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">33 %</div>
+        <div class="greenBar" style="width:66px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_persistence_PMF.scala.html#Object_jenkem_persistence_PMF"><img src="object.png"/>PMF</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.persistence
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import java.util.Properties
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import javax.jdo.JDOHelper
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import javax.jdo.PersistenceManagerFactory
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td> * Holds a single instance of the PersistenceManagerFactory.
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td><a id="Object_jenkem_persistence_PMF"/>object PMF {
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  final val dbHost = System.getenv(&quot;OPENSHIFT_MONGODB_DB_HOST&quot;)
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>  final val dbPort = System.getenv(&quot;OPENSHIFT_MONGODB_DB_PORT&quot;)
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>  final val dbName = System.getenv(&quot;OPENSHIFT_APP_NAME&quot;)
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>  final val dbUser = System.getenv(&quot;OPENSHIFT_MONGODB_DB_USERNAME&quot;)
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>  final val dbPass = System.getenv(&quot;OPENSHIFT_MONGODB_DB_PASSWORD&quot;)
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>  final val properties: Properties = new Properties
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>  //properties.setProperty(&quot;datanucleus.cache.level2.type&quot;, &quot;xmemcached&quot;)
+</td>
+          </tr><tr>
+            <td class="green">20</td>
+            <td>  properties.setProperty(&quot;javax.jdo.PersistenceManagerFactoryClass&quot;, &quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;)
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>  properties.setProperty(&quot;javax.jdo.option.Mapping&quot;, &quot;mongodb&quot;)
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td><a id="Class_jenkem_persistence_PMF"/>  Option(dbHost) match {
+</td>
+          </tr><tr>
+            <td class="red">24</td>
+            <td>    case Some(v) if (<span class="non">!v.isEmpty) =&gt;
+</span></td>
+          </tr><tr>
+            <td class="red">25</td>
+            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionURL&quot;, &quot;mongodb:&quot; + v + &quot;:&quot; + dbPort + &quot;/&quot; + dbName)
+</span></td>
+          </tr><tr>
+            <td class="red">26</td>
+            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionUserName&quot;, dbUser)
+</span></td>
+          </tr><tr>
+            <td class="red">27</td>
+            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionPassword&quot;, dbPass)
+</span></td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>    case None =&gt;
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>      properties.setProperty(&quot;javax.jdo.option.ConnectionURL&quot;, &quot;mongodb:/jenkem&quot;)
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">32</td>
+            <td>  final val pmf: PersistenceManagerFactory = JDOHelper.getPersistenceManagerFactory(properties)
+</td>
+          </tr><tr>
+            <td class="green">33</td>
+            <td>  def get: PersistenceManagerFactory = pmf
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>}
+</td>
+          </tr></tbody></table>

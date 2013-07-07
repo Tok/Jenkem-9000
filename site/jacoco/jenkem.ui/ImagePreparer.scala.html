@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ImagePreparer.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">ImagePreparer.scala</span></div><h1>ImagePreparer.scala</h1><pre class="source lang-java linenums">package jenkem.ui
+
+import java.awt.image.BufferedImage
+import java.net.URL
+import com.vaadin.annotations.JavaScript
+import com.vaadin.event.EventRouter
+import com.vaadin.event.FieldEvents.FocusEvent
+import com.vaadin.event.FieldEvents.FocusListener
+import com.vaadin.server.Page
+import com.vaadin.server.UserError
+import com.vaadin.ui.Alignment
+import com.vaadin.ui.Button
+import com.vaadin.ui.Button.ClickEvent
+import com.vaadin.ui.GridLayout
+import com.vaadin.ui.HorizontalLayout
+import com.vaadin.ui.Label
+import com.vaadin.ui.TextField
+import jenkem.event.DoConversionEvent
+import jenkem.js.Cropper
+import jenkem.js.CropperChangeListener
+import jenkem.js.Crops
+import jenkem.util.UrlOptionizer
+import com.vaadin.ui.Slider
+import com.vaadin.ui.Layout
+import com.vaadin.data.Property
+import com.vaadin.data.Property.ValueChangeEvent
+import com.vaadin.ui.Component
+import com.vaadin.ui.AbstractOrderedLayout
+
+<span class="fc" id="L30">class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {</span>
+<span class="fc" id="L31">  val captionWidth = &quot;100px&quot;</span>
+
+<span class="fc" id="L33">  var disableTrigger = false</span>
+<span class="fc" id="L34">  var crops = new Crops(0, 0, 100, 100, 100, 100)</span>
+<span class="fc" id="L35">  val cropper = new Cropper</span>
+<span class="fc" id="L36">  cropper.setWidth(&quot;100px&quot;)</span>
+<span class="fc" id="L37">  cropper.setHeight(&quot;150px&quot;)</span>
+
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">  cropper.addListener(new CropperChangeListener {</span>
+    override def valueChange(c: Crops) {
+<span class="fc" id="L41">      crops = c</span>
+<span class="fc" id="L42">      val cropText = &quot;Top: -&quot; + crops.y + &quot;% Bottom: -&quot; + (100 - crops.y2) +</span>
+<span class="fc" id="L43">              &quot;% Left: -&quot; + crops.x + &quot;% Right: -&quot; + (100 - crops.x2) + &quot;%&quot;</span>
+<span class="fc" id="L44">      cropLabel.setValue(cropText)</span>
+<span class="fc" id="L45">      trigger</span>
+    }
+  })
+
+<span class="fc" id="L49">  val statusLayout = new HorizontalLayout</span>
+<span class="fc" id="L50">  val statusCaptionLabel = new Label(&quot;Status: &quot;)</span>
+<span class="fc" id="L51">  statusCaptionLabel.setWidth(captionWidth)</span>
+<span class="fc" id="L52">  val statusLabel = new Label(&quot;Ready...&quot;)</span>
+<span class="fc" id="L53">  statusLayout.setSpacing(true)</span>
+<span class="fc" id="L54">  addToLayoutLeft(statusLayout, statusCaptionLabel)</span>
+<span class="fc" id="L55">  addToLayoutLeft(statusLayout, statusLabel)</span>
+
+<span class="fc" id="L57">  val urlLayout = new HorizontalLayout</span>
+<span class="fc" id="L58">  val urlCaptionLabel = new Label(&quot;Image URL: &quot;)</span>
+<span class="fc" id="L59">  urlCaptionLabel.setWidth(captionWidth)</span>
+<span class="fc" id="L60">  val inputTextField = new TextField</span>
+<span class="fc" id="L61">  inputTextField.setWidth(&quot;570px&quot;)</span>
+<span class="fc" id="L62">  inputTextField.focus</span>
+<span class="fc" id="L63">  inputTextField.setImmediate(true)</span>
+<span class="fc" id="L64">  val convButton = new Button(&quot;Convert Image&quot;)</span>
+<span class="fc" id="L65">  urlLayout.setSpacing(true)</span>
+<span class="fc" id="L66">  addToLayoutLeft(urlLayout, urlCaptionLabel)</span>
+<span class="fc" id="L67">  addToLayoutLeft(urlLayout, inputTextField)</span>
+<span class="fc" id="L68">  addToLayoutLeft(urlLayout, convButton)</span>
+
+<span class="fc" id="L70">  val submissionLayout = new HorizontalLayout</span>
+<span class="fc" id="L71">  val submissionCaptionLabel = new Label(&quot;Name: &quot;)</span>
+<span class="fc" id="L72">  submissionCaptionLabel.setWidth(captionWidth)</span>
+<span class="fc" id="L73">  val submitter = new Submitter(eventRouter)</span>
+<span class="fc" id="L74">  submissionLayout.setSpacing(true)</span>
+<span class="fc" id="L75">  addToLayoutLeft(submissionLayout, submissionCaptionLabel)</span>
+<span class="fc" id="L76">  addToLayoutLeft(submissionLayout, submitter)</span>
+<span class="fc" id="L77">  val resetAllButton = new Button(&quot;Reset All&quot;)</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">  resetAllButton.addClickListener(new Button.ClickListener {</span>
+    override def buttonClick(event: ClickEvent) {
+<span class="fc" id="L80">      disableTrigger = true</span>
+<span class="fc" id="L81">      submitter.reset</span>
+<span class="fc" id="L82">      brightnessSlider.setValue(0)</span>
+<span class="fc" id="L83">      contrastSlider.setValue(0)</span>
+<span class="fc" id="L84">      disableTrigger = false</span>
+<span class="fc" id="L85">      cropper.setImageSrc(cropper.getImageSrc)</span>
+    }
+  })
+<span class="fc" id="L88">  addToLayoutLeft(submissionLayout, resetAllButton)</span>
+
+<span class="fc" id="L90">  val brightnessLayout = new HorizontalLayout</span>
+<span class="fc" id="L91">  brightnessLayout.setSpacing(true)</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel(&quot;Brightness: &quot;, -100, 100, 0, brightnessLayout)</span>
+
+<span class="fc" id="L94">  val contrastLayout = new HorizontalLayout</span>
+<span class="fc" id="L95">  contrastLayout.setSpacing(true)</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">  val (contrastSlider, contrastLabel) = makeSliderAndLabel(&quot;Contrast: &quot;, -70, 70, 0, contrastLayout)</span>
+
+<span class="fc" id="L98">  val cropLayout = new HorizontalLayout</span>
+<span class="fc" id="L99">  val cropCaptionLabel = new Label(&quot;Cropping: &quot;)</span>
+<span class="fc" id="L100">  cropCaptionLabel.setWidth(captionWidth)</span>
+<span class="fc" id="L101">  cropLayout.setSpacing(true)</span>
+<span class="fc" id="L102">  addToLayoutLeft(cropLayout, cropCaptionLabel)</span>
+<span class="fc" id="L103">  val resetButton = new Button(&quot;Select All&quot;)</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">  resetButton.addClickListener(new Button.ClickListener {</span>
+    override def buttonClick(event: ClickEvent) {
+<span class="fc" id="L106">      cropper.setImageSrc(cropper.getImageSrc)</span>
+    }
+  })
+<span class="fc" id="L109">  addToLayoutLeft(cropLayout, resetButton)</span>
+<span class="fc" id="L110">  val cropLabel = new Label</span>
+<span class="fc" id="L111">  addToLayoutLeft(cropLayout, cropLabel)</span>
+
+<span class="fc" id="L113">  bind</span>
+
+<span class="fc" id="L115">  setSpacing(true)</span>
+<span class="fc" id="L116">  setMargin(true)</span>
+  //   0   1
+  //0 ### [Status]
+  //1 ### [Url   ]
+  //2 ### [Bright]
+  //3 ### [Cont  ]
+  //4 ### [Sub   ]
+  //5 ### [Crop  ]
+<span class="fc" id="L124">  setRows(6)</span>
+<span class="fc" id="L125">  setColumns(2)</span>
+
+<span class="fc" id="L127">  addComponent(cropper, 0, 0, 0, 5)</span>
+<span class="fc" id="L128">  setComponentAlignment(cropper, Alignment.TOP_LEFT)</span>
+<span class="fc" id="L129">  addMiddleLeft(statusLayout, 1, 0)</span>
+<span class="fc" id="L130">  addMiddleLeft(urlLayout, 1, 1)</span>
+<span class="fc" id="L131">  addMiddleLeft(brightnessLayout, 1, 2)</span>
+<span class="fc" id="L132">  addMiddleLeft(contrastLayout, 1, 3)</span>
+<span class="fc" id="L133">  addMiddleLeft(submissionLayout, 1, 4)</span>
+<span class="fc" id="L134">  addMiddleLeft(cropLayout, 1, 5)</span>
+
+  private def addMiddleLeft(comp: Component, col: Int, row: Int): Unit = {
+<span class="fc" id="L137">    addComponent(comp, col, row)</span>
+<span class="fc" id="L138">    setComponentAlignment(comp, Alignment.MIDDLE_LEFT)</span>
+  }
+
+  private def addToLayoutLeft(layout: AbstractOrderedLayout, comp: Component): Unit = {
+<span class="fc" id="L142">    layout.addComponent(comp)</span>
+<span class="fc" id="L143">    layout.setComponentAlignment(comp, Alignment.MIDDLE_LEFT)</span>
+  }
+
+  private def makeSliderAndLabel(caption: String, min: Int, max: Int, default: Int, layout: HorizontalLayout): (Slider, Label) = {
+<span class="fc" id="L147">    val label = new Label(default.toString)</span>
+<span class="fc" id="L148">    label.setWidth(&quot;30px&quot;)</span>
+<span class="fc" id="L149">    label.setStyleName(&quot;sliderLabel&quot;)</span>
+<span class="fc" id="L150">    val slider = new Slider(None.orNull)</span>
+<span class="fc" id="L151">    slider.setWidth(&quot;570px&quot;)</span>
+<span class="fc" id="L152">    slider.setMin(min)</span>
+<span class="fc" id="L153">    slider.setMax(max)</span>
+<span class="fc" id="L154">    slider.setValue(default)</span>
+<span class="fc" id="L155">    slider.setImmediate(true)</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">    slider.addValueChangeListener(new Property.ValueChangeListener {</span>
+      override def valueChange(event: ValueChangeEvent): Unit = {
+<span class="fc" id="L158">        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))</span>
+<span class="fc" id="L159">        trigger</span>
+      }
+    })
+<span class="fc" id="L162">    val button = new Button(&quot;Reset&quot;)</span>
+<span class="fc" id="L163">    button.addClickListener(new Button.ClickListener {</span>
+      override def buttonClick(event: ClickEvent) {
+<span class="nc" id="L165">        slider.setValue(default)</span>
+      }
+    })
+<span class="fc" id="L168">    val captionLabel = new Label(caption)</span>
+<span class="fc" id="L169">    captionLabel.setWidth(captionWidth)</span>
+<span class="fc" id="L170">    addToLayoutLeft(layout, captionLabel)</span>
+<span class="fc" id="L171">    addToLayoutLeft(layout, slider)</span>
+<span class="fc" id="L172">    addToLayoutLeft(layout, label)</span>
+<span class="fc" id="L173">    addToLayoutLeft(layout, button)</span>
+<span class="fc" id="L174">    (slider, label)</span>
+  }
+
+<span class="fc" id="L177">  def getBrightness(): Int = brightnessLabel.getValue.toInt</span>
+<span class="fc" id="L178">  def getContrast(): Int = contrastLabel.getValue.toInt</span>
+
+  private def bind(): Unit = {
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">    inputTextField.addFocusListener(new FocusListener {</span>
+<span class="fc" id="L182">      override def focus(event: FocusEvent): Unit = inputTextField.selectAll</span>
+    })
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">    convButton.addClickListener(new Button.ClickListener {</span>
+<span class="nc" id="L185">      override def buttonClick(event: ClickEvent): Unit = replaceUrl</span>
+    })
+  }
+<span class="fc" id="L188">  private def replaceImage(url: URL): Unit = cropper.setImageSrc(url.toString)</span>
+  private def trigger(): Unit = {
+<span class="fc bfc" id="L190" title="All 4 branches covered.">    if (!disableTrigger) {</span>
+<span class="fc" id="L191">      eventRouter.fireEvent(new DoConversionEvent(true, true))</span>
+    }
+  }
+  private def updateLabel(status: String, error: String): Unit = {
+<span class="pc" id="L195">    Option(error) match {</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">      case Some(error) =&gt; statusLabel.setComponentError(new UserError(error))</span>
+<span class="pc bpc" id="L197" title="4 of 6 branches missed.">      case None =&gt; statusLabel.setComponentError(None.orNull)</span>
+    }
+<span class="fc" id="L199">    statusLabel.setValue(status)</span>
+  }
+<span class="fc" id="L201">  def setStatus(status: String): Unit = updateLabel(status, None.orNull)</span>
+<span class="fc" id="L202">  def setError(error: String): Unit = updateLabel(error, error)</span>
+<span class="fc" id="L203">  def addIcon(img: BufferedImage): Unit = submitter.addIcon(img)</span>
+<span class="fc" id="L204">  def setName(name: String): Unit = submitter.setName(name)</span>
+<span class="fc" id="L205">  def getName: String = submitter.getName</span>
+<span class="fc" id="L206">  def isInvert: Boolean = submitter.isInvert</span>
+<span class="fc" id="L207">  def getBg: String = submitter.getBg</span>
+<span class="fc" id="L208">  def enableSubmission(enabled: Boolean): Unit = submitter.enableSubmission(enabled)</span>
+<span class="fc" id="L209">  def getCrops: (Int, Int, Int, Int) = (crops.x, crops.x2, crops.y, crops.y2)</span>
+  def hasLink: Boolean = {
+<span class="pc" id="L211">    Option(inputTextField.getValue) match {</span>
+<span class="pc bpc" id="L212" title="1 of 4 branches missed.">      case Some(value) =&gt; !value.equals(&quot;&quot;)</span>
+<span class="nc bnc" id="L213" title="All 6 branches missed.">      case None =&gt; false</span>
+    }
+  }
+<span class="fc" id="L216">  def setLink(link: String): Unit = {</span>
+<span class="fc" id="L217">    inputTextField.setValue(link)</span>
+<span class="pc" id="L218">    UrlOptionizer.extract(link) match {</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">      case Some(u) =&gt;</span>
+<span class="nc" id="L220">        replaceImage(u)</span>
+<span class="nc" id="L221">        Page.getCurrent.setUriFragment(&quot;main/&quot; + link)</span>
+<span class="pc bpc" id="L222" title="4 of 6 branches missed.">      case None =&gt; setError(&quot;URL is not Valid. Please enter URL to an image: &quot;)</span>
+    }
+  }
+<span class="nc" id="L225">  private def replaceUrl(): Unit = {</span>
+<span class="nc" id="L226">    val currentFrag = Page.getCurrent.getUriFragment</span>
+<span class="nc" id="L227">    val currentUrl = inputTextField.getValue</span>
+<span class="nc" id="L228">    Option(currentFrag) match {</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">      case Some(frag) =&gt;</span>
+<span class="nc bnc" id="L230" title="All 4 branches missed.">        if (!currentFrag.endsWith(currentUrl)) {</span>
+<span class="nc" id="L231">          UrlOptionizer.extract(currentUrl) match {</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">            case Some(u) =&gt;</span>
+<span class="nc" id="L233">              Page.getCurrent.setUriFragment(&quot;main/&quot; + currentUrl)</span>
+<span class="nc" id="L234">              replaceImage(u)</span>
+<span class="nc bnc" id="L235" title="All 6 branches missed.">            case None =&gt; setError(&quot;URL is not Valid. Please enter URL to an image: &quot;)</span>
+          }
+<span class="nc" id="L237">        } else { trigger }</span>
+<span class="nc bnc" id="L238" title="All 6 branches missed.">      case None =&gt; { trigger }</span>
+    }
+  }
+  def getUrl: Option[String] = {
+<span class="pc" id="L242">    UrlOptionizer.extract(inputTextField.getValue) match {</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">      case Some(u) =&gt; Option(u.toString)</span>
+<span class="pc bpc" id="L244" title="4 of 6 branches missed.">      case None =&gt; None</span>
+    }
+  }
+<span class="fc" id="L247">  def reset: Unit = submitter.reset</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

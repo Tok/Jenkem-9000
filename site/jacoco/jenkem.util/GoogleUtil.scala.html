@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GoogleUtil.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.util</a> &gt; <span class="el_source">GoogleUtil.scala</span></div><h1>GoogleUtil.scala</h1><pre class="source lang-java linenums">package jenkem.util
+
+import java.net.URL
+import scala.io.Source
+import scala.util.Random
+import scala.io.Codec
+import java.net.HttpURLConnection
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.charset.MalformedInputException
+
+<span class="fc" id="L12">object GoogleUtil {</span>
+<span class="fc" id="L13">  val searchUrl = &quot;http://images.google.com/images?q=&quot;</span>
+<span class="fc" id="L14">  val attributes = &quot;&amp;num=255&amp;start=0&amp;safe=off&quot;</span>
+<span class="fc" id="L15">  val encoding = &quot;latin1&quot; //prevents encoding errors (don't use UTF-8)</span>
+<span class="fc" id="L16">  val agent = &quot;Jenkem/9000&quot;</span>
+
+<span class="fc" id="L18">  def getUrlForTerm(term: String): Option[String] = {</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">    if (term.equals(&quot;&quot;)) { getUrlForTerm(makeRandomSearchTerm) }</span>
+    else {
+<span class="fc" id="L21">      val imagePageUrl = new URL(searchUrl + term + attributes)</span>
+<span class="fc" id="L22">      val conn = imagePageUrl.openConnection.asInstanceOf[HttpURLConnection]</span>
+<span class="fc" id="L23">      conn.setConnectTimeout(5000)</span>
+<span class="fc" id="L24">      conn.setRequestProperty(&quot;user-agent&quot;, agent)</span>
+<span class="nc" id="L25">      try {</span>
+<span class="fc" id="L26">        conn.connect</span>
+<span class="fc" id="L27">        val page = Source.fromInputStream(conn.getInputStream, encoding).mkString</span>
+        //getting images from google cache at gstatic.con instead of original
+<span class="fc" id="L29">        val images = page.split(&quot;src=\&quot;&quot;).filter(_.startsWith(&quot;http://&quot;)).filter(_.contains(&quot;gstatic.com&quot;))</span>
+<span class="fc" id="L30">        val imgUrls = images.map(_.split(&quot;\&quot;&quot;)(0))</span>
+<span class="fc" id="L31">        Some(Random.shuffle(imgUrls.toList).head)</span>
+      } catch {
+        case pokemon: Throwable =&gt; None
+      } finally {
+<span class="pc" id="L35">        conn.disconnect</span>
+      }
+    }
+  }
+
+  private def makeRandomSearchTerm: String = {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">    val imageName = if(Random.nextBoolean) { &quot;DSC0&quot; } else { &quot;IMG0&quot; }</span>
+<span class="fc" id="L42">    val number = Random.nextDouble * 10</span>
+<span class="fc" id="L43">    imageName + number.toString.take(5).filterNot(&quot;.&quot;.contains(_))</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

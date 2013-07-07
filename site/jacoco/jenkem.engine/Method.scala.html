@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Method.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine</a> &gt; <span class="el_source">Method.scala</span></div><h1>Method.scala</h1><pre class="source lang-java linenums">package jenkem.engine
+
+<span class="fc" id="L3">sealed abstract class Method(val name: String, val hasColor: Boolean, val hasKick: Boolean)</span>
+
+<span class="fc" id="L5">object Method {</span>
+<span class="pc" id="L6">  case object Vortacular extends Method(&quot;Vortacular&quot;, true, true)</span>
+<span class="pc" id="L7">  case object Pwntari extends Method(&quot;Pwntari&quot;, true, false)</span>
+<span class="pc" id="L8">  case object Plain extends Method(&quot;Plain&quot;, false, true)</span>
+<span class="pc" id="L9">  case object Stencil extends Method(&quot;Stencil&quot;, false, true)</span>
+<span class="fc" id="L10">  val values = List(Vortacular, Pwntari, Plain, Stencil)</span>
+<span class="fc" id="L11">  def valueOf(name: String): Option[Method] = values.find(_.name.equalsIgnoreCase(name))</span>
+<span class="fc" id="L12">  val default = Vortacular</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

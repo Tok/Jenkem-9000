@@ -1,0 +1,133 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;ui/<span class="header">&#x200B;OutputDisplay.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">73 %</div>
+        <div class="greenBar" style="width:146px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_ui_OutputDisplay.scala.html#Class_jenkem_ui_OutputDisplay"><img src="class.png"/>OutputDisplay</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">73 %</div>
+        <div class="greenBar" style="width:146px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.ui
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import com.vaadin.event.FieldEvents.FocusEvent
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import com.vaadin.event.FieldEvents.FocusListener
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import com.vaadin.ui.Label
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import com.vaadin.ui.TextArea
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import com.vaadin.ui.VerticalLayout
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">9</td>
+            <td><a id="Class_jenkem_ui_OutputDisplay"/>class OutputDisplay extends VerticalLayout {
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>  setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  setWidth(&quot;400px&quot;)
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>  val outputCaptionLabel = new Label(&quot;Binary Output For IRC: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>  val ircText = new TextArea
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>  ircText.setWidth(&quot;400px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>  ircText.setWordwrap(false)
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>  //ircText.setReadOnly(true)
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>  ircText.addFocusListener(new FocusListener {
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>    override def focus(event: FocusEvent): Unit = ircText.selectAll
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>  addComponent(outputCaptionLabel)
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>  addComponent(ircText)
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>  def addIrcOutput(ircOutput: List[String]): Unit = {
+</td>
+          </tr><tr>
+            <td class="red">25</td>
+            <td>    val lines = <span class="non">new StringBuilder(ircOutput.size)
+</span></td>
+          </tr><tr>
+            <td class="red">26</td>
+            <td>    <span class="non">ircOutput.foreach(line =&gt; lines.append(line))
+</span></td>
+          </tr><tr>
+            <td class="red">27</td>
+            <td>    <span class="non">ircText.setValue(lines.toString)
+</span></td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>}
+</td>
+          </tr></tbody></table>

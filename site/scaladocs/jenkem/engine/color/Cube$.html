@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html>
         <head>
-          <title>Cube - Jenkem 1.0 API - jenkem.engine.color.Cube</title>
-          <meta name="description" content="Cube - Jenkem 1.0 API - jenkem.engine.color.Cube" />
-          <meta name="keywords" content="Cube Jenkem 1.0 API jenkem.engine.color.Cube" />
+          <title>Cube - Jenkem 1.0-SNAPSHOT API - jenkem.engine.color.Cube</title>
+          <meta name="description" content="Cube - Jenkem 1.0 - SNAPSHOT API - jenkem.engine.color.Cube" />
+          <meta name="keywords" content="Cube Jenkem 1.0 SNAPSHOT API jenkem.engine.color.Cube" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -180,7 +180,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
@@ -222,23 +222,10 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="jenkem.engine.color.Cube#getBgCode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getBgCode(ircChar:String):String"></a>
-      <a id="getBgCode(String):String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getBgCode</span><span class="params">(<span name="ircChar">ircChar: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      </h4>
-      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -253,28 +240,41 @@
       </h4>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="jenkem.engine.color.Cube#getColorChar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getColorChar(colorMap:Map[jenkem.engine.color.Scheme.IrcColor,Short],charset:String,p:jenkem.engine.color.Power.Value,rgb:(Short,Short,Short)):String"></a>
-      <a id="getColorChar(Map[IrcColor,Short],String,Value,(Short,Short,Short)):String"></a>
+      <a id="getColorChar(colorMap:jenkem.engine.color.Color.IrcMap,charset:String,p:jenkem.engine.color.Power,rgb:(Short,Short,Short)):String"></a>
+      <a id="getColorChar(IrcMap,String,Power,(Short,Short,Short)):String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getColorChar</span><span class="params">(<span name="colorMap">colorMap: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>, <span name="charset">charset: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="p">p: <a href="Power$$Value.html" class="extype" name="jenkem.engine.color.Power.Value">Value</a></span>, <span name="rgb">rgb: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">getColorChar</span><span class="params">(<span name="colorMap">colorMap: <a href="Color$.html#IrcMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Color.IrcMap">IrcMap</a></span>, <span name="charset">charset: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="p">p: <a href="Power.html" class="extype" name="jenkem.engine.color.Power">Power</a></span>, <span name="rgb">rgb: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="jenkem.engine.color.Cube#getNearest" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getNearest(col:(Short,Short,Short),colorMap:jenkem.engine.color.Color.IrcMap):Short"></a>
+      <a id="getNearest((Short,Short,Short),IrcMap):Short"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getNearest</span><span class="params">(<span name="col">col: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>, <span name="colorMap">colorMap: <a href="Color$.html#IrcMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Color.IrcMap">IrcMap</a></span>)</span><span class="result">: <span class="extype" name="scala.Short">Short</span></span>
       </span>
       </h4>
       
     </li><li name="jenkem.engine.color.Cube#getTwoNearestColors" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getTwoNearestColors(col:(Short,Short,Short),colorMap:Map[jenkem.engine.color.Scheme.IrcColor,Short],power:jenkem.engine.color.Power.Value):jenkem.engine.color.Color"></a>
-      <a id="getTwoNearestColors((Short,Short,Short),Map[IrcColor,Short],Value):Color"></a>
+      <a id="getTwoNearestColors(col:(Short,Short,Short),colorMap:jenkem.engine.color.Color.IrcMap,power:jenkem.engine.color.Power):jenkem.engine.color.Color"></a>
+      <a id="getTwoNearestColors((Short,Short,Short),IrcMap,Power):Color"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getTwoNearestColors</span><span class="params">(<span name="col">col: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>, <span name="colorMap">colorMap: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="Scheme$$IrcColor.html" class="extype" name="jenkem.engine.color.Scheme.IrcColor">IrcColor</a>, <span class="extype" name="scala.Short">Short</span>]</span>, <span name="power">power: <a href="Power$$Value.html" class="extype" name="jenkem.engine.color.Power.Value">Value</a></span>)</span><span class="result">: <a href="Color.html" class="extype" name="jenkem.engine.color.Color">Color</a></span>
+        <span class="name">getTwoNearestColors</span><span class="params">(<span name="col">col: (<span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>, <span class="extype" name="scala.Short">Short</span>)</span>, <span name="colorMap">colorMap: <a href="Color$.html#IrcMap=Map[jenkem.engine.color.Scheme.IrcColor,Short]" class="extmbr" name="jenkem.engine.color.Color.IrcMap">IrcMap</a></span>, <span name="power">power: <a href="Power.html" class="extype" name="jenkem.engine.color.Power">Power</a></span>)</span><span class="result">: <a href="Color.html" class="extype" name="jenkem.engine.color.Color">Color</a></span>
       </span>
       </h4>
       

@@ -1,0 +1,313 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;bot/<span class="header">&#x200B;ConversionSettings.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">64 %</div>
+        <div class="greenBar" style="width:128px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_bot_ConversionSettings.scala.html#Class_jenkem_bot_ConversionSettings"><img src="class.png"/>ConversionSettings</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">64 %</div>
+        <div class="greenBar" style="width:128px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package jenkem.bot
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import java.util.HashMap
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import scala.reflect.BeanProperty
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import jenkem.engine.Method
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import jenkem.engine.Kick
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import jenkem.engine.color.Power
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import jenkem.engine.Pal
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>import jenkem.engine.color.Scheme
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>import jenkem.engine.Engine
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>import jenkem.engine.Setting
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>import jenkem.util.InitUtil
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>import jenkem.engine.color.Color
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>import jenkem.engine.Proportion
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td><a id="Class_jenkem_bot_ConversionSettings"/>class ConversionSettings {
+</td>
+          </tr><tr>
+            <td class="red">17</td>
+            <td>  @BeanProperty var <span class="non">width: Int = _
+</span></td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>  @BeanProperty var method: Method = _
+</td>
+          </tr><tr>
+            <td class="red">19</td>
+            <td>  @BeanProperty var <span class="non">colorMap: Color.IrcMap = _
+</span></td>
+          </tr><tr>
+            <td class="yellow">20</td>
+            <td>  @BeanProperty var <span class="non">schemeName: String = _
+</span></td>
+          </tr><tr>
+            <td class="red">21</td>
+            <td>  @BeanProperty var <span class="non">chars: String = _
+</span></td>
+          </tr><tr>
+            <td class="red">22</td>
+            <td>  @BeanProperty var <span class="non">kick: Kick = _
+</span></td>
+          </tr><tr>
+            <td class="red">23</td>
+            <td>  @BeanProperty var <span class="non">power: Power = _
+</span></td>
+          </tr><tr>
+            <td class="red">24</td>
+            <td>  @BeanProperty var <span class="non">proportion: Proportion = _
+</span></td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>  reset
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  def reset: Unit = {
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>    width = InitUtil.DEFAULT_WIDTH
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>    method = Method.default
+</td>
+          </tr><tr>
+            <td class="green">31</td>
+            <td>    colorMap = Scheme.createColorMap(Scheme.default)
+</td>
+          </tr><tr>
+            <td class="green">32</td>
+            <td>    schemeName = Scheme.default.name
+</td>
+          </tr><tr>
+            <td class="green">33</td>
+            <td>    chars = Pal.default.chars
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>    kick = Kick.OFF
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>    power = Power.default
+</td>
+          </tr><tr>
+            <td class="green">36</td>
+            <td>    proportion = Proportion.default
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>  def getParams(imageData: Color.RgbMap): Engine.Params = {
+</td>
+          </tr><tr>
+            <td class="green">40</td>
+            <td>    val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData)
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>    methodOpt match {
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>      case Some(meth) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>        if (method.hasColor != meth.hasColor &amp;&amp; !method.equals(Method.Pwntari)) {
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>          //if method is Pwntari it should not be changed here
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>          //because it uses different scaling.
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>          method = meth
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>      case None =&gt; { }
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>    if (scheme.equals(Scheme.Bwg)) {
+</td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>      colorMap = Scheme.createColorMap(scheme)
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>      schemeName = scheme.name
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>    charsetOpt match {
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>      case Some(chrset) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">56</td>
+            <td>        if (!method.hasColor) {
+</td>
+          </tr><tr>
+            <td class="green">57</td>
+            <td>          if (Pal.hasAnsi(chars)) { chars = chrset.chars }
+</td>
+          </tr><tr>
+            <td class="red">58</td>
+            <td>        } else if (<span class="non">method.equals(Method.Pwntari)) {
+</span></td>
+          </tr><tr>
+            <td class="red">59</td>
+            <td>          <span class="non">chars = &quot;▄&quot;
+</span></td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>      case None =&gt; { }
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">63</td>
+            <td>    new Engine.Params(
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>        method,
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>        imageData,
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>        colorMap,
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>        chars.replaceAll(&quot;[,0-9]&quot;, &quot;&quot;),
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>        Setting.getInitial(Pal.hasAnsi(chars)),
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>        0,
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>        0,
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>        power
+</td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>    )
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>}
+</td>
+          </tr></tbody></table>
