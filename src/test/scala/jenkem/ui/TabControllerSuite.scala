@@ -32,29 +32,29 @@ import jenkem.event.SaveImageEvent
 @RunWith(classOf[JUnitRunner])
 class TabControllerSuite extends AbstractTester {
   val eventRouter = new EventRouter
-  var tc: TabController = None.orNull
 
-  test("Init", DbTest) {
-    //tc = new TabController(eventRouter)
+  test("Default", DbTest) {
+    val tc = new TabController(eventRouter)
+    assert(!tc.isReady)
+    assert(tc.defaultUrl !== "")
+    assert(tc.tabSheet.isInstanceOf[TabSheet])
+    assert(tc.mainTab.isInstanceOf[MainTab])
+    assert(tc.galleryTab.isInstanceOf[GalleryTab])
+    assert(tc.infoTab.isInstanceOf[InfoTab])
+    assert(tc.tabs.keys.toList.size === 3)
   }
 
-  test("Default") {
-    //assert(!tc.isReady)
-    //assert(tc.defaultUrl !== "")
-    //assert(tc.tabSheet.isInstanceOf[TabSheet])
-    //assert(tc.mainTab.isInstanceOf[MainTab])
-    //assert(tc.galleryTab.isInstanceOf[GalleryTab])
-    //assert(tc.infoTab.isInstanceOf[InfoTab])
-    //assert(tc.tabs.keys.toList.size === 3)
+  test("Select Tab", DbTest) {
+    val tc = new TabController(eventRouter)
+    intercept[NullPointerException] { tc.selectTab("") }
+    intercept[NullPointerException] { tc.selectTab("/") }
+    intercept[NullPointerException] { tc.selectTab("/#/") }
   }
 
-  test("Select Tab") {
-    //intercept[NullPointerException] { tc.selectTab("") }
-    //intercept[NullPointerException] { tc.selectTab("/") }
-    //intercept[NullPointerException] { tc.selectTab("/#/") }
-  }
-
-  test("Fire Events") {
-    //intercept[Exception] { eventRouter.fireEvent(new SaveImageEvent) }
+  test("Fire Events", DbTest) {
+    val tc = new TabController(eventRouter)
+    intercept[Exception] {
+      eventRouter.fireEvent(new SaveImageEvent)
+    }
   }
 }

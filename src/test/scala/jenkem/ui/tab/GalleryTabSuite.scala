@@ -9,13 +9,9 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class GalleryTabSuite extends AbstractTester {
   val eventRouter = new EventRouter
-  var gt: GalleryTab = None.orNull
 
-  test("Init", DbTest) {
-    //gt = new GalleryTab(eventRouter)
-  }
-
-  test("Pointless") {
-    //gt.cols.foreach(testAny(_, true))
+  test("Pointless", DbTest) {
+    val gt = new GalleryTab(eventRouter)
+    gt.cols.foreach(testAny(_, true))
   }
 }
