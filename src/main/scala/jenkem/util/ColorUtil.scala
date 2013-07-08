@@ -18,21 +18,19 @@ object ColorUtil {
    * @param ircColor
    * @return cssColor
    */
-  def ircToCss(ircColor: Short): String = {
+  def ircToCss(ircColor: Short): String =
     Scheme.valuOfIrcColor(ircColor) match {
       case Some(ircColor) => rgbToCss(ircColor.rgb)
       case _ => "#000000"
     }
-  }
 
   /**
    * Converts an RGB color to a CSS color.
    * @param rgb
    * @return cssColor
    */
-  private def rgbToCss(rgb: (Short, Short, Short)): String = {
+  private def rgbToCss(rgb: (Short, Short, Short)): String =
     "#" + toHex(rgb._1) + toHex(rgb._2) + toHex(rgb._3)
-  }
 
   /**
    * Converts the provided interger to hex.

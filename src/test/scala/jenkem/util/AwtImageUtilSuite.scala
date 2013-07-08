@@ -6,6 +6,11 @@ import com.vaadin.server.StreamResource
 import jenkem.AbstractTester
 import jenkem.engine.Kick
 import org.scalatest.junit.JUnitRunner
+import java.net.URL
+import java.io.IOException
+import java.net.Socket
+import java.net.ServerSocket
+import org.mortbay.jetty.Server
 
 @RunWith(classOf[JUnitRunner])
 class AwtImageUtilSuite extends AbstractTester {
@@ -40,6 +45,19 @@ class AwtImageUtilSuite extends AbstractTester {
     val resource = AwtImageUtil.makeVaadinResource(blackImg, name)
     assert(resource.isInstanceOf[StreamResource])
     assert(resource.getMIMEType.equalsIgnoreCase("image/png"))
+    val biggerArgbImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB)
+    val biggerResource = AwtImageUtil.makeVaadinResource(biggerArgbImage, name)
+    assert(biggerResource.isInstanceOf[StreamResource])
+    assert(biggerResource.getMIMEType.equalsIgnoreCase("image/png"))
+  }
+
+  test("Make Icon") {
+    val url = "http://127.0.0.1/fail"
+    val crops = (0, 0, 1, 1)
+    intercept[javax.imageio.IIOException] { AwtImageUtil.makeIcon(url, "black", false, crops) }
+    intercept[javax.imageio.IIOException] { AwtImageUtil.makeIcon(url, "black", true, crops) }
+    intercept[javax.imageio.IIOException] { AwtImageUtil.makeIcon(url, "white", false, crops) }
+    intercept[javax.imageio.IIOException] { AwtImageUtil.makeIcon(url, "white", true, crops) }
   }
 
   test("Base 64 Encoding") {

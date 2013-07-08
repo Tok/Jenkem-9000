@@ -86,13 +86,9 @@ object AwtImageUtil {
   def makeVaadinResource(img: BufferedImage, name: String): Resource = {
     class IconSource extends StreamResource.StreamSource {
       def getStream(): InputStream = {
-        try {
-          val imagebuffer = new ByteArrayOutputStream
-          ImageIO.write(img, "png", imagebuffer)
-          new ByteArrayInputStream(imagebuffer.toByteArray)
-        } catch {
-          case ioe: IOException => None.orNull
-        }
+        val imagebuffer = new ByteArrayOutputStream
+        ImageIO.write(img, "png", imagebuffer)
+        new ByteArrayInputStream(imagebuffer.toByteArray)
       }
     }
     new StreamResource(new IconSource, name + ".png?" + new Date().getTime())

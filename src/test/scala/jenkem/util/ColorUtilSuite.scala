@@ -21,6 +21,8 @@ class ColorUtilSuite extends AbstractTester {
     assert(ColorUtil.ircToCss("0").equalsIgnoreCase(whiteCss))
     assert(ColorUtil.ircToCss("1").equalsIgnoreCase(blackCss))
     assert(ColorUtil.ircToCss("4").equalsIgnoreCase(redCss))
+    assert(ColorUtil.ircToCss("-1").equalsIgnoreCase(blackCss))
+    assert(ColorUtil.ircToCss("16").equalsIgnoreCase(blackCss))
     val e = intercept[NumberFormatException] {
       ColorUtil.ircToCss(" ")
     }

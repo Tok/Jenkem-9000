@@ -51,10 +51,9 @@ class HtmlUtilSuite extends AbstractTester {
   }
 
   test("Inline HTML") {
-    val empty = HtmlUtil.generateEmpty
+    val empty = HtmlUtil.generateEmpty + "\n<link href=\" \"></link>"
     val cssContent = ".white { background: #ffffff; }"
-    val moreCss = cssContent + HtmlUtil.SEP + "<link href=\" \"></link>"
-    val css = HtmlUtil.prepareCssForInline(moreCss)
+    val css = HtmlUtil.prepareCssForInline(cssContent)
     val result = HtmlUtil.prepareHtmlForInline(empty, css)
     assert(!result.contains("<div class=\"ircBinary\">"))
     assert(!result.contains("<div class=\"validator\">"))

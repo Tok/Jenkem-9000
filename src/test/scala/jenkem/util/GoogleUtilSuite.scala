@@ -5,6 +5,7 @@ import org.scalatest.PrivateMethodTester.PrivateMethod
 import org.scalatest.PrivateMethodTester.anyRefToInvoker
 import jenkem.AbstractTester
 import org.scalatest.junit.JUnitRunner
+import jenkem.OnlineTest
 
 @RunWith(classOf[JUnitRunner])
 class GoogleUtilSuite extends AbstractTester {
@@ -17,6 +18,11 @@ class GoogleUtilSuite extends AbstractTester {
       assert(term.length === 8)
     }
     range.foreach(_ => testSearch)
+  }
+
+  test("Get URL From Term", OnlineTest) {
+    val someUrl = GoogleUtil.getUrlForTerm("foo")
+    assert(someUrl.isInstanceOf[Some[String]])
   }
 
   test("Test Constants") {
