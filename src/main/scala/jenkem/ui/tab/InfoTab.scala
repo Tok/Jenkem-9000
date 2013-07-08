@@ -5,6 +5,7 @@ import com.vaadin.shared.ui.label.ContentMode
 import com.vaadin.ui.Label
 import com.vaadin.ui.Link
 import com.vaadin.ui.VerticalLayout
+import com.vaadin.ui.HorizontalLayout
 
 class InfoTab extends VerticalLayout {
   val newLine = "\n"
@@ -99,6 +100,16 @@ class InfoTab extends VerticalLayout {
   addLabel(newLine)
   addLabel("Jenkem 9000 project page:")
   addLink("http://tok.github.com/Jenkem-9000/")
+  addLabel(newLine)
+  addLabel(newLine)
+  addLabel(newLine)
+  val cacaPan = new HorizontalLayout
+  val label = new Label("\tSalutations à nos amis du ")
+  label.setContentMode(ContentMode.PREFORMATTED)
+  cacaPan.addComponent(label)
+  cacaPan.addComponent(new Link("laboratoires de caca", new ExternalResource("http://caca.zoy.org")))
+  cacaPan.addComponent(new Label("."))
+  addComponent(cacaPan)
 
   def addLink(text: String): Unit = addComponent(new Link(text, new ExternalResource(text)))
   def addLabel(text: String): Unit = {
