@@ -35,4 +35,6 @@ Important Classes:
 
 ![Jenkem-Octocat](jenkem-octocat.png)
 
-Project page (typically outdated): http://tok.github.com/Jenkem-9000/
+Project page: http://tok.github.com/Jenkem-9000/
+
+![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)

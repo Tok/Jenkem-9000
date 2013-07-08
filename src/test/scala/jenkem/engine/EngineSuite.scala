@@ -106,7 +106,23 @@ class EngineSuite extends AbstractTester {
   private def getImage(w: Int, h: Int, r: Int, g: Int, b: Int): BufferedImage = {
     val img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB)
     val rgb = (r << 16) + (g << 8) + b
-    for { x <- 0 until w; y <- 0 until h } yield { img.setRGB(x, y, rgb) }
+    for { x <- 0 until w;
+
+/*
+ * #%L
+ * EngineSuite.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger
+ *                 <lsteiger4@gmail.com>
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+y <- 0 until h } yield { img.setRGB(x, y, rgb) }
     img
   }
 
