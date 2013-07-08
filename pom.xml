@@ -51,7 +51,7 @@
     <scalastyleMavenPluginVersion>0.3.3-SNAPSHOT</scalastyleMavenPluginVersion>
     <MavenExecPluginVersion>1.2.1</MavenExecPluginVersion>
     <mavenDependencyPluginVersion>2.8</mavenDependencyPluginVersion>
-    <mavenScalaPluginVersion>2.15.2</mavenScalaPluginVersion>
+    <scalaMavenPluginVersion>3.1.5</scalaMavenPluginVersion>
     <mavenDatanucleusPluginVersion>${datanucleusVersion}</mavenDatanucleusPluginVersion>
     <mavenWarPluginVersion>2.3</mavenWarPluginVersion>
     <mavenAntRunPluginVersion>1.7</mavenAntRunPluginVersion>
@@ -122,9 +122,9 @@
       <version>${scalaVersion}</version>
     </dependency>
     <dependency>
-      <groupId>org.scala-tools</groupId>
-      <artifactId>maven-scala-plugin</artifactId>
-      <version>${mavenScalaPluginVersion}</version>
+      <groupId>net.alchim31.maven</groupId>
+      <artifactId>scala-maven-plugin</artifactId>
+      <version>${scalaMavenPluginVersion}</version>
     </dependency>
     <dependency>
       <groupId>pircbot</groupId>
@@ -245,9 +245,9 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.scala-tools</groupId>
-        <artifactId>maven-scala-plugin</artifactId>
-        <version>${mavenScalaPluginVersion}</version>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>${scalaMavenPluginVersion}</version>
         <executions>
           <execution>
             <id>main-scalac</id>
@@ -537,9 +537,9 @@
       <reporting>
         <plugins>
           <plugin>
-            <groupId>org.scala-tools</groupId>
-            <artifactId>maven-scala-plugin</artifactId>
-            <version>${mavenScalaPluginVersion}</version>
+            <groupId>net.alchim31.maven</groupId>
+            <artifactId>scala-maven-plugin</artifactId>
+            <version>${scalaMavenPluginVersion}</version>
           </plugin>
           <plugin>
             <groupId>org.jacoco</groupId>
@@ -611,9 +611,9 @@
             </configuration>
           </plugin>
           <plugin>
-            <groupId>org.scala-tools</groupId>
-            <artifactId>maven-scala-plugin</artifactId>
-            <version>${mavenScalaPluginVersion}</version>
+            <groupId>net.alchim31.maven</groupId>
+            <artifactId>scala-maven-plugin</artifactId>
+            <version>${scalaMavenPluginVersion}</version>
             <executions>
               <execution>
                 <id>main-scalac</id>
