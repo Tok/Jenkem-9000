@@ -20,7 +20,7 @@ class ImageUtilSuite extends AbstractTester {
   val redPixelMap: Color.RgbMap = Map((0, 0) -> redPixel)
   val darkGreenPixelMap: Color.RgbMap = Map((0, 0) -> darkGreenPixel)
 
-  test("Make pixel gray") {
+  test("Make Pixel Gray") {
     assert(ImageUtil.makeGreyPixel(blackPixelMap, 0, 0) === 0)
     assert(ImageUtil.makeGreyPixel(whitePixelMap, 0, 0) === 255)
     assert(ImageUtil.makeGreyPixel(grayPixelMap, 0, 0) === 127)
@@ -30,7 +30,7 @@ class ImageUtilSuite extends AbstractTester {
     assert(ImageUtil.makeGreyPixel(blackPixelMap, 0, 1) === 0)
   }
 
-  test("Pixel sum") {
+  test("Pixel Sum") {
     val getPixelRgbSum = PrivateMethod[Short]('getPixelRgbSum)
     assert(ImageUtil.invokePrivate(getPixelRgbSum(blackPixelMap, 0, 0)) === 0)
     assert(ImageUtil.invokePrivate(getPixelRgbSum(whitePixelMap, 0, 0)) === 765)
@@ -41,6 +41,7 @@ class ImageUtilSuite extends AbstractTester {
     assert(ImageUtil.invokePrivate(getPixelRgbSum(whitePixelMap, 1, 0)) === 0)
     assert(ImageUtil.invokePrivate(getPixelRgbSum(whitePixelMap, 0, 1)) === 0)
     assert(ImageUtil.invokePrivate(getPixelRgbSum(whitePixelMap, 1, 1)) === 0)
+    assert(ImageUtil.invokePrivate(getPixelRgbSum(whitePixelMap, 10, 10)) === 0)
   }
 
   test("Get Pixel") {
