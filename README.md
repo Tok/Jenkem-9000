@@ -33,6 +33,6 @@ Important Classes:
 
 [HTML-Util](/src/main/scala/jenkem/util/HtmlUtil.scala)
 
-![Jenkem-Octocat](http://tok.github.com/Jenkem-9000/images/jenkem-octocat.png)
+![Jenkem-Octocat](jenkem-octocat.png)
 
 Project page (typically outdated): http://tok.github.com/Jenkem-9000/
