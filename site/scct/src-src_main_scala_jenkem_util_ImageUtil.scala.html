@@ -16,82 +16,134 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.util
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import jenkem.engine.color.Color
+            <td> * ImageUtil.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td><a id="Object_jenkem_util_ImageUtil"/>object ImageUtil {
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>  def makeGreyPixel(imageRgb: Color.RgbMap, x: Int, y: Int): Short =
+            <td> * %%
 </td>
           </tr><tr>
-            <td class="green">7</td>
-            <td>    (getPixelRgbSum(imageRgb, x, y) / 3).shortValue
+            <td class="black">7</td>
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>  private def getPixelRgbSum(imageRgb: Color.RgbMap, x: Int, y: Int): Short =
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
-            <td class="green">10</td>
-            <td>    imageRgb.get((y, x)) match {
+            <td class="black">10</td>
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
-            <td class="green">11</td>
-            <td>      case Some(rgb) =&gt; (rgb._1 + rgb._2 + rgb._3).shortValue
+            <td class="black">11</td>
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
-            <td class="green">12</td>
-            <td>      case _ =&gt; 0.shortValue
+            <td class="black">12</td>
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>    }
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td>
+            <td>package jenkem.util
 </td>
           </tr><tr>
             <td class="black">15</td>
-            <td>  def getPixels(imageRgb: Color.RgbMap, x: Int, y: Int): Color.Rgb =
+            <td>
 </td>
           </tr><tr>
-            <td class="green">16</td>
-            <td>    imageRgb.get((y, x)) match {
+            <td class="black">16</td>
+            <td>import jenkem.engine.color.Color
 </td>
           </tr><tr>
-            <td class="green">17</td>
-            <td>      case Some(rgb) =&gt; (rgb._1, rgb._2, rgb._3)
+            <td class="black">17</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">18</td>
-            <td>      case _ =&gt; (0.shortValue, 0.shortValue, 0.shortValue)
+            <td class="black">18</td>
+            <td><a id="Object_jenkem_util_ImageUtil"/>object ImageUtil {
 </td>
           </tr><tr>
             <td class="black">19</td>
+            <td>  def makeGreyPixel(imageRgb: Color.RgbMap, x: Int, y: Int): Short =
+</td>
+          </tr><tr>
+            <td class="green">20</td>
+            <td>    (getPixelRgbSum(imageRgb, x, y) / 3).shortValue
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>  private def getPixelRgbSum(imageRgb: Color.RgbMap, x: Int, y: Int): Short =
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>    imageRgb.get((y, x)) match {
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>      case Some(rgb) =&gt; (rgb._1 + rgb._2 + rgb._3).shortValue
+</td>
+          </tr><tr>
+            <td class="green">25</td>
+            <td>      case _ =&gt; 0.shortValue
+</td>
+          </tr><tr>
+            <td class="black">26</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="black">20</td>
+            <td class="black">27</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  def getPixels(imageRgb: Color.RgbMap, x: Int, y: Int): Color.Rgb =
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>    imageRgb.get((y, x)) match {
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>      case Some(rgb) =&gt; (rgb._1, rgb._2, rgb._3)
+</td>
+          </tr><tr>
+            <td class="green">31</td>
+            <td>      case _ =&gt; (0.shortValue, 0.shortValue, 0.shortValue)
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">33</td>
             <td>}
 </td>
           </tr></tbody></table>

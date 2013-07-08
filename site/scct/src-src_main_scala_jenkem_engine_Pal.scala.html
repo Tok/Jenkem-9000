@@ -208,387 +208,387 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.engine
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import scala.util.Random
+            <td> * Pal.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
-            <td class="green">5</td>
-            <td><a id="Class_jenkem_engine_Pal"/>sealed abstract class Pal(val ascii: String, val ansi: String)
+            <td class="black">5</td>
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td><a id="Object_jenkem_engine_Pal"/>object Pal {
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
-            <td class="green">8</td>
-            <td>  val MAX_RGB = 255.shortValue
+            <td class="black">8</td>
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td><a id="Object_jenkem_engine_Pal_UP"/>  case object UP extends Pal(&quot;\&quot;&quot;, &quot;▀▼&quot;)
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td><a id="Object_jenkem_engine_Pal_DOWN"/>  case object DOWN extends Pal(&quot;_&quot;, &quot;▄▲&quot;)
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td><a id="Object_jenkem_engine_Pal_LEFT"/>  case object LEFT extends Pal(&quot;([{&quot;, &quot;▌►&quot;)
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td><a id="Object_jenkem_engine_Pal_RIGHT"/>  case object RIGHT extends Pal(&quot;)]}&quot;, &quot;▐◄&quot;)
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td><a id="Object_jenkem_engine_Pal_UP_DOWN"/>  case object UP_DOWN extends Pal(&quot;\\&quot;, &quot;\\&quot;)
+            <td>package jenkem.engine
 </td>
           </tr><tr>
             <td class="black">15</td>
-            <td><a id="Object_jenkem_engine_Pal_DOWN_UP"/>  case object DOWN_UP extends Pal(&quot;/&quot;, &quot;/&quot;)
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td><a id="Object_jenkem_engine_Pal_LEFT_UP"/>  case object LEFT_UP extends Pal(&quot;pF&quot;, &quot;┌╔&quot;)
+            <td>import scala.util.Random
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td><a id="Object_jenkem_engine_Pal_LEFT_DOWN"/>  case object LEFT_DOWN extends Pal(&quot;bL&quot;, &quot;└╚&quot;)
+            <td>
 </td>
           </tr><tr>
-            <td class="black">18</td>
-            <td><a id="Object_jenkem_engine_Pal_RIGHT_UP"/>  case object RIGHT_UP extends Pal(&quot;q&quot;, &quot;┐╗&quot;)
+            <td class="green">18</td>
+            <td><a id="Class_jenkem_engine_Pal"/>sealed abstract class Pal(val ascii: String, val ansi: String)
 </td>
           </tr><tr>
             <td class="black">19</td>
-            <td><a id="Object_jenkem_engine_Pal_RIGHT_DOWN"/>  case object RIGHT_DOWN extends Pal(&quot;dJ&quot;, &quot;┘╝&quot;)
+            <td>
 </td>
           </tr><tr>
             <td class="black">20</td>
-            <td><a id="Object_jenkem_engine_Pal_H_LINE"/>  case object H_LINE extends Pal(&quot;-&quot;, &quot;▬&quot;)
+            <td><a id="Object_jenkem_engine_Pal"/>object Pal {
 </td>
           </tr><tr>
-            <td class="black">21</td>
-            <td><a id="Object_jenkem_engine_Pal_V_LINE"/>  case object V_LINE extends Pal(&quot;|&quot;, &quot;│║&quot;)
+            <td class="green">21</td>
+            <td>  val MAX_RGB = 255.shortValue
 </td>
           </tr><tr>
-            <td class="green">22</td>
-            <td>  val values = List(UP, DOWN, LEFT, RIGHT, UP_DOWN, DOWN_UP, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, H_LINE, V_LINE)
+            <td class="black">22</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">23</td>
-            <td>  val pairs = List((UP_DOWN, DOWN_UP), (DOWN_UP, UP_DOWN), (LEFT_UP, RIGHT_UP), (RIGHT_UP, LEFT_UP), (LEFT_DOWN, RIGHT_DOWN), (RIGHT_DOWN, LEFT_DOWN))
+            <td class="black">23</td>
+            <td><a id="Object_jenkem_engine_Pal_UP"/>  case object UP extends Pal(&quot;\&quot;&quot;, &quot;▀▼&quot;)
 </td>
           </tr><tr>
             <td class="black">24</td>
-            <td>
+            <td><a id="Object_jenkem_engine_Pal_DOWN"/>  case object DOWN extends Pal(&quot;_&quot;, &quot;▄▲&quot;)
 </td>
           </tr><tr>
-            <td class="green">25</td>
-            <td><a id="Class_jenkem_engine_Pal_Charset"/>  sealed abstract class Charset(val name: String, val chars: String)
+            <td class="black">25</td>
+            <td><a id="Object_jenkem_engine_Pal_LEFT"/>  case object LEFT extends Pal(&quot;([{&quot;, &quot;▌►&quot;)
 </td>
           </tr><tr>
             <td class="black">26</td>
-            <td><a id="Object_jenkem_engine_Pal_Hard"/>  case object Hard extends Charset(&quot;Hard&quot;, &quot; -+xX#&quot;)
+            <td><a id="Object_jenkem_engine_Pal_RIGHT"/>  case object RIGHT extends Pal(&quot;)]}&quot;, &quot;▐◄&quot;)
 </td>
           </tr><tr>
             <td class="black">27</td>
-            <td><a id="Object_jenkem_engine_Pal_Soft"/>  case object Soft extends Charset(&quot;Soft&quot;, &quot; .:oO@&quot;)
+            <td><a id="Object_jenkem_engine_Pal_UP_DOWN"/>  case object UP_DOWN extends Pal(&quot;\\&quot;, &quot;\\&quot;)
 </td>
           </tr><tr>
             <td class="black">28</td>
-            <td><a id="Object_jenkem_engine_Pal_Ansi"/>  case object Ansi extends Charset(&quot;Ansi&quot;, &quot; ░▒&quot;) //&quot;▓&quot; makes FG &gt; BG and should not be used
+            <td><a id="Object_jenkem_engine_Pal_DOWN_UP"/>  case object DOWN_UP extends Pal(&quot;/&quot;, &quot;/&quot;)
 </td>
           </tr><tr>
             <td class="black">29</td>
-            <td><a id="Object_jenkem_engine_Pal_Party"/>  case object Party extends Charset(&quot;Party&quot;, &quot; ♪♫☺☻&quot;)
+            <td><a id="Object_jenkem_engine_Pal_LEFT_UP"/>  case object LEFT_UP extends Pal(&quot;pF&quot;, &quot;┌╔&quot;)
 </td>
           </tr><tr>
             <td class="black">30</td>
-            <td><a id="Object_jenkem_engine_Pal_HCrude"/>  case object HCrude extends Charset(&quot;HCrude&quot;, &quot; #&quot;)
+            <td><a id="Object_jenkem_engine_Pal_LEFT_DOWN"/>  case object LEFT_DOWN extends Pal(&quot;bL&quot;, &quot;└╚&quot;)
 </td>
           </tr><tr>
             <td class="black">31</td>
-            <td><a id="Object_jenkem_engine_Pal_SCrude"/>  case object SCrude extends Charset(&quot;SCrude&quot;, &quot; @&quot;)
+            <td><a id="Object_jenkem_engine_Pal_RIGHT_UP"/>  case object RIGHT_UP extends Pal(&quot;q&quot;, &quot;┐╗&quot;)
 </td>
           </tr><tr>
             <td class="black">32</td>
-            <td><a id="Object_jenkem_engine_Pal_ACrude"/>  case object ACrude extends Charset(&quot;ACrude&quot;, &quot; ▒&quot;)
+            <td><a id="Object_jenkem_engine_Pal_RIGHT_DOWN"/>  case object RIGHT_DOWN extends Pal(&quot;dJ&quot;, &quot;┘╝&quot;)
 </td>
           </tr><tr>
             <td class="black">33</td>
-            <td><a id="Object_jenkem_engine_Pal_Mixed"/>  case object Mixed extends Charset(&quot;Mixed&quot;, &quot;  .-:+oxOX@#&quot;)
+            <td><a id="Object_jenkem_engine_Pal_H_LINE"/>  case object H_LINE extends Pal(&quot;-&quot;, &quot;▬&quot;)
 </td>
           </tr><tr>
             <td class="black">34</td>
-            <td><a id="Object_jenkem_engine_Pal_Letters"/>  case object Letters extends Charset(&quot;Letters&quot;, &quot;  ivozaxIVOAHZSXWM&quot;)
+            <td><a id="Object_jenkem_engine_Pal_V_LINE"/>  case object V_LINE extends Pal(&quot;|&quot;, &quot;│║&quot;)
 </td>
           </tr><tr>
-            <td class="black">35</td>
-            <td><a id="Object_jenkem_engine_Pal_Chaos"/>  case object Chaos extends Charset(&quot;Chaos&quot;, &quot;  .'-:;~+=ox*OX&amp;%$@#&quot;)
+            <td class="green">35</td>
+            <td>  val values = List(UP, DOWN, LEFT, RIGHT, UP_DOWN, DOWN_UP, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN, H_LINE, V_LINE)
 </td>
           </tr><tr>
             <td class="green">36</td>
-            <td>  val allCharsets = List(Hard, Soft, Ansi, Party, HCrude, SCrude, ACrude, Mixed, Letters, Chaos)
+            <td>  val pairs = List((UP_DOWN, DOWN_UP), (DOWN_UP, UP_DOWN), (LEFT_UP, RIGHT_UP), (RIGHT_UP, LEFT_UP), (LEFT_DOWN, RIGHT_DOWN), (RIGHT_DOWN, LEFT_DOWN))
 </td>
           </tr><tr>
-            <td class="green">37</td>
-            <td>  val plainCharsets = List(Hard, Soft, Party, Mixed, Letters, Chaos)
+            <td class="black">37</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">38</td>
-            <td>  val stencilCharsets = List(HCrude, SCrude)
+            <td><a id="Class_jenkem_engine_Pal_Charset"/>  sealed abstract class Charset(val name: String, val chars: String)
 </td>
           </tr><tr>
-            <td class="green">39</td>
-            <td>  val allAnsi = (&quot;░▒▓▀▄▐▌╔╗╚╝┌┐└┘▬║│♪♫☺♥☻▼▲►◄&quot;)
+            <td class="black">39</td>
+            <td><a id="Object_jenkem_engine_Pal_Hard"/>  case object Hard extends Charset(&quot;Hard&quot;, &quot; -+xX#&quot;)
 </td>
           </tr><tr>
-            <td class="green">40</td>
-            <td>  val default = Ansi
+            <td class="black">40</td>
+            <td><a id="Object_jenkem_engine_Pal_Soft"/>  case object Soft extends Charset(&quot;Soft&quot;, &quot; .:oO@&quot;)
 </td>
           </tr><tr>
             <td class="black">41</td>
-            <td>
+            <td><a id="Object_jenkem_engine_Pal_Ansi"/>  case object Ansi extends Charset(&quot;Ansi&quot;, &quot; ░▒&quot;) //&quot;▓&quot; makes FG &gt; BG and should not be used
 </td>
           </tr><tr>
-            <td class="green">42</td>
-            <td>  def valueOf(name: String): Option[Charset] = allCharsets.find(_.name.equalsIgnoreCase(name))
+            <td class="black">42</td>
+            <td><a id="Object_jenkem_engine_Pal_Party"/>  case object Party extends Charset(&quot;Party&quot;, &quot; ♪♫☺☻&quot;)
 </td>
           </tr><tr>
             <td class="black">43</td>
-            <td>
+            <td><a id="Object_jenkem_engine_Pal_HCrude"/>  case object HCrude extends Charset(&quot;HCrude&quot;, &quot; #&quot;)
 </td>
           </tr><tr>
             <td class="black">44</td>
-            <td>  def hasAnsi(s: String): Boolean = {
+            <td><a id="Object_jenkem_engine_Pal_SCrude"/>  case object SCrude extends Charset(&quot;SCrude&quot;, &quot; @&quot;)
 </td>
           </tr><tr>
-            <td class="green">45</td>
-            <td>    allAnsi.toCharArray.toList.map(s.indexOf(_) &gt;= 0).contains(true)
+            <td class="black">45</td>
+            <td><a id="Object_jenkem_engine_Pal_ACrude"/>  case object ACrude extends Charset(&quot;ACrude&quot;, &quot; ▒&quot;)
 </td>
           </tr><tr>
             <td class="black">46</td>
-            <td>  }
+            <td><a id="Object_jenkem_engine_Pal_Mixed"/>  case object Mixed extends Charset(&quot;Mixed&quot;, &quot;  .-:+oxOX@#&quot;)
 </td>
           </tr><tr>
             <td class="black">47</td>
-            <td>
+            <td><a id="Object_jenkem_engine_Pal_Letters"/>  case object Letters extends Charset(&quot;Letters&quot;, &quot;  ivozaxIVOAHZSXWM&quot;)
 </td>
           </tr><tr>
             <td class="black">48</td>
-            <td>  def getCharsetForMethod(method: Method): List[Charset] = {
+            <td><a id="Object_jenkem_engine_Pal_Chaos"/>  case object Chaos extends Charset(&quot;Chaos&quot;, &quot;  .'-:;~+=ox*OX&amp;%$@#&quot;)
 </td>
           </tr><tr>
             <td class="green">49</td>
-            <td>    if (method.equals(Method.Plain)) { plainCharsets }
+            <td>  val allCharsets = List(Hard, Soft, Ansi, Party, HCrude, SCrude, ACrude, Mixed, Letters, Chaos)
 </td>
           </tr><tr>
             <td class="green">50</td>
-            <td>    else if (method.equals(Method.Stencil)) { stencilCharsets }
+            <td>  val plainCharsets = List(Hard, Soft, Party, Mixed, Letters, Chaos)
 </td>
           </tr><tr>
             <td class="green">51</td>
-            <td>    else { allCharsets }
+            <td>  val stencilCharsets = List(HCrude, SCrude)
 </td>
           </tr><tr>
-            <td class="black">52</td>
-            <td>  }
+            <td class="green">52</td>
+            <td>  val allAnsi = (&quot;░▒▓▀▄▐▌╔╗╚╝┌┐└┘▬║│♪♫☺♥☻▼▲►◄&quot;)
 </td>
           </tr><tr>
-            <td class="black">53</td>
-            <td>
+            <td class="green">53</td>
+            <td>  val default = Ansi
 </td>
           </tr><tr>
             <td class="black">54</td>
-            <td>  /**
+            <td>
 </td>
           </tr><tr>
-            <td class="black">55</td>
-            <td>   * Selects a character from the provided characters and selects the
+            <td class="green">55</td>
+            <td>  def valueOf(name: String): Option[Charset] = allCharsets.find(_.name.equalsIgnoreCase(name))
 </td>
           </tr><tr>
             <td class="black">56</td>
-            <td>   * character to use, depending on the entered strength value.
+            <td>
 </td>
           </tr><tr>
             <td class="black">57</td>
-            <td>   * the palette must be a String like ' .:xX#', from bright to dark.
+            <td>  def hasAnsi(s: String): Boolean = {
 </td>
           </tr><tr>
-            <td class="black">58</td>
-            <td>   */
+            <td class="green">58</td>
+            <td>    allAnsi.toCharArray.toList.map(s.indexOf(_) &gt;= 0).contains(true)
 </td>
           </tr><tr>
             <td class="black">59</td>
-            <td>  def getCharAbs(charset: String, strength: Double): String = {
+            <td>  }
 </td>
           </tr><tr>
-            <td class="green">60</td>
-            <td>    getChar(charset, (MAX_RGB - strength) / MAX_RGB)
+            <td class="black">60</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">61</td>
-            <td>  }
+            <td>  def getCharsetForMethod(method: Method): List[Charset] = {
 </td>
           </tr><tr>
-            <td class="black">62</td>
-            <td>
+            <td class="green">62</td>
+            <td>    if (method.equals(Method.Plain)) { plainCharsets }
 </td>
           </tr><tr>
-            <td class="black">63</td>
-            <td>  def getChar(charset: String, strength: Double): String = {
+            <td class="green">63</td>
+            <td>    else if (method.equals(Method.Stencil)) { stencilCharsets }
 </td>
           </tr><tr>
             <td class="green">64</td>
-            <td>    val fixedStrenght = (Math.max(0D, Math.min(0.99D, strength)))
+            <td>    else { allCharsets }
 </td>
           </tr><tr>
-            <td class="green">65</td>
-            <td>    val index: Int =  (fixedStrenght * charset.length).intValue
+            <td class="black">65</td>
+            <td>  }
 </td>
           </tr><tr>
-            <td class="green">66</td>
-            <td>    charset.substring(index, index + 1)
+            <td class="black">66</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">67</td>
-            <td>  }
+            <td>  /**
 </td>
           </tr><tr>
             <td class="black">68</td>
-            <td>
+            <td>   * Selects a character from the provided characters and selects the
 </td>
           </tr><tr>
             <td class="black">69</td>
-            <td>  def get(value: Pal, hasAnsi: Boolean, charset: String): String = {
+            <td>   * character to use, depending on the entered strength value.
 </td>
           </tr><tr>
-            <td class="green">70</td>
-            <td>    if (charset.equals(Chaos.chars)) {
+            <td class="black">70</td>
+            <td>   * the palette must be a String like ' .:xX#', from bright to dark.
 </td>
           </tr><tr>
-            <td class="green">71</td>
-            <td>      val chars = getValChars(value, hasAnsi).toCharArray.toList
+            <td class="black">71</td>
+            <td>   */
 </td>
           </tr><tr>
-            <td class="green">72</td>
-            <td>      if (chars.length &gt; 1) { Random.shuffle(chars).head.toString }
+            <td class="black">72</td>
+            <td>  def getCharAbs(charset: String, strength: Double): String = {
 </td>
           </tr><tr>
             <td class="green">73</td>
-            <td>      else { chars.head.toString }
+            <td>    getChar(charset, (MAX_RGB - strength) / MAX_RGB)
 </td>
           </tr><tr>
-            <td class="green">74</td>
-            <td>    } else if (charset.equals(Party.chars)) {
+            <td class="black">74</td>
+            <td>  }
 </td>
           </tr><tr>
-            <td class="green">75</td>
-            <td>       getValChars(value, hasAnsi).takeRight(1)
+            <td class="black">75</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">76</td>
-            <td>    } else if (getValChars(value, hasAnsi).length &gt; 1 &amp;&amp;
+            <td class="black">76</td>
+            <td>  def getChar(charset: String, strength: Double): String = {
 </td>
           </tr><tr>
-            <td class="black">77</td>
-            <td>        (charset.equals(Hard.chars) || charset.equals(HCrude.chars) ||
+            <td class="green">77</td>
+            <td>    val fixedStrenght = (Math.max(0D, Math.min(0.99D, strength)))
 </td>
           </tr><tr>
-            <td class="black">78</td>
-            <td>        charset.equals(Mixed.chars) || charset.equals(Letters.chars) ||
+            <td class="green">78</td>
+            <td>    val index: Int =  (fixedStrenght * charset.length).intValue
 </td>
           </tr><tr>
-            <td class="black">79</td>
-            <td>        charset.takeRight(1).equals(&quot;#&quot;))) {
+            <td class="green">79</td>
+            <td>    charset.substring(index, index + 1)
 </td>
           </tr><tr>
-            <td class="green">80</td>
-            <td>      getValChars(value, hasAnsi).substring(1, 2)
+            <td class="black">80</td>
+            <td>  }
 </td>
           </tr><tr>
             <td class="black">81</td>
-            <td>    } else {
-</td>
-          </tr><tr>
-            <td class="green">82</td>
-            <td>      getValChars(value, hasAnsi).take(1)
-</td>
-          </tr><tr>
-            <td class="black">83</td>
-            <td>    }
-</td>
-          </tr><tr>
-            <td class="black">84</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">85</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">86</td>
-            <td>  def getValChars(pal: Pal, hasAnsi: Boolean): String = {
+            <td class="black">82</td>
+            <td>  def get(value: Pal, hasAnsi: Boolean, charset: String): String = {
+</td>
+          </tr><tr>
+            <td class="green">83</td>
+            <td>    if (charset.equals(Chaos.chars)) {
+</td>
+          </tr><tr>
+            <td class="green">84</td>
+            <td>      val chars = getValChars(value, hasAnsi).toCharArray.toList
+</td>
+          </tr><tr>
+            <td class="green">85</td>
+            <td>      if (chars.length &gt; 1) { Random.shuffle(chars).head.toString }
+</td>
+          </tr><tr>
+            <td class="green">86</td>
+            <td>      else { chars.head.toString }
 </td>
           </tr><tr>
             <td class="green">87</td>
-            <td>    if (hasAnsi) { pal.ansi } else { pal.ascii }
+            <td>    } else if (charset.equals(Party.chars)) {
 </td>
           </tr><tr>
-            <td class="black">88</td>
-            <td>  }
+            <td class="green">88</td>
+            <td>       getValChars(value, hasAnsi).takeRight(1)
 </td>
           </tr><tr>
-            <td class="black">89</td>
-            <td>
+            <td class="green">89</td>
+            <td>    } else if (getValChars(value, hasAnsi).length &gt; 1 &amp;&amp;
 </td>
           </tr><tr>
             <td class="black">90</td>
-            <td>  def isDark(charset: String, compare: String): Boolean = {
+            <td>        (charset.equals(Hard.chars) || charset.equals(HCrude.chars) ||
 </td>
           </tr><tr>
-            <td class="green">91</td>
-            <td>    charset.indexOf(compare) &gt; ((charset.length - 1) / 2)
+            <td class="black">91</td>
+            <td>        charset.equals(Mixed.chars) || charset.equals(Letters.chars) ||
 </td>
           </tr><tr>
             <td class="black">92</td>
-            <td>  }
+            <td>        charset.takeRight(1).equals(&quot;#&quot;))) {
 </td>
           </tr><tr>
-            <td class="black">93</td>
-            <td>
+            <td class="green">93</td>
+            <td>      getValChars(value, hasAnsi).substring(1, 2)
 </td>
           </tr><tr>
             <td class="black">94</td>
-            <td>  def isBright(charset: String, compare: String): Boolean = {
+            <td>    } else {
 </td>
           </tr><tr>
             <td class="green">95</td>
-            <td>    val index = charset.indexOf(compare)
+            <td>      getValChars(value, hasAnsi).take(1)
 </td>
           </tr><tr>
-            <td class="green">96</td>
-            <td>    index &gt;= 0 &amp;&amp; index &lt; (charset.length / 2)
+            <td class="black">96</td>
+            <td>    }
 </td>
           </tr><tr>
             <td class="black">97</td>
@@ -600,38 +600,90 @@
 </td>
           </tr><tr>
             <td class="black">99</td>
-            <td>  def getForMethod(method: Method): Charset = {
+            <td>  def getValChars(pal: Pal, hasAnsi: Boolean): String = {
 </td>
           </tr><tr>
             <td class="green">100</td>
-            <td>    if (method.equals(Method.Plain)) { Soft }
+            <td>    if (hasAnsi) { pal.ansi } else { pal.ascii }
 </td>
           </tr><tr>
-            <td class="green">101</td>
-            <td>    else if (method.equals(Method.Stencil)) { HCrude }
-</td>
-          </tr><tr>
-            <td class="green">102</td>
-            <td>    else { Ansi }
-</td>
-          </tr><tr>
-            <td class="black">103</td>
+            <td class="black">101</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">104</td>
+            <td class="black">102</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">105</td>
-            <td>  def darkest(charset: String): String = charset.last.toString
+            <td class="black">103</td>
+            <td>  def isDark(charset: String, compare: String): Boolean = {
 </td>
           </tr><tr>
-            <td class="green">106</td>
-            <td>  def brightest(charset: String): String = charset.head.toString
+            <td class="green">104</td>
+            <td>    charset.indexOf(compare) &gt; ((charset.length - 1) / 2)
+</td>
+          </tr><tr>
+            <td class="black">105</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">106</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">107</td>
+            <td>  def isBright(charset: String, compare: String): Boolean = {
+</td>
+          </tr><tr>
+            <td class="green">108</td>
+            <td>    val index = charset.indexOf(compare)
+</td>
+          </tr><tr>
+            <td class="green">109</td>
+            <td>    index &gt;= 0 &amp;&amp; index &lt; (charset.length / 2)
+</td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">111</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">112</td>
+            <td>  def getForMethod(method: Method): Charset = {
+</td>
+          </tr><tr>
+            <td class="green">113</td>
+            <td>    if (method.equals(Method.Plain)) { Soft }
+</td>
+          </tr><tr>
+            <td class="green">114</td>
+            <td>    else if (method.equals(Method.Stencil)) { HCrude }
+</td>
+          </tr><tr>
+            <td class="green">115</td>
+            <td>    else { Ansi }
+</td>
+          </tr><tr>
+            <td class="black">116</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">117</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">118</td>
+            <td>  def darkest(charset: String): String = charset.last.toString
+</td>
+          </tr><tr>
+            <td class="green">119</td>
+            <td>  def brightest(charset: String): String = charset.head.toString
+</td>
+          </tr><tr>
+            <td class="black">120</td>
             <td>}
 </td>
           </tr></tbody></table>

@@ -16,118 +16,170 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.ui
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import com.vaadin.event.FieldEvents.FocusEvent
+            <td> * OutputDisplay.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import com.vaadin.event.FieldEvents.FocusListener
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import com.vaadin.ui.Label
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import com.vaadin.ui.TextArea
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>import com.vaadin.ui.VerticalLayout
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
-            <td class="green">9</td>
-            <td><a id="Class_jenkem_ui_OutputDisplay"/>class OutputDisplay extends VerticalLayout {
+            <td class="black">9</td>
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
-            <td class="green">10</td>
-            <td>  setSpacing(true)
+            <td class="black">10</td>
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
-            <td class="green">11</td>
-            <td>  setWidth(&quot;400px&quot;)
+            <td class="black">11</td>
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
+            <td> * #L%
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>package jenkem.ui
+</td>
+          </tr><tr>
+            <td class="black">15</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">13</td>
-            <td>  val outputCaptionLabel = new Label(&quot;Binary Output For IRC: &quot;)
-</td>
-          </tr><tr>
-            <td class="green">14</td>
-            <td>  val ircText = new TextArea
-</td>
-          </tr><tr>
-            <td class="green">15</td>
-            <td>  ircText.setWidth(&quot;400px&quot;)
-</td>
-          </tr><tr>
-            <td class="green">16</td>
-            <td>  ircText.setWordwrap(false)
+            <td class="black">16</td>
+            <td>import com.vaadin.event.FieldEvents.FocusEvent
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td>  //ircText.setReadOnly(true)
+            <td>import com.vaadin.event.FieldEvents.FocusListener
 </td>
           </tr><tr>
-            <td class="green">18</td>
-            <td>  ircText.addFocusListener(new FocusListener {
+            <td class="black">18</td>
+            <td>import com.vaadin.ui.Label
 </td>
           </tr><tr>
             <td class="black">19</td>
-            <td>    override def focus(event: FocusEvent): Unit = ircText.selectAll
+            <td>import com.vaadin.ui.TextArea
 </td>
           </tr><tr>
             <td class="black">20</td>
-            <td>  })
+            <td>import com.vaadin.ui.VerticalLayout
 </td>
           </tr><tr>
-            <td class="green">21</td>
-            <td>  addComponent(outputCaptionLabel)
-</td>
-          </tr><tr>
-            <td class="green">22</td>
-            <td>  addComponent(ircText)
-</td>
-          </tr><tr>
-            <td class="black">23</td>
+            <td class="black">21</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">24</td>
+            <td class="green">22</td>
+            <td><a id="Class_jenkem_ui_OutputDisplay"/>class OutputDisplay extends VerticalLayout {
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>  setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>  setWidth(&quot;400px&quot;)
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>  val outputCaptionLabel = new Label(&quot;Binary Output For IRC: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>  val ircText = new TextArea
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>  ircText.setWidth(&quot;400px&quot;)
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>  ircText.setWordwrap(false)
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>  //ircText.setReadOnly(true)
+</td>
+          </tr><tr>
+            <td class="green">31</td>
+            <td>  ircText.addFocusListener(new FocusListener {
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>    override def focus(event: FocusEvent): Unit = ircText.selectAll
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>  addComponent(outputCaptionLabel)
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>  addComponent(ircText)
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">37</td>
             <td>  def addIrcOutput(ircOutput: List[String]): Unit = {
 </td>
           </tr><tr>
-            <td class="red">25</td>
+            <td class="red">38</td>
             <td>    val lines = <span class="non">new StringBuilder(ircOutput.size)
 </span></td>
           </tr><tr>
-            <td class="red">26</td>
+            <td class="red">39</td>
             <td>    <span class="non">ircOutput.foreach(line =&gt; lines.append(line))
 </span></td>
           </tr><tr>
-            <td class="red">27</td>
+            <td class="red">40</td>
             <td>    <span class="non">ircText.setValue(lines.toString)
 </span></td>
           </tr><tr>
-            <td class="black">28</td>
+            <td class="black">41</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">29</td>
+            <td class="black">42</td>
             <td>}
 </td>
           </tr></tbody></table>

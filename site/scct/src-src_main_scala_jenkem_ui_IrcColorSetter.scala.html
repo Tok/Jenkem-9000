@@ -16,367 +16,367 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.ui
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import scala.annotation.migration
+            <td> * IrcColorSetter.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import scala.collection.immutable.HashMap
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import com.vaadin.data.Property
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import com.vaadin.data.Property.ValueChangeEvent
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>import com.vaadin.event.EventRouter
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>import com.vaadin.shared.ui.slider.SliderOrientation
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>import com.vaadin.ui.Alignment
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td>import com.vaadin.ui.HorizontalLayout
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td>import com.vaadin.ui.Label
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td>import com.vaadin.ui.NativeSelect
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>import com.vaadin.ui.Slider
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td>import com.vaadin.ui.VerticalLayout
+            <td>package jenkem.ui
 </td>
           </tr><tr>
             <td class="black">15</td>
-            <td>import jenkem.engine.color.Scheme
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td>import jenkem.event.DoConversionEvent
+            <td>import scala.annotation.migration
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td>import jenkem.engine.color.Color
+            <td>import scala.collection.immutable.HashMap
 </td>
           </tr><tr>
             <td class="black">18</td>
+            <td>import com.vaadin.data.Property
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>import com.vaadin.data.Property.ValueChangeEvent
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>import com.vaadin.event.EventRouter
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>import com.vaadin.shared.ui.slider.SliderOrientation
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>import com.vaadin.ui.Alignment
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>import com.vaadin.ui.HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>import com.vaadin.ui.Label
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>import com.vaadin.ui.NativeSelect
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>import com.vaadin.ui.Slider
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>import com.vaadin.ui.VerticalLayout
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>import jenkem.engine.color.Scheme
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>import jenkem.event.DoConversionEvent
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>import jenkem.engine.color.Color
+</td>
+          </tr><tr>
+            <td class="black">31</td>
             <td>
-</td>
-          </tr><tr>
-            <td class="green">19</td>
-            <td><a id="Class_jenkem_ui_IrcColorSetter"/>class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
-</td>
-          </tr><tr>
-            <td class="green">20</td>
-            <td>  var isTriggeringDisabled = false
-</td>
-          </tr><tr>
-            <td class="green">21</td>
-            <td>  setSpacing(true)
-</td>
-          </tr><tr>
-            <td class="green">22</td>
-            <td>  setWidth(&quot;400px&quot;)
-</td>
-          </tr><tr>
-            <td class="green">23</td>
-            <td>  val labels = makeLabelMap
-</td>
-          </tr><tr>
-            <td class="green">24</td>
-            <td>  val sliders = makeSliderMap
-</td>
-          </tr><tr>
-            <td class="green">25</td>
-            <td>  val presetBox = new NativeSelect
-</td>
-          </tr><tr>
-            <td class="green">26</td>
-            <td>  val captionLabel = new Label(&quot;Preset: &quot;)
-</td>
-          </tr><tr>
-            <td class="green">27</td>
-            <td>  captionLabel.setWidth(&quot;150px&quot;)
-</td>
-          </tr><tr>
-            <td class="green">28</td>
-            <td>  Scheme.values.foreach(cs =&gt; presetBox.addItem(cs))
-</td>
-          </tr><tr>
-            <td class="green">29</td>
-            <td>  presetBox.setWidth(&quot;250px&quot;)
-</td>
-          </tr><tr>
-            <td class="green">30</td>
-            <td>  presetBox.setNullSelectionAllowed(false)
-</td>
-          </tr><tr>
-            <td class="green">31</td>
-            <td>  presetBox.setImmediate(true)
 </td>
           </tr><tr>
             <td class="green">32</td>
-            <td>  presetBox.addValueChangeListener(new Property.ValueChangeListener {
+            <td><a id="Class_jenkem_ui_IrcColorSetter"/>class IrcColorSetter(val eventRouter: EventRouter) extends VerticalLayout {
 </td>
           </tr><tr>
-            <td class="black">33</td>
-            <td>    override def valueChange(event: ValueChangeEvent): Unit = {
+            <td class="green">33</td>
+            <td>  var isTriggeringDisabled = false
 </td>
           </tr><tr>
-            <td class="black">34</td>
-            <td>      Scheme.valueOf(event.getProperty.getValue.toString) match {
+            <td class="green">34</td>
+            <td>  setSpacing(true)
 </td>
           </tr><tr>
-            <td class="black">35</td>
-            <td>        case Some(s) =&gt; updatePreset(s)
+            <td class="green">35</td>
+            <td>  setWidth(&quot;400px&quot;)
 </td>
           </tr><tr>
-            <td class="black">36</td>
-            <td>        case None =&gt; { }
+            <td class="green">36</td>
+            <td>  val labels = makeLabelMap
 </td>
           </tr><tr>
-            <td class="black">37</td>
-            <td>      }
+            <td class="green">37</td>
+            <td>  val sliders = makeSliderMap
 </td>
           </tr><tr>
-            <td class="black">38</td>
-            <td>      if (!isTriggeringDisabled) {
+            <td class="green">38</td>
+            <td>  val presetBox = new NativeSelect
 </td>
           </tr><tr>
-            <td class="black">39</td>
-            <td>        eventRouter.fireEvent(new DoConversionEvent(false, false))
+            <td class="green">39</td>
+            <td>  val captionLabel = new Label(&quot;Preset: &quot;)
 </td>
           </tr><tr>
-            <td class="black">40</td>
-            <td>      }
+            <td class="green">40</td>
+            <td>  captionLabel.setWidth(&quot;150px&quot;)
 </td>
           </tr><tr>
-            <td class="black">41</td>
-            <td>    }
+            <td class="green">41</td>
+            <td>  Scheme.values.foreach(cs =&gt; presetBox.addItem(cs))
 </td>
           </tr><tr>
-            <td class="black">42</td>
-            <td>  })
+            <td class="green">42</td>
+            <td>  presetBox.setWidth(&quot;250px&quot;)
 </td>
           </tr><tr>
             <td class="green">43</td>
-            <td>  val layout = new HorizontalLayout
+            <td>  presetBox.setNullSelectionAllowed(false)
 </td>
           </tr><tr>
             <td class="green">44</td>
-            <td>  layout.addComponent(captionLabel)
+            <td>  presetBox.setImmediate(true)
 </td>
           </tr><tr>
             <td class="green">45</td>
-            <td>  layout.addComponent(presetBox)
+            <td>  presetBox.addValueChangeListener(new Property.ValueChangeListener {
 </td>
           </tr><tr>
-            <td class="green">46</td>
-            <td>  addComponent(layout)
+            <td class="black">46</td>
+            <td>    override def valueChange(event: ValueChangeEvent): Unit = {
 </td>
           </tr><tr>
             <td class="black">47</td>
-            <td>
+            <td>      Scheme.valueOf(event.getProperty.getValue.toString) match {
 </td>
           </tr><tr>
-            <td class="green">48</td>
-            <td>  val sliderLayout = new HorizontalLayout
+            <td class="black">48</td>
+            <td>        case Some(s) =&gt; updatePreset(s)
 </td>
           </tr><tr>
-            <td class="green">49</td>
-            <td>  Scheme.ircColors.foreach(ic =&gt; sliderLayout.addComponent(makeSliderLayout(ic)))
+            <td class="black">49</td>
+            <td>        case None =&gt; { }
 </td>
           </tr><tr>
-            <td class="green">50</td>
-            <td>  addComponent(sliderLayout)
+            <td class="black">50</td>
+            <td>      }
 </td>
           </tr><tr>
             <td class="black">51</td>
-            <td>
+            <td>      if (!isTriggeringDisabled) {
 </td>
           </tr><tr>
-            <td class="green">52</td>
-            <td>  setSelectedScheme(Scheme.default)
+            <td class="black">52</td>
+            <td>        eventRouter.fireEvent(new DoConversionEvent(false, false))
 </td>
           </tr><tr>
-            <td class="green">53</td>
-            <td>  updatePreset(Scheme.default)
+            <td class="black">53</td>
+            <td>      }
 </td>
           </tr><tr>
             <td class="black">54</td>
-            <td>
+            <td>    }
 </td>
           </tr><tr>
             <td class="black">55</td>
-            <td>  private def makeLabelMap(): HashMap[Scheme.IrcColor, Label] = {
+            <td>  })
 </td>
           </tr><tr>
-            <td class="black">56</td>
-            <td>    def makeLabelMap0(hm: HashMap[Scheme.IrcColor, Label], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Label] = {
+            <td class="green">56</td>
+            <td>  val layout = new HorizontalLayout
 </td>
           </tr><tr>
             <td class="green">57</td>
-            <td>      if (ic.isEmpty) { hm }
+            <td>  layout.addComponent(captionLabel)
 </td>
           </tr><tr>
-            <td class="black">58</td>
-            <td>      else {
+            <td class="green">58</td>
+            <td>  layout.addComponent(presetBox)
 </td>
           </tr><tr>
             <td class="green">59</td>
-            <td>        val label = new Label
+            <td>  addComponent(layout)
 </td>
           </tr><tr>
-            <td class="green">60</td>
-            <td>        label.setStyleName(&quot;colorLabel &quot; + ic.head.name)
+            <td class="black">60</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">61</td>
-            <td>        makeLabelMap0(hm + ((ic.head, label)), ic.tail)
+            <td>  val sliderLayout = new HorizontalLayout
 </td>
           </tr><tr>
-            <td class="black">62</td>
-            <td>      }
+            <td class="green">62</td>
+            <td>  Scheme.ircColors.foreach(ic =&gt; sliderLayout.addComponent(makeSliderLayout(ic)))
 </td>
           </tr><tr>
-            <td class="black">63</td>
-            <td>    }
+            <td class="green">63</td>
+            <td>  addComponent(sliderLayout)
 </td>
           </tr><tr>
-            <td class="green">64</td>
-            <td>    makeLabelMap0(new HashMap[Scheme.IrcColor, Label], Scheme.ircColors)
+            <td class="black">64</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="black">65</td>
-            <td>  }
+            <td class="green">65</td>
+            <td>  setSelectedScheme(Scheme.default)
 </td>
           </tr><tr>
-            <td class="black">66</td>
-            <td>  private def makeSliderMap(): HashMap[Scheme.IrcColor, Slider] = {
+            <td class="green">66</td>
+            <td>  updatePreset(Scheme.default)
 </td>
           </tr><tr>
             <td class="black">67</td>
-            <td>    def makeSliderMap0(hm: HashMap[Scheme.IrcColor, Slider], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Slider] = {
+            <td>
 </td>
           </tr><tr>
-            <td class="green">68</td>
-            <td>      if (ic.isEmpty) { hm }
+            <td class="black">68</td>
+            <td>  private def makeLabelMap(): HashMap[Scheme.IrcColor, Label] = {
 </td>
           </tr><tr>
             <td class="black">69</td>
-            <td>      else {
+            <td>    def makeLabelMap0(hm: HashMap[Scheme.IrcColor, Label], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Label] = {
 </td>
           </tr><tr>
             <td class="green">70</td>
-            <td>        val slider = new Slider
+            <td>      if (ic.isEmpty) { hm }
 </td>
           </tr><tr>
-            <td class="green">71</td>
-            <td>        slider.setHeight(&quot;100px&quot;)
+            <td class="black">71</td>
+            <td>      else {
 </td>
           </tr><tr>
             <td class="green">72</td>
-            <td>        slider.setResolution(0)
+            <td>        val label = new Label
 </td>
           </tr><tr>
             <td class="green">73</td>
-            <td>        slider.setOrientation(SliderOrientation.VERTICAL)
+            <td>        label.setStyleName(&quot;colorLabel &quot; + ic.head.name)
 </td>
           </tr><tr>
             <td class="green">74</td>
-            <td>        slider.setMin(0)
+            <td>        makeLabelMap0(hm + ((ic.head, label)), ic.tail)
 </td>
           </tr><tr>
-            <td class="green">75</td>
-            <td>        slider.setMax(100)
-</td>
-          </tr><tr>
-            <td class="green">76</td>
-            <td>        slider.setImmediate(true)
-</td>
-          </tr><tr>
-            <td class="green">77</td>
-            <td>        slider.setStyleName(&quot;v-slider &quot; + ic.head.name)
-</td>
-          </tr><tr>
-            <td class="green">78</td>
-            <td>        makeSliderMap0(hm + ((ic.head, slider)), ic.tail)
-</td>
-          </tr><tr>
-            <td class="black">79</td>
+            <td class="black">75</td>
             <td>      }
 </td>
           </tr><tr>
-            <td class="black">80</td>
+            <td class="black">76</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="green">81</td>
-            <td>    makeSliderMap0(new HashMap[Scheme.IrcColor, Slider], Scheme.ircColors)
+            <td class="green">77</td>
+            <td>    makeLabelMap0(new HashMap[Scheme.IrcColor, Label], Scheme.ircColors)
 </td>
           </tr><tr>
-            <td class="black">82</td>
+            <td class="black">78</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">83</td>
-            <td>  private def makeSliderLayout(ic: Scheme.IrcColor) = {
+            <td class="black">79</td>
+            <td>  private def makeSliderMap(): HashMap[Scheme.IrcColor, Slider] = {
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>    def makeSliderMap0(hm: HashMap[Scheme.IrcColor, Slider], ic: List[Scheme.IrcColor]): HashMap[Scheme.IrcColor, Slider] = {
+</td>
+          </tr><tr>
+            <td class="green">81</td>
+            <td>      if (ic.isEmpty) { hm }
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>      else {
+</td>
+          </tr><tr>
+            <td class="green">83</td>
+            <td>        val slider = new Slider
 </td>
           </tr><tr>
             <td class="green">84</td>
-            <td>    val label = getLabel(ic)
+            <td>        slider.setHeight(&quot;100px&quot;)
 </td>
           </tr><tr>
             <td class="green">85</td>
-            <td>    val slider = getSlider(ic)
+            <td>        slider.setResolution(0)
 </td>
           </tr><tr>
             <td class="green">86</td>
-            <td>    slider.addValueChangeListener(new Property.ValueChangeListener {
+            <td>        slider.setOrientation(SliderOrientation.VERTICAL)
 </td>
           </tr><tr>
-            <td class="black">87</td>
-            <td>      override def valueChange(event: ValueChangeEvent) {
+            <td class="green">87</td>
+            <td>        slider.setMin(0)
 </td>
           </tr><tr>
-            <td class="black">88</td>
-            <td>        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))
+            <td class="green">88</td>
+            <td>        slider.setMax(100)
 </td>
           </tr><tr>
-            <td class="black">89</td>
-            <td>        if (!isTriggeringDisabled) {
+            <td class="green">89</td>
+            <td>        slider.setImmediate(true)
 </td>
           </tr><tr>
-            <td class="black">90</td>
-            <td>          eventRouter.fireEvent(new DoConversionEvent(false, false))
+            <td class="green">90</td>
+            <td>        slider.setStyleName(&quot;v-slider &quot; + ic.head.name)
 </td>
           </tr><tr>
-            <td class="black">91</td>
-            <td>        }
+            <td class="green">91</td>
+            <td>        makeSliderMap0(hm + ((ic.head, slider)), ic.tail)
 </td>
           </tr><tr>
             <td class="black">92</td>
@@ -384,150 +384,202 @@
 </td>
           </tr><tr>
             <td class="black">93</td>
-            <td>    })
+            <td>    }
 </td>
           </tr><tr>
             <td class="green">94</td>
-            <td>    val layout = new VerticalLayout
+            <td>    makeSliderMap0(new HashMap[Scheme.IrcColor, Slider], Scheme.ircColors)
 </td>
           </tr><tr>
-            <td class="green">95</td>
-            <td>    layout.setSpacing(true)
+            <td class="black">95</td>
+            <td>  }
 </td>
           </tr><tr>
-            <td class="green">96</td>
-            <td>    layout.addComponent(slider)
+            <td class="black">96</td>
+            <td>  private def makeSliderLayout(ic: Scheme.IrcColor) = {
 </td>
           </tr><tr>
             <td class="green">97</td>
-            <td>    layout.setComponentAlignment(slider, Alignment.MIDDLE_CENTER)
+            <td>    val label = getLabel(ic)
 </td>
           </tr><tr>
             <td class="green">98</td>
-            <td>    layout.addComponent(label)
+            <td>    val slider = getSlider(ic)
 </td>
           </tr><tr>
             <td class="green">99</td>
-            <td>    layout
+            <td>    slider.addValueChangeListener(new Property.ValueChangeListener {
 </td>
           </tr><tr>
             <td class="black">100</td>
-            <td>  }
+            <td>      override def valueChange(event: ValueChangeEvent) {
 </td>
           </tr><tr>
-            <td class="green">101</td>
-            <td>  private def getLabel(ic: Scheme.IrcColor): Label = labels.get(ic) match {
+            <td class="black">101</td>
+            <td>        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))
 </td>
           </tr><tr>
-            <td class="green">102</td>
-            <td>    case Some(label) =&gt; label
+            <td class="black">102</td>
+            <td>        if (!isTriggeringDisabled) {
 </td>
           </tr><tr>
-            <td class="red">103</td>
-            <td>    case None =&gt; <span class="non">new Label
-</span></td>
+            <td class="black">103</td>
+            <td>          eventRouter.fireEvent(new DoConversionEvent(false, false))
+</td>
           </tr><tr>
             <td class="black">104</td>
-            <td>  }
+            <td>        }
 </td>
           </tr><tr>
-            <td class="green">105</td>
-            <td>  private def getSlider(ic: Scheme.IrcColor): Slider = sliders.get(ic) match {
+            <td class="black">105</td>
+            <td>      }
 </td>
           </tr><tr>
-            <td class="green">106</td>
-            <td>    case Some(slider) =&gt; slider
+            <td class="black">106</td>
+            <td>    })
 </td>
           </tr><tr>
-            <td class="red">107</td>
-            <td>    case None =&gt; <span class="non">new Slider
-</span></td>
-          </tr><tr>
-            <td class="black">108</td>
-            <td>  }
+            <td class="green">107</td>
+            <td>    val layout = new VerticalLayout
 </td>
           </tr><tr>
-            <td class="black">109</td>
-            <td>  private def updatePreset(cs: Scheme): Unit = {
+            <td class="green">108</td>
+            <td>    layout.setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="green">109</td>
+            <td>    layout.addComponent(slider)
 </td>
           </tr><tr>
             <td class="green">110</td>
-            <td>    isTriggeringDisabled = true
+            <td>    layout.setComponentAlignment(slider, Alignment.MIDDLE_CENTER)
 </td>
           </tr><tr>
             <td class="green">111</td>
-            <td>    Scheme.ircColors.foreach(ic =&gt; getSlider(ic).setValue(ic.scheme(cs.order)))
+            <td>    layout.addComponent(label)
 </td>
           </tr><tr>
             <td class="green">112</td>
-            <td>    isTriggeringDisabled = false
+            <td>    layout
 </td>
           </tr><tr>
             <td class="black">113</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="red">114</td>
-            <td>  private def getValue(ic: Scheme.IrcColor) = <span class="non">Integer.valueOf(getLabel(ic).getValue).shortValue
+            <td class="green">114</td>
+            <td>  private def getLabel(ic: Scheme.IrcColor): Label = labels.get(ic) match {
+</td>
+          </tr><tr>
+            <td class="green">115</td>
+            <td>    case Some(label) =&gt; label
+</td>
+          </tr><tr>
+            <td class="red">116</td>
+            <td>    case None =&gt; <span class="non">new Label
 </span></td>
-          </tr><tr>
-            <td class="black">115</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">116</td>
-            <td>  def getColorMap: Color.IrcMap = {
-</td>
           </tr><tr>
             <td class="black">117</td>
-            <td>    def getColorMap0(hm: HashMap[Scheme.IrcColor, Short], ic: List[Scheme.IrcColor]):
+            <td>  }
 </td>
           </tr><tr>
-            <td class="black">118</td>
-            <td>        HashMap[Scheme.IrcColor, Short] = {
+            <td class="green">118</td>
+            <td>  private def getSlider(ic: Scheme.IrcColor): Slider = sliders.get(ic) match {
 </td>
           </tr><tr>
-            <td class="red">119</td>
-            <td>      if (<span class="non">ic.isEmpty) { hm }
-</span></td>
+            <td class="green">119</td>
+            <td>    case Some(slider) =&gt; slider
+</td>
           </tr><tr>
             <td class="red">120</td>
-            <td>      else { <span class="non">getColorMap0(hm + ((ic.head, getValue(ic.head))), ic.tail) }
+            <td>    case None =&gt; <span class="non">new Slider
 </span></td>
           </tr><tr>
             <td class="black">121</td>
-            <td>    }
+            <td>  }
 </td>
           </tr><tr>
-            <td class="red">122</td>
-            <td>    <span class="non">getColorMap0(new HashMap[Scheme.IrcColor, Short], Scheme.ircColors)
-</span></td>
+            <td class="black">122</td>
+            <td>  private def updatePreset(cs: Scheme): Unit = {
+</td>
           </tr><tr>
-            <td class="black">123</td>
-            <td>  }
+            <td class="green">123</td>
+            <td>    isTriggeringDisabled = true
 </td>
           </tr><tr>
             <td class="green">124</td>
-            <td>  def setSelectedScheme(scheme: Scheme): Unit = presetBox.select(scheme)
+            <td>    Scheme.ircColors.foreach(ic =&gt; getSlider(ic).setValue(ic.scheme(cs.order)))
 </td>
           </tr><tr>
-            <td class="black">125</td>
-            <td>  def makeEnabled(enabled: Boolean): Unit = {
+            <td class="green">125</td>
+            <td>    isTriggeringDisabled = false
 </td>
           </tr><tr>
-            <td class="green">126</td>
-            <td>    presetBox.setEnabled(enabled)
-</td>
-          </tr><tr>
-            <td class="green">127</td>
-            <td>    sliders.values.foreach(s =&gt; s.setEnabled(enabled))
-</td>
-          </tr><tr>
-            <td class="black">128</td>
+            <td class="black">126</td>
             <td>  }
 </td>
           </tr><tr>
+            <td class="red">127</td>
+            <td>  private def getValue(ic: Scheme.IrcColor) = <span class="non">Integer.valueOf(getLabel(ic).getValue).shortValue
+</span></td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>
+</td>
+          </tr><tr>
             <td class="black">129</td>
+            <td>  def getColorMap: Color.IrcMap = {
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>    def getColorMap0(hm: HashMap[Scheme.IrcColor, Short], ic: List[Scheme.IrcColor]):
+</td>
+          </tr><tr>
+            <td class="black">131</td>
+            <td>        HashMap[Scheme.IrcColor, Short] = {
+</td>
+          </tr><tr>
+            <td class="red">132</td>
+            <td>      if (<span class="non">ic.isEmpty) { hm }
+</span></td>
+          </tr><tr>
+            <td class="red">133</td>
+            <td>      else { <span class="non">getColorMap0(hm + ((ic.head, getValue(ic.head))), ic.tail) }
+</span></td>
+          </tr><tr>
+            <td class="black">134</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="red">135</td>
+            <td>    <span class="non">getColorMap0(new HashMap[Scheme.IrcColor, Short], Scheme.ircColors)
+</span></td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="green">137</td>
+            <td>  def setSelectedScheme(scheme: Scheme): Unit = presetBox.select(scheme)
+</td>
+          </tr><tr>
+            <td class="black">138</td>
+            <td>  def makeEnabled(enabled: Boolean): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">139</td>
+            <td>    presetBox.setEnabled(enabled)
+</td>
+          </tr><tr>
+            <td class="green">140</td>
+            <td>    sliders.values.foreach(s =&gt; s.setEnabled(enabled))
+</td>
+          </tr><tr>
+            <td class="black">141</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">142</td>
             <td>}
 </td>
           </tr></tbody></table>

@@ -16,59 +16,59 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.ui
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import scala.collection.immutable.HashMap
+            <td> * ProcSetter.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import com.vaadin.data.Property
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import com.vaadin.data.Property.ValueChangeEvent
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>import com.vaadin.event.EventRouter
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>import com.vaadin.ui.Alignment
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>import com.vaadin.ui.CheckBox
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td>import com.vaadin.ui.Component
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td>import com.vaadin.ui.GridLayout
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td>import com.vaadin.ui.HorizontalLayout
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>import com.vaadin.ui.Label
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td>import com.vaadin.ui.Slider
+            <td>package jenkem.ui
 </td>
           </tr><tr>
             <td class="black">15</td>
@@ -76,79 +76,79 @@
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td>import jenkem.engine.Setting
+            <td>import scala.collection.immutable.HashMap
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td>import jenkem.event.DoConversionEvent
+            <td>
 </td>
           </tr><tr>
             <td class="black">18</td>
-            <td>
+            <td>import com.vaadin.data.Property
 </td>
           </tr><tr>
-            <td class="green">19</td>
-            <td><a id="Class_jenkem_ui_ProcSetter"/>class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
+            <td class="black">19</td>
+            <td>import com.vaadin.data.Property.ValueChangeEvent
 </td>
           </tr><tr>
-            <td class="green">20</td>
-            <td>  var triggeringDisabled = true
+            <td class="black">20</td>
+            <td>import com.vaadin.event.EventRouter
 </td>
           </tr><tr>
-            <td class="green">21</td>
-            <td>  setWidth(&quot;250px&quot;)
+            <td class="black">21</td>
+            <td>import com.vaadin.ui.Alignment
 </td>
           </tr><tr>
             <td class="black">22</td>
-            <td>
+            <td>import com.vaadin.ui.CheckBox
 </td>
           </tr><tr>
-            <td class="green">23</td>
-            <td>  val vcl = new Property.ValueChangeListener {
+            <td class="black">23</td>
+            <td>import com.vaadin.ui.Component
 </td>
           </tr><tr>
             <td class="black">24</td>
-            <td>    override def valueChange(event: ValueChangeEvent): Unit = {
+            <td>import com.vaadin.ui.GridLayout
 </td>
           </tr><tr>
             <td class="black">25</td>
-            <td>      if (!triggeringDisabled) {
+            <td>import com.vaadin.ui.HorizontalLayout
 </td>
           </tr><tr>
             <td class="black">26</td>
-            <td>        eventRouter.fireEvent(new DoConversionEvent(false, false))
+            <td>import com.vaadin.ui.Label
 </td>
           </tr><tr>
             <td class="black">27</td>
-            <td>      }
+            <td>import com.vaadin.ui.Slider
 </td>
           </tr><tr>
             <td class="black">28</td>
-            <td>    }
-</td>
-          </tr><tr>
-            <td class="black">29</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">30</td>
             <td>
 </td>
           </tr><tr>
+            <td class="black">29</td>
+            <td>import jenkem.engine.Setting
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>import jenkem.event.DoConversionEvent
+</td>
+          </tr><tr>
             <td class="black">31</td>
-            <td>  type PS = Setting
+            <td>
 </td>
           </tr><tr>
             <td class="green">32</td>
-            <td>  val settings = Setting.values
+            <td><a id="Class_jenkem_ui_ProcSetter"/>class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
 </td>
           </tr><tr>
             <td class="green">33</td>
-            <td>  setRows(3)
+            <td>  var triggeringDisabled = true
 </td>
           </tr><tr>
             <td class="green">34</td>
-            <td>  setColumns(3)
+            <td>  setWidth(&quot;250px&quot;)
 </td>
           </tr><tr>
             <td class="black">35</td>
@@ -156,378 +156,430 @@
 </td>
           </tr><tr>
             <td class="green">36</td>
-            <td>  val boxes = makeComponentMap[CheckBox](settings, makeBox)
+            <td>  val vcl = new Property.ValueChangeListener {
 </td>
           </tr><tr>
-            <td class="green">37</td>
-            <td>  val labels = makeComponentMap[Label](settings.take(2), makeLabel)
+            <td class="black">37</td>
+            <td>    override def valueChange(event: ValueChangeEvent): Unit = {
 </td>
           </tr><tr>
-            <td class="green">38</td>
-            <td>  val sliders = makeComponentMap[Slider](settings.take(2), makeSlider)
+            <td class="black">38</td>
+            <td>      if (!triggeringDisabled) {
 </td>
           </tr><tr>
-            <td class="green">39</td>
-            <td>  (0 to 1).foreach(makeSliderRow(_))
+            <td class="black">39</td>
+            <td>        eventRouter.fireEvent(new DoConversionEvent(false, false))
 </td>
           </tr><tr>
             <td class="black">40</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">43</td>
             <td>
-</td>
-          </tr><tr>
-            <td class="green">41</td>
-            <td>  val layout = new HorizontalLayout
-</td>
-          </tr><tr>
-            <td class="green">42</td>
-            <td>  (2 to 5).foreach(i =&gt; layout.addComponent(boxes.get(settings(i)).get))
-</td>
-          </tr><tr>
-            <td class="green">43</td>
-            <td>  addComponent(layout, 0, 2, 2, 2)
 </td>
           </tr><tr>
             <td class="black">44</td>
-            <td>
+            <td>  type PS = Setting
 </td>
           </tr><tr>
             <td class="green">45</td>
-            <td>  triggeringDisabled = false
+            <td>  val settings = Setting.values
 </td>
           </tr><tr>
-            <td class="black">46</td>
-            <td>
+            <td class="green">46</td>
+            <td>  setRows(3)
 </td>
           </tr><tr>
-            <td class="black">47</td>
-            <td>  private def makeComponentMap[T](sets: List[PS], f: PS =&gt; Component): HashMap[PS, T] = {
+            <td class="green">47</td>
+            <td>  setColumns(3)
 </td>
           </tr><tr>
             <td class="black">48</td>
-            <td>    def makeComponentMap0(hm: HashMap[PS, T], s: List[PS]): HashMap[PS, T] = {
+            <td>
 </td>
           </tr><tr>
             <td class="green">49</td>
-            <td>      if (s.isEmpty) { hm } else {
+            <td>  val boxes = makeComponentMap[CheckBox](settings, makeBox)
 </td>
           </tr><tr>
             <td class="green">50</td>
-            <td>        val comp = f(s.head).asInstanceOf[T]
+            <td>  val labels = makeComponentMap[Label](settings.take(2), makeLabel)
 </td>
           </tr><tr>
             <td class="green">51</td>
-            <td>        makeComponentMap0(hm + ((s.head, comp)), s.tail)
+            <td>  val sliders = makeComponentMap[Slider](settings.take(2), makeSlider)
 </td>
           </tr><tr>
-            <td class="black">52</td>
-            <td>      }
+            <td class="green">52</td>
+            <td>  (0 to 1).foreach(makeSliderRow(_))
 </td>
           </tr><tr>
             <td class="black">53</td>
-            <td>    }
+            <td>
 </td>
           </tr><tr>
             <td class="green">54</td>
-            <td>    makeComponentMap0(new HashMap[PS, T], sets)
+            <td>  val layout = new HorizontalLayout
 </td>
           </tr><tr>
-            <td class="black">55</td>
-            <td>  }
+            <td class="green">55</td>
+            <td>  (2 to 5).foreach(i =&gt; layout.addComponent(boxes.get(settings(i)).get))
 </td>
           </tr><tr>
-            <td class="black">56</td>
-            <td>
+            <td class="green">56</td>
+            <td>  addComponent(layout, 0, 2, 2, 2)
 </td>
           </tr><tr>
             <td class="black">57</td>
-            <td>  private def makeBox(setting: PS): CheckBox = {
+            <td>
 </td>
           </tr><tr>
             <td class="green">58</td>
-            <td>    val box = new CheckBox(setting.caption)
+            <td>  triggeringDisabled = false
 </td>
           </tr><tr>
-            <td class="green">59</td>
-            <td>    box.setWidth(&quot;50px&quot;)
+            <td class="black">59</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">60</td>
-            <td>    box.setImmediate(true)
+            <td class="black">60</td>
+            <td>  private def makeComponentMap[T](sets: List[PS], f: PS =&gt; Component): HashMap[PS, T] = {
 </td>
           </tr><tr>
-            <td class="green">61</td>
-            <td>    box.addValueChangeListener(vcl)
+            <td class="black">61</td>
+            <td>    def makeComponentMap0(hm: HashMap[PS, T], s: List[PS]): HashMap[PS, T] = {
 </td>
           </tr><tr>
             <td class="green">62</td>
-            <td>    box
+            <td>      if (s.isEmpty) { hm } else {
 </td>
           </tr><tr>
-            <td class="black">63</td>
-            <td>  }
+            <td class="green">63</td>
+            <td>        val comp = f(s.head).asInstanceOf[T]
 </td>
           </tr><tr>
-            <td class="black">64</td>
-            <td>
+            <td class="green">64</td>
+            <td>        makeComponentMap0(hm + ((s.head, comp)), s.tail)
 </td>
           </tr><tr>
             <td class="black">65</td>
-            <td>  private def makeLabel(setting: PS): Label = {
+            <td>      }
 </td>
           </tr><tr>
-            <td class="green">66</td>
-            <td>    val label = new Label(Setting.default.toString)
+            <td class="black">66</td>
+            <td>    }
 </td>
           </tr><tr>
             <td class="green">67</td>
-            <td>    label.setWidth(&quot;30px&quot;)
+            <td>    makeComponentMap0(new HashMap[PS, T], sets)
 </td>
           </tr><tr>
-            <td class="green">68</td>
-            <td>    label.setStyleName(&quot;sliderLabel&quot;)
+            <td class="black">68</td>
+            <td>  }
 </td>
           </tr><tr>
-            <td class="green">69</td>
-            <td>    label
+            <td class="black">69</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">70</td>
-            <td>  }
+            <td>  private def makeBox(setting: PS): CheckBox = {
 </td>
           </tr><tr>
-            <td class="black">71</td>
-            <td>
+            <td class="green">71</td>
+            <td>    val box = new CheckBox(setting.caption)
 </td>
           </tr><tr>
-            <td class="black">72</td>
-            <td>  private def makeSlider(setting: PS): Slider = {
+            <td class="green">72</td>
+            <td>    box.setWidth(&quot;50px&quot;)
 </td>
           </tr><tr>
             <td class="green">73</td>
-            <td>    val slider = new Slider(None.orNull)
+            <td>    box.setImmediate(true)
 </td>
           </tr><tr>
             <td class="green">74</td>
-            <td>    slider.setWidth(&quot;170px&quot;)
+            <td>    box.addValueChangeListener(vcl)
 </td>
           </tr><tr>
             <td class="green">75</td>
-            <td>    slider.setMin(Setting.min)
+            <td>    box
 </td>
           </tr><tr>
-            <td class="green">76</td>
-            <td>    slider.setMax(Setting.max)
+            <td class="black">76</td>
+            <td>  }
 </td>
           </tr><tr>
-            <td class="green">77</td>
-            <td>    slider.setValue(Setting.default)
+            <td class="black">77</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">78</td>
-            <td>    slider.setImmediate(true)
+            <td class="black">78</td>
+            <td>  private def makeLabel(setting: PS): Label = {
 </td>
           </tr><tr>
             <td class="green">79</td>
-            <td>    slider.addValueChangeListener(new Property.ValueChangeListener {
+            <td>    val label = new Label(Setting.default.toString)
 </td>
           </tr><tr>
-            <td class="black">80</td>
-            <td>      override def valueChange(event: ValueChangeEvent): Unit = {
+            <td class="green">80</td>
+            <td>    label.setWidth(&quot;30px&quot;)
 </td>
           </tr><tr>
-            <td class="black">81</td>
-            <td>        labels.get(setting).get.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))
+            <td class="green">81</td>
+            <td>    label.setStyleName(&quot;sliderLabel&quot;)
 </td>
           </tr><tr>
-            <td class="black">82</td>
-            <td>        if (!triggeringDisabled) {
+            <td class="green">82</td>
+            <td>    label
 </td>
           </tr><tr>
             <td class="black">83</td>
-            <td>          eventRouter.fireEvent(new DoConversionEvent(false, false))
+            <td>  }
 </td>
           </tr><tr>
             <td class="black">84</td>
-            <td>        }
+            <td>
 </td>
           </tr><tr>
             <td class="black">85</td>
-            <td>      }
+            <td>  private def makeSlider(setting: PS): Slider = {
 </td>
           </tr><tr>
-            <td class="black">86</td>
-            <td>    })
+            <td class="green">86</td>
+            <td>    val slider = new Slider(None.orNull)
 </td>
           </tr><tr>
             <td class="green">87</td>
-            <td>    slider
+            <td>    slider.setWidth(&quot;170px&quot;)
 </td>
           </tr><tr>
-            <td class="black">88</td>
-            <td>  }
+            <td class="green">88</td>
+            <td>    slider.setMin(Setting.min)
 </td>
           </tr><tr>
-            <td class="black">89</td>
-            <td>
+            <td class="green">89</td>
+            <td>    slider.setMax(Setting.max)
 </td>
           </tr><tr>
-            <td class="black">90</td>
-            <td>  private def makeSliderRow(i: Int): Unit = {
+            <td class="green">90</td>
+            <td>    slider.setValue(Setting.default)
 </td>
           </tr><tr>
             <td class="green">91</td>
-            <td>    val setting = settings(i)
+            <td>    slider.setImmediate(true)
 </td>
           </tr><tr>
             <td class="green">92</td>
-            <td>    addAligned(boxes.get(setting).get, 0, i)
+            <td>    slider.addValueChangeListener(new Property.ValueChangeListener {
 </td>
           </tr><tr>
-            <td class="green">93</td>
-            <td>    addAligned(sliders.get(setting).get, 1, i)
+            <td class="black">93</td>
+            <td>      override def valueChange(event: ValueChangeEvent): Unit = {
 </td>
           </tr><tr>
-            <td class="green">94</td>
-            <td>    addAligned(labels.get(setting).get, 2, i)
+            <td class="black">94</td>
+            <td>        labels.get(setting).get.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))
 </td>
           </tr><tr>
             <td class="black">95</td>
-            <td>  }
+            <td>        if (!triggeringDisabled) {
 </td>
           </tr><tr>
             <td class="black">96</td>
-            <td>
+            <td>          eventRouter.fireEvent(new DoConversionEvent(false, false))
 </td>
           </tr><tr>
             <td class="black">97</td>
-            <td>  private def addAligned(comp: Component, row: Int, i: Int): Unit = {
+            <td>        }
 </td>
           </tr><tr>
-            <td class="green">98</td>
-            <td>    addComponent(comp, row, i)
-</td>
-          </tr><tr>
-            <td class="green">99</td>
-            <td>    setComponentAlignment(comp, Alignment.MIDDLE_LEFT)
-</td>
-          </tr><tr>
-            <td class="black">100</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">101</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">102</td>
-            <td>  def reset(hasAnsi: Boolean): Unit = {
-</td>
-          </tr><tr>
-            <td class="green">103</td>
-            <td>    triggeringDisabled = true
-</td>
-          </tr><tr>
-            <td class="green">104</td>
-            <td>    val vals = Setting.getInitial(hasAnsi)
-</td>
-          </tr><tr>
-            <td class="green">105</td>
-            <td>    settings.foreach(set(_))
-</td>
-          </tr><tr>
-            <td class="black">106</td>
-            <td>    def set(setting: PS): Unit = {
-</td>
-          </tr><tr>
-            <td class="green">107</td>
-            <td>      boxes.get(setting).get.setValue(vals.has(setting))
-</td>
-          </tr><tr>
-            <td class="green">108</td>
-            <td>      sliders.get(setting) match {
-</td>
-          </tr><tr>
-            <td class="green">109</td>
-            <td>        case Some(s) =&gt; s.setValue(vals.get(setting))
-</td>
-          </tr><tr>
-            <td class="black">110</td>
-            <td>        case None =&gt; { }
-</td>
-          </tr><tr>
-            <td class="black">111</td>
+            <td class="black">98</td>
             <td>      }
 </td>
           </tr><tr>
-            <td class="black">112</td>
-            <td>    }
+            <td class="black">99</td>
+            <td>    })
 </td>
           </tr><tr>
-            <td class="green">113</td>
-            <td>    triggeringDisabled = false
+            <td class="green">100</td>
+            <td>    slider
 </td>
           </tr><tr>
-            <td class="black">114</td>
+            <td class="black">101</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">115</td>
+            <td class="black">102</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">116</td>
-            <td>  def getSettings: Setting.Instance = {
+            <td class="black">103</td>
+            <td>  private def makeSliderRow(i: Int): Unit = {
 </td>
           </tr><tr>
-            <td class="black">117</td>
-            <td>    def makePair(setting: PS): Setting.Pair = {
+            <td class="green">104</td>
+            <td>    val setting = settings(i)
 </td>
           </tr><tr>
-            <td class="green">118</td>
-            <td>      (boxes.get(setting).get.getValue,
+            <td class="green">105</td>
+            <td>    addAligned(boxes.get(setting).get, 0, i)
 </td>
           </tr><tr>
-            <td class="black">119</td>
-            <td>      sliders.get(setting).get.getValue.intValue)
+            <td class="green">106</td>
+            <td>    addAligned(sliders.get(setting).get, 1, i)
 </td>
           </tr><tr>
-            <td class="black">120</td>
-            <td>    }
+            <td class="green">107</td>
+            <td>    addAligned(labels.get(setting).get, 2, i)
 </td>
           </tr><tr>
-            <td class="black">121</td>
-            <td>    def makeBool(setting: PS): Boolean = {
-</td>
-          </tr><tr>
-            <td class="green">122</td>
-            <td>      boxes.get(setting).get.getValue
-</td>
-          </tr><tr>
-            <td class="black">123</td>
-            <td>    }
-</td>
-          </tr><tr>
-            <td class="green">124</td>
-            <td>    new Setting.Instance(
-</td>
-          </tr><tr>
-            <td class="black">125</td>
-            <td>      makePair(Setting.UPDOWN), makePair(Setting.LEFTRIGHT),
-</td>
-          </tr><tr>
-            <td class="black">126</td>
-            <td>      makeBool(Setting.DBQP), makeBool(Setting.DIAGONAL),
-</td>
-          </tr><tr>
-            <td class="black">127</td>
-            <td>      makeBool(Setting.VERTICAL), makeBool(Setting.HORIZONTAL))
-</td>
-          </tr><tr>
-            <td class="black">128</td>
+            <td class="black">108</td>
             <td>  }
 </td>
           </tr><tr>
+            <td class="black">109</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>  private def addAligned(comp: Component, row: Int, i: Int): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">111</td>
+            <td>    addComponent(comp, row, i)
+</td>
+          </tr><tr>
+            <td class="green">112</td>
+            <td>    setComponentAlignment(comp, Alignment.MIDDLE_LEFT)
+</td>
+          </tr><tr>
+            <td class="black">113</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">114</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">115</td>
+            <td>  def reset(hasAnsi: Boolean): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">116</td>
+            <td>    triggeringDisabled = true
+</td>
+          </tr><tr>
+            <td class="green">117</td>
+            <td>    val vals = Setting.getInitial(hasAnsi)
+</td>
+          </tr><tr>
+            <td class="green">118</td>
+            <td>    settings.foreach(set(_))
+</td>
+          </tr><tr>
+            <td class="black">119</td>
+            <td>    def set(setting: PS): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">120</td>
+            <td>      boxes.get(setting).get.setValue(vals.has(setting))
+</td>
+          </tr><tr>
+            <td class="green">121</td>
+            <td>      sliders.get(setting) match {
+</td>
+          </tr><tr>
+            <td class="green">122</td>
+            <td>        case Some(s) =&gt; s.setValue(vals.get(setting))
+</td>
+          </tr><tr>
+            <td class="black">123</td>
+            <td>        case None =&gt; { }
+</td>
+          </tr><tr>
+            <td class="black">124</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">125</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">126</td>
+            <td>    triggeringDisabled = false
+</td>
+          </tr><tr>
+            <td class="black">127</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>
+</td>
+          </tr><tr>
             <td class="black">129</td>
+            <td>  def getSettings: Setting.Instance = {
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>    def makePair(setting: PS): Setting.Pair = {
+</td>
+          </tr><tr>
+            <td class="green">131</td>
+            <td>      (boxes.get(setting).get.getValue,
+</td>
+          </tr><tr>
+            <td class="black">132</td>
+            <td>      sliders.get(setting).get.getValue.intValue)
+</td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">134</td>
+            <td>    def makeBool(setting: PS): Boolean = {
+</td>
+          </tr><tr>
+            <td class="green">135</td>
+            <td>      boxes.get(setting).get.getValue
+</td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">137</td>
+            <td>    new Setting.Instance(
+</td>
+          </tr><tr>
+            <td class="black">138</td>
+            <td>      makePair(Setting.UPDOWN), makePair(Setting.LEFTRIGHT),
+</td>
+          </tr><tr>
+            <td class="black">139</td>
+            <td>      makeBool(Setting.DBQP), makeBool(Setting.DIAGONAL),
+</td>
+          </tr><tr>
+            <td class="black">140</td>
+            <td>      makeBool(Setting.VERTICAL), makeBool(Setting.HORIZONTAL))
+</td>
+          </tr><tr>
+            <td class="black">141</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">142</td>
             <td>}
 </td>
           </tr></tbody></table>

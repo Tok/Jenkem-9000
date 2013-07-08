@@ -104,155 +104,155 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.ui.tab
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import scala.Array.canBuildFrom
+            <td> * GalleryTab.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import scala.collection.JavaConversions.seqAsJavaList
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import com.vaadin.data.util.BeanItemContainer
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>import com.vaadin.event.EventRouter
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>import com.vaadin.server.ExternalResource
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>import com.vaadin.server.Page
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td>import com.vaadin.ui.Link
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td>import com.vaadin.ui.Table
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td>import com.vaadin.ui.Table.Align
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>import com.vaadin.ui.VerticalLayout
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td>
+            <td>package jenkem.ui.tab
 </td>
           </tr><tr>
             <td class="black">15</td>
-            <td>import jenkem.persistence.PersistenceService
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td>import jenkem.persistence.data.ImageInfo
+            <td>import scala.Array.canBuildFrom
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td>import jenkem.ui.Notifications
+            <td>import scala.collection.JavaConversions.seqAsJavaList
 </td>
           </tr><tr>
             <td class="black">18</td>
-            <td>import jenkem.util.AwtImageUtil
+            <td>
 </td>
           </tr><tr>
             <td class="black">19</td>
-            <td>import jenkem.util.HtmlUtil
+            <td>import com.vaadin.data.util.BeanItemContainer
 </td>
           </tr><tr>
             <td class="black">20</td>
-            <td>
+            <td>import com.vaadin.event.EventRouter
 </td>
           </tr><tr>
-            <td class="green">21</td>
-            <td><a id="Class_jenkem_ui_tab_GalleryTab"/>class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
+            <td class="black">21</td>
+            <td>import com.vaadin.server.ExternalResource
 </td>
           </tr><tr>
-            <td class="green">22</td>
-            <td>  setCaption(&quot;Gallery&quot;)
+            <td class="black">22</td>
+            <td>import com.vaadin.server.Page
 </td>
           </tr><tr>
-            <td class="green">23</td>
-            <td>  setSizeFull
+            <td class="black">23</td>
+            <td>import com.vaadin.ui.Link
 </td>
           </tr><tr>
-            <td class="green">24</td>
-            <td>  setMargin(true)
+            <td class="black">24</td>
+            <td>import com.vaadin.ui.Table
 </td>
           </tr><tr>
-            <td class="green">25</td>
-            <td>  setSpacing(true)
+            <td class="black">25</td>
+            <td>import com.vaadin.ui.Table.Align
 </td>
           </tr><tr>
             <td class="black">26</td>
+            <td>import com.vaadin.ui.VerticalLayout
+</td>
+          </tr><tr>
+            <td class="black">27</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">27</td>
-            <td><a id="Class_jenkem_ui_tab_GalleryTab_Column"/>  sealed abstract class Column(val name: String, val c: Class[_], val align: Align)
-</td>
-          </tr><tr>
             <td class="black">28</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_ICON"/>  case object ICON extends Column(&quot;Icon&quot;, classOf[Link], Table.Align.CENTER)
+            <td>import jenkem.persistence.PersistenceService
 </td>
           </tr><tr>
             <td class="black">29</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_NAME"/>  case object NAME extends Column(&quot;Name&quot;, classOf[Link], Table.Align.LEFT)
+            <td>import jenkem.persistence.data.ImageInfo
 </td>
           </tr><tr>
             <td class="black">30</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_METHOD"/>  case object METHOD extends Column(&quot;Method&quot;, classOf[String], Table.Align.LEFT)
+            <td>import jenkem.ui.Notifications
 </td>
           </tr><tr>
             <td class="black">31</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_CHARS"/>  case object CHARS extends Column(&quot;Characters&quot;, classOf[String], Table.Align.LEFT)
+            <td>import jenkem.util.AwtImageUtil
 </td>
           </tr><tr>
             <td class="black">32</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_CONT"/>  case object CONT extends Column(&quot;Contrast&quot;, classOf[Int], Table.Align.RIGHT)
+            <td>import jenkem.util.HtmlUtil
 </td>
           </tr><tr>
             <td class="black">33</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_BRIGHT"/>  case object BRIGHT extends Column(&quot;Brightness&quot;, classOf[Int], Table.Align.RIGHT)
+            <td>
 </td>
           </tr><tr>
-            <td class="black">34</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_LINES"/>  case object LINES extends Column(&quot;Lines&quot;, classOf[Int], Table.Align.RIGHT)
+            <td class="green">34</td>
+            <td><a id="Class_jenkem_ui_tab_GalleryTab"/>class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
 </td>
           </tr><tr>
-            <td class="black">35</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_WIDTH"/>  case object WIDTH extends Column(&quot;Width&quot;, classOf[Int], Table.Align.RIGHT)
+            <td class="green">35</td>
+            <td>  setCaption(&quot;Gallery&quot;)
 </td>
           </tr><tr>
-            <td class="black">36</td>
-            <td><a id="Object_jenkem_ui_tab_GalleryTab_CREATION"/>  case object CREATION extends Column(&quot;Creation&quot;, classOf[String], Table.Align.LEFT)
+            <td class="green">36</td>
+            <td>  setSizeFull
 </td>
           </tr><tr>
             <td class="green">37</td>
-            <td>  val cols = Array(ICON, NAME, METHOD, CHARS, CONT, BRIGHT, LINES, WIDTH, CREATION)
+            <td>  setMargin(true)
 </td>
           </tr><tr>
             <td class="green">38</td>
-            <td>  val names: Array[Object] = cols.map(_.name.toLowerCase)
+            <td>  setSpacing(true)
 </td>
           </tr><tr>
             <td class="black">39</td>
@@ -260,218 +260,270 @@
 </td>
           </tr><tr>
             <td class="green">40</td>
-            <td>  val table = new Table
+            <td><a id="Class_jenkem_ui_tab_GalleryTab_Column"/>  sealed abstract class Column(val name: String, val c: Class[_], val align: Align)
 </td>
           </tr><tr>
-            <td class="green">41</td>
-            <td>  table.setWidth(&quot;100%&quot;)
+            <td class="black">41</td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_ICON"/>  case object ICON extends Column(&quot;Icon&quot;, classOf[Link], Table.Align.CENTER)
 </td>
           </tr><tr>
-            <td class="green">42</td>
-            <td>  table.setHeight(&quot;1000px&quot;)
+            <td class="black">42</td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_NAME"/>  case object NAME extends Column(&quot;Name&quot;, classOf[Link], Table.Align.LEFT)
 </td>
           </tr><tr>
-            <td class="green">43</td>
-            <td>  table.setSelectable(false)
+            <td class="black">43</td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_METHOD"/>  case object METHOD extends Column(&quot;Method&quot;, classOf[String], Table.Align.LEFT)
 </td>
           </tr><tr>
-            <td class="green">44</td>
-            <td>  table.setMultiSelect(false)
+            <td class="black">44</td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_CHARS"/>  case object CHARS extends Column(&quot;Characters&quot;, classOf[String], Table.Align.LEFT)
 </td>
           </tr><tr>
-            <td class="green">45</td>
-            <td>  table.setImmediate(true)
+            <td class="black">45</td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_CONT"/>  case object CONT extends Column(&quot;Contrast&quot;, classOf[Int], Table.Align.RIGHT)
 </td>
           </tr><tr>
-            <td class="green">46</td>
-            <td>  table.setColumnReorderingAllowed(true)
+            <td class="black">46</td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_BRIGHT"/>  case object BRIGHT extends Column(&quot;Brightness&quot;, classOf[Int], Table.Align.RIGHT)
 </td>
           </tr><tr>
-            <td class="green">47</td>
-            <td>  table.setColumnCollapsingAllowed(true)
+            <td class="black">47</td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_LINES"/>  case object LINES extends Column(&quot;Lines&quot;, classOf[Int], Table.Align.RIGHT)
 </td>
           </tr><tr>
             <td class="black">48</td>
-            <td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_WIDTH"/>  case object WIDTH extends Column(&quot;Width&quot;, classOf[Int], Table.Align.RIGHT)
 </td>
           </tr><tr>
-            <td class="green">49</td>
-            <td><a id="Class_jenkem_ui_tab_GalleryTab_ImageInfoBean"/>  class ImageInfoBean(info: ImageInfo) {
+            <td class="black">49</td>
+            <td><a id="Object_jenkem_ui_tab_GalleryTab_CREATION"/>  case object CREATION extends Column(&quot;Creation&quot;, classOf[String], Table.Align.LEFT)
 </td>
           </tr><tr>
-            <td class="black">50</td>
-            <td>    def getIcon: Link = {
+            <td class="green">50</td>
+            <td>  val cols = Array(ICON, NAME, METHOD, CHARS, CONT, BRIGHT, LINES, WIDTH, CREATION)
 </td>
           </tr><tr>
             <td class="green">51</td>
-            <td>      val link = new Link
+            <td>  val names: Array[Object] = cols.map(_.name.toLowerCase)
 </td>
           </tr><tr>
-            <td class="green">52</td>
-            <td>      link.setTargetName(&quot;_blank&quot;)
+            <td class="black">52</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">53</td>
-            <td>      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.name))
+            <td>  val table = new Table
 </td>
           </tr><tr>
             <td class="green">54</td>
-            <td>      link.setResource(ex)
+            <td>  table.setWidth(&quot;100%&quot;)
 </td>
           </tr><tr>
             <td class="green">55</td>
-            <td>      val buffered = AwtImageUtil.decodeFromBase64(info.icon)
+            <td>  table.setHeight(&quot;1000px&quot;)
 </td>
           </tr><tr>
             <td class="green">56</td>
-            <td>      val resource = AwtImageUtil.makeVaadinResource(buffered, info.name)
+            <td>  table.setSelectable(false)
 </td>
           </tr><tr>
             <td class="green">57</td>
-            <td>      link.setIcon(resource)
+            <td>  table.setMultiSelect(false)
 </td>
           </tr><tr>
             <td class="green">58</td>
-            <td>      link
+            <td>  table.setImmediate(true)
 </td>
           </tr><tr>
-            <td class="black">59</td>
-            <td>    }
+            <td class="green">59</td>
+            <td>  table.setColumnReorderingAllowed(true)
 </td>
           </tr><tr>
-            <td class="black">60</td>
-            <td>    def getName: Link = {
+            <td class="green">60</td>
+            <td>  table.setColumnCollapsingAllowed(true)
 </td>
           </tr><tr>
-            <td class="green">61</td>
-            <td>      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.name))
+            <td class="black">61</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">62</td>
-            <td>      val link = new Link(info.name, ex)
+            <td><a id="Class_jenkem_ui_tab_GalleryTab_ImageInfoBean"/>  class ImageInfoBean(info: ImageInfo) {
 </td>
           </tr><tr>
-            <td class="green">63</td>
-            <td>      link.setTargetName(&quot;_blank&quot;)
+            <td class="black">63</td>
+            <td>    def getIcon: Link = {
 </td>
           </tr><tr>
             <td class="green">64</td>
-            <td>      link
+            <td>      val link = new Link
 </td>
           </tr><tr>
-            <td class="black">65</td>
-            <td>    }
+            <td class="green">65</td>
+            <td>      link.setTargetName(&quot;_blank&quot;)
 </td>
           </tr><tr>
             <td class="green">66</td>
-            <td>    def getMethod: String = info.method
+            <td>      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.name))
 </td>
           </tr><tr>
             <td class="green">67</td>
-            <td>    def getCharacters: String = info.characters
+            <td>      link.setResource(ex)
 </td>
           </tr><tr>
             <td class="green">68</td>
-            <td>    def getContrast: Integer = info.contrast
+            <td>      val buffered = AwtImageUtil.decodeFromBase64(info.icon)
 </td>
           </tr><tr>
             <td class="green">69</td>
-            <td>    def getBrightness: Integer = info.brightness
+            <td>      val resource = AwtImageUtil.makeVaadinResource(buffered, info.name)
 </td>
           </tr><tr>
             <td class="green">70</td>
-            <td>    def getLines: Integer = info.lines
+            <td>      link.setIcon(resource)
 </td>
           </tr><tr>
             <td class="green">71</td>
-            <td>    def getWidth: Integer = info.lineWidth
+            <td>      link
 </td>
           </tr><tr>
-            <td class="green">72</td>
-            <td>    def getCreation: String = info.creation
-</td>
-          </tr><tr>
-            <td class="black">73</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">74</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="green">75</td>
-            <td>  cols.foreach(col =&gt; table.addContainerProperty(col.name.toLowerCase, col.c, classOf[String]))
-</td>
-          </tr><tr>
-            <td class="green">76</td>
-            <td>  val bic = new BeanItemContainer[ImageInfoBean](classOf[ImageInfoBean])
-</td>
-          </tr><tr>
-            <td class="green">77</td>
-            <td>  val namesColl: java.util.Collection[Object] = names.toSeq
-</td>
-          </tr><tr>
-            <td class="green">78</td>
-            <td>  table.setContainerDataSource(bic, namesColl)
-</td>
-          </tr><tr>
-            <td class="green">79</td>
-            <td>  cols.foreach(col =&gt; table.setColumnAlignment(col.name.toLowerCase, col.align))
-</td>
-          </tr><tr>
-            <td class="green">80</td>
-            <td>  cols.foreach(col =&gt; table.setColumnHeader(col.name.toLowerCase, col.name))
-</td>
-          </tr><tr>
-            <td class="black">81</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="green">82</td>
-            <td>  addComponent(table)
-</td>
-          </tr><tr>
-            <td class="black">83</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="green">84</td>
-            <td>  update
-</td>
-          </tr><tr>
-            <td class="black">85</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">86</td>
-            <td>  def update: Unit = {
-</td>
-          </tr><tr>
-            <td class="green">87</td>
-            <td>    bic.removeAllItems
-</td>
-          </tr><tr>
-            <td class="green">88</td>
-            <td>    PersistenceService.getAllImageInfo match {
-</td>
-          </tr><tr>
-            <td class="green">89</td>
-            <td>      case Some(info) =&gt; info.foreach(info =&gt; bic.addItem(new ImageInfoBean(info)))
-</td>
-          </tr><tr>
-            <td class="red">90</td>
-            <td>      case None =&gt; { <span class="non">Notifications.showDbNotConnected(Page.getCurrent) }
-</span></td>
-          </tr><tr>
-            <td class="black">91</td>
+            <td class="black">72</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="black">92</td>
+            <td class="black">73</td>
+            <td>    def getName: Link = {
+</td>
+          </tr><tr>
+            <td class="green">74</td>
+            <td>      val ex = new ExternalResource(HtmlUtil.getHtmlUrl(info.name))
+</td>
+          </tr><tr>
+            <td class="green">75</td>
+            <td>      val link = new Link(info.name, ex)
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>      link.setTargetName(&quot;_blank&quot;)
+</td>
+          </tr><tr>
+            <td class="green">77</td>
+            <td>      link
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">79</td>
+            <td>    def getMethod: String = info.method
+</td>
+          </tr><tr>
+            <td class="green">80</td>
+            <td>    def getCharacters: String = info.characters
+</td>
+          </tr><tr>
+            <td class="green">81</td>
+            <td>    def getContrast: Integer = info.contrast
+</td>
+          </tr><tr>
+            <td class="green">82</td>
+            <td>    def getBrightness: Integer = info.brightness
+</td>
+          </tr><tr>
+            <td class="green">83</td>
+            <td>    def getLines: Integer = info.lines
+</td>
+          </tr><tr>
+            <td class="green">84</td>
+            <td>    def getWidth: Integer = info.lineWidth
+</td>
+          </tr><tr>
+            <td class="green">85</td>
+            <td>    def getCreation: String = info.creation
+</td>
+          </tr><tr>
+            <td class="black">86</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">93</td>
+            <td class="black">87</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">88</td>
+            <td>  cols.foreach(col =&gt; table.addContainerProperty(col.name.toLowerCase, col.c, classOf[String]))
+</td>
+          </tr><tr>
+            <td class="green">89</td>
+            <td>  val bic = new BeanItemContainer[ImageInfoBean](classOf[ImageInfoBean])
+</td>
+          </tr><tr>
+            <td class="green">90</td>
+            <td>  val namesColl: java.util.Collection[Object] = names.toSeq
+</td>
+          </tr><tr>
+            <td class="green">91</td>
+            <td>  table.setContainerDataSource(bic, namesColl)
+</td>
+          </tr><tr>
+            <td class="green">92</td>
+            <td>  cols.foreach(col =&gt; table.setColumnAlignment(col.name.toLowerCase, col.align))
+</td>
+          </tr><tr>
+            <td class="green">93</td>
+            <td>  cols.foreach(col =&gt; table.setColumnHeader(col.name.toLowerCase, col.name))
+</td>
+          </tr><tr>
+            <td class="black">94</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">95</td>
+            <td>  addComponent(table)
+</td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">97</td>
+            <td>  update
+</td>
+          </tr><tr>
+            <td class="black">98</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">99</td>
+            <td>  def update: Unit = {
+</td>
+          </tr><tr>
+            <td class="green">100</td>
+            <td>    bic.removeAllItems
+</td>
+          </tr><tr>
+            <td class="green">101</td>
+            <td>    PersistenceService.getAllImageInfo match {
+</td>
+          </tr><tr>
+            <td class="green">102</td>
+            <td>      case Some(info) =&gt; info.foreach(info =&gt; bic.addItem(new ImageInfoBean(info)))
+</td>
+          </tr><tr>
+            <td class="red">103</td>
+            <td>      case None =&gt; { <span class="non">Notifications.showDbNotConnected(Page.getCurrent) }
+</span></td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">105</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">106</td>
             <td>}
 </td>
           </tr></tbody></table>

@@ -24,82 +24,134 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.util
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import java.net.MalformedURLException
+            <td> * UrlOptionizer.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td><a id="Object_jenkem_util_UrlOptionizer"/>object UrlOptionizer {
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td><a id="Object_jenkem_util_UrlOptionizer_UrlExtractor"/>  object UrlExtractor {
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>    def unapply(u: java.net.URL): Some[(String, String, Int, String)] =
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
-            <td class="green">8</td>
-            <td>      Some((u.getProtocol, u.getHost, u.getPort, u.getPath))
+            <td class="black">8</td>
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>  }
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td>  def extract(link: String): Option[java.net.URL] = {
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td>    try {
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
-            <td class="green">12</td>
-            <td>      val u = new java.net.URL(link)
+            <td class="black">12</td>
+            <td> * #L%
 </td>
           </tr><tr>
-            <td class="green">13</td>
-            <td>      u match {
+            <td class="black">13</td>
+            <td> */
 </td>
           </tr><tr>
-            <td class="green">14</td>
-            <td>        case UrlExtractor(protocol, host, port, path) =&gt; Some(u)
+            <td class="black">14</td>
+            <td>package jenkem.util
 </td>
           </tr><tr>
             <td class="black">15</td>
-            <td>      }
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td>    } catch {
+            <td>import java.net.MalformedURLException
 </td>
           </tr><tr>
-            <td class="green">17</td>
-            <td>      case murle: MalformedURLException =&gt; None
+            <td class="black">17</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">18</td>
-            <td>    }
+            <td><a id="Object_jenkem_util_UrlOptionizer"/>object UrlOptionizer {
 </td>
           </tr><tr>
             <td class="black">19</td>
-            <td>  }
+            <td><a id="Object_jenkem_util_UrlOptionizer_UrlExtractor"/>  object UrlExtractor {
 </td>
           </tr><tr>
             <td class="black">20</td>
+            <td>    def unapply(u: java.net.URL): Some[(String, String, Int, String)] =
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>      Some((u.getProtocol, u.getHost, u.getPort, u.getPath))
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>  def extract(link: String): Option[java.net.URL] = {
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>    try {
+</td>
+          </tr><tr>
+            <td class="green">25</td>
+            <td>      val u = new java.net.URL(link)
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>      u match {
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>        case UrlExtractor(protocol, host, port, path) =&gt; Some(u)
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>    } catch {
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>      case murle: MalformedURLException =&gt; None
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">33</td>
             <td>}
 </td>
           </tr></tbody></table>

@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>JenkemBot.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.bot</a> &gt; <span class="el_source">JenkemBot.scala</span></div><h1>JenkemBot.scala</h1><pre class="source lang-java linenums">package jenkem.bot
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>JenkemBot.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.bot</a> &gt; <span class="el_source">JenkemBot.scala</span></div><h1>JenkemBot.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * JenkemBot.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.bot
 
 import java.io.IOException
 import java.lang.InterruptedException
@@ -21,48 +34,48 @@ import jenkem.bot.status.Disconnected
 import jenkem.bot.status.NotSending
 import jenkem.bot.status.BotStatus
 
-<span class="fc" id="L24">class JenkemBot extends PircBot {</span>
+<span class="fc" id="L37">class JenkemBot extends PircBot {</span>
   def init: Unit = {
-<span class="fc" id="L26">    super.setEncoding(&quot;UTF-8&quot;)</span>
-<span class="fc" id="L27">    super.setLogin(IrcSettings.login)</span>
-<span class="fc" id="L28">    super.setVersion(IrcSettings.version)</span>
-<span class="fc" id="L29">    super.setMessageDelay(IrcSettings.defaultDelayMs)</span>
-<span class="fc" id="L30">    super.setAutoNickChange(false)</span>
+<span class="fc" id="L39">    super.setEncoding(&quot;UTF-8&quot;)</span>
+<span class="fc" id="L40">    super.setLogin(IrcSettings.login)</span>
+<span class="fc" id="L41">    super.setVersion(IrcSettings.version)</span>
+<span class="fc" id="L42">    super.setMessageDelay(IrcSettings.defaultDelayMs)</span>
+<span class="fc" id="L43">    super.setAutoNickChange(false)</span>
   }
-<span class="fc" id="L32">  init</span>
+<span class="fc" id="L45">  init</span>
 
-<span class="pc bpc" id="L34" title="1 of 4 branches missed.">  object Command extends Enumeration {</span>
+<span class="pc bpc" id="L47" title="1 of 4 branches missed.">  object Command extends Enumeration {</span>
     type Command = Value
-<span class="fc" id="L36">    val QUIT, GTFO, STOP, STFU, HELP, CONFIG, SET, RESET = Value</span>
+<span class="fc" id="L49">    val QUIT, GTFO, STOP, STFU, HELP, CONFIG, SET, RESET = Value</span>
   }
 
-<span class="pc bpc" id="L39" title="1 of 4 branches missed.">  object ConfigItem extends Enumeration {</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">  object ConfigItem extends Enumeration {</span>
     type ConfigItem = Value
-<span class="fc" id="L41">    val DELAY, WIDTH, MODE, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER, PROPORTION = Value</span>
+<span class="fc" id="L54">    val DELAY, WIDTH, MODE, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER, PROPORTION = Value</span>
   }
 
-<span class="pc bpc" id="L44" title="1 of 4 branches missed.">  object IntExtractor {</span>
-<span class="fc" id="L45">    def unapply(s: String): Option[Int] = try { Some(s.toInt) }</span>
-<span class="fc" id="L46">    catch { case _: java.lang.NumberFormatException =&gt; None }</span>
+<span class="pc bpc" id="L57" title="1 of 4 branches missed.">  object IntExtractor {</span>
+<span class="fc" id="L58">    def unapply(s: String): Option[Int] = try { Some(s.toInt) }</span>
+<span class="fc" id="L59">    catch { case _: java.lang.NumberFormatException =&gt; None }</span>
   }
 
-<span class="fc" id="L49">  val settings = new ConversionSettings</span>
-<span class="pc" id="L50">  var lastChan = &quot;&quot;</span>
+<span class="fc" id="L62">  val settings = new ConversionSettings</span>
+<span class="pc" id="L63">  var lastChan = &quot;&quot;</span>
 
   override def onMessage(channel: String, sender: String, login: String, hostname: String, message: String): Unit = {
-<span class="fc" id="L53">    evaluateCommand(channel, splitAtSpace(message))</span>
+<span class="fc" id="L66">    evaluateCommand(channel, splitAtSpace(message))</span>
   }
 
   private def evaluateCommand(channel: String, message: Array[String]): Unit = {
-<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (message.head.equalsIgnoreCase(&quot;Jenkem&quot;) ||</span>
-<span class="pc bpc" id="L58" title="1 of 4 branches missed.">      message.head.equalsIgnoreCase(getLogin) ||</span>
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">      message.head.equalsIgnoreCase(getNick)) {</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">      if (message.tail.isEmpty) { convertAndPlay(channel, &quot;&quot;) }</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">    if (message.head.equalsIgnoreCase(&quot;Jenkem&quot;) ||</span>
+<span class="pc bpc" id="L71" title="1 of 4 branches missed.">      message.head.equalsIgnoreCase(getLogin) ||</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">      message.head.equalsIgnoreCase(getNick)) {</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">      if (message.tail.isEmpty) { convertAndPlay(channel, &quot;&quot;) }</span>
       else {
-<span class="fc" id="L62">        try {</span>
-<span class="fc bfc" id="L63" title="All 4 branches covered.">          val item = if (message.length &gt; 2) { Some(message(2)) } else { None }</span>
-<span class="pc bfc" id="L64" title="All 4 branches covered.">          val value = if (message.length &gt; 3) { Some(message(3)) } else { None }</span>
-<span class="nc" id="L65">          executeCommand(channel, message.tail.head.toUpperCase, item, value)</span>
+<span class="fc" id="L75">        try {</span>
+<span class="fc bfc" id="L76" title="All 4 branches covered.">          val item = if (message.length &gt; 2) { Some(message(2)) } else { None }</span>
+<span class="pc bfc" id="L77" title="All 4 branches covered.">          val value = if (message.length &gt; 3) { Some(message(3)) } else { None }</span>
+<span class="nc" id="L78">          executeCommand(channel, message.tail.head.toUpperCase, item, value)</span>
         } catch {
           case nsee: NoSuchElementException =&gt; convertAndPlay(channel, message.tail.mkString(&quot;+&quot;))
         }
@@ -71,50 +84,50 @@ import jenkem.bot.status.BotStatus
   }
 
   private def executeCommand(channel: String, command: String, item: Option[String], value: Option[String]): Unit = {
-<span class="pc" id="L74">    Command.withName(command) match {</span>
-<span class="pc bpc" id="L75" title="6 of 14 branches missed.">      case Command.GTFO | Command.QUIT =&gt; disconnect</span>
-<span class="pc bpc" id="L76" title="6 of 14 branches missed.">      case Command.STFU | Command.STOP =&gt; Sender.makeStop</span>
-<span class="pc bpc" id="L77" title="3 of 6 branches missed.">      case Command.HELP =&gt; showHelp(channel)</span>
-<span class="pc bpc" id="L78" title="3 of 6 branches missed.">      case Command.CONFIG =&gt; showConfig(channel)</span>
-<span class="pc bpc" id="L79" title="3 of 6 branches missed.">      case Command.SET =&gt; changeConfig(channel, item, value)</span>
-<span class="pc bpc" id="L80" title="4 of 6 branches missed.">      case Command.RESET =&gt; reset(channel)</span>
+<span class="pc" id="L87">    Command.withName(command) match {</span>
+<span class="pc bpc" id="L88" title="6 of 14 branches missed.">      case Command.GTFO | Command.QUIT =&gt; disconnect</span>
+<span class="pc bpc" id="L89" title="6 of 14 branches missed.">      case Command.STFU | Command.STOP =&gt; Sender.makeStop</span>
+<span class="pc bpc" id="L90" title="3 of 6 branches missed.">      case Command.HELP =&gt; showHelp(channel)</span>
+<span class="pc bpc" id="L91" title="3 of 6 branches missed.">      case Command.CONFIG =&gt; showConfig(channel)</span>
+<span class="pc bpc" id="L92" title="3 of 6 branches missed.">      case Command.SET =&gt; changeConfig(channel, item, value)</span>
+<span class="pc bpc" id="L93" title="4 of 6 branches missed.">      case Command.RESET =&gt; reset(channel)</span>
     }
   }
 
   private def changeConfig(channel: String, item: Option[String], value: Option[String]): Unit = {
-<span class="pc" id="L85">    item match {</span>
-<span class="fc bfc" id="L86" title="All 2 branches covered.">      case Some(i) =&gt;</span>
-<span class="pc" id="L87">        value match {</span>
-<span class="fc bfc" id="L88" title="All 2 branches covered.">          case Some(v) =&gt; applyNewConfigValue(channel, i, v)</span>
-<span class="pc bpc" id="L89" title="4 of 6 branches missed.">          case None =&gt; sendMessage(channel, &quot;New value needed for &quot; + i)</span>
+<span class="pc" id="L98">    item match {</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">      case Some(i) =&gt;</span>
+<span class="pc" id="L100">        value match {</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">          case Some(v) =&gt; applyNewConfigValue(channel, i, v)</span>
+<span class="pc bpc" id="L102" title="4 of 6 branches missed.">          case None =&gt; sendMessage(channel, &quot;New value needed for &quot; + i)</span>
         }
-<span class="pc bpc" id="L91" title="4 of 6 branches missed.">      case None =&gt; sendMessage(channel, &quot;Set command requires an item to change and a new value.&quot;)</span>
+<span class="pc bpc" id="L104" title="4 of 6 branches missed.">      case None =&gt; sendMessage(channel, &quot;Set command requires an item to change and a new value.&quot;)</span>
     }
   }
 
   private def applyNewConfigValue(sender: String, item: String, value: String): Unit = {
-<span class="fc" id="L96">    try {</span>
-<span class="pc" id="L97">      ConfigItem.withName(item.toUpperCase) match {</span>
-<span class="pc bpc" id="L98" title="3 of 6 branches missed.">        case ConfigItem.DELAY =&gt; setMessageDelay(sender, value)</span>
-<span class="pc bpc" id="L99" title="3 of 6 branches missed.">        case ConfigItem.WIDTH =&gt; setWidth(sender, value)</span>
-<span class="pc bpc" id="L100" title="3 of 6 branches missed.">        case ConfigItem.MODE =&gt; setMethod(sender, value)</span>
-<span class="pc bpc" id="L101" title="3 of 6 branches missed.">        case ConfigItem.SCHEME =&gt; setScheme(sender, value)</span>
-<span class="pc bpc" id="L102" title="3 of 6 branches missed.">        case ConfigItem.CHARSET =&gt; setCharset(sender, value)</span>
-<span class="pc bpc" id="L103" title="9 of 20 branches missed.">        case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI =&gt; setChars(sender, value)</span>
-<span class="pc bpc" id="L104" title="3 of 6 branches missed.">        case ConfigItem.POWER =&gt; setPower(sender, value)</span>
-<span class="pc bpc" id="L105" title="4 of 6 branches missed.">        case ConfigItem.PROPORTION =&gt; setProportion(sender, value)</span>
+<span class="fc" id="L109">    try {</span>
+<span class="pc" id="L110">      ConfigItem.withName(item.toUpperCase) match {</span>
+<span class="pc bpc" id="L111" title="3 of 6 branches missed.">        case ConfigItem.DELAY =&gt; setMessageDelay(sender, value)</span>
+<span class="pc bpc" id="L112" title="3 of 6 branches missed.">        case ConfigItem.WIDTH =&gt; setWidth(sender, value)</span>
+<span class="pc bpc" id="L113" title="3 of 6 branches missed.">        case ConfigItem.MODE =&gt; setMethod(sender, value)</span>
+<span class="pc bpc" id="L114" title="3 of 6 branches missed.">        case ConfigItem.SCHEME =&gt; setScheme(sender, value)</span>
+<span class="pc bpc" id="L115" title="3 of 6 branches missed.">        case ConfigItem.CHARSET =&gt; setCharset(sender, value)</span>
+<span class="pc bpc" id="L116" title="9 of 20 branches missed.">        case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI =&gt; setChars(sender, value)</span>
+<span class="pc bpc" id="L117" title="3 of 6 branches missed.">        case ConfigItem.POWER =&gt; setPower(sender, value)</span>
+<span class="pc bpc" id="L118" title="4 of 6 branches missed.">        case ConfigItem.PROPORTION =&gt; setProportion(sender, value)</span>
       }
     } catch {
       case nse: NoSuchElementException =&gt; sendMessage(sender, &quot;Config item unknown: &quot; + item)
     }
   }
 
-<span class="fc" id="L112">  override def onPrivateMessage(sender: String, login: String, hostname: String, message: String): Unit = {</span>
-<span class="fc" id="L113">    val m = splitAtSpace(message)</span>
-<span class="fc" id="L114">    try {</span>
-<span class="pc" id="L115">      Command.withName(m.head.toUpperCase) match {</span>
-<span class="pc bpc" id="L116" title="3 of 6 branches missed.">        case Command.HELP =&gt; showHelp(sender)</span>
-<span class="pc bpc" id="L117" title="4 of 6 branches missed.">        case Command.CONFIG =&gt; showConfig(sender)</span>
+<span class="fc" id="L125">  override def onPrivateMessage(sender: String, login: String, hostname: String, message: String): Unit = {</span>
+<span class="fc" id="L126">    val m = splitAtSpace(message)</span>
+<span class="fc" id="L127">    try {</span>
+<span class="pc" id="L128">      Command.withName(m.head.toUpperCase) match {</span>
+<span class="pc bpc" id="L129" title="3 of 6 branches missed.">        case Command.HELP =&gt; showHelp(sender)</span>
+<span class="pc bpc" id="L130" title="4 of 6 branches missed.">        case Command.CONFIG =&gt; showConfig(sender)</span>
       }
     } catch {
       case nsee: NoSuchElementException =&gt; sendMessage(sender, &quot;Command unknown: &quot; + message)
@@ -122,11 +135,11 @@ import jenkem.bot.status.BotStatus
   }
 
   override def onConnect: Unit = {
-<span class="fc" id="L125">    Sender.botStatus = new BotStatus.Value(Connected, NotSending, getServer, lastChan, getNick, getDelay)</span>
+<span class="fc" id="L138">    Sender.botStatus = new BotStatus.Value(Connected, NotSending, getServer, lastChan, getNick, getDelay)</span>
   }
 
   override def onDisconnect: Unit = {
-<span class="fc" id="L129">    Sender.botStatus = new BotStatus.Value(Disconnected, NotSending, getServer, lastChan, getNick, getDelay)</span>
+<span class="fc" id="L142">    Sender.botStatus = new BotStatus.Value(Disconnected, NotSending, getServer, lastChan, getNick, getDelay)</span>
   }
 
   /**
@@ -134,12 +147,12 @@ import jenkem.bot.status.BotStatus
    * @param target channel name or name of the receiver.
    */
   private def showHelp(target: String): Unit = {
-<span class="fc" id="L137">    sendMessage(target, &quot;Play image from url: JENKEM [url]&quot;)</span>
-<span class="fc" id="L138">    sendMessage(target, &quot;Let jenkem search for an image to play: JENKEM [search term]&quot;)</span>
-<span class="fc" id="L139">    sendMessage(target, &quot;Change config: JENKEM [ConfigItem] [Value]&quot;)</span>
-<span class="fc" id="L140">    sendMessage(target, &quot;  ConfigItems are: MODE, DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER, PROPORTION&quot;)</span>
-<span class="fc" id="L141">    sendMessage(target, &quot;Show config: JENKEM CONFIG&quot;)</span>
-<span class="fc" id="L142">    sendMessage(target, &quot;Reset config: JENKEM RESET&quot;)</span>
+<span class="fc" id="L150">    sendMessage(target, &quot;Play image from url: JENKEM [url]&quot;)</span>
+<span class="fc" id="L151">    sendMessage(target, &quot;Let jenkem search for an image to play: JENKEM [search term]&quot;)</span>
+<span class="fc" id="L152">    sendMessage(target, &quot;Change config: JENKEM [ConfigItem] [Value]&quot;)</span>
+<span class="fc" id="L153">    sendMessage(target, &quot;  ConfigItems are: MODE, DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER, PROPORTION&quot;)</span>
+<span class="fc" id="L154">    sendMessage(target, &quot;Show config: JENKEM CONFIG&quot;)</span>
+<span class="fc" id="L155">    sendMessage(target, &quot;Reset config: JENKEM RESET&quot;)</span>
   }
 
   /**
@@ -147,140 +160,140 @@ import jenkem.bot.status.BotStatus
    * @param target channel name or name of the receiver.
    */
   private def showConfig(target: String): Unit = {
-<span class="fc" id="L150">    sendMessage(target, &quot;Mode: &quot; + settings.getMethod</span>
-<span class="fc" id="L151">      + &quot;, Delay (ms): &quot; + getMessageDelay</span>
-<span class="fc" id="L152">      + &quot;, Width (chars): &quot; + settings.width</span>
-<span class="fc" id="L153">      + &quot;, Power: &quot; + settings.power</span>
-<span class="fc" id="L154">      + &quot;, Scheme: &quot; + settings.schemeName</span>
-<span class="fc" id="L155">      + &quot;, Charset: &quot; + settings.chars</span>
-<span class="fc" id="L156">      + &quot;, Proportion: &quot; + settings.proportion)</span>
+<span class="fc" id="L163">    sendMessage(target, &quot;Mode: &quot; + settings.getMethod</span>
+<span class="fc" id="L164">      + &quot;, Delay (ms): &quot; + getMessageDelay</span>
+<span class="fc" id="L165">      + &quot;, Width (chars): &quot; + settings.width</span>
+<span class="fc" id="L166">      + &quot;, Power: &quot; + settings.power</span>
+<span class="fc" id="L167">      + &quot;, Scheme: &quot; + settings.schemeName</span>
+<span class="fc" id="L168">      + &quot;, Charset: &quot; + settings.chars</span>
+<span class="fc" id="L169">      + &quot;, Proportion: &quot; + settings.proportion)</span>
   }
 
-<span class="fc" id="L159">  def getDelay: Int = super.getMessageDelay.toInt</span>
+<span class="fc" id="L172">  def getDelay: Int = super.getMessageDelay.toInt</span>
 
-<span class="fc" id="L161">  private def setMessageDelay(target: String, value: String): Unit = {</span>
-<span class="fc" id="L162">    val min = 100</span>
-<span class="fc" id="L163">    val max = 3000</span>
-<span class="fc" id="L164">    val between = &quot; between &quot; + min + &quot; and &quot; + max + &quot;.&quot;</span>
-<span class="fc" id="L165">    value match {</span>
-<span class="fc bfc" id="L166" title="All 4 branches covered.">      case IntExtractor(v) if min to max contains v =&gt;</span>
-<span class="fc" id="L167">        setMessageDelay(v)</span>
-<span class="fc" id="L168">        sendMessage(target, ConfigItem.DELAY + &quot; set to &quot; + v)</span>
-<span class="fc" id="L169">        Sender.botStatus = new BotStatus.Value(Connected, NotSending, getServer, lastChan, getNick, getDelay)</span>
-<span class="fc bfc" id="L170" title="All 2 branches covered.">      case IntExtractor(v) =&gt; sendMessage(target, ConfigItem.DELAY + &quot; must be&quot; + between)</span>
-<span class="fc" id="L171">      case _ =&gt; sendMessage(target, ConfigItem.DELAY + &quot; must be a numeric value&quot; + between)</span>
+<span class="fc" id="L174">  private def setMessageDelay(target: String, value: String): Unit = {</span>
+<span class="fc" id="L175">    val min = 100</span>
+<span class="fc" id="L176">    val max = 3000</span>
+<span class="fc" id="L177">    val between = &quot; between &quot; + min + &quot; and &quot; + max + &quot;.&quot;</span>
+<span class="fc" id="L178">    value match {</span>
+<span class="fc bfc" id="L179" title="All 4 branches covered.">      case IntExtractor(v) if min to max contains v =&gt;</span>
+<span class="fc" id="L180">        setMessageDelay(v)</span>
+<span class="fc" id="L181">        sendMessage(target, ConfigItem.DELAY + &quot; set to &quot; + v)</span>
+<span class="fc" id="L182">        Sender.botStatus = new BotStatus.Value(Connected, NotSending, getServer, lastChan, getNick, getDelay)</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">      case IntExtractor(v) =&gt; sendMessage(target, ConfigItem.DELAY + &quot; must be&quot; + between)</span>
+<span class="fc" id="L184">      case _ =&gt; sendMessage(target, ConfigItem.DELAY + &quot; must be a numeric value&quot; + between)</span>
     }
   }
 
   private def reset(target: String): Unit = {
-<span class="fc" id="L176">    settings.reset</span>
-<span class="fc" id="L177">    sendMessage(target, &quot;Conversion settings have been resetted.&quot;)</span>
+<span class="fc" id="L189">    settings.reset</span>
+<span class="fc" id="L190">    sendMessage(target, &quot;Conversion settings have been resetted.&quot;)</span>
   }
 
-<span class="fc" id="L180">  private def setWidth(target: String, value: String): Unit = {</span>
-<span class="fc" id="L181">    val min = 16</span>
-<span class="fc" id="L182">    val max = 80</span>
-<span class="fc" id="L183">    val between = ConfigItem.WIDTH + &quot; must be between &quot; + min + &quot; and &quot; + max + &quot;.&quot;</span>
-<span class="fc" id="L184">    value match {</span>
-<span class="fc bfc" id="L185" title="All 4 branches covered.">      case IntExtractor(v) if min to max contains v =&gt;</span>
-<span class="fc" id="L186">        settings.width = v</span>
-<span class="fc" id="L187">        reportConfigChange(target, ConfigItem.WIDTH, v.toString)</span>
-<span class="fc bfc" id="L188" title="All 2 branches covered.">      case IntExtractor(v) =&gt; sendMessage(target, between)</span>
-<span class="fc" id="L189">      case _ =&gt; sendMessage(target, between)</span>
+<span class="fc" id="L193">  private def setWidth(target: String, value: String): Unit = {</span>
+<span class="fc" id="L194">    val min = 16</span>
+<span class="fc" id="L195">    val max = 80</span>
+<span class="fc" id="L196">    val between = ConfigItem.WIDTH + &quot; must be between &quot; + min + &quot; and &quot; + max + &quot;.&quot;</span>
+<span class="fc" id="L197">    value match {</span>
+<span class="fc bfc" id="L198" title="All 4 branches covered.">      case IntExtractor(v) if min to max contains v =&gt;</span>
+<span class="fc" id="L199">        settings.width = v</span>
+<span class="fc" id="L200">        reportConfigChange(target, ConfigItem.WIDTH, v.toString)</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">      case IntExtractor(v) =&gt; sendMessage(target, between)</span>
+<span class="fc" id="L202">      case _ =&gt; sendMessage(target, between)</span>
     }
   }
 
   private def setMethod(target: String, value: String): Unit = {
-<span class="pc" id="L194">    Method.valueOf(value) match {</span>
-<span class="fc bfc" id="L195" title="All 2 branches covered.">      case Some(method) =&gt;</span>
-<span class="fc" id="L196">        settings.method = method</span>
-<span class="fc" id="L197">        reportConfigChange(target, ConfigItem.MODE, value)</span>
-<span class="pc bpc" id="L198" title="4 of 6 branches missed.">      case None =&gt; sendMessage(target, &quot;Mode must be one of: &quot; + makeString(Method.values))</span>
+<span class="pc" id="L207">    Method.valueOf(value) match {</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">      case Some(method) =&gt;</span>
+<span class="fc" id="L209">        settings.method = method</span>
+<span class="fc" id="L210">        reportConfigChange(target, ConfigItem.MODE, value)</span>
+<span class="pc bpc" id="L211" title="4 of 6 branches missed.">      case None =&gt; sendMessage(target, &quot;Mode must be one of: &quot; + makeString(Method.values))</span>
     }
   }
 
   private def setScheme(target: String, value: String): Unit = {
-<span class="pc" id="L203">    Scheme.valueOf(value) match {</span>
-<span class="fc bfc" id="L204" title="All 2 branches covered.">      case Some(scheme) =&gt;</span>
-<span class="fc" id="L205">        settings.colorMap = Scheme.createColorMap(scheme)</span>
-<span class="fc" id="L206">        settings.setSchemeName(scheme.name)</span>
-<span class="fc" id="L207">        reportConfigChange(target, ConfigItem.SCHEME, value)</span>
-<span class="pc bpc" id="L208" title="4 of 6 branches missed.">      case None =&gt; sendMessage(target, &quot;Scheme must be one of: &quot; + makeString(Scheme.values))</span>
+<span class="pc" id="L216">    Scheme.valueOf(value) match {</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">      case Some(scheme) =&gt;</span>
+<span class="fc" id="L218">        settings.colorMap = Scheme.createColorMap(scheme)</span>
+<span class="fc" id="L219">        settings.setSchemeName(scheme.name)</span>
+<span class="fc" id="L220">        reportConfigChange(target, ConfigItem.SCHEME, value)</span>
+<span class="pc bpc" id="L221" title="4 of 6 branches missed.">      case None =&gt; sendMessage(target, &quot;Scheme must be one of: &quot; + makeString(Scheme.values))</span>
     }
   }
 
   private def setCharset(target: String, value: String): Unit = {
-<span class="pc" id="L213">    Pal.valueOf(value) match {</span>
-<span class="fc bfc" id="L214" title="All 2 branches covered.">      case Some(scheme) =&gt;</span>
-<span class="fc" id="L215">        settings.chars = scheme.chars</span>
-<span class="fc" id="L216">        reportConfigChange(target, ConfigItem.CHARSET, scheme.chars)</span>
-<span class="pc bpc" id="L217" title="4 of 6 branches missed.">      case None =&gt;</span>
-<span class="fc" id="L218">        sendMessage(target, &quot;Charset must be one of: &quot; + makeString(Pal.values))</span>
+<span class="pc" id="L226">    Pal.valueOf(value) match {</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">      case Some(scheme) =&gt;</span>
+<span class="fc" id="L228">        settings.chars = scheme.chars</span>
+<span class="fc" id="L229">        reportConfigChange(target, ConfigItem.CHARSET, scheme.chars)</span>
+<span class="pc bpc" id="L230" title="4 of 6 branches missed.">      case None =&gt;</span>
+<span class="fc" id="L231">        sendMessage(target, &quot;Charset must be one of: &quot; + makeString(Pal.values))</span>
     }
   }
 
   private def setChars(target: String, value: String): Unit = {
-<span class="fc" id="L223">    settings.chars = &quot; &quot; + value.replaceAll(&quot;[0-9],&quot;, &quot;&quot;)</span>
-<span class="fc" id="L224">    sendMessage(target, &quot;Chars set to \&quot;&quot; + settings.chars + &quot;\&quot;.&quot;)</span>
+<span class="fc" id="L236">    settings.chars = &quot; &quot; + value.replaceAll(&quot;[0-9],&quot;, &quot;&quot;)</span>
+<span class="fc" id="L237">    sendMessage(target, &quot;Chars set to \&quot;&quot; + settings.chars + &quot;\&quot;.&quot;)</span>
   }
 
   private def setPower(target: String, value: String): Unit = {
-<span class="pc" id="L228">    Power.valueOf(value) match {</span>
-<span class="fc bfc" id="L229" title="All 2 branches covered.">      case Some(power) =&gt;</span>
-<span class="fc" id="L230">        settings.power = power</span>
-<span class="fc" id="L231">        reportConfigChange(target, ConfigItem.POWER, power.name)</span>
-<span class="pc bpc" id="L232" title="4 of 6 branches missed.">      case None =&gt;</span>
-<span class="fc" id="L233">        sendMessage(target, &quot;Power must be one of &quot; + makeString(Power.values))</span>
+<span class="pc" id="L241">    Power.valueOf(value) match {</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">      case Some(power) =&gt;</span>
+<span class="fc" id="L243">        settings.power = power</span>
+<span class="fc" id="L244">        reportConfigChange(target, ConfigItem.POWER, power.name)</span>
+<span class="pc bpc" id="L245" title="4 of 6 branches missed.">      case None =&gt;</span>
+<span class="fc" id="L246">        sendMessage(target, &quot;Power must be one of &quot; + makeString(Power.values))</span>
     }
   }
 
   private def setProportion(target: String, value: String): Unit = {
-<span class="pc" id="L238">    Proportion.valueOf(value) match {</span>
-<span class="fc bfc" id="L239" title="All 2 branches covered.">      case Some(proportion) =&gt;</span>
-<span class="fc" id="L240">        settings.proportion = proportion</span>
-<span class="fc" id="L241">        reportConfigChange(target, ConfigItem.PROPORTION, proportion.toString)</span>
-<span class="pc bpc" id="L242" title="4 of 6 branches missed.">      case None =&gt;</span>
-<span class="fc" id="L243">        sendMessage(target, &quot;Proportion must be one of &quot; + makeString(Proportion.values))</span>
+<span class="pc" id="L251">    Proportion.valueOf(value) match {</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">      case Some(proportion) =&gt;</span>
+<span class="fc" id="L253">        settings.proportion = proportion</span>
+<span class="fc" id="L254">        reportConfigChange(target, ConfigItem.PROPORTION, proportion.toString)</span>
+<span class="pc bpc" id="L255" title="4 of 6 branches missed.">      case None =&gt;</span>
+<span class="fc" id="L256">        sendMessage(target, &quot;Proportion must be one of &quot; + makeString(Proportion.values))</span>
     }
   }
 
   private def reportConfigChange(target: String, item: ConfigItem.Value, value: String): Unit = {
-<span class="fc" id="L248">    sendMessage(target, item + &quot; set to &quot; + value)</span>
+<span class="fc" id="L261">    sendMessage(target, item + &quot; set to &quot; + value)</span>
   }
 
-<span class="fc" id="L251">  private def convertAndPlay(channel: String, urlOrTerm: String): Unit = {</span>
-<span class="pc" id="L252">    UrlOptionizer.extract(urlOrTerm) match {</span>
-<span class="pc bpc" id="L253" title="1 of 2 branches missed.">      case Some(u) =&gt; //is url</span>
-<span class="nc" id="L254">        Sender.playImage(this, generate(urlOrTerm, settings))</span>
-<span class="pc bpc" id="L255" title="4 of 6 branches missed.">      case None =&gt; //is term</span>
-<span class="pc" id="L256">        GoogleUtil.getUrlForTerm(urlOrTerm) match {</span>
-<span class="pc bpc" id="L257" title="1 of 2 branches missed.">          case Some(imageUrl) =&gt;</span>
-<span class="fc" id="L258">            sendMessage(channel, imageUrl)</span>
-<span class="fc" id="L259">            Sender.playImage(this, generate(imageUrl, settings))</span>
-<span class="nc bnc" id="L260" title="All 6 branches missed.">          case None =&gt; sendMessage(channel, &quot;Fail: Cannot find image for \&quot;&quot; + urlOrTerm + &quot;\&quot;&quot;)</span>
+<span class="fc" id="L264">  private def convertAndPlay(channel: String, urlOrTerm: String): Unit = {</span>
+<span class="pc" id="L265">    UrlOptionizer.extract(urlOrTerm) match {</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">      case Some(u) =&gt; //is url</span>
+<span class="nc" id="L267">        Sender.playImage(this, generate(urlOrTerm, settings))</span>
+<span class="pc bpc" id="L268" title="4 of 6 branches missed.">      case None =&gt; //is term</span>
+<span class="pc" id="L269">        GoogleUtil.getUrlForTerm(urlOrTerm) match {</span>
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">          case Some(imageUrl) =&gt;</span>
+<span class="fc" id="L271">            sendMessage(channel, imageUrl)</span>
+<span class="fc" id="L272">            Sender.playImage(this, generate(imageUrl, settings))</span>
+<span class="nc bnc" id="L273" title="All 6 branches missed.">          case None =&gt; sendMessage(channel, &quot;Fail: Cannot find image for \&quot;&quot; + urlOrTerm + &quot;\&quot;&quot;)</span>
         }
     }
-<span class="pc bpc" id="L263" title="1 of 2 branches missed.">    if (settings.schemeName.equals(Scheme.Bwg.name)) { settings.reset }</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">    if (settings.schemeName.equals(Scheme.Bwg.name)) { settings.reset }</span>
   }
 
-<span class="fc" id="L266">  private def splitAtSpace(message: String): Array[String] = message.split(&quot; &quot;)</span>
-<span class="fc" id="L267">  private def makeString(list: List[Any]): String = list.mkString(&quot;, &quot;)</span>
+<span class="fc" id="L279">  private def splitAtSpace(message: String): Array[String] = message.split(&quot; &quot;)</span>
+<span class="fc" id="L280">  private def makeString(list: List[Any]): String = list.mkString(&quot;, &quot;)</span>
 
   /**
    * Connects the jenkem bot to IRC and joins the selected channel.
    */
-<span class="nc" id="L272">  def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {</span>
-<span class="nc" id="L273">    settings.reset</span>
+<span class="nc" id="L285">  def connectAndJoin(network: String, port: Int, channel: String, nick: String): String = {</span>
+<span class="nc" id="L286">    settings.reset</span>
     def handleConnectionException(message: String, network: String, channel: String, nick: String): String = {
-<span class="nc" id="L275">      Sender.botStatus = new BotStatus.Value(Disconnected, NotSending, network, channel, nick, getDelay)</span>
-<span class="nc" id="L276">      message</span>
+<span class="nc" id="L288">      Sender.botStatus = new BotStatus.Value(Disconnected, NotSending, network, channel, nick, getDelay)</span>
+<span class="nc" id="L289">      message</span>
     }
-<span class="nc" id="L278">    try {</span>
-<span class="nc" id="L279">      super.setName(nick)</span>
-<span class="nc" id="L280">      lastChan = channel</span>
-<span class="nc" id="L281">      connect(network, port)</span>
-<span class="nc" id="L282">      joinChannel(channel)</span>
-<span class="nc" id="L283">      &quot;Joining &quot; + channel + &quot;...&quot;</span>
+<span class="nc" id="L291">    try {</span>
+<span class="nc" id="L292">      super.setName(nick)</span>
+<span class="nc" id="L293">      lastChan = channel</span>
+<span class="nc" id="L294">      connect(network, port)</span>
+<span class="nc" id="L295">      joinChannel(channel)</span>
+<span class="nc" id="L296">      &quot;Joining &quot; + channel + &quot;...&quot;</span>
     } catch {
       case nie: NickAlreadyInUseException =&gt; handleConnectionException(&quot;Fail: Nick is already in use.&quot;, network, channel, nick)
       case ioe: IOException =&gt; handleConnectionException(&quot;Fail: IOException: &quot; + ioe, network, channel, nick)
@@ -289,28 +302,28 @@ import jenkem.bot.status.BotStatus
   }
 
   private def generate(url: String, cs: ConversionSettings): List[String] = {
-<span class="fc" id="L292">    val invert = false</span>
-<span class="fc" id="L293">    val originalImage = AwtImageUtil.bufferImage(url, &quot;white&quot;, invert)</span>
-<span class="fc" id="L294">    val originalWidth = originalImage.getWidth</span>
-<span class="fc" id="L295">    val originalHeight = originalImage.getHeight</span>
-<span class="pc bpc" id="L296" title="1 of 2 branches missed.">    val (width, height) = Proportion.getWidthAndHeight(cs.proportion, cs.method, cs.width, originalWidth, originalHeight)</span>
-<span class="fc" id="L297">    val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick, 0, 0)</span>
-<span class="fc" id="L298">    val imageRgb = AwtImageUtil.getImageRgb(scaled)</span>
-<span class="fc" id="L299">    val lastIndex = height</span>
-<span class="fc" id="L300">    val params = cs.getParams(imageRgb)</span>
+<span class="fc" id="L305">    val invert = false</span>
+<span class="fc" id="L306">    val originalImage = AwtImageUtil.bufferImage(url, &quot;white&quot;, invert)</span>
+<span class="fc" id="L307">    val originalWidth = originalImage.getWidth</span>
+<span class="fc" id="L308">    val originalHeight = originalImage.getHeight</span>
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">    val (width, height) = Proportion.getWidthAndHeight(cs.proportion, cs.method, cs.width, originalWidth, originalHeight)</span>
+<span class="fc" id="L310">    val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick, 0, 0)</span>
+<span class="fc" id="L311">    val imageRgb = AwtImageUtil.getImageRgb(scaled)</span>
+<span class="fc" id="L312">    val lastIndex = height</span>
+<span class="fc" id="L313">    val params = cs.getParams(imageRgb)</span>
     def generate0(index: Int): List[String] = {
-<span class="fc bfc" id="L302" title="All 4 branches covered.">      if (index + 2 &gt; lastIndex) { Nil }</span>
-<span class="fc" id="L303">      else { Engine.generateLine(params, index) :: generate0(index + 2) }</span>
+<span class="fc bfc" id="L315" title="All 4 branches covered.">      if (index + 2 &gt; lastIndex) { Nil }</span>
+<span class="fc" id="L316">      else { Engine.generateLine(params, index) :: generate0(index + 2) }</span>
     }
-<span class="fc" id="L305">    val hasColor = params.method.hasColor</span>
-<span class="pc bpc" id="L306" title="1 of 2 branches missed.">    val notPwntari = !params.method.equals(Method.Pwntari)</span>
-<span class="fc bfc" id="L307" title="All 2 branches covered.">    val colorString = if (hasColor) { &quot;, Scheme: &quot; + cs.schemeName } else { &quot;&quot; }</span>
-<span class="pc bpc" id="L308" title="1 of 2 branches missed.">    val powerString = if (notPwntari) { &quot;, Power: &quot; + params.power } else { &quot;&quot; }</span>
-<span class="pc bpc" id="L309" title="1 of 2 branches missed.">    val charsString = if (notPwntari) { &quot;, Chars: &quot; + params.characters } else { &quot;&quot; }</span>
-<span class="pc bpc" id="L310" title="2 of 4 branches missed.">    val widthDivisor = if (!params.method.equals(Method.Pwntari)) { 2 } else { 1 }</span>
-<span class="fc" id="L311">    val message = List(&quot;Mode: &quot; + params.method + colorString + powerString</span>
-<span class="fc" id="L312">      + charsString + &quot;, Width: &quot; + (width / widthDivisor).intValue.toString)</span>
-<span class="fc" id="L313">    message ::: generate0(0)</span>
+<span class="fc" id="L318">    val hasColor = params.method.hasColor</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">    val notPwntari = !params.method.equals(Method.Pwntari)</span>
+<span class="fc bfc" id="L320" title="All 2 branches covered.">    val colorString = if (hasColor) { &quot;, Scheme: &quot; + cs.schemeName } else { &quot;&quot; }</span>
+<span class="pc bpc" id="L321" title="1 of 2 branches missed.">    val powerString = if (notPwntari) { &quot;, Power: &quot; + params.power } else { &quot;&quot; }</span>
+<span class="pc bpc" id="L322" title="1 of 2 branches missed.">    val charsString = if (notPwntari) { &quot;, Chars: &quot; + params.characters } else { &quot;&quot; }</span>
+<span class="pc bpc" id="L323" title="2 of 4 branches missed.">    val widthDivisor = if (!params.method.equals(Method.Pwntari)) { 2 } else { 1 }</span>
+<span class="fc" id="L324">    val message = List(&quot;Mode: &quot; + params.method + colorString + powerString</span>
+<span class="fc" id="L325">      + charsString + &quot;, Width: &quot; + (width / widthDivisor).intValue.toString)</span>
+<span class="fc" id="L326">    message ::: generate0(0)</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

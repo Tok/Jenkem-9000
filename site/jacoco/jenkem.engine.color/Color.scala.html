@@ -1,15 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Color.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine.color</a> &gt; <span class="el_source">Color.scala</span></div><h1>Color.scala</h1><pre class="source lang-java linenums">package jenkem.engine.color
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Color.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine.color</a> &gt; <span class="el_source">Color.scala</span></div><h1>Color.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * Color.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.engine.color
 
-<span class="pc bpc" id="L3" title="43 of 44 branches missed.">case class Color(</span>
-<span class="pc" id="L4">  val fg: String, val fgRgb: Color.Rgb,</span>
-<span class="pc" id="L5">  val bg: String, val bgRgb: Color.Rgb, val strength: Float)</span>
+<span class="pc bpc" id="L16" title="43 of 44 branches missed.">case class Color(</span>
+<span class="pc" id="L17">  val fg: String, val fgRgb: Color.Rgb,</span>
+<span class="pc" id="L18">  val bg: String, val bgRgb: Color.Rgb, val strength: Float)</span>
 
-<span class="pc" id="L7">object Color {</span>
+<span class="pc" id="L20">object Color {</span>
   type Rgb = (Short, Short, Short)
   type RgbMap = Map[(Int, Int), (Short, Short, Short)]
   type IrcMap = Map[Scheme.IrcColor, Short]
-<span class="fc" id="L11">  val MAX: Short = 255</span>
-<span class="fc" id="L12">  val CENTER: Short = 127</span>
-<span class="fc" id="L13">  val MIN: Short = 0</span>
+<span class="fc" id="L24">  val MAX: Short = 255</span>
+<span class="fc" id="L25">  val CENTER: Short = 127</span>
+<span class="fc" id="L26">  val MIN: Short = 0</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

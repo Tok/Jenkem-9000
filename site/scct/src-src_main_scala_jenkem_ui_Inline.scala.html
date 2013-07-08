@@ -16,111 +16,111 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.ui
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import com.vaadin.server.Resource
+            <td> * Inline.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import com.vaadin.shared.ui.label.ContentMode
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import com.vaadin.ui.Alignment
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import com.vaadin.ui.Button
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>import com.vaadin.ui.Button.ClickEvent
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>import com.vaadin.ui.GridLayout
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>import com.vaadin.ui.Image
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td>import com.vaadin.ui.Label
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td>import com.vaadin.ui.VerticalLayout
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td>import java.awt.image.BufferedImage
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>import jenkem.util.AwtImageUtil
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td>import jenkem.engine.Method
+            <td>package jenkem.ui
 </td>
           </tr><tr>
             <td class="black">15</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">16</td>
-            <td><a id="Class_jenkem_ui_Inline"/>class Inline extends VerticalLayout {
+            <td class="black">16</td>
+            <td>import com.vaadin.server.Resource
 </td>
           </tr><tr>
-            <td class="green">17</td>
-            <td>  val spacer = new Label
+            <td class="black">17</td>
+            <td>import com.vaadin.shared.ui.label.ContentMode
 </td>
           </tr><tr>
-            <td class="green">18</td>
-            <td>  spacer.setWidth(500 + &quot;px&quot;)
+            <td class="black">18</td>
+            <td>import com.vaadin.ui.Alignment
 </td>
           </tr><tr>
-            <td class="green">19</td>
-            <td>  spacer.setHeight(0 + &quot;px&quot;)
+            <td class="black">19</td>
+            <td>import com.vaadin.ui.Button
 </td>
           </tr><tr>
             <td class="black">20</td>
-            <td>
+            <td>import com.vaadin.ui.Button.ClickEvent
 </td>
           </tr><tr>
-            <td class="green">21</td>
-            <td>  val previewLayout = new GridLayout
+            <td class="black">21</td>
+            <td>import com.vaadin.ui.GridLayout
 </td>
           </tr><tr>
-            <td class="green">22</td>
-            <td>  previewLayout.setRows(2)
+            <td class="black">22</td>
+            <td>import com.vaadin.ui.Image
 </td>
           </tr><tr>
-            <td class="green">23</td>
-            <td>  previewLayout.setColumns(1)
+            <td class="black">23</td>
+            <td>import com.vaadin.ui.Label
 </td>
           </tr><tr>
-            <td class="green">24</td>
-            <td>  previewLayout.addComponent(spacer, 0, 0)
+            <td class="black">24</td>
+            <td>import com.vaadin.ui.VerticalLayout
 </td>
           </tr><tr>
-            <td class="green">25</td>
-            <td>  previewLayout.setComponentAlignment(spacer, Alignment.TOP_LEFT)
+            <td class="black">25</td>
+            <td>import java.awt.image.BufferedImage
 </td>
           </tr><tr>
-            <td class="green">26</td>
-            <td>  addComponent(previewLayout)
+            <td class="black">26</td>
+            <td>import jenkem.util.AwtImageUtil
 </td>
           </tr><tr>
-            <td class="green">27</td>
-            <td>  setComponentAlignment(previewLayout, Alignment.TOP_LEFT)
+            <td class="black">27</td>
+            <td>import jenkem.engine.Method
 </td>
           </tr><tr>
             <td class="black">28</td>
@@ -128,19 +128,19 @@
 </td>
           </tr><tr>
             <td class="green">29</td>
-            <td>  val preview = new Label
+            <td><a id="Class_jenkem_ui_Inline"/>class Inline extends VerticalLayout {
 </td>
           </tr><tr>
             <td class="green">30</td>
-            <td>  preview.setContentMode(ContentMode.HTML)
+            <td>  val spacer = new Label
 </td>
           </tr><tr>
-            <td class="black">31</td>
-            <td>
+            <td class="green">31</td>
+            <td>  spacer.setWidth(500 + &quot;px&quot;)
 </td>
           </tr><tr>
             <td class="green">32</td>
-            <td>  val image = new Image
+            <td>  spacer.setHeight(0 + &quot;px&quot;)
 </td>
           </tr><tr>
             <td class="black">33</td>
@@ -148,31 +148,31 @@
 </td>
           </tr><tr>
             <td class="green">34</td>
-            <td>  val overlayButton = new Button
+            <td>  val previewLayout = new GridLayout
 </td>
           </tr><tr>
             <td class="green">35</td>
-            <td>  overlayButton.setImmediate(true)
+            <td>  previewLayout.setRows(2)
 </td>
           </tr><tr>
             <td class="green">36</td>
-            <td>  overlayButton.addClickListener(new Button.ClickListener {
+            <td>  previewLayout.setColumns(1)
 </td>
           </tr><tr>
-            <td class="black">37</td>
-            <td>    override def buttonClick(event: ClickEvent): Unit = { switchContent }
+            <td class="green">37</td>
+            <td>  previewLayout.addComponent(spacer, 0, 0)
 </td>
           </tr><tr>
-            <td class="black">38</td>
-            <td>  })
+            <td class="green">38</td>
+            <td>  previewLayout.setComponentAlignment(spacer, Alignment.TOP_LEFT)
 </td>
           </tr><tr>
             <td class="green">39</td>
-            <td>  addComponent(overlayButton)
+            <td>  addComponent(previewLayout)
 </td>
           </tr><tr>
             <td class="green">40</td>
-            <td>  setComponentAlignment(overlayButton, Alignment.TOP_LEFT)
+            <td>  setComponentAlignment(previewLayout, Alignment.TOP_LEFT)
 </td>
           </tr><tr>
             <td class="black">41</td>
@@ -180,78 +180,130 @@
 </td>
           </tr><tr>
             <td class="green">42</td>
-            <td>  var isShowHtml = false //gets switched on load
+            <td>  val preview = new Label
 </td>
           </tr><tr>
-            <td class="black">43</td>
-            <td>  private def switchContent: Unit = {
+            <td class="green">43</td>
+            <td>  preview.setContentMode(ContentMode.HTML)
 </td>
           </tr><tr>
-            <td class="green">44</td>
-            <td>    previewLayout.removeComponent(0, 1)
+            <td class="black">44</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">45</td>
-            <td>    previewLayout.addComponent(if (isShowHtml) { image } else { preview }, 0, 1)
+            <td>  val image = new Image
 </td>
           </tr><tr>
-            <td class="green">46</td>
-            <td>    overlayButton.setCaption(if (isShowHtml) { &quot;Show HTML&quot; } else { &quot;Show Image&quot; })
+            <td class="black">46</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">47</td>
-            <td>    isShowHtml = !isShowHtml
+            <td>  val overlayButton = new Button
 </td>
           </tr><tr>
-            <td class="black">48</td>
-            <td>  }
+            <td class="green">48</td>
+            <td>  overlayButton.setImmediate(true)
 </td>
           </tr><tr>
-            <td class="black">49</td>
-            <td>
+            <td class="green">49</td>
+            <td>  overlayButton.addClickListener(new Button.ClickListener {
 </td>
           </tr><tr>
-            <td class="green">50</td>
-            <td>  switchContent
+            <td class="black">50</td>
+            <td>    override def buttonClick(event: ClickEvent): Unit = { switchContent }
 </td>
           </tr><tr>
             <td class="black">51</td>
-            <td>
+            <td>  })
 </td>
           </tr><tr>
-            <td class="black">52</td>
-            <td>  def setIntermediate(img: BufferedImage, method: Method): Unit = {
+            <td class="green">52</td>
+            <td>  addComponent(overlayButton)
 </td>
           </tr><tr>
             <td class="green">53</td>
-            <td>    val widthFactor = if (!method.equals(Method.Pwntari)) { 3 } else { 6 }
+            <td>  setComponentAlignment(overlayButton, Alignment.TOP_LEFT)
 </td>
           </tr><tr>
-            <td class="green">54</td>
-            <td>    val intermediate = AwtImageUtil.getScaled(img, img.getWidth * widthFactor, img.getHeight * 6)
+            <td class="black">54</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">55</td>
-            <td>    val resource = AwtImageUtil.makeVaadinResource(intermediate, &quot;Intermediate&quot;)
+            <td>  var isShowHtml = false //gets switched on load
 </td>
           </tr><tr>
-            <td class="green">56</td>
-            <td>    image.setSource(resource)
+            <td class="black">56</td>
+            <td>  private def switchContent: Unit = {
 </td>
           </tr><tr>
-            <td class="black">57</td>
-            <td>  }
+            <td class="green">57</td>
+            <td>    previewLayout.removeComponent(0, 1)
 </td>
           </tr><tr>
             <td class="green">58</td>
-            <td>  def setValue(value: String): Unit = preview.setValue(value)
+            <td>    previewLayout.addComponent(if (isShowHtml) { image } else { preview }, 0, 1)
 </td>
           </tr><tr>
             <td class="green">59</td>
+            <td>    overlayButton.setCaption(if (isShowHtml) { &quot;Show HTML&quot; } else { &quot;Show Image&quot; })
+</td>
+          </tr><tr>
+            <td class="green">60</td>
+            <td>    isShowHtml = !isShowHtml
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">63</td>
+            <td>  switchContent
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>  def setIntermediate(img: BufferedImage, method: Method): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">66</td>
+            <td>    val widthFactor = if (!method.equals(Method.Pwntari)) { 3 } else { 6 }
+</td>
+          </tr><tr>
+            <td class="green">67</td>
+            <td>    val intermediate = AwtImageUtil.getScaled(img, img.getWidth * widthFactor, img.getHeight * 6)
+</td>
+          </tr><tr>
+            <td class="green">68</td>
+            <td>    val resource = AwtImageUtil.makeVaadinResource(intermediate, &quot;Intermediate&quot;)
+</td>
+          </tr><tr>
+            <td class="green">69</td>
+            <td>    image.setSource(resource)
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="green">71</td>
+            <td>  def setValue(value: String): Unit = preview.setValue(value)
+</td>
+          </tr><tr>
+            <td class="green">72</td>
             <td>  def reset: Unit = if (!isShowHtml) { switchContent }
 </td>
           </tr><tr>
-            <td class="black">60</td>
+            <td class="black">73</td>
             <td>}
 </td>
           </tr></tbody></table>

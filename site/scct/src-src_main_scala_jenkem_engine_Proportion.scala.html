@@ -40,82 +40,134 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.engine
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import jenkem.util.InitUtil
+            <td> * Proportion.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td><a id="Class_jenkem_engine_Proportion"/>sealed abstract class Proportion
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
-            <td class="green">6</td>
-            <td><a id="Object_jenkem_engine_Proportion"/>object Proportion {
+            <td class="black">6</td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td><a id="Object_jenkem_engine_Proportion_Optimize"/>  case object Optimize extends Proportion
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td><a id="Object_jenkem_engine_Proportion_Exact"/>  case object Exact extends Proportion
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
-            <td class="green">9</td>
-            <td>  val values = List[Proportion](Optimize, Exact)
+            <td class="black">9</td>
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
-            <td class="green">10</td>
-            <td>  def valueOf(name: String): Option[Proportion] = values.find(_.toString.equalsIgnoreCase(name))
+            <td class="black">10</td>
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
-            <td class="green">11</td>
-            <td>  def default: Proportion = Optimize
+            <td class="black">11</td>
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td>  def getWidthAndHeight(prop: Proportion, method: Method, maxWidth: Int,
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>      originalWidth: Int, originalHeight: Int): (Int, Int) = {
+            <td> */
 </td>
           </tr><tr>
-            <td class="green">14</td>
-            <td>    if (prop.equals(Proportion.Optimize)) {
+            <td class="black">14</td>
+            <td>package jenkem.engine
 </td>
           </tr><tr>
-            <td class="green">15</td>
-            <td>      InitUtil.calculateProportionalSize(method, maxWidth, originalWidth, originalHeight)
+            <td class="black">15</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td>    } else {
+            <td>import jenkem.util.InitUtil
 </td>
           </tr><tr>
-            <td class="green">17</td>
-            <td>      InitUtil.calculateNewSize(method, maxWidth, originalWidth, originalHeight)
+            <td class="black">17</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">18</td>
-            <td>    }
+            <td><a id="Class_jenkem_engine_Proportion"/>sealed abstract class Proportion
 </td>
           </tr><tr>
-            <td class="black">19</td>
-            <td>  }
+            <td class="green">19</td>
+            <td><a id="Object_jenkem_engine_Proportion"/>object Proportion {
 </td>
           </tr><tr>
             <td class="black">20</td>
+            <td><a id="Object_jenkem_engine_Proportion_Optimize"/>  case object Optimize extends Proportion
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td><a id="Object_jenkem_engine_Proportion_Exact"/>  case object Exact extends Proportion
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>  val values = List[Proportion](Optimize, Exact)
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>  def valueOf(name: String): Option[Proportion] = values.find(_.toString.equalsIgnoreCase(name))
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>  def default: Proportion = Optimize
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>  def getWidthAndHeight(prop: Proportion, method: Method, maxWidth: Int,
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>      originalWidth: Int, originalHeight: Int): (Int, Int) = {
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>    if (prop.equals(Proportion.Optimize)) {
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>      InitUtil.calculateProportionalSize(method, maxWidth, originalWidth, originalHeight)
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>    } else {
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>      InitUtil.calculateNewSize(method, maxWidth, originalWidth, originalHeight)
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">33</td>
             <td>}
 </td>
           </tr></tbody></table>

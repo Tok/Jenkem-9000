@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ImageIrc.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.persistence.data</a> &gt; <span class="el_source">ImageIrc.scala</span></div><h1>ImageIrc.scala</h1><pre class="source lang-java linenums">package jenkem.persistence.data
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ImageIrc.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.persistence.data</a> &gt; <span class="el_source">ImageIrc.scala</span></div><h1>ImageIrc.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * ImageIrc.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.persistence.data
 
 import javax.jdo.annotations.IdentityType
 import javax.jdo.annotations.PersistenceCapable
@@ -8,8 +21,8 @@ import javax.jdo.annotations.PrimaryKey
  * Persistent IRC data for converted images.
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-<span class="pc" id="L11">class ImageIrc(var name: String, var irc: String) extends ImagePartTrait {</span>
-<span class="pc" id="L12">  @PrimaryKey var _id = name</span>
-<span class="fc" id="L13">  override def toString: String = name</span>
+<span class="pc" id="L24">class ImageIrc(var name: String, var irc: String) extends ImagePartTrait {</span>
+<span class="pc" id="L25">  @PrimaryKey var _id = name</span>
+<span class="fc" id="L26">  override def toString: String = name</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

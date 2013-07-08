@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ProcSetter.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">ProcSetter.scala</span></div><h1>ProcSetter.scala</h1><pre class="source lang-java linenums">package jenkem.ui
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ProcSetter.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">ProcSetter.scala</span></div><h1>ProcSetter.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * ProcSetter.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.ui
 
 import scala.collection.immutable.HashMap
 
@@ -16,115 +29,115 @@ import com.vaadin.ui.Slider
 import jenkem.engine.Setting
 import jenkem.event.DoConversionEvent
 
-<span class="pc" id="L19">class ProcSetter(val eventRouter: EventRouter) extends GridLayout {</span>
-<span class="fc" id="L20">  var triggeringDisabled = true</span>
-<span class="fc" id="L21">  setWidth(&quot;250px&quot;)</span>
+<span class="pc" id="L32">class ProcSetter(val eventRouter: EventRouter) extends GridLayout {</span>
+<span class="fc" id="L33">  var triggeringDisabled = true</span>
+<span class="fc" id="L34">  setWidth(&quot;250px&quot;)</span>
 
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">  val vcl = new Property.ValueChangeListener {</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">  val vcl = new Property.ValueChangeListener {</span>
     override def valueChange(event: ValueChangeEvent): Unit = {
-<span class="pc bpc" id="L25" title="1 of 2 branches missed.">      if (!triggeringDisabled) {</span>
-<span class="nc" id="L26">        eventRouter.fireEvent(new DoConversionEvent(false, false))</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">      if (!triggeringDisabled) {</span>
+<span class="nc" id="L39">        eventRouter.fireEvent(new DoConversionEvent(false, false))</span>
       }
     }
   }
 
   type PS = Setting
-<span class="fc" id="L32">  val settings = Setting.values</span>
-<span class="fc" id="L33">  setRows(3)</span>
-<span class="fc" id="L34">  setColumns(3)</span>
+<span class="fc" id="L45">  val settings = Setting.values</span>
+<span class="fc" id="L46">  setRows(3)</span>
+<span class="fc" id="L47">  setColumns(3)</span>
 
-<span class="pc bpc" id="L36" title="1 of 2 branches missed.">  val boxes = makeComponentMap[CheckBox](settings, makeBox)</span>
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">  val labels = makeComponentMap[Label](settings.take(2), makeLabel)</span>
-<span class="pc bpc" id="L38" title="1 of 2 branches missed.">  val sliders = makeComponentMap[Slider](settings.take(2), makeSlider)</span>
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">  (0 to 1).foreach(makeSliderRow(_))</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">  val boxes = makeComponentMap[CheckBox](settings, makeBox)</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">  val labels = makeComponentMap[Label](settings.take(2), makeLabel)</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">  val sliders = makeComponentMap[Slider](settings.take(2), makeSlider)</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">  (0 to 1).foreach(makeSliderRow(_))</span>
 
-<span class="fc" id="L41">  val layout = new HorizontalLayout</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">  (2 to 5).foreach(i =&gt; layout.addComponent(boxes.get(settings(i)).get))</span>
-<span class="fc" id="L43">  addComponent(layout, 0, 2, 2, 2)</span>
+<span class="fc" id="L54">  val layout = new HorizontalLayout</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">  (2 to 5).foreach(i =&gt; layout.addComponent(boxes.get(settings(i)).get))</span>
+<span class="fc" id="L56">  addComponent(layout, 0, 2, 2, 2)</span>
 
-<span class="fc" id="L45">  triggeringDisabled = false</span>
+<span class="fc" id="L58">  triggeringDisabled = false</span>
 
   private def makeComponentMap[T](sets: List[PS], f: PS =&gt; Component): HashMap[PS, T] = {
-<span class="fc" id="L48">    def makeComponentMap0(hm: HashMap[PS, T], s: List[PS]): HashMap[PS, T] = {</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">      if (s.isEmpty) { hm } else {</span>
-<span class="fc" id="L50">        val comp = f(s.head).asInstanceOf[T]</span>
-<span class="fc" id="L51">        makeComponentMap0(hm + ((s.head, comp)), s.tail)</span>
+<span class="fc" id="L61">    def makeComponentMap0(hm: HashMap[PS, T], s: List[PS]): HashMap[PS, T] = {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">      if (s.isEmpty) { hm } else {</span>
+<span class="fc" id="L63">        val comp = f(s.head).asInstanceOf[T]</span>
+<span class="fc" id="L64">        makeComponentMap0(hm + ((s.head, comp)), s.tail)</span>
       }
     }
-<span class="fc" id="L54">    makeComponentMap0(new HashMap[PS, T], sets)</span>
+<span class="fc" id="L67">    makeComponentMap0(new HashMap[PS, T], sets)</span>
   }
 
   private def makeBox(setting: PS): CheckBox = {
-<span class="fc" id="L58">    val box = new CheckBox(setting.caption)</span>
-<span class="fc" id="L59">    box.setWidth(&quot;50px&quot;)</span>
-<span class="fc" id="L60">    box.setImmediate(true)</span>
-<span class="fc" id="L61">    box.addValueChangeListener(vcl)</span>
-<span class="fc" id="L62">    box</span>
+<span class="fc" id="L71">    val box = new CheckBox(setting.caption)</span>
+<span class="fc" id="L72">    box.setWidth(&quot;50px&quot;)</span>
+<span class="fc" id="L73">    box.setImmediate(true)</span>
+<span class="fc" id="L74">    box.addValueChangeListener(vcl)</span>
+<span class="fc" id="L75">    box</span>
   }
 
   private def makeLabel(setting: PS): Label = {
-<span class="fc" id="L66">    val label = new Label(Setting.default.toString)</span>
-<span class="fc" id="L67">    label.setWidth(&quot;30px&quot;)</span>
-<span class="fc" id="L68">    label.setStyleName(&quot;sliderLabel&quot;)</span>
-<span class="fc" id="L69">    label</span>
+<span class="fc" id="L79">    val label = new Label(Setting.default.toString)</span>
+<span class="fc" id="L80">    label.setWidth(&quot;30px&quot;)</span>
+<span class="fc" id="L81">    label.setStyleName(&quot;sliderLabel&quot;)</span>
+<span class="fc" id="L82">    label</span>
   }
 
   private def makeSlider(setting: PS): Slider = {
-<span class="fc" id="L73">    val slider = new Slider(None.orNull)</span>
-<span class="fc" id="L74">    slider.setWidth(&quot;170px&quot;)</span>
-<span class="fc" id="L75">    slider.setMin(Setting.min)</span>
-<span class="fc" id="L76">    slider.setMax(Setting.max)</span>
-<span class="fc" id="L77">    slider.setValue(Setting.default)</span>
-<span class="fc" id="L78">    slider.setImmediate(true)</span>
-<span class="pc bpc" id="L79" title="1 of 2 branches missed.">    slider.addValueChangeListener(new Property.ValueChangeListener {</span>
-<span class="nc" id="L80">      override def valueChange(event: ValueChangeEvent): Unit = {</span>
-<span class="nc" id="L81">        labels.get(setting).get.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (!triggeringDisabled) {</span>
-<span class="nc" id="L83">          eventRouter.fireEvent(new DoConversionEvent(false, false))</span>
+<span class="fc" id="L86">    val slider = new Slider(None.orNull)</span>
+<span class="fc" id="L87">    slider.setWidth(&quot;170px&quot;)</span>
+<span class="fc" id="L88">    slider.setMin(Setting.min)</span>
+<span class="fc" id="L89">    slider.setMax(Setting.max)</span>
+<span class="fc" id="L90">    slider.setValue(Setting.default)</span>
+<span class="fc" id="L91">    slider.setImmediate(true)</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">    slider.addValueChangeListener(new Property.ValueChangeListener {</span>
+<span class="nc" id="L93">      override def valueChange(event: ValueChangeEvent): Unit = {</span>
+<span class="nc" id="L94">        labels.get(setting).get.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!triggeringDisabled) {</span>
+<span class="nc" id="L96">          eventRouter.fireEvent(new DoConversionEvent(false, false))</span>
         }
       }
     })
-<span class="fc" id="L87">    slider</span>
+<span class="fc" id="L100">    slider</span>
   }
 
   private def makeSliderRow(i: Int): Unit = {
-<span class="fc" id="L91">    val setting = settings(i)</span>
-<span class="fc" id="L92">    addAligned(boxes.get(setting).get, 0, i)</span>
-<span class="fc" id="L93">    addAligned(sliders.get(setting).get, 1, i)</span>
-<span class="fc" id="L94">    addAligned(labels.get(setting).get, 2, i)</span>
+<span class="fc" id="L104">    val setting = settings(i)</span>
+<span class="fc" id="L105">    addAligned(boxes.get(setting).get, 0, i)</span>
+<span class="fc" id="L106">    addAligned(sliders.get(setting).get, 1, i)</span>
+<span class="fc" id="L107">    addAligned(labels.get(setting).get, 2, i)</span>
   }
 
   private def addAligned(comp: Component, row: Int, i: Int): Unit = {
-<span class="fc" id="L98">    addComponent(comp, row, i)</span>
-<span class="fc" id="L99">    setComponentAlignment(comp, Alignment.MIDDLE_LEFT)</span>
+<span class="fc" id="L111">    addComponent(comp, row, i)</span>
+<span class="fc" id="L112">    setComponentAlignment(comp, Alignment.MIDDLE_LEFT)</span>
   }
 
   def reset(hasAnsi: Boolean): Unit = {
-<span class="fc" id="L103">    triggeringDisabled = true</span>
-<span class="fc" id="L104">    val vals = Setting.getInitial(hasAnsi)</span>
-<span class="pc bpc" id="L105" title="1 of 2 branches missed.">    settings.foreach(set(_))</span>
-<span class="fc" id="L106">    def set(setting: PS): Unit = {</span>
-<span class="fc" id="L107">      boxes.get(setting).get.setValue(vals.has(setting))</span>
-<span class="pc" id="L108">      sliders.get(setting) match {</span>
-<span class="fc bfc" id="L109" title="All 2 branches covered.">        case Some(s) =&gt; s.setValue(vals.get(setting))</span>
-<span class="pc bpc" id="L110" title="4 of 6 branches missed.">        case None =&gt; { }</span>
+<span class="fc" id="L116">    triggeringDisabled = true</span>
+<span class="fc" id="L117">    val vals = Setting.getInitial(hasAnsi)</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">    settings.foreach(set(_))</span>
+<span class="fc" id="L119">    def set(setting: PS): Unit = {</span>
+<span class="fc" id="L120">      boxes.get(setting).get.setValue(vals.has(setting))</span>
+<span class="pc" id="L121">      sliders.get(setting) match {</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        case Some(s) =&gt; s.setValue(vals.get(setting))</span>
+<span class="pc bpc" id="L123" title="4 of 6 branches missed.">        case None =&gt; { }</span>
       }
     }
-<span class="fc" id="L113">    triggeringDisabled = false</span>
+<span class="fc" id="L126">    triggeringDisabled = false</span>
   }
 
   def getSettings: Setting.Instance = {
     def makePair(setting: PS): Setting.Pair = {
-<span class="fc" id="L118">      (boxes.get(setting).get.getValue,</span>
-<span class="fc" id="L119">      sliders.get(setting).get.getValue.intValue)</span>
+<span class="fc" id="L131">      (boxes.get(setting).get.getValue,</span>
+<span class="fc" id="L132">      sliders.get(setting).get.getValue.intValue)</span>
     }
     def makeBool(setting: PS): Boolean = {
-<span class="fc" id="L122">      boxes.get(setting).get.getValue</span>
+<span class="fc" id="L135">      boxes.get(setting).get.getValue</span>
     }
-<span class="fc" id="L124">    new Setting.Instance(</span>
-<span class="fc" id="L125">      makePair(Setting.UPDOWN), makePair(Setting.LEFTRIGHT),</span>
-<span class="fc" id="L126">      makeBool(Setting.DBQP), makeBool(Setting.DIAGONAL),</span>
-<span class="fc" id="L127">      makeBool(Setting.VERTICAL), makeBool(Setting.HORIZONTAL))</span>
+<span class="fc" id="L137">    new Setting.Instance(</span>
+<span class="fc" id="L138">      makePair(Setting.UPDOWN), makePair(Setting.LEFTRIGHT),</span>
+<span class="fc" id="L139">      makeBool(Setting.DBQP), makeBool(Setting.DIAGONAL),</span>
+<span class="fc" id="L140">      makeBool(Setting.VERTICAL), makeBool(Setting.HORIZONTAL))</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

@@ -1,17 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ColorUtil.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.util</a> &gt; <span class="el_source">ColorUtil.scala</span></div><h1>ColorUtil.scala</h1><pre class="source lang-java linenums">package jenkem.util
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ColorUtil.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.util</a> &gt; <span class="el_source">ColorUtil.scala</span></div><h1>ColorUtil.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * ColorUtil.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.util
 
 import jenkem.engine.color.Scheme
 
-<span class="fc" id="L5">object ColorUtil {</span>
-<span class="fc" id="L6">  val BC = String.valueOf('\u0002') // bold character for IRC</span>
-<span class="fc" id="L7">  val CC = String.valueOf('\u0003') // color character for IRC</span>
+<span class="fc" id="L18">object ColorUtil {</span>
+<span class="fc" id="L19">  val BC = String.valueOf('\u0002') // bold character for IRC</span>
+<span class="fc" id="L20">  val CC = String.valueOf('\u0003') // color character for IRC</span>
 
   /**
    * Converts an IRC color to a CSS color.
    * @param ircColor
    * @return cssColor
    */
-<span class="fc" id="L14">  def ircToCss(ircColor: String): String = ircToCss(ircColor.toShort)</span>
+<span class="fc" id="L27">  def ircToCss(ircColor: String): String = ircToCss(ircColor.toShort)</span>
 
   /**
    * Converts an IRC color to a CSS color.
@@ -19,9 +32,9 @@ import jenkem.engine.color.Scheme
    * @return cssColor
    */
   def ircToCss(ircColor: Short): String =
-<span class="fc" id="L22">    Scheme.valuOfIrcColor(ircColor) match {</span>
-<span class="fc bfc" id="L23" title="All 2 branches covered.">      case Some(ircColor) =&gt; rgbToCss(ircColor.rgb)</span>
-<span class="fc" id="L24">      case _ =&gt; &quot;#000000&quot;</span>
+<span class="fc" id="L35">    Scheme.valuOfIrcColor(ircColor) match {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">      case Some(ircColor) =&gt; rgbToCss(ircColor.rgb)</span>
+<span class="fc" id="L37">      case _ =&gt; &quot;#000000&quot;</span>
     }
 
   /**
@@ -30,23 +43,23 @@ import jenkem.engine.color.Scheme
    * @return cssColor
    */
   private def rgbToCss(rgb: (Short, Short, Short)): String =
-<span class="fc" id="L33">    &quot;#&quot; + toHex(rgb._1) + toHex(rgb._2) + toHex(rgb._3)</span>
+<span class="fc" id="L46">    &quot;#&quot; + toHex(rgb._1) + toHex(rgb._2) + toHex(rgb._3)</span>
 
   /**
    * Converts the provided interger to hex.
    * @param i
    * @return hex
    */
-<span class="fc" id="L40">  private def toHex(i: Int): String = {</span>
-<span class="fc" id="L41">    val ret = Integer.toHexString(i)</span>
-<span class="fc bfc" id="L42" title="All 4 branches covered.">    if (ret.length == 1) { &quot;0&quot; + ret } else { ret }</span>
+<span class="fc" id="L53">  private def toHex(i: Int): String = {</span>
+<span class="fc" id="L54">    val ret = Integer.toHexString(i)</span>
+<span class="fc bfc" id="L55" title="All 4 branches covered.">    if (ret.length == 1) { &quot;0&quot; + ret } else { ret }</span>
   }
 
-<span class="fc" id="L45">  def makePwnIrc(bot: Short, top: Short): String = CC + bot + &quot;,&quot; + top + &quot;▄&quot;</span>
+<span class="fc" id="L58">  def makePwnIrc(bot: Short, top: Short): String = CC + bot + &quot;,&quot; + top + &quot;▄&quot;</span>
 
-<span class="fc" id="L47">  private def commaSplit(s: String): Array[String] = s.split(&quot;,&quot;)</span>
-<span class="fc" id="L48">  def getFg(s: String): Int = commaSplit(s)(0).tail.toInt</span>
-<span class="fc" id="L49">  def getBgString(s: String): String = commaSplit(s)(1).takeWhile(_.isDigit)</span>
-<span class="fc" id="L50">  def getBg(s: String): Int = getBgString(s).toInt</span>
+<span class="fc" id="L60">  private def commaSplit(s: String): Array[String] = s.split(&quot;,&quot;)</span>
+<span class="fc" id="L61">  def getFg(s: String): Int = commaSplit(s)(0).tail.toInt</span>
+<span class="fc" id="L62">  def getBgString(s: String): String = commaSplit(s)(1).takeWhile(_.isDigit)</span>
+<span class="fc" id="L63">  def getBg(s: String): Int = getBgString(s).toInt</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

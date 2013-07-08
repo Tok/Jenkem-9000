@@ -16,102 +16,154 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.servlet
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import jenkem.persistence.data.ImageHtml
+            <td> * HtmlOutputServlet.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import javax.jdo.annotations.PersistenceCapable
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import javax.servlet.http.HttpServletRequest
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import javax.servlet.http.HttpServletResponse
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>import jenkem.util.HtmlUtil
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>/**
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td> * Servlet to retrieve and return stored HTML.
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td> */
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
-            <td class="green">12</td>
-            <td><a id="Class_jenkem_servlet_HtmlOutputServlet"/>class HtmlOutputServlet extends AbstractOutputServlet {
+            <td class="black">12</td>
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>  override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
+            <td> */
 </td>
           </tr><tr>
-            <td class="green">14</td>
-            <td>    response.setCharacterEncoding(encoding)
+            <td class="black">14</td>
+            <td>package jenkem.servlet
 </td>
           </tr><tr>
-            <td class="green">15</td>
-            <td>    response.setContentType(&quot;text/html&quot;)
+            <td class="black">15</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">16</td>
-            <td>    jenkemService.getImageHtmlByName(obtainName(request)) match {
+            <td class="black">16</td>
+            <td>import jenkem.persistence.data.ImageHtml
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td>      case Some(imageHtml) =&gt;
+            <td>import javax.jdo.annotations.PersistenceCapable
 </td>
           </tr><tr>
-            <td class="red">18</td>
-            <td>        <span class="non">Option(imageHtml.html) match {
-</span></td>
+            <td class="black">18</td>
+            <td>import javax.servlet.http.HttpServletRequest
+</td>
           </tr><tr>
-            <td class="red">19</td>
-            <td>          case Some(html) =&gt; <span class="non">response.getWriter.write(html)
-</span></td>
+            <td class="black">19</td>
+            <td>import javax.servlet.http.HttpServletResponse
+</td>
           </tr><tr>
-            <td class="red">20</td>
-            <td>          case None =&gt; <span class="non">response.getWriter.write(&quot;Fail: HTML is empty.&quot;)
-</span></td>
+            <td class="black">20</td>
+            <td>import jenkem.util.HtmlUtil
+</td>
           </tr><tr>
             <td class="black">21</td>
-            <td>        }
+            <td>
 </td>
           </tr><tr>
-            <td class="green">22</td>
-            <td>      case None =&gt; response.getWriter.write(&quot;Fail: HTML couldn't be obtained.&quot;)
+            <td class="black">22</td>
+            <td>/**
 </td>
           </tr><tr>
             <td class="black">23</td>
-            <td>    }
+            <td> * Servlet to retrieve and return stored HTML.
 </td>
           </tr><tr>
             <td class="black">24</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">25</td>
+            <td><a id="Class_jenkem_servlet_HtmlOutputServlet"/>class HtmlOutputServlet extends AbstractOutputServlet {
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>  override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>    response.setCharacterEncoding(encoding)
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>    response.setContentType(&quot;text/html&quot;)
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>    jenkemService.getImageHtmlByName(obtainName(request)) match {
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>      case Some(imageHtml) =&gt;
+</td>
+          </tr><tr>
+            <td class="red">31</td>
+            <td>        <span class="non">Option(imageHtml.html) match {
+</span></td>
+          </tr><tr>
+            <td class="red">32</td>
+            <td>          case Some(html) =&gt; <span class="non">response.getWriter.write(html)
+</span></td>
+          </tr><tr>
+            <td class="red">33</td>
+            <td>          case None =&gt; <span class="non">response.getWriter.write(&quot;Fail: HTML is empty.&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>      case None =&gt; response.getWriter.write(&quot;Fail: HTML couldn't be obtained.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">37</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">25</td>
+            <td class="black">38</td>
             <td>}
 </td>
           </tr></tbody></table>

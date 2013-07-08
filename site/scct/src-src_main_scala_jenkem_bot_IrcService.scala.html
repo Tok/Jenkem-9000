@@ -16,82 +16,142 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.bot
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import scala.collection.JavaConverters.asScalaBufferConverter
+            <td> * IrcService.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import jenkem.bot.status.BotStatus
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>/**
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td> * Implementation of service to handle messages for IRC.
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td> */
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td><a id="Object_jenkem_bot_IrcService"/>object IrcService {
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
-            <td class="green">10</td>
-            <td>  val bot = new JenkemBot
+            <td class="black">10</td>
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td>
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
-            <td class="red">12</td>
-            <td>  def disconnect: String = { <span class="non">bot.disconnect; &quot;Disconnected.&quot; }
-</span></td>
+            <td class="black">12</td>
+            <td> * #L%
+</td>
           </tr><tr>
             <td class="black">13</td>
-            <td>  def connect(network: String, port: Int, channel: String, nick: String): String = {
+            <td> */
 </td>
           </tr><tr>
-            <td class="red">14</td>
-            <td>    <span class="non">bot.connectAndJoin(network, port, channel, nick)
-</span></td>
+            <td class="black">14</td>
+            <td>package jenkem.bot
+</td>
           </tr><tr>
             <td class="black">15</td>
-            <td>  }
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
+            <td>import scala.collection.JavaConverters.asScalaBufferConverter
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>import jenkem.bot.status.BotStatus
+</td>
+          </tr><tr>
+            <td class="black">18</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">17</td>
+            <td class="black">19</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td> * Implementation of service to handle messages for IRC.
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td><a id="Object_jenkem_bot_IrcService"/>object IrcService {
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>  val bot = new JenkemBot
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">25</td>
+            <td>  def disconnect: String = { <span class="non">bot.disconnect;
+</span></td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">27</td>
+            <td><span class="non">&quot;Disconnected.&quot; }
+</span></td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  def connect(network: String, port: Int, channel: String, nick: String): String = {
+</td>
+          </tr><tr>
+            <td class="red">29</td>
+            <td>    <span class="non">bot.connectAndJoin(network, port, channel, nick)
+</span></td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">32</td>
             <td>  def getBotStatus: BotStatus.Value = Sender.botStatus
 </td>
           </tr><tr>
-            <td class="red">18</td>
+            <td class="red">33</td>
             <td>  def setDelay(delay: Int): Unit = <span class="non">bot.setMessageDelay(delay)
 </span></td>
           </tr><tr>
-            <td class="red">19</td>
+            <td class="red">34</td>
             <td>  def sendMessage(image: java.util.List[String]): String = <span class="non">Sender.playImage(bot, image.asScala.toList)
 </span></td>
           </tr><tr>
-            <td class="black">20</td>
+            <td class="black">35</td>
             <td>}
 </td>
           </tr></tbody></table>

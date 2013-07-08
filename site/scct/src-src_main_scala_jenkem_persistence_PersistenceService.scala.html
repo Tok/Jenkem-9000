@@ -16,358 +16,410 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.persistence
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import scala.collection.JavaConversions.asScalaBuffer
+            <td> * PersistenceService.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import data.ImageCss
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import data.ImageHtml
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import data.ImageInfo
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>import data.ImageIrc
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>import data.JenkemImage
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>import javax.jdo.Transaction
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td>import javax.jdo.annotations.PersistenceCapable
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td>import jenkem.persistence.data.ImageCss
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td>import jenkem.persistence.data.ImageHtml
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>import jenkem.persistence.data.ImageInfo
-</td>
-          </tr><tr>
-            <td class="black">14</td>
-            <td>import jenkem.persistence.data.ImageIrc
-</td>
-          </tr><tr>
-            <td class="black">15</td>
-            <td>import com.mongodb.MongoException
-</td>
-          </tr><tr>
-            <td class="black">16</td>
-            <td>import javax.jdo.JDODataStoreException
-</td>
-          </tr><tr>
-            <td class="black">17</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">18</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">19</td>
-            <td>/**
-</td>
-          </tr><tr>
-            <td class="black">20</td>
-            <td> * Implementation of service to handle the persistence of reports.
-</td>
-          </tr><tr>
-            <td class="black">21</td>
             <td> */
 </td>
           </tr><tr>
-            <td class="black">22</td>
-            <td><a id="Object_jenkem_persistence_PersistenceService"/>object PersistenceService {
+            <td class="black">14</td>
+            <td>package jenkem.persistence
 </td>
           </tr><tr>
-            <td class="green">23</td>
-            <td>  val QUERY_RANGE = 200L
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>import scala.collection.JavaConversions.asScalaBuffer
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>import data.ImageCss
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>import data.ImageHtml
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>import data.ImageInfo
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>import data.ImageIrc
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>import data.JenkemImage
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>import javax.jdo.Transaction
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>import javax.jdo.annotations.PersistenceCapable
 </td>
           </tr><tr>
             <td class="black">24</td>
-            <td>
+            <td>import jenkem.persistence.data.ImageCss
 </td>
           </tr><tr>
             <td class="black">25</td>
-            <td>  def saveJenkemImage(jenkemImage: JenkemImage): Boolean = {
+            <td>import jenkem.persistence.data.ImageHtml
 </td>
           </tr><tr>
-            <td class="green">26</td>
-            <td>    synchronized {
+            <td class="black">26</td>
+            <td>import jenkem.persistence.data.ImageInfo
 </td>
           </tr><tr>
-            <td class="green">27</td>
-            <td>      val pm = PMF.get.getPersistenceManager
+            <td class="black">27</td>
+            <td>import jenkem.persistence.data.ImageIrc
 </td>
           </tr><tr>
-            <td class="green">28</td>
-            <td>      val tx: Transaction = pm.currentTransaction
+            <td class="black">28</td>
+            <td>import com.mongodb.MongoException
 </td>
           </tr><tr>
             <td class="black">29</td>
-            <td>      try {
+            <td>import javax.jdo.JDODataStoreException
 </td>
           </tr><tr>
-            <td class="green">30</td>
-            <td>        val name = jenkemImage.info.name
+            <td class="black">30</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">31</td>
-            <td>        getByName[ImageInfo](name, classOf[ImageInfo]) match {
+            <td class="black">31</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">32</td>
-            <td>          case Some(t) =&gt;
+            <td>/**
 </td>
           </tr><tr>
-            <td class="green">33</td>
-            <td>            tx.begin
+            <td class="black">33</td>
+            <td> * Implementation of service to handle the persistence of reports.
 </td>
           </tr><tr>
-            <td class="green">34</td>
-            <td>            jenkemImage.values.foreach(part =&gt; pm.deletePersistent(pm.getObjectById(part.c, name)))
+            <td class="black">34</td>
+            <td> */
 </td>
           </tr><tr>
-            <td class="green">35</td>
-            <td>            tx.commit
+            <td class="black">35</td>
+            <td><a id="Object_jenkem_persistence_PersistenceService"/>object PersistenceService {
 </td>
           </tr><tr>
-            <td class="black">36</td>
-            <td>          case None =&gt; { }
+            <td class="green">36</td>
+            <td>  val QUERY_RANGE = 200L
 </td>
           </tr><tr>
             <td class="black">37</td>
-            <td>        }
+            <td>
 </td>
           </tr><tr>
-            <td class="green">38</td>
-            <td>        tx.begin
+            <td class="black">38</td>
+            <td>  def saveJenkemImage(jenkemImage: JenkemImage): Boolean = {
 </td>
           </tr><tr>
             <td class="green">39</td>
-            <td>        pm.makePersistent(jenkemImage.info)
+            <td>    synchronized {
 </td>
           </tr><tr>
             <td class="green">40</td>
-            <td>        pm.makePersistent(jenkemImage.html)
+            <td>      val pm = PMF.get.getPersistenceManager
 </td>
           </tr><tr>
             <td class="green">41</td>
-            <td>        pm.makePersistent(jenkemImage.css)
+            <td>      val tx: Transaction = pm.currentTransaction
 </td>
           </tr><tr>
-            <td class="green">42</td>
-            <td>        pm.makePersistent(jenkemImage.irc)
+            <td class="black">42</td>
+            <td>      try {
 </td>
           </tr><tr>
             <td class="green">43</td>
-            <td>        tx.commit
+            <td>        val name = jenkemImage.info.name
 </td>
           </tr><tr>
             <td class="green">44</td>
-            <td>        true
+            <td>        getByName[ImageInfo](name, classOf[ImageInfo]) match {
 </td>
           </tr><tr>
             <td class="black">45</td>
-            <td>      } catch {
+            <td>          case Some(t) =&gt;
 </td>
           </tr><tr>
-            <td class="red">46</td>
-            <td>        case me: MongoException =&gt; <span class="non">false
-</span></td>
-          </tr><tr>
-            <td class="red">47</td>
-            <td>        case jdodse: JDODataStoreException =&gt; <span class="non">false
-</span></td>
-          </tr><tr>
-            <td class="black">48</td>
-            <td>      } finally {
+            <td class="green">46</td>
+            <td>            tx.begin
 </td>
           </tr><tr>
-            <td class="yellow">49</td>
-            <td>        if (tx.isActive) { <span class="non">tx.rollback }
-</span></td>
-          </tr><tr>
-            <td class="green">50</td>
-            <td>        pm.close
+            <td class="green">47</td>
+            <td>            jenkemImage.values.foreach(part =&gt; pm.deletePersistent(pm.getObjectById(part.c, name)))
 </td>
           </tr><tr>
-            <td class="black">51</td>
-            <td>      }
+            <td class="green">48</td>
+            <td>            tx.commit
 </td>
           </tr><tr>
-            <td class="black">52</td>
-            <td>    }
+            <td class="black">49</td>
+            <td>          case None =&gt; { }
 </td>
           </tr><tr>
-            <td class="black">53</td>
-            <td>  }
+            <td class="black">50</td>
+            <td>        }
 </td>
           </tr><tr>
-            <td class="black">54</td>
-            <td>
+            <td class="green">51</td>
+            <td>        tx.begin
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>        pm.makePersistent(jenkemImage.info)
+</td>
+          </tr><tr>
+            <td class="green">53</td>
+            <td>        pm.makePersistent(jenkemImage.html)
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>        pm.makePersistent(jenkemImage.css)
 </td>
           </tr><tr>
             <td class="green">55</td>
-            <td>  def getImageHtmlByName(name: String): Option[ImageHtml] = getByName[ImageHtml](name, classOf[ImageHtml])
+            <td>        pm.makePersistent(jenkemImage.irc)
 </td>
           </tr><tr>
             <td class="green">56</td>
-            <td>  def getImageCssByName(name: String): Option[ImageCss] = getByName[ImageCss](name, classOf[ImageCss])
+            <td>        tx.commit
 </td>
           </tr><tr>
             <td class="green">57</td>
-            <td>  def getImageIrcByName(name: String): Option[ImageIrc] = getByName[ImageIrc](name, classOf[ImageIrc])
+            <td>        true
 </td>
           </tr><tr>
             <td class="black">58</td>
+            <td>      } catch {
+</td>
+          </tr><tr>
+            <td class="red">59</td>
+            <td>        case me: MongoException =&gt; <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="red">60</td>
+            <td>        case jdodse: JDODataStoreException =&gt; <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>      } finally {
+</td>
+          </tr><tr>
+            <td class="yellow">62</td>
+            <td>        if (tx.isActive) { <span class="non">tx.rollback }
+</span></td>
+          </tr><tr>
+            <td class="green">63</td>
+            <td>        pm.close
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">67</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">59</td>
-            <td>  private def getByName[T](name: String, c: java.lang.Class[T]): Option[T] = {
+            <td class="green">68</td>
+            <td>  def getImageHtmlByName(name: String): Option[ImageHtml] = getByName[ImageHtml](name, classOf[ImageHtml])
 </td>
           </tr><tr>
-            <td class="green">60</td>
-            <td>    val pm = PMF.get.getPersistenceManager
+            <td class="green">69</td>
+            <td>  def getImageCssByName(name: String): Option[ImageCss] = getByName[ImageCss](name, classOf[ImageCss])
 </td>
           </tr><tr>
-            <td class="black">61</td>
-            <td>    try {
+            <td class="green">70</td>
+            <td>  def getImageIrcByName(name: String): Option[ImageIrc] = getByName[ImageIrc](name, classOf[ImageIrc])
 </td>
           </tr><tr>
-            <td class="green">62</td>
-            <td>      val query = pm.newQuery(c)
-</td>
-          </tr><tr>
-            <td class="green">63</td>
-            <td>      query.setUnique(true)
-</td>
-          </tr><tr>
-            <td class="green">64</td>
-            <td>      query.setFilter(&quot;name == n&quot;)
-</td>
-          </tr><tr>
-            <td class="green">65</td>
-            <td>      query.declareParameters(&quot;String n&quot;)
-</td>
-          </tr><tr>
-            <td class="green">66</td>
-            <td>      val result: T = query.execute(name).asInstanceOf[T]
-</td>
-          </tr><tr>
-            <td class="green">67</td>
-            <td>      if (result != None.orNull) { Some(result) } else { None }
-</td>
-          </tr><tr>
-            <td class="black">68</td>
-            <td>    } catch {
-</td>
-          </tr><tr>
-            <td class="red">69</td>
-            <td>      case me: MongoException =&gt; <span class="non">None
-</span></td>
-          </tr><tr>
-            <td class="black">70</td>
-            <td>    } finally {
-</td>
-          </tr><tr>
-            <td class="green">71</td>
-            <td>      pm.close
+            <td class="black">71</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">72</td>
-            <td>    }
+            <td>  private def getByName[T](name: String, c: java.lang.Class[T]): Option[T] = {
 </td>
           </tr><tr>
-            <td class="black">73</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">74</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">75</td>
-            <td>  def getAllImageInfo: Option[List[ImageInfo]] = {
-</td>
-          </tr><tr>
-            <td class="green">76</td>
+            <td class="green">73</td>
             <td>    val pm = PMF.get.getPersistenceManager
 </td>
           </tr><tr>
-            <td class="black">77</td>
+            <td class="black">74</td>
             <td>    try {
 </td>
           </tr><tr>
+            <td class="green">75</td>
+            <td>      val query = pm.newQuery(c)
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>      query.setUnique(true)
+</td>
+          </tr><tr>
+            <td class="green">77</td>
+            <td>      query.setFilter(&quot;name == n&quot;)
+</td>
+          </tr><tr>
             <td class="green">78</td>
-            <td>      val query = pm.newQuery(classOf[ImageInfo])
+            <td>      query.declareParameters(&quot;String n&quot;)
 </td>
           </tr><tr>
             <td class="green">79</td>
-            <td>      query.setRange(0, QUERY_RANGE)
+            <td>      val result: T = query.execute(name).asInstanceOf[T]
 </td>
           </tr><tr>
             <td class="green">80</td>
-            <td>      query.setOrdering(&quot;creation desc&quot;)
+            <td>      if (result != None.orNull) { Some(result) } else { None }
 </td>
           </tr><tr>
-            <td class="green">81</td>
-            <td>      val result = query.execute.asInstanceOf[java.util.List[ImageInfo]]
-</td>
-          </tr><tr>
-            <td class="green">82</td>
-            <td>      Some(result.toList)
-</td>
-          </tr><tr>
-            <td class="black">83</td>
+            <td class="black">81</td>
             <td>    } catch {
 </td>
           </tr><tr>
-            <td class="red">84</td>
+            <td class="red">82</td>
             <td>      case me: MongoException =&gt; <span class="non">None
 </span></td>
           </tr><tr>
-            <td class="black">85</td>
+            <td class="black">83</td>
             <td>    } finally {
 </td>
           </tr><tr>
-            <td class="green">86</td>
+            <td class="green">84</td>
             <td>      pm.close
 </td>
           </tr><tr>
-            <td class="black">87</td>
+            <td class="black">85</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="black">88</td>
+            <td class="black">86</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">89</td>
+            <td class="black">87</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">88</td>
+            <td>  def getAllImageInfo: Option[List[ImageInfo]] = {
+</td>
+          </tr><tr>
+            <td class="green">89</td>
+            <td>    val pm = PMF.get.getPersistenceManager
+</td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>    try {
+</td>
+          </tr><tr>
+            <td class="green">91</td>
+            <td>      val query = pm.newQuery(classOf[ImageInfo])
+</td>
+          </tr><tr>
+            <td class="green">92</td>
+            <td>      query.setRange(0, QUERY_RANGE)
+</td>
+          </tr><tr>
+            <td class="green">93</td>
+            <td>      query.setOrdering(&quot;creation desc&quot;)
+</td>
+          </tr><tr>
+            <td class="green">94</td>
+            <td>      val result = query.execute.asInstanceOf[java.util.List[ImageInfo]]
+</td>
+          </tr><tr>
+            <td class="green">95</td>
+            <td>      Some(result.toList)
+</td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>    } catch {
+</td>
+          </tr><tr>
+            <td class="red">97</td>
+            <td>      case me: MongoException =&gt; <span class="non">None
+</span></td>
+          </tr><tr>
+            <td class="black">98</td>
+            <td>    } finally {
+</td>
+          </tr><tr>
+            <td class="green">99</td>
+            <td>      pm.close
+</td>
+          </tr><tr>
+            <td class="black">100</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">101</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">102</td>
             <td>}
 </td>
           </tr></tbody></table>

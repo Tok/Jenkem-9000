@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MainTab.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui.tab</a> &gt; <span class="el_source">MainTab.scala</span></div><h1>MainTab.scala</h1><pre class="source lang-java linenums">package jenkem.ui.tab
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MainTab.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui.tab</a> &gt; <span class="el_source">MainTab.scala</span></div><h1>MainTab.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * MainTab.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.ui.tab
 
 import java.awt.image.BufferedImage
 import java.util.Date
@@ -53,415 +66,415 @@ import com.vaadin.ui.GridLayout
 import jenkem.engine.color.Color
 import jenkem.engine.Proportion
 
-<span class="pc" id="L56">class MainTab(val eventRouter: EventRouter) extends VerticalLayout {</span>
-<span class="fc" id="L57">  val capW = 150</span>
-<span class="fc" id="L58">  val inlineLabelWidth = &quot;88px&quot;</span>
+<span class="pc" id="L69">class MainTab(val eventRouter: EventRouter) extends VerticalLayout {</span>
+<span class="fc" id="L70">  val capW = 150</span>
+<span class="fc" id="L71">  val inlineLabelWidth = &quot;88px&quot;</span>
 
-<span class="fc" id="L60">  var conversionDisabled = true</span>
-<span class="pc" id="L61">  var ircOutput: List[String] = Nil</span>
-<span class="nc" id="L62">  var imagePrep: ImagePreparationData = _</span>
-<span class="pc" id="L63">  var imageData: ImageData = _</span>
-<span class="pc" id="L64">  var convData: ConversionData = _</span>
+<span class="fc" id="L73">  var conversionDisabled = true</span>
+<span class="pc" id="L74">  var ircOutput: List[String] = Nil</span>
+<span class="nc" id="L75">  var imagePrep: ImagePreparationData = _</span>
+<span class="pc" id="L76">  var imageData: ImageData = _</span>
+<span class="pc" id="L77">  var convData: ConversionData = _</span>
 
-<span class="fc" id="L66">  setCaption(&quot;Main&quot;)</span>
-<span class="fc" id="L67">  setSizeFull</span>
-<span class="fc" id="L68">  setMargin(true)</span>
-<span class="fc" id="L69">  setSpacing(true)</span>
+<span class="fc" id="L79">  setCaption(&quot;Main&quot;)</span>
+<span class="fc" id="L80">  setSizeFull</span>
+<span class="fc" id="L81">  setMargin(true)</span>
+<span class="fc" id="L82">  setSpacing(true)</span>
 
-<span class="nc bnc" id="L71" title="All 2 branches missed.">  class ImagePreparationData(val icon: BufferedImage, val originalName: String)</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">  class ImageData(val imageRgb: Color.RgbMap,</span>
-<span class="nc" id="L73">      val width: Short, val height: Short, val lineWidth: Short,</span>
-<span class="nc" id="L74">      val method: Method)</span>
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">  class ConversionData(val contrast: Short, val brightness: Short, val characters: String)</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">  class ImagePreparationData(val icon: BufferedImage, val originalName: String)</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">  class ImageData(val imageRgb: Color.RgbMap,</span>
+<span class="nc" id="L86">      val width: Short, val height: Short, val lineWidth: Short,</span>
+<span class="nc" id="L87">      val method: Method)</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">  class ConversionData(val contrast: Short, val brightness: Short, val characters: String)</span>
 
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">  val resizeValueChangeListener = new Property.ValueChangeListener {</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">  val resizeValueChangeListener = new Property.ValueChangeListener {</span>
     override def valueChange(event: ValueChangeEvent) {
-<span class="pc bpc" id="L79" title="1 of 2 branches missed.">      if(!conversionDisabled) { startConversion(false, true) }}}</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">      if(!conversionDisabled) { startConversion(false, true) }}}</span>
 
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">  val noResizeValueChangeListener = new Property.ValueChangeListener {</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">  val noResizeValueChangeListener = new Property.ValueChangeListener {</span>
     override def valueChange(event: ValueChangeEvent) {
-<span class="pc bpc" id="L83" title="1 of 2 branches missed.">      if(!conversionDisabled) { startConversion(false, false) }}}</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">      if(!conversionDisabled) { startConversion(false, false) }}}</span>
 
-<span class="fc" id="L85">  private def spacer = new Label(&quot;&amp;nbsp;&quot;, ContentMode.HTML)</span>
+<span class="fc" id="L98">  private def spacer = new Label(&quot;&amp;nbsp;&quot;, ContentMode.HTML)</span>
 
-<span class="fc" id="L87">  val mainLayout = new HorizontalLayout</span>
-<span class="fc" id="L88">  mainLayout.setMargin(true)</span>
-<span class="fc" id="L89">  mainLayout.setSpacing(true)</span>
-<span class="fc" id="L90">  val settingsLayout = new VerticalLayout</span>
-<span class="fc" id="L91">  settingsLayout.setSpacing(true)</span>
+<span class="fc" id="L100">  val mainLayout = new HorizontalLayout</span>
+<span class="fc" id="L101">  mainLayout.setMargin(true)</span>
+<span class="fc" id="L102">  mainLayout.setSpacing(true)</span>
+<span class="fc" id="L103">  val settingsLayout = new VerticalLayout</span>
+<span class="fc" id="L104">  settingsLayout.setSpacing(true)</span>
 
-<span class="fc" id="L93">  val inline = new Inline</span>
-<span class="fc" id="L94">  val inlineLayout = new VerticalLayout</span>
+<span class="fc" id="L106">  val inline = new Inline</span>
+<span class="fc" id="L107">  val inlineLayout = new VerticalLayout</span>
 
-<span class="fc" id="L96">  val kickLayout = new HorizontalLayout</span>
-<span class="fc" id="L97">  val kickLabel = new Label(&quot;Kick: &quot;)</span>
-<span class="fc" id="L98">  kickLabel.setWidth(inlineLabelWidth)</span>
-<span class="fc" id="L99">  val kickSelect = new OptionGroup(None.orNull, Kick.values)</span>
-<span class="fc" id="L100">  kickSelect.addStyleName(&quot;horizontal&quot;)</span>
-<span class="fc" id="L101">  kickSelect.setNullSelectionAllowed(false)</span>
-<span class="fc" id="L102">  kickSelect.setImmediate(true)</span>
-<span class="fc" id="L103">  kickSelect.addValueChangeListener(resizeValueChangeListener)</span>
-<span class="fc" id="L104">  kickLayout.addComponent(kickLabel)</span>
-<span class="fc" id="L105">  kickLayout.addComponent(kickSelect)</span>
-<span class="fc" id="L106">  inlineLayout.addComponent(kickLayout)</span>
+<span class="fc" id="L109">  val kickLayout = new HorizontalLayout</span>
+<span class="fc" id="L110">  val kickLabel = new Label(&quot;Kick: &quot;)</span>
+<span class="fc" id="L111">  kickLabel.setWidth(inlineLabelWidth)</span>
+<span class="fc" id="L112">  val kickSelect = new OptionGroup(None.orNull, Kick.values)</span>
+<span class="fc" id="L113">  kickSelect.addStyleName(&quot;horizontal&quot;)</span>
+<span class="fc" id="L114">  kickSelect.setNullSelectionAllowed(false)</span>
+<span class="fc" id="L115">  kickSelect.setImmediate(true)</span>
+<span class="fc" id="L116">  kickSelect.addValueChangeListener(resizeValueChangeListener)</span>
+<span class="fc" id="L117">  kickLayout.addComponent(kickLabel)</span>
+<span class="fc" id="L118">  kickLayout.addComponent(kickSelect)</span>
+<span class="fc" id="L119">  inlineLayout.addComponent(kickLayout)</span>
 
-<span class="fc" id="L108">  val optionsLayout = new HorizontalLayout</span>
-<span class="fc" id="L109">  val proportionLabel = new Label(&quot;Proportion: &quot;)</span>
-<span class="fc" id="L110">  proportionLabel.setWidth(inlineLabelWidth)</span>
-<span class="fc" id="L111">  val proportionSelect = new OptionGroup(None.orNull, Proportion.values)</span>
-<span class="fc" id="L112">  proportionSelect.setDescription(&quot;Mostly relevant for small images&quot;)</span>
-<span class="fc" id="L113">  proportionSelect.addStyleName(&quot;horizontal&quot;)</span>
-<span class="fc" id="L114">  proportionSelect.setNullSelectionAllowed(false)</span>
-<span class="fc" id="L115">  proportionSelect.setImmediate(true)</span>
-<span class="fc" id="L116">  proportionSelect.addValueChangeListener(resizeValueChangeListener)</span>
-<span class="fc" id="L117">  optionsLayout.addComponent(proportionLabel)</span>
-<span class="fc" id="L118">  optionsLayout.addComponent(proportionSelect)</span>
-<span class="fc" id="L119">  inlineLayout.addComponent(optionsLayout)</span>
+<span class="fc" id="L121">  val optionsLayout = new HorizontalLayout</span>
+<span class="fc" id="L122">  val proportionLabel = new Label(&quot;Proportion: &quot;)</span>
+<span class="fc" id="L123">  proportionLabel.setWidth(inlineLabelWidth)</span>
+<span class="fc" id="L124">  val proportionSelect = new OptionGroup(None.orNull, Proportion.values)</span>
+<span class="fc" id="L125">  proportionSelect.setDescription(&quot;Mostly relevant for small images&quot;)</span>
+<span class="fc" id="L126">  proportionSelect.addStyleName(&quot;horizontal&quot;)</span>
+<span class="fc" id="L127">  proportionSelect.setNullSelectionAllowed(false)</span>
+<span class="fc" id="L128">  proportionSelect.setImmediate(true)</span>
+<span class="fc" id="L129">  proportionSelect.addValueChangeListener(resizeValueChangeListener)</span>
+<span class="fc" id="L130">  optionsLayout.addComponent(proportionLabel)</span>
+<span class="fc" id="L131">  optionsLayout.addComponent(proportionSelect)</span>
+<span class="fc" id="L132">  inlineLayout.addComponent(optionsLayout)</span>
 
-<span class="fc" id="L121">  val imagePreparer = new ImagePreparer(eventRouter)</span>
-<span class="fc" id="L122">  imagePreparer.enableSubmission(false)</span>
-<span class="fc" id="L123">  addComponent(imagePreparer)</span>
-<span class="fc" id="L124">  addComponent(mainLayout)</span>
+<span class="fc" id="L134">  val imagePreparer = new ImagePreparer(eventRouter)</span>
+<span class="fc" id="L135">  imagePreparer.enableSubmission(false)</span>
+<span class="fc" id="L136">  addComponent(imagePreparer)</span>
+<span class="fc" id="L137">  addComponent(mainLayout)</span>
 
-<span class="fc" id="L126">  val lwLayout = new HorizontalLayout</span>
-<span class="fc" id="L127">  val lwCaptionLabel = new Label(&quot;Max Line Width: &quot;)</span>
-<span class="fc" id="L128">  lwCaptionLabel.setWidth(inlineLabelWidth)</span>
-<span class="fc" id="L129">  lwLayout.addComponent(lwCaptionLabel)</span>
-<span class="fc" id="L130">  lwLayout.setComponentAlignment(lwCaptionLabel, Alignment.MIDDLE_LEFT)</span>
-<span class="fc" id="L131">  val widthSlider = new Slider</span>
-<span class="fc" id="L132">  widthSlider.setMin(InitUtil.MIN_WIDTH)</span>
-<span class="fc" id="L133">  widthSlider.setValue(InitUtil.DEFAULT_WIDTH)</span>
-<span class="fc" id="L134">  widthSlider.setMax(InitUtil.MAX_WIDTH)</span>
-<span class="fc" id="L135">  widthSlider.addValueChangeListener(resizeValueChangeListener)</span>
-<span class="fc" id="L136">  widthSlider.setWidth(&quot;350px&quot;)</span>
-<span class="fc" id="L137">  lwLayout.addComponent(widthSlider)</span>
-<span class="fc" id="L138">  lwLayout.setComponentAlignment(widthSlider, Alignment.MIDDLE_LEFT)</span>
-<span class="fc" id="L139">  inlineLayout.addComponent(lwLayout)</span>
-<span class="fc" id="L140">  inlineLayout.addComponent(inline)</span>
-<span class="fc" id="L141">  mainLayout.addComponent(inlineLayout)</span>
-<span class="fc" id="L142">  mainLayout.addComponent(settingsLayout)</span>
+<span class="fc" id="L139">  val lwLayout = new HorizontalLayout</span>
+<span class="fc" id="L140">  val lwCaptionLabel = new Label(&quot;Max Line Width: &quot;)</span>
+<span class="fc" id="L141">  lwCaptionLabel.setWidth(inlineLabelWidth)</span>
+<span class="fc" id="L142">  lwLayout.addComponent(lwCaptionLabel)</span>
+<span class="fc" id="L143">  lwLayout.setComponentAlignment(lwCaptionLabel, Alignment.MIDDLE_LEFT)</span>
+<span class="fc" id="L144">  val widthSlider = new Slider</span>
+<span class="fc" id="L145">  widthSlider.setMin(InitUtil.MIN_WIDTH)</span>
+<span class="fc" id="L146">  widthSlider.setValue(InitUtil.DEFAULT_WIDTH)</span>
+<span class="fc" id="L147">  widthSlider.setMax(InitUtil.MAX_WIDTH)</span>
+<span class="fc" id="L148">  widthSlider.addValueChangeListener(resizeValueChangeListener)</span>
+<span class="fc" id="L149">  widthSlider.setWidth(&quot;350px&quot;)</span>
+<span class="fc" id="L150">  lwLayout.addComponent(widthSlider)</span>
+<span class="fc" id="L151">  lwLayout.setComponentAlignment(widthSlider, Alignment.MIDDLE_LEFT)</span>
+<span class="fc" id="L152">  inlineLayout.addComponent(lwLayout)</span>
+<span class="fc" id="L153">  inlineLayout.addComponent(inline)</span>
+<span class="fc" id="L154">  mainLayout.addComponent(inlineLayout)</span>
+<span class="fc" id="L155">  mainLayout.addComponent(settingsLayout)</span>
 
-<span class="fc" id="L144">  val methodBox = makeListMethodSelect(&quot;Conversion Method: &quot;)</span>
-<span class="fc" id="L145">  val resetButton = new Button(&quot;Reset Conversion Settings&quot;)</span>
-<span class="fc" id="L146">  settingsLayout.addComponent(makeLabeled(&quot;Action: &quot;, capW, resetButton, false))</span>
-<span class="pc bpc" id="L147" title="1 of 2 branches missed.">  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel(&quot;Character Brightness: &quot;, -100, 100, 0)</span>
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">  val (contrastSlider, contrastLabel) = makeSliderAndLabel(&quot;Character Contrast: &quot;, -100, 100, 0)</span>
+<span class="fc" id="L157">  val methodBox = makeListMethodSelect(&quot;Conversion Method: &quot;)</span>
+<span class="fc" id="L158">  val resetButton = new Button(&quot;Reset Conversion Settings&quot;)</span>
+<span class="fc" id="L159">  settingsLayout.addComponent(makeLabeled(&quot;Action: &quot;, capW, resetButton, false))</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel(&quot;Character Brightness: &quot;, -100, 100, 0)</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">  val (contrastSlider, contrastLabel) = makeSliderAndLabel(&quot;Character Contrast: &quot;, -100, 100, 0)</span>
 
-<span class="fc" id="L150">  val charsetLayout = new HorizontalLayout</span>
-<span class="fc" id="L151">  val charsetBox = new NativeSelect</span>
-<span class="fc" id="L152">  charsetBox.setNullSelectionAllowed(false)</span>
-<span class="fc" id="L153">  charsetBox.setImmediate(true)</span>
-<span class="fc" id="L154">  charsetBox.setWidth(&quot;120px&quot;)</span>
-<span class="fc" id="L155">  val charTextField = new TextField</span>
-<span class="fc" id="L156">  charTextField.setWidth(&quot;125px&quot;)</span>
-<span class="fc" id="L157">  charsetLayout.addComponent(charsetBox)</span>
-<span class="fc" id="L158">  charsetLayout.addComponent(charTextField)</span>
-<span class="fc" id="L159">  settingsLayout.addComponent(makeLabeled(&quot;Characters: &quot;, capW, charsetLayout, true))</span>
-<span class="fc" id="L160">  val procSetter = new ProcSetter(eventRouter)</span>
-<span class="fc" id="L161">  settingsLayout.addComponent(makeLabeled(&quot;Processing: &quot;, capW, procSetter, true))</span>
-<span class="fc" id="L162">  settingsLayout.addComponent(spacer)</span>
-<span class="fc" id="L163">  val powerBox = makeNativeSelect(&quot;Power: &quot;)</span>
-<span class="fc" id="L164">  val ircColorSetter = new IrcColorSetter(eventRouter)</span>
-<span class="fc" id="L165">  settingsLayout.addComponent(ircColorSetter)</span>
-<span class="fc" id="L166">  settingsLayout.addComponent(spacer)</span>
-<span class="fc" id="L167">  val outputDisplay = new OutputDisplay</span>
-<span class="fc" id="L168">  settingsLayout.addComponent(outputDisplay)</span>
-<span class="fc" id="L169">  settingsLayout.addComponent(spacer)</span>
-<span class="fc" id="L170">  val ircConnector = new IrcConnector(eventRouter)</span>
-<span class="fc" id="L171">  settingsLayout.addComponent(ircConnector)</span>
+<span class="fc" id="L163">  val charsetLayout = new HorizontalLayout</span>
+<span class="fc" id="L164">  val charsetBox = new NativeSelect</span>
+<span class="fc" id="L165">  charsetBox.setNullSelectionAllowed(false)</span>
+<span class="fc" id="L166">  charsetBox.setImmediate(true)</span>
+<span class="fc" id="L167">  charsetBox.setWidth(&quot;120px&quot;)</span>
+<span class="fc" id="L168">  val charTextField = new TextField</span>
+<span class="fc" id="L169">  charTextField.setWidth(&quot;125px&quot;)</span>
+<span class="fc" id="L170">  charsetLayout.addComponent(charsetBox)</span>
+<span class="fc" id="L171">  charsetLayout.addComponent(charTextField)</span>
+<span class="fc" id="L172">  settingsLayout.addComponent(makeLabeled(&quot;Characters: &quot;, capW, charsetLayout, true))</span>
+<span class="fc" id="L173">  val procSetter = new ProcSetter(eventRouter)</span>
+<span class="fc" id="L174">  settingsLayout.addComponent(makeLabeled(&quot;Processing: &quot;, capW, procSetter, true))</span>
+<span class="fc" id="L175">  settingsLayout.addComponent(spacer)</span>
+<span class="fc" id="L176">  val powerBox = makeNativeSelect(&quot;Power: &quot;)</span>
+<span class="fc" id="L177">  val ircColorSetter = new IrcColorSetter(eventRouter)</span>
+<span class="fc" id="L178">  settingsLayout.addComponent(ircColorSetter)</span>
+<span class="fc" id="L179">  settingsLayout.addComponent(spacer)</span>
+<span class="fc" id="L180">  val outputDisplay = new OutputDisplay</span>
+<span class="fc" id="L181">  settingsLayout.addComponent(outputDisplay)</span>
+<span class="fc" id="L182">  settingsLayout.addComponent(spacer)</span>
+<span class="fc" id="L183">  val ircConnector = new IrcConnector(eventRouter)</span>
+<span class="fc" id="L184">  settingsLayout.addComponent(ircConnector)</span>
 
-<span class="pc bpc" id="L173" title="1 of 2 branches missed.">  resetButton.addClickListener(new Button.ClickListener {</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">  resetButton.addClickListener(new Button.ClickListener {</span>
     override def buttonClick(event: ClickEvent): Unit = {
-<span class="nc" id="L175">      doReset //may trigger conversion</span>
-<span class="nc" id="L176">      startConversion(false, true)</span>
+<span class="nc" id="L188">      doReset //may trigger conversion</span>
+<span class="nc" id="L189">      startConversion(false, true)</span>
     }
   })
 
-<span class="pc bpc" id="L180" title="1 of 2 branches missed.">  val charsetBoxListener = new Property.ValueChangeListener {</span>
-<span class="fc" id="L181">    override def valueChange(event: ValueChangeEvent): Unit = {</span>
-<span class="fc" id="L182">      val charsetName = event.getProperty.getValue.toString</span>
-<span class="pc" id="L183">      Pal.valueOf(charsetName) match {</span>
-<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        case Some(pal) =&gt;</span>
-<span class="fc" id="L185">          makeInitsForCharset(pal.chars)</span>
-<span class="fc bfc" id="L186" title="All 2 branches covered.">          if (!pal.chars.equals(charTextField.getValue)) {</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">  val charsetBoxListener = new Property.ValueChangeListener {</span>
+<span class="fc" id="L194">    override def valueChange(event: ValueChangeEvent): Unit = {</span>
+<span class="fc" id="L195">      val charsetName = event.getProperty.getValue.toString</span>
+<span class="pc" id="L196">      Pal.valueOf(charsetName) match {</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        case Some(pal) =&gt;</span>
+<span class="fc" id="L198">          makeInitsForCharset(pal.chars)</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">          if (!pal.chars.equals(charTextField.getValue)) {</span>
              //triggers conversion
-<span class="fc" id="L188">            charTextField.setValue(pal.chars)</span>
+<span class="fc" id="L201">            charTextField.setValue(pal.chars)</span>
           }
-<span class="nc bnc" id="L190" title="All 6 branches missed.">        case None =&gt; imagePreparer.setError(&quot;Charset not found.&quot;)</span>
+<span class="nc bnc" id="L203" title="All 6 branches missed.">        case None =&gt; imagePreparer.setError(&quot;Charset not found.&quot;)</span>
       }
     }
   }
-<span class="fc" id="L194">  charsetBox.addValueChangeListener(charsetBoxListener)</span>
+<span class="fc" id="L207">  charsetBox.addValueChangeListener(charsetBoxListener)</span>
 
-<span class="fc" id="L196">  charTextField.setImmediate(true)</span>
-<span class="fc" id="L197">  charTextField.addValueChangeListener(noResizeValueChangeListener)</span>
+<span class="fc" id="L209">  charTextField.setImmediate(true)</span>
+<span class="fc" id="L210">  charTextField.addValueChangeListener(noResizeValueChangeListener)</span>
 
-<span class="pc bpc" id="L199" title="1 of 2 branches missed.">  Power.values.foreach(p =&gt; powerBox.addItem(p))</span>
-<span class="fc" id="L200">  powerBox.addValueChangeListener(noResizeValueChangeListener)</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">  Power.values.foreach(p =&gt; powerBox.addItem(p))</span>
+<span class="fc" id="L213">  powerBox.addValueChangeListener(noResizeValueChangeListener)</span>
 
-<span class="pc bpc" id="L202" title="1 of 2 branches missed.">  eventRouter.addListener(classOf[DoConversionEvent], new {</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">  eventRouter.addListener(classOf[DoConversionEvent], new {</span>
     def convert(e: DoConversionEvent): Unit =
-<span class="fc" id="L204">      startConversion(e.prepareImage, e.resize)</span>
-<span class="fc" id="L205">    }, &quot;convert&quot;)</span>
-<span class="pc bpc" id="L206" title="1 of 2 branches missed.">  eventRouter.addListener(classOf[SendToIrcEvent], new {</span>
-<span class="pc" id="L207">    def send: Unit = ircConnector.sendToIrc(ircOutput)}, &quot;send&quot;)</span>
+<span class="fc" id="L217">      startConversion(e.prepareImage, e.resize)</span>
+<span class="fc" id="L218">    }, &quot;convert&quot;)</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">  eventRouter.addListener(classOf[SendToIrcEvent], new {</span>
+<span class="pc" id="L220">    def send: Unit = ircConnector.sendToIrc(ircOutput)}, &quot;send&quot;)</span>
 
-<span class="fc" id="L209">  methodBox.select(Method.Vortacular)</span>
-<span class="fc" id="L210">  doReset</span>
+<span class="fc" id="L222">  methodBox.select(Method.Vortacular)</span>
+<span class="fc" id="L223">  doReset</span>
 
   private def makeNativeSelect(caption: String): NativeSelect = {
-<span class="fc" id="L213">    val box = new NativeSelect</span>
-<span class="fc" id="L214">    box.setNullSelectionAllowed(false)</span>
-<span class="fc" id="L215">    box.setImmediate(true)</span>
-<span class="fc" id="L216">    val layout = makeLabeled(caption, capW, box, true)</span>
-<span class="fc" id="L217">    settingsLayout.addComponent(layout)</span>
-<span class="fc" id="L218">    box</span>
+<span class="fc" id="L226">    val box = new NativeSelect</span>
+<span class="fc" id="L227">    box.setNullSelectionAllowed(false)</span>
+<span class="fc" id="L228">    box.setImmediate(true)</span>
+<span class="fc" id="L229">    val layout = makeLabeled(caption, capW, box, true)</span>
+<span class="fc" id="L230">    settingsLayout.addComponent(layout)</span>
+<span class="fc" id="L231">    box</span>
   }
 
   private def makeListMethodSelect(caption: String): ListSelect = {
-<span class="fc" id="L222">    val settings = new ListSelect</span>
-<span class="pc bpc" id="L223" title="1 of 2 branches missed.">    settings.addValueChangeListener(new Property.ValueChangeListener {</span>
+<span class="fc" id="L235">    val settings = new ListSelect</span>
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">    settings.addValueChangeListener(new Property.ValueChangeListener {</span>
       override def valueChange(event: ValueChangeEvent): Unit = {
-<span class="fc" id="L225">        conversionDisabled = true</span>
-<span class="fc" id="L226">        makeInitsForMethod</span>
-<span class="fc" id="L227">        conversionDisabled = false</span>
-<span class="fc" id="L228">        startConversion(false, true)</span>
+<span class="fc" id="L238">        conversionDisabled = true</span>
+<span class="fc" id="L239">        makeInitsForMethod</span>
+<span class="fc" id="L240">        conversionDisabled = false</span>
+<span class="fc" id="L241">        startConversion(false, true)</span>
       }
     })
-<span class="fc" id="L231">    settings.setRows(Method.values.length)</span>
-<span class="fc" id="L232">    Method.values.map(settings.addItem(_))</span>
-<span class="fc" id="L233">    settings.setNullSelectionAllowed(false)</span>
-<span class="fc" id="L234">    settings.setImmediate(true)</span>
-<span class="fc" id="L235">    val layout = makeLabeled(caption, capW, settings, true)</span>
-<span class="fc" id="L236">    settingsLayout.addComponent(layout)</span>
-<span class="fc" id="L237">    settings</span>
+<span class="fc" id="L244">    settings.setRows(Method.values.length)</span>
+<span class="fc" id="L245">    Method.values.map(settings.addItem(_))</span>
+<span class="fc" id="L246">    settings.setNullSelectionAllowed(false)</span>
+<span class="fc" id="L247">    settings.setImmediate(true)</span>
+<span class="fc" id="L248">    val layout = makeLabeled(caption, capW, settings, true)</span>
+<span class="fc" id="L249">    settingsLayout.addComponent(layout)</span>
+<span class="fc" id="L250">    settings</span>
   }
 
   private def makeLabeled(caption: String, width: Int, component: Component, setWidth: Boolean) = {
-<span class="fc" id="L241">    val layout = new HorizontalLayout</span>
-<span class="fc" id="L242">    val captionLabel = new Label(caption)</span>
-<span class="fc" id="L243">    captionLabel.setWidth(width + &quot;px&quot;)</span>
-<span class="fc bfc" id="L244" title="All 2 branches covered.">    if (setWidth) { component.setWidth(&quot;250px&quot;) }</span>
-<span class="fc" id="L245">    layout.addComponent(captionLabel)</span>
-<span class="fc" id="L246">    layout.addComponent(component)</span>
-<span class="fc" id="L247">    layout</span>
+<span class="fc" id="L254">    val layout = new HorizontalLayout</span>
+<span class="fc" id="L255">    val captionLabel = new Label(caption)</span>
+<span class="fc" id="L256">    captionLabel.setWidth(width + &quot;px&quot;)</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">    if (setWidth) { component.setWidth(&quot;250px&quot;) }</span>
+<span class="fc" id="L258">    layout.addComponent(captionLabel)</span>
+<span class="fc" id="L259">    layout.addComponent(component)</span>
+<span class="fc" id="L260">    layout</span>
   }
 
   private def makeSliderAndLabel(caption: String, min: Int, max: Int, default: Int): (Slider, Label) = {
-<span class="fc" id="L251">    val layout = new AbsoluteLayout</span>
-<span class="fc" id="L252">    val label = new Label(default.toString)</span>
-<span class="fc" id="L253">    label.setWidth(&quot;30px&quot;)</span>
-<span class="fc" id="L254">    label.setStyleName(&quot;sliderLabel&quot;)</span>
-<span class="fc" id="L255">    val slider = new Slider(&quot;&quot;)</span>
-<span class="fc" id="L256">    slider.setWidth(&quot;220px&quot;)</span>
-<span class="fc" id="L257">    slider.setMin(min)</span>
-<span class="fc" id="L258">    slider.setMax(max)</span>
-<span class="fc" id="L259">    slider.setImmediate(true)</span>
-<span class="pc bpc" id="L260" title="1 of 2 branches missed.">    slider.addValueChangeListener(new Property.ValueChangeListener {</span>
+<span class="fc" id="L264">    val layout = new AbsoluteLayout</span>
+<span class="fc" id="L265">    val label = new Label(default.toString)</span>
+<span class="fc" id="L266">    label.setWidth(&quot;30px&quot;)</span>
+<span class="fc" id="L267">    label.setStyleName(&quot;sliderLabel&quot;)</span>
+<span class="fc" id="L268">    val slider = new Slider(&quot;&quot;)</span>
+<span class="fc" id="L269">    slider.setWidth(&quot;220px&quot;)</span>
+<span class="fc" id="L270">    slider.setMin(min)</span>
+<span class="fc" id="L271">    slider.setMax(max)</span>
+<span class="fc" id="L272">    slider.setImmediate(true)</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">    slider.addValueChangeListener(new Property.ValueChangeListener {</span>
       override def valueChange(event: ValueChangeEvent): Unit = {
-<span class="nc" id="L262">        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))</span>
-<span class="nc" id="L263">        startConversion(false, false)</span>
+<span class="nc" id="L275">        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))</span>
+<span class="nc" id="L276">        startConversion(false, false)</span>
       }
     })
-<span class="fc" id="L266">    layout.setWidth(&quot;100%&quot;)</span>
-<span class="fc" id="L267">    layout.addComponent(slider, &quot;left:0px&quot;)</span>
-<span class="fc" id="L268">    layout.addComponent(label, &quot;left:220px&quot;)</span>
-<span class="fc" id="L269">    settingsLayout.addComponent(makeLabeled(caption, capW, layout, true))</span>
-<span class="fc" id="L270">    (slider, label)</span>
+<span class="fc" id="L279">    layout.setWidth(&quot;100%&quot;)</span>
+<span class="fc" id="L280">    layout.addComponent(slider, &quot;left:0px&quot;)</span>
+<span class="fc" id="L281">    layout.addComponent(label, &quot;left:220px&quot;)</span>
+<span class="fc" id="L282">    settingsLayout.addComponent(makeLabeled(caption, capW, layout, true))</span>
+<span class="fc" id="L283">    (slider, label)</span>
   }
 
   private def doPrepareImage(url: String): Unit = {
-<span class="nc" id="L274">    val crops = imagePreparer.getCrops</span>
-<span class="nc" id="L275">    val invert = imagePreparer.isInvert</span>
-<span class="nc" id="L276">    val bg = imagePreparer.getBg</span>
-<span class="nc" id="L277">    val icon = AwtImageUtil.makeIcon(url, bg, invert, crops)</span>
-<span class="nc" id="L278">    imagePreparer.addIcon(icon)</span>
-<span class="nc" id="L279">    imagePreparer.setName(url.split(&quot;/&quot;).last)</span>
-<span class="nc" id="L280">    imagePreparer.enableSubmission(true)</span>
-<span class="nc" id="L281">    imagePrep = new ImagePreparationData(icon, imagePreparer.getName)</span>
+<span class="nc" id="L287">    val crops = imagePreparer.getCrops</span>
+<span class="nc" id="L288">    val invert = imagePreparer.isInvert</span>
+<span class="nc" id="L289">    val bg = imagePreparer.getBg</span>
+<span class="nc" id="L290">    val icon = AwtImageUtil.makeIcon(url, bg, invert, crops)</span>
+<span class="nc" id="L291">    imagePreparer.addIcon(icon)</span>
+<span class="nc" id="L292">    imagePreparer.setName(url.split(&quot;/&quot;).last)</span>
+<span class="nc" id="L293">    imagePreparer.enableSubmission(true)</span>
+<span class="nc" id="L294">    imagePrep = new ImagePreparationData(icon, imagePreparer.getName)</span>
   }
 
   private def doPrepareImageData(url: String): Unit = {
-<span class="nc" id="L285">    val kick = Kick.valueOf(kickSelect.getValue.toString).get</span>
-<span class="nc" id="L286">    val crops = imagePreparer.getCrops</span>
-<span class="nc" id="L287">    val invert = imagePreparer.isInvert</span>
-<span class="nc" id="L288">    val bg = imagePreparer.getBg</span>
-<span class="nc" id="L289">    val originalImage = AwtImageUtil.bufferImage(url, bg, invert, crops)</span>
-<span class="nc" id="L290">    val originalWidth = originalImage.getWidth</span>
-<span class="nc" id="L291">    val originalHeight = originalImage.getHeight</span>
-<span class="nc" id="L292">    val lineWidth = widthSlider.getValue.shortValue</span>
-<span class="nc" id="L293">    val method = Method.valueOf(methodBox.getValue.toString).get</span>
-<span class="nc" id="L294">    val proportion = proportionSelect.getValue.asInstanceOf[Proportion]</span>
-<span class="nc bnc" id="L295" title="All 2 branches missed.">    val (width, height) = Proportion.getWidthAndHeight(proportion, method, lineWidth, originalWidth, originalHeight)</span>
-<span class="nc" id="L296">    val b = imagePreparer.getBrightness</span>
-<span class="nc" id="L297">    val c = imagePreparer.getContrast</span>
-<span class="nc" id="L298">    val scaled = AwtImageUtil.getScaled(originalImage, width, height, kick, b, c)</span>
-<span class="nc" id="L299">    inline.setIntermediate(scaled, method)</span>
-<span class="nc" id="L300">    val imageRgb = AwtImageUtil.getImageRgb(scaled)</span>
-<span class="nc" id="L301">    imageData = new ImageData(imageRgb, scaled.getWidth.toShort, scaled.getHeight.toShort, lineWidth, method)</span>
+<span class="nc" id="L298">    val kick = Kick.valueOf(kickSelect.getValue.toString).get</span>
+<span class="nc" id="L299">    val crops = imagePreparer.getCrops</span>
+<span class="nc" id="L300">    val invert = imagePreparer.isInvert</span>
+<span class="nc" id="L301">    val bg = imagePreparer.getBg</span>
+<span class="nc" id="L302">    val originalImage = AwtImageUtil.bufferImage(url, bg, invert, crops)</span>
+<span class="nc" id="L303">    val originalWidth = originalImage.getWidth</span>
+<span class="nc" id="L304">    val originalHeight = originalImage.getHeight</span>
+<span class="nc" id="L305">    val lineWidth = widthSlider.getValue.shortValue</span>
+<span class="nc" id="L306">    val method = Method.valueOf(methodBox.getValue.toString).get</span>
+<span class="nc" id="L307">    val proportion = proportionSelect.getValue.asInstanceOf[Proportion]</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">    val (width, height) = Proportion.getWidthAndHeight(proportion, method, lineWidth, originalWidth, originalHeight)</span>
+<span class="nc" id="L309">    val b = imagePreparer.getBrightness</span>
+<span class="nc" id="L310">    val c = imagePreparer.getContrast</span>
+<span class="nc" id="L311">    val scaled = AwtImageUtil.getScaled(originalImage, width, height, kick, b, c)</span>
+<span class="nc" id="L312">    inline.setIntermediate(scaled, method)</span>
+<span class="nc" id="L313">    val imageRgb = AwtImageUtil.getImageRgb(scaled)</span>
+<span class="nc" id="L314">    imageData = new ImageData(imageRgb, scaled.getWidth.toShort, scaled.getHeight.toShort, lineWidth, method)</span>
   }
 
   private def startConversion(prepareImage: Boolean, resize: Boolean): Unit = {
-<span class="fc bfc" id="L305" title="All 4 branches covered.">    if (!conversionDisabled) {</span>
-<span class="fc" id="L306">      conversionDisabled = true</span>
-<span class="pc" id="L307">      imagePreparer.getUrl match {</span>
-<span class="fc bfc" id="L308" title="All 2 branches covered.">        case Some(url) =&gt;</span>
-<span class="pc" id="L309">          try {</span>
-<span class="fc" id="L310">            val totalStart = (new Date).getTime</span>
-<span class="pc bpc" id="L311" title="1 of 2 branches missed.">            if (prepareImage) { doPrepareImage(url) }</span>
-<span class="pc bpc" id="L312" title="1 of 2 branches missed.">            if (resize) { doPrepareImageData(url) }</span>
-<span class="nc bnc" id="L313" title="All 2 branches missed.">            if (prepareImage) {</span>
-<span class="nc" id="L314">              makeImageInits</span>
-<span class="nc" id="L315">              conversionDisabled = false</span>
-<span class="nc" id="L316">              startConversion(false, false)</span>
+<span class="fc bfc" id="L318" title="All 4 branches covered.">    if (!conversionDisabled) {</span>
+<span class="fc" id="L319">      conversionDisabled = true</span>
+<span class="pc" id="L320">      imagePreparer.getUrl match {</span>
+<span class="fc bfc" id="L321" title="All 2 branches covered.">        case Some(url) =&gt;</span>
+<span class="pc" id="L322">          try {</span>
+<span class="fc" id="L323">            val totalStart = (new Date).getTime</span>
+<span class="pc bpc" id="L324" title="1 of 2 branches missed.">            if (prepareImage) { doPrepareImage(url) }</span>
+<span class="pc bpc" id="L325" title="1 of 2 branches missed.">            if (resize) { doPrepareImageData(url) }</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">            if (prepareImage) {</span>
+<span class="nc" id="L327">              makeImageInits</span>
+<span class="nc" id="L328">              conversionDisabled = false</span>
+<span class="nc" id="L329">              startConversion(false, false)</span>
             } else {
-<span class="nc bnc" id="L318" title="All 2 branches missed.">              val (conversionTime, htmlTime) = makeConversion</span>
-<span class="nc" id="L319">              val totalEnd = (new Date).getTime</span>
-<span class="nc" id="L320">              val totalTime = totalEnd - totalStart</span>
-<span class="nc" id="L321">              val status = &quot;Image converted in &quot; + conversionTime + &quot;ms. &quot; +</span>
-<span class="nc" id="L322">                    &quot;HTML generated in &quot; + htmlTime + &quot;ms. &quot; +</span>
-<span class="nc" id="L323">                    &quot;Total time &quot; + totalTime + &quot;ms.&quot;</span>
-<span class="nc" id="L324">              imagePreparer.setStatus(status)</span>
+<span class="nc bnc" id="L331" title="All 2 branches missed.">              val (conversionTime, htmlTime) = makeConversion</span>
+<span class="nc" id="L332">              val totalEnd = (new Date).getTime</span>
+<span class="nc" id="L333">              val totalTime = totalEnd - totalStart</span>
+<span class="nc" id="L334">              val status = &quot;Image converted in &quot; + conversionTime + &quot;ms. &quot; +</span>
+<span class="nc" id="L335">                    &quot;HTML generated in &quot; + htmlTime + &quot;ms. &quot; +</span>
+<span class="nc" id="L336">                    &quot;Total time &quot; + totalTime + &quot;ms.&quot;</span>
+<span class="nc" id="L337">              imagePreparer.setStatus(status)</span>
               //System.gc
             }
           } catch {
             case iioe: javax.imageio.IIOException =&gt; imagePreparer.setError(&quot;Cannot read image from URL.&quot;)
             case e: Exception =&gt; imagePreparer.setError(e.getMessage)
           }
-<span class="pc bpc" id="L331" title="4 of 6 branches missed.">        case None =&gt; { }</span>
+<span class="pc bpc" id="L344" title="4 of 6 branches missed.">        case None =&gt; { }</span>
       }
     }
   }
 
   private def makeConversion(): (Long, Long) = {
-<span class="nc" id="L337">    val chars = charTextField.getValue.replaceAll(&quot;[,0-9]&quot;, &quot;&quot;)</span>
-<span class="nc" id="L338">    val contrast = contrastLabel.getValue.toShort</span>
-<span class="nc" id="L339">    val brightness = brightnessLabel.getValue.toShort</span>
-<span class="nc" id="L340">    convData = new ConversionData(contrast, brightness, chars)</span>
-<span class="nc" id="L341">    val ps = procSetter.getSettings</span>
-<span class="nc" id="L342">    val params = new Engine.Params(</span>
-<span class="nc" id="L343">      imageData.method,</span>
-<span class="nc" id="L344">      imageData.imageRgb,</span>
-<span class="nc" id="L345">      ircColorSetter.getColorMap,</span>
-<span class="nc" id="L346">      chars,</span>
-<span class="nc" id="L347">      ps,</span>
-<span class="nc" id="L348">      contrast,</span>
-<span class="nc" id="L349">      brightness,</span>
-<span class="nc" id="L350">      Power.valueOf(powerBox.getValue.toString).get</span>
+<span class="nc" id="L350">    val chars = charTextField.getValue.replaceAll(&quot;[,0-9]&quot;, &quot;&quot;)</span>
+<span class="nc" id="L351">    val contrast = contrastLabel.getValue.toShort</span>
+<span class="nc" id="L352">    val brightness = brightnessLabel.getValue.toShort</span>
+<span class="nc" id="L353">    convData = new ConversionData(contrast, brightness, chars)</span>
+<span class="nc" id="L354">    val ps = procSetter.getSettings</span>
+<span class="nc" id="L355">    val params = new Engine.Params(</span>
+<span class="nc" id="L356">      imageData.method,</span>
+<span class="nc" id="L357">      imageData.imageRgb,</span>
+<span class="nc" id="L358">      ircColorSetter.getColorMap,</span>
+<span class="nc" id="L359">      chars,</span>
+<span class="nc" id="L360">      ps,</span>
+<span class="nc" id="L361">      contrast,</span>
+<span class="nc" id="L362">      brightness,</span>
+<span class="nc" id="L363">      Power.valueOf(powerBox.getValue.toString).get</span>
     )
-<span class="nc" id="L352">    val conversionStart = (new Date).getTime</span>
-<span class="nc" id="L353">    ircOutput = generateIrcOutput(params, imageData.height)</span>
-<span class="nc" id="L354">    val conversionEnd = (new Date).getTime</span>
-<span class="nc" id="L355">    val conversionDiff = conversionEnd - conversionStart</span>
-<span class="nc" id="L356">    outputDisplay.addIrcOutput(ircOutput.map(_ + &quot;\n&quot;))</span>
-<span class="nc" id="L357">    val htmlDiff = updateInline(imageData.method, ircOutput, imagePreparer.getName)</span>
-<span class="nc" id="L358">    ircConnector.refresh</span>
-<span class="nc" id="L359">    conversionDisabled = false</span>
-<span class="nc" id="L360">    (conversionDiff, htmlDiff)</span>
+<span class="nc" id="L365">    val conversionStart = (new Date).getTime</span>
+<span class="nc" id="L366">    ircOutput = generateIrcOutput(params, imageData.height)</span>
+<span class="nc" id="L367">    val conversionEnd = (new Date).getTime</span>
+<span class="nc" id="L368">    val conversionDiff = conversionEnd - conversionStart</span>
+<span class="nc" id="L369">    outputDisplay.addIrcOutput(ircOutput.map(_ + &quot;\n&quot;))</span>
+<span class="nc" id="L370">    val htmlDiff = updateInline(imageData.method, ircOutput, imagePreparer.getName)</span>
+<span class="nc" id="L371">    ircConnector.refresh</span>
+<span class="nc" id="L372">    conversionDisabled = false</span>
+<span class="nc" id="L373">    (conversionDiff, htmlDiff)</span>
   }
 
   private def generateIrcOutput(params: Engine.Params, lastIndex: Int) = {
     def generate0(index: Int): List[String] = {
-<span class="nc bnc" id="L365" title="All 4 branches missed.">      if (index + 2 &gt; lastIndex) { Nil }</span>
-<span class="nc" id="L366">      else { Engine.generateLine(params, index) :: generate0(index + 2) }</span>
+<span class="nc bnc" id="L378" title="All 4 branches missed.">      if (index + 2 &gt; lastIndex) { Nil }</span>
+<span class="nc" id="L379">      else { Engine.generateLine(params, index) :: generate0(index + 2) }</span>
     }
-<span class="nc" id="L368">    generate0(0)</span>
+<span class="nc" id="L381">    generate0(0)</span>
   }
 
   private def updateInline(method: Method, ircOutput: List[String], name: String): Long = {
-<span class="nc" id="L372">    val htmlStart = (new Date).getTime</span>
-<span class="nc" id="L373">    val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, method)</span>
-<span class="nc" id="L374">    val inlineCss = HtmlUtil.prepareCssForInline(htmlAndCss._2)</span>
-<span class="nc" id="L375">    val inlineHtml = HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)</span>
-<span class="nc" id="L376">    val htmlEnd = (new Date).getTime</span>
-<span class="nc" id="L377">    inline.setValue(inlineHtml)</span>
-<span class="nc" id="L378">    inline.reset</span>
-<span class="nc" id="L379">    htmlEnd - htmlStart</span>
+<span class="nc" id="L385">    val htmlStart = (new Date).getTime</span>
+<span class="nc" id="L386">    val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, method)</span>
+<span class="nc" id="L387">    val inlineCss = HtmlUtil.prepareCssForInline(htmlAndCss._2)</span>
+<span class="nc" id="L388">    val inlineHtml = HtmlUtil.prepareHtmlForInline(htmlAndCss._1, inlineCss)</span>
+<span class="nc" id="L389">    val htmlEnd = (new Date).getTime</span>
+<span class="nc" id="L390">    inline.setValue(inlineHtml)</span>
+<span class="nc" id="L391">    inline.reset</span>
+<span class="nc" id="L392">    htmlEnd - htmlStart</span>
   }
 
   private def makeImageInits(): Unit = {
-<span class="nc" id="L383">    conversionDisabled = true</span>
-<span class="nc" id="L384">    contrastSlider.setValue(0)</span>
-<span class="nc" id="L385">    brightnessSlider.setValue(0)</span>
-<span class="nc bnc" id="L386" title="All 2 branches missed.">    val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData.imageRgb)</span>
-<span class="nc" id="L387">    methodOpt match {</span>
-<span class="nc bnc" id="L388" title="All 2 branches missed.">      case Some(meth) =&gt;</span>
-<span class="nc bnc" id="L389" title="All 6 branches missed.">        if (imagePreparer.getBrightness == 0 &amp;&amp; imagePreparer.getContrast == 0) {</span>
-<span class="nc" id="L390">          methodBox.setValue(meth)</span>
+<span class="nc" id="L396">    conversionDisabled = true</span>
+<span class="nc" id="L397">    contrastSlider.setValue(0)</span>
+<span class="nc" id="L398">    brightnessSlider.setValue(0)</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">    val (methodOpt, scheme, charsetOpt) = InitUtil.getDefaults(imageData.imageRgb)</span>
+<span class="nc" id="L400">    methodOpt match {</span>
+<span class="nc bnc" id="L401" title="All 2 branches missed.">      case Some(meth) =&gt;</span>
+<span class="nc bnc" id="L402" title="All 6 branches missed.">        if (imagePreparer.getBrightness == 0 &amp;&amp; imagePreparer.getContrast == 0) {</span>
+<span class="nc" id="L403">          methodBox.setValue(meth)</span>
         }
-<span class="nc bnc" id="L392" title="All 6 branches missed.">      case None =&gt; { }</span>
+<span class="nc bnc" id="L405" title="All 6 branches missed.">      case None =&gt; { }</span>
     }
-<span class="nc" id="L394">    ircColorSetter.setSelectedScheme(scheme)</span>
-<span class="nc" id="L395">    charsetOpt match {</span>
-<span class="nc bnc" id="L396" title="All 2 branches missed.">      case Some(chrset) =&gt; charsetBox.select(chrset)</span>
-<span class="nc bnc" id="L397" title="All 6 branches missed.">      case None =&gt; { }</span>
+<span class="nc" id="L407">    ircColorSetter.setSelectedScheme(scheme)</span>
+<span class="nc" id="L408">    charsetOpt match {</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">      case Some(chrset) =&gt; charsetBox.select(chrset)</span>
+<span class="nc bnc" id="L410" title="All 6 branches missed.">      case None =&gt; { }</span>
     }
-<span class="nc" id="L399">    conversionDisabled = false</span>
+<span class="nc" id="L412">    conversionDisabled = false</span>
   }
 
   private def doReset(): Unit = {
-<span class="fc" id="L403">    conversionDisabled = true</span>
-<span class="fc" id="L404">    proportionSelect.setValue(Proportion.default)</span>
-<span class="fc" id="L405">    widthSlider.setValue(InitUtil.DEFAULT_WIDTH)</span>
-<span class="fc" id="L406">    contrastSlider.setValue(0)</span>
-<span class="fc" id="L407">    brightnessSlider.setValue(0)</span>
-<span class="fc" id="L408">    makeInitsForMethod</span>
-<span class="fc" id="L409">    conversionDisabled = false</span>
+<span class="fc" id="L416">    conversionDisabled = true</span>
+<span class="fc" id="L417">    proportionSelect.setValue(Proportion.default)</span>
+<span class="fc" id="L418">    widthSlider.setValue(InitUtil.DEFAULT_WIDTH)</span>
+<span class="fc" id="L419">    contrastSlider.setValue(0)</span>
+<span class="fc" id="L420">    brightnessSlider.setValue(0)</span>
+<span class="fc" id="L421">    makeInitsForMethod</span>
+<span class="fc" id="L422">    conversionDisabled = false</span>
   }
 
   private def makeInitsForMethod(): Unit = {
-<span class="fc" id="L413">    conversionDisabled = true</span>
-<span class="fc" id="L414">    val method = Method.valueOf(methodBox.getValue.toString).get</span>
-<span class="fc" id="L415">    ircColorSetter.makeEnabled(method.hasColor)</span>
-<span class="fc" id="L416">    ircColorSetter.setSelectedScheme(Scheme.default)</span>
-<span class="fc" id="L417">    powerBox.setEnabled(method.equals(Method.Vortacular))</span>
-<span class="fc" id="L418">    powerBox.select(Power.default)</span>
-<span class="fc" id="L419">    kickSelect.select(Kick.OFF)</span>
-<span class="fc" id="L420">    kickSelect.setEnabled(method.hasKick)</span>
-<span class="fc" id="L421">    procSetter.reset(Pal.hasAnsi(charTextField.getValue))</span>
-<span class="pc bpc" id="L422" title="1 of 2 branches missed.">    procSetter.setEnabled(!method.equals(Method.Pwntari))</span>
-<span class="fc" id="L423">    charsetBox.removeValueChangeListener(charsetBoxListener)</span>
-<span class="fc" id="L424">    charsetBox.removeAllItems</span>
-<span class="pc bpc" id="L425" title="1 of 2 branches missed.">    Pal.getCharsetForMethod(method).foreach(cb =&gt; charsetBox.addItem(cb))</span>
-<span class="fc" id="L426">    charsetBox.addValueChangeListener(charsetBoxListener)</span>
-<span class="fc" id="L427">    charsetBox.setValue(Pal.getForMethod(method))</span>
-<span class="pc bpc" id="L428" title="1 of 2 branches missed.">    charsetBox.setEnabled(!method.equals(Method.Pwntari))</span>
-<span class="pc bpc" id="L429" title="1 of 2 branches missed.">    charTextField.setEnabled(!method.equals(Method.Pwntari))</span>
-<span class="pc bpc" id="L430" title="1 of 2 branches missed.">    if (method.equals(Method.Pwntari)) {</span>
-<span class="nc" id="L431">      charTextField.setValue(&quot;▄&quot;)</span>
-<span class="nc" id="L432">      contrastSlider.setValue(0)</span>
-<span class="nc" id="L433">      brightnessSlider.setValue(0)</span>
+<span class="fc" id="L426">    conversionDisabled = true</span>
+<span class="fc" id="L427">    val method = Method.valueOf(methodBox.getValue.toString).get</span>
+<span class="fc" id="L428">    ircColorSetter.makeEnabled(method.hasColor)</span>
+<span class="fc" id="L429">    ircColorSetter.setSelectedScheme(Scheme.default)</span>
+<span class="fc" id="L430">    powerBox.setEnabled(method.equals(Method.Vortacular))</span>
+<span class="fc" id="L431">    powerBox.select(Power.default)</span>
+<span class="fc" id="L432">    kickSelect.select(Kick.OFF)</span>
+<span class="fc" id="L433">    kickSelect.setEnabled(method.hasKick)</span>
+<span class="fc" id="L434">    procSetter.reset(Pal.hasAnsi(charTextField.getValue))</span>
+<span class="pc bpc" id="L435" title="1 of 2 branches missed.">    procSetter.setEnabled(!method.equals(Method.Pwntari))</span>
+<span class="fc" id="L436">    charsetBox.removeValueChangeListener(charsetBoxListener)</span>
+<span class="fc" id="L437">    charsetBox.removeAllItems</span>
+<span class="pc bpc" id="L438" title="1 of 2 branches missed.">    Pal.getCharsetForMethod(method).foreach(cb =&gt; charsetBox.addItem(cb))</span>
+<span class="fc" id="L439">    charsetBox.addValueChangeListener(charsetBoxListener)</span>
+<span class="fc" id="L440">    charsetBox.setValue(Pal.getForMethod(method))</span>
+<span class="pc bpc" id="L441" title="1 of 2 branches missed.">    charsetBox.setEnabled(!method.equals(Method.Pwntari))</span>
+<span class="pc bpc" id="L442" title="1 of 2 branches missed.">    charTextField.setEnabled(!method.equals(Method.Pwntari))</span>
+<span class="pc bpc" id="L443" title="1 of 2 branches missed.">    if (method.equals(Method.Pwntari)) {</span>
+<span class="nc" id="L444">      charTextField.setValue(&quot;▄&quot;)</span>
+<span class="nc" id="L445">      contrastSlider.setValue(0)</span>
+<span class="nc" id="L446">      brightnessSlider.setValue(0)</span>
     }
-<span class="pc bpc" id="L435" title="1 of 2 branches missed.">    contrastSlider.setEnabled(!method.equals(Method.Pwntari))</span>
-<span class="pc bpc" id="L436" title="1 of 2 branches missed.">    brightnessSlider.setEnabled(!method.equals(Method.Pwntari))</span>
-<span class="pc bpc" id="L437" title="1 of 2 branches missed.">    contrastLabel.setEnabled(!method.equals(Method.Pwntari))</span>
-<span class="pc bpc" id="L438" title="1 of 2 branches missed.">    brightnessLabel.setEnabled(!method.equals(Method.Pwntari))</span>
-<span class="fc" id="L439">    conversionDisabled = false</span>
+<span class="pc bpc" id="L448" title="1 of 2 branches missed.">    contrastSlider.setEnabled(!method.equals(Method.Pwntari))</span>
+<span class="pc bpc" id="L449" title="1 of 2 branches missed.">    brightnessSlider.setEnabled(!method.equals(Method.Pwntari))</span>
+<span class="pc bpc" id="L450" title="1 of 2 branches missed.">    contrastLabel.setEnabled(!method.equals(Method.Pwntari))</span>
+<span class="pc bpc" id="L451" title="1 of 2 branches missed.">    brightnessLabel.setEnabled(!method.equals(Method.Pwntari))</span>
+<span class="fc" id="L452">    conversionDisabled = false</span>
   }
 
-<span class="fc" id="L442">  private def makeInitsForCharset(chars: String) = procSetter.reset(Pal.hasAnsi(chars))</span>
+<span class="fc" id="L455">  private def makeInitsForCharset(chars: String) = procSetter.reset(Pal.hasAnsi(chars))</span>
 
-<span class="nc" id="L444">  def saveImage(): Unit = {</span>
-<span class="nc" id="L445">    val name = imagePreparer.getName</span>
-<span class="nc" id="L446">    val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, imageData.method)</span>
-<span class="nc" id="L447">    val format = new java.text.SimpleDateFormat(&quot;yyyy.MM.dd HH:mm:ss&quot;)</span>
-<span class="nc" id="L448">    val base64Icon = AwtImageUtil.encodeToBase64(imagePrep.icon)</span>
-<span class="nc" id="L449">    val jenkemImageInfo = new ImageInfo(name, base64Icon, imageData.method.name, convData.characters,</span>
-<span class="nc" id="L450">        convData.contrast.shortValue, convData.brightness.shortValue, ircOutput.size.shortValue,</span>
-<span class="nc" id="L451">        imageData.lineWidth.shortValue, format.format(new Date)</span>
+<span class="nc" id="L457">  def saveImage(): Unit = {</span>
+<span class="nc" id="L458">    val name = imagePreparer.getName</span>
+<span class="nc" id="L459">    val htmlAndCss = HtmlUtil.generateHtml(ircOutput, name, imageData.method)</span>
+<span class="nc" id="L460">    val format = new java.text.SimpleDateFormat(&quot;yyyy.MM.dd HH:mm:ss&quot;)</span>
+<span class="nc" id="L461">    val base64Icon = AwtImageUtil.encodeToBase64(imagePrep.icon)</span>
+<span class="nc" id="L462">    val jenkemImageInfo = new ImageInfo(name, base64Icon, imageData.method.name, convData.characters,</span>
+<span class="nc" id="L463">        convData.contrast.shortValue, convData.brightness.shortValue, ircOutput.size.shortValue,</span>
+<span class="nc" id="L464">        imageData.lineWidth.shortValue, format.format(new Date)</span>
     )
-<span class="nc" id="L453">    val jenkemImageHtml = new ImageHtml(name, htmlAndCss._1)</span>
-<span class="nc" id="L454">    val jenkemImageCss = new ImageCss(name, htmlAndCss._2)</span>
-<span class="nc" id="L455">    val jenkemImageIrc = new ImageIrc(name, ircOutput.map(_ + &quot;\n&quot;).mkString)</span>
-<span class="nc" id="L456">    val jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc)</span>
-<span class="nc bnc" id="L457" title="All 2 branches missed.">    if (PersistenceService.saveJenkemImage(jenkemImage)) {</span>
-<span class="nc" id="L458">      Notifications.showImageSaved(Page.getCurrent)</span>
+<span class="nc" id="L466">    val jenkemImageHtml = new ImageHtml(name, htmlAndCss._1)</span>
+<span class="nc" id="L467">    val jenkemImageCss = new ImageCss(name, htmlAndCss._2)</span>
+<span class="nc" id="L468">    val jenkemImageIrc = new ImageIrc(name, ircOutput.map(_ + &quot;\n&quot;).mkString)</span>
+<span class="nc" id="L469">    val jenkemImage = new JenkemImage(jenkemImageInfo, jenkemImageHtml, jenkemImageCss, jenkemImageIrc)</span>
+<span class="nc bnc" id="L470" title="All 2 branches missed.">    if (PersistenceService.saveJenkemImage(jenkemImage)) {</span>
+<span class="nc" id="L471">      Notifications.showImageSaved(Page.getCurrent)</span>
     } else {
-<span class="nc" id="L460">      Notifications.showImageNotSaved(Page.getCurrent)</span>
+<span class="nc" id="L473">      Notifications.showImageNotSaved(Page.getCurrent)</span>
     }
   }
 
-<span class="nc" id="L464">  def hasLink: Boolean = imagePreparer.hasLink</span>
-<span class="nc" id="L465">  def setLink(link: String): Unit = imagePreparer.setLink(link)</span>
+<span class="nc" id="L477">  def hasLink: Boolean = imagePreparer.hasLink</span>
+<span class="nc" id="L478">  def setLink(link: String): Unit = imagePreparer.setLink(link)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

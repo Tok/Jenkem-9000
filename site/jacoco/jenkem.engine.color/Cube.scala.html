@@ -1,34 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cube.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine.color</a> &gt; <span class="el_source">Cube.scala</span></div><h1>Cube.scala</h1><pre class="source lang-java linenums">package jenkem.engine.color
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cube.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.engine.color</a> &gt; <span class="el_source">Cube.scala</span></div><h1>Cube.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * Cube.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.engine.color
 
 import scala.Array.canBuildFrom
 import jenkem.engine.Pal
 
-<span class="fc" id="L6">object Cube {</span>
+<span class="fc" id="L19">object Cube {</span>
   def getNearest(col: Color.Rgb, colorMap: Color.IrcMap): Short = {
-<span class="fc" id="L8">    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)</span>
-<span class="fc" id="L9">    val shuffled: List[WeightedColor] = util.Random.shuffle(list)</span>
-<span class="fc" id="L10">    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)</span>
-<span class="fc" id="L11">    ordered.head.ircColor.irc</span>
+<span class="fc" id="L21">    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)</span>
+<span class="fc" id="L22">    val shuffled: List[WeightedColor] = util.Random.shuffle(list)</span>
+<span class="fc" id="L23">    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)</span>
+<span class="fc" id="L24">    ordered.head.ircColor.irc</span>
   }
 
-<span class="fc" id="L14">  private def makeWeightedList(col: Color.Rgb, colorMap: Color.IrcMap,</span>
+<span class="fc" id="L27">  private def makeWeightedList(col: Color.Rgb, colorMap: Color.IrcMap,</span>
       ic: List[Scheme.IrcColor], wl: List[WeightedColor]): List[WeightedColor] = {
-<span class="fc bfc" id="L16" title="All 2 branches covered.">    if (ic.isEmpty) { wl }</span>
-<span class="fc" id="L17">    else { makeWeightedList(col, colorMap, ic.tail, createWc(colorMap, col, ic.head) :: wl) }</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">    if (ic.isEmpty) { wl }</span>
+<span class="fc" id="L30">    else { makeWeightedList(col, colorMap, ic.tail, createWc(colorMap, col, ic.head) :: wl) }</span>
   }
 
   def getTwoNearestColors(col: Color.Rgb, colorMap: Color.IrcMap, power: Power): Color = {
     def calcPoweredStrength(wc: WeightedColor, p: Float): Float = {
-<span class="fc" id="L22">      Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.floatValue), p).toFloat</span>
+<span class="fc" id="L35">      Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.floatValue), p).toFloat</span>
     }
 
-<span class="fc" id="L25">    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)</span>
+<span class="fc" id="L38">    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)</span>
 
     // shuffle to balance colors with same strength
-<span class="fc" id="L28">    val shuffled: List[WeightedColor] = util.Random.shuffle(list)</span>
-<span class="fc" id="L29">    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)</span>
-<span class="fc" id="L30">    val strongest: WeightedColor = ordered.head</span>
-<span class="fc" id="L31">    val second: WeightedColor = ordered.tail.head</span>
+<span class="fc" id="L41">    val shuffled: List[WeightedColor] = util.Random.shuffle(list)</span>
+<span class="fc" id="L42">    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)</span>
+<span class="fc" id="L43">    val strongest: WeightedColor = ordered.head</span>
+<span class="fc" id="L44">    val second: WeightedColor = ordered.tail.head</span>
 
     // strength is used to calculate which character to return.
     // TODO XXX FIXME tune and explain this, #math suggested Voronoi diagrams.
@@ -38,36 +51,36 @@ import jenkem.engine.Pal
     // against each other in regard to their distance to the
     // center of the cube 127,127,127
 
-<span class="fc" id="L41">    val p: Float = power.exponent</span>
-<span class="fc" id="L42">    val strongestStrength = calcPoweredStrength(strongest, p)</span>
-<span class="fc" id="L43">    val secondStrength = calcPoweredStrength(second, p)</span>
-<span class="fc" id="L44">    val strength: Float = strongestStrength / secondStrength</span>
+<span class="fc" id="L54">    val p: Float = power.exponent</span>
+<span class="fc" id="L55">    val strongestStrength = calcPoweredStrength(strongest, p)</span>
+<span class="fc" id="L56">    val secondStrength = calcPoweredStrength(second, p)</span>
+<span class="fc" id="L57">    val strength: Float = strongestStrength / secondStrength</span>
 
-<span class="fc" id="L46">    new Color(</span>
-<span class="fc" id="L47">      second.ircColor.irc.toString, second.ircColor.rgb,</span>
-<span class="fc" id="L48">      strongest.ircColor.irc.toString, strongest.ircColor.rgb,</span>
-<span class="fc" id="L49">      strength)</span>
+<span class="fc" id="L59">    new Color(</span>
+<span class="fc" id="L60">      second.ircColor.irc.toString, second.ircColor.rgb,</span>
+<span class="fc" id="L61">      strongest.ircColor.irc.toString, strongest.ircColor.rgb,</span>
+<span class="fc" id="L62">      strength)</span>
   }
 
   private def calcStrength(col: Color.Rgb, comp: Color.Rgb, factor: Float): Float = {
     def calcDistance(from: Color.Rgb, to: Color.Rgb): Float = {
-<span class="fc" id="L54">      Math.sqrt((Math.pow(to._1 - from._1, 2D)</span>
-<span class="fc" id="L55">        + Math.pow(to._2 - from._2, 2D)</span>
-<span class="fc" id="L56">        + Math.pow(to._3 - from._3, 2D))).toFloat</span>
+<span class="fc" id="L67">      Math.sqrt((Math.pow(to._1 - from._1, 2D)</span>
+<span class="fc" id="L68">        + Math.pow(to._2 - from._2, 2D)</span>
+<span class="fc" id="L69">        + Math.pow(to._3 - from._3, 2D))).toFloat</span>
     }
-<span class="fc" id="L58">    calcDistance(col, comp) / factor</span>
+<span class="fc" id="L71">    calcDistance(col, comp) / factor</span>
   }
 
   private def createWc(colorMap: Color.IrcMap,
     col: (Short, Short, Short), ic: Scheme.IrcColor): WeightedColor = {
-<span class="fc" id="L63">    val weight = calcStrength(col, (ic.rgb._1, ic.rgb._2, ic.rgb._3), colorMap.get(ic).get.floatValue)</span>
-<span class="fc" id="L64">    new WeightedColor(ic, weight)</span>
+<span class="fc" id="L76">    val weight = calcStrength(col, (ic.rgb._1, ic.rgb._2, ic.rgb._3), colorMap.get(ic).get.floatValue)</span>
+<span class="fc" id="L77">    new WeightedColor(ic, weight)</span>
   }
 
   def getColorChar(colorMap: Color.IrcMap,
     charset: String, p: Power, rgb: (Short, Short, Short)): String = {
-<span class="fc" id="L69">    val c: Color = getTwoNearestColors(rgb, colorMap, p)</span>
-<span class="fc" id="L70">    c.fg + &quot;,&quot; + c.bg + Pal.getChar(charset, c.strength)</span>
+<span class="fc" id="L82">    val c: Color = getTwoNearestColors(rgb, colorMap, p)</span>
+<span class="fc" id="L83">    c.fg + &quot;,&quot; + c.bg + Pal.getChar(charset, c.strength)</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PersistenceService.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.persistence</a> &gt; <span class="el_source">PersistenceService.scala</span></div><h1>PersistenceService.scala</h1><pre class="source lang-java linenums">package jenkem.persistence
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PersistenceService.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.persistence</a> &gt; <span class="el_source">PersistenceService.scala</span></div><h1>PersistenceService.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * PersistenceService.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.persistence
 
 import scala.collection.JavaConversions.asScalaBuffer
 import data.ImageCss
@@ -19,71 +32,71 @@ import javax.jdo.JDODataStoreException
 /**
  * Implementation of service to handle the persistence of reports.
  */
-<span class="fc" id="L22">object PersistenceService {</span>
-<span class="fc" id="L23">  val QUERY_RANGE = 200L</span>
+<span class="fc" id="L35">object PersistenceService {</span>
+<span class="fc" id="L36">  val QUERY_RANGE = 200L</span>
 
   def saveJenkemImage(jenkemImage: JenkemImage): Boolean = {
-<span class="pc" id="L26">    synchronized {</span>
-<span class="fc" id="L27">      val pm = PMF.get.getPersistenceManager</span>
-<span class="fc" id="L28">      val tx: Transaction = pm.currentTransaction</span>
-<span class="pc" id="L29">      try {</span>
-<span class="fc" id="L30">        val name = jenkemImage.info.name</span>
-<span class="pc" id="L31">        getByName[ImageInfo](name, classOf[ImageInfo]) match {</span>
-<span class="pc bpc" id="L32" title="1 of 2 branches missed.">          case Some(t) =&gt;</span>
-<span class="fc" id="L33">            tx.begin</span>
-<span class="fc" id="L34">            jenkemImage.values.foreach(part =&gt; pm.deletePersistent(pm.getObjectById(part.c, name)))</span>
-<span class="fc" id="L35">            tx.commit</span>
-<span class="nc bnc" id="L36" title="All 6 branches missed.">          case None =&gt; { }</span>
+<span class="pc" id="L39">    synchronized {</span>
+<span class="fc" id="L40">      val pm = PMF.get.getPersistenceManager</span>
+<span class="fc" id="L41">      val tx: Transaction = pm.currentTransaction</span>
+<span class="pc" id="L42">      try {</span>
+<span class="fc" id="L43">        val name = jenkemImage.info.name</span>
+<span class="pc" id="L44">        getByName[ImageInfo](name, classOf[ImageInfo]) match {</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">          case Some(t) =&gt;</span>
+<span class="fc" id="L46">            tx.begin</span>
+<span class="fc" id="L47">            jenkemImage.values.foreach(part =&gt; pm.deletePersistent(pm.getObjectById(part.c, name)))</span>
+<span class="fc" id="L48">            tx.commit</span>
+<span class="nc bnc" id="L49" title="All 6 branches missed.">          case None =&gt; { }</span>
         }
-<span class="fc" id="L38">        tx.begin</span>
-<span class="fc" id="L39">        pm.makePersistent(jenkemImage.info)</span>
-<span class="fc" id="L40">        pm.makePersistent(jenkemImage.html)</span>
-<span class="fc" id="L41">        pm.makePersistent(jenkemImage.css)</span>
-<span class="fc" id="L42">        pm.makePersistent(jenkemImage.irc)</span>
-<span class="fc" id="L43">        tx.commit</span>
-<span class="fc" id="L44">        true</span>
+<span class="fc" id="L51">        tx.begin</span>
+<span class="fc" id="L52">        pm.makePersistent(jenkemImage.info)</span>
+<span class="fc" id="L53">        pm.makePersistent(jenkemImage.html)</span>
+<span class="fc" id="L54">        pm.makePersistent(jenkemImage.css)</span>
+<span class="fc" id="L55">        pm.makePersistent(jenkemImage.irc)</span>
+<span class="fc" id="L56">        tx.commit</span>
+<span class="fc" id="L57">        true</span>
       } catch {
         case me: MongoException =&gt; false
         case jdodse: JDODataStoreException =&gt; false
-<span class="nc" id="L48">      } finally {</span>
-<span class="pc bpc" id="L49" title="7 of 8 branches missed.">        if (tx.isActive) { tx.rollback }</span>
-<span class="pc" id="L50">        pm.close</span>
+<span class="nc" id="L61">      } finally {</span>
+<span class="pc bpc" id="L62" title="7 of 8 branches missed.">        if (tx.isActive) { tx.rollback }</span>
+<span class="pc" id="L63">        pm.close</span>
       }
     }
   }
 
-<span class="fc" id="L55">  def getImageHtmlByName(name: String): Option[ImageHtml] = getByName[ImageHtml](name, classOf[ImageHtml])</span>
-<span class="fc" id="L56">  def getImageCssByName(name: String): Option[ImageCss] = getByName[ImageCss](name, classOf[ImageCss])</span>
-<span class="fc" id="L57">  def getImageIrcByName(name: String): Option[ImageIrc] = getByName[ImageIrc](name, classOf[ImageIrc])</span>
+<span class="fc" id="L68">  def getImageHtmlByName(name: String): Option[ImageHtml] = getByName[ImageHtml](name, classOf[ImageHtml])</span>
+<span class="fc" id="L69">  def getImageCssByName(name: String): Option[ImageCss] = getByName[ImageCss](name, classOf[ImageCss])</span>
+<span class="fc" id="L70">  def getImageIrcByName(name: String): Option[ImageIrc] = getByName[ImageIrc](name, classOf[ImageIrc])</span>
 
-<span class="fc" id="L59">  private def getByName[T](name: String, c: java.lang.Class[T]): Option[T] = {</span>
-<span class="fc" id="L60">    val pm = PMF.get.getPersistenceManager</span>
-<span class="nc" id="L61">    try {</span>
-<span class="fc" id="L62">      val query = pm.newQuery(c)</span>
-<span class="fc" id="L63">      query.setUnique(true)</span>
-<span class="fc" id="L64">      query.setFilter(&quot;name == n&quot;)</span>
-<span class="fc" id="L65">      query.declareParameters(&quot;String n&quot;)</span>
-<span class="fc" id="L66">      val result: T = query.execute(name).asInstanceOf[T]</span>
-<span class="fc bfc" id="L67" title="All 4 branches covered.">      if (result != None.orNull) { Some(result) } else { None }</span>
+<span class="fc" id="L72">  private def getByName[T](name: String, c: java.lang.Class[T]): Option[T] = {</span>
+<span class="fc" id="L73">    val pm = PMF.get.getPersistenceManager</span>
+<span class="nc" id="L74">    try {</span>
+<span class="fc" id="L75">      val query = pm.newQuery(c)</span>
+<span class="fc" id="L76">      query.setUnique(true)</span>
+<span class="fc" id="L77">      query.setFilter(&quot;name == n&quot;)</span>
+<span class="fc" id="L78">      query.declareParameters(&quot;String n&quot;)</span>
+<span class="fc" id="L79">      val result: T = query.execute(name).asInstanceOf[T]</span>
+<span class="fc bfc" id="L80" title="All 4 branches covered.">      if (result != None.orNull) { Some(result) } else { None }</span>
     } catch {
       case me: MongoException =&gt; None
     } finally {
-<span class="pc" id="L71">      pm.close</span>
+<span class="pc" id="L84">      pm.close</span>
     }
   }
 
-<span class="fc" id="L75">  def getAllImageInfo: Option[List[ImageInfo]] = {</span>
-<span class="fc" id="L76">    val pm = PMF.get.getPersistenceManager</span>
-<span class="nc" id="L77">    try {</span>
-<span class="fc" id="L78">      val query = pm.newQuery(classOf[ImageInfo])</span>
-<span class="fc" id="L79">      query.setRange(0, QUERY_RANGE)</span>
-<span class="fc" id="L80">      query.setOrdering(&quot;creation desc&quot;)</span>
-<span class="fc" id="L81">      val result = query.execute.asInstanceOf[java.util.List[ImageInfo]]</span>
-<span class="fc" id="L82">      Some(result.toList)</span>
+<span class="fc" id="L88">  def getAllImageInfo: Option[List[ImageInfo]] = {</span>
+<span class="fc" id="L89">    val pm = PMF.get.getPersistenceManager</span>
+<span class="nc" id="L90">    try {</span>
+<span class="fc" id="L91">      val query = pm.newQuery(classOf[ImageInfo])</span>
+<span class="fc" id="L92">      query.setRange(0, QUERY_RANGE)</span>
+<span class="fc" id="L93">      query.setOrdering(&quot;creation desc&quot;)</span>
+<span class="fc" id="L94">      val result = query.execute.asInstanceOf[java.util.List[ImageInfo]]</span>
+<span class="fc" id="L95">      Some(result.toList)</span>
     } catch {
       case me: MongoException =&gt; None
     } finally {
-<span class="pc" id="L86">      pm.close</span>
+<span class="pc" id="L99">      pm.close</span>
     }
   }
 }

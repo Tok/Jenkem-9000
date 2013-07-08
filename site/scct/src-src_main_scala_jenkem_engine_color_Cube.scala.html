@@ -16,103 +16,103 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.engine.color
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import scala.Array.canBuildFrom
+            <td> * Cube.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import jenkem.engine.Pal
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td><a id="Object_jenkem_engine_color_Cube"/>object Cube {
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>  def getNearest(col: Color.Rgb, colorMap: Color.IrcMap): Short = {
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
-            <td class="green">8</td>
-            <td>    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)
+            <td class="black">8</td>
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
-            <td class="green">9</td>
-            <td>    val shuffled: List[WeightedColor] = util.Random.shuffle(list)
+            <td class="black">9</td>
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
-            <td class="green">10</td>
-            <td>    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)
+            <td class="black">10</td>
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
-            <td class="green">11</td>
-            <td>    ordered.head.ircColor.irc
+            <td class="black">11</td>
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td>  }
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td>  private def makeWeightedList(col: Color.Rgb, colorMap: Color.IrcMap,
+            <td>package jenkem.engine.color
 </td>
           </tr><tr>
             <td class="black">15</td>
-            <td>      ic: List[Scheme.IrcColor], wl: List[WeightedColor]): List[WeightedColor] = {
+            <td>
 </td>
           </tr><tr>
-            <td class="green">16</td>
-            <td>    if (ic.isEmpty) { wl }
+            <td class="black">16</td>
+            <td>import scala.Array.canBuildFrom
 </td>
           </tr><tr>
-            <td class="green">17</td>
-            <td>    else { makeWeightedList(col, colorMap, ic.tail, createWc(colorMap, col, ic.head) :: wl) }
+            <td class="black">17</td>
+            <td>import jenkem.engine.Pal
 </td>
           </tr><tr>
             <td class="black">18</td>
-            <td>  }
+            <td>
 </td>
           </tr><tr>
             <td class="black">19</td>
-            <td>
+            <td><a id="Object_jenkem_engine_color_Cube"/>object Cube {
 </td>
           </tr><tr>
             <td class="black">20</td>
-            <td>  def getTwoNearestColors(col: Color.Rgb, colorMap: Color.IrcMap, power: Power): Color = {
+            <td>  def getNearest(col: Color.Rgb, colorMap: Color.IrcMap): Short = {
 </td>
           </tr><tr>
-            <td class="black">21</td>
-            <td>    def calcPoweredStrength(wc: WeightedColor, p: Float): Float = {
+            <td class="green">21</td>
+            <td>    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)
 </td>
           </tr><tr>
             <td class="green">22</td>
-            <td>      Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.floatValue), p).toFloat
+            <td>    val shuffled: List[WeightedColor] = util.Random.shuffle(list)
 </td>
           </tr><tr>
-            <td class="black">23</td>
-            <td>    }
+            <td class="green">23</td>
+            <td>    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)
 </td>
           </tr><tr>
-            <td class="black">24</td>
-            <td>
+            <td class="green">24</td>
+            <td>    ordered.head.ircColor.irc
 </td>
           </tr><tr>
-            <td class="green">25</td>
-            <td>    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)
+            <td class="black">25</td>
+            <td>  }
 </td>
           </tr><tr>
             <td class="black">26</td>
@@ -120,23 +120,23 @@
 </td>
           </tr><tr>
             <td class="black">27</td>
-            <td>    // shuffle to balance colors with same strength
+            <td>  private def makeWeightedList(col: Color.Rgb, colorMap: Color.IrcMap,
 </td>
           </tr><tr>
-            <td class="green">28</td>
-            <td>    val shuffled: List[WeightedColor] = util.Random.shuffle(list)
+            <td class="black">28</td>
+            <td>      ic: List[Scheme.IrcColor], wl: List[WeightedColor]): List[WeightedColor] = {
 </td>
           </tr><tr>
             <td class="green">29</td>
-            <td>    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)
+            <td>    if (ic.isEmpty) { wl }
 </td>
           </tr><tr>
             <td class="green">30</td>
-            <td>    val strongest: WeightedColor = ordered.head
+            <td>    else { makeWeightedList(col, colorMap, ic.tail, createWc(colorMap, col, ic.head) :: wl) }
 </td>
           </tr><tr>
-            <td class="green">31</td>
-            <td>    val second: WeightedColor = ordered.tail.head
+            <td class="black">31</td>
+            <td>  }
 </td>
           </tr><tr>
             <td class="black">32</td>
@@ -144,162 +144,214 @@
 </td>
           </tr><tr>
             <td class="black">33</td>
-            <td>    // strength is used to calculate which character to return.
+            <td>  def getTwoNearestColors(col: Color.Rgb, colorMap: Color.IrcMap, power: Power): Color = {
 </td>
           </tr><tr>
             <td class="black">34</td>
-            <td>    // TODO XXX FIXME tune and explain this, #math suggested Voronoi diagrams.
+            <td>    def calcPoweredStrength(wc: WeightedColor, p: Float): Float = {
 </td>
           </tr><tr>
-            <td class="black">35</td>
-            <td>    // ..using a variable for power and the formula applied in calcStrength
+            <td class="green">35</td>
+            <td>      Math.pow(calcStrength(col, wc.ircColor.rgb, colorMap.get(wc.ircColor).get.floatValue), p).toFloat
 </td>
           </tr><tr>
             <td class="black">36</td>
-            <td>    // is just an approximative workaround. instead there should be a
+            <td>    }
 </td>
           </tr><tr>
             <td class="black">37</td>
-            <td>    // mathematically provable correct way on how to weigh two colors
-</td>
-          </tr><tr>
-            <td class="black">38</td>
-            <td>    // against each other in regard to their distance to the
-</td>
-          </tr><tr>
-            <td class="black">39</td>
-            <td>    // center of the cube 127,127,127
-</td>
-          </tr><tr>
-            <td class="black">40</td>
             <td>
 </td>
           </tr><tr>
+            <td class="green">38</td>
+            <td>    val list: List[WeightedColor] = makeWeightedList(col, colorMap, Scheme.ircColors, Nil)
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>    // shuffle to balance colors with same strength
+</td>
+          </tr><tr>
             <td class="green">41</td>
-            <td>    val p: Float = power.exponent
+            <td>    val shuffled: List[WeightedColor] = util.Random.shuffle(list)
 </td>
           </tr><tr>
             <td class="green">42</td>
-            <td>    val strongestStrength = calcPoweredStrength(strongest, p)
+            <td>    val ordered: List[WeightedColor] = shuffled.sortBy(_.weight)
 </td>
           </tr><tr>
             <td class="green">43</td>
-            <td>    val secondStrength = calcPoweredStrength(second, p)
+            <td>    val strongest: WeightedColor = ordered.head
 </td>
           </tr><tr>
             <td class="green">44</td>
-            <td>    val strength: Float = strongestStrength / secondStrength
+            <td>    val second: WeightedColor = ordered.tail.head
 </td>
           </tr><tr>
             <td class="black">45</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">46</td>
-            <td>    new Color(
+            <td class="black">46</td>
+            <td>    // strength is used to calculate which character to return.
 </td>
           </tr><tr>
             <td class="black">47</td>
-            <td>      second.ircColor.irc.toString, second.ircColor.rgb,
+            <td>    // TODO XXX FIXME tune and explain this, #math suggested Voronoi diagrams.
 </td>
           </tr><tr>
             <td class="black">48</td>
-            <td>      strongest.ircColor.irc.toString, strongest.ircColor.rgb,
+            <td>    // ..using a variable for power and the formula applied in calcStrength
 </td>
           </tr><tr>
             <td class="black">49</td>
-            <td>      strength)
+            <td>    // is just an approximative workaround. instead there should be a
 </td>
           </tr><tr>
             <td class="black">50</td>
-            <td>  }
+            <td>    // mathematically provable correct way on how to weigh two colors
 </td>
           </tr><tr>
             <td class="black">51</td>
-            <td>
+            <td>    // against each other in regard to their distance to the
 </td>
           </tr><tr>
             <td class="black">52</td>
-            <td>  private def calcStrength(col: Color.Rgb, comp: Color.Rgb, factor: Float): Float = {
+            <td>    // center of the cube 127,127,127
 </td>
           </tr><tr>
             <td class="black">53</td>
-            <td>    def calcDistance(from: Color.Rgb, to: Color.Rgb): Float = {
+            <td>
 </td>
           </tr><tr>
             <td class="green">54</td>
-            <td>      Math.sqrt((Math.pow(to._1 - from._1, 2D)
+            <td>    val p: Float = power.exponent
 </td>
           </tr><tr>
-            <td class="black">55</td>
-            <td>        + Math.pow(to._2 - from._2, 2D)
+            <td class="green">55</td>
+            <td>    val strongestStrength = calcPoweredStrength(strongest, p)
 </td>
           </tr><tr>
-            <td class="black">56</td>
-            <td>        + Math.pow(to._3 - from._3, 2D))).toFloat
+            <td class="green">56</td>
+            <td>    val secondStrength = calcPoweredStrength(second, p)
 </td>
           </tr><tr>
-            <td class="black">57</td>
-            <td>    }
+            <td class="green">57</td>
+            <td>    val strength: Float = strongestStrength / secondStrength
 </td>
           </tr><tr>
-            <td class="green">58</td>
-            <td>    calcDistance(col, comp) / factor
+            <td class="black">58</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="black">59</td>
-            <td>  }
+            <td class="green">59</td>
+            <td>    new Color(
 </td>
           </tr><tr>
             <td class="black">60</td>
-            <td>
+            <td>      second.ircColor.irc.toString, second.ircColor.rgb,
 </td>
           </tr><tr>
             <td class="black">61</td>
-            <td>  private def createWc(colorMap: Color.IrcMap,
+            <td>      strongest.ircColor.irc.toString, strongest.ircColor.rgb,
 </td>
           </tr><tr>
             <td class="black">62</td>
-            <td>    col: (Short, Short, Short), ic: Scheme.IrcColor): WeightedColor = {
+            <td>      strength)
 </td>
           </tr><tr>
-            <td class="green">63</td>
-            <td>    val weight = calcStrength(col, (ic.rgb._1, ic.rgb._2, ic.rgb._3), colorMap.get(ic).get.floatValue)
-</td>
-          </tr><tr>
-            <td class="green">64</td>
-            <td>    new WeightedColor(ic, weight)
-</td>
-          </tr><tr>
-            <td class="black">65</td>
+            <td class="black">63</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">66</td>
+            <td class="black">64</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">67</td>
-            <td>  def getColorChar(colorMap: Color.IrcMap,
+            <td class="black">65</td>
+            <td>  private def calcStrength(col: Color.Rgb, comp: Color.Rgb, factor: Float): Float = {
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>    def calcDistance(from: Color.Rgb, to: Color.Rgb): Float = {
+</td>
+          </tr><tr>
+            <td class="green">67</td>
+            <td>      Math.sqrt((Math.pow(to._1 - from._1, 2D)
 </td>
           </tr><tr>
             <td class="black">68</td>
-            <td>    charset: String, p: Power, rgb: (Short, Short, Short)): String = {
+            <td>        + Math.pow(to._2 - from._2, 2D)
 </td>
           </tr><tr>
-            <td class="green">69</td>
-            <td>    val c: Color = getTwoNearestColors(rgb, colorMap, p)
+            <td class="black">69</td>
+            <td>        + Math.pow(to._3 - from._3, 2D))).toFloat
 </td>
           </tr><tr>
-            <td class="green">70</td>
-            <td>    c.fg + &quot;,&quot; + c.bg + Pal.getChar(charset, c.strength)
+            <td class="black">70</td>
+            <td>    }
 </td>
           </tr><tr>
-            <td class="black">71</td>
-            <td>  }
+            <td class="green">71</td>
+            <td>    calcDistance(col, comp) / factor
 </td>
           </tr><tr>
             <td class="black">72</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>  private def createWc(colorMap: Color.IrcMap,
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>    col: (Short, Short, Short), ic: Scheme.IrcColor): WeightedColor = {
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>    val weight = calcStrength(col, (ic.rgb._1, ic.rgb._2, ic.rgb._3), colorMap.get(ic).get.floatValue)
+</td>
+          </tr><tr>
+            <td class="green">77</td>
+            <td>    new WeightedColor(ic, weight)
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>  def getColorChar(colorMap: Color.IrcMap,
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>    charset: String, p: Power, rgb: (Short, Short, Short)): String = {
+</td>
+          </tr><tr>
+            <td class="green">82</td>
+            <td>    val c: Color = getTwoNearestColors(rgb, colorMap, p)
+</td>
+          </tr><tr>
+            <td class="green">83</td>
+            <td>    c.fg + &quot;,&quot; + c.bg + Pal.getChar(charset, c.strength)
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">85</td>
             <td>}
 </td>
           </tr></tbody></table>

@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TabController.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">TabController.scala</span></div><h1>TabController.scala</h1><pre class="source lang-java linenums">package jenkem.ui
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TabController.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">TabController.scala</span></div><h1>TabController.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * TabController.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.ui
 
 import scala.collection.immutable.ListMap
 
@@ -12,69 +25,69 @@ import jenkem.ui.tab.GalleryTab
 import jenkem.ui.tab.InfoTab
 import jenkem.ui.tab.MainTab
 
-<span class="pc" id="L15">class TabController(val eventRouter: EventRouter) {</span>
-<span class="pc" id="L16">  var isReady = false</span>
-<span class="fc" id="L17">  val defaultUrl = &quot;http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png&quot;</span>
-<span class="fc" id="L18">  val tabSheet = new TabSheet</span>
-<span class="fc" id="L19">  val mainTab = new MainTab(eventRouter)</span>
-<span class="fc" id="L20">  val galleryTab = new GalleryTab(eventRouter)</span>
-<span class="fc" id="L21">  val infoTab = new InfoTab</span>
-<span class="fc" id="L22">  val tabs = ListMap(</span>
-<span class="fc" id="L23">    mainTab.getCaption.toLowerCase -&gt; mainTab,</span>
-<span class="fc" id="L24">    galleryTab.getCaption.toLowerCase -&gt; galleryTab,</span>
-<span class="fc" id="L25">    infoTab.getCaption.toLowerCase -&gt; infoTab)</span>
+<span class="pc" id="L28">class TabController(val eventRouter: EventRouter) {</span>
+<span class="pc" id="L29">  var isReady = false</span>
+<span class="fc" id="L30">  val defaultUrl = &quot;http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png&quot;</span>
+<span class="fc" id="L31">  val tabSheet = new TabSheet</span>
+<span class="fc" id="L32">  val mainTab = new MainTab(eventRouter)</span>
+<span class="fc" id="L33">  val galleryTab = new GalleryTab(eventRouter)</span>
+<span class="fc" id="L34">  val infoTab = new InfoTab</span>
+<span class="fc" id="L35">  val tabs = ListMap(</span>
+<span class="fc" id="L36">    mainTab.getCaption.toLowerCase -&gt; mainTab,</span>
+<span class="fc" id="L37">    galleryTab.getCaption.toLowerCase -&gt; galleryTab,</span>
+<span class="fc" id="L38">    infoTab.getCaption.toLowerCase -&gt; infoTab)</span>
 
   def getTabSheet(page: Page): TabSheet = {
-<span class="nc" id="L28">    tabSheet.setWidth(&quot;1024px&quot;)</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">    tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {</span>
+<span class="nc" id="L41">    tabSheet.setWidth(&quot;1024px&quot;)</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {</span>
       override def selectedTabChange(event: SelectedTabChangeEvent): Unit = {
-<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (isReady) {</span>
-<span class="nc" id="L32">          val tabsheet = event.getTabSheet</span>
-<span class="nc" id="L33">          val tab = tabsheet.getTab(tabsheet.getSelectedTab)</span>
-<span class="nc" id="L34">          Option(tab) match {</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">            case Some(tab) =&gt;</span>
-<span class="nc bnc" id="L36" title="All 4 branches missed.">              if (tab.getCaption.toLowerCase.equals(&quot;main&quot;) &amp;&amp; !mainTab.hasLink) {</span>
-<span class="nc" id="L37">                page.setUriFragment(tab.getCaption.toLowerCase + &quot;/&quot; + defaultUrl)</span>
-<span class="nc" id="L38">                mainTab.setLink(defaultUrl)</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (isReady) {</span>
+<span class="nc" id="L45">          val tabsheet = event.getTabSheet</span>
+<span class="nc" id="L46">          val tab = tabsheet.getTab(tabsheet.getSelectedTab)</span>
+<span class="nc" id="L47">          Option(tab) match {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            case Some(tab) =&gt;</span>
+<span class="nc bnc" id="L49" title="All 4 branches missed.">              if (tab.getCaption.toLowerCase.equals(&quot;main&quot;) &amp;&amp; !mainTab.hasLink) {</span>
+<span class="nc" id="L50">                page.setUriFragment(tab.getCaption.toLowerCase + &quot;/&quot; + defaultUrl)</span>
+<span class="nc" id="L51">                mainTab.setLink(defaultUrl)</span>
               } else {
-<span class="nc" id="L40">                page.setUriFragment(tab.getCaption.toLowerCase)</span>
+<span class="nc" id="L53">                page.setUriFragment(tab.getCaption.toLowerCase)</span>
               }
-<span class="nc bnc" id="L42" title="All 6 branches missed.">            case None =&gt; { }</span>
+<span class="nc bnc" id="L55" title="All 6 branches missed.">            case None =&gt; { }</span>
           }
         }
       }
     })
-<span class="nc bnc" id="L47" title="All 2 branches missed.">    tabs.foreach((t) =&gt; tabSheet.addTab(t._2, t._2.getCaption))</span>
-<span class="nc" id="L48">    tabSheet</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">    tabs.foreach((t) =&gt; tabSheet.addTab(t._2, t._2.getCaption))</span>
+<span class="nc" id="L61">    tabSheet</span>
   }
 
   def selectTab(frag: String): Unit = {
     def selectMainWithDefault(): Unit = {
-<span class="nc" id="L53">      tabSheet.setSelectedTab(mainTab)</span>
-<span class="nc" id="L54">      mainTab.setLink(defaultUrl)</span>
+<span class="nc" id="L66">      tabSheet.setSelectedTab(mainTab)</span>
+<span class="nc" id="L67">      mainTab.setLink(defaultUrl)</span>
     }
-<span class="pc" id="L56">    Option(frag) match {</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">      case Some(frag) =&gt;</span>
-<span class="fc" id="L58">        val split = frag.split(&quot;/&quot;, 2)</span>
-<span class="pc" id="L59">        tabs.get(split(0)) match {</span>
-<span class="pc bpc" id="L60" title="4 of 6 branches missed.">          case None =&gt; selectMainWithDefault</span>
-<span class="nc bnc" id="L61" title="All 2 branches missed.">          case Some(tab) =&gt;</span>
-<span class="nc" id="L62">            tabSheet.setSelectedTab(tab)</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (tab.equals(mainTab)) {</span>
-<span class="nc bnc" id="L64" title="All 4 branches missed.">              if (split.length &gt; 1) { mainTab.setLink(split(1)) }</span>
-<span class="nc" id="L65">              else { mainTab.setLink(defaultUrl) }</span>
+<span class="pc" id="L69">    Option(frag) match {</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">      case Some(frag) =&gt;</span>
+<span class="fc" id="L71">        val split = frag.split(&quot;/&quot;, 2)</span>
+<span class="pc" id="L72">        tabs.get(split(0)) match {</span>
+<span class="pc bpc" id="L73" title="4 of 6 branches missed.">          case None =&gt; selectMainWithDefault</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">          case Some(tab) =&gt;</span>
+<span class="nc" id="L75">            tabSheet.setSelectedTab(tab)</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            if (tab.equals(mainTab)) {</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">              if (split.length &gt; 1) { mainTab.setLink(split(1)) }</span>
+<span class="nc" id="L78">              else { mainTab.setLink(defaultUrl) }</span>
             }
         }
-<span class="nc bnc" id="L68" title="All 6 branches missed.">      case None =&gt; selectMainWithDefault</span>
+<span class="nc bnc" id="L81" title="All 6 branches missed.">      case None =&gt; selectMainWithDefault</span>
     }
   }
 
-<span class="fc" id="L72">  eventRouter.addListener(classOf[SaveImageEvent],</span>
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">    new {</span>
+<span class="fc" id="L85">  eventRouter.addListener(classOf[SaveImageEvent],</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">    new {</span>
       def save: Unit = {
-<span class="nc" id="L75">        mainTab.saveImage</span>
-<span class="nc" id="L76">        galleryTab.update</span>
+<span class="nc" id="L88">        mainTab.saveImage</span>
+<span class="nc" id="L89">        galleryTab.update</span>
       }
-<span class="fc" id="L78">    }, &quot;save&quot;)</span>
+<span class="fc" id="L91">    }, &quot;save&quot;)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

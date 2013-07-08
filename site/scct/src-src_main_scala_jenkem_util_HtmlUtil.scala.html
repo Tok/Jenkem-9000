@@ -16,203 +16,203 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.util
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import scala.Array.canBuildFrom
+            <td> * HtmlUtil.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import jenkem.engine.Method
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td><a id="Object_jenkem_util_HtmlUtil"/>object HtmlUtil {
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
-            <td class="green">8</td>
-            <td>  val SEP = &quot;\n&quot;
+            <td class="black">8</td>
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
-            <td class="green">9</td>
-            <td>  val CLOSE = &quot;\&quot;&gt;&quot;
+            <td class="black">9</td>
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
-            <td class="green">10</td>
-            <td>  val HOST = &quot;http://jenkem-9000.rhcloud.com&quot;
+            <td class="black">10</td>
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
-            <td class="green">11</td>
-            <td>  val CHARSET = &quot;UTF-8&quot;
+            <td class="black">11</td>
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
-            <td class="green">12</td>
-            <td>  val DOCTYPE = &quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01//EN\&quot;\n    \&quot;http://www.w3.org/TR/html4/strict.dtd\&quot;&gt;&quot;
+            <td class="black">12</td>
+            <td> * #L%
 </td>
           </tr><tr>
-            <td class="green">13</td>
-            <td>  val META = &quot;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=&quot; + CHARSET + CLOSE
+            <td class="black">13</td>
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td>
+            <td>package jenkem.util
 </td>
           </tr><tr>
-            <td class="green">15</td>
-            <td>  def generateEmpty: String = DOCTYPE + &quot;\n&lt;html&gt;\n&lt;head&gt;\n&quot; + META + &quot;\n&lt;title&gt;&lt;/title&gt;\n&lt;/head&gt;\n&quot; + &quot;&lt;body class=\&quot;jenkemBody\&quot;&gt;&lt;/body&gt;\n&lt;/html&gt;\n&quot;
+            <td class="black">15</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td>
+            <td>import scala.Array.canBuildFrom
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td>  def generateHtml(ircOutput: List[String], name: String, method: Method): (String, String) = {
+            <td>
 </td>
           </tr><tr>
-            <td class="green">18</td>
-            <td>    val html = new StringBuilder
+            <td class="black">18</td>
+            <td>import jenkem.engine.Method
 </td>
           </tr><tr>
-            <td class="green">19</td>
-            <td>    val css = new StringBuilder
+            <td class="black">19</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">20</td>
-            <td>    html.append(DOCTYPE)
+            <td class="black">20</td>
+            <td><a id="Object_jenkem_util_HtmlUtil"/>object HtmlUtil {
 </td>
           </tr><tr>
             <td class="green">21</td>
-            <td>    html.append(&quot;\n&lt;html&gt;\n&lt;head&gt;\n&quot;)
+            <td>  val SEP = &quot;\n&quot;
 </td>
           </tr><tr>
             <td class="green">22</td>
-            <td>    html.append(META)
+            <td>  val CLOSE = &quot;\&quot;&gt;&quot;
 </td>
           </tr><tr>
             <td class="green">23</td>
-            <td>    html.append(&quot;\n&lt;title&gt;&quot;)
+            <td>  val HOST = &quot;http://jenkem-9000.rhcloud.com&quot;
 </td>
           </tr><tr>
             <td class="green">24</td>
-            <td>    html.append(name)
+            <td>  val CHARSET = &quot;UTF-8&quot;
 </td>
           </tr><tr>
             <td class="green">25</td>
-            <td>    html.append(&quot;&lt;/title&gt;\n&lt;link href=\&quot;&quot;)
+            <td>  val DOCTYPE = &quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01//EN\&quot;\n    \&quot;http://www.w3.org/TR/html4/strict.dtd\&quot;&gt;&quot;
 </td>
           </tr><tr>
             <td class="green">26</td>
-            <td>    html.append(getCssUrl(name))
+            <td>  val META = &quot;&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=&quot; + CHARSET + CLOSE
 </td>
           </tr><tr>
-            <td class="green">27</td>
-            <td>    html.append(&quot;\&quot; rel=\&quot;stylesheet\&quot; type=\&quot;text/css\&quot;&gt;\n&lt;/head&gt;\n&lt;body class=\&quot;jenkemBody\&quot;&gt;\n&lt;div&gt;\n&quot;)
+            <td class="black">27</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">28</td>
-            <td>    css.append(&quot;form { margin: 0 auto; padding: 0; }\n&quot;)
+            <td>  def generateEmpty: String = DOCTYPE + &quot;\n&lt;html&gt;\n&lt;head&gt;\n&quot; + META + &quot;\n&lt;title&gt;&lt;/title&gt;\n&lt;/head&gt;\n&quot; + &quot;&lt;body class=\&quot;jenkemBody\&quot;&gt;&lt;/body&gt;\n&lt;/html&gt;\n&quot;
 </td>
           </tr><tr>
-            <td class="green">29</td>
-            <td>    css.append(&quot;html { background-color: #ffffff }\n&quot;)
+            <td class="black">29</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">30</td>
-            <td>    css.append(&quot;body { font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; background-color: black; }\n&quot;)
+            <td class="black">30</td>
+            <td>  def generateHtml(ircOutput: List[String], name: String, method: Method): (String, String) = {
 </td>
           </tr><tr>
             <td class="green">31</td>
-            <td>    css.append(&quot;div { float: left; width: auto; clear: both; }\n&quot;)
+            <td>    val html = new StringBuilder
 </td>
           </tr><tr>
             <td class="green">32</td>
-            <td>    css.append(&quot;span { float: left; width: auto; }\n&quot;)
+            <td>    val css = new StringBuilder
 </td>
           </tr><tr>
             <td class="green">33</td>
-            <td>    val lines = ircOutput.filterNot(_.equals(&quot;&quot;))
+            <td>    html.append(DOCTYPE)
 </td>
           </tr><tr>
             <td class="green">34</td>
-            <td>    if (method.hasColor) {
+            <td>    html.append(&quot;\n&lt;html&gt;\n&lt;head&gt;\n&quot;)
 </td>
           </tr><tr>
             <td class="green">35</td>
-            <td>      (0 until lines.length).foreach(i =&gt; generateColored(html, css, lines(i), i))
+            <td>    html.append(META)
 </td>
           </tr><tr>
-            <td class="black">36</td>
-            <td>    } else {
+            <td class="green">36</td>
+            <td>    html.append(&quot;\n&lt;title&gt;&quot;)
 </td>
           </tr><tr>
             <td class="green">37</td>
-            <td>      (0 until lines.length).foreach(i =&gt; generatePlain(html, css, lines(i), i))
+            <td>    html.append(name)
 </td>
           </tr><tr>
-            <td class="black">38</td>
-            <td>    }
+            <td class="green">38</td>
+            <td>    html.append(&quot;&lt;/title&gt;\n&lt;link href=\&quot;&quot;)
 </td>
           </tr><tr>
             <td class="green">39</td>
-            <td>    html.append(&quot;&lt;/div&gt;\n&lt;div class=\&quot;ircBinary\&quot;&gt;&lt;a href=\&quot;&quot;)
+            <td>    html.append(getCssUrl(name))
 </td>
           </tr><tr>
             <td class="green">40</td>
-            <td>    html.append(getIrcUrl(name))
+            <td>    html.append(&quot;\&quot; rel=\&quot;stylesheet\&quot; type=\&quot;text/css\&quot;&gt;\n&lt;/head&gt;\n&lt;body class=\&quot;jenkemBody\&quot;&gt;\n&lt;div&gt;\n&quot;)
 </td>
           </tr><tr>
             <td class="green">41</td>
-            <td>    html.append(&quot;\&quot; onclick=\&quot;this.target='blank'\&quot;&gt;Download binary textfile for IRC&lt;/a&gt;&lt;/div&gt;\n&quot;)
+            <td>    css.append(&quot;form { margin: 0 auto; padding: 0; }\n&quot;)
 </td>
           </tr><tr>
             <td class="green">42</td>
-            <td>    html.append(&quot;&lt;div class=\&quot;validator\&quot;&gt;&lt;a href=\&quot;http://validator.w3.org/check?uri=&quot;)
+            <td>    css.append(&quot;html { background-color: #ffffff }\n&quot;)
 </td>
           </tr><tr>
             <td class="green">43</td>
-            <td>    html.append(HOST)
+            <td>    css.append(&quot;body { font-family: monospace; font-size: 1em; font-weight: bold; margin: 0; background-color: black; }\n&quot;)
 </td>
           </tr><tr>
             <td class="green">44</td>
-            <td>    html.append(getHtmlUrl(name))
+            <td>    css.append(&quot;div { float: left; width: auto; clear: both; }\n&quot;)
 </td>
           </tr><tr>
             <td class="green">45</td>
-            <td>    html.append(&quot;\&quot;&gt;&lt;img src=\&quot;/VAADIN/images/valid-html.png\&quot; alt=\&quot;Valid HTML 4.01 Strict\&quot; style=\&quot;border: 0; width: 88px; height: 31px\&quot;&gt;&lt;/a&gt;&quot;)
+            <td>    css.append(&quot;span { float: left; width: auto; }\n&quot;)
 </td>
           </tr><tr>
             <td class="green">46</td>
-            <td>    if (method.hasColor) {
+            <td>    val lines = ircOutput.filterNot(_.equals(&quot;&quot;))
 </td>
           </tr><tr>
             <td class="green">47</td>
-            <td>      html.append(&quot;&lt;a href=\&quot;http://jigsaw.w3.org/css-validator/validator?uri=&quot;)
+            <td>    if (method.hasColor) {
 </td>
           </tr><tr>
             <td class="green">48</td>
-            <td>      html.append(HOST)
+            <td>      (0 until lines.length).foreach(i =&gt; generateColored(html, css, lines(i), i))
 </td>
           </tr><tr>
-            <td class="green">49</td>
-            <td>      html.append(getCssUrl(name))
+            <td class="black">49</td>
+            <td>    } else {
 </td>
           </tr><tr>
             <td class="green">50</td>
-            <td>      html.append(&quot;&amp;amp;profile=css3\&quot;&gt;&lt;img src=\&quot;/VAADIN/images/valid-css.png\&quot; alt=\&quot;CSS is valid!\&quot; style=\&quot;border: 0; width: 88px; height: 31px\&quot;&gt;&lt;/a&gt;&quot;)
+            <td>      (0 until lines.length).foreach(i =&gt; generatePlain(html, css, lines(i), i))
 </td>
           </tr><tr>
             <td class="black">51</td>
@@ -220,294 +220,346 @@
 </td>
           </tr><tr>
             <td class="green">52</td>
-            <td>    html.append(&quot;&lt;/div&gt;\n&lt;/body&gt;\n&lt;/html&gt;&quot;)
+            <td>    html.append(&quot;&lt;/div&gt;\n&lt;div class=\&quot;ircBinary\&quot;&gt;&lt;a href=\&quot;&quot;)
 </td>
           </tr><tr>
             <td class="green">53</td>
-            <td>    (html.toString, css.toString)
+            <td>    html.append(getIrcUrl(name))
 </td>
           </tr><tr>
-            <td class="black">54</td>
-            <td>  }
+            <td class="green">54</td>
+            <td>    html.append(&quot;\&quot; onclick=\&quot;this.target='blank'\&quot;&gt;Download binary textfile for IRC&lt;/a&gt;&lt;/div&gt;\n&quot;)
 </td>
           </tr><tr>
-            <td class="black">55</td>
-            <td>
+            <td class="green">55</td>
+            <td>    html.append(&quot;&lt;div class=\&quot;validator\&quot;&gt;&lt;a href=\&quot;http://validator.w3.org/check?uri=&quot;)
 </td>
           </tr><tr>
             <td class="green">56</td>
-            <td>  def getCssUrl(name: String): String = &quot;/jenkem/cssOutput?name=&quot; + name + &quot;.css&quot;
+            <td>    html.append(HOST)
 </td>
           </tr><tr>
             <td class="green">57</td>
-            <td>  def getIrcUrl(name: String): String = &quot;/jenkem/irc?name=&quot; + name + &quot;.txt&quot;
+            <td>    html.append(getHtmlUrl(name))
 </td>
           </tr><tr>
             <td class="green">58</td>
-            <td>  def getHtmlUrl(name: String): String = &quot;/jenkem/output?name=&quot; + name + &quot;.html&quot;
+            <td>    html.append(&quot;\&quot;&gt;&lt;img src=\&quot;/VAADIN/images/valid-html.png\&quot; alt=\&quot;Valid HTML 4.01 Strict\&quot; style=\&quot;border: 0; width: 88px; height: 31px\&quot;&gt;&lt;/a&gt;&quot;)
 </td>
           </tr><tr>
-            <td class="black">59</td>
-            <td>
+            <td class="green">59</td>
+            <td>    if (method.hasColor) {
 </td>
           </tr><tr>
-            <td class="black">60</td>
-            <td>  def prepareHtmlForInline(inputHtml: String, inputCss: String): String = {
+            <td class="green">60</td>
+            <td>      html.append(&quot;&lt;a href=\&quot;http://jigsaw.w3.org/css-validator/validator?uri=&quot;)
 </td>
           </tr><tr>
             <td class="green">61</td>
-            <td>    val filtered = inputHtml.split(SEP).toList
+            <td>      html.append(HOST)
 </td>
           </tr><tr>
             <td class="green">62</td>
-            <td>      .filterNot(_.startsWith(&quot;&lt;div class=\&quot;ircBinary\&quot;&gt;&quot;))
+            <td>      html.append(getCssUrl(name))
 </td>
           </tr><tr>
             <td class="green">63</td>
-            <td>      .filterNot(_.startsWith(&quot;&lt;div class=\&quot;validator\&quot;&gt;&quot;))
+            <td>      html.append(&quot;&amp;amp;profile=css3\&quot;&gt;&lt;img src=\&quot;/VAADIN/images/valid-css.png\&quot; alt=\&quot;CSS is valid!\&quot; style=\&quot;border: 0; width: 88px; height: 31px\&quot;&gt;&lt;/a&gt;&quot;)
 </td>
           </tr><tr>
-            <td class="green">64</td>
-            <td>    val result = filtered.map(l =&gt; if (l.startsWith(&quot;&lt;link href=&quot;)) { inputCss } else { l })
-</td>
-          </tr><tr>
-            <td class="green">65</td>
-            <td>    result.map(l =&gt; l + SEP).mkString
-</td>
-          </tr><tr>
-            <td class="black">66</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">67</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">68</td>
-            <td>  def prepareCssForInline(inputCss: String): String = {
-</td>
-          </tr><tr>
-            <td class="green">69</td>
-            <td>    val rep = &quot;.jenkem { clear: both; font-family: monospace; font-weight: bold; font-size: 10px; line-height: 12px; }&quot;
-</td>
-          </tr><tr>
-            <td class="green">70</td>
-            <td>    val filtered = inputCss.split(SEP).toList.filterNot(_.startsWith(&quot;form {&quot;))
-</td>
-          </tr><tr>
-            <td class="green">71</td>
-            <td>      .filterNot(_.startsWith(&quot;body {&quot;)).filterNot(_.startsWith(&quot;html {&quot;))
-</td>
-          </tr><tr>
-            <td class="green">72</td>
-            <td>    val result = filtered.map(l =&gt; if (l.startsWith(&quot;div {&quot;)) { rep } else { l })
-</td>
-          </tr><tr>
-            <td class="green">73</td>
-            <td>    &quot;&lt;style type=\&quot;text/css\&quot;&gt;\n&quot; + result.map(l =&gt; l + SEP).mkString + &quot;&lt;/style&gt;&quot;
-</td>
-          </tr><tr>
-            <td class="black">74</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">75</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">76</td>
-            <td>  private def generatePlain(html: StringBuilder, css: StringBuilder,
-</td>
-          </tr><tr>
-            <td class="black">77</td>
-            <td>      line: String, lineId: Int): Unit = {
-</td>
-          </tr><tr>
-            <td class="green">78</td>
-            <td>    html.append(&quot;&lt;div class=\&quot;jenkem\&quot;&gt;&lt;span id=\&quot;id_&quot;)
-</td>
-          </tr><tr>
-            <td class="green">79</td>
-            <td>    html.append(lineId.toString)
-</td>
-          </tr><tr>
-            <td class="green">80</td>
-            <td>    html.append(CLOSE)
-</td>
-          </tr><tr>
-            <td class="green">81</td>
-            <td>    html.append(escape(line))
-</td>
-          </tr><tr>
-            <td class="green">82</td>
-            <td>    html.append(&quot;&lt;/span&gt;&lt;/div&gt;\n&quot;)
-</td>
-          </tr><tr>
-            <td class="green">83</td>
-            <td>    css.append(&quot;#id_&quot;)
-</td>
-          </tr><tr>
-            <td class="green">84</td>
-            <td>    css.append(lineId.toString)
-</td>
-          </tr><tr>
-            <td class="green">85</td>
-            <td>    css.append(&quot; { color: #000000; background-color: #ffffff; }\n&quot;)
-</td>
-          </tr><tr>
-            <td class="black">86</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">87</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="black">88</td>
-            <td>  private def generateColored(html: StringBuilder, css: StringBuilder,
-</td>
-          </tr><tr>
-            <td class="black">89</td>
-            <td>      line: String, lineId: Int): Unit = {
-</td>
-          </tr><tr>
-            <td class="green">90</td>
-            <td>    html.append(&quot;&lt;div class=\&quot;jenkem\&quot;&gt;&quot;)
-</td>
-          </tr><tr>
-            <td class="green">91</td>
-            <td>    val sections = line.split(ColorUtil.CC)
-</td>
-          </tr><tr>
-            <td class="green">92</td>
-            <td>    val filteredSections = sections.filterNot(_.equals(&quot;&quot;)).filterNot(_.equals(ColorUtil.BC))
-</td>
-          </tr><tr>
-            <td class="green">93</td>
-            <td>    val parts = filteredSections.map(_.split(&quot;,&quot;).toList)
-</td>
-          </tr><tr>
-            <td class="green">94</td>
-            <td>    val fg = parts.map(_(0))
-</td>
-          </tr><tr>
-            <td class="green">95</td>
-            <td>    val bgAndChars = parts.map(_(1))
-</td>
-          </tr><tr>
-            <td class="green">96</td>
-            <td>    val bg = bgAndChars.map(_.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;)) //remove nonnumeric
-</td>
-          </tr><tr>
-            <td class="green">97</td>
-            <td>    val chars = bgAndChars.map(_.replaceAll(&quot;[0-9]&quot;, &quot;&quot;)) //remove numeric
-</td>
-          </tr><tr>
-            <td class="green">98</td>
-            <td>    for { id &lt;- 0 until bgAndChars.length } yield {
-</td>
-          </tr><tr>
-            <td class="green">99</td>
-            <td>      html.append(&quot;&lt;span id=\&quot;id_&quot;)
-</td>
-          </tr><tr>
-            <td class="green">100</td>
-            <td>      html.append(lineId)
-</td>
-          </tr><tr>
-            <td class="green">101</td>
-            <td>      html.append(&quot;_&quot;)
-</td>
-          </tr><tr>
-            <td class="green">102</td>
-            <td>      html.append(id)
-</td>
-          </tr><tr>
-            <td class="green">103</td>
-            <td>      html.append(CLOSE)
-</td>
-          </tr><tr>
-            <td class="green">104</td>
-            <td>      html.append(escape(chars(id)))
-</td>
-          </tr><tr>
-            <td class="green">105</td>
-            <td>      html.append(&quot;&lt;/span&gt;&quot;)
-</td>
-          </tr><tr>
-            <td class="green">106</td>
-            <td>      css.append(&quot;#id_&quot;)
-</td>
-          </tr><tr>
-            <td class="green">107</td>
-            <td>      css.append(lineId)
-</td>
-          </tr><tr>
-            <td class="green">108</td>
-            <td>      css.append(&quot;_&quot;)
-</td>
-          </tr><tr>
-            <td class="green">109</td>
-            <td>      css.append(id)
-</td>
-          </tr><tr>
-            <td class="green">110</td>
-            <td>      css.append(&quot; { color: &quot;)
-</td>
-          </tr><tr>
-            <td class="green">111</td>
-            <td>      css.append(ColorUtil.ircToCss(fg(id))) //fg
-</td>
-          </tr><tr>
-            <td class="green">112</td>
-            <td>      css.append(&quot;; background-color: &quot;)
-</td>
-          </tr><tr>
-            <td class="green">113</td>
-            <td>      css.append(ColorUtil.ircToCss(bg(id)))
-</td>
-          </tr><tr>
-            <td class="green">114</td>
-            <td>      css.append(&quot;; }\n&quot;)
-</td>
-          </tr><tr>
-            <td class="black">115</td>
+            <td class="black">64</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="green">116</td>
-            <td>    html.append(&quot;&lt;/div&gt;\n&quot;)
+            <td class="green">65</td>
+            <td>    html.append(&quot;&lt;/div&gt;\n&lt;/body&gt;\n&lt;/html&gt;&quot;)
 </td>
           </tr><tr>
-            <td class="black">117</td>
+            <td class="green">66</td>
+            <td>    (html.toString, css.toString)
+</td>
+          </tr><tr>
+            <td class="black">67</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">118</td>
+            <td class="black">68</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">119</td>
-            <td>  private def escape(input: String): String =
+            <td class="green">69</td>
+            <td>  def getCssUrl(name: String): String = &quot;/jenkem/cssOutput?name=&quot; + name + &quot;.css&quot;
+</td>
+          </tr><tr>
+            <td class="green">70</td>
+            <td>  def getIrcUrl(name: String): String = &quot;/jenkem/irc?name=&quot; + name + &quot;.txt&quot;
+</td>
+          </tr><tr>
+            <td class="green">71</td>
+            <td>  def getHtmlUrl(name: String): String = &quot;/jenkem/output?name=&quot; + name + &quot;.html&quot;
+</td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>  def prepareHtmlForInline(inputHtml: String, inputCss: String): String = {
+</td>
+          </tr><tr>
+            <td class="green">74</td>
+            <td>    val filtered = inputHtml.split(SEP).toList
+</td>
+          </tr><tr>
+            <td class="green">75</td>
+            <td>      .filterNot(_.startsWith(&quot;&lt;div class=\&quot;ircBinary\&quot;&gt;&quot;))
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>      .filterNot(_.startsWith(&quot;&lt;div class=\&quot;validator\&quot;&gt;&quot;))
+</td>
+          </tr><tr>
+            <td class="green">77</td>
+            <td>    val result = filtered.map(l =&gt; if (l.startsWith(&quot;&lt;link href=&quot;)) { inputCss } else { l })
+</td>
+          </tr><tr>
+            <td class="green">78</td>
+            <td>    result.map(l =&gt; l + SEP).mkString
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>  def prepareCssForInline(inputCss: String): String = {
+</td>
+          </tr><tr>
+            <td class="green">82</td>
+            <td>    val rep = &quot;.jenkem { clear: both; font-family: monospace; font-weight: bold; font-size: 10px; line-height: 12px; }&quot;
+</td>
+          </tr><tr>
+            <td class="green">83</td>
+            <td>    val filtered = inputCss.split(SEP).toList.filterNot(_.startsWith(&quot;form {&quot;))
+</td>
+          </tr><tr>
+            <td class="green">84</td>
+            <td>      .filterNot(_.startsWith(&quot;body {&quot;)).filterNot(_.startsWith(&quot;html {&quot;))
+</td>
+          </tr><tr>
+            <td class="green">85</td>
+            <td>    val result = filtered.map(l =&gt; if (l.startsWith(&quot;div {&quot;)) { rep } else { l })
+</td>
+          </tr><tr>
+            <td class="green">86</td>
+            <td>    &quot;&lt;style type=\&quot;text/css\&quot;&gt;\n&quot; + result.map(l =&gt; l + SEP).mkString + &quot;&lt;/style&gt;&quot;
+</td>
+          </tr><tr>
+            <td class="black">87</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">88</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">89</td>
+            <td>  private def generatePlain(html: StringBuilder, css: StringBuilder,
+</td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>      line: String, lineId: Int): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">91</td>
+            <td>    html.append(&quot;&lt;div class=\&quot;jenkem\&quot;&gt;&lt;span id=\&quot;id_&quot;)
+</td>
+          </tr><tr>
+            <td class="green">92</td>
+            <td>    html.append(lineId.toString)
+</td>
+          </tr><tr>
+            <td class="green">93</td>
+            <td>    html.append(CLOSE)
+</td>
+          </tr><tr>
+            <td class="green">94</td>
+            <td>    html.append(escape(line))
+</td>
+          </tr><tr>
+            <td class="green">95</td>
+            <td>    html.append(&quot;&lt;/span&gt;&lt;/div&gt;\n&quot;)
+</td>
+          </tr><tr>
+            <td class="green">96</td>
+            <td>    css.append(&quot;#id_&quot;)
+</td>
+          </tr><tr>
+            <td class="green">97</td>
+            <td>    css.append(lineId.toString)
+</td>
+          </tr><tr>
+            <td class="green">98</td>
+            <td>    css.append(&quot; { color: #000000; background-color: #ffffff; }\n&quot;)
+</td>
+          </tr><tr>
+            <td class="black">99</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">100</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">101</td>
+            <td>  private def generateColored(html: StringBuilder, css: StringBuilder,
+</td>
+          </tr><tr>
+            <td class="black">102</td>
+            <td>      line: String, lineId: Int): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">103</td>
+            <td>    html.append(&quot;&lt;div class=\&quot;jenkem\&quot;&gt;&quot;)
+</td>
+          </tr><tr>
+            <td class="green">104</td>
+            <td>    val sections = line.split(ColorUtil.CC)
+</td>
+          </tr><tr>
+            <td class="green">105</td>
+            <td>    val filteredSections = sections.filterNot(_.equals(&quot;&quot;)).filterNot(_.equals(ColorUtil.BC))
+</td>
+          </tr><tr>
+            <td class="green">106</td>
+            <td>    val parts = filteredSections.map(_.split(&quot;,&quot;).toList)
+</td>
+          </tr><tr>
+            <td class="green">107</td>
+            <td>    val fg = parts.map(_(0))
+</td>
+          </tr><tr>
+            <td class="green">108</td>
+            <td>    val bgAndChars = parts.map(_(1))
+</td>
+          </tr><tr>
+            <td class="green">109</td>
+            <td>    val bg = bgAndChars.map(_.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;)) //remove nonnumeric
+</td>
+          </tr><tr>
+            <td class="green">110</td>
+            <td>    val chars = bgAndChars.map(_.replaceAll(&quot;[0-9]&quot;, &quot;&quot;)) //remove numeric
+</td>
+          </tr><tr>
+            <td class="green">111</td>
+            <td>    for { id &lt;- 0 until bgAndChars.length } yield {
+</td>
+          </tr><tr>
+            <td class="green">112</td>
+            <td>      html.append(&quot;&lt;span id=\&quot;id_&quot;)
+</td>
+          </tr><tr>
+            <td class="green">113</td>
+            <td>      html.append(lineId)
+</td>
+          </tr><tr>
+            <td class="green">114</td>
+            <td>      html.append(&quot;_&quot;)
+</td>
+          </tr><tr>
+            <td class="green">115</td>
+            <td>      html.append(id)
+</td>
+          </tr><tr>
+            <td class="green">116</td>
+            <td>      html.append(CLOSE)
+</td>
+          </tr><tr>
+            <td class="green">117</td>
+            <td>      html.append(escape(chars(id)))
+</td>
+          </tr><tr>
+            <td class="green">118</td>
+            <td>      html.append(&quot;&lt;/span&gt;&quot;)
+</td>
+          </tr><tr>
+            <td class="green">119</td>
+            <td>      css.append(&quot;#id_&quot;)
 </td>
           </tr><tr>
             <td class="green">120</td>
+            <td>      css.append(lineId)
+</td>
+          </tr><tr>
+            <td class="green">121</td>
+            <td>      css.append(&quot;_&quot;)
+</td>
+          </tr><tr>
+            <td class="green">122</td>
+            <td>      css.append(id)
+</td>
+          </tr><tr>
+            <td class="green">123</td>
+            <td>      css.append(&quot; { color: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">124</td>
+            <td>      css.append(ColorUtil.ircToCss(fg(id))) //fg
+</td>
+          </tr><tr>
+            <td class="green">125</td>
+            <td>      css.append(&quot;; background-color: &quot;)
+</td>
+          </tr><tr>
+            <td class="green">126</td>
+            <td>      css.append(ColorUtil.ircToCss(bg(id)))
+</td>
+          </tr><tr>
+            <td class="green">127</td>
+            <td>      css.append(&quot;; }\n&quot;)
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">129</td>
+            <td>    html.append(&quot;&lt;/div&gt;\n&quot;)
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">131</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">132</td>
+            <td>  private def escape(input: String): String =
+</td>
+          </tr><tr>
+            <td class="green">133</td>
             <td>    input.replaceAll(&quot;&amp;&quot;, &quot;&amp;amp;&quot;)
 </td>
           </tr><tr>
-            <td class="black">121</td>
+            <td class="black">134</td>
             <td>         .replaceAll(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)
 </td>
           </tr><tr>
-            <td class="black">122</td>
+            <td class="black">135</td>
             <td>         .replaceAll(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)
 </td>
           </tr><tr>
-            <td class="black">123</td>
+            <td class="black">136</td>
             <td>         .replaceAll(&quot; &quot;, &quot;&amp;nbsp;&quot;)
 </td>
           </tr><tr>
-            <td class="black">124</td>
+            <td class="black">137</td>
             <td>}
 </td>
           </tr></tbody></table>

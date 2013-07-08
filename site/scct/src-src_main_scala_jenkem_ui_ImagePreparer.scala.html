@@ -16,275 +16,275 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.ui
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import java.awt.image.BufferedImage
+            <td> * ImagePreparer.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import java.net.URL
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import com.vaadin.annotations.JavaScript
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import com.vaadin.event.EventRouter
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>import com.vaadin.event.FieldEvents.FocusEvent
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>import com.vaadin.event.FieldEvents.FocusListener
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td>import com.vaadin.server.Page
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td>import com.vaadin.server.UserError
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td>import com.vaadin.ui.Alignment
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
             <td class="black">12</td>
-            <td>import com.vaadin.ui.Button
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
-            <td>import com.vaadin.ui.Button.ClickEvent
+            <td> */
 </td>
           </tr><tr>
             <td class="black">14</td>
-            <td>import com.vaadin.ui.GridLayout
+            <td>package jenkem.ui
 </td>
           </tr><tr>
             <td class="black">15</td>
-            <td>import com.vaadin.ui.HorizontalLayout
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td>import com.vaadin.ui.Label
+            <td>import java.awt.image.BufferedImage
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td>import com.vaadin.ui.TextField
+            <td>import java.net.URL
 </td>
           </tr><tr>
             <td class="black">18</td>
-            <td>import jenkem.event.DoConversionEvent
+            <td>import com.vaadin.annotations.JavaScript
 </td>
           </tr><tr>
             <td class="black">19</td>
-            <td>import jenkem.js.Cropper
+            <td>import com.vaadin.event.EventRouter
 </td>
           </tr><tr>
             <td class="black">20</td>
-            <td>import jenkem.js.CropperChangeListener
+            <td>import com.vaadin.event.FieldEvents.FocusEvent
 </td>
           </tr><tr>
             <td class="black">21</td>
-            <td>import jenkem.js.Crops
+            <td>import com.vaadin.event.FieldEvents.FocusListener
 </td>
           </tr><tr>
             <td class="black">22</td>
-            <td>import jenkem.util.UrlOptionizer
+            <td>import com.vaadin.server.Page
 </td>
           </tr><tr>
             <td class="black">23</td>
-            <td>import com.vaadin.ui.Slider
+            <td>import com.vaadin.server.UserError
 </td>
           </tr><tr>
             <td class="black">24</td>
-            <td>import com.vaadin.ui.Layout
+            <td>import com.vaadin.ui.Alignment
 </td>
           </tr><tr>
             <td class="black">25</td>
-            <td>import com.vaadin.data.Property
+            <td>import com.vaadin.ui.Button
 </td>
           </tr><tr>
             <td class="black">26</td>
-            <td>import com.vaadin.data.Property.ValueChangeEvent
+            <td>import com.vaadin.ui.Button.ClickEvent
 </td>
           </tr><tr>
             <td class="black">27</td>
-            <td>import com.vaadin.ui.Component
+            <td>import com.vaadin.ui.GridLayout
 </td>
           </tr><tr>
             <td class="black">28</td>
-            <td>import com.vaadin.ui.AbstractOrderedLayout
+            <td>import com.vaadin.ui.HorizontalLayout
 </td>
           </tr><tr>
             <td class="black">29</td>
-            <td>
+            <td>import com.vaadin.ui.Label
 </td>
           </tr><tr>
-            <td class="green">30</td>
-            <td><a id="Class_jenkem_ui_ImagePreparer"/>class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
+            <td class="black">30</td>
+            <td>import com.vaadin.ui.TextField
 </td>
           </tr><tr>
-            <td class="green">31</td>
-            <td>  val captionWidth = &quot;100px&quot;
+            <td class="black">31</td>
+            <td>import jenkem.event.DoConversionEvent
 </td>
           </tr><tr>
             <td class="black">32</td>
-            <td>
+            <td>import jenkem.js.Cropper
 </td>
           </tr><tr>
-            <td class="green">33</td>
-            <td>  var disableTrigger = false
+            <td class="black">33</td>
+            <td>import jenkem.js.CropperChangeListener
 </td>
           </tr><tr>
-            <td class="green">34</td>
-            <td>  var crops = new Crops(0, 0, 100, 100, 100, 100)
+            <td class="black">34</td>
+            <td>import jenkem.js.Crops
 </td>
           </tr><tr>
-            <td class="green">35</td>
-            <td>  val cropper = new Cropper
+            <td class="black">35</td>
+            <td>import jenkem.util.UrlOptionizer
 </td>
           </tr><tr>
-            <td class="green">36</td>
-            <td>  cropper.setWidth(&quot;100px&quot;)
+            <td class="black">36</td>
+            <td>import com.vaadin.ui.Slider
 </td>
           </tr><tr>
-            <td class="green">37</td>
-            <td>  cropper.setHeight(&quot;150px&quot;)
+            <td class="black">37</td>
+            <td>import com.vaadin.ui.Layout
 </td>
           </tr><tr>
             <td class="black">38</td>
-            <td>
+            <td>import com.vaadin.data.Property
 </td>
           </tr><tr>
-            <td class="green">39</td>
-            <td>  cropper.addListener(new CropperChangeListener {
+            <td class="black">39</td>
+            <td>import com.vaadin.data.Property.ValueChangeEvent
 </td>
           </tr><tr>
             <td class="black">40</td>
-            <td>    override def valueChange(c: Crops) {
+            <td>import com.vaadin.ui.Component
 </td>
           </tr><tr>
             <td class="black">41</td>
-            <td>      crops = c
+            <td>import com.vaadin.ui.AbstractOrderedLayout
 </td>
           </tr><tr>
             <td class="black">42</td>
-            <td>      val cropText = &quot;Top: -&quot; + crops.y + &quot;% Bottom: -&quot; + (100 - crops.y2) +
+            <td>
 </td>
           </tr><tr>
-            <td class="black">43</td>
-            <td>              &quot;% Left: -&quot; + crops.x + &quot;% Right: -&quot; + (100 - crops.x2) + &quot;%&quot;
+            <td class="green">43</td>
+            <td><a id="Class_jenkem_ui_ImagePreparer"/>class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
 </td>
           </tr><tr>
-            <td class="black">44</td>
-            <td>      cropLabel.setValue(cropText)
+            <td class="green">44</td>
+            <td>  val captionWidth = &quot;100px&quot;
 </td>
           </tr><tr>
             <td class="black">45</td>
-            <td>      trigger
-</td>
-          </tr><tr>
-            <td class="black">46</td>
-            <td>    }
-</td>
-          </tr><tr>
-            <td class="black">47</td>
-            <td>  })
-</td>
-          </tr><tr>
-            <td class="black">48</td>
             <td>
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>  var disableTrigger = false
+</td>
+          </tr><tr>
+            <td class="green">47</td>
+            <td>  var crops = new Crops(0, 0, 100, 100, 100, 100)
+</td>
+          </tr><tr>
+            <td class="green">48</td>
+            <td>  val cropper = new Cropper
 </td>
           </tr><tr>
             <td class="green">49</td>
-            <td>  val statusLayout = new HorizontalLayout
+            <td>  cropper.setWidth(&quot;100px&quot;)
 </td>
           </tr><tr>
             <td class="green">50</td>
-            <td>  val statusCaptionLabel = new Label(&quot;Status: &quot;)
+            <td>  cropper.setHeight(&quot;150px&quot;)
 </td>
           </tr><tr>
-            <td class="green">51</td>
-            <td>  statusCaptionLabel.setWidth(captionWidth)
-</td>
-          </tr><tr>
-            <td class="green">52</td>
-            <td>  val statusLabel = new Label(&quot;Ready...&quot;)
-</td>
-          </tr><tr>
-            <td class="green">53</td>
-            <td>  statusLayout.setSpacing(true)
-</td>
-          </tr><tr>
-            <td class="green">54</td>
-            <td>  addToLayoutLeft(statusLayout, statusCaptionLabel)
-</td>
-          </tr><tr>
-            <td class="green">55</td>
-            <td>  addToLayoutLeft(statusLayout, statusLabel)
-</td>
-          </tr><tr>
-            <td class="black">56</td>
+            <td class="black">51</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">57</td>
-            <td>  val urlLayout = new HorizontalLayout
+            <td class="green">52</td>
+            <td>  cropper.addListener(new CropperChangeListener {
 </td>
           </tr><tr>
-            <td class="green">58</td>
-            <td>  val urlCaptionLabel = new Label(&quot;Image URL: &quot;)
+            <td class="black">53</td>
+            <td>    override def valueChange(c: Crops) {
 </td>
           </tr><tr>
-            <td class="green">59</td>
-            <td>  urlCaptionLabel.setWidth(captionWidth)
+            <td class="black">54</td>
+            <td>      crops = c
 </td>
           </tr><tr>
-            <td class="green">60</td>
-            <td>  val inputTextField = new TextField
+            <td class="black">55</td>
+            <td>      val cropText = &quot;Top: -&quot; + crops.y + &quot;% Bottom: -&quot; + (100 - crops.y2) +
 </td>
           </tr><tr>
-            <td class="green">61</td>
-            <td>  inputTextField.setWidth(&quot;570px&quot;)
+            <td class="black">56</td>
+            <td>              &quot;% Left: -&quot; + crops.x + &quot;% Right: -&quot; + (100 - crops.x2) + &quot;%&quot;
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>      cropLabel.setValue(cropText)
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>      trigger
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>  })
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">62</td>
-            <td>  inputTextField.focus
+            <td>  val statusLayout = new HorizontalLayout
 </td>
           </tr><tr>
             <td class="green">63</td>
-            <td>  inputTextField.setImmediate(true)
+            <td>  val statusCaptionLabel = new Label(&quot;Status: &quot;)
 </td>
           </tr><tr>
             <td class="green">64</td>
-            <td>  val convButton = new Button(&quot;Convert Image&quot;)
+            <td>  statusCaptionLabel.setWidth(captionWidth)
 </td>
           </tr><tr>
             <td class="green">65</td>
-            <td>  urlLayout.setSpacing(true)
+            <td>  val statusLabel = new Label(&quot;Ready...&quot;)
 </td>
           </tr><tr>
             <td class="green">66</td>
-            <td>  addToLayoutLeft(urlLayout, urlCaptionLabel)
+            <td>  statusLayout.setSpacing(true)
 </td>
           </tr><tr>
             <td class="green">67</td>
-            <td>  addToLayoutLeft(urlLayout, inputTextField)
+            <td>  addToLayoutLeft(statusLayout, statusCaptionLabel)
 </td>
           </tr><tr>
             <td class="green">68</td>
-            <td>  addToLayoutLeft(urlLayout, convButton)
+            <td>  addToLayoutLeft(statusLayout, statusLabel)
 </td>
           </tr><tr>
             <td class="black">69</td>
@@ -292,523 +292,523 @@
 </td>
           </tr><tr>
             <td class="green">70</td>
-            <td>  val submissionLayout = new HorizontalLayout
+            <td>  val urlLayout = new HorizontalLayout
 </td>
           </tr><tr>
             <td class="green">71</td>
-            <td>  val submissionCaptionLabel = new Label(&quot;Name: &quot;)
+            <td>  val urlCaptionLabel = new Label(&quot;Image URL: &quot;)
 </td>
           </tr><tr>
             <td class="green">72</td>
-            <td>  submissionCaptionLabel.setWidth(captionWidth)
+            <td>  urlCaptionLabel.setWidth(captionWidth)
 </td>
           </tr><tr>
             <td class="green">73</td>
-            <td>  val submitter = new Submitter(eventRouter)
+            <td>  val inputTextField = new TextField
 </td>
           </tr><tr>
             <td class="green">74</td>
-            <td>  submissionLayout.setSpacing(true)
+            <td>  inputTextField.setWidth(&quot;570px&quot;)
 </td>
           </tr><tr>
             <td class="green">75</td>
-            <td>  addToLayoutLeft(submissionLayout, submissionCaptionLabel)
+            <td>  inputTextField.focus
 </td>
           </tr><tr>
             <td class="green">76</td>
-            <td>  addToLayoutLeft(submissionLayout, submitter)
+            <td>  inputTextField.setImmediate(true)
 </td>
           </tr><tr>
             <td class="green">77</td>
-            <td>  val resetAllButton = new Button(&quot;Reset All&quot;)
+            <td>  val convButton = new Button(&quot;Convert Image&quot;)
 </td>
           </tr><tr>
             <td class="green">78</td>
-            <td>  resetAllButton.addClickListener(new Button.ClickListener {
+            <td>  urlLayout.setSpacing(true)
 </td>
           </tr><tr>
-            <td class="black">79</td>
-            <td>    override def buttonClick(event: ClickEvent) {
+            <td class="green">79</td>
+            <td>  addToLayoutLeft(urlLayout, urlCaptionLabel)
 </td>
           </tr><tr>
-            <td class="black">80</td>
-            <td>      disableTrigger = true
+            <td class="green">80</td>
+            <td>  addToLayoutLeft(urlLayout, inputTextField)
 </td>
           </tr><tr>
-            <td class="black">81</td>
-            <td>      submitter.reset
+            <td class="green">81</td>
+            <td>  addToLayoutLeft(urlLayout, convButton)
 </td>
           </tr><tr>
             <td class="black">82</td>
-            <td>      brightnessSlider.setValue(0)
+            <td>
 </td>
           </tr><tr>
-            <td class="black">83</td>
-            <td>      contrastSlider.setValue(0)
+            <td class="green">83</td>
+            <td>  val submissionLayout = new HorizontalLayout
 </td>
           </tr><tr>
-            <td class="black">84</td>
-            <td>      disableTrigger = false
+            <td class="green">84</td>
+            <td>  val submissionCaptionLabel = new Label(&quot;Name: &quot;)
 </td>
           </tr><tr>
-            <td class="black">85</td>
-            <td>      cropper.setImageSrc(cropper.getImageSrc)
+            <td class="green">85</td>
+            <td>  submissionCaptionLabel.setWidth(captionWidth)
 </td>
           </tr><tr>
-            <td class="black">86</td>
-            <td>    }
+            <td class="green">86</td>
+            <td>  val submitter = new Submitter(eventRouter)
 </td>
           </tr><tr>
-            <td class="black">87</td>
-            <td>  })
+            <td class="green">87</td>
+            <td>  submissionLayout.setSpacing(true)
 </td>
           </tr><tr>
             <td class="green">88</td>
-            <td>  addToLayoutLeft(submissionLayout, resetAllButton)
+            <td>  addToLayoutLeft(submissionLayout, submissionCaptionLabel)
 </td>
           </tr><tr>
-            <td class="black">89</td>
-            <td>
+            <td class="green">89</td>
+            <td>  addToLayoutLeft(submissionLayout, submitter)
 </td>
           </tr><tr>
             <td class="green">90</td>
-            <td>  val brightnessLayout = new HorizontalLayout
+            <td>  val resetAllButton = new Button(&quot;Reset All&quot;)
 </td>
           </tr><tr>
             <td class="green">91</td>
-            <td>  brightnessLayout.setSpacing(true)
+            <td>  resetAllButton.addClickListener(new Button.ClickListener {
 </td>
           </tr><tr>
-            <td class="green">92</td>
-            <td>  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel(&quot;Brightness: &quot;, -100, 100, 0, brightnessLayout)
-</td>
-          </tr><tr>
-            <td class="black">93</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="green">94</td>
-            <td>  val contrastLayout = new HorizontalLayout
-</td>
-          </tr><tr>
-            <td class="green">95</td>
-            <td>  contrastLayout.setSpacing(true)
-</td>
-          </tr><tr>
-            <td class="green">96</td>
-            <td>  val (contrastSlider, contrastLabel) = makeSliderAndLabel(&quot;Contrast: &quot;, -70, 70, 0, contrastLayout)
-</td>
-          </tr><tr>
-            <td class="black">97</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="green">98</td>
-            <td>  val cropLayout = new HorizontalLayout
-</td>
-          </tr><tr>
-            <td class="green">99</td>
-            <td>  val cropCaptionLabel = new Label(&quot;Cropping: &quot;)
-</td>
-          </tr><tr>
-            <td class="green">100</td>
-            <td>  cropCaptionLabel.setWidth(captionWidth)
-</td>
-          </tr><tr>
-            <td class="green">101</td>
-            <td>  cropLayout.setSpacing(true)
-</td>
-          </tr><tr>
-            <td class="green">102</td>
-            <td>  addToLayoutLeft(cropLayout, cropCaptionLabel)
-</td>
-          </tr><tr>
-            <td class="green">103</td>
-            <td>  val resetButton = new Button(&quot;Select All&quot;)
-</td>
-          </tr><tr>
-            <td class="green">104</td>
-            <td>  resetButton.addClickListener(new Button.ClickListener {
-</td>
-          </tr><tr>
-            <td class="black">105</td>
+            <td class="black">92</td>
             <td>    override def buttonClick(event: ClickEvent) {
 </td>
           </tr><tr>
-            <td class="black">106</td>
+            <td class="black">93</td>
+            <td>      disableTrigger = true
+</td>
+          </tr><tr>
+            <td class="black">94</td>
+            <td>      submitter.reset
+</td>
+          </tr><tr>
+            <td class="black">95</td>
+            <td>      brightnessSlider.setValue(0)
+</td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>      contrastSlider.setValue(0)
+</td>
+          </tr><tr>
+            <td class="black">97</td>
+            <td>      disableTrigger = false
+</td>
+          </tr><tr>
+            <td class="black">98</td>
             <td>      cropper.setImageSrc(cropper.getImageSrc)
 </td>
           </tr><tr>
-            <td class="black">107</td>
+            <td class="black">99</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="black">108</td>
+            <td class="black">100</td>
             <td>  })
 </td>
           </tr><tr>
-            <td class="green">109</td>
-            <td>  addToLayoutLeft(cropLayout, resetButton)
+            <td class="green">101</td>
+            <td>  addToLayoutLeft(submissionLayout, resetAllButton)
 </td>
           </tr><tr>
-            <td class="green">110</td>
-            <td>  val cropLabel = new Label
+            <td class="black">102</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">103</td>
+            <td>  val brightnessLayout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">104</td>
+            <td>  brightnessLayout.setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="green">105</td>
+            <td>  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel(&quot;Brightness: &quot;, -100, 100, 0, brightnessLayout)
+</td>
+          </tr><tr>
+            <td class="black">106</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">107</td>
+            <td>  val contrastLayout = new HorizontalLayout
+</td>
+          </tr><tr>
+            <td class="green">108</td>
+            <td>  contrastLayout.setSpacing(true)
+</td>
+          </tr><tr>
+            <td class="green">109</td>
+            <td>  val (contrastSlider, contrastLabel) = makeSliderAndLabel(&quot;Contrast: &quot;, -70, 70, 0, contrastLayout)
+</td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">111</td>
-            <td>  addToLayoutLeft(cropLayout, cropLabel)
+            <td>  val cropLayout = new HorizontalLayout
 </td>
           </tr><tr>
-            <td class="black">112</td>
-            <td>
+            <td class="green">112</td>
+            <td>  val cropCaptionLabel = new Label(&quot;Cropping: &quot;)
 </td>
           </tr><tr>
             <td class="green">113</td>
-            <td>  bind
+            <td>  cropCaptionLabel.setWidth(captionWidth)
 </td>
           </tr><tr>
-            <td class="black">114</td>
-            <td>
+            <td class="green">114</td>
+            <td>  cropLayout.setSpacing(true)
 </td>
           </tr><tr>
             <td class="green">115</td>
-            <td>  setSpacing(true)
+            <td>  addToLayoutLeft(cropLayout, cropCaptionLabel)
 </td>
           </tr><tr>
             <td class="green">116</td>
-            <td>  setMargin(true)
+            <td>  val resetButton = new Button(&quot;Select All&quot;)
 </td>
           </tr><tr>
-            <td class="black">117</td>
-            <td>  //   0   1
+            <td class="green">117</td>
+            <td>  resetButton.addClickListener(new Button.ClickListener {
 </td>
           </tr><tr>
             <td class="black">118</td>
-            <td>  //0 ### [Status]
+            <td>    override def buttonClick(event: ClickEvent) {
 </td>
           </tr><tr>
             <td class="black">119</td>
-            <td>  //1 ### [Url   ]
+            <td>      cropper.setImageSrc(cropper.getImageSrc)
 </td>
           </tr><tr>
             <td class="black">120</td>
-            <td>  //2 ### [Bright]
+            <td>    }
 </td>
           </tr><tr>
             <td class="black">121</td>
-            <td>  //3 ### [Cont  ]
+            <td>  })
 </td>
           </tr><tr>
-            <td class="black">122</td>
-            <td>  //4 ### [Sub   ]
+            <td class="green">122</td>
+            <td>  addToLayoutLeft(cropLayout, resetButton)
 </td>
           </tr><tr>
-            <td class="black">123</td>
-            <td>  //5 ### [Crop  ]
+            <td class="green">123</td>
+            <td>  val cropLabel = new Label
 </td>
           </tr><tr>
             <td class="green">124</td>
-            <td>  setRows(6)
+            <td>  addToLayoutLeft(cropLayout, cropLabel)
 </td>
           </tr><tr>
-            <td class="green">125</td>
-            <td>  setColumns(2)
-</td>
-          </tr><tr>
-            <td class="black">126</td>
+            <td class="black">125</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">127</td>
-            <td>  addComponent(cropper, 0, 0, 0, 5)
+            <td class="green">126</td>
+            <td>  bind
+</td>
+          </tr><tr>
+            <td class="black">127</td>
+            <td>
 </td>
           </tr><tr>
             <td class="green">128</td>
-            <td>  setComponentAlignment(cropper, Alignment.TOP_LEFT)
+            <td>  setSpacing(true)
 </td>
           </tr><tr>
             <td class="green">129</td>
-            <td>  addMiddleLeft(statusLayout, 1, 0)
+            <td>  setMargin(true)
 </td>
           </tr><tr>
-            <td class="green">130</td>
-            <td>  addMiddleLeft(urlLayout, 1, 1)
+            <td class="black">130</td>
+            <td>  //   0   1
 </td>
           </tr><tr>
-            <td class="green">131</td>
-            <td>  addMiddleLeft(brightnessLayout, 1, 2)
+            <td class="black">131</td>
+            <td>  //0 ### [Status]
 </td>
           </tr><tr>
-            <td class="green">132</td>
-            <td>  addMiddleLeft(contrastLayout, 1, 3)
+            <td class="black">132</td>
+            <td>  //1 ### [Url   ]
 </td>
           </tr><tr>
-            <td class="green">133</td>
-            <td>  addMiddleLeft(submissionLayout, 1, 4)
+            <td class="black">133</td>
+            <td>  //2 ### [Bright]
 </td>
           </tr><tr>
-            <td class="green">134</td>
-            <td>  addMiddleLeft(cropLayout, 1, 5)
+            <td class="black">134</td>
+            <td>  //3 ### [Cont  ]
 </td>
           </tr><tr>
             <td class="black">135</td>
-            <td>
+            <td>  //4 ### [Sub   ]
 </td>
           </tr><tr>
             <td class="black">136</td>
-            <td>  private def addMiddleLeft(comp: Component, col: Int, row: Int): Unit = {
+            <td>  //5 ### [Crop  ]
 </td>
           </tr><tr>
             <td class="green">137</td>
-            <td>    addComponent(comp, col, row)
+            <td>  setRows(6)
 </td>
           </tr><tr>
             <td class="green">138</td>
-            <td>    setComponentAlignment(comp, Alignment.MIDDLE_LEFT)
+            <td>  setColumns(2)
 </td>
           </tr><tr>
             <td class="black">139</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">140</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">141</td>
-            <td>  private def addToLayoutLeft(layout: AbstractOrderedLayout, comp: Component): Unit = {
+            <td class="green">140</td>
+            <td>  addComponent(cropper, 0, 0, 0, 5)
+</td>
+          </tr><tr>
+            <td class="green">141</td>
+            <td>  setComponentAlignment(cropper, Alignment.TOP_LEFT)
 </td>
           </tr><tr>
             <td class="green">142</td>
-            <td>    layout.addComponent(comp)
+            <td>  addMiddleLeft(statusLayout, 1, 0)
 </td>
           </tr><tr>
             <td class="green">143</td>
-            <td>    layout.setComponentAlignment(comp, Alignment.MIDDLE_LEFT)
+            <td>  addMiddleLeft(urlLayout, 1, 1)
 </td>
           </tr><tr>
-            <td class="black">144</td>
-            <td>  }
+            <td class="green">144</td>
+            <td>  addMiddleLeft(brightnessLayout, 1, 2)
 </td>
           </tr><tr>
-            <td class="black">145</td>
-            <td>
+            <td class="green">145</td>
+            <td>  addMiddleLeft(contrastLayout, 1, 3)
 </td>
           </tr><tr>
-            <td class="black">146</td>
-            <td>  private def makeSliderAndLabel(caption: String, min: Int, max: Int, default: Int, layout: HorizontalLayout): (Slider, Label) = {
+            <td class="green">146</td>
+            <td>  addMiddleLeft(submissionLayout, 1, 4)
 </td>
           </tr><tr>
             <td class="green">147</td>
-            <td>    val label = new Label(default.toString)
+            <td>  addMiddleLeft(cropLayout, 1, 5)
 </td>
           </tr><tr>
-            <td class="green">148</td>
-            <td>    label.setWidth(&quot;30px&quot;)
+            <td class="black">148</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">149</td>
-            <td>    label.setStyleName(&quot;sliderLabel&quot;)
+            <td class="black">149</td>
+            <td>  private def addMiddleLeft(comp: Component, col: Int, row: Int): Unit = {
 </td>
           </tr><tr>
             <td class="green">150</td>
-            <td>    val slider = new Slider(None.orNull)
+            <td>    addComponent(comp, col, row)
 </td>
           </tr><tr>
             <td class="green">151</td>
-            <td>    slider.setWidth(&quot;570px&quot;)
+            <td>    setComponentAlignment(comp, Alignment.MIDDLE_LEFT)
 </td>
           </tr><tr>
-            <td class="green">152</td>
-            <td>    slider.setMin(min)
+            <td class="black">152</td>
+            <td>  }
 </td>
           </tr><tr>
-            <td class="green">153</td>
-            <td>    slider.setMax(max)
+            <td class="black">153</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">154</td>
-            <td>    slider.setValue(default)
+            <td class="black">154</td>
+            <td>  private def addToLayoutLeft(layout: AbstractOrderedLayout, comp: Component): Unit = {
 </td>
           </tr><tr>
             <td class="green">155</td>
-            <td>    slider.setImmediate(true)
+            <td>    layout.addComponent(comp)
 </td>
           </tr><tr>
             <td class="green">156</td>
-            <td>    slider.addValueChangeListener(new Property.ValueChangeListener {
+            <td>    layout.setComponentAlignment(comp, Alignment.MIDDLE_LEFT)
 </td>
           </tr><tr>
             <td class="black">157</td>
-            <td>      override def valueChange(event: ValueChangeEvent): Unit = {
+            <td>  }
 </td>
           </tr><tr>
             <td class="black">158</td>
-            <td>        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))
+            <td>
 </td>
           </tr><tr>
             <td class="black">159</td>
-            <td>        trigger
+            <td>  private def makeSliderAndLabel(caption: String, min: Int, max: Int, default: Int, layout: HorizontalLayout): (Slider, Label) = {
 </td>
           </tr><tr>
-            <td class="black">160</td>
-            <td>      }
+            <td class="green">160</td>
+            <td>    val label = new Label(default.toString)
 </td>
           </tr><tr>
-            <td class="black">161</td>
-            <td>    })
+            <td class="green">161</td>
+            <td>    label.setWidth(&quot;30px&quot;)
 </td>
           </tr><tr>
             <td class="green">162</td>
-            <td>    val button = new Button(&quot;Reset&quot;)
+            <td>    label.setStyleName(&quot;sliderLabel&quot;)
 </td>
           </tr><tr>
             <td class="green">163</td>
-            <td>    button.addClickListener(new Button.ClickListener {
+            <td>    val slider = new Slider(None.orNull)
 </td>
           </tr><tr>
-            <td class="black">164</td>
-            <td>      override def buttonClick(event: ClickEvent) {
+            <td class="green">164</td>
+            <td>    slider.setWidth(&quot;570px&quot;)
 </td>
           </tr><tr>
-            <td class="black">165</td>
-            <td>        slider.setValue(default)
+            <td class="green">165</td>
+            <td>    slider.setMin(min)
 </td>
           </tr><tr>
-            <td class="black">166</td>
-            <td>      }
+            <td class="green">166</td>
+            <td>    slider.setMax(max)
 </td>
           </tr><tr>
-            <td class="black">167</td>
-            <td>    })
+            <td class="green">167</td>
+            <td>    slider.setValue(default)
 </td>
           </tr><tr>
             <td class="green">168</td>
-            <td>    val captionLabel = new Label(caption)
+            <td>    slider.setImmediate(true)
 </td>
           </tr><tr>
             <td class="green">169</td>
-            <td>    captionLabel.setWidth(captionWidth)
+            <td>    slider.addValueChangeListener(new Property.ValueChangeListener {
 </td>
           </tr><tr>
-            <td class="green">170</td>
-            <td>    addToLayoutLeft(layout, captionLabel)
+            <td class="black">170</td>
+            <td>      override def valueChange(event: ValueChangeEvent): Unit = {
 </td>
           </tr><tr>
-            <td class="green">171</td>
-            <td>    addToLayoutLeft(layout, slider)
+            <td class="black">171</td>
+            <td>        label.setValue(&quot;%1.0f&quot;.format(event.getProperty.getValue))
 </td>
           </tr><tr>
-            <td class="green">172</td>
-            <td>    addToLayoutLeft(layout, label)
+            <td class="black">172</td>
+            <td>        trigger
 </td>
           </tr><tr>
-            <td class="green">173</td>
-            <td>    addToLayoutLeft(layout, button)
+            <td class="black">173</td>
+            <td>      }
 </td>
           </tr><tr>
-            <td class="green">174</td>
-            <td>    (slider, label)
+            <td class="black">174</td>
+            <td>    })
 </td>
           </tr><tr>
-            <td class="black">175</td>
-            <td>  }
+            <td class="green">175</td>
+            <td>    val button = new Button(&quot;Reset&quot;)
 </td>
           </tr><tr>
-            <td class="black">176</td>
-            <td>
+            <td class="green">176</td>
+            <td>    button.addClickListener(new Button.ClickListener {
 </td>
           </tr><tr>
-            <td class="green">177</td>
-            <td>  def getBrightness(): Int = brightnessLabel.getValue.toInt
+            <td class="black">177</td>
+            <td>      override def buttonClick(event: ClickEvent) {
 </td>
           </tr><tr>
-            <td class="green">178</td>
-            <td>  def getContrast(): Int = contrastLabel.getValue.toInt
+            <td class="black">178</td>
+            <td>        slider.setValue(default)
 </td>
           </tr><tr>
             <td class="black">179</td>
-            <td>
+            <td>      }
 </td>
           </tr><tr>
             <td class="black">180</td>
-            <td>  private def bind(): Unit = {
+            <td>    })
 </td>
           </tr><tr>
             <td class="green">181</td>
-            <td>    inputTextField.addFocusListener(new FocusListener {
+            <td>    val captionLabel = new Label(caption)
 </td>
           </tr><tr>
-            <td class="black">182</td>
-            <td>      override def focus(event: FocusEvent): Unit = inputTextField.selectAll
+            <td class="green">182</td>
+            <td>    captionLabel.setWidth(captionWidth)
 </td>
           </tr><tr>
-            <td class="black">183</td>
-            <td>    })
+            <td class="green">183</td>
+            <td>    addToLayoutLeft(layout, captionLabel)
 </td>
           </tr><tr>
             <td class="green">184</td>
-            <td>    convButton.addClickListener(new Button.ClickListener {
+            <td>    addToLayoutLeft(layout, slider)
 </td>
           </tr><tr>
-            <td class="black">185</td>
-            <td>      override def buttonClick(event: ClickEvent): Unit = replaceUrl
+            <td class="green">185</td>
+            <td>    addToLayoutLeft(layout, label)
 </td>
           </tr><tr>
-            <td class="black">186</td>
-            <td>    })
+            <td class="green">186</td>
+            <td>    addToLayoutLeft(layout, button)
 </td>
           </tr><tr>
-            <td class="black">187</td>
+            <td class="green">187</td>
+            <td>    (slider, label)
+</td>
+          </tr><tr>
+            <td class="black">188</td>
             <td>  }
-</td>
-          </tr><tr>
-            <td class="green">188</td>
-            <td>  private def replaceImage(url: URL): Unit = cropper.setImageSrc(url.toString)
 </td>
           </tr><tr>
             <td class="black">189</td>
-            <td>  private def trigger(): Unit = {
+            <td>
 </td>
           </tr><tr>
             <td class="green">190</td>
-            <td>    if (!disableTrigger) {
+            <td>  def getBrightness(): Int = brightnessLabel.getValue.toInt
 </td>
           </tr><tr>
             <td class="green">191</td>
-            <td>      eventRouter.fireEvent(new DoConversionEvent(true, true))
+            <td>  def getContrast(): Int = contrastLabel.getValue.toInt
 </td>
           </tr><tr>
             <td class="black">192</td>
-            <td>    }
+            <td>
 </td>
           </tr><tr>
             <td class="black">193</td>
-            <td>  }
+            <td>  private def bind(): Unit = {
 </td>
           </tr><tr>
-            <td class="black">194</td>
-            <td>  private def updateLabel(status: String, error: String): Unit = {
+            <td class="green">194</td>
+            <td>    inputTextField.addFocusListener(new FocusListener {
 </td>
           </tr><tr>
-            <td class="green">195</td>
-            <td>    Option(error) match {
+            <td class="black">195</td>
+            <td>      override def focus(event: FocusEvent): Unit = inputTextField.selectAll
 </td>
           </tr><tr>
-            <td class="green">196</td>
-            <td>      case Some(error) =&gt; statusLabel.setComponentError(new UserError(error))
+            <td class="black">196</td>
+            <td>    })
 </td>
           </tr><tr>
             <td class="green">197</td>
-            <td>      case None =&gt; statusLabel.setComponentError(None.orNull)
+            <td>    convButton.addClickListener(new Button.ClickListener {
 </td>
           </tr><tr>
             <td class="black">198</td>
-            <td>    }
+            <td>      override def buttonClick(event: ClickEvent): Unit = replaceUrl
 </td>
           </tr><tr>
-            <td class="green">199</td>
-            <td>    statusLabel.setValue(status)
+            <td class="black">199</td>
+            <td>    })
 </td>
           </tr><tr>
             <td class="black">200</td>
@@ -816,194 +816,246 @@
 </td>
           </tr><tr>
             <td class="green">201</td>
-            <td>  def setStatus(status: String): Unit = updateLabel(status, None.orNull)
+            <td>  private def replaceImage(url: URL): Unit = cropper.setImageSrc(url.toString)
 </td>
           </tr><tr>
-            <td class="green">202</td>
-            <td>  def setError(error: String): Unit = updateLabel(error, error)
+            <td class="black">202</td>
+            <td>  private def trigger(): Unit = {
 </td>
           </tr><tr>
             <td class="green">203</td>
-            <td>  def addIcon(img: BufferedImage): Unit = submitter.addIcon(img)
+            <td>    if (!disableTrigger) {
 </td>
           </tr><tr>
             <td class="green">204</td>
-            <td>  def setName(name: String): Unit = submitter.setName(name)
+            <td>      eventRouter.fireEvent(new DoConversionEvent(true, true))
 </td>
           </tr><tr>
-            <td class="green">205</td>
-            <td>  def getName: String = submitter.getName
+            <td class="black">205</td>
+            <td>    }
 </td>
           </tr><tr>
-            <td class="green">206</td>
-            <td>  def isInvert: Boolean = submitter.isInvert
+            <td class="black">206</td>
+            <td>  }
 </td>
           </tr><tr>
-            <td class="green">207</td>
-            <td>  def getBg: String = submitter.getBg
+            <td class="black">207</td>
+            <td>  private def updateLabel(status: String, error: String): Unit = {
 </td>
           </tr><tr>
             <td class="green">208</td>
-            <td>  def enableSubmission(enabled: Boolean): Unit = submitter.enableSubmission(enabled)
+            <td>    Option(error) match {
 </td>
           </tr><tr>
             <td class="green">209</td>
-            <td>  def getCrops: (Int, Int, Int, Int) = (crops.x, crops.x2, crops.y, crops.y2)
+            <td>      case Some(error) =&gt; statusLabel.setComponentError(new UserError(error))
 </td>
           </tr><tr>
-            <td class="black">210</td>
-            <td>  def hasLink: Boolean = {
+            <td class="green">210</td>
+            <td>      case None =&gt; statusLabel.setComponentError(None.orNull)
 </td>
           </tr><tr>
-            <td class="green">211</td>
-            <td>    Option(inputTextField.getValue) match {
+            <td class="black">211</td>
+            <td>    }
 </td>
           </tr><tr>
             <td class="green">212</td>
-            <td>      case Some(value) =&gt; !value.equals(&quot;&quot;)
+            <td>    statusLabel.setValue(status)
 </td>
           </tr><tr>
-            <td class="red">213</td>
-            <td>      case None =&gt; <span class="non">false
-</span></td>
-          </tr><tr>
-            <td class="black">214</td>
-            <td>    }
-</td>
-          </tr><tr>
-            <td class="black">215</td>
+            <td class="black">213</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">216</td>
-            <td>  def setLink(link: String): Unit = {
+            <td class="green">214</td>
+            <td>  def setStatus(status: String): Unit = updateLabel(status, None.orNull)
+</td>
+          </tr><tr>
+            <td class="green">215</td>
+            <td>  def setError(error: String): Unit = updateLabel(error, error)
+</td>
+          </tr><tr>
+            <td class="green">216</td>
+            <td>  def addIcon(img: BufferedImage): Unit = submitter.addIcon(img)
 </td>
           </tr><tr>
             <td class="green">217</td>
-            <td>    inputTextField.setValue(link)
+            <td>  def setName(name: String): Unit = submitter.setName(name)
 </td>
           </tr><tr>
             <td class="green">218</td>
-            <td>    UrlOptionizer.extract(link) match {
+            <td>  def getName: String = submitter.getName
 </td>
           </tr><tr>
-            <td class="black">219</td>
-            <td>      case Some(u) =&gt;
+            <td class="green">219</td>
+            <td>  def isInvert: Boolean = submitter.isInvert
 </td>
           </tr><tr>
             <td class="green">220</td>
-            <td>        replaceImage(u)
+            <td>  def getBg: String = submitter.getBg
 </td>
           </tr><tr>
             <td class="green">221</td>
-            <td>        Page.getCurrent.setUriFragment(&quot;main/&quot; + link)
+            <td>  def enableSubmission(enabled: Boolean): Unit = submitter.enableSubmission(enabled)
 </td>
           </tr><tr>
             <td class="green">222</td>
-            <td>      case None =&gt; setError(&quot;URL is not Valid. Please enter URL to an image: &quot;)
+            <td>  def getCrops: (Int, Int, Int, Int) = (crops.x, crops.x2, crops.y, crops.y2)
 </td>
           </tr><tr>
             <td class="black">223</td>
+            <td>  def hasLink: Boolean = {
+</td>
+          </tr><tr>
+            <td class="green">224</td>
+            <td>    Option(inputTextField.getValue) match {
+</td>
+          </tr><tr>
+            <td class="green">225</td>
+            <td>      case Some(value) =&gt; !value.equals(&quot;&quot;)
+</td>
+          </tr><tr>
+            <td class="red">226</td>
+            <td>      case None =&gt; <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="black">227</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="black">224</td>
+            <td class="black">228</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">225</td>
+            <td class="black">229</td>
+            <td>  def setLink(link: String): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">230</td>
+            <td>    inputTextField.setValue(link)
+</td>
+          </tr><tr>
+            <td class="green">231</td>
+            <td>    UrlOptionizer.extract(link) match {
+</td>
+          </tr><tr>
+            <td class="black">232</td>
+            <td>      case Some(u) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">233</td>
+            <td>        replaceImage(u)
+</td>
+          </tr><tr>
+            <td class="green">234</td>
+            <td>        Page.getCurrent.setUriFragment(&quot;main/&quot; + link)
+</td>
+          </tr><tr>
+            <td class="green">235</td>
+            <td>      case None =&gt; setError(&quot;URL is not Valid. Please enter URL to an image: &quot;)
+</td>
+          </tr><tr>
+            <td class="black">236</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">237</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">238</td>
             <td>  private def replaceUrl(): Unit = {
 </td>
           </tr><tr>
-            <td class="green">226</td>
+            <td class="green">239</td>
             <td>    val currentFrag = Page.getCurrent.getUriFragment
 </td>
           </tr><tr>
-            <td class="red">227</td>
+            <td class="red">240</td>
             <td>    val currentUrl = <span class="non">inputTextField.getValue
 </span></td>
           </tr><tr>
-            <td class="red">228</td>
+            <td class="red">241</td>
             <td>    <span class="non">Option(currentFrag) match {
 </span></td>
           </tr><tr>
-            <td class="black">229</td>
+            <td class="black">242</td>
             <td>      case Some(frag) =&gt;
 </td>
           </tr><tr>
-            <td class="red">230</td>
+            <td class="red">243</td>
             <td>        if (<span class="non">!currentFrag.endsWith(currentUrl)) {
 </span></td>
           </tr><tr>
-            <td class="red">231</td>
+            <td class="red">244</td>
             <td>          <span class="non">UrlOptionizer.extract(currentUrl) match {
 </span></td>
           </tr><tr>
-            <td class="black">232</td>
+            <td class="black">245</td>
             <td>            case Some(u) =&gt;
 </td>
           </tr><tr>
-            <td class="red">233</td>
+            <td class="red">246</td>
             <td>              <span class="non">Page.getCurrent.setUriFragment(&quot;main/&quot; + currentUrl)
 </span></td>
           </tr><tr>
-            <td class="red">234</td>
+            <td class="red">247</td>
             <td>              <span class="non">replaceImage(u)
 </span></td>
           </tr><tr>
-            <td class="red">235</td>
+            <td class="red">248</td>
             <td>            case None =&gt; <span class="non">setError(&quot;URL is not Valid. Please enter URL to an image: &quot;)
 </span></td>
           </tr><tr>
-            <td class="black">236</td>
+            <td class="black">249</td>
             <td>          }
 </td>
           </tr><tr>
-            <td class="red">237</td>
+            <td class="red">250</td>
             <td>        } else { <span class="non">trigger }
 </span></td>
           </tr><tr>
-            <td class="red">238</td>
+            <td class="red">251</td>
             <td>      case None =&gt; { <span class="non">trigger }
 </span></td>
           </tr><tr>
-            <td class="black">239</td>
+            <td class="black">252</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="black">240</td>
+            <td class="black">253</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">241</td>
+            <td class="black">254</td>
             <td>  def getUrl: Option[String] = {
 </td>
           </tr><tr>
-            <td class="green">242</td>
+            <td class="green">255</td>
             <td>    UrlOptionizer.extract(inputTextField.getValue) match {
 </td>
           </tr><tr>
-            <td class="green">243</td>
+            <td class="green">256</td>
             <td>      case Some(u) =&gt; Option(u.toString)
 </td>
           </tr><tr>
-            <td class="green">244</td>
+            <td class="green">257</td>
             <td>      case None =&gt; None
 </td>
           </tr><tr>
-            <td class="black">245</td>
+            <td class="black">258</td>
             <td>    }
 </td>
           </tr><tr>
-            <td class="black">246</td>
+            <td class="black">259</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="green">247</td>
+            <td class="green">260</td>
             <td>  def reset: Unit = submitter.reset
 </td>
           </tr><tr>
-            <td class="black">248</td>
+            <td class="black">261</td>
             <td>}
 </td>
           </tr></tbody></table>

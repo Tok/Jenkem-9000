@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>IrcConnector.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">IrcConnector.scala</span></div><h1>IrcConnector.scala</h1><pre class="source lang-java linenums">package jenkem.ui
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>IrcConnector.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">IrcConnector.scala</span></div><h1>IrcConnector.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * IrcConnector.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.ui
 
 import com.vaadin.event.EventRouter
 import com.vaadin.server.Page
@@ -20,58 +33,58 @@ import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Notification
 import jenkem.bot.IrcSettings
 
-<span class="pc" id="L23">class IrcConnector(val eventRouter: EventRouter) extends GridLayout {</span>
-<span class="fc" id="L24">  val networkCombo = createCombo(IrcSettings.getDefaultNetwork.net)</span>
-<span class="fc" id="L25">  val portCombo = createCombo(IrcSettings.getDefaultNetwork.port)</span>
-<span class="fc" id="L26">  val delayBox = new TextField</span>
-<span class="fc" id="L27">  delayBox.setValue(IrcSettings.defaultDelayMs.toString)</span>
-<span class="fc" id="L28">  delayBox.setWidth(&quot;50px&quot;)</span>
+<span class="pc" id="L36">class IrcConnector(val eventRouter: EventRouter) extends GridLayout {</span>
+<span class="fc" id="L37">  val networkCombo = createCombo(IrcSettings.getDefaultNetwork.net)</span>
+<span class="fc" id="L38">  val portCombo = createCombo(IrcSettings.getDefaultNetwork.port)</span>
+<span class="fc" id="L39">  val delayBox = new TextField</span>
+<span class="fc" id="L40">  delayBox.setValue(IrcSettings.defaultDelayMs.toString)</span>
+<span class="fc" id="L41">  delayBox.setWidth(&quot;50px&quot;)</span>
 
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">  if (OpenShiftUtil.isOnOpenshift) {</span>
-<span class="nc" id="L31">    portCombo.setReadOnly(true)</span>
-<span class="nc" id="L32">    delayBox.setReadOnly(true)</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">  if (OpenShiftUtil.isOnOpenshift) {</span>
+<span class="nc" id="L44">    portCombo.setReadOnly(true)</span>
+<span class="nc" id="L45">    delayBox.setReadOnly(true)</span>
   } else {
     //more options if application is not running on OpenShift
-<span class="pc bpc" id="L35" title="1 of 4 branches missed.">    IrcSettings.networks.foreach(n =&gt; if (n.location.equals(IrcSettings.Loc.ELSEWHERE)) {</span>
-<span class="fc" id="L36">        networkCombo.addItem(n.net)</span>
-<span class="fc" id="L37">        portCombo.addItem(n.port)</span>
+<span class="pc bpc" id="L48" title="1 of 4 branches missed.">    IrcSettings.networks.foreach(n =&gt; if (n.location.equals(IrcSettings.Loc.ELSEWHERE)) {</span>
+<span class="fc" id="L49">        networkCombo.addItem(n.net)</span>
+<span class="fc" id="L50">        portCombo.addItem(n.port)</span>
     })
   }
 
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">  networkCombo.addValueChangeListener(new Property.ValueChangeListener {</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">  networkCombo.addValueChangeListener(new Property.ValueChangeListener {</span>
     override def valueChange(event: ValueChangeEvent): Unit = {
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">      IrcSettings.networks.find(_.net.equalsIgnoreCase(networkCombo.getValue.toString)) match {</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        case Some(n) =&gt; portCombo.select(n.port)</span>
-<span class="nc" id="L45">        case _ =&gt; Unit</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">      IrcSettings.networks.find(_.net.equalsIgnoreCase(networkCombo.getValue.toString)) match {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        case Some(n) =&gt; portCombo.select(n.port)</span>
+<span class="nc" id="L58">        case _ =&gt; Unit</span>
       }
     }
   })
 
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">  delayBox.addValueChangeListener(new Property.ValueChangeListener {</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">  delayBox.addValueChangeListener(new Property.ValueChangeListener {</span>
     override def valueChange(event: ValueChangeEvent): Unit = {
-<span class="nc" id="L52">      try {</span>
-<span class="nc" id="L53">        val delay = delayBox.getValue.toInt</span>
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (delay &lt; IrcSettings.warningDelayMs) {</span>
-<span class="nc" id="L55">          Notification.show(&quot;Warning: Delay is low. Please make sure you are not flooding, or the bot might get kicked.&quot;)</span>
-<span class="nc bnc" id="L56" title="All 2 branches missed.">        } else if (delay &gt; IrcSettings.maxDelayMs) {</span>
-<span class="nc" id="L57">          Notification.show(&quot;Warning: Delay is very high. Please make sure you know what you are doing.&quot;)</span>
+<span class="nc" id="L65">      try {</span>
+<span class="nc" id="L66">        val delay = delayBox.getValue.toInt</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (delay &lt; IrcSettings.warningDelayMs) {</span>
+<span class="nc" id="L68">          Notification.show(&quot;Warning: Delay is low. Please make sure you are not flooding, or the bot might get kicked.&quot;)</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        } else if (delay &gt; IrcSettings.maxDelayMs) {</span>
+<span class="nc" id="L70">          Notification.show(&quot;Warning: Delay is very high. Please make sure you know what you are doing.&quot;)</span>
         }
-<span class="nc" id="L59">        IrcService.setDelay(delay)</span>
+<span class="nc" id="L72">        IrcService.setDelay(delay)</span>
       } catch {
         case e: NumberFormatException =&gt;
-<span class="nc" id="L62">          Notification.show(&quot;Delay must be a number. Value has been reset to default.&quot;)</span>
-<span class="nc" id="L63">          delayBox.setValue(IrcSettings.defaultDelayMs.toString)</span>
+<span class="nc" id="L75">          Notification.show(&quot;Delay must be a number. Value has been reset to default.&quot;)</span>
+<span class="nc" id="L76">          delayBox.setValue(IrcSettings.defaultDelayMs.toString)</span>
       }
     }
   })
 
-<span class="fc" id="L68">  val width = &quot;400px&quot;</span>
-<span class="fc" id="L69">  val compWidth = &quot;250px&quot;</span>
+<span class="fc" id="L81">  val width = &quot;400px&quot;</span>
+<span class="fc" id="L82">  val compWidth = &quot;250px&quot;</span>
 
-<span class="fc" id="L71">  setWidth(width)</span>
+<span class="fc" id="L84">  setWidth(width)</span>
 
-<span class="fc" id="L73">  setRows(6)</span>
-<span class="fc" id="L74">  setColumns(3)</span>
+<span class="fc" id="L86">  setRows(6)</span>
+<span class="fc" id="L87">  setColumns(3)</span>
 
   //   0       1         2
   //0 [Label ][ComboBox][ComboBox]
@@ -81,133 +94,133 @@ import jenkem.bot.IrcSettings
   //4 [Label ][Buttons           ]
   //5 [Label ][Status  ][Button  ]
 
-<span class="fc" id="L84">  val networkCaption = new Label(&quot;IRC Network: &quot;)</span>
-<span class="fc" id="L85">  networkCaption.setWidth(&quot;150px&quot;)</span>
-<span class="fc" id="L86">  networkCombo.setWidth(&quot;180px&quot;)</span>
-<span class="fc" id="L87">  portCombo.setWidth(&quot;70px&quot;)</span>
-<span class="fc" id="L88">  delayBox.setWidth(&quot;100px&quot;)</span>
-<span class="fc" id="L89">  val channelCaption = new Label(&quot;Channel: &quot;)</span>
-<span class="fc" id="L90">  val channelBox = new TextField</span>
-<span class="fc" id="L91">  channelBox.setWidth(compWidth)</span>
-<span class="fc" id="L92">  val nickCaption = new Label(&quot;Nick: &quot;)</span>
-<span class="fc" id="L93">  val nickBox = new TextField</span>
-<span class="fc" id="L94">  nickBox.setWidth(compWidth)</span>
-<span class="fc" id="L95">  val actionCaption = new Label(&quot;Actions: &quot;)</span>
-<span class="fc" id="L96">  val buttonLayout = new GridLayout</span>
-<span class="fc" id="L97">  val connectButton = new Button(&quot;Connect&quot;)</span>
-<span class="fc" id="L98">  val disconnectButton = new Button(&quot;Disconnect&quot;)</span>
-<span class="fc" id="L99">  val sendButton = new Button(&quot;Send Conversion&quot;)</span>
-<span class="fc" id="L100">  val delayCaption = new Label(&quot;Delay (ms): &quot;)</span>
-<span class="fc" id="L101">  val statusCaption = new Label(&quot;Status: &quot;)</span>
-<span class="fc" id="L102">  val statusLayout = new VerticalLayout</span>
-<span class="fc" id="L103">  val statusLabel = new Label(&quot;&quot;)</span>
-<span class="fc" id="L104">  statusLabel.setWidth(compWidth)</span>
-<span class="fc" id="L105">  val refreshButton = new Button(&quot;Refresh Bot Status&quot;)</span>
+<span class="fc" id="L97">  val networkCaption = new Label(&quot;IRC Network: &quot;)</span>
+<span class="fc" id="L98">  networkCaption.setWidth(&quot;150px&quot;)</span>
+<span class="fc" id="L99">  networkCombo.setWidth(&quot;180px&quot;)</span>
+<span class="fc" id="L100">  portCombo.setWidth(&quot;70px&quot;)</span>
+<span class="fc" id="L101">  delayBox.setWidth(&quot;100px&quot;)</span>
+<span class="fc" id="L102">  val channelCaption = new Label(&quot;Channel: &quot;)</span>
+<span class="fc" id="L103">  val channelBox = new TextField</span>
+<span class="fc" id="L104">  channelBox.setWidth(compWidth)</span>
+<span class="fc" id="L105">  val nickCaption = new Label(&quot;Nick: &quot;)</span>
+<span class="fc" id="L106">  val nickBox = new TextField</span>
+<span class="fc" id="L107">  nickBox.setWidth(compWidth)</span>
+<span class="fc" id="L108">  val actionCaption = new Label(&quot;Actions: &quot;)</span>
+<span class="fc" id="L109">  val buttonLayout = new GridLayout</span>
+<span class="fc" id="L110">  val connectButton = new Button(&quot;Connect&quot;)</span>
+<span class="fc" id="L111">  val disconnectButton = new Button(&quot;Disconnect&quot;)</span>
+<span class="fc" id="L112">  val sendButton = new Button(&quot;Send Conversion&quot;)</span>
+<span class="fc" id="L113">  val delayCaption = new Label(&quot;Delay (ms): &quot;)</span>
+<span class="fc" id="L114">  val statusCaption = new Label(&quot;Status: &quot;)</span>
+<span class="fc" id="L115">  val statusLayout = new VerticalLayout</span>
+<span class="fc" id="L116">  val statusLabel = new Label(&quot;&quot;)</span>
+<span class="fc" id="L117">  statusLabel.setWidth(compWidth)</span>
+<span class="fc" id="L118">  val refreshButton = new Button(&quot;Refresh Bot Status&quot;)</span>
 
   //addComponent(component, column1, row1, column2, row2)
-<span class="fc" id="L108">  addComponent(networkCaption, 0, 0)</span>
-<span class="fc" id="L109">  addComponent(networkCombo, 1, 0)</span>
-<span class="fc" id="L110">  addComponent(portCombo, 2, 0)</span>
-<span class="fc" id="L111">  addComponent(channelCaption, 0, 1)</span>
-<span class="fc" id="L112">  addComponent(channelBox, 1, 1, 2, 1)</span>
-<span class="fc" id="L113">  addComponent(nickCaption, 0, 2)</span>
-<span class="fc" id="L114">  addComponent(nickBox, 1, 2, 2, 2)</span>
-<span class="fc" id="L115">  addComponent(delayCaption, 0, 3)</span>
-<span class="fc" id="L116">  addComponent(delayBox, 1, 3, 2, 3)</span>
-<span class="fc" id="L117">  addComponent(actionCaption, 0, 4)</span>
-<span class="fc" id="L118">  addComponent(buttonLayout, 1, 4, 2, 4)</span>
-<span class="fc" id="L119">  addComponent(statusCaption, 0, 5)</span>
-<span class="fc" id="L120">  addComponent(statusLayout, 1, 5, 2, 5)</span>
-<span class="fc" id="L121">  buttonLayout.setRows(2)</span>
-<span class="fc" id="L122">  buttonLayout.setColumns(2)</span>
-<span class="fc" id="L123">  buttonLayout.addComponent(connectButton, 0, 0)</span>
-<span class="fc" id="L124">  buttonLayout.addComponent(disconnectButton, 1, 0)</span>
-<span class="fc" id="L125">  buttonLayout.addComponent(sendButton, 0, 1, 1, 1)</span>
-<span class="fc" id="L126">  statusLayout.addComponent(statusLabel)</span>
-<span class="fc" id="L127">  statusLayout.addComponent(refreshButton)</span>
+<span class="fc" id="L121">  addComponent(networkCaption, 0, 0)</span>
+<span class="fc" id="L122">  addComponent(networkCombo, 1, 0)</span>
+<span class="fc" id="L123">  addComponent(portCombo, 2, 0)</span>
+<span class="fc" id="L124">  addComponent(channelCaption, 0, 1)</span>
+<span class="fc" id="L125">  addComponent(channelBox, 1, 1, 2, 1)</span>
+<span class="fc" id="L126">  addComponent(nickCaption, 0, 2)</span>
+<span class="fc" id="L127">  addComponent(nickBox, 1, 2, 2, 2)</span>
+<span class="fc" id="L128">  addComponent(delayCaption, 0, 3)</span>
+<span class="fc" id="L129">  addComponent(delayBox, 1, 3, 2, 3)</span>
+<span class="fc" id="L130">  addComponent(actionCaption, 0, 4)</span>
+<span class="fc" id="L131">  addComponent(buttonLayout, 1, 4, 2, 4)</span>
+<span class="fc" id="L132">  addComponent(statusCaption, 0, 5)</span>
+<span class="fc" id="L133">  addComponent(statusLayout, 1, 5, 2, 5)</span>
+<span class="fc" id="L134">  buttonLayout.setRows(2)</span>
+<span class="fc" id="L135">  buttonLayout.setColumns(2)</span>
+<span class="fc" id="L136">  buttonLayout.addComponent(connectButton, 0, 0)</span>
+<span class="fc" id="L137">  buttonLayout.addComponent(disconnectButton, 1, 0)</span>
+<span class="fc" id="L138">  buttonLayout.addComponent(sendButton, 0, 1, 1, 1)</span>
+<span class="fc" id="L139">  statusLayout.addComponent(statusLabel)</span>
+<span class="fc" id="L140">  statusLayout.addComponent(refreshButton)</span>
 
-<span class="fc" id="L129">  channelBox.setValue(IrcSettings.defaultChannel)</span>
-<span class="fc" id="L130">  nickBox.setValue(IrcSettings.defaultNick)</span>
-<span class="fc" id="L131">  refresh</span>
+<span class="fc" id="L142">  channelBox.setValue(IrcSettings.defaultChannel)</span>
+<span class="fc" id="L143">  nickBox.setValue(IrcSettings.defaultNick)</span>
+<span class="fc" id="L144">  refresh</span>
 
   private def createCombo(item: Any): ComboBox = {
-<span class="fc" id="L134">    val combo = new ComboBox</span>
-<span class="fc" id="L135">    combo.addItem(item)</span>
-<span class="fc" id="L136">    combo.select(item)</span>
-<span class="fc" id="L137">    combo.setTextInputAllowed(true)</span>
-<span class="fc" id="L138">    combo.setNewItemsAllowed(true)</span>
-<span class="fc" id="L139">    combo.setNullSelectionAllowed(false)</span>
-<span class="fc" id="L140">    combo.setImmediate(true)</span>
-<span class="fc" id="L141">    combo</span>
+<span class="fc" id="L147">    val combo = new ComboBox</span>
+<span class="fc" id="L148">    combo.addItem(item)</span>
+<span class="fc" id="L149">    combo.select(item)</span>
+<span class="fc" id="L150">    combo.setTextInputAllowed(true)</span>
+<span class="fc" id="L151">    combo.setNewItemsAllowed(true)</span>
+<span class="fc" id="L152">    combo.setNullSelectionAllowed(false)</span>
+<span class="fc" id="L153">    combo.setImmediate(true)</span>
+<span class="fc" id="L154">    combo</span>
   }
 
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">  connectButton.addClickListener(new Button.ClickListener {</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">  connectButton.addClickListener(new Button.ClickListener {</span>
     override def buttonClick(event: ClickEvent): Unit = {
-<span class="nc" id="L146">      Notifications.showConnectToIrc(Page.getCurrent)</span>
-<span class="nc" id="L147">      connectButton.setEnabled(false)</span>
-<span class="nc" id="L148">      val network = networkCombo.getValue.toString</span>
-<span class="nc" id="L149">      val port = Integer.parseInt(portCombo.getValue.toString)</span>
-<span class="nc" id="L150">      val channel = channelBox.getValue</span>
-<span class="nc" id="L151">      val nick = nickBox.getValue</span>
-<span class="nc" id="L152">      IrcService.setDelay(delayBox.getValue.toInt)</span>
-<span class="nc" id="L153">      val message = IrcService.connect(network, port, channel, nick)</span>
-<span class="nc" id="L154">      statusLabel.setValue(message)</span>
+<span class="nc" id="L159">      Notifications.showConnectToIrc(Page.getCurrent)</span>
+<span class="nc" id="L160">      connectButton.setEnabled(false)</span>
+<span class="nc" id="L161">      val network = networkCombo.getValue.toString</span>
+<span class="nc" id="L162">      val port = Integer.parseInt(portCombo.getValue.toString)</span>
+<span class="nc" id="L163">      val channel = channelBox.getValue</span>
+<span class="nc" id="L164">      val nick = nickBox.getValue</span>
+<span class="nc" id="L165">      IrcService.setDelay(delayBox.getValue.toInt)</span>
+<span class="nc" id="L166">      val message = IrcService.connect(network, port, channel, nick)</span>
+<span class="nc" id="L167">      statusLabel.setValue(message)</span>
     }
   })
 
-<span class="pc bpc" id="L158" title="1 of 2 branches missed.">  disconnectButton.addClickListener(new Button.ClickListener {</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">  disconnectButton.addClickListener(new Button.ClickListener {</span>
     override def buttonClick(event: ClickEvent): Unit = {
-<span class="nc" id="L160">      disconnectButton.setEnabled(false)</span>
-<span class="nc" id="L161">      statusLabel.setValue(IrcService.disconnect)</span>
+<span class="nc" id="L173">      disconnectButton.setEnabled(false)</span>
+<span class="nc" id="L174">      statusLabel.setValue(IrcService.disconnect)</span>
     }
   })
 
-<span class="pc bpc" id="L165" title="1 of 2 branches missed.">  sendButton.addClickListener(new Button.ClickListener {</span>
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">  sendButton.addClickListener(new Button.ClickListener {</span>
     override def buttonClick(event: ClickEvent): Unit = {
-<span class="nc" id="L167">      sendButton.setEnabled(false)</span>
-<span class="nc" id="L168">      statusLabel.setValue(&quot;Sending...&quot;)</span>
-<span class="nc" id="L169">      eventRouter.fireEvent(new SendToIrcEvent)</span>
+<span class="nc" id="L180">      sendButton.setEnabled(false)</span>
+<span class="nc" id="L181">      statusLabel.setValue(&quot;Sending...&quot;)</span>
+<span class="nc" id="L182">      eventRouter.fireEvent(new SendToIrcEvent)</span>
     }
   })
 
-<span class="pc bpc" id="L173" title="1 of 2 branches missed.">  refreshButton.addClickListener(new Button.ClickListener {</span>
-<span class="nc" id="L174">    override def buttonClick(event: ClickEvent): Unit = refresh</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">  refreshButton.addClickListener(new Button.ClickListener {</span>
+<span class="nc" id="L187">    override def buttonClick(event: ClickEvent): Unit = refresh</span>
   })
 
   def sendToIrc(message: java.util.List[String]): Unit = {
-<span class="nc" id="L178">    IrcService.sendMessage(message)</span>
-<span class="nc" id="L179">    Notifications.showPlayToIrc(Page.getCurrent)</span>
-<span class="nc" id="L180">    refresh</span>
+<span class="nc" id="L191">    IrcService.sendMessage(message)</span>
+<span class="nc" id="L192">    Notifications.showPlayToIrc(Page.getCurrent)</span>
+<span class="nc" id="L193">    refresh</span>
   }
 
-<span class="fc" id="L183">  def refresh: Unit = showBotStatus(IrcService.getBotStatus)</span>
+<span class="fc" id="L196">  def refresh: Unit = showBotStatus(IrcService.getBotStatus)</span>
 
   private def showBotStatus(stat: BotStatus.Value): Unit = {
-<span class="pc bpc" id="L186" title="1 of 6 branches missed.">    if (stat.isConnected || stat.isSending) {</span>
-<span class="pc bpc" id="L187" title="1 of 2 branches missed.">      if (stat.isSending) { statusLabel.setValue(&quot;Bot is busy...&quot;) }</span>
-<span class="fc" id="L188">      else { statusLabel.setValue(&quot;Bot is connected.&quot;) }</span>
-<span class="nc" id="L189">      networkCombo.setValue(stat.network)</span>
-<span class="nc" id="L190">      networkCombo.setEnabled(false)</span>
-<span class="nc" id="L191">      portCombo.setEnabled(false)</span>
-<span class="nc" id="L192">      channelBox.setValue(stat.channel)</span>
-<span class="nc" id="L193">      channelBox.setEnabled(false)</span>
-<span class="nc" id="L194">      nickBox.setValue(stat.name)</span>
-<span class="nc" id="L195">      nickBox.setEnabled(false)</span>
-<span class="nc" id="L196">      delayBox.setValue(stat.delay.toString)</span>
-<span class="nc" id="L197">      delayBox.setEnabled(false)</span>
-<span class="nc" id="L198">      connectButton.setEnabled(false)</span>
-<span class="nc" id="L199">      disconnectButton.setEnabled(true)</span>
-<span class="nc bnc" id="L200" title="All 2 branches missed.">      sendButton.setEnabled(!stat.isSending)</span>
+<span class="pc bpc" id="L199" title="1 of 6 branches missed.">    if (stat.isConnected || stat.isSending) {</span>
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">      if (stat.isSending) { statusLabel.setValue(&quot;Bot is busy...&quot;) }</span>
+<span class="fc" id="L201">      else { statusLabel.setValue(&quot;Bot is connected.&quot;) }</span>
+<span class="nc" id="L202">      networkCombo.setValue(stat.network)</span>
+<span class="nc" id="L203">      networkCombo.setEnabled(false)</span>
+<span class="nc" id="L204">      portCombo.setEnabled(false)</span>
+<span class="nc" id="L205">      channelBox.setValue(stat.channel)</span>
+<span class="nc" id="L206">      channelBox.setEnabled(false)</span>
+<span class="nc" id="L207">      nickBox.setValue(stat.name)</span>
+<span class="nc" id="L208">      nickBox.setEnabled(false)</span>
+<span class="nc" id="L209">      delayBox.setValue(stat.delay.toString)</span>
+<span class="nc" id="L210">      delayBox.setEnabled(false)</span>
+<span class="nc" id="L211">      connectButton.setEnabled(false)</span>
+<span class="nc" id="L212">      disconnectButton.setEnabled(true)</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">      sendButton.setEnabled(!stat.isSending)</span>
     } else {
-<span class="fc" id="L202">      statusLabel.setValue(&quot;Bot is not connected.&quot;)</span>
-<span class="fc" id="L203">      networkCombo.setEnabled(true)</span>
-<span class="fc" id="L204">      portCombo.setEnabled(true)</span>
-<span class="fc" id="L205">      channelBox.setEnabled(true)</span>
-<span class="fc" id="L206">      nickBox.setEnabled(true)</span>
-<span class="fc" id="L207">      delayBox.setEnabled(true)</span>
-<span class="fc" id="L208">      connectButton.setEnabled(true)</span>
-<span class="fc" id="L209">      disconnectButton.setEnabled(false)</span>
-<span class="fc" id="L210">      sendButton.setEnabled(false)</span>
+<span class="fc" id="L215">      statusLabel.setValue(&quot;Bot is not connected.&quot;)</span>
+<span class="fc" id="L216">      networkCombo.setEnabled(true)</span>
+<span class="fc" id="L217">      portCombo.setEnabled(true)</span>
+<span class="fc" id="L218">      channelBox.setEnabled(true)</span>
+<span class="fc" id="L219">      nickBox.setEnabled(true)</span>
+<span class="fc" id="L220">      delayBox.setEnabled(true)</span>
+<span class="fc" id="L221">      connectButton.setEnabled(true)</span>
+<span class="fc" id="L222">      disconnectButton.setEnabled(false)</span>
+<span class="fc" id="L223">      sendButton.setEnabled(false)</span>
     }
   }
 }

@@ -24,138 +24,190 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.persistence
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import java.util.Properties
+            <td> * PMF.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>import javax.jdo.JDOHelper
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>import javax.jdo.PersistenceManagerFactory
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td>
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td>/**
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td> * Holds a single instance of the PersistenceManagerFactory.
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td> */
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td><a id="Object_jenkem_persistence_PMF"/>object PMF {
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
-            <td class="green">12</td>
-            <td>  final val dbHost = System.getenv(&quot;OPENSHIFT_MONGODB_DB_HOST&quot;)
+            <td class="black">12</td>
+            <td> * #L%
 </td>
           </tr><tr>
-            <td class="green">13</td>
-            <td>  final val dbPort = System.getenv(&quot;OPENSHIFT_MONGODB_DB_PORT&quot;)
+            <td class="black">13</td>
+            <td> */
 </td>
           </tr><tr>
-            <td class="green">14</td>
-            <td>  final val dbName = System.getenv(&quot;OPENSHIFT_APP_NAME&quot;)
+            <td class="black">14</td>
+            <td>package jenkem.persistence
 </td>
           </tr><tr>
-            <td class="green">15</td>
-            <td>  final val dbUser = System.getenv(&quot;OPENSHIFT_MONGODB_DB_USERNAME&quot;)
+            <td class="black">15</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">16</td>
-            <td>  final val dbPass = System.getenv(&quot;OPENSHIFT_MONGODB_DB_PASSWORD&quot;)
+            <td class="black">16</td>
+            <td>import java.util.Properties
 </td>
           </tr><tr>
             <td class="black">17</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">18</td>
-            <td>  final val properties: Properties = new Properties
+            <td class="black">18</td>
+            <td>import javax.jdo.JDOHelper
 </td>
           </tr><tr>
             <td class="black">19</td>
-            <td>  //properties.setProperty(&quot;datanucleus.cache.level2.type&quot;, &quot;xmemcached&quot;)
+            <td>import javax.jdo.PersistenceManagerFactory
 </td>
           </tr><tr>
-            <td class="green">20</td>
-            <td>  properties.setProperty(&quot;javax.jdo.PersistenceManagerFactoryClass&quot;, &quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;)
+            <td class="black">20</td>
+            <td>
 </td>
           </tr><tr>
-            <td class="green">21</td>
-            <td>  properties.setProperty(&quot;javax.jdo.option.Mapping&quot;, &quot;mongodb&quot;)
+            <td class="black">21</td>
+            <td>/**
 </td>
           </tr><tr>
             <td class="black">22</td>
-            <td>
+            <td> * Holds a single instance of the PersistenceManagerFactory.
 </td>
           </tr><tr>
-            <td class="green">23</td>
-            <td><a id="Class_jenkem_persistence_PMF"/>  Option(dbHost) match {
+            <td class="black">23</td>
+            <td> */
 </td>
           </tr><tr>
-            <td class="red">24</td>
-            <td>    case Some(v) if (<span class="non">!v.isEmpty) =&gt;
-</span></td>
+            <td class="black">24</td>
+            <td><a id="Object_jenkem_persistence_PMF"/>object PMF {
+</td>
           </tr><tr>
-            <td class="red">25</td>
-            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionURL&quot;, &quot;mongodb:&quot; + v + &quot;:&quot; + dbPort + &quot;/&quot; + dbName)
-</span></td>
+            <td class="green">25</td>
+            <td>  final val dbHost = System.getenv(&quot;OPENSHIFT_MONGODB_DB_HOST&quot;)
+</td>
           </tr><tr>
-            <td class="red">26</td>
-            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionUserName&quot;, dbUser)
-</span></td>
+            <td class="green">26</td>
+            <td>  final val dbPort = System.getenv(&quot;OPENSHIFT_MONGODB_DB_PORT&quot;)
+</td>
           </tr><tr>
-            <td class="red">27</td>
-            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionPassword&quot;, dbPass)
-</span></td>
+            <td class="green">27</td>
+            <td>  final val dbName = System.getenv(&quot;OPENSHIFT_APP_NAME&quot;)
+</td>
           </tr><tr>
-            <td class="black">28</td>
-            <td>    case None =&gt;
+            <td class="green">28</td>
+            <td>  final val dbUser = System.getenv(&quot;OPENSHIFT_MONGODB_DB_USERNAME&quot;)
 </td>
           </tr><tr>
             <td class="green">29</td>
-            <td>      properties.setProperty(&quot;javax.jdo.option.ConnectionURL&quot;, &quot;mongodb:/jenkem&quot;)
+            <td>  final val dbPass = System.getenv(&quot;OPENSHIFT_MONGODB_DB_PASSWORD&quot;)
 </td>
           </tr><tr>
             <td class="black">30</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">31</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">32</td>
-            <td>  final val pmf: PersistenceManagerFactory = JDOHelper.getPersistenceManagerFactory(properties)
+            <td class="green">31</td>
+            <td>  final val properties: Properties = new Properties
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>  //properties.setProperty(&quot;datanucleus.cache.level2.type&quot;, &quot;xmemcached&quot;)
 </td>
           </tr><tr>
             <td class="green">33</td>
+            <td>  properties.setProperty(&quot;javax.jdo.PersistenceManagerFactoryClass&quot;, &quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;)
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>  properties.setProperty(&quot;javax.jdo.option.Mapping&quot;, &quot;mongodb&quot;)
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">36</td>
+            <td><a id="Class_jenkem_persistence_PMF"/>  Option(dbHost) match {
+</td>
+          </tr><tr>
+            <td class="red">37</td>
+            <td>    case Some(v) if (<span class="non">!v.isEmpty) =&gt;
+</span></td>
+          </tr><tr>
+            <td class="red">38</td>
+            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionURL&quot;, &quot;mongodb:&quot; + v + &quot;:&quot; + dbPort + &quot;/&quot; + dbName)
+</span></td>
+          </tr><tr>
+            <td class="red">39</td>
+            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionUserName&quot;, dbUser)
+</span></td>
+          </tr><tr>
+            <td class="red">40</td>
+            <td>      <span class="non">properties.setProperty(&quot;javax.jdo.option.ConnectionPassword&quot;, dbPass)
+</span></td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>    case None =&gt;
+</td>
+          </tr><tr>
+            <td class="green">42</td>
+            <td>      properties.setProperty(&quot;javax.jdo.option.ConnectionURL&quot;, &quot;mongodb:/jenkem&quot;)
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">45</td>
+            <td>  final val pmf: PersistenceManagerFactory = JDOHelper.getPersistenceManagerFactory(properties)
+</td>
+          </tr><tr>
+            <td class="green">46</td>
             <td>  def get: PersistenceManagerFactory = pmf
 </td>
           </tr><tr>
-            <td class="black">34</td>
+            <td class="black">47</td>
             <td>}
 </td>
           </tr></tbody></table>

@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AwtImageUtil.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.util</a> &gt; <span class="el_source">AwtImageUtil.scala</span></div><h1>AwtImageUtil.scala</h1><pre class="source lang-java linenums">package jenkem.util
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AwtImageUtil.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.util</a> &gt; <span class="el_source">AwtImageUtil.scala</span></div><h1>AwtImageUtil.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * AwtImageUtil.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.util
 
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
@@ -22,124 +35,124 @@ import jenkem.engine.Method
 import java.awt.image.ShortLookupTable
 import jenkem.engine.color.Color
 
-<span class="fc" id="L25">object AwtImageUtil {</span>
+<span class="fc" id="L38">object AwtImageUtil {</span>
   type Crops = (Int, Int, Int, Int)
-<span class="fc" id="L27">  val iconSize = 32</span>
-<span class="fc" id="L28">  val defaultCrops = (0, 100, 0, 100) //xs, xe, ys, ye</span>
-<span class="fc" id="L29">  val colorWhite = new java.awt.Color(255, 255, 255)</span>
-<span class="fc" id="L30">  val colorBlack = new java.awt.Color(0, 0, 0)</span>
+<span class="fc" id="L40">  val iconSize = 32</span>
+<span class="fc" id="L41">  val defaultCrops = (0, 100, 0, 100) //xs, xe, ys, ye</span>
+<span class="fc" id="L42">  val colorWhite = new java.awt.Color(255, 255, 255)</span>
+<span class="fc" id="L43">  val colorBlack = new java.awt.Color(0, 0, 0)</span>
 
   def bufferImage(url: String, bg: String, invert: Boolean): BufferedImage = {
-<span class="fc" id="L33">    bufferImage(url, bg, invert, defaultCrops)</span>
+<span class="fc" id="L46">    bufferImage(url, bg, invert, defaultCrops)</span>
   }
 
-<span class="fc" id="L36">  def bufferImage(url: String, bg: String, invert: Boolean, crops: Crops): BufferedImage = {</span>
-<span class="fc bfc" id="L37" title="All 2 branches covered.">    val color = if (bg.equalsIgnoreCase(&quot;white&quot;)) {</span>
-<span class="fc bfc" id="L38" title="All 2 branches covered.">      if (invert) { colorBlack } else { colorWhite }</span>
+<span class="fc" id="L49">  def bufferImage(url: String, bg: String, invert: Boolean, crops: Crops): BufferedImage = {</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    val color = if (bg.equalsIgnoreCase(&quot;white&quot;)) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">      if (invert) { colorBlack } else { colorWhite }</span>
     } else {
-<span class="fc bfc" id="L40" title="All 2 branches covered.">      if (invert) { colorWhite } else { colorBlack }</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">      if (invert) { colorWhite } else { colorBlack }</span>
     }
-<span class="fc" id="L42">    val buffered = doBuffer(url, bg, color, crops)</span>
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">    if (invert) { new RescaleOp(-1F, 255F, None.orNull).filter(buffered, None.orNull) }</span>
-<span class="fc" id="L44">    else { buffered }</span>
+<span class="fc" id="L55">    val buffered = doBuffer(url, bg, color, crops)</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">    if (invert) { new RescaleOp(-1F, 255F, None.orNull).filter(buffered, None.orNull) }</span>
+<span class="fc" id="L57">    else { buffered }</span>
   }
 
   private def doBuffer(url: String, bg: String, color: java.awt.Color, crops: Crops): BufferedImage = {
-<span class="fc" id="L48">    val image = ImageIO.read(new URL(url))</span>
-<span class="fc" id="L49">    val xs = crops._1</span>
-<span class="fc" id="L50">    val xe = crops._2</span>
-<span class="fc" id="L51">    val ys = crops._3</span>
-<span class="fc" id="L52">    val ye = crops._4</span>
-<span class="fc" id="L53">    val cropX = (image.getWidth * xs) / 100</span>
-<span class="fc" id="L54">    val cropY = (image.getHeight * ys) / 100</span>
-<span class="fc" id="L55">    val cropW = (image.getWidth * (xe - xs)) / 100</span>
-<span class="fc" id="L56">    val cropH = (image.getHeight * (ye - ys)) / 100</span>
-<span class="fc" id="L57">    val buffered = new BufferedImage(cropW, cropH, BufferedImage.TYPE_INT_RGB)</span>
-<span class="fc" id="L58">    val g2d = buffered.getGraphics.asInstanceOf[Graphics2D]</span>
-<span class="fc" id="L59">    g2d.setBackground(color)</span>
-<span class="fc" id="L60">    g2d.clearRect(0, 0, cropW, cropH)</span>
-<span class="fc" id="L61">    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)</span>
-<span class="fc" id="L62">    val subimage = image.getSubimage(cropX, cropY, cropW, cropH)</span>
-<span class="fc" id="L63">    g2d.drawImage(subimage, None.orNull, None.orNull)</span>
-<span class="fc" id="L64">    g2d.dispose</span>
-<span class="fc" id="L65">    buffered</span>
+<span class="fc" id="L61">    val image = ImageIO.read(new URL(url))</span>
+<span class="fc" id="L62">    val xs = crops._1</span>
+<span class="fc" id="L63">    val xe = crops._2</span>
+<span class="fc" id="L64">    val ys = crops._3</span>
+<span class="fc" id="L65">    val ye = crops._4</span>
+<span class="fc" id="L66">    val cropX = (image.getWidth * xs) / 100</span>
+<span class="fc" id="L67">    val cropY = (image.getHeight * ys) / 100</span>
+<span class="fc" id="L68">    val cropW = (image.getWidth * (xe - xs)) / 100</span>
+<span class="fc" id="L69">    val cropH = (image.getHeight * (ye - ys)) / 100</span>
+<span class="fc" id="L70">    val buffered = new BufferedImage(cropW, cropH, BufferedImage.TYPE_INT_RGB)</span>
+<span class="fc" id="L71">    val g2d = buffered.getGraphics.asInstanceOf[Graphics2D]</span>
+<span class="fc" id="L72">    g2d.setBackground(color)</span>
+<span class="fc" id="L73">    g2d.clearRect(0, 0, cropW, cropH)</span>
+<span class="fc" id="L74">    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)</span>
+<span class="fc" id="L75">    val subimage = image.getSubimage(cropX, cropY, cropW, cropH)</span>
+<span class="fc" id="L76">    g2d.drawImage(subimage, None.orNull, None.orNull)</span>
+<span class="fc" id="L77">    g2d.dispose</span>
+<span class="fc" id="L78">    buffered</span>
   }
 
   def getRgb(img: BufferedImage, x: Int, y: Int): Color.Rgb = {
-<span class="fc" id="L69">    val argb = img.getRGB(x.intValue, y.intValue)</span>
-<span class="fc" id="L70">    (((argb &gt;&gt; 16) &amp; 0xff).toShort, ((argb &gt;&gt; 8) &amp; 0xff).toShort, ((argb) &amp; 0xff).toShort)</span>
+<span class="fc" id="L82">    val argb = img.getRGB(x.intValue, y.intValue)</span>
+<span class="fc" id="L83">    (((argb &gt;&gt; 16) &amp; 0xff).toShort, ((argb &gt;&gt; 8) &amp; 0xff).toShort, ((argb) &amp; 0xff).toShort)</span>
   }
 
   def getImageRgb(scaled: BufferedImage): Color.RgbMap = {
-<span class="fc" id="L74">    val keys = for {</span>
-<span class="fc" id="L75">       y &lt;- 0 until scaled.getHeight</span>
-<span class="fc" id="L76">       x &lt;- 0 until scaled.getWidth</span>
-<span class="fc" id="L77">    } yield { (y, x) }</span>
-<span class="fc" id="L78">    keys.map(t =&gt; ((t._1, t._2), getRgb(scaled, t._2, t._1))).toMap</span>
+<span class="fc" id="L87">    val keys = for {</span>
+<span class="fc" id="L88">       y &lt;- 0 until scaled.getHeight</span>
+<span class="fc" id="L89">       x &lt;- 0 until scaled.getWidth</span>
+<span class="fc" id="L90">    } yield { (y, x) }</span>
+<span class="fc" id="L91">    keys.map(t =&gt; ((t._1, t._2), getRgb(scaled, t._2, t._1))).toMap</span>
   }
 
   def makeIcon(url: String, bg: String, invert: Boolean, crops: Crops): BufferedImage = {
-<span class="nc" id="L82">    val buffered = bufferImage(url, bg, invert, crops)</span>
-<span class="nc" id="L83">    getScaled(buffered, iconSize, iconSize)</span>
+<span class="nc" id="L95">    val buffered = bufferImage(url, bg, invert, crops)</span>
+<span class="nc" id="L96">    getScaled(buffered, iconSize, iconSize)</span>
   }
 
   def makeVaadinResource(img: BufferedImage, name: String): Resource = {
-<span class="fc" id="L87">    class IconSource extends StreamResource.StreamSource {</span>
+<span class="fc" id="L100">    class IconSource extends StreamResource.StreamSource {</span>
       def getStream(): InputStream = {
-<span class="nc" id="L89">        val imagebuffer = new ByteArrayOutputStream</span>
-<span class="nc" id="L90">        ImageIO.write(img, &quot;png&quot;, imagebuffer)</span>
-<span class="nc" id="L91">        new ByteArrayInputStream(imagebuffer.toByteArray)</span>
+<span class="nc" id="L102">        val imagebuffer = new ByteArrayOutputStream</span>
+<span class="nc" id="L103">        ImageIO.write(img, &quot;png&quot;, imagebuffer)</span>
+<span class="nc" id="L104">        new ByteArrayInputStream(imagebuffer.toByteArray)</span>
       }
     }
-<span class="fc" id="L94">    new StreamResource(new IconSource, name + &quot;.png?&quot; + new Date().getTime())</span>
+<span class="fc" id="L107">    new StreamResource(new IconSource, name + &quot;.png?&quot; + new Date().getTime())</span>
   }
 
   def encodeToBase64(image: BufferedImage): String = {
-<span class="fc" id="L98">    val baos = new ByteArrayOutputStream</span>
-<span class="fc" id="L99">    ImageIO.write(image, &quot;png&quot;, baos)</span>
-<span class="fc" id="L100">    val encoder = new BASE64Encoder</span>
-<span class="fc" id="L101">    encoder.encode(baos.toByteArray)</span>
+<span class="fc" id="L111">    val baos = new ByteArrayOutputStream</span>
+<span class="fc" id="L112">    ImageIO.write(image, &quot;png&quot;, baos)</span>
+<span class="fc" id="L113">    val encoder = new BASE64Encoder</span>
+<span class="fc" id="L114">    encoder.encode(baos.toByteArray)</span>
   }
 
   def decodeFromBase64(base64: String): BufferedImage = {
-<span class="fc" id="L105">    val decoder = new BASE64Decoder</span>
-<span class="fc" id="L106">    val bytes = decoder.decodeBuffer(base64)</span>
-<span class="fc" id="L107">    val scalaBytes: Array[Byte] = bytes.map(b =&gt; b.byteValue)</span>
-<span class="fc" id="L108">    ImageIO.read(new ByteArrayInputStream(scalaBytes))</span>
+<span class="fc" id="L118">    val decoder = new BASE64Decoder</span>
+<span class="fc" id="L119">    val bytes = decoder.decodeBuffer(base64)</span>
+<span class="fc" id="L120">    val scalaBytes: Array[Byte] = bytes.map(b =&gt; b.byteValue)</span>
+<span class="fc" id="L121">    ImageIO.read(new ByteArrayInputStream(scalaBytes))</span>
   }
 
   def getScaled(img: BufferedImage, width: Int, height: Int): BufferedImage = {
-<span class="fc" id="L112">    getScaled(img, width, height, Kick.OFF, 0, 0)</span>
+<span class="fc" id="L125">    getScaled(img, width, height, Kick.OFF, 0, 0)</span>
   }
 
   def getScaled(img: BufferedImage, width: Int, height: Int, kick: Kick, b: Int, c: Int): BufferedImage = {
-<span class="fc" id="L116">    val resized = new BufferedImage(width, height, img.getType)</span>
-<span class="fc" id="L117">    val g2d = resized.createGraphics</span>
-<span class="fc" id="L118">    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)</span>
-<span class="fc" id="L119">    g2d.drawImage(img,</span>
-<span class="fc" id="L120">        0, 0, width, height,</span>
-<span class="fc" id="L121">        0, 0, img.getWidth, img.getHeight,</span>
-<span class="fc" id="L122">        None.orNull)</span>
-<span class="fc" id="L123">    g2d.dispose</span>
-<span class="fc" id="L124">    val wx = resized.getWidth - (2 * kick.xOffset)</span>
-<span class="fc" id="L125">    val hx = resized.getHeight - (2 * kick.yOffset)</span>
-<span class="fc" id="L126">    val sub = resized.getSubimage(kick.xOffset, kick.yOffset, wx, hx)</span>
-<span class="fc" id="L127">    new LookupOp(brightnessLot(b), None.orNull).filter(sub, sub)</span>
-<span class="fc" id="L128">    new LookupOp(contrastLot(c), None.orNull).filter(sub, sub)</span>
-<span class="fc" id="L129">    sub</span>
+<span class="fc" id="L129">    val resized = new BufferedImage(width, height, img.getType)</span>
+<span class="fc" id="L130">    val g2d = resized.createGraphics</span>
+<span class="fc" id="L131">    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)</span>
+<span class="fc" id="L132">    g2d.drawImage(img,</span>
+<span class="fc" id="L133">        0, 0, width, height,</span>
+<span class="fc" id="L134">        0, 0, img.getWidth, img.getHeight,</span>
+<span class="fc" id="L135">        None.orNull)</span>
+<span class="fc" id="L136">    g2d.dispose</span>
+<span class="fc" id="L137">    val wx = resized.getWidth - (2 * kick.xOffset)</span>
+<span class="fc" id="L138">    val hx = resized.getHeight - (2 * kick.yOffset)</span>
+<span class="fc" id="L139">    val sub = resized.getSubimage(kick.xOffset, kick.yOffset, wx, hx)</span>
+<span class="fc" id="L140">    new LookupOp(brightnessLot(b), None.orNull).filter(sub, sub)</span>
+<span class="fc" id="L141">    new LookupOp(contrastLot(c), None.orNull).filter(sub, sub)</span>
+<span class="fc" id="L142">    sub</span>
   }
 
   private def brightnessLot(b: Int): ShortLookupTable = {
-<span class="fc" id="L133">    def getValue(v: Int): Short = Math.max(0, Math.min(255, v + b)).toShort</span>
-<span class="fc" id="L134">    val table: Array[Short] = (0 to 255).map(getValue(_)).toArray</span>
-<span class="fc" id="L135">    new ShortLookupTable(0, table)</span>
+<span class="fc" id="L146">    def getValue(v: Int): Short = Math.max(0, Math.min(255, v + b)).toShort</span>
+<span class="fc" id="L147">    val table: Array[Short] = (0 to 255).map(getValue(_)).toArray</span>
+<span class="fc" id="L148">    new ShortLookupTable(0, table)</span>
   }
 
   private def contrastLot(c: Int): ShortLookupTable = {
-<span class="fc" id="L139">    val cf = (c + 100F).toFloat / 100F</span>
-<span class="fc" id="L140">    def getValue(v: Int): Short = Math.max(0, Math.min(255, v * cf)).toShort</span>
-<span class="fc" id="L141">    val table: Array[Short] = (0 to 255).map(getValue(_)).toArray</span>
-<span class="fc" id="L142">    new ShortLookupTable(0, table)</span>
+<span class="fc" id="L152">    val cf = (c + 100F).toFloat / 100F</span>
+<span class="fc" id="L153">    def getValue(v: Int): Short = Math.max(0, Math.min(255, v * cf)).toShort</span>
+<span class="fc" id="L154">    val table: Array[Short] = (0 to 255).map(getValue(_)).toArray</span>
+<span class="fc" id="L155">    new ShortLookupTable(0, table)</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

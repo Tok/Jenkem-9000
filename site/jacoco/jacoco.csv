@@ -24,7 +24,7 @@ Jenkem,jenkem.ui.tab,MainTab..anon.new Object() {...},14,8,1,1,1,1,2,1,1,1
 Jenkem,jenkem.ui.tab,MainTab..anon.new Property.ValueChangeListener() {...},9,13,2,2,0,2,2,2,0,2
 Jenkem,jenkem.ui.tab,GalleryTab.CHARS.,6,31,0,0,0,1,2,7,2,7
 Jenkem,jenkem.ui.tab,GalleryTab.METHOD.,6,31,0,0,0,1,2,7,2,7
-Jenkem,jenkem.ui.tab,InfoTab,0,696,0,0,0,96,0,4,0,4
+Jenkem,jenkem.ui.tab,InfoTab,0,796,0,0,0,106,0,6,0,6
 Jenkem,jenkem.ui.tab,MainTab,1214,1859,52,22,105,182,49,52,16,48
 Jenkem,jenkem.ui.tab,GalleryTab.NAME.,6,31,0,0,0,1,2,7,2,7
 Jenkem,jenkem.ui.tab,GalleryTab,74,583,25,19,1,36,23,25,1,25
@@ -143,7 +143,7 @@ Jenkem,jenkem.engine,Pal.RIGHT_DOWN.,2,36,0,0,0,1,1,9,1,9
 Jenkem,jenkem.engine,Engine..anonfun.chr.lzycompute.1.new Serializable() {...},0,24,0,0,0,1,0,2,0,2
 Jenkem,jenkem.engine,Engine..anonfun.rIrc.lzycompute.1.new Serializable() {...},0,44,0,0,0,1,0,2,0,2
 Jenkem,jenkem.engine,Engine..anonfun.rIrc.lzycompute.1.new Serializable() {...},0,17,0,0,0,1,0,2,0,2
-Jenkem,jenkem.engine,Engine.,630,3906,97,213,15,146,85,171,8,93
+Jenkem,jenkem.engine,Engine.,658,3878,107,203,15,146,95,161,8,93
 Jenkem,jenkem.engine,Pal.DOWN_UP.,2,36,0,0,0,1,1,9,1,9
 Jenkem,jenkem.engine,Kick,10,19,0,0,0,1,3,3,3,3
 Jenkem,jenkem.engine,Engine..anonfun.reps.lzycompute.1.new Serializable() {...},0,23,0,0,0,1,0,2,0,2
@@ -293,14 +293,14 @@ Jenkem,jenkem.util,HtmlUtil..anonfun.jenkem.util.HtmlUtil..generateColored.new S
 Jenkem,jenkem.bot,Sender.ImageSender,173,0,8,0,13,0,7,0,3,0
 Jenkem,jenkem.bot,JenkemBot.IntExtractor.,0,26,0,0,0,3,0,2,0,2
 Jenkem,jenkem.bot,IrcSettings,39,0,0,0,0,0,13,0,13,0
-Jenkem,jenkem.bot,JenkemBot,406,2166,115,145,13,151,87,82,3,36
+Jenkem,jenkem.bot,JenkemBot,399,2173,114,146,13,151,86,83,3,36
 Jenkem,jenkem.bot,IrcSettings.Loc.,0,30,0,0,0,2,0,4,0,4
 Jenkem,jenkem.bot,IrcSettings.,6,176,0,0,0,14,2,13,2,13
 Jenkem,jenkem.bot,ConversionSettings,145,376,17,17,2,41,27,25,13,22
 Jenkem,jenkem.bot,IrcService,24,0,0,0,0,0,6,0,6,0
 Jenkem,jenkem.bot,JenkemBot.ConfigItem.,0,113,0,0,0,2,0,11,0,11
-Jenkem,jenkem.bot,Sender.,101,105,3,3,5,10,9,7,6,7
-Jenkem,jenkem.bot,IrcService.,53,24,0,0,4,3,5,3,5,3
+Jenkem,jenkem.bot,Sender.,101,105,3,3,7,10,9,7,6,7
+Jenkem,jenkem.bot,IrcService.,53,24,0,0,5,3,5,3,5,3
 Jenkem,jenkem.bot,IrcSettings.IrcNetwork,0,25,0,0,0,1,0,4,0,4
 Jenkem,jenkem.bot,JenkemBot.Command.,0,91,0,0,0,2,0,9,0,9
 Jenkem,jenkem.bot,Sender,40,0,0,0,0,0,11,0,11,0

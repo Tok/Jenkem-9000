@@ -16,74 +16,126 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.servlet
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
             <td class="black">3</td>
-            <td>import javax.servlet.http.HttpServletRequest
+            <td> * CssOutputServlet.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>import javax.servlet.http.HttpServletResponse
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td>
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td>/**
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td> * Servlet to retrieve and return stored CSS.
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td> */
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
-            <td class="green">9</td>
-            <td><a id="Class_jenkem_servlet_CssOutputServlet"/>class CssOutputServlet extends AbstractOutputServlet {
+            <td class="black">9</td>
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td>  override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
-            <td class="green">11</td>
-            <td>    response.setCharacterEncoding(encoding)
+            <td class="black">11</td>
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
-            <td class="green">12</td>
-            <td>    response.setContentType(&quot;text/css&quot;)
+            <td class="black">12</td>
+            <td> * #L%
 </td>
           </tr><tr>
-            <td class="green">13</td>
-            <td>    jenkemService.getImageCssByName(obtainName(request)) match {
+            <td class="black">13</td>
+            <td> */
 </td>
           </tr><tr>
-            <td class="red">14</td>
-            <td>      case Some(imageCss) =&gt; <span class="non">response.getWriter.write(imageCss.css)
-</span></td>
+            <td class="black">14</td>
+            <td>package jenkem.servlet
+</td>
           </tr><tr>
-            <td class="green">15</td>
-            <td>      case None =&gt; response.getWriter.write(&quot;Fail: CSS couldn't be obtained.&quot;)
+            <td class="black">15</td>
+            <td>
 </td>
           </tr><tr>
             <td class="black">16</td>
-            <td>    }
+            <td>import javax.servlet.http.HttpServletRequest
 </td>
           </tr><tr>
             <td class="black">17</td>
-            <td>  }
+            <td>import javax.servlet.http.HttpServletResponse
 </td>
           </tr><tr>
             <td class="black">18</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td> * Servlet to retrieve and return stored CSS.
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td><a id="Class_jenkem_servlet_CssOutputServlet"/>class CssOutputServlet extends AbstractOutputServlet {
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>  override def doGet(request: HttpServletRequest, response: HttpServletResponse): Unit = {
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>    response.setCharacterEncoding(encoding)
+</td>
+          </tr><tr>
+            <td class="green">25</td>
+            <td>    response.setContentType(&quot;text/css&quot;)
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>    jenkemService.getImageCssByName(obtainName(request)) match {
+</td>
+          </tr><tr>
+            <td class="red">27</td>
+            <td>      case Some(imageCss) =&gt; <span class="non">response.getWriter.write(imageCss.css)
+</span></td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>      case None =&gt; response.getWriter.write(&quot;Fail: CSS couldn't be obtained.&quot;)
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">31</td>
             <td>}
 </td>
           </tr></tbody></table>

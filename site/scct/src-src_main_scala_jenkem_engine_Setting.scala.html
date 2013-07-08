@@ -80,67 +80,67 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.engine
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
-            <td class="green">3</td>
-            <td><a id="Class_jenkem_engine_Setting"/>sealed abstract class Setting(val caption: String)
+            <td class="black">3</td>
+            <td> * Setting.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
             <td class="black">4</td>
-            <td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td><a id="Object_jenkem_engine_Setting"/>object Setting {
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td><a id="Object_jenkem_engine_Setting_UPDOWN"/>  case object UPDOWN extends Setting(&quot;\&quot;_&quot;)
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td><a id="Object_jenkem_engine_Setting_LEFTRIGHT"/>  case object LEFTRIGHT extends Setting(&quot;[]&quot;)
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td><a id="Object_jenkem_engine_Setting_DBQP"/>  case object DBQP extends Setting(&quot;dbqp&quot;)
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
             <td class="black">9</td>
-            <td><a id="Object_jenkem_engine_Setting_DIAGONAL"/>  case object DIAGONAL extends Setting(&quot;\\ /&quot;)
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
-            <td><a id="Object_jenkem_engine_Setting_VERTICAL"/>  case object VERTICAL extends Setting(&quot;|&quot;)
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
 </td>
           </tr><tr>
             <td class="black">11</td>
-            <td><a id="Object_jenkem_engine_Setting_HORIZONTAL"/>  case object HORIZONTAL extends Setting(&quot;-&quot;)
+            <td> * See http://www.wtfpl.net/ for more details.
 </td>
           </tr><tr>
-            <td class="green">12</td>
-            <td>  val values = List(UPDOWN, LEFTRIGHT, DBQP, DIAGONAL, VERTICAL, HORIZONTAL)
+            <td class="black">12</td>
+            <td> * #L%
 </td>
           </tr><tr>
             <td class="black">13</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>package jenkem.engine
+</td>
+          </tr><tr>
+            <td class="black">15</td>
             <td>
 </td>
           </tr><tr>
-            <td class="green">14</td>
-            <td>  val min = -100
-</td>
-          </tr><tr>
-            <td class="green">15</td>
-            <td>  val max = 100
-</td>
-          </tr><tr>
             <td class="green">16</td>
-            <td>  val default = 0
+            <td><a id="Class_jenkem_engine_Setting"/>sealed abstract class Setting(val caption: String)
 </td>
           </tr><tr>
             <td class="black">17</td>
@@ -148,94 +148,146 @@
 </td>
           </tr><tr>
             <td class="black">18</td>
-            <td>  type Pair = (Boolean, Int)
+            <td><a id="Object_jenkem_engine_Setting"/>object Setting {
 </td>
           </tr><tr>
-            <td class="green">19</td>
-            <td><a id="Class_jenkem_engine_Setting_Instance"/>  class Instance(val ud: Pair, val lr: Pair, val dbqp: Boolean, val diag: Boolean, val vert: Boolean, val hor: Boolean) {
+            <td class="black">19</td>
+            <td><a id="Object_jenkem_engine_Setting_UPDOWN"/>  case object UPDOWN extends Setting(&quot;\&quot;_&quot;)
 </td>
           </tr><tr>
             <td class="black">20</td>
-            <td>    def has(setting: Setting): Boolean = {
+            <td><a id="Object_jenkem_engine_Setting_LEFTRIGHT"/>  case object LEFTRIGHT extends Setting(&quot;[]&quot;)
 </td>
           </tr><tr>
-            <td class="green">21</td>
-            <td>      if (setting.equals(DBQP)) { dbqp }
+            <td class="black">21</td>
+            <td><a id="Object_jenkem_engine_Setting_DBQP"/>  case object DBQP extends Setting(&quot;dbqp&quot;)
 </td>
           </tr><tr>
-            <td class="green">22</td>
-            <td>      else if (setting.equals(DIAGONAL)) { diag }
+            <td class="black">22</td>
+            <td><a id="Object_jenkem_engine_Setting_DIAGONAL"/>  case object DIAGONAL extends Setting(&quot;\\ /&quot;)
 </td>
           </tr><tr>
-            <td class="green">23</td>
-            <td>      else if (setting.equals(VERTICAL)) { vert }
+            <td class="black">23</td>
+            <td><a id="Object_jenkem_engine_Setting_VERTICAL"/>  case object VERTICAL extends Setting(&quot;|&quot;)
 </td>
           </tr><tr>
-            <td class="green">24</td>
-            <td>      else if (setting.equals(HORIZONTAL)) { hor }
+            <td class="black">24</td>
+            <td><a id="Object_jenkem_engine_Setting_HORIZONTAL"/>  case object HORIZONTAL extends Setting(&quot;-&quot;)
 </td>
           </tr><tr>
             <td class="green">25</td>
-            <td>      else { getPair(setting)._1 }
+            <td>  val values = List(UPDOWN, LEFTRIGHT, DBQP, DIAGONAL, VERTICAL, HORIZONTAL)
 </td>
           </tr><tr>
             <td class="black">26</td>
-            <td>    }
-</td>
-          </tr><tr>
-            <td class="green">27</td>
-            <td>    def get(setting: Setting): Int = getPair(setting)._2
-</td>
-          </tr><tr>
-            <td class="black">28</td>
-            <td>    private def getPair(setting: Setting): Pair = {
-</td>
-          </tr><tr>
-            <td class="green">29</td>
-            <td>      setting match {
-</td>
-          </tr><tr>
-            <td class="green">30</td>
-            <td>        case UPDOWN =&gt; ud
-</td>
-          </tr><tr>
-            <td class="green">31</td>
-            <td>        case LEFTRIGHT =&gt; lr
-</td>
-          </tr><tr>
-            <td class="green">32</td>
-            <td>        case _ =&gt; (false, default)
-</td>
-          </tr><tr>
-            <td class="black">33</td>
-            <td>      }
-</td>
-          </tr><tr>
-            <td class="black">34</td>
-            <td>    }
-</td>
-          </tr><tr>
-            <td class="black">35</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">36</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">37</td>
-            <td>  def getInitial(hasAnsi: Boolean): Instance = {
+            <td class="green">27</td>
+            <td>  val min = -100
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>  val max = 100
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>  val default = 0
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>  type Pair = (Boolean, Int)
+</td>
+          </tr><tr>
+            <td class="green">32</td>
+            <td><a id="Class_jenkem_engine_Setting_Instance"/>  class Instance(val ud: Pair, val lr: Pair, val dbqp: Boolean, val diag: Boolean, val vert: Boolean, val hor: Boolean) {
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>    def has(setting: Setting): Boolean = {
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>      if (setting.equals(DBQP)) { dbqp }
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>      else if (setting.equals(DIAGONAL)) { diag }
+</td>
+          </tr><tr>
+            <td class="green">36</td>
+            <td>      else if (setting.equals(VERTICAL)) { vert }
+</td>
+          </tr><tr>
+            <td class="green">37</td>
+            <td>      else if (setting.equals(HORIZONTAL)) { hor }
 </td>
           </tr><tr>
             <td class="green">38</td>
-            <td>    new Instance((true, default), (true, default), (!hasAnsi), (!hasAnsi), (false), (false))
+            <td>      else { getPair(setting)._1 }
 </td>
           </tr><tr>
             <td class="black">39</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">40</td>
+            <td>    def get(setting: Setting): Int = getPair(setting)._2
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>    private def getPair(setting: Setting): Pair = {
+</td>
+          </tr><tr>
+            <td class="green">42</td>
+            <td>      setting match {
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>        case UPDOWN =&gt; ud
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>        case LEFTRIGHT =&gt; lr
+</td>
+          </tr><tr>
+            <td class="green">45</td>
+            <td>        case _ =&gt; (false, default)
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">48</td>
             <td>  }
 </td>
           </tr><tr>
-            <td class="black">40</td>
+            <td class="black">49</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>  def getInitial(hasAnsi: Boolean): Instance = {
+</td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>    new Instance((true, default), (true, default), (!hasAnsi), (!hasAnsi), (false), (false))
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">53</td>
             <td>}
 </td>
           </tr></tbody></table>

@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Inline.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">Inline.scala</span></div><h1>Inline.scala</h1><pre class="source lang-java linenums">package jenkem.ui
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Inline.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui</a> &gt; <span class="el_source">Inline.scala</span></div><h1>Inline.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * Inline.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.ui
 
 import com.vaadin.server.Resource
 import com.vaadin.shared.ui.label.ContentMode
@@ -13,49 +26,49 @@ import java.awt.image.BufferedImage
 import jenkem.util.AwtImageUtil
 import jenkem.engine.Method
 
-<span class="fc" id="L16">class Inline extends VerticalLayout {</span>
-<span class="fc" id="L17">  val spacer = new Label</span>
-<span class="fc" id="L18">  spacer.setWidth(500 + &quot;px&quot;)</span>
-<span class="fc" id="L19">  spacer.setHeight(0 + &quot;px&quot;)</span>
+<span class="fc" id="L29">class Inline extends VerticalLayout {</span>
+<span class="fc" id="L30">  val spacer = new Label</span>
+<span class="fc" id="L31">  spacer.setWidth(500 + &quot;px&quot;)</span>
+<span class="fc" id="L32">  spacer.setHeight(0 + &quot;px&quot;)</span>
 
-<span class="fc" id="L21">  val previewLayout = new GridLayout</span>
-<span class="fc" id="L22">  previewLayout.setRows(2)</span>
-<span class="fc" id="L23">  previewLayout.setColumns(1)</span>
-<span class="fc" id="L24">  previewLayout.addComponent(spacer, 0, 0)</span>
-<span class="fc" id="L25">  previewLayout.setComponentAlignment(spacer, Alignment.TOP_LEFT)</span>
-<span class="fc" id="L26">  addComponent(previewLayout)</span>
-<span class="fc" id="L27">  setComponentAlignment(previewLayout, Alignment.TOP_LEFT)</span>
+<span class="fc" id="L34">  val previewLayout = new GridLayout</span>
+<span class="fc" id="L35">  previewLayout.setRows(2)</span>
+<span class="fc" id="L36">  previewLayout.setColumns(1)</span>
+<span class="fc" id="L37">  previewLayout.addComponent(spacer, 0, 0)</span>
+<span class="fc" id="L38">  previewLayout.setComponentAlignment(spacer, Alignment.TOP_LEFT)</span>
+<span class="fc" id="L39">  addComponent(previewLayout)</span>
+<span class="fc" id="L40">  setComponentAlignment(previewLayout, Alignment.TOP_LEFT)</span>
 
-<span class="fc" id="L29">  val preview = new Label</span>
-<span class="fc" id="L30">  preview.setContentMode(ContentMode.HTML)</span>
+<span class="fc" id="L42">  val preview = new Label</span>
+<span class="fc" id="L43">  preview.setContentMode(ContentMode.HTML)</span>
 
-<span class="fc" id="L32">  val image = new Image</span>
+<span class="fc" id="L45">  val image = new Image</span>
 
-<span class="fc" id="L34">  val overlayButton = new Button</span>
-<span class="fc" id="L35">  overlayButton.setImmediate(true)</span>
-<span class="pc bpc" id="L36" title="1 of 2 branches missed.">  overlayButton.addClickListener(new Button.ClickListener {</span>
-<span class="fc" id="L37">    override def buttonClick(event: ClickEvent): Unit = { switchContent }</span>
+<span class="fc" id="L47">  val overlayButton = new Button</span>
+<span class="fc" id="L48">  overlayButton.setImmediate(true)</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">  overlayButton.addClickListener(new Button.ClickListener {</span>
+<span class="fc" id="L50">    override def buttonClick(event: ClickEvent): Unit = { switchContent }</span>
   })
-<span class="fc" id="L39">  addComponent(overlayButton)</span>
-<span class="fc" id="L40">  setComponentAlignment(overlayButton, Alignment.TOP_LEFT)</span>
+<span class="fc" id="L52">  addComponent(overlayButton)</span>
+<span class="fc" id="L53">  setComponentAlignment(overlayButton, Alignment.TOP_LEFT)</span>
 
-<span class="fc" id="L42">  var isShowHtml = false //gets switched on load</span>
+<span class="fc" id="L55">  var isShowHtml = false //gets switched on load</span>
   private def switchContent: Unit = {
-<span class="fc" id="L44">    previewLayout.removeComponent(0, 1)</span>
-<span class="fc bfc" id="L45" title="All 2 branches covered.">    previewLayout.addComponent(if (isShowHtml) { image } else { preview }, 0, 1)</span>
-<span class="fc bfc" id="L46" title="All 2 branches covered.">    overlayButton.setCaption(if (isShowHtml) { &quot;Show HTML&quot; } else { &quot;Show Image&quot; })</span>
-<span class="fc bfc" id="L47" title="All 2 branches covered.">    isShowHtml = !isShowHtml</span>
+<span class="fc" id="L57">    previewLayout.removeComponent(0, 1)</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">    previewLayout.addComponent(if (isShowHtml) { image } else { preview }, 0, 1)</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    overlayButton.setCaption(if (isShowHtml) { &quot;Show HTML&quot; } else { &quot;Show Image&quot; })</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    isShowHtml = !isShowHtml</span>
   }
 
-<span class="fc" id="L50">  switchContent</span>
+<span class="fc" id="L63">  switchContent</span>
 
   def setIntermediate(img: BufferedImage, method: Method): Unit = {
-<span class="fc bfc" id="L53" title="All 4 branches covered.">    val widthFactor = if (!method.equals(Method.Pwntari)) { 3 } else { 6 }</span>
-<span class="fc" id="L54">    val intermediate = AwtImageUtil.getScaled(img, img.getWidth * widthFactor, img.getHeight * 6)</span>
-<span class="fc" id="L55">    val resource = AwtImageUtil.makeVaadinResource(intermediate, &quot;Intermediate&quot;)</span>
-<span class="fc" id="L56">    image.setSource(resource)</span>
+<span class="fc bfc" id="L66" title="All 4 branches covered.">    val widthFactor = if (!method.equals(Method.Pwntari)) { 3 } else { 6 }</span>
+<span class="fc" id="L67">    val intermediate = AwtImageUtil.getScaled(img, img.getWidth * widthFactor, img.getHeight * 6)</span>
+<span class="fc" id="L68">    val resource = AwtImageUtil.makeVaadinResource(intermediate, &quot;Intermediate&quot;)</span>
+<span class="fc" id="L69">    image.setSource(resource)</span>
   }
-<span class="fc" id="L58">  def setValue(value: String): Unit = preview.setValue(value)</span>
-<span class="fc bfc" id="L59" title="All 4 branches covered.">  def reset: Unit = if (!isShowHtml) { switchContent }</span>
+<span class="fc" id="L71">  def setValue(value: String): Unit = preview.setValue(value)</span>
+<span class="fc bfc" id="L72" title="All 4 branches covered.">  def reset: Unit = if (!isShowHtml) { switchContent }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

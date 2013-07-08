@@ -1,110 +1,134 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>InfoTab.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui.tab</a> &gt; <span class="el_source">InfoTab.scala</span></div><h1>InfoTab.scala</h1><pre class="source lang-java linenums">package jenkem.ui.tab
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>InfoTab.scala</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Jenkem</a> &gt; <a href="index.html" class="el_package">jenkem.ui.tab</a> &gt; <span class="el_source">InfoTab.scala</span></div><h1>InfoTab.scala</h1><pre class="source lang-java linenums">/*
+ * #%L
+ * InfoTab.scala - Jenkem - Tok - 2012
+ * %%
+ * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
+ * %%
+ * This program is free software. It comes without any warranty, to
+ * the extent permitted by applicable law. You can redistribute it
+ * and/or modify it under the terms of the Do What The Fuck You Want
+ * To Public License, Version 2, as published by Sam Hocevar.
+ * See http://www.wtfpl.net/ for more details.
+ * #L%
+ */
+package jenkem.ui.tab
 
 import com.vaadin.server.ExternalResource
 import com.vaadin.shared.ui.label.ContentMode
 import com.vaadin.ui.Label
 import com.vaadin.ui.Link
 import com.vaadin.ui.VerticalLayout
+import com.vaadin.ui.HorizontalLayout
 
-<span class="fc" id="L9">class InfoTab extends VerticalLayout {</span>
-<span class="fc" id="L10">  val newLine = &quot;\n&quot;</span>
-<span class="fc" id="L11">  setCaption(&quot;Info&quot;)</span>
-<span class="fc" id="L12">  setSizeFull</span>
-<span class="fc" id="L13">  setMargin(true)</span>
+<span class="fc" id="L23">class InfoTab extends VerticalLayout {</span>
+<span class="fc" id="L24">  val newLine = &quot;\n&quot;</span>
+<span class="fc" id="L25">  setCaption(&quot;Info&quot;)</span>
+<span class="fc" id="L26">  setSizeFull</span>
+<span class="fc" id="L27">  setMargin(true)</span>
 
-<span class="fc" id="L15">  addLabel(&quot;Welcome to the Jenkem 9000 ASCII converter.&quot;)</span>
-<span class="fc" id="L16">  addLabel(newLine)</span>
-<span class="fc" id="L17">  addLabel(&quot;To convert an image, go to the main tab, enter a link to the image and click the convert button.&quot;)</span>
-<span class="fc" id="L18">  addLabel(&quot;If you make a good conversion, you can add it to the gallery, by clicking the submit button.&quot;)</span>
-<span class="fc" id="L19">  addLabel(&quot;Other images with the same name will be repalced. You can save the HTML output from&quot;)</span>
-<span class="fc" id="L20">  addLabel(&quot;the gallery after submitting your conversion.&quot;)</span>
-<span class="fc" id="L21">  addLabel(&quot;If you do so, don't forget to also save the provided CSS and fix the stylesheet link in your&quot;)</span>
-<span class="fc" id="L22">  addLabel(&quot;HTML source if you want to upload it somewhere else.&quot;)</span>
-<span class="fc" id="L23">  addLabel(newLine)</span>
-<span class="fc" id="L24">  addLabel(&quot;Problems:&quot;)</span>
-<span class="fc" id="L25">  addLabel(&quot;IRC Clients:&quot;)</span>
-<span class="fc" id="L26">  addLabel(&quot;\tSome IRC clients limit the input that can be put on one line.&quot;)</span>
-<span class="fc" id="L27">  addLabel(&quot;\tDepending on your client, long lines with many color changes and therefore too much&quot;)</span>
-<span class="fc" id="L28">  addLabel(&quot;\tdata will be cut off or skipped to a new line and thereby break the image.&quot;)</span>
-<span class="fc" id="L29">  addLabel(&quot;\tIf this happens, you might try to use a lower setting for the line-width of your conversion.&quot;)</span>
-<span class="fc" id="L30">  addLabel(&quot;\tIt's often a good idea to test replaying your converted image into an empty channel&quot;)</span>
-<span class="fc" id="L31">  addLabel(&quot;\tbefore flooding it directly into a channel full with people idling in it.&quot;)</span>
-<span class="fc" id="L32">  addLabel(&quot;\tThe recommended font is Lucida Console.&quot;)</span>
-<span class="fc" id="L33">  addLabel(newLine)</span>
-<span class="fc" id="L34">  addLabel(&quot;Browsers:&quot;)</span>
-<span class="fc" id="L35">  addLabel(&quot;\tCropping and functions that rely on cropping do not work in Internet Explorer.&quot;)</span>
-<span class="fc" id="L36">  addLabel(&quot;\tThe recommended browser for Jenkem is Chrome because it has a fast JavaScript engine.&quot;)</span>
-<span class="fc" id="L37">  addLabel(&quot;\tFirefox also works.&quot;)</span>
-<span class="fc" id="L38">  addLabel(newLine)</span>
-<span class="fc" id="L39">  addLabel(&quot;Conversion Modes:&quot;)</span>
-<span class="fc" id="L40">  addLabel(&quot;Vortacular:&quot;)</span>
-<span class="fc" id="L41">  addLabel(&quot;\tThis is the default method for colored images.&quot;)</span>
-<span class="fc" id="L42">  addLabel(&quot;\tWill push four pixels into one character.&quot;)</span>
-<span class="fc" id="L43">  addLabel(&quot;Pwntari:&quot;)</span>
-<span class="fc" id="L44">  addLabel(&quot;\tMore pixels, but less colors.&quot;)</span>
-<span class="fc" id="L45">  addLabel(&quot;Plain:&quot;)</span>
-<span class="fc" id="L46">  addLabel(&quot;\tDoesn't output any colors.&quot;)</span>
-<span class="fc" id="L47">  addLabel(&quot;Stencil:&quot;)</span>
-<span class="fc" id="L48">  addLabel(&quot;\tThis method is best used with black &amp; white images like stencils.&quot;)</span>
-<span class="fc" id="L49">  addLabel(newLine)</span>
-<span class="fc" id="L50">  addLabel(&quot;Color Schemes:&quot;)</span>
-<span class="fc" id="L51">  addLabel(&quot;Default:&quot;)</span>
-<span class="fc" id="L52">  addLabel(&quot;\tThe default color schema. Works best for fotos and colorful images.&quot;)</span>
-<span class="fc" id="L53">  addLabel(&quot;Old:&quot;)</span>
-<span class="fc" id="L54">  addLabel(&quot;\tAnother color schema, that was in place before the default was optimized.&quot;)</span>
-<span class="fc" id="L55">  addLabel(&quot;\tThe output looks similar to conversions with the default scheme.&quot;)</span>
-<span class="fc" id="L56">  addLabel(&quot;Vivid:&quot;)</span>
-<span class="fc" id="L57">  addLabel(&quot;\tA color schema with more vivid colors, by using a reduced amount of black and white pixels.&quot;)</span>
-<span class="fc" id="L58">  addLabel(&quot;Mono:&quot;)</span>
-<span class="fc" id="L59">  addLabel(&quot;\tDoes only use black &amp; white and six colors. Output looks more old-school.&quot;)</span>
-<span class="fc" id="L60">  addLabel(&quot;LSD:&quot;)</span>
-<span class="fc" id="L61">  addLabel(&quot;\tBlack and white are highly reduced in order to make the output far more colorful.&quot;)</span>
-<span class="fc" id="L62">  addLabel(&quot;Skin:&quot;)</span>
-<span class="fc" id="L63">  addLabel(&quot;\tThis scheme was optimized for images with skin.&quot;)</span>
-<span class="fc" id="L64">  addLabel(&quot;\tHowever, default mode conversion often look better.&quot;)</span>
-<span class="fc" id="L65">  addLabel(&quot;Bwg:&quot;)</span>
-<span class="fc" id="L66">  addLabel(&quot;\tThis scheme is only using black, white and two shades of gray.&quot;)</span>
-<span class="fc" id="L67">  addLabel(&quot;\tWorks best for images without any color.&quot;)</span>
-<span class="fc" id="L68">  addLabel(&quot;Bw:&quot;)</span>
-<span class="fc" id="L69">  addLabel(&quot;\tOnly uses black and white. Works best for black &amp; white images like stencils.&quot;)</span>
-<span class="fc" id="L70">  addLabel(newLine)</span>
-<span class="fc" id="L71">  addLabel(&quot;Contrast:&quot;)</span>
-<span class="fc" id="L72">  addLabel(&quot;\tThe contrast is multiplied with the color of each pixel.&quot;)</span>
-<span class="fc" id="L73">  addLabel(&quot;\tTry to lower the contrast settings to improve the output for bright images.&quot;)</span>
-<span class="fc" id="L74">  addLabel(&quot;Brightness:&quot;)</span>
-<span class="fc" id="L75">  addLabel(&quot;\tThe brightness is added to the color of each pixel.&quot;)</span>
-<span class="fc" id="L76">  addLabel(&quot;\tTry to adjust this value to fix the output after setting the contrast.&quot;)</span>
-<span class="fc" id="L77">  addLabel(newLine)</span>
-<span class="fc" id="L78">  addLabel(&quot;Kick:&quot;)</span>
-<span class="fc" id="L79">  addLabel(&quot;\tSets an offset for methods that use anti aliasing.&quot;)</span>
-<span class="fc" id="L80">  addLabel(&quot;\tSetting another option than \&quot;0\&quot; may result in a better output.&quot;)</span>
-<span class="fc" id="L81">  addLabel(&quot;\tChanging the kick is particulary useful for images that have important regions,&quot;)</span>
-<span class="fc" id="L82">  addLabel(&quot;\tlike for example the eyes in an image of a face.&quot;)</span>
-<span class="fc" id="L83">  addLabel(newLine)</span>
-<span class="fc" id="L84">  addLabel(&quot;Binary Output for IRC:&quot;)</span>
-<span class="fc" id="L85">  addLabel(&quot;\tOutputs the conversion as text with colors for IRC.&quot;)</span>
-<span class="fc" id="L86">  addLabel(&quot;\tYou can copy and paste this into your IRC-client to forward your conversion to IRC.&quot;)</span>
-<span class="fc" id="L87">  addLabel(&quot;\tMost clients will show it with the exact same color as in the HTML-preview.&quot;)</span>
-<span class="fc" id="L88">  addLabel(&quot;\tThe palette is obeying the defacto standard as used by mIRC.&quot;)</span>
-<span class="fc" id="L89">  addLabel(&quot;\tBut beware, many IRC-servers don't allow flooding and may get you kicked for doing this.&quot;)</span>
-<span class="fc" id="L90">  addLabel(&quot;\tDepending on your IRC client you may consider use a script that pastes the output&quot;)</span>
-<span class="fc" id="L91">  addLabel(&quot;\tlinewise with a delay of about 1500 ms in order to prevent this.&quot;)</span>
-<span class="fc" id="L92">  addLabel(newLine)</span>
-<span class="fc" id="L93">  addLabel(&quot;You can link to this application converting an image,&quot;)</span>
-<span class="fc" id="L94">  addLabel(&quot;by appending the image-url to the #main link like this:&quot;)</span>
-<span class="fc" id="L95">  addLink(&quot;http://jenkem-9000.rhcloud.com/#main/http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png&quot;)</span>
-<span class="fc" id="L96">  addLabel(newLine)</span>
-<span class="fc" id="L97">  addLabel(&quot;The source code of this application can be found at:&quot;)</span>
-<span class="fc" id="L98">  addLink(&quot;http://github.com/Tok/Jenkem-9000/&quot;)</span>
-<span class="fc" id="L99">  addLabel(newLine)</span>
-<span class="fc" id="L100">  addLabel(&quot;Jenkem 9000 project page:&quot;)</span>
-<span class="fc" id="L101">  addLink(&quot;http://tok.github.com/Jenkem-9000/&quot;)</span>
+<span class="fc" id="L29">  addLabel(&quot;Welcome to the Jenkem 9000 ASCII converter.&quot;)</span>
+<span class="fc" id="L30">  addLabel(newLine)</span>
+<span class="fc" id="L31">  addLabel(&quot;To convert an image, go to the main tab, enter a link to the image and click the convert button.&quot;)</span>
+<span class="fc" id="L32">  addLabel(&quot;If you make a good conversion, you can add it to the gallery, by clicking the submit button.&quot;)</span>
+<span class="fc" id="L33">  addLabel(&quot;Other images with the same name will be repalced. You can save the HTML output from&quot;)</span>
+<span class="fc" id="L34">  addLabel(&quot;the gallery after submitting your conversion.&quot;)</span>
+<span class="fc" id="L35">  addLabel(&quot;If you do so, don't forget to also save the provided CSS and fix the stylesheet link in your&quot;)</span>
+<span class="fc" id="L36">  addLabel(&quot;HTML source if you want to upload it somewhere else.&quot;)</span>
+<span class="fc" id="L37">  addLabel(newLine)</span>
+<span class="fc" id="L38">  addLabel(&quot;Problems:&quot;)</span>
+<span class="fc" id="L39">  addLabel(&quot;IRC Clients:&quot;)</span>
+<span class="fc" id="L40">  addLabel(&quot;\tSome IRC clients limit the input that can be put on one line.&quot;)</span>
+<span class="fc" id="L41">  addLabel(&quot;\tDepending on your client, long lines with many color changes and therefore too much&quot;)</span>
+<span class="fc" id="L42">  addLabel(&quot;\tdata will be cut off or skipped to a new line and thereby break the image.&quot;)</span>
+<span class="fc" id="L43">  addLabel(&quot;\tIf this happens, you might try to use a lower setting for the line-width of your conversion.&quot;)</span>
+<span class="fc" id="L44">  addLabel(&quot;\tIt's often a good idea to test replaying your converted image into an empty channel&quot;)</span>
+<span class="fc" id="L45">  addLabel(&quot;\tbefore flooding it directly into a channel full with people idling in it.&quot;)</span>
+<span class="fc" id="L46">  addLabel(&quot;\tThe recommended font is Lucida Console.&quot;)</span>
+<span class="fc" id="L47">  addLabel(newLine)</span>
+<span class="fc" id="L48">  addLabel(&quot;Browsers:&quot;)</span>
+<span class="fc" id="L49">  addLabel(&quot;\tCropping and functions that rely on cropping do not work in Internet Explorer.&quot;)</span>
+<span class="fc" id="L50">  addLabel(&quot;\tThe recommended browser for Jenkem is Chrome because it has a fast JavaScript engine.&quot;)</span>
+<span class="fc" id="L51">  addLabel(&quot;\tFirefox also works.&quot;)</span>
+<span class="fc" id="L52">  addLabel(newLine)</span>
+<span class="fc" id="L53">  addLabel(&quot;Conversion Modes:&quot;)</span>
+<span class="fc" id="L54">  addLabel(&quot;Vortacular:&quot;)</span>
+<span class="fc" id="L55">  addLabel(&quot;\tThis is the default method for colored images.&quot;)</span>
+<span class="fc" id="L56">  addLabel(&quot;\tWill push four pixels into one character.&quot;)</span>
+<span class="fc" id="L57">  addLabel(&quot;Pwntari:&quot;)</span>
+<span class="fc" id="L58">  addLabel(&quot;\tMore pixels, but less colors.&quot;)</span>
+<span class="fc" id="L59">  addLabel(&quot;Plain:&quot;)</span>
+<span class="fc" id="L60">  addLabel(&quot;\tDoesn't output any colors.&quot;)</span>
+<span class="fc" id="L61">  addLabel(&quot;Stencil:&quot;)</span>
+<span class="fc" id="L62">  addLabel(&quot;\tThis method is best used with black &amp; white images like stencils.&quot;)</span>
+<span class="fc" id="L63">  addLabel(newLine)</span>
+<span class="fc" id="L64">  addLabel(&quot;Color Schemes:&quot;)</span>
+<span class="fc" id="L65">  addLabel(&quot;Default:&quot;)</span>
+<span class="fc" id="L66">  addLabel(&quot;\tThe default color schema. Works best for fotos and colorful images.&quot;)</span>
+<span class="fc" id="L67">  addLabel(&quot;Old:&quot;)</span>
+<span class="fc" id="L68">  addLabel(&quot;\tAnother color schema, that was in place before the default was optimized.&quot;)</span>
+<span class="fc" id="L69">  addLabel(&quot;\tThe output looks similar to conversions with the default scheme.&quot;)</span>
+<span class="fc" id="L70">  addLabel(&quot;Vivid:&quot;)</span>
+<span class="fc" id="L71">  addLabel(&quot;\tA color schema with more vivid colors, by using a reduced amount of black and white pixels.&quot;)</span>
+<span class="fc" id="L72">  addLabel(&quot;Mono:&quot;)</span>
+<span class="fc" id="L73">  addLabel(&quot;\tDoes only use black &amp; white and six colors. Output looks more old-school.&quot;)</span>
+<span class="fc" id="L74">  addLabel(&quot;LSD:&quot;)</span>
+<span class="fc" id="L75">  addLabel(&quot;\tBlack and white are highly reduced in order to make the output far more colorful.&quot;)</span>
+<span class="fc" id="L76">  addLabel(&quot;Skin:&quot;)</span>
+<span class="fc" id="L77">  addLabel(&quot;\tThis scheme was optimized for images with skin.&quot;)</span>
+<span class="fc" id="L78">  addLabel(&quot;\tHowever, default mode conversion often look better.&quot;)</span>
+<span class="fc" id="L79">  addLabel(&quot;Bwg:&quot;)</span>
+<span class="fc" id="L80">  addLabel(&quot;\tThis scheme is only using black, white and two shades of gray.&quot;)</span>
+<span class="fc" id="L81">  addLabel(&quot;\tWorks best for images without any color.&quot;)</span>
+<span class="fc" id="L82">  addLabel(&quot;Bw:&quot;)</span>
+<span class="fc" id="L83">  addLabel(&quot;\tOnly uses black and white. Works best for black &amp; white images like stencils.&quot;)</span>
+<span class="fc" id="L84">  addLabel(newLine)</span>
+<span class="fc" id="L85">  addLabel(&quot;Contrast:&quot;)</span>
+<span class="fc" id="L86">  addLabel(&quot;\tThe contrast is multiplied with the color of each pixel.&quot;)</span>
+<span class="fc" id="L87">  addLabel(&quot;\tTry to lower the contrast settings to improve the output for bright images.&quot;)</span>
+<span class="fc" id="L88">  addLabel(&quot;Brightness:&quot;)</span>
+<span class="fc" id="L89">  addLabel(&quot;\tThe brightness is added to the color of each pixel.&quot;)</span>
+<span class="fc" id="L90">  addLabel(&quot;\tTry to adjust this value to fix the output after setting the contrast.&quot;)</span>
+<span class="fc" id="L91">  addLabel(newLine)</span>
+<span class="fc" id="L92">  addLabel(&quot;Kick:&quot;)</span>
+<span class="fc" id="L93">  addLabel(&quot;\tSets an offset for methods that use anti aliasing.&quot;)</span>
+<span class="fc" id="L94">  addLabel(&quot;\tSetting another option than \&quot;0\&quot; may result in a better output.&quot;)</span>
+<span class="fc" id="L95">  addLabel(&quot;\tChanging the kick is particulary useful for images that have important regions,&quot;)</span>
+<span class="fc" id="L96">  addLabel(&quot;\tlike for example the eyes in an image of a face.&quot;)</span>
+<span class="fc" id="L97">  addLabel(newLine)</span>
+<span class="fc" id="L98">  addLabel(&quot;Binary Output for IRC:&quot;)</span>
+<span class="fc" id="L99">  addLabel(&quot;\tOutputs the conversion as text with colors for IRC.&quot;)</span>
+<span class="fc" id="L100">  addLabel(&quot;\tYou can copy and paste this into your IRC-client to forward your conversion to IRC.&quot;)</span>
+<span class="fc" id="L101">  addLabel(&quot;\tMost clients will show it with the exact same color as in the HTML-preview.&quot;)</span>
+<span class="fc" id="L102">  addLabel(&quot;\tThe palette is obeying the defacto standard as used by mIRC.&quot;)</span>
+<span class="fc" id="L103">  addLabel(&quot;\tBut beware, many IRC-servers don't allow flooding and may get you kicked for doing this.&quot;)</span>
+<span class="fc" id="L104">  addLabel(&quot;\tDepending on your IRC client you may consider use a script that pastes the output&quot;)</span>
+<span class="fc" id="L105">  addLabel(&quot;\tlinewise with a delay of about 1500 ms in order to prevent this.&quot;)</span>
+<span class="fc" id="L106">  addLabel(newLine)</span>
+<span class="fc" id="L107">  addLabel(&quot;You can link to this application converting an image,&quot;)</span>
+<span class="fc" id="L108">  addLabel(&quot;by appending the image-url to the #main link like this:&quot;)</span>
+<span class="fc" id="L109">  addLink(&quot;http://jenkem-9000.rhcloud.com/#main/http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png&quot;)</span>
+<span class="fc" id="L110">  addLabel(newLine)</span>
+<span class="fc" id="L111">  addLabel(&quot;The source code of this application can be found at:&quot;)</span>
+<span class="fc" id="L112">  addLink(&quot;http://github.com/Tok/Jenkem-9000/&quot;)</span>
+<span class="fc" id="L113">  addLabel(newLine)</span>
+<span class="fc" id="L114">  addLabel(&quot;Jenkem 9000 project page:&quot;)</span>
+<span class="fc" id="L115">  addLink(&quot;http://tok.github.com/Jenkem-9000/&quot;)</span>
+<span class="fc" id="L116">  addLabel(newLine)</span>
+<span class="fc" id="L117">  addLabel(newLine)</span>
+<span class="fc" id="L118">  addLabel(newLine)</span>
+<span class="fc" id="L119">  val cacaPan = new HorizontalLayout</span>
+<span class="fc" id="L120">  val label = new Label(&quot;\tSalutations à nos amis du &quot;)</span>
+<span class="fc" id="L121">  label.setContentMode(ContentMode.PREFORMATTED)</span>
+<span class="fc" id="L122">  cacaPan.addComponent(label)</span>
+<span class="fc" id="L123">  cacaPan.addComponent(new Link(&quot;laboratoires de caca&quot;, new ExternalResource(&quot;http://caca.zoy.org&quot;)))</span>
+<span class="fc" id="L124">  cacaPan.addComponent(new Label(&quot;.&quot;))</span>
+<span class="fc" id="L125">  addComponent(cacaPan)</span>
 
-<span class="fc" id="L103">  def addLink(text: String): Unit = addComponent(new Link(text, new ExternalResource(text)))</span>
+<span class="fc" id="L127">  def addLink(text: String): Unit = addComponent(new Link(text, new ExternalResource(text)))</span>
   def addLabel(text: String): Unit = {
-<span class="fc" id="L105">    val label = new Label(text)</span>
-<span class="fc" id="L106">    label.setContentMode(ContentMode.PREFORMATTED)</span>
-<span class="fc" id="L107">    addComponent(label)</span>
+<span class="fc" id="L129">    val label = new Label(text)</span>
+<span class="fc" id="L130">    label.setContentMode(ContentMode.PREFORMATTED)</span>
+<span class="fc" id="L131">    addComponent(label)</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

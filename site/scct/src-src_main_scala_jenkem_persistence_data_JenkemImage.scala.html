@@ -56,42 +56,94 @@
     </div></td>
     </tr></tbody></table><table class="source"><tbody><tr>
             <td class="black">1</td>
-            <td>package jenkem.persistence.data
+            <td>/*
 </td>
           </tr><tr>
             <td class="black">2</td>
-            <td>
+            <td> * #%L
 </td>
           </tr><tr>
-            <td class="green">3</td>
-            <td><a id="Class_jenkem_persistence_data_JenkemImage"/>class JenkemImage(val info: ImageInfo, val html: ImageHtml, val css: ImageCss, val irc: ImageIrc) {
+            <td class="black">3</td>
+            <td> * JenkemImage.scala - Jenkem - Tok - 2012
 </td>
           </tr><tr>
-            <td class="green">4</td>
-            <td><a id="Class_jenkem_persistence_data_JenkemImage_Part"/>  sealed class Part(val c: Class[_ &lt;: ImagePartTrait])
+            <td class="black">4</td>
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">5</td>
-            <td><a id="Object_jenkem_persistence_data_JenkemImage_INFO"/>  case object INFO extends Part(classOf[ImageInfo])
+            <td> * Copyright (C) 2012 - 2013 Lukas Steiger &lt;lsteiger4@gmail.com&gt;
 </td>
           </tr><tr>
             <td class="black">6</td>
-            <td><a id="Object_jenkem_persistence_data_JenkemImage_HTML"/>  case object HTML extends Part(classOf[ImageHtml])
+            <td> * %%
 </td>
           </tr><tr>
             <td class="black">7</td>
-            <td><a id="Object_jenkem_persistence_data_JenkemImage_CSS"/>  case object CSS extends Part(classOf[ImageCss])
+            <td> * This program is free software. It comes without any warranty, to
 </td>
           </tr><tr>
             <td class="black">8</td>
-            <td><a id="Object_jenkem_persistence_data_JenkemImage_IRC"/>  case object IRC extends Part(classOf[ImageIrc])
+            <td> * the extent permitted by applicable law. You can redistribute it
 </td>
           </tr><tr>
-            <td class="green">9</td>
-            <td>  val values = List(INFO, HTML, CSS, IRC)
+            <td class="black">9</td>
+            <td> * and/or modify it under the terms of the Do What The Fuck You Want
 </td>
           </tr><tr>
             <td class="black">10</td>
+            <td> * To Public License, Version 2, as published by Sam Hocevar.
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td> * See http://www.wtfpl.net/ for more details.
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td> * #L%
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>package jenkem.persistence.data
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td><a id="Class_jenkem_persistence_data_JenkemImage"/>class JenkemImage(val info: ImageInfo, val html: ImageHtml, val css: ImageCss, val irc: ImageIrc) {
+</td>
+          </tr><tr>
+            <td class="green">17</td>
+            <td><a id="Class_jenkem_persistence_data_JenkemImage_Part"/>  sealed class Part(val c: Class[_ &lt;: ImagePartTrait])
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td><a id="Object_jenkem_persistence_data_JenkemImage_INFO"/>  case object INFO extends Part(classOf[ImageInfo])
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td><a id="Object_jenkem_persistence_data_JenkemImage_HTML"/>  case object HTML extends Part(classOf[ImageHtml])
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td><a id="Object_jenkem_persistence_data_JenkemImage_CSS"/>  case object CSS extends Part(classOf[ImageCss])
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td><a id="Object_jenkem_persistence_data_JenkemImage_IRC"/>  case object IRC extends Part(classOf[ImageIrc])
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>  val values = List(INFO, HTML, CSS, IRC)
+</td>
+          </tr><tr>
+            <td class="black">23</td>
             <td>}
 </td>
           </tr></tbody></table>
