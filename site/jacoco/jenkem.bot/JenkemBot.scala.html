@@ -304,7 +304,7 @@ import jenkem.bot.status.BotStatus
     }
 <span class="fc" id="L305">    val hasColor = params.method.hasColor</span>
 <span class="pc bpc" id="L306" title="1 of 2 branches missed.">    val notPwntari = !params.method.equals(Method.Pwntari)</span>
-<span class="pc bpc" id="L307" title="1 of 2 branches missed.">    val colorString = if (hasColor) { &quot;, Scheme: &quot; + cs.schemeName } else { &quot;&quot; }</span>
+<span class="fc bfc" id="L307" title="All 2 branches covered.">    val colorString = if (hasColor) { &quot;, Scheme: &quot; + cs.schemeName } else { &quot;&quot; }</span>
 <span class="pc bpc" id="L308" title="1 of 2 branches missed.">    val powerString = if (notPwntari) { &quot;, Power: &quot; + params.power } else { &quot;&quot; }</span>
 <span class="pc bpc" id="L309" title="1 of 2 branches missed.">    val charsString = if (notPwntari) { &quot;, Chars: &quot; + params.characters } else { &quot;&quot; }</span>
 <span class="pc bpc" id="L310" title="2 of 4 branches missed.">    val widthDivisor = if (!params.method.equals(Method.Pwntari)) { 2 } else { 1 }</span>

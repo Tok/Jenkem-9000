@@ -96,7 +96,7 @@
 </td>
           </tr><tr>
             <td class="black">21</td>
-            <td>  def ircToCss(ircColor: Short): String = {
+            <td>  def ircToCss(ircColor: Short): String =
 </td>
           </tr><tr>
             <td class="green">22</td>
@@ -116,83 +116,83 @@
 </td>
           </tr><tr>
             <td class="black">26</td>
-            <td>  }
+            <td>
 </td>
           </tr><tr>
             <td class="black">27</td>
-            <td>
+            <td>  /**
 </td>
           </tr><tr>
             <td class="black">28</td>
-            <td>  /**
-</td>
-          </tr><tr>
-            <td class="black">29</td>
             <td>   * Converts an RGB color to a CSS color.
 </td>
           </tr><tr>
-            <td class="black">30</td>
+            <td class="black">29</td>
             <td>   * @param rgb
 </td>
           </tr><tr>
-            <td class="black">31</td>
+            <td class="black">30</td>
             <td>   * @return cssColor
 </td>
           </tr><tr>
-            <td class="black">32</td>
+            <td class="black">31</td>
             <td>   */
 </td>
           </tr><tr>
-            <td class="black">33</td>
-            <td>  private def rgbToCss(rgb: (Short, Short, Short)): String = {
+            <td class="black">32</td>
+            <td>  private def rgbToCss(rgb: (Short, Short, Short)): String =
 </td>
           </tr><tr>
-            <td class="green">34</td>
+            <td class="green">33</td>
             <td>    &quot;#&quot; + toHex(rgb._1) + toHex(rgb._2) + toHex(rgb._3)
 </td>
           </tr><tr>
-            <td class="black">35</td>
-            <td>  }
-</td>
-          </tr><tr>
-            <td class="black">36</td>
+            <td class="black">34</td>
             <td>
 </td>
           </tr><tr>
-            <td class="black">37</td>
+            <td class="black">35</td>
             <td>  /**
 </td>
           </tr><tr>
-            <td class="black">38</td>
+            <td class="black">36</td>
             <td>   * Converts the provided interger to hex.
 </td>
           </tr><tr>
-            <td class="black">39</td>
+            <td class="black">37</td>
             <td>   * @param i
 </td>
           </tr><tr>
-            <td class="black">40</td>
+            <td class="black">38</td>
             <td>   * @return hex
 </td>
           </tr><tr>
-            <td class="black">41</td>
+            <td class="black">39</td>
             <td>   */
 </td>
           </tr><tr>
-            <td class="black">42</td>
+            <td class="black">40</td>
             <td>  private def toHex(i: Int): String = {
 </td>
           </tr><tr>
-            <td class="green">43</td>
+            <td class="green">41</td>
             <td>    val ret = Integer.toHexString(i)
 </td>
           </tr><tr>
-            <td class="green">44</td>
+            <td class="green">42</td>
             <td>    if (ret.length == 1) { &quot;0&quot; + ret } else { ret }
 </td>
           </tr><tr>
-            <td class="black">45</td>
+            <td class="black">43</td>
             <td>  }
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">45</td>
+            <td>  def makePwnIrc(bot: Short, top: Short): String = CC + bot + &quot;,&quot; + top + &quot;▄&quot;
 </td>
           </tr><tr>
             <td class="black">46</td>
@@ -200,30 +200,22 @@
 </td>
           </tr><tr>
             <td class="green">47</td>
-            <td>  def makePwnIrc(bot: Short, top: Short): String = CC + bot + &quot;,&quot; + top + &quot;▄&quot;
-</td>
-          </tr><tr>
-            <td class="black">48</td>
-            <td>
-</td>
-          </tr><tr>
-            <td class="green">49</td>
             <td>  private def commaSplit(s: String): Array[String] = s.split(&quot;,&quot;)
 </td>
           </tr><tr>
-            <td class="green">50</td>
+            <td class="green">48</td>
             <td>  def getFg(s: String): Int = commaSplit(s)(0).tail.toInt
 </td>
           </tr><tr>
-            <td class="green">51</td>
+            <td class="green">49</td>
             <td>  def getBgString(s: String): String = commaSplit(s)(1).takeWhile(_.isDigit)
 </td>
           </tr><tr>
-            <td class="green">52</td>
+            <td class="green">50</td>
             <td>  def getBg(s: String): Int = getBgString(s).toInt
 </td>
           </tr><tr>
-            <td class="black">53</td>
+            <td class="black">51</td>
             <td>}
 </td>
           </tr></tbody></table>

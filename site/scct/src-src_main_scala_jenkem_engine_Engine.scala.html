@@ -2,16 +2,16 @@
       <td class="barContainerLeft"><a href="#">&#x200B;src/&#x200B;main/&#x200B;scala/&#x200B;jenkem/&#x200B;engine/<span class="header">&#x200B;Engine.scala</span></a></td>
       <td class="barContainerRight"><div class="percentages">
       <div class="bar">
-        <div class="percentage">63 %</div>
-        <div class="greenBar" style="width:126px;">&nbsp;</div>
+        <div class="percentage">86 %</div>
+        <div class="greenBar" style="width:172px;">&nbsp;</div>
       </div>
     </div></td>
     </tr><tr>
       <td class="barContainerLeft"><a href="src-src_main_scala_jenkem_engine_Engine.scala.html#Object_jenkem_engine_Engine"><img src="object.png"/>Engine</a></td>
       <td class="barContainerRight"><div class="percentages">
       <div class="bar">
-        <div class="percentage">62 %</div>
-        <div class="greenBar" style="width:124px;">&nbsp;</div>
+        <div class="percentage">86 %</div>
+        <div class="greenBar" style="width:172px;">&nbsp;</div>
       </div>
     </div></td>
     </tr><tr>
@@ -759,9 +759,9 @@
             <td>  private def dbqpLine(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
 </td>
           </tr><tr>
-            <td class="yellow">185</td>
-            <td>    if (!par.settings.has(Setting.DBQP)) { in.toList } else { <span class="non">changeDbqp(in, range, par, chr, hasCol) }
-</span></td>
+            <td class="green">185</td>
+            <td>    if (!par.settings.has(Setting.DBQP)) { in.toList } else { changeDbqp(in, range, par, chr, hasCol) }
+</td>
           </tr><tr>
             <td class="black">186</td>
             <td>  }
@@ -775,41 +775,41 @@
             <td>  private def changeDbqp(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
 </td>
           </tr><tr>
-            <td class="red">189</td>
-            <td>    def getD: String = if (<span class="non">hasCol) { chr.get(Pal.LEFT_DOWN).get } else { chr.get(Pal.RIGHT_DOWN).get }
-</span></td>
+            <td class="yellow">189</td>
+            <td>    def getD: String = if (hasCol) { <span class="non">chr.get(Pal.LEFT_DOWN).get } else { </span>chr.get(Pal.RIGHT_DOWN).get }
+</td>
           </tr><tr>
-            <td class="red">190</td>
-            <td>    def getB: String = if (<span class="non">hasCol) { chr.get(Pal.RIGHT_DOWN).get } else { chr.get(Pal.LEFT_DOWN).get }
-</span></td>
+            <td class="yellow">190</td>
+            <td>    def getB: String = if (hasCol) { <span class="non">chr.get(Pal.RIGHT_DOWN).get } else { </span>chr.get(Pal.LEFT_DOWN).get }
+</td>
           </tr><tr>
-            <td class="red">191</td>
-            <td>    def getQ: String = if (<span class="non">hasCol) { chr.get(Pal.LEFT_UP).get } else { chr.get(Pal.RIGHT_UP).get }
-</span></td>
+            <td class="yellow">191</td>
+            <td>    def getQ: String = if (hasCol) { <span class="non">chr.get(Pal.LEFT_UP).get } else { </span>chr.get(Pal.RIGHT_UP).get }
+</td>
           </tr><tr>
-            <td class="red">192</td>
-            <td>    def getP: String = if (<span class="non">hasCol) { chr.get(Pal.RIGHT_UP).get } else { chr.get(Pal.LEFT_UP).get }
-</span></td>
+            <td class="yellow">192</td>
+            <td>    def getP: String = if (hasCol) { <span class="non">chr.get(Pal.RIGHT_UP).get } else { </span>chr.get(Pal.LEFT_UP).get }
+</td>
           </tr><tr>
-            <td class="red">193</td>
-            <td>    val d = <span class="non">range.map(changeDbqp(in.toList, range, par, _, chr.get(Pal.DOWN).get, getD, false))
-</span></td>
+            <td class="green">193</td>
+            <td>    val d = range.map(changeDbqp(in.toList, range, par, _, chr.get(Pal.DOWN).get, getD, false))
+</td>
           </tr><tr>
-            <td class="red">194</td>
-            <td>    val b = <span class="non">range.map(changeDbqp(d.toList, range, par, _, chr.get(Pal.DOWN).get, getB, true))
-</span></td>
+            <td class="green">194</td>
+            <td>    val b = range.map(changeDbqp(d.toList, range, par, _, chr.get(Pal.DOWN).get, getB, true))
+</td>
           </tr><tr>
-            <td class="red">195</td>
-            <td>    val q = <span class="non">range.map(changeDbqp(b.toList, range, par, _, chr.get(Pal.UP).get, getQ, false))
-</span></td>
+            <td class="green">195</td>
+            <td>    val q = range.map(changeDbqp(b.toList, range, par, _, chr.get(Pal.UP).get, getQ, false))
+</td>
           </tr><tr>
-            <td class="red">196</td>
-            <td>    val p = <span class="non">range.map(changeDbqp(q.toList, range, par, _, chr.get(Pal.UP).get, getP, true))
-</span></td>
+            <td class="green">196</td>
+            <td>    val p = range.map(changeDbqp(q.toList, range, par, _, chr.get(Pal.UP).get, getP, true))
+</td>
           </tr><tr>
-            <td class="red">197</td>
-            <td>    <span class="non">p.toList
-</span></td>
+            <td class="green">197</td>
+            <td>    p.toList
+</td>
           </tr><tr>
             <td class="black">198</td>
             <td>  }
@@ -819,77 +819,77 @@
             <td>
 </td>
           </tr><tr>
-            <td class="red">200</td>
-            <td>  private def isFirstOrLast(i: Int, range: Range): Boolean = <span class="non">i == 0 || i == range.last
-</span></td>
+            <td class="green">200</td>
+            <td>  private def isFirstOrLast(i: Int, range: Range): Boolean = i == 0 || i == range.last
+</td>
           </tr><tr>
             <td class="black">201</td>
             <td>  private def changeDbqp(list: List[String], range: Range, par: Params, i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {
 </td>
           </tr><tr>
-            <td class="red">202</td>
-            <td>    lazy val current: String = <span class="non">list(i)
-</span></td>
+            <td class="green">202</td>
+            <td>    lazy val current: String = list(i)
+</td>
           </tr><tr>
-            <td class="red">203</td>
-            <td>    lazy val last: String = <span class="non">list(i - 1)
-</span></td>
+            <td class="green">203</td>
+            <td>    lazy val last: String = list(i - 1)
+</td>
           </tr><tr>
-            <td class="red">204</td>
-            <td>    lazy val next: String = <span class="non">list(i + 1)
-</span></td>
+            <td class="green">204</td>
+            <td>    lazy val next: String = list(i + 1)
+</td>
           </tr><tr>
-            <td class="red">205</td>
-            <td>    lazy val isCurrentEqual: Boolean = <span class="non">current.equals(thisOne)
-</span></td>
+            <td class="green">205</td>
+            <td>    lazy val isCurrentEqual: Boolean = current.equals(thisOne)
+</td>
           </tr><tr>
-            <td class="red">206</td>
-            <td>    def isLastEqual: Boolean = <span class="non">thisOne.equals(last)
-</span></td>
+            <td class="green">206</td>
+            <td>    def isLastEqual: Boolean = thisOne.equals(last)
+</td>
           </tr><tr>
-            <td class="red">207</td>
-            <td>    def isNextEqual: Boolean = <span class="non">thisOne.equals(next)
-</span></td>
+            <td class="green">207</td>
+            <td>    def isNextEqual: Boolean = thisOne.equals(next)
+</td>
           </tr><tr>
-            <td class="red">208</td>
-            <td>    def isLastDark: Boolean = <span class="non">Pal.isDark(par.characters, last)
-</span></td>
+            <td class="green">208</td>
+            <td>    def isLastDark: Boolean = Pal.isDark(par.characters, last)
+</td>
           </tr><tr>
-            <td class="red">209</td>
-            <td>    def isNextDark: Boolean = <span class="non">Pal.isDark(par.characters, next)
-</span></td>
+            <td class="green">209</td>
+            <td>    def isNextDark: Boolean = Pal.isDark(par.characters, next)
+</td>
           </tr><tr>
-            <td class="red">210</td>
-            <td>    def isLastBright: Boolean = <span class="non">Pal.isBright(par.characters, last)
-</span></td>
+            <td class="green">210</td>
+            <td>    def isLastBright: Boolean = Pal.isBright(par.characters, last)
+</td>
           </tr><tr>
-            <td class="red">211</td>
-            <td>    def isNextBright: Boolean = <span class="non">Pal.isBright(par.characters, next)
-</span></td>
+            <td class="green">211</td>
+            <td>    def isNextBright: Boolean = Pal.isBright(par.characters, next)
+</td>
           </tr><tr>
-            <td class="red">212</td>
-            <td>    def isLastBrightOrEqual: Boolean = <span class="non">isLastBright || isLastEqual
-</span></td>
+            <td class="green">212</td>
+            <td>    def isLastBrightOrEqual: Boolean = isLastBright || isLastEqual
+</td>
           </tr><tr>
-            <td class="red">213</td>
-            <td>    def isNextBrightOrEqual: Boolean = <span class="non">isNextBright || isNextEqual
-</span></td>
+            <td class="green">213</td>
+            <td>    def isNextBrightOrEqual: Boolean = isNextBright || isNextEqual
+</td>
           </tr><tr>
-            <td class="red">214</td>
-            <td>    def leftCondition: Boolean = <span class="non">darkLeft &amp;&amp; isLastDark &amp;&amp; isNextBrightOrEqual
-</span></td>
+            <td class="green">214</td>
+            <td>    def leftCondition: Boolean = darkLeft &amp;&amp; isLastDark &amp;&amp; isNextBrightOrEqual
+</td>
           </tr><tr>
-            <td class="red">215</td>
-            <td>    def rightCondition: Boolean = <span class="non">!darkLeft &amp;&amp; isNextDark &amp;&amp; isLastBrightOrEqual
-</span></td>
+            <td class="green">215</td>
+            <td>    def rightCondition: Boolean = !darkLeft &amp;&amp; isNextDark &amp;&amp; isLastBrightOrEqual
+</td>
           </tr><tr>
-            <td class="red">216</td>
-            <td>    def notLeftAndNotRight: Boolean = <span class="non">!leftCondition &amp;&amp; !rightCondition
-</span></td>
+            <td class="green">216</td>
+            <td>    def notLeftAndNotRight: Boolean = !leftCondition &amp;&amp; !rightCondition
+</td>
           </tr><tr>
-            <td class="red">217</td>
-            <td>    if (<span class="non">isFirstOrLast(i, range) || !isCurrentEqual || notLeftAndNotRight) { current } else { to }
-</span></td>
+            <td class="green">217</td>
+            <td>    if (isFirstOrLast(i, range) || !isCurrentEqual || notLeftAndNotRight) { current } else { to }
+</td>
           </tr><tr>
             <td class="black">218</td>
             <td>  }
@@ -915,73 +915,73 @@
             <td>      def changeDiag(list: List[String], i: Int): String = {
 </td>
           </tr><tr>
-            <td class="red">224</td>
-            <td>        lazy val current: String = <span class="non">list(i)
-</span></td>
+            <td class="green">224</td>
+            <td>        lazy val current: String = list(i)
+</td>
           </tr><tr>
             <td class="black">225</td>
             <td>        //lazy val currentEqualsDown = current.equals(chr.get(Pal.DOWN).get)
 </td>
           </tr><tr>
-            <td class="red">226</td>
-            <td>        lazy val currentEqualsUp = <span class="non">current.equals(chr.get(Pal.UP).get)
-</span></td>
+            <td class="green">226</td>
+            <td>        lazy val currentEqualsUp = current.equals(chr.get(Pal.UP).get)
+</td>
           </tr><tr>
-            <td class="red">227</td>
-            <td>        lazy val last: String = <span class="non">list(i - 1)
-</span></td>
+            <td class="green">227</td>
+            <td>        lazy val last: String = list(i - 1)
+</td>
           </tr><tr>
-            <td class="red">228</td>
-            <td>        lazy val lastEqualsDown = <span class="non">last.equals(chr.get(Pal.DOWN).get)
-</span></td>
+            <td class="green">228</td>
+            <td>        lazy val lastEqualsDown = last.equals(chr.get(Pal.DOWN).get)
+</td>
           </tr><tr>
-            <td class="red">229</td>
-            <td>        lazy val lastEqualsUp = <span class="non">last.equals(chr.get(Pal.UP).get)
-</span></td>
+            <td class="green">229</td>
+            <td>        lazy val lastEqualsUp = last.equals(chr.get(Pal.UP).get)
+</td>
           </tr><tr>
-            <td class="red">230</td>
-            <td>        lazy val next: String = <span class="non">list(i + 1)
-</span></td>
+            <td class="green">230</td>
+            <td>        lazy val next: String = list(i + 1)
+</td>
           </tr><tr>
-            <td class="red">231</td>
-            <td>        lazy val nextEqualsDown = <span class="non">next.equals(chr.get(Pal.DOWN).get)
-</span></td>
+            <td class="green">231</td>
+            <td>        lazy val nextEqualsDown = next.equals(chr.get(Pal.DOWN).get)
+</td>
           </tr><tr>
-            <td class="red">232</td>
-            <td>        lazy val nextEqualsUp = <span class="non">next.equals(chr.get(Pal.UP).get)
-</span></td>
+            <td class="green">232</td>
+            <td>        lazy val nextEqualsUp = next.equals(chr.get(Pal.UP).get)
+</td>
           </tr><tr>
-            <td class="red">233</td>
-            <td>        lazy val currentOrNextIsUp = <span class="non">currentEqualsUp || nextEqualsUp
-</span></td>
+            <td class="green">233</td>
+            <td>        lazy val currentOrNextIsUp = currentEqualsUp || nextEqualsUp
+</td>
           </tr><tr>
-            <td class="red">234</td>
-            <td>        lazy val currentOrLastIsUp = <span class="non">currentEqualsUp || lastEqualsUp
-</span></td>
+            <td class="green">234</td>
+            <td>        lazy val currentOrLastIsUp = currentEqualsUp || lastEqualsUp
+</td>
           </tr><tr>
-            <td class="red">235</td>
-            <td>        if (<span class="non">isFirstOrLast(i, range)) { current }
-</span></td>
+            <td class="green">235</td>
+            <td>        if (isFirstOrLast(i, range)) { current }
+</td>
           </tr><tr>
-            <td class="red">236</td>
-            <td>        else if (<span class="non">lastEqualsDown &amp;&amp; currentOrNextIsUp) { chr.get(Pal.DOWN_UP).get }
-</span></td>
+            <td class="green">236</td>
+            <td>        else if (lastEqualsDown &amp;&amp; currentOrNextIsUp) { chr.get(Pal.DOWN_UP).get }
+</td>
           </tr><tr>
-            <td class="red">237</td>
-            <td>        else if (<span class="non">currentOrLastIsUp &amp;&amp; nextEqualsDown) { chr.get(Pal.UP_DOWN).get }
-</span></td>
+            <td class="green">237</td>
+            <td>        else if (currentOrLastIsUp &amp;&amp; nextEqualsDown) { chr.get(Pal.UP_DOWN).get }
+</td>
           </tr><tr>
-            <td class="red">238</td>
-            <td>        else { <span class="non">current }
-</span></td>
+            <td class="green">238</td>
+            <td>        else { current }
+</td>
           </tr><tr>
             <td class="black">239</td>
             <td>      }
 </td>
           </tr><tr>
-            <td class="red">240</td>
-            <td>      <span class="non">range.map(changeDiag(in.toList, _)).toList
-</span></td>
+            <td class="green">240</td>
+            <td>      range.map(changeDiag(in.toList, _)).toList
+</td>
           </tr><tr>
             <td class="black">241</td>
             <td>    }

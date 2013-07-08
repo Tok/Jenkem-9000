@@ -61,7 +61,7 @@ import jenkem.engine.Method
 <span class="fc" id="L61">    val filtered = inputHtml.split(SEP).toList</span>
 <span class="fc" id="L62">      .filterNot(_.startsWith(&quot;&lt;div class=\&quot;ircBinary\&quot;&gt;&quot;))</span>
 <span class="fc" id="L63">      .filterNot(_.startsWith(&quot;&lt;div class=\&quot;validator\&quot;&gt;&quot;))</span>
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">    val result = filtered.map(l =&gt; if (l.startsWith(&quot;&lt;link href=&quot;)) { inputCss } else { l })</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">    val result = filtered.map(l =&gt; if (l.startsWith(&quot;&lt;link href=&quot;)) { inputCss } else { l })</span>
 <span class="fc" id="L65">    result.map(l =&gt; l + SEP).mkString</span>
   }
 

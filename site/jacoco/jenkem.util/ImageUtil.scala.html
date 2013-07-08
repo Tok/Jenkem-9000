@@ -3,22 +3,19 @@
 import jenkem.engine.color.Color
 
 <span class="fc" id="L5">object ImageUtil {</span>
-  def makeGreyPixel(imageRgb: Color.RgbMap, x: Int, y: Int): Short = {
+  def makeGreyPixel(imageRgb: Color.RgbMap, x: Int, y: Int): Short =
 <span class="fc" id="L7">    (getPixelRgbSum(imageRgb, x, y) / 3).shortValue</span>
-  }
 
-  private def getPixelRgbSum(imageRgb: Color.RgbMap, x: Int, y: Int): Short = {
-<span class="fc" id="L11">    imageRgb.get((y, x)) match {</span>
-<span class="fc bfc" id="L12" title="All 2 branches covered.">      case Some(rgb) =&gt; (rgb._1 + rgb._2 + rgb._3).shortValue</span>
-<span class="fc" id="L13">      case _ =&gt; 0</span>
+  private def getPixelRgbSum(imageRgb: Color.RgbMap, x: Int, y: Int): Short =
+<span class="fc" id="L10">    imageRgb.get((y, x)) match {</span>
+<span class="fc bfc" id="L11" title="All 2 branches covered.">      case Some(rgb) =&gt; (rgb._1 + rgb._2 + rgb._3).shortValue</span>
+<span class="fc" id="L12">      case _ =&gt; 0.shortValue</span>
     }
-  }
 
-  def getPixels(imageRgb: Color.RgbMap, x: Int, y: Int): Color.Rgb = {
-<span class="fc" id="L18">    imageRgb.get((y, x)) match {</span>
-<span class="fc bfc" id="L19" title="All 2 branches covered.">      case Some(rgb) =&gt; (rgb._1, rgb._2, rgb._3)</span>
-<span class="fc" id="L20">      case _ =&gt; (0, 0, 0)</span>
+  def getPixels(imageRgb: Color.RgbMap, x: Int, y: Int): Color.Rgb =
+<span class="fc" id="L16">    imageRgb.get((y, x)) match {</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">      case Some(rgb) =&gt; (rgb._1, rgb._2, rgb._3)</span>
+<span class="fc" id="L18">      case _ =&gt; (0.shortValue, 0.shortValue, 0.shortValue)</span>
     }
-  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.20130617-1803</span></div></body></html>

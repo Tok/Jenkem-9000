@@ -64,7 +64,7 @@ import jenkem.util.ImageUtil
     }
 <span class="fc bfc" id="L65" title="All 2 branches covered.">    val sam = (0 until inferWidth(par.imageRgb)).filter(_ % 2 == 0).map(makeColorSample(_)).toList</span>
 <span class="fc" id="L66">    val range = (0 until sam.length)</span>
-<span class="pc bpc" id="L67" title="79 of 112 branches missed.">    lazy val diffs = Sample.dirs.map(d =&gt; (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap</span>
+<span class="pc bpc" id="L67" title="45 of 112 branches missed.">    lazy val diffs = Sample.dirs.map(d =&gt; (d, sam.map(Sample.calcRgbDiff(_, d)).toList)).toMap</span>
 <span class="pc" id="L68">    lazy val tl = sam.map(_._1)</span>
 <span class="pc" id="L69">    lazy val tr = sam.map(_._2)</span>
 <span class="pc" id="L70">    lazy val bl = sam.map(_._3)</span>
@@ -182,62 +182,62 @@ import jenkem.util.ImageUtil
   }
 
   private def dbqpLine(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
-<span class="pc bpc" id="L185" title="2 of 4 branches missed.">    if (!par.settings.has(Setting.DBQP)) { in.toList } else { changeDbqp(in, range, par, chr, hasCol) }</span>
+<span class="fc bfc" id="L185" title="All 4 branches covered.">    if (!par.settings.has(Setting.DBQP)) { in.toList } else { changeDbqp(in, range, par, chr, hasCol) }</span>
   }
 
   private def changeDbqp(in: List[String], range: Range, par: Params, chr: CharMapType, hasCol: Boolean): List[String] = {
-<span class="nc bnc" id="L189" title="All 2 branches missed.">    def getD: String = if (hasCol) { chr.get(Pal.LEFT_DOWN).get } else { chr.get(Pal.RIGHT_DOWN).get }</span>
-<span class="nc bnc" id="L190" title="All 2 branches missed.">    def getB: String = if (hasCol) { chr.get(Pal.RIGHT_DOWN).get } else { chr.get(Pal.LEFT_DOWN).get }</span>
-<span class="nc bnc" id="L191" title="All 2 branches missed.">    def getQ: String = if (hasCol) { chr.get(Pal.LEFT_UP).get } else { chr.get(Pal.RIGHT_UP).get }</span>
-<span class="nc bnc" id="L192" title="All 2 branches missed.">    def getP: String = if (hasCol) { chr.get(Pal.RIGHT_UP).get } else { chr.get(Pal.LEFT_UP).get }</span>
-<span class="nc" id="L193">    val d = range.map(changeDbqp(in.toList, range, par, _, chr.get(Pal.DOWN).get, getD, false))</span>
-<span class="nc" id="L194">    val b = range.map(changeDbqp(d.toList, range, par, _, chr.get(Pal.DOWN).get, getB, true))</span>
-<span class="nc" id="L195">    val q = range.map(changeDbqp(b.toList, range, par, _, chr.get(Pal.UP).get, getQ, false))</span>
-<span class="nc" id="L196">    val p = range.map(changeDbqp(q.toList, range, par, _, chr.get(Pal.UP).get, getP, true))</span>
-<span class="nc" id="L197">    p.toList</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">    def getD: String = if (hasCol) { chr.get(Pal.LEFT_DOWN).get } else { chr.get(Pal.RIGHT_DOWN).get }</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">    def getB: String = if (hasCol) { chr.get(Pal.RIGHT_DOWN).get } else { chr.get(Pal.LEFT_DOWN).get }</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">    def getQ: String = if (hasCol) { chr.get(Pal.LEFT_UP).get } else { chr.get(Pal.RIGHT_UP).get }</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">    def getP: String = if (hasCol) { chr.get(Pal.RIGHT_UP).get } else { chr.get(Pal.LEFT_UP).get }</span>
+<span class="fc" id="L193">    val d = range.map(changeDbqp(in.toList, range, par, _, chr.get(Pal.DOWN).get, getD, false))</span>
+<span class="fc" id="L194">    val b = range.map(changeDbqp(d.toList, range, par, _, chr.get(Pal.DOWN).get, getB, true))</span>
+<span class="fc" id="L195">    val q = range.map(changeDbqp(b.toList, range, par, _, chr.get(Pal.UP).get, getQ, false))</span>
+<span class="fc" id="L196">    val p = range.map(changeDbqp(q.toList, range, par, _, chr.get(Pal.UP).get, getP, true))</span>
+<span class="fc" id="L197">    p.toList</span>
   }
 
-<span class="nc bnc" id="L200" title="All 4 branches missed.">  private def isFirstOrLast(i: Int, range: Range): Boolean = i == 0 || i == range.last</span>
-<span class="nc" id="L201">  private def changeDbqp(list: List[String], range: Range, par: Params, i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {</span>
-<span class="nc" id="L202">    lazy val current: String = list(i)</span>
-<span class="nc" id="L203">    lazy val last: String = list(i - 1)</span>
-<span class="nc" id="L204">    lazy val next: String = list(i + 1)</span>
-<span class="nc" id="L205">    lazy val isCurrentEqual: Boolean = current.equals(thisOne)</span>
-<span class="nc" id="L206">    def isLastEqual: Boolean = thisOne.equals(last)</span>
-<span class="nc" id="L207">    def isNextEqual: Boolean = thisOne.equals(next)</span>
-<span class="nc" id="L208">    def isLastDark: Boolean = Pal.isDark(par.characters, last)</span>
-<span class="nc" id="L209">    def isNextDark: Boolean = Pal.isDark(par.characters, next)</span>
-<span class="nc" id="L210">    def isLastBright: Boolean = Pal.isBright(par.characters, last)</span>
-<span class="nc" id="L211">    def isNextBright: Boolean = Pal.isBright(par.characters, next)</span>
-<span class="nc bnc" id="L212" title="All 4 branches missed.">    def isLastBrightOrEqual: Boolean = isLastBright || isLastEqual</span>
-<span class="nc bnc" id="L213" title="All 4 branches missed.">    def isNextBrightOrEqual: Boolean = isNextBright || isNextEqual</span>
-<span class="nc bnc" id="L214" title="All 6 branches missed.">    def leftCondition: Boolean = darkLeft &amp;&amp; isLastDark &amp;&amp; isNextBrightOrEqual</span>
-<span class="nc bnc" id="L215" title="All 6 branches missed.">    def rightCondition: Boolean = !darkLeft &amp;&amp; isNextDark &amp;&amp; isLastBrightOrEqual</span>
-<span class="nc bnc" id="L216" title="All 4 branches missed.">    def notLeftAndNotRight: Boolean = !leftCondition &amp;&amp; !rightCondition</span>
-<span class="nc bnc" id="L217" title="All 8 branches missed.">    if (isFirstOrLast(i, range) || !isCurrentEqual || notLeftAndNotRight) { current } else { to }</span>
+<span class="fc bfc" id="L200" title="All 4 branches covered.">  private def isFirstOrLast(i: Int, range: Range): Boolean = i == 0 || i == range.last</span>
+<span class="fc" id="L201">  private def changeDbqp(list: List[String], range: Range, par: Params, i: Int, thisOne: String, to: String, darkLeft: Boolean): String = {</span>
+<span class="pc" id="L202">    lazy val current: String = list(i)</span>
+<span class="pc" id="L203">    lazy val last: String = list(i - 1)</span>
+<span class="pc" id="L204">    lazy val next: String = list(i + 1)</span>
+<span class="pc" id="L205">    lazy val isCurrentEqual: Boolean = current.equals(thisOne)</span>
+<span class="fc" id="L206">    def isLastEqual: Boolean = thisOne.equals(last)</span>
+<span class="fc" id="L207">    def isNextEqual: Boolean = thisOne.equals(next)</span>
+<span class="fc" id="L208">    def isLastDark: Boolean = Pal.isDark(par.characters, last)</span>
+<span class="fc" id="L209">    def isNextDark: Boolean = Pal.isDark(par.characters, next)</span>
+<span class="fc" id="L210">    def isLastBright: Boolean = Pal.isBright(par.characters, last)</span>
+<span class="fc" id="L211">    def isNextBright: Boolean = Pal.isBright(par.characters, next)</span>
+<span class="fc bfc" id="L212" title="All 4 branches covered.">    def isLastBrightOrEqual: Boolean = isLastBright || isLastEqual</span>
+<span class="fc bfc" id="L213" title="All 4 branches covered.">    def isNextBrightOrEqual: Boolean = isNextBright || isNextEqual</span>
+<span class="fc bfc" id="L214" title="All 6 branches covered.">    def leftCondition: Boolean = darkLeft &amp;&amp; isLastDark &amp;&amp; isNextBrightOrEqual</span>
+<span class="fc bfc" id="L215" title="All 6 branches covered.">    def rightCondition: Boolean = !darkLeft &amp;&amp; isNextDark &amp;&amp; isLastBrightOrEqual</span>
+<span class="fc bfc" id="L216" title="All 4 branches covered.">    def notLeftAndNotRight: Boolean = !leftCondition &amp;&amp; !rightCondition</span>
+<span class="fc bfc" id="L217" title="All 8 branches covered.">    if (isFirstOrLast(i, range) || !isCurrentEqual || notLeftAndNotRight) { current } else { to }</span>
   }
 
   private def diagLine(in: List[String], range: Range, par: Params, chr: CharMapType): List[String] = {
-<span class="pc bpc" id="L221" title="2 of 4 branches missed.">    if (!par.settings.has(Setting.DIAGONAL)) { in.toList }</span>
+<span class="fc bfc" id="L221" title="All 4 branches covered.">    if (!par.settings.has(Setting.DIAGONAL)) { in.toList }</span>
     else {
-<span class="nc" id="L223">      def changeDiag(list: List[String], i: Int): String = {</span>
-<span class="nc" id="L224">        lazy val current: String = list(i)</span>
+<span class="fc" id="L223">      def changeDiag(list: List[String], i: Int): String = {</span>
+<span class="pc" id="L224">        lazy val current: String = list(i)</span>
         //lazy val currentEqualsDown = current.equals(chr.get(Pal.DOWN).get)
-<span class="nc" id="L226">        lazy val currentEqualsUp = current.equals(chr.get(Pal.UP).get)</span>
-<span class="nc" id="L227">        lazy val last: String = list(i - 1)</span>
-<span class="nc" id="L228">        lazy val lastEqualsDown = last.equals(chr.get(Pal.DOWN).get)</span>
-<span class="nc" id="L229">        lazy val lastEqualsUp = last.equals(chr.get(Pal.UP).get)</span>
-<span class="nc" id="L230">        lazy val next: String = list(i + 1)</span>
-<span class="nc" id="L231">        lazy val nextEqualsDown = next.equals(chr.get(Pal.DOWN).get)</span>
-<span class="nc" id="L232">        lazy val nextEqualsUp = next.equals(chr.get(Pal.UP).get)</span>
-<span class="nc bnc" id="L233" title="All 4 branches missed.">        lazy val currentOrNextIsUp = currentEqualsUp || nextEqualsUp</span>
-<span class="nc bnc" id="L234" title="All 4 branches missed.">        lazy val currentOrLastIsUp = currentEqualsUp || lastEqualsUp</span>
-<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (isFirstOrLast(i, range)) { current }</span>
-<span class="nc bnc" id="L236" title="All 6 branches missed.">        else if (lastEqualsDown &amp;&amp; currentOrNextIsUp) { chr.get(Pal.DOWN_UP).get }</span>
-<span class="nc bnc" id="L237" title="All 6 branches missed.">        else if (currentOrLastIsUp &amp;&amp; nextEqualsDown) { chr.get(Pal.UP_DOWN).get }</span>
-<span class="nc" id="L238">        else { current }</span>
+<span class="pc" id="L226">        lazy val currentEqualsUp = current.equals(chr.get(Pal.UP).get)</span>
+<span class="pc" id="L227">        lazy val last: String = list(i - 1)</span>
+<span class="pc" id="L228">        lazy val lastEqualsDown = last.equals(chr.get(Pal.DOWN).get)</span>
+<span class="pc" id="L229">        lazy val lastEqualsUp = last.equals(chr.get(Pal.UP).get)</span>
+<span class="pc" id="L230">        lazy val next: String = list(i + 1)</span>
+<span class="pc" id="L231">        lazy val nextEqualsDown = next.equals(chr.get(Pal.DOWN).get)</span>
+<span class="pc" id="L232">        lazy val nextEqualsUp = next.equals(chr.get(Pal.UP).get)</span>
+<span class="pc bfc" id="L233" title="All 4 branches covered.">        lazy val currentOrNextIsUp = currentEqualsUp || nextEqualsUp</span>
+<span class="pc bfc" id="L234" title="All 4 branches covered.">        lazy val currentOrLastIsUp = currentEqualsUp || lastEqualsUp</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">        if (isFirstOrLast(i, range)) { current }</span>
+<span class="fc bfc" id="L236" title="All 6 branches covered.">        else if (lastEqualsDown &amp;&amp; currentOrNextIsUp) { chr.get(Pal.DOWN_UP).get }</span>
+<span class="fc bfc" id="L237" title="All 6 branches covered.">        else if (currentOrLastIsUp &amp;&amp; nextEqualsDown) { chr.get(Pal.UP_DOWN).get }</span>
+<span class="fc" id="L238">        else { current }</span>
       }
-<span class="nc" id="L240">      range.map(changeDiag(in.toList, _)).toList</span>
+<span class="fc" id="L240">      range.map(changeDiag(in.toList, _)).toList</span>
     }
   }
 
