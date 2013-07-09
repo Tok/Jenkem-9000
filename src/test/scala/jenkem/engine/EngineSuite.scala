@@ -100,6 +100,7 @@ class EngineSuite extends AbstractTester {
     val imageRgb = AwtImageUtil.getImageRgb(getImage(2, 2, r, g, b))
     val settings = new ConversionSettings
     settings.setMethod(method)
+    settings.setFullBlock(false)
     settings.getParams(imageRgb)
   }
 

@@ -1,9 +1,9 @@
 This is a standalone version of Jenkem 9000 that is bundled with a tomcat server for local use.
 
 CURRENT DOWNLOAD LINK:
-http://bitshare.com/files/ewng7nct/Jenkem-1.0.zip.html
-http://netload.in/datei5iivEI9kyL/Jenkem-1.0.zip.htm
-https://mega.co.nz/#!bkZDyZSR!QHptqEvg5Ai0lE7G4VffszCZRqROmf-4t-wDsLbUbW8
+http://bitshare.com/files/8yw19ysl/Jenkem-1.0-SNAPSHOT.zip.html
+http://netload.in/dateiCxcy8axqfe/Jenkem-1.0-SNAPSHOT.zip.htm
+https://mega.co.nz/#!N1I0RZJY!ZAUixWuzgursL6WdiXYiPnt2U74b1UDjxlCMYfcPMwQ
 
 PREREQUITITES:
 Jenkem needs Java: http://java.com/download
@@ -41,7 +41,7 @@ JENKEM CONFIG
 
 Change configuration:
 JENKEM [ConfigItem] [Value]
-ConfigItems are: DELAY, WIDTH, SCHEME, CHARSET, CHARS and POWER 
+ConfigItems are: DELAY, WIDTH, SCHEME, CHARSET, CHARS, POWER and FULLBLOCK
 
 Reset configuration:
 JENKEM RESET

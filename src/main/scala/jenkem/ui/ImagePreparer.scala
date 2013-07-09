@@ -39,6 +39,7 @@ import com.vaadin.data.Property
 import com.vaadin.data.Property.ValueChangeEvent
 import com.vaadin.ui.Component
 import com.vaadin.ui.AbstractOrderedLayout
+import jenkem.util.InitUtil
 
 class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
   val captionWidth = "100px"
@@ -92,7 +93,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
     override def buttonClick(event: ClickEvent) {
       disableTrigger = true
       submitter.reset
-      brightnessSlider.setValue(0)
+      brightnessSlider.setValue(InitUtil.DEFAULT_IMAGE_BRIGHTNESS)
       contrastSlider.setValue(0)
       disableTrigger = false
       cropper.setImageSrc(cropper.getImageSrc)
@@ -102,7 +103,7 @@ class ImagePreparer(val eventRouter: EventRouter) extends GridLayout {
 
   val brightnessLayout = new HorizontalLayout
   brightnessLayout.setSpacing(true)
-  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel("Brightness: ", -100, 100, 0, brightnessLayout)
+  val (brightnessSlider, brightnessLabel) = makeSliderAndLabel("Brightness: ", -100, 100, InitUtil.DEFAULT_IMAGE_BRIGHTNESS, brightnessLayout)
 
   val contrastLayout = new HorizontalLayout
   contrastLayout.setSpacing(true)

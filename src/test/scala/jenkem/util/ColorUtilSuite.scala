@@ -103,4 +103,11 @@ class ColorUtilSuite extends AbstractTester {
     assert(ColorUtil.getBg(ColorUtil.CC + "1,0▄") === 0)
     assert(ColorUtil.getBg(ColorUtil.CC + "0,11▄▄▄") === 11)
   }
+
+  test("Switch FG And BG") {
+    assert(ColorUtil.switchFgAndBg(ColorUtil.CC + "1,0+") === ColorUtil.CC + "0,1+")
+    assert(ColorUtil.switchFgAndBg(ColorUtil.CC + "0,1+") === ColorUtil.CC + "1,0+")
+    assert(ColorUtil.switchFgAndBg(ColorUtil.CC + "11,0-") === ColorUtil.CC + "0,11-")
+    assert(ColorUtil.switchFgAndBg(ColorUtil.CC + "0,11x") === ColorUtil.CC + "11,0x")
+  }
 }

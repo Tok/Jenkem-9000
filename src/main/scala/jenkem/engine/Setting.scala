@@ -22,19 +22,21 @@ object Setting {
   case object DIAGONAL extends Setting("\\ /")
   case object VERTICAL extends Setting("|")
   case object HORIZONTAL extends Setting("-")
-  val values = List(UPDOWN, LEFTRIGHT, DBQP, DIAGONAL, VERTICAL, HORIZONTAL)
+  case object FULLBLOCK extends Setting("█")
+  val values = List(UPDOWN, LEFTRIGHT, DBQP, DIAGONAL, VERTICAL, HORIZONTAL, FULLBLOCK)
 
   val min = -100
   val max = 100
   val default = 0
 
   type Pair = (Boolean, Int)
-  class Instance(val ud: Pair, val lr: Pair, val dbqp: Boolean, val diag: Boolean, val vert: Boolean, val hor: Boolean) {
+  class Instance(val ud: Pair, val lr: Pair, val dbqp: Boolean, val diag: Boolean, val vert: Boolean, val hor: Boolean, val fb: Boolean) {
     def has(setting: Setting): Boolean = {
       if (setting.equals(DBQP)) { dbqp }
       else if (setting.equals(DIAGONAL)) { diag }
       else if (setting.equals(VERTICAL)) { vert }
       else if (setting.equals(HORIZONTAL)) { hor }
+      else if (setting.equals(FULLBLOCK)) { fb }
       else { getPair(setting)._1 }
     }
     def get(setting: Setting): Int = getPair(setting)._2
@@ -47,7 +49,7 @@ object Setting {
     }
   }
 
-  def getInitial(hasAnsi: Boolean): Instance = {
-    new Instance((true, default), (true, default), (!hasAnsi), (!hasAnsi), (false), (false))
+  def getInitial(hasAnsi: Boolean, fullBlock: Boolean): Instance = {
+    new Instance((true, default), (true, default), (!hasAnsi), (!hasAnsi), (false), (false), (fullBlock))
   }
 }

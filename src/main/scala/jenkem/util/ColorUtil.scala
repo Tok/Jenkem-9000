@@ -18,6 +18,7 @@ import jenkem.engine.color.Scheme
 object ColorUtil {
   val BC = String.valueOf('\u0002') // bold character for IRC
   val CC = String.valueOf('\u0003') // color character for IRC
+  val comma = ","
 
   /**
    * Converts an IRC color to a CSS color.
@@ -55,10 +56,13 @@ object ColorUtil {
     if (ret.length == 1) { "0" + ret } else { ret }
   }
 
-  def makePwnIrc(bot: Short, top: Short): String = CC + bot + "," + top + "▄"
+  def makePwnIrc(bot: Short, top: Short): String = CC + bot + comma + top + "▄"
 
-  private def commaSplit(s: String): Array[String] = s.split(",")
+  private def commaSplit(s: String): Array[String] = s.split(comma)
   def getFg(s: String): Int = commaSplit(s)(0).tail.toInt
   def getBgString(s: String): String = commaSplit(s)(1).takeWhile(_.isDigit)
   def getBg(s: String): Int = getBgString(s).toInt
+
+  def switchFgAndBg(s: String): String =
+    if (s.length == 1) { s } else { CC + getBg(s) + comma + getFg(s) + s.last.toString }
 }

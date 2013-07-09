@@ -34,6 +34,7 @@ import com.vaadin.event.FieldEvents.FocusListener
 import java.awt.image.BufferedImage
 import java.net.URL
 import com.vaadin.data.Property.ValueChangeEvent
+import jenkem.util.InitUtil
 
 @RunWith(classOf[JUnitRunner])
 class ImagePreparerSuite extends AbstractTester {
@@ -46,7 +47,7 @@ class ImagePreparerSuite extends AbstractTester {
 
   test("Default") {
     assert(!ip.disableTrigger)
-    assert(ip.getBrightness === 0)
+    assert(ip.getBrightness === InitUtil.DEFAULT_IMAGE_BRIGHTNESS)
     assert(ip.getContrast === 0)
     assert(!ip.hasLink)
   }

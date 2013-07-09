@@ -52,9 +52,12 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   (0 to 1).foreach(makeSliderRow(_))
 
   val layout = new HorizontalLayout
-  (2 to 5).foreach(i => layout.addComponent(boxes.get(settings(i)).get))
+  (2 to 6).foreach(i => layout.addComponent(boxes.get(settings(i)).get))
   addComponent(layout, 0, 2, 2, 2)
 
+  val fullBlockDescription = "Replace spaces by fullblocks to get better ANSI output for non-monospace fonts."
+  boxes.get(Setting.FULLBLOCK).get.setDescription(fullBlockDescription)
+  
   triggeringDisabled = false
 
   private def makeComponentMap[T](sets: List[PS], f: PS => Component): HashMap[PS, T] = {
@@ -113,8 +116,9 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
   }
 
   def reset(hasAnsi: Boolean): Unit = {
+    val fullBlock = hasAnsi
     triggeringDisabled = true
-    val vals = Setting.getInitial(hasAnsi)
+    val vals = Setting.getInitial(hasAnsi, fullBlock)
     settings.foreach(set(_))
     def set(setting: PS): Unit = {
       boxes.get(setting).get.setValue(vals.has(setting))
@@ -123,6 +127,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
         case None => { }
       }
     }
+    boxes.get(Setting.FULLBLOCK).get.setEnabled(hasAnsi)
     triggeringDisabled = false
   }
 
@@ -137,6 +142,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
     new Setting.Instance(
       makePair(Setting.UPDOWN), makePair(Setting.LEFTRIGHT),
       makeBool(Setting.DBQP), makeBool(Setting.DIAGONAL),
-      makeBool(Setting.VERTICAL), makeBool(Setting.HORIZONTAL))
+      makeBool(Setting.VERTICAL), makeBool(Setting.HORIZONTAL),
+      makeBool(Setting.FULLBLOCK))
   }
 }

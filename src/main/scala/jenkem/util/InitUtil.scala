@@ -19,6 +19,7 @@ import jenkem.engine.color.Scheme
 import jenkem.engine.color.Color
 
 object InitUtil {
+  val DEFAULT_IMAGE_BRIGHTNESS = -10
   val DEFAULT_WIDTH = 68
   val MIN_WIDTH = 16
   val MAX_WIDTH = 74

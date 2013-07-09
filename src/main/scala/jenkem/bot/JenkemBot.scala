@@ -51,7 +51,7 @@ class JenkemBot extends PircBot {
 
   object ConfigItem extends Enumeration {
     type ConfigItem = Value
-    val DELAY, WIDTH, MODE, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER, PROPORTION = Value
+    val DELAY, WIDTH, MODE, SCHEME, CHARSET, CHARS, ASCII, ANSI, POWER, PROPORTION, FULLBLOCK = Value
   }
 
   object IntExtractor {
@@ -116,6 +116,7 @@ class JenkemBot extends PircBot {
         case ConfigItem.CHARS | ConfigItem.ASCII | ConfigItem.ANSI => setChars(sender, value)
         case ConfigItem.POWER => setPower(sender, value)
         case ConfigItem.PROPORTION => setProportion(sender, value)
+        case ConfigItem.FULLBLOCK => setFullBlock(sender, value)
       }
     } catch {
       case nse: NoSuchElementException => sendMessage(sender, "Config item unknown: " + item)
@@ -257,6 +258,15 @@ class JenkemBot extends PircBot {
     }
   }
 
+  private def setFullBlock(target: String, value: String): Unit = {
+    try {
+      settings.fullBlock = value.toBoolean
+      reportConfigChange(target, ConfigItem.FULLBLOCK, value.toBoolean.toString)
+    } catch {
+      case iae: IllegalArgumentException => sendMessage(target, "FullBlock must be true or false.")
+    }
+  }
+
   private def reportConfigChange(target: String, item: ConfigItem.Value, value: String): Unit = {
     sendMessage(target, item + " set to " + value)
   }
@@ -307,7 +317,7 @@ class JenkemBot extends PircBot {
     val originalWidth = originalImage.getWidth
     val originalHeight = originalImage.getHeight
     val (width, height) = Proportion.getWidthAndHeight(cs.proportion, cs.method, cs.width, originalWidth, originalHeight)
-    val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick, 0, 0)
+    val scaled = AwtImageUtil.getScaled(originalImage, width, height, cs.kick, InitUtil.DEFAULT_IMAGE_BRIGHTNESS, 0)
     val imageRgb = AwtImageUtil.getImageRgb(scaled)
     val lastIndex = height
     val params = cs.getParams(imageRgb)

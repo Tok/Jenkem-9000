@@ -35,6 +35,7 @@ class ConversionSettings {
   @BeanProperty var kick: Kick = _
   @BeanProperty var power: Power = _
   @BeanProperty var proportion: Proportion = _
+  @BeanProperty var fullBlock: Boolean = _
 
   reset
 
@@ -47,6 +48,7 @@ class ConversionSettings {
     kick = Kick.OFF
     power = Power.default
     proportion = Proportion.default
+    fullBlock = Pal.hasAnsi(Pal.default.chars)
   }
 
   def getParams(imageData: Color.RgbMap): Engine.Params = {
@@ -78,7 +80,7 @@ class ConversionSettings {
         imageData,
         colorMap,
         chars.replaceAll("[,0-9]", ""),
-        Setting.getInitial(Pal.hasAnsi(chars)),
+        Setting.getInitial(Pal.hasAnsi(chars), fullBlock),
         0,
         0,
         power

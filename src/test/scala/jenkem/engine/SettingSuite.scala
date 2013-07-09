@@ -43,7 +43,7 @@ class SettingSuite extends AbstractTester {
   }
 
   test("Setting Instance") {
-    val asciiSettings = Setting.getInitial(false)
+    val asciiSettings = Setting.getInitial(false, false)
     assert(asciiSettings.has(Setting.UPDOWN))
     assert(asciiSettings.has(Setting.LEFTRIGHT))
     assert(asciiSettings.has(Setting.DBQP))
@@ -51,7 +51,7 @@ class SettingSuite extends AbstractTester {
     assert(!asciiSettings.has(Setting.VERTICAL))
     assert(!asciiSettings.has(Setting.HORIZONTAL))
 
-    val ansiSettings = Setting.getInitial(true)
+    val ansiSettings = Setting.getInitial(true, true)
     assert(ansiSettings.has(Setting.UPDOWN))
     assert(ansiSettings.has(Setting.LEFTRIGHT))
     assert(!ansiSettings.has(Setting.DBQP))

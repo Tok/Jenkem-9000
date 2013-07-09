@@ -22,19 +22,21 @@ import jenkem.util.ColorUtil
 import jenkem.engine.color.Scheme
 import jenkem.engine.color.Color
 import jenkem.util.ImageUtil
+import scala.annotation.tailrec
 
 object Engine {
   val comma = ","
+  val space = " "
 
   class Params(
-      val method: Method,
-      val imageRgb: Color.RgbMap,
-      val colorMap: Color.IrcMap,
-      val characters: String,
-      val settings: Setting.Instance,
-      val contrast: Int,
-      val brightness: Int,
-      val power: Power) {
+    val method: Method,
+    val imageRgb: Color.RgbMap,
+    val colorMap: Color.IrcMap,
+    val characters: String,
+    val settings: Setting.Instance,
+    val contrast: Int,
+    val brightness: Int,
+    val power: Power) {
     val hasAnsi = Pal.hasAnsi(characters)
   }
 
@@ -47,28 +49,13 @@ object Engine {
   }
 
   private def generatePwntariLine(par: Params, index: Int): String = {
-    def consolidateDuplicates(chars: List[String]): List[String] = {
-      def consolidateDuplicates0(chars: List[String], accu: List[String], i: Int): List[String] = {
-        if (i == chars.length) { accu }
-        else {
-          val thisOne = chars(i)
-          if (i == 0) { consolidateDuplicates0(chars, accu ::: List(thisOne), i + 1) }
-          else {
-            val eq = thisOne.equals(chars(i - 1))
-            val newChar = if (eq) { List(par.characters.head.toString) } else { List(thisOne) }
-            consolidateDuplicates0(chars, accu ::: newChar, i + 1)
-          }
-        }
-      }
-      consolidateDuplicates0(chars, Nil, 0)
-    }
     val indices = (0 until inferWidth(par.imageRgb))
     val t = indices.map(i => ImageUtil.getPixels(par.imageRgb, i, index))
     val b = indices.map(i => ImageUtil.getPixels(par.imageRgb, i, index + 1))
     val tIrc = t.map(Cube.getNearest(_, par.colorMap))
     val bIrc = b.map(Cube.getNearest(_, par.colorMap))
     val chars = indices.map(i => ColorUtil.makePwnIrc(bIrc(i), tIrc(i))).toList
-    consolidateDuplicates(chars).mkString
+    fixLines(chars, par).mkString
   }
 
   private def generateVortacularLine(par: Params, index: Int): String = {
@@ -130,14 +117,7 @@ object Engine {
     val changed = pp.map(change(_))
     val finalLine = range.map(i => switched(i).init + changed(i)).toList
 
-    //val finalLine = range.map(i => switched(i).init + pp(i)).toList
-    range.map(makeValid(_, finalLine, switched)).mkString
-  }
-
-  private def makeValid(i: Int, list: List[String], switched: List[String]): String = {
-    val thisOne = list(i)
-    if (i != 0 && thisOne.init.equals(switched(i - 1).init)) { thisOne.last.toString }
-    else { thisOne }
+    fixLines(finalLine, par).mkString
   }
 
   private def generatePlainLine(par: Params, index: Int): String = {
@@ -148,8 +128,8 @@ object Engine {
     val sam = indices.map(makeGreySample(_)).toList
     def getChar(i: Int): String = {
       def getProcessed(setting: Setting,
-          firstPal: Pal, secondPal: Pal,
-          firstDir: Sample.Dir, secondDir: Sample.Dir): Option[String] = {
+        firstPal: Pal, secondPal: Pal,
+        firstDir: Sample.Dir, secondDir: Sample.Dir): Option[String] = {
         if (!par.settings.has(setting)) { None }
         else {
           val fp = Pal.get(firstPal, par.hasAnsi, par.characters)
@@ -282,7 +262,35 @@ object Engine {
     }
   }
 
-  private def inferWidth(imageRgb: Color.RgbMap): Short = {
-    (imageRgb.keys.toList.map(t => t._2).max).shortValue
+  private def fixLines(lines: List[String], par: Params): List[String] = {
+    val withFull = if (par.settings.has(Setting.FULLBLOCK)) { loopAll(lines, replaceSpace) }
+    else { lines }
+    loopAll(withFull, replaceDouble)
   }
+
+  private def replaceDouble(thisOne: String, lastOne: String): String = {
+    val sameColor = thisOne.init.equals(lastOne.init)
+    if (sameColor) { thisOne.last.toString } else { thisOne }
+  }
+
+  private def replaceSpace(thisOne: String, lastOne: String): String =
+    if (thisOne.last.toString.equals(space)) { ColorUtil.switchFgAndBg(thisOne).init + "█" }
+    else { thisOne }
+
+  private def loopAll(lines: List[String], f: (String, String) => String): List[String] = {
+    @tailrec
+    def loopAll0(chars: List[String], accu: List[String], i: Int): List[String] = {
+      if (i == chars.length) { accu }
+      else {
+        val thisOne = chars(i)
+        val lastOne = if (i == 0) { "!" } else { chars(i - 1) }
+        val newChar = List(f(thisOne, lastOne))
+        loopAll0(chars, accu ::: newChar, i + 1)
+      }
+    }
+    loopAll0(lines, Nil, 0)
+  }
+
+  private def inferWidth(imageRgb: Color.RgbMap): Short =
+    (imageRgb.keys.toList.map(t => t._2).max).shortValue
 }
