@@ -67,7 +67,7 @@
     <mavenTruezipPluginVersion>1.1</mavenTruezipPluginVersion>
     <tomcat7MavenPluginVersion>2.1</tomcat7MavenPluginVersion>
     <!-- Reporting Plugin Versions: -->
-    <mavenFindbugsPluginVersion>2.5.2</mavenFindbugsPluginVersion>
+    <mavenFindbugsPluginVersion>2.5.3-SNAPSHOT</mavenFindbugsPluginVersion>
     <mavenSurefirePluginVersion>2.15</mavenSurefirePluginVersion>
     <mavenProjectInfoReportsPluginVersion>2.7</mavenProjectInfoReportsPluginVersion>
     <mavenSitePluginVersion>3.3</mavenSitePluginVersion>
@@ -81,6 +81,10 @@
     <pluginRepository>
       <id>sonatype-oss-public</id>
       <url>https://oss.sonatype.org/content/groups/public/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>codehaus-snapshots</id>
+      <url>https://nexus.codehaus.org/content/groups/snapshots-group</url>
     </pluginRepository>
   </pluginRepositories>
 
