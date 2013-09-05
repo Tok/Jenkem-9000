@@ -32,7 +32,7 @@ import com.vaadin.ui.Button
 import com.vaadin.ui.Button.ClickEvent
 import com.vaadin.ui.Notification
 
-class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
+class GalleryTab(val eventRouter: EventRouter, val isAdmin: Boolean) extends VerticalLayout {
   setCaption("Gallery")
   setSizeFull
   setMargin(true)
@@ -49,7 +49,9 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   case object WIDTH extends Column("Width", classOf[Int], Table.Align.RIGHT)
   case object CREATION extends Column("Creation", classOf[String], Table.Align.LEFT)
   case object ACTION extends Column("Action", classOf[Button], Table.Align.CENTER)
-  val cols = Array(ICON, NAME, METHOD, CHARS, CONT, BRIGHT, LINES, WIDTH, CREATION, ACTION)
+  val allCols = Array(ICON, NAME, METHOD, CHARS, CONT, BRIGHT, LINES, WIDTH, CREATION, ACTION)
+  val cols = if (isAdmin) { allCols } else { allCols.filterNot(_ == ACTION) }
+
   val names: Array[Object] = cols.map(_.name.toLowerCase)
 
   val table = new Table

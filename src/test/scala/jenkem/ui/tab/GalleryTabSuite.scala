@@ -25,7 +25,7 @@ class GalleryTabSuite extends AbstractTester {
   val eventRouter = new EventRouter
 
   test("Pointless", DbTest) {
-    val gt = new GalleryTab(eventRouter)
+    val gt = new GalleryTab(eventRouter, false)
     gt.cols.foreach(testAny(_, true))
   }
 }

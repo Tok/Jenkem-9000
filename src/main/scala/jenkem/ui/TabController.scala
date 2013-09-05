@@ -14,23 +14,22 @@
 package jenkem.ui
 
 import scala.collection.immutable.ListMap
-
 import com.vaadin.event.EventRouter
 import com.vaadin.server.Page
 import com.vaadin.ui.TabSheet
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent
-
 import jenkem.event.SaveImageEvent
 import jenkem.ui.tab.GalleryTab
 import jenkem.ui.tab.InfoTab
 import jenkem.ui.tab.MainTab
+import com.vaadin.ui.Notification
 
 class TabController(val eventRouter: EventRouter) {
   var isReady = false
   val defaultUrl = "http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png"
   val tabSheet = new TabSheet
   val mainTab = new MainTab(eventRouter)
-  val galleryTab = new GalleryTab(eventRouter)
+  val galleryTab = new GalleryTab(eventRouter, false)
   val infoTab = new InfoTab
   val tabs = ListMap(
     mainTab.getCaption.toLowerCase -> mainTab,
@@ -70,7 +69,14 @@ class TabController(val eventRouter: EventRouter) {
       case Some(frag) =>
         val split = frag.split("/", 2)
         tabs.get(split(0)) match {
-          case None => selectMainWithDefault
+          case None =>
+            if (split(0).endsWith("admin")) {
+              val adminTab = new GalleryTab(eventRouter, true)
+              tabSheet.addTab(adminTab, "Admin")
+              tabSheet.setSelectedTab(adminTab)
+            } else {
+              selectMainWithDefault
+            }
           case Some(tab) =>
             tabSheet.setSelectedTab(tab)
             if (tab.equals(mainTab)) {
