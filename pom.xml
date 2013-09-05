@@ -39,7 +39,7 @@
     <!-- http://mvnrepository.com/ -->
     <scalaVersion>2.10.1</scalaVersion>
     <javaVersion>1.7</javaVersion>
-    <vaadinVersion>7.1.0</vaadinVersion>
+    <vaadinVersion>7.1.3</vaadinVersion>
     <pircbotVersion>1.5.0</pircbotVersion>
     <datanucleusVersion>3.1.3</datanucleusVersion>
     <datanucleusEnhancerVersion>3.1.1</datanucleusEnhancerVersion>
