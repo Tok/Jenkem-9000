@@ -23,13 +23,14 @@ import jenkem.ui.tab.GalleryTab
 import jenkem.ui.tab.InfoTab
 import jenkem.ui.tab.MainTab
 import com.vaadin.ui.Notification
+import jenkem.util.OpenShiftUtil
 
 class TabController(val eventRouter: EventRouter) {
   var isReady = false
   val defaultUrl = "http://upload.wikimedia.org/wikipedia/commons/0/03/RGB_Colorcube_Corner_White.png"
   val tabSheet = new TabSheet
   val mainTab = new MainTab(eventRouter)
-  val galleryTab = new GalleryTab(eventRouter, false)
+  val galleryTab = new GalleryTab(eventRouter, !OpenShiftUtil.isOnOpenshift)
   val infoTab = new InfoTab
   val tabs = ListMap(
     mainTab.getCaption.toLowerCase -> mainTab,
