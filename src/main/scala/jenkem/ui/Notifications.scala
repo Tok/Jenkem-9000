@@ -25,6 +25,10 @@ object Notifications {
   imageNotSaved.setDelayMsec(1500)
   def showImageNotSaved(page: Page): Unit = imageNotSaved.show(page)
 
+  val imageDeleted = new Notification("Image has been delted.", Notification.Type.HUMANIZED_MESSAGE)
+  imageDeleted.setDelayMsec(1500)
+  def showImageDeleted(page: Page): Unit = imageDeleted.show(page)
+
   val dbNotConnected = new Notification("Database is not connected!", Notification.Type.ERROR_MESSAGE)
   dbNotConnected.setDelayMsec(1500)
   def showDbNotConnected(page: Page): Unit = dbNotConnected.show(page)

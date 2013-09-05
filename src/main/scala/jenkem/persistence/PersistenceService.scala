@@ -28,7 +28,6 @@ import jenkem.persistence.data.ImageIrc
 import com.mongodb.MongoException
 import javax.jdo.JDODataStoreException
 
-
 /**
  * Implementation of service to handle the persistence of reports.
  */
@@ -41,12 +40,12 @@ object PersistenceService {
       val tx: Transaction = pm.currentTransaction
       try {
         val name = jenkemImage.info.name
-        getByName[ImageInfo](name, classOf[ImageInfo]) match {
+        getImageInfoByName(name) match {
           case Some(t) =>
             tx.begin
             jenkemImage.values.foreach(part => pm.deletePersistent(pm.getObjectById(part.c, name)))
             tx.commit
-          case None => { }
+          case None => {}
         }
         tx.begin
         pm.makePersistent(jenkemImage.info)
@@ -65,6 +64,27 @@ object PersistenceService {
     }
   }
 
+  def deleteJenkemImage(info: ImageInfo): Boolean = {
+    val pm = PMF.get.getPersistenceManager
+    val tx: Transaction = pm.currentTransaction
+    try {
+      tx.begin
+      pm.deletePersistent(pm.getObjectById(classOf[ImageInfo], info.name))
+      pm.deletePersistent(pm.getObjectById(classOf[ImageHtml], info.name))
+      pm.deletePersistent(pm.getObjectById(classOf[ImageCss], info.name))
+      pm.deletePersistent(pm.getObjectById(classOf[ImageIrc], info.name))
+      tx.commit
+      true
+    } catch {
+      case me: MongoException => false
+      case jdodse: JDODataStoreException => false
+    } finally {
+      if (tx.isActive) { tx.rollback }
+      pm.close
+    }
+  }
+
+  def getImageInfoByName(name: String): Option[ImageInfo] = getByName[ImageInfo](name, classOf[ImageInfo])
   def getImageHtmlByName(name: String): Option[ImageHtml] = getByName[ImageHtml](name, classOf[ImageHtml])
   def getImageCssByName(name: String): Option[ImageCss] = getByName[ImageCss](name, classOf[ImageCss])
   def getImageIrcByName(name: String): Option[ImageIrc] = getByName[ImageIrc](name, classOf[ImageIrc])

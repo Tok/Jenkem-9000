@@ -57,7 +57,7 @@ class ProcSetter(val eventRouter: EventRouter) extends GridLayout {
 
   val fullBlockDescription = "Replace spaces by fullblocks to get better ANSI output for non-monospace fonts."
   boxes.get(Setting.FULLBLOCK).get.setDescription(fullBlockDescription)
-  
+
   triggeringDisabled = false
 
   private def makeComponentMap[T](sets: List[PS], f: PS => Component): HashMap[PS, T] = {

@@ -15,7 +15,6 @@ package jenkem.ui.tab
 
 import scala.Array.canBuildFrom
 import scala.collection.JavaConversions.seqAsJavaList
-
 import com.vaadin.data.util.BeanItemContainer
 import com.vaadin.event.EventRouter
 import com.vaadin.server.ExternalResource
@@ -24,12 +23,14 @@ import com.vaadin.ui.Link
 import com.vaadin.ui.Table
 import com.vaadin.ui.Table.Align
 import com.vaadin.ui.VerticalLayout
-
 import jenkem.persistence.PersistenceService
 import jenkem.persistence.data.ImageInfo
 import jenkem.ui.Notifications
 import jenkem.util.AwtImageUtil
 import jenkem.util.HtmlUtil
+import com.vaadin.ui.Button
+import com.vaadin.ui.Button.ClickEvent
+import com.vaadin.ui.Notification
 
 class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   setCaption("Gallery")
@@ -47,7 +48,8 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
   case object LINES extends Column("Lines", classOf[Int], Table.Align.RIGHT)
   case object WIDTH extends Column("Width", classOf[Int], Table.Align.RIGHT)
   case object CREATION extends Column("Creation", classOf[String], Table.Align.LEFT)
-  val cols = Array(ICON, NAME, METHOD, CHARS, CONT, BRIGHT, LINES, WIDTH, CREATION)
+  case object ACTION extends Column("Action", classOf[Button], Table.Align.CENTER)
+  val cols = Array(ICON, NAME, METHOD, CHARS, CONT, BRIGHT, LINES, WIDTH, CREATION, ACTION)
   val names: Array[Object] = cols.map(_.name.toLowerCase)
 
   val table = new Table
@@ -83,6 +85,19 @@ class GalleryTab(val eventRouter: EventRouter) extends VerticalLayout {
     def getLines: Integer = info.lines
     def getWidth: Integer = info.lineWidth
     def getCreation: String = info.creation
+    def getAction: Button = {
+      val delete = new Button("Delete")
+      delete.addClickListener(new Button.ClickListener {
+        override def buttonClick(event: ClickEvent): Unit = {
+          val itWorked = PersistenceService.deleteJenkemImage(info)
+          if (itWorked) {
+            Notifications.showImageDeleted(Page.getCurrent)
+            update
+          }
+        }
+      })
+      delete
+    }
   }
 
   cols.foreach(col => table.addContainerProperty(col.name.toLowerCase, col.c, classOf[String]))
